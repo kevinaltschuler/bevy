@@ -24,7 +24,7 @@ exports.log = {
 };
 
 exports.server = {
-	port: 9600,
+	port: 80,
 	// In staging and production, listen loopback. nginx listens on the network.
 	ip: '127.0.0.1'
 };

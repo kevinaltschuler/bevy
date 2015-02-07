@@ -5,6 +5,7 @@
   "dependencies": {
     "connect": "*",
     "express": "^4.11.2",
+    "express-subdomain": "^1.0.3",
     "mongoose": "*",
     "underscore": "^1.7.0"
   },
