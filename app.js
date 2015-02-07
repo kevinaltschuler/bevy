@@ -8,6 +8,9 @@ var _ = require('underscore');
 var express = require('express');
 var app = express();
 
+// load express modules
+var resource = require('express-resource');
+
 app.get('/', function(req, res) {
 	res.send('Hello World!');
 });

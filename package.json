@@ -5,7 +5,9 @@
   "dependencies": {
     "connect": "*",
     "express": "^4.11.2",
-    "mongoose": "*"
+    "express-resource": "^1.0.0",
+    "mongoose": "*",
+    "underscore": "^1.7.0"
   },
   "devDependencies": {
     "browser-sync": "^2.0.0-rc9",
