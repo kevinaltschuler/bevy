@@ -9,7 +9,10 @@ var express = require('express');
 var app = express();
 
 // load express modules
-var resource = require('express-resource');
+
+
+// load apis
+var api = require('./api')(app);
 
 // load routes
 var routes = require('./routes')(app);
