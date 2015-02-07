@@ -11,9 +11,8 @@ var app = express();
 // load express modules
 var resource = require('express-resource');
 
-app.get('/', function(req, res) {
-	res.send('Hello World!');
-});
+// load routes
+var routes = require('./routes')(app);
 
 var server = app.listen(config.app.server.port, function() {
 	var name = config.app.name;
