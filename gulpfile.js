@@ -5,6 +5,10 @@ gulp.task('serve', function() {
 	nodemon({
 		  script: 'app.js'
 		, ext: 'html js'
+		, watch: [
+			  'config'
+			, 'routes'
+		]
 		, env: {
 			'NODE_ENV': 'development'
 		}
