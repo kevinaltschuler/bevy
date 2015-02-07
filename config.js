@@ -28,6 +28,6 @@ if (currentEnv != 'production' && currentEnv != 'staging') {
 	exports.server.ip = '0.0.0.0';
 };
 
-exports.db {
+exports.db = {
 	URL: "mongodb://localhost:27017/#{exports.appName.toLowerCase()}_#{currentEnv}"
 };
