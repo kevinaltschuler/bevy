@@ -3,9 +3,9 @@
     "node": "0.10.x"
   },
   "dependencies": {
-    "restify": "*",
-    "mongoose": "*",
-    "connect": "*"
+    "connect": "*",
+    "express": "^4.11.2",
+    "mongoose": "*"
   },
   "devDependencies": {
     "gulp": "^3.8.10"
