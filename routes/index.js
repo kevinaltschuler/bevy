@@ -1,9 +1,17 @@
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
+
 module.exports = function(app) {
 
-	app.get('/', function(req, res) {
-		res.send('Hello World!');
-	});
+	fs.readdirSync('./routes').forEach( function(file) {
+		// Avoid to read this current file.
+		if (file === path.basename(__filename)) {
+			return;
+		}
+		// Load the route file.
+		require('./' + file)(app);
+  });
 
-}
+};
