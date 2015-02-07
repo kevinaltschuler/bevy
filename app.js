@@ -1,7 +1,7 @@
 'use strict';
 
 // load config + utilities
-var config = require('./config/main.js');
+var config = require('./config');
 var _ = require('underscore');
 
 // load express
