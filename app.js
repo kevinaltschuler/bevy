@@ -3,13 +3,24 @@
 // load config + utilities
 var config = require('./config');
 var _ = require('underscore');
+var express = require('express');
+var mongoose = require('mongoose');
 
 // load express modules
 var subdomain = require('express-subdomain');
 
 // load express
-var express = require('express');
 var app = express();
+
+// connect to db
+var connection = mongoose.createConnection(config.database.URL);
+connection.on('error', console.error.bind(
+	  console
+	, 'connection error:'
+));
+connection.once('open', function() {
+	console.info('connected to database');
+});
 
 // static directories
 app.use(express.static(__dirname + '/public'));
