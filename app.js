@@ -51,7 +51,7 @@ var routes = require('./routes')(app);
 app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParse.urlencoded({
+app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(methodOverride());
