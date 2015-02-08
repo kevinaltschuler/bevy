@@ -2,12 +2,15 @@
 
 // load config + utilities
 var config = require('./config');
+
 var _ = require('underscore');
+var path = require('path');
 var express = require('express');
 var mongoose = require('mongoose');
 
 // load express modules and middleware
 var subdomain = require('express-subdomain');
+var favicon = require('serve-favicon');
 
 // load express
 var app = express();
@@ -38,6 +41,7 @@ app.use(subdomain('api', api_router));
 var routes = require('./routes')(app);
 
 // middleware
+app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
 
 // error handling
 // TODO: separate file?
