@@ -2,11 +2,9 @@
 
 // load config + utilities
 var config = require('./config');
-
 var _ = require('underscore');
 var path = require('path');
 var express = require('express');
-var mongoose = require('mongoose');
 
 // load express modules and middleware
 var subdomain = require('express-subdomain');
@@ -23,31 +21,17 @@ var passport = require('passport');
 var app = express();
 
 // connect to db
-var connection = mongoose.createConnection(config.database.URL);
-connection.on('error', console.error.bind(
-	  console
-	, 'connection error:'
-));
-connection.once('open', function() {
-	console.info('connected to database');
-});
+require('./db');
 
-var models = require('./models');
-function db (req, res, next) {
-	req.db = {
-		User: connection.model('User', models.User, 'users')
-	}
-	return next();
-}
 
 // static directories
 app.use(express.static(__dirname + '/public'));
 
-// load apis onto api.bevy subdomain
+// load api routes onto api.bevy subdomain
 // TODO: user auth
 // TODO: multi level api (v1, v2, etc)
 var api_router = express.Router();
-var api = require('./api')(api_router);
+require('./routes/api')(api_router);
 app.use(subdomain('api', api_router));
 
 // load routes
