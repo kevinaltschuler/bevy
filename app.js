@@ -1,3 +1,8 @@
+/**
+ * app.js
+ * entry point for the entire app
+ */
+
 'use strict';
 
 // load config + utilities

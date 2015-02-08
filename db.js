@@ -1,3 +1,9 @@
+/**
+ * db.js
+ * attempt to connect to mongodb
+ * then, load all models into mongoose
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
