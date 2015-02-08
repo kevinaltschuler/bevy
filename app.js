@@ -12,6 +12,12 @@ var mongoose = require('mongoose');
 var subdomain = require('express-subdomain');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
+var bodyParser = require('body-parser');
+var methodOverride = require('method-override');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var csrf = require('csurf');
+var passport = require('passport');
 
 // load express
 var app = express();
@@ -44,6 +50,24 @@ var routes = require('./routes')(app);
 // middleware
 app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
 app.use(logger('dev'));
+app.use(bodyParser.json());
+app.use(bodyParse.urlencoded({
+	extended: true
+}));
+app.use(methodOverride());
+app.use(cookieParser(process.env.COOKIE_SECRET));
+app.use(session({
+	  secret: process.env.SESSION_SECRET
+	, key: 'sid'
+	, cookie: {
+		  secret: true
+		, expires: false
+	}
+	, resave: true
+	, saveUninitialized: true
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // error handling
 // TODO: separate file?
