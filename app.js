@@ -6,7 +6,7 @@ var _ = require('underscore');
 var express = require('express');
 var mongoose = require('mongoose');
 
-// load express modules
+// load express modules and middleware
 var subdomain = require('express-subdomain');
 
 // load express
@@ -22,6 +22,8 @@ connection.once('open', function() {
 	console.info('connected to database');
 });
 
+var models = require('./models');
+
 // static directories
 app.use(express.static(__dirname + '/public'));
 
@@ -34,6 +36,8 @@ app.use(subdomain('api', api_router));
 
 // load routes
 var routes = require('./routes')(app);
+
+// middleware
 
 // error handling
 // TODO: separate file?
