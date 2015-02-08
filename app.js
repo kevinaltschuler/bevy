@@ -33,6 +33,12 @@ connection.once('open', function() {
 });
 
 var models = require('./models');
+function db (req, res, next) {
+	req.db = {
+		User: connection.model('User', models.User, 'users')
+	}
+	return next();
+}
 
 // static directories
 app.use(express.static(__dirname + '/public'));
@@ -48,7 +54,7 @@ app.use(subdomain('api', api_router));
 var routes = require('./routes')(app);
 
 // middleware
-app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
+//app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
@@ -57,8 +63,7 @@ app.use(bodyParser.urlencoded({
 app.use(methodOverride());
 app.use(cookieParser(process.env.COOKIE_SECRET));
 app.use(session({
-	  secret: process.env.SESSION_SECRET
-	, key: 'sid'
+	  secret: 'keyboard cat'
 	, cookie: {
 		  secret: true
 		, expires: false
