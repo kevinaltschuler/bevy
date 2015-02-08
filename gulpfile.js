@@ -10,7 +10,9 @@ gulp.task('serve', function() {
 			, 'routes'
 		]
 		, env: {
-			'NODE_ENV': 'development'
+			  'NODE_ENV': 'development'
+			, 'COOKIE_SECRET': 'foobar'
+			, 'SESSION_SECRET': 'foobar'
 		}
 	}).on('restart', function() {
 		console.log('restarted!');
