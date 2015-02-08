@@ -1,11 +1,11 @@
 'use strict';
 
-/*var fs = require('fs');
+var fs = require('fs');
 var path = require('path');
 
 module.exports = function(router) {
 
-	fs.readdirSync('./api').forEach( function(file) {
+	fs.readdirSync('./routes/api').forEach( function(file) {
 		// Avoid to read this current file.
 		if (file === path.basename(__filename)) {
 			return;
@@ -14,6 +14,4 @@ module.exports = function(router) {
 		require('./' + file)(router);
   });
 
-};*/
-
-exports.users = require('./users');
+};
