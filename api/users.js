@@ -45,7 +45,7 @@ module.exports = function(router) {
 	});
 
 	// DESTROY
-	router.del('/user/:id', function(req, res) {
+	router.delete('/user/:id', function(req, res) {
 		res.json({
 			status: 'DELETE /user/' + req.params.id
 		});
