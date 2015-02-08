@@ -3,7 +3,7 @@
 var fs = require('fs');
 var path = require('path');
 
-module.exports = function(app) {
+module.exports = function(router) {
 
 	fs.readdirSync('./api').forEach( function(file) {
 		// Avoid to read this current file.
@@ -11,7 +11,7 @@ module.exports = function(app) {
 			return;
 		}
 		// Load the route file.
-		require('./' + file)(app);
+		require('./' + file)(router);
   });
 
 };
