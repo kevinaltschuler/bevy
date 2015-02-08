@@ -73,6 +73,11 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(csrf());
+app.use(function(req, res, next) {
+	res.locals.csrf = req.csrfToken();
+	return next();
+});
 
 // error handling
 // TODO: separate file?
