@@ -1,10 +1,5 @@
 'use strict';
 
-//var mongoose = require('mongoose');
-//var Schema = mongoose.Schema
-
-var roles = 'user staff mentor investor founder'.split(' ');
-
 module.exports = function() {
 
 	fs.readdirSync('./models').forEach(function(file) {
@@ -12,8 +7,9 @@ module.exports = function() {
 		if (file === path.basename(__filename)) {
 			return;
 		}
-		// Load the route file.
-		require('./' + file);
+		// Load the model and into mongoose
+		var model = require('./' + file);
+		mongoose.model(file, model);
   });
 
 };
