@@ -3,7 +3,7 @@ var mongodb = require('mongodb');
 
 exports.up = function(db, next){
 
-	mongodb.createRole({
+	db.createRole({
 		  role: 'admin'
 		, privileges: ['all']
 		, roles: []
@@ -14,7 +14,7 @@ exports.up = function(db, next){
 
 exports.down = function(db, next){
 
-	mongodb.dropRole('admin');
+	db.dropRole('admin');
 
     next();
 };
