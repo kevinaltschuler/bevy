@@ -11,6 +11,7 @@ var mongoose = require('mongoose');
 // load express modules and middleware
 var subdomain = require('express-subdomain');
 var favicon = require('serve-favicon');
+var logger = require('morgan');
 
 // load express
 var app = express();
@@ -42,6 +43,7 @@ var routes = require('./routes')(app);
 
 // middleware
 app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
+app.use(logger('dev'));
 
 // error handling
 // TODO: separate file?
