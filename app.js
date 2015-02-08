@@ -11,6 +11,8 @@ var subdomain = require('express-subdomain');
 var express = require('express');
 var app = express();
 
+// static directories
+app.use(express.static(__dirname + '/public'));
 
 // load apis onto api.bevy subdomain
 // TODO: user auth
