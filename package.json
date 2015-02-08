@@ -6,7 +6,7 @@
     "connect": "*",
     "express": "^4.11.2",
     "express-subdomain": "^1.0.3",
-    "mongoose": "*",
+    "mongoose": "^3.8.23",
     "underscore": "^1.7.0"
   },
   "devDependencies": {
