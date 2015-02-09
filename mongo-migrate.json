@@ -1,0 +1,7 @@
+{
+	"mongoAppDb": {
+		  "host": "localhost"
+		, "db": "bevy"
+		, "port": 27017
+	}
+}
