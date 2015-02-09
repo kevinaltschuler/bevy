@@ -9,11 +9,7 @@ module.exports = function(router) {
 	router.get('/user', api.users.index);
 
 	// CREATE
-	router.get('/user/create', function(req, res) {
-		res.json({
-			status: 'GET /user/create'
-		});
-	});
+	router.get('/user/create', api.users.create);
 
 	// STORE
 	router.post('/user', function(req, res) {
