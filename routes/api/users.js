@@ -22,11 +22,7 @@ module.exports = function(router) {
 	router.get('/user/:id', api.users.show);
 
 	// EDIT
-	router.get('/user/:id/edit', function(req, res) {
-		res.json({
-			status: 'GET /user/' + req.params.id + '/edit'
-		});
-	});
+	router.get('/user/:id/edit', api.users.edit);
 
 	// UPDATE
 	router.put('/user/:id', function(req, res) {

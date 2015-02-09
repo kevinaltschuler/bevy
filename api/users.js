@@ -88,6 +88,8 @@ exports.show = function(req, res, next) {
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
 
+	// todo: verify object id
+
 	User.findOne({
 		_id: object_id
 	}).exec(function(err, user) {
@@ -110,5 +112,40 @@ exports.show = function(req, res, next) {
 			, object: 'user'
 			, user: user
 		});
+		next();
+	});
+}
+
+// EDIT
+exports.edit = function(req, res, next) {
+
+	// TODO: AUTH
+
+	var _id = req.params.id;
+	var object_id = ObjectId.createFromHexString(_id);
+
+	// collect user data
+	var display_name = req.param('display_name') || '';
+	var email = req.param('email') || '';
+	var password = req.param('password') || '';
+	var updated = new Date();
+
+	var update = {};
+	if(display_name) update.display_name = display_name;
+	if(email) update.email = email;
+	if(password) update.password = password;
+	if(update) update.updated = updated;
+
+	// todo: verify object id
+
+	var query = { _id: object_id };
+	User.findOneAndUpdate(query, update).exec(function(err, user) {
+		if(err) throw err;
+
+		res.json({
+			  status: 'GET /user/' + _id + '/edit'
+			, object: 'user'
+			, user: user
+		})
 	});
 }
