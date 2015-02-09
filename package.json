@@ -21,7 +21,6 @@
     "browser-sync": "^2.0.0-rc9",
     "gulp": "^3.8.10",
     "gulp-nodemon": "^1.0.5",
-    "mongo-migrate": "^0.1.0",
     "mongodb": "^1.4.30"
   }
 }
