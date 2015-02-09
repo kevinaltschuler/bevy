@@ -9,6 +9,7 @@
 var config = require('./config');
 var _ = require('underscore');
 var path = require('path');
+var fs = require('fs');
 var express = require('express');
 
 // load express modules and middleware
@@ -41,7 +42,10 @@ var routes = require('./routes')(app);
 
 // middleware
 //app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
-app.use(logger('dev'));
+
+var access_log_stream = fs.createWriteStream(__dirname + '/log/access.log', {flags: 'a'});
+app.use(logger('dev', {stream: access_log_stream}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
 	extended: true
