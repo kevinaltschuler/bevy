@@ -4,8 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = new Schema({
-	  _id: Int
-	, profile: Schema.Types.Mixed
+	  _id: Number
 	, token: String
 	, display_name: String
 	, password: String
