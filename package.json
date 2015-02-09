@@ -3,6 +3,7 @@
     "node": "0.10.x"
   },
   "dependencies": {
+    "bcryptjs": "^2.1.0",
     "body-parser": "^1.11.0",
     "cookie-parser": "^1.3.3",
     "csurf": "^1.6.6",
