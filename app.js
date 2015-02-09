@@ -23,6 +23,9 @@ var session = require('express-session');
 var csrf = require('csurf');
 var passport = require('passport');
 
+// custom middleware
+var middleware = require('./middleware');
+
 // load express
 var app = express();
 
@@ -72,6 +75,9 @@ app.use(function(req, res, next) {
 	res.locals.csrf = req.csrfToken();
 	return next();
 });
+
+// cors
+app.use(middleware.cors());
 
 // static directories
 app.use(express.static(__dirname + '/public'));
