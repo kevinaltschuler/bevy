@@ -195,7 +195,28 @@ exports.destroy = function(req, res, next) {
 	var object_id = ObjectId.createFromHexString(_id);
 
 	var query = { _id: object_id };
-	User.remove(query, function(err) {
+	User.findOne(query).exec(function(err, user) {
 		if(err) throw err;
+		return user;
+	}).then(function(user) {
+
+		if(!user) {
+			res.json({
+				  status: 'DELETE /user/' + _id
+				, object: 'error'
+				, message: 'user not found'
+			});
+			next();
+		}
+
+		user.remove(function(err, user) {
+			if(err) throw err;
+			res.json({
+				  status: 'DELETE /user' + _id
+				, object: 'user'
+				, user: user
+			});
+			next();
+		});
 	});
 }
