@@ -12,3 +12,4 @@ npm install
 gulp serve
 ```
 
+it's that easy
