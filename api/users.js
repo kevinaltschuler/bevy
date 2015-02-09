@@ -41,6 +41,7 @@ exports.create = function(req, res, next) {
 
 	// collect user data
 	var _id = ObjectId();
+	var token = req.param('token') || '';
 	var display_name = req.param('display_name') || '';
 	var email = req.param('email');
 	var password = req.param('password');
@@ -127,6 +128,7 @@ exports.edit = function(req, res, next) {
 	var object_id = ObjectId.createFromHexString(_id);
 
 	// collect user data
+	var token = req.param('token') || '';
 	var display_name = req.param('display_name') || '';
 	var email = req.param('email') || '';
 	var password = req.param('password') || '';
@@ -134,6 +136,7 @@ exports.edit = function(req, res, next) {
 	var updated = new Date();
 
 	var update = {};
+	if(token) update.token = token;
 	if(display_name) update.display_name = display_name;
 	if(email) update.email = email;
 	if(password) update.password = password;
