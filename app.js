@@ -44,7 +44,7 @@ app.use(subdomain('api', api_router));
 var routes = require('./routes')(app);
 
 // middleware
-//app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
+app.use(favicon('./public/img/favicon.ico'));
 
 // pretty print json by default
 // disable in production?
