@@ -10,17 +10,16 @@ exports.index = function(req, res, next) {
 	// for now just returns all
 	//TODO: AUTH
 
-	var user_map = {};
+	var user_map = [];
 
-	User.find({}, function(err, users) {
-		users.forEach(function(user) {
-			user_map[user._id] = user;
+	User.find().exec(function(err, users) {
+		if(err) console.error(err);
+		return users;
+	}).then(function(users) {
+		res.json({
+			  status: 'GET /user'
+			, object: 'user list'
+			, users: users
 		});
-	});
-
-	res.json({
-		  status: 'GET /user'
-		, object: 'user list'
-		, users: user_map
 	});
 }
