@@ -43,7 +43,7 @@ exports.create = function(req, res, next) {
 	var display_name = req.param('display_name') || '';
 	var email = req.param('email');
 	var password = req.param('password');
-	password = bcrypt.hashSync(password, 8);
+	if(password) password = bcrypt.hashSync(password, 8);
 	var created = new Date();
 	var updated = new Date();
 
