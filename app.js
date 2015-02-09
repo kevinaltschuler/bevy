@@ -29,9 +29,6 @@ var app = express();
 require('./db');
 
 
-// static directories
-app.use(express.static(__dirname + '/public'));
-
 // load api routes onto api.bevy subdomain
 // TODO: user auth
 // TODO: multi level api (v1, v2, etc)
@@ -67,6 +64,9 @@ app.use(function(req, res, next) {
 	res.locals.csrf = req.csrfToken();
 	return next();
 });
+
+// static directories
+app.use(express.static(__dirname + '/public'));
 
 // error handling
 var error = require('./error');
