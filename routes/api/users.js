@@ -1,5 +1,7 @@
 'use strict';
 
+// TODO: AUTH
+
 // load api functions
 var api = require('./../../api');
 
@@ -25,11 +27,10 @@ module.exports = function(router) {
 	router.get('/user/:id/edit', api.users.edit);
 
 	// UPDATE
-	router.put('/user/:id', function(req, res) {
-		res.json({
-			status: 'PUT/PATCH /user/' + req.params.id
-		});
-	});
+	router.put('/user/:id', api.users.update);
+	// browser hack
+	// TODO: disable on production
+	router.get('/user/:id/update', api.users.update);
 
 	// DESTROY
 	router.delete('/user/:id', function(req, res) {

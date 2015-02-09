@@ -16,7 +16,6 @@ var User = mongoose.model('User');
 exports.index = function(req, res, next) {
 
 	// for now just returns all
-	//TODO: AUTH
 
 	User.find().exec(function(err, users) {
 		if(err) throw err;
@@ -33,8 +32,6 @@ exports.index = function(req, res, next) {
 
 //CREATE
 exports.create = function(req, res, next) {
-	//TODO: AUTH
-
 	//TODO: check for dupes
 
 	//TODO: verify email
@@ -85,9 +82,6 @@ exports.store = function() {
 
 // SHOW
 exports.show = function(req, res, next) {
-
-	// TODO: AUTH
-
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
 
@@ -121,9 +115,6 @@ exports.show = function(req, res, next) {
 
 // EDIT
 exports.edit = function(req, res, next) {
-
-	// TODO: AUTH
-
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
 
@@ -152,6 +143,47 @@ exports.edit = function(req, res, next) {
 			  status: 'GET /user/' + _id + '/edit'
 			, object: 'user'
 			, user: user
-		})
+		});
+	});
+}
+
+// UPDATE
+// force update
+exports.update = function(req, res, next) {
+	var _id = req.params.id;
+	var object_id = ObjectId.createFromHexString(_id);
+
+	//collect user data
+	var token = req.param('token') || '';
+	var display_name = req.param('display_name') || '';
+	var email = req.param('email') || '';
+	var password = req.param('password') || '';
+	if(password) password = bcrypt.hashSync(password, 8);
+	var updated = new Date();
+
+	// check for necessary values
+	if(_.isEmpty(email)) {
+		throw new Error('missing email');
+	} else if (_.isEmpty(password)) {
+		throw new Error('missing password');
+	}
+
+	var update = {
+		  token: token
+		, display_name: display_name
+		, email: email
+		, password: password
+		, updated: updated
+	}
+
+	var query = { _id: object_id };
+	User.findOneAndUpdate(query, update).exec(function(err, user) {
+		if(err) throw err;
+
+		res.json({
+			  status: 'PUT/PATCH /user/' + _id
+			, object: 'user'
+			, user: user
+		});
 	});
 }
