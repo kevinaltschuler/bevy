@@ -43,6 +43,10 @@ var routes = require('./routes')(app);
 // middleware
 //app.use(favicon); //TODO: favicon(path.join(__dirname, 'public', 'favicon.ico'));
 
+// pretty print json by default
+// disable in production?
+app.set('json spaces', 2);
+
 var access_log_stream = fs.createWriteStream(__dirname + '/log/access.log', {flags: 'a'});
 app.use(logger('dev', {stream: access_log_stream}));
 
