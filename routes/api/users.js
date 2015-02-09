@@ -19,11 +19,7 @@ module.exports = function(router) {
 	//});
 
 	// SHOW
-	router.get('/user/:id', function(req, res) {
-		res.json({
-			status: 'GET /user/' + req.params.id
-		});
-	});
+	router.get('/user/:id', api.users.show);
 
 	// EDIT
 	router.get('/user/:id/edit', function(req, res) {

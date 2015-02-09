@@ -1,9 +1,13 @@
+//TODO: AUTH
+//TODO: CUSTOM EXCEPTIONS
+
 'use strict';
 
 var _ = require('underscore');
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = mongoose.Types.ObjectId;
 
 var User = mongoose.model('User');
 
@@ -35,7 +39,7 @@ exports.create = function(req, res, next) {
 	//TODO: verify email
 
 	// collect user data
-	var _id = mongoose.Types.ObjectId();
+	var _id = ObjectId();
 	var display_name = req.param('display_name') || '';
 	var email = req.param('email');
 	var password = req.param('password');
@@ -62,8 +66,49 @@ exports.create = function(req, res, next) {
 	User.create(user_doc, function(err, user) {
 		if(err) throw err
 
-		user_doc.object = 'user';
-		res.json(user_doc);
+		res.json({
+			  status: 'GET /user/create'
+			, object: 'user'
+			, user: user_doc
+		});
 	});
+}
 
+// STORE
+// disabled for now
+exports.store = function() {
+
+}
+
+// SHOW
+exports.show = function(req, res, next) {
+
+	// TODO: AUTH
+
+	var _id = req.params.id;
+	var object_id = ObjectId.createFromHexString(_id);
+
+	User.findOne({
+		_id: object_id
+	}).exec(function(err, user) {
+		if(err) throw err;
+
+		return user
+	}).then(function(user) {
+
+		if(!user) {
+			res.json({
+				  status: 'GET /user/' + _id
+				, object: 'error'
+				, message: 'user not found'
+			});
+			next();
+		}
+
+		res.json({
+			  status: 'GET /user/' + _id
+			, object: 'user'
+			, user: user
+		});
+	});
 }
