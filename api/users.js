@@ -1,5 +1,6 @@
 //TODO: AUTH
 //TODO: CUSTOM EXCEPTIONS
+// handleError(err) <--
 
 'use strict';
 
@@ -185,5 +186,16 @@ exports.update = function(req, res, next) {
 			, object: 'user'
 			, user: user
 		});
+	});
+}
+
+// DESTROY
+exports.destroy = function(req, res, next) {
+	var _id = req.params.id;
+	var object_id = ObjectId.createFromHexString(_id);
+
+	var query = { _id: object_id };
+	User.remove(query, function(err) {
+		if(err) throw err;
 	});
 }

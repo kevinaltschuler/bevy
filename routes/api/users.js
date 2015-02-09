@@ -33,9 +33,9 @@ module.exports = function(router) {
 	router.get('/user/:id/update', api.users.update);
 
 	// DESTROY
-	router.delete('/user/:id', function(req, res) {
-		res.json({
-			status: 'DELETE /user/' + req.params.id
-		});
-	});
+	router.delete('/user/:id', api.users.destroy);
+	// browser hack
+	// TODO: disable on production
+	router.get('/user/:id/destroy', api.users.destroy);
+
 };
