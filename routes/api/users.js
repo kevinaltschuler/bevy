@@ -12,11 +12,11 @@ module.exports = function(router) {
 	router.get('/user/create', api.users.create);
 
 	// STORE
-	router.post('/user', function(req, res) {
-		res.json({
-			status: 'POST /user'
-		});
-	});
+	//router.post('/user', function(req, res) {
+	//	res.json({
+	//		status: 'POST /user'
+	//	});
+	//});
 
 	// SHOW
 	router.get('/user/:id', function(req, res) {
