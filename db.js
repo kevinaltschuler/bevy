@@ -43,7 +43,7 @@ connection.once('open', function() {
 				, updated: new Date()
 			});
 		} else {
-			console.log(users);
+			//console.log(users);
 		}
 	});
 });
