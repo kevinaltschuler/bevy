@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = new Schema({
-	  _id: Number
+	  _id: Schema.Types.ObjectId
 	, token: String
 	, display_name: String
 	, password: String
