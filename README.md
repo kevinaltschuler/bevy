@@ -6,9 +6,13 @@ using fluxbone + react for templating
 
 to use:
 
+(need mongodb, node, and git first)
+
 ```javascript
 git clone git@github.com:blahoink/bevy
 npm install
+mkdir ./log
+chmod a+w log
 gulp serve
 ```
 
