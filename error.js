@@ -8,25 +8,30 @@ exports.log_errors = function(err, req, res, next) {
 }
 exports.client_error_handler = function(err, req, res, next) {
 	console.error('client_errors', err.toString());
-	res.send(500, {
-		error: err.toString()
-	});
-	if(req.xhr) {
-		console.error(err);
+	if(!res.headersSent) {
 		res.send(500, {
 			error: err.toString()
 		});
+	}
+	if(req.xhr) {
+		console.error(err);
+		if(!res.headersSent) {
+			res.send(500, {
+				error: err.toString()
+			});
+		}
 	} else {
 		next(err);
 	}
 }
 
-//broken? something about sending the same header twice
 exports.error_handler = function(err, req, res, next) {
 	console.error('last_errors ', err.toString());
-	res.send(500, {
-		error: err.toString()
-	});
+	if(!res.headersSent) {
+		res.send(500, {
+			error: err.toString()
+		});
+	}
 }
 
 exports.gen = function(message, route, type, code) {
