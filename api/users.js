@@ -65,7 +65,7 @@ exports.create = function(req, res, next) {
 	}
 
 	User.create(user_doc, function(err, user) {
-		if(err) throw err
+		if(err) throw err;
 
 		res.json({
 			  status: 'GET /user/create'
@@ -219,4 +219,11 @@ exports.destroy = function(req, res, next) {
 			next();
 		});
 	});
+}
+
+////////////
+
+// LOGIN
+exports.login = function(email, pass) {
+
 }
