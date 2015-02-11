@@ -14,11 +14,7 @@ module.exports = function(router) {
 	router.get('/users/create', api.users.create);
 
 	// STORE
-	//router.post('/user', function(req, res) {
-	//	res.json({
-	//		status: 'POST /user'
-	//	});
-	//});
+	router.post('/users', api.users.create);
 
 	// SHOW
 	router.get('/users/:id', api.users.show);
