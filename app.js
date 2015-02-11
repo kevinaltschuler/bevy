@@ -11,6 +11,7 @@ var _ = require('underscore');
 var path = require('path');
 var fs = require('fs');
 var express = require('express');
+var mongoose = require('mongoose');
 
 // load express modules and middleware
 var subdomain = require('express-subdomain');
@@ -68,8 +69,13 @@ app.use(session({
 	, resave: true
 	, saveUninitialized: true
 }));
+
+var User = mongoose.model('User');
+config.passport(app, User);
 app.use(passport.initialize());
 app.use(passport.session());
+
+
 app.use(csrf());
 app.use(function(req, res, next) {
 	res.locals.csrf = req.csrfToken();

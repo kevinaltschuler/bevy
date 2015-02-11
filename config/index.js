@@ -4,8 +4,10 @@
 
 'use strict';
 
-var app = require('./app.js');
-var database = require('./database.js');
+var app = require('./app');
+var database = require('./database');
+var passport = require('./passport');
 
 exports.app = app;
 exports.database = database;
+exports.passport = passport;
