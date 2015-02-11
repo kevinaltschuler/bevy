@@ -85,6 +85,10 @@ app.use(function(req, res, next) {
 // cors
 app.use(middleware.cors());
 
+// templating engine for pages outside of the SPA
+app.set('view engine', 'jade');
+app.set('views', './views');
+
 // static directories
 app.use(express.static(__dirname + '/public'));
 
