@@ -9,16 +9,12 @@ exports.log_errors = function(err, req, res, next) {
 exports.client_error_handler = function(err, req, res, next) {
 	console.error('client_errors', err.toString());
 	if(!res.headersSent) {
-		res.send(500, {
-			error: err.toString()
-		});
+		res.status(500).json(err);
 	}
 	if(req.xhr) {
 		console.error(err);
 		if(!res.headersSent) {
-			res.send(500, {
-				error: err.toString()
-			});
+			res.status(500).json(err);
 		}
 	} else {
 		next(err);
@@ -28,9 +24,7 @@ exports.client_error_handler = function(err, req, res, next) {
 exports.error_handler = function(err, req, res, next) {
 	console.error('last_errors ', err.toString());
 	if(!res.headersSent) {
-		res.send(500, {
-			error: err.toString()
-		});
+		res.status(500).json(err);
 	}
 }
 
