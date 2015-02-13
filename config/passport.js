@@ -8,7 +8,8 @@ var GoogleStrategy = require('passport-google').Strategy;
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
-//var User = mongoose.model('User');
+
+var bcrypt = require('bcryptjs');
 
 module.exports = function(app) {
 
