@@ -228,12 +228,8 @@ exports.destroy = function(req, res, next) {
 	}).then(function(user) {
 
 		if(!user) {
-			res.json({
-				  status: 'DELETE /user/' + _id
-				, object: 'error'
-				, message: 'user not found'
-			});
-			next();
+			var err = error.gen('user not found', req);
+			next(err);
 		}
 
 		user.remove(function(err, user) {
