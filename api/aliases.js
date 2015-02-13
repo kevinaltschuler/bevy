@@ -4,11 +4,33 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = mongoose.Types.ObjectId;
 
+var User = mongoose.model('User');
 var Alias = mongoose.model('Alias');
 
 // INDEX
 exports.index = function(req, res, next) {
+	var user_id = req.params.id;
+	var user_object_id = ObjectId.createFromHexString(user_id);
 
+	var user_query = { _id: user_object_id };
+	User.findOne(user_query, function(err, user) {
+		if(err) throw err;
+		if(!user) {
+			res.json({
+				  status: 'GET /user/' + user_id + '/aliases/'
+				, object: 'error'
+				, message: 'user not found'
+			});
+			next();
+		}
+
+		var aliases = user.aliases;
+		res.json({
+			  status: 'GET /user/' + user_id + '/aliases/'
+			, object: 'alias array'
+			, aliases: aliases
+		});
+	});
 }
 
 // CREATE
