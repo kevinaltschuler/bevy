@@ -44,42 +44,62 @@ exports.create = function(req, res, next) {
 
 	//TODO: verify email
 
-	// collect user data
-	var _id = ObjectId();
-	var token = req.param('token') || '';
-	var display_name = req.param('display_name') || '';
-	var email = req.param('email');
-	var password = req.param('password');
-	if(password) password = bcrypt.hashSync(password, 8);
-	var created = new Date();
-	var updated = new Date();
+	var update = {};
 
-	// check for necessary values
-	if(_.isEmpty(email)) {
-		throw error.gen('missing email', req);
-	} else if (_.isEmpty(password)) {
-		throw error.gen('missing password', req);
-	}
+	User.schema.eachPath(function(pathname, schema_type) {
+		// collect path value
+		var val = null;
+		if(req.body != undefined) val = req.body[pathname];
+		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
+		if(!val) return;
 
-	var user_doc = {
-		  _id: _id
-		, token: ''
-		, display_name: display_name
-		, email: email
-		, password: password
-		, created: created
-		, updated: updated
-	}
-
-	User.create(user_doc, function(err, user) {
-		if(err) throw err;
-
-		res.json({
-			  status: 'GET /user/create'
-			, object: 'user'
-			, user: user_doc
-		});
+		update[pathname] = val;
 	});
+
+	if(_.isEmpty(update.email) && _.isEmpty(update.open_id)) {
+		throw error.gen('missing identifier - email or openid', req);
+	}
+	else if(_.isEmpty(update.open_id) && _.isEmpty(update.password)) {
+		throw error.gen('missing verification - password or openid', req);
+	}
+
+	// if there's a change, set the update and create date to now
+	if(!_.isEmpty(update)) {
+		update.updated = new Date();
+		update.created = new Date();
+	}
+
+	// hash password if it exists
+	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
+	// create objectid
+	update._id = new ObjectId();
+
+	var promise = User.findOne({ $or:[{ email: update.email }, { open_id: update.open_id }] }).exec();
+
+	promise.then(function(user) {
+		if(user) {
+			// duplicate exists
+			//throw error.gen('another user with the same email or openid exists', req);
+			throw error.gen('duplicate exists!', req);
+		}
+
+	}).then(
+	function() {
+		User.create(update, function(err, user) {
+			if(err) throw err;
+
+			res.json({
+				  status: 'GET /user/create'
+				, object: 'user'
+				, user: user
+			});
+		});
+	},
+	function(err) {
+		console.error(err);
+		next(err);
+	}).end();
+
 }
 
 // SHOW
@@ -122,20 +142,23 @@ exports.edit = function(req, res, next) {
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
 
-	// collect user data
-	var token = req.param('token') || '';
-	var display_name = req.param('display_name') || '';
-	var email = req.param('email') || '';
-	var password = req.param('password') || '';
-	if(password) password = bcrypt.hashSync(password, 8);
-	var updated = new Date();
-
 	var update = {};
-	if(token) update.token = token;
-	if(display_name) update.display_name = display_name;
-	if(email) update.email = email;
-	if(password) update.password = password;
-	if(update) update.updated = updated;
+
+	User.schema.eachPath(function(pathname, schema_type) {
+		// collect path value
+		var val = null;
+		if(req.body != undefined) val = req.body[pathname];
+		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
+		if(!val) return;
+
+		update[pathname] = val;
+	});
+
+	// if there's a change, set the update date to now
+	if(!_.isEmpty(update)) update.updated = new Date();
+
+	// hash password if it exists
+	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
 	// todo: verify object id
 
@@ -158,28 +181,30 @@ exports.update = function(req, res, next) {
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
 
-	//collect user data
-	var token = req.param('token') || '';
-	var display_name = req.param('display_name') || '';
-	var email = req.param('email') || '';
-	var password = req.param('password') || '';
-	if(password) password = bcrypt.hashSync(password, 8);
-	var updated = new Date();
+	var update = {};
 
-	// check for necessary values
-	if(_.isEmpty(email)) {
-		throw new Error('missing email');
-	} else if (_.isEmpty(password)) {
-		throw new Error('missing password');
+	User.schema.eachPath(function(pathname, schema_type) {
+		// collect path value
+		var val = null;
+		if(req.body != undefined) val = req.body[pathname];
+		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
+		if(!val) return;
+
+		update[pathname] = val;
+	});
+
+	if(_.isEmpty(update.email) && _.isEmpty(update.open_id)) {
+		throw error.gen('missing identifier - email or openid', req);
+	}
+	else if(_.isEmpty(update.open_id) && _.isEmpty(update.password)) {
+		throw error.gen('missing verification - password or openid', req);
 	}
 
-	var update = {
-		  token: token
-		, display_name: display_name
-		, email: email
-		, password: password
-		, updated: updated
-	}
+	// if there's a change, set the update date to now
+	if(!_.isEmpty(update)) update.updated = new Date();
+
+	// hash password if it exists
+	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
 	var query = { _id: object_id };
 	User.findOneAndUpdate(query, update).exec(function(err, user) {
