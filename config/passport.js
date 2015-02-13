@@ -1,6 +1,7 @@
 'use strict';
 
 var error = require('./../error');
+var config = require('./../config');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
@@ -33,6 +34,29 @@ module.exports = function(app) {
 					return done(null, false, { message: 'Incorrect password' });
 				}
 				return done(null, user);
+			});
+		}
+	));
+
+	passport.use(new GoogleStrategy({
+		  	returnUrl: '/auth/google/return'
+			, realm: config.server.hostname
+		},
+		function(identifier, profile, done) {
+			var query = { open_id: identifier };
+			User.findOne(query).exec(function(err, user) {
+				if(err) return done(err);
+				if(!user) {
+					// doesn't exist
+					var new_user = {
+						  _id: ObjectId()
+						, open_id: identifier
+					};
+					User.create(new_user, function(err, user) {
+						if(err) return done(err);
+						done(err, user);
+					});
+				} else done(err, user);
 			});
 		}
 	));
