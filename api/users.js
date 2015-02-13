@@ -77,7 +77,8 @@ exports.create = function(req, res, next) {
 
 	var promise = User.findOne({ $or:[{ email: update.email }, { open_id: update.open_id }] }).exec();
 
-	promise.then(function(user) {
+	promise.then(function(err, user) {
+		if(err) throw err;
 		if(user) {
 			// duplicate exists
 			//throw error.gen('another user with the same email or openid exists', req);
