@@ -5,7 +5,7 @@ var Schema = mongoose.Schema;
 
 module.exports = new Schema({
 	  _id: Schema.Types.ObjectId // internal id
-	, users: [Schema.Types.ObjectId]
+	, user: Schema.Types.ObjectId
 	, name: String
 	, photos: [{ url: String }]
 	, karma: Number
