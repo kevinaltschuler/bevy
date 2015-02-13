@@ -7,9 +7,6 @@ var api = require('./../../api');
 
 module.exports = function(router) {
 
-	// LOGIN
-	router.post('/users/login', api.users.login);
-
 	// INDEX
 	router.get('/users', api.users.index);
 
