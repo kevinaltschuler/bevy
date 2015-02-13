@@ -15,6 +15,7 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var User = mongoose.model('User');
 
+
 /** RESOURCE API **/
 
 // INDEX
@@ -119,12 +120,8 @@ exports.show = function(req, res, next) {
 	}).then(function(user) {
 
 		if(!user) {
-			res.json({
-				  status: 'GET /user/' + _id
-				, object: 'error'
-				, message: 'user not found'
-			});
-			next();
+			var err = error.gen('user not found', req);
+			next(err);
 		}
 
 		res.json({
