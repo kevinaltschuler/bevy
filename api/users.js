@@ -1,10 +1,12 @@
 //TODO: AUTH
 //TODO: CUSTOM EXCEPTIONS
+//TODO: PAGINATION
 // handleError(err) <--
 
 'use strict';
 
 var _ = require('underscore');
+var error = require('./../error');
 var bcrypt = require('bcryptjs');
 
 var mongoose = require('mongoose');
@@ -13,7 +15,10 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var User = mongoose.model('User');
 
+/** RESOURCE API **/
+
 // INDEX
+// GET /users
 exports.index = function(req, res, next) {
 
 	// for now just returns all
@@ -32,6 +37,8 @@ exports.index = function(req, res, next) {
 }
 
 //CREATE
+// GET /users/create
+// POST /users
 exports.create = function(req, res, next) {
 	//TODO: check for dupes
 
@@ -49,9 +56,9 @@ exports.create = function(req, res, next) {
 
 	// check for necessary values
 	if(_.isEmpty(email)) {
-		throw new Error('missing email');
+		throw error.gen('missing email', req);
 	} else if (_.isEmpty(password)) {
-		throw new Error('missing password');
+		throw error.gen('missing password', req);
 	}
 
 	var user_doc = {
@@ -75,13 +82,8 @@ exports.create = function(req, res, next) {
 	});
 }
 
-// STORE
-// disabled for now
-exports.store = function() {
-
-}
-
 // SHOW
+// GET /users/:id/
 exports.show = function(req, res, next) {
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
@@ -115,6 +117,7 @@ exports.show = function(req, res, next) {
 }
 
 // EDIT
+// GET /users/:id/edit
 exports.edit = function(req, res, next) {
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
@@ -150,6 +153,7 @@ exports.edit = function(req, res, next) {
 
 // UPDATE
 // force update
+// PUT/PATCH /users/:id
 exports.update = function(req, res, next) {
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
@@ -190,6 +194,7 @@ exports.update = function(req, res, next) {
 }
 
 // DESTROY
+// DELETE /users/:id
 exports.destroy = function(req, res, next) {
 	var _id = req.params.id;
 	var object_id = ObjectId.createFromHexString(_id);
@@ -219,11 +224,4 @@ exports.destroy = function(req, res, next) {
 			next();
 		});
 	});
-}
-
-////////////
-
-// LOGIN
-exports.login = function(email, pass) {
-
 }
