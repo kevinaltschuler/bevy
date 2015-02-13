@@ -2,6 +2,7 @@ extends ./base.jade
 
 block content
 	h1 login
+	p #{message}
 	form( action='/login', method='post', enctype='x-www-form-urlencoded')
 		p
 			label Email:
