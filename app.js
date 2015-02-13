@@ -83,13 +83,6 @@ app.use(middleware.cors());
 app.set('view engine', 'jade');
 app.set('views', './views');
 
-// error handling
-var error = require('./error');
-app.use(error.log_errors);
-app.use(error.client_error_handler);
-app.use(error.error_handler);
-
-
 // load api routes onto api.bevy subdomain
 // TODO: user auth
 // TODO: multi level api (v1, v2, etc)
@@ -102,6 +95,12 @@ var routes = require('./routes')(app);
 
 // static directories
 app.use(express.static(__dirname + '/public'));
+
+// error handling
+var error = require('./error');
+app.use(error.log_errors);
+app.use(error.client_error_handler);
+app.use(error.error_handler);
 
 
 // start server
