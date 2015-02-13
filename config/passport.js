@@ -39,12 +39,12 @@ module.exports = function(app) {
 
 	passport.serializeUser(function(user, done) {
 		console.log('Serializing: ', user);
-		done(null, user._id.toHexString());
+		done(null, user._id);
 	});
 
 	passport.deserializeUser(function(id, done) {
-		console.log('Deserializing: ', user);
-		var query = { _id: new ObjectID.createFromHexString(id) };
+		console.log('Deserializing: ', id);
+		var query = { _id: new ObjectId.createFromHexString(id) };
 		User.findOne(query).exec(function(err, user) {
 			done(err, user);
 		});
