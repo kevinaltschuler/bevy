@@ -39,8 +39,8 @@ module.exports = function(app) {
 	));
 
 	passport.use(new GoogleStrategy({
-		  	returnUrl: '/auth/google/return'
-			, realm: config.server.hostname
+		  	returnURL: config.app.server.hostname + '/auth/google/return'
+			, realm: config.app.server.hostname
 		},
 		function(identifier, profile, done) {
 			var query = { open_id: identifier };
