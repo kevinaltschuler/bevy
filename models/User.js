@@ -11,6 +11,7 @@ module.exports = new Schema({
 	, display_name: String
 	, password: String
 	, email: String
+	, aliases: [Schema.Types.ObjectId]
 	, created: {
 		  type: Date
 		, default: Date.now }
