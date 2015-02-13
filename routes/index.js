@@ -13,10 +13,4 @@ module.exports = function(app) {
 		// Load the route file.
 		require('./' + file)(app);
   });
-
-	//404
-	app.get('*', function(req, res) {
-		res.status(404).send90;
-	});
-
 };
