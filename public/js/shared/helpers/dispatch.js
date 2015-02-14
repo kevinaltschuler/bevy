@@ -1,3 +1,5 @@
+'use strict';
+
 var Dispatcher = require('./../dispatcher');
 
 // a bit more standardized way to dispatch actions
