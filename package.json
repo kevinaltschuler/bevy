@@ -28,7 +28,8 @@
     "passport-local": "^1.0.0",
     "react": "^0.12.2",
     "serve-favicon": "^2.2.0",
-    "underscore": "^1.7.0"
+    "underscore": "^1.7.0",
+    "vinyl-source-stream": "^1.0.0"
   },
   "devDependencies": {
     "browser-sync": "^2.0.0-rc9",
