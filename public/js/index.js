@@ -1,8 +1,9 @@
 'use strict';
 
-console.log('app loaded');
-
 require('./shared/polyfills/Object.assign.js');
+
+var Backbone = require('backbone');
+Backbone.$ = require('jquery');
 
 var React = require('react');
 var App = require('./app/components/App.jsx');
