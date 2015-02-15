@@ -35,20 +35,28 @@ function bundleShare(b) {
 		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
 		.pipe(source('bundle.js'))
 		.pipe(gulp.dest('./public/js/build'));
+	browserSync.reload();
 }
 
 gulp.task('serve', function() {
 	nodemon({
-		  script: 'app.js'
-		, ext: 'html js'
+		  verbose: true
+		, script: 'app.js'
+		, ext: 'html js jade'
 		, env: {
 			  'NODE_ENV': 'development'
 			, 'COOKIE_SECRET': 'foobar'
 			, 'SESSION_SECRET': 'foobar'
 		}
+		, watch: [
+			  './*.*'
+			, './routes/*.*'
+			, './routes/**/*.*'
+		]
 		, ignore: [
-			'./public/js/**'
-		  ]
+			  './public/*.*'
+			, './public/**/*.*'
+		]
 	}).on('restart', function() {
 		console.log('restarted!');
 	});
