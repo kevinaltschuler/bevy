@@ -46,6 +46,9 @@ gulp.task('serve', function() {
 			, 'COOKIE_SECRET': 'foobar'
 			, 'SESSION_SECRET': 'foobar'
 		}
+		, ignore: [
+			'./public/js/**'
+		  ]
 	}).on('restart', function() {
 		console.log('restarted!');
 	});
