@@ -5,7 +5,7 @@
 'use strict';
 
 module.exports = function(store, events) {
-	if(!events) events = "add remove reset change";
+	if(!events) events = 'add remove reset change';
 
 	return {
 		componentDidMount: function() {
