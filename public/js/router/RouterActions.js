@@ -5,7 +5,7 @@ var dispatch = require('./../shared/helpers/dispatch');
 
 module.exports = {
 	navigate: function(fragment, trigger, replace) {
-		console.log('navigating to...', fragment);
+		console.log('router action...', fragment);
 		dispatch(constants.ROUTE_NAVIGATE, {
 			  fragment: fragment
 			, trigger: (trigger == undefined) ? true : trigger
