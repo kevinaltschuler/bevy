@@ -52,6 +52,13 @@ gulp.task('serve', function() {
 			  './*.*'
 			, './routes/*.*'
 			, './routes/**/*.*'
+			, './views/*.*'
+			, './views/**/*.*'
+			, './models/*.*'
+			, './middleware/*.*'
+			, './config/*.*'
+			, './api/**/*.*'
+			, './api/*.*'
 		]
 		, ignore: [
 			  './public/*.*'
