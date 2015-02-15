@@ -31,7 +31,7 @@ function bundle() {
 
 function bundleShare(b) {
 	console.log('updating...');
-	b.bundle({ debug: true })
+	b.bundle()
 		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
 		.pipe(source('bundle.js'))
 		.pipe(gulp.dest('./public/js/build'));
