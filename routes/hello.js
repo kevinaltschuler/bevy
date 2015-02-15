@@ -5,5 +5,5 @@ function hello(req, res) {
 }
 
 module.exports = function(app) {
-	app.get('/', hello);
+	//app.get('/', hello);
 };
