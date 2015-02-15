@@ -8,7 +8,7 @@ module.exports = React.createClass({
 	render: function(){
 		return <div>
 		<Router />
-		the app
+		the app<br/>
 		<RouterLink href="#test">test</RouterLink>
 		</div>;
 

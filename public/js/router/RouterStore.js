@@ -64,7 +64,7 @@ var AppRouter = Backbone.Router.extend({
 
 		// enable backbone routing when DOM is loaded
 		Backbone.$(document).on('ready', function() {
-			Backbone.history.start({ pushState: true });
+			Backbone.history.start();
 		});
 
 	},
