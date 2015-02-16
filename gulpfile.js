@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
+var watch = require('gulp-watch');
 var sourcemaps = require('gulp-sourcemaps');
+var less = require('gulp-less');
 
 var nodemon = require('gulp-nodemon');
 var browserify = require('browserify');
@@ -11,9 +13,7 @@ var browserSync = require('browser-sync');
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
-gulp.task('js', bundle); // so you can run `gulp js` to build the file
-
-function bundle() {
+gulp.task('js', function () {
 	var b = browserify({
 		  cache: {}
 		, packageCache: {}
@@ -21,22 +21,37 @@ function bundle() {
 	});
 	b = watchify(b);
 	b.on('update', function() {
-		bundleShare(b);
+		return bundleShare(b);
 	});
+	b.on('log', function(msg) {
+		console.log(msg);
+	})
 	b.transform(reactify);
 	b.transform(to5ify);
 	b.add('./public/js/index.js');
-	bundleShare(b);
-}
+	return bundleShare(b);
+})
 
 function bundleShare(b) {
-	console.log('updating...');
-	b.bundle()
+	var stream = b.bundle()
 		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
 		.pipe(source('bundle.js'))
 		.pipe(gulp.dest('./public/js/build'));
 	browserSync.reload();
+	return stream;
 }
+
+gulp.task('less', function() {
+	var stream = gulp.src('./public/less/app.less')
+		.pipe(watch('app.less'))
+		.pipe(less({
+			paths: []
+		}))
+		.pipe(gulp.dest('./public/css'));
+	return stream;
+});
+
+gulp.task('watch', ['less', 'js']);
 
 gulp.task('serve', function() {
 	nodemon({
