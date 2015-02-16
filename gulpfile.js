@@ -42,12 +42,10 @@ function bundleShare(b) {
 }
 
 gulp.task('less', function() {
-	var stream = gulp.src('./public/less/app.less')
-		.pipe(watch('app.less'), { verbose: true })
-		.pipe(less({
-			paths: []
-		}))
-		.pipe(gulp.dest('./public/css'));
+	var stream = gulp.src('public/less/app.less')
+		.pipe(watch('public/less/app.less'))
+		.pipe(less())
+		.pipe(gulp.dest('public/css'));
 	return stream;
 });
 
