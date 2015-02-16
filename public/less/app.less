@@ -1,3 +1,286 @@
-.nuts{
-	color: green;
+//@import 'header.less';
+
+//.nuts{
+//	.asdf{
+//		border: 1px red solid;
+//	}
+//	color: green;
+//}
+
+//ENTRY POINT
+
+@import 'bootstrap/bootstrap.less';
+
+html {
+  font-family: Lucida Sans Unicode!important;
+}
+body {
+  font-family: Lucida Sans Unicode;
+  padding-top: 85px;
+  background-color: #edeeee;
+}
+.navbar {
+  background-color: #2cb673;
+  border-color: rgba(0,0,0,0);
+  border-radius: 0px;
+  height: 68px;
+  box-shadow: 0px 1px 4px rgba(0,0,0,.3);
+}
+.navbar .navbar-brand {
+	color: #FFF;
+}
+.navbar-brand-text {
+  padding: 23px 0px;
+}
+.navbar:focus, .navbar-brand:hover {
+	color: #e6e6e6;
+}
+.navbar-form {
+  border-top: 0px solid transparent; 
+  border-bottom: 0px solid transparent; 
+  -webkit-box-shadow: inset 0 0px 0 rgba(255, 255, 255, .1), 0 0px 0 rgba(255, 255, 255, .1); 
+  box-shadow: inset 0 0px 0 rgba(255, 255, 255, .1), 0 0px 0 rgba(255, 255, 255, .1); 
+}
+.left-sidebar {
+  border-bottom: 0px solid rgba(0,0,0,0)!important; 
+  color: #757d83;
+  float: left;
+}
+/* SEARCH INPUT COLORS*/
+.search-input{
+    background-color: rgba(0,0,0,0); 
+    border-bottom: 2px solid #fff; 
+    border-left: 0px;
+    border-top: 0px;
+    border-right: 0px;
+    box-shadow: none; 
+    border-radius: 0px;
+    color: #fff;
+}
+.search-icon {
+	position:relative; 
+	color: #fff; 
+	right: 30px; 
+	top: 2px;
+}
+/*FORMS*/
+.navbar-form{
+  padding-top: 11px;
+  padding-right: 30px;
+}
+.navbar-form .form-group {
+  display: inline-block;
+}
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {
+  /*(border-color: rgba(0, 0, 0, 0);*/
+  outline: 0;
+  outline: thin dotted \9;
+  /* IE6-9 */
+
+  -webkit-box-shadow: inset 0 0px 0px rgba(0,0,0,0), 0 0 0px rgba(0,0,0,0);
+  -moz-box-shadow: inset 0 0px 0px rgba(0,0,0,0), 0 0 8px rgba(0,0,0,0);
+  box-shadow: inset 0 0px 0px rgba(0,0,0,0), 0 0 0px rgba(0,0,0,0);
+}
+#Email, #Fname {
+    background-color:#666;
+}
+input, textarea{
+    background-color:#666;
+    color: #cdcdcd;
+}
+::-webkit-input-placeholder { /* WebKit browsers */
+    color: #cdcdcd;
+}
+:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+    color: #cddccd;
+}
+::-moz-placeholder { /* Mozilla Firefox 19+ */
+    color: #cdcdcd;
+}
+:-ms-input-placeholder { /* Internet Explorer 10+ */
+    color: #cdcdcd;
+}
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder {
+    color: #cdcdcd;
+}
+input:-moz-placeholder, textarea:-moz-placeholder {
+    color: #cdcdcd;
+}
+.row .col-xs-12 .btn &:hover &:active{
+  border-radius: 3px;
+  border-left-color: #fff;
+  background-color: #fff;
+}
+.row .col-xs-12 .input-group {
+  width: 350px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.row .col-xs-12 input {
+  border-right-color: #FFF;
+}
+.sort-btn {
+  background-color: rgba(0,0,0,0);
+  color: #757d83;
+  font-size: inherit;
+  transition: all 0.15s linear;
+}
+.sort-btn:active, .sort-btn.active{
+  outline: none;
+  text-decoration: underline;
+  color: black;
+  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, .125); 
+  box-shadow: inset 0 0px 0px rgba(0, 0, 0, .125); 
+}
+input, textarea, select, a { 
+  outline: none; 
+}
+textarea:hover, 
+input:hover, 
+textarea:active, 
+input:active, 
+textarea:focus, 
+input:focus,
+button:focus,
+button:active,
+button:hover
+{
+  outline:0px !important;
+  -webkit-appearance:none;
+  box-shadow: none;
+  -moz-box-shadow: none;
+}
+.sort-well {
+  min-height: 20px;
+  padding: 0px; 
+  margin-bottom: 10px;
+  background-color: rgba(0,0,0,0); 
+  border: 0px; 
+  border-radius: 0px; 
+  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, .05); 
+  box-shadow: inset 0 0px 0px rgba(0, 0, 0, .05); 
+}
+.btn-group-sort, .btn-group-vertical {
+  height: 36px;
+  border-bottom: 1px solid #d2d3d3;
+}
+.btn-group {
+    height: 36px;
+}
+.btn-group-text {
+  color: #757d83; 
+  margin-left: auto; 
+  margin-right: auto;
+}
+#dropdown:active {
+  text-decoration: none;
+}
+#dropdown, #dropdown.open, #dropdown ul  {
+  background: rgba(0,0,0,0);
+  border: 0px; 
+  -webkit-box-shadow: inset 0 0px 0px rgba(0, 0, 0, .05); 
+  box-shadow: inset 0 0px 0px rgba(0, 0, 0, .05); 
+  color: #757d83;
+  font-size: inherit;
+  position: relative;
+}
+#dropdown ul li a {
+  color: #757d83;
+}
+#dropdown:hover, #dropdown.open, #dropdown ul:hover,#dropdown ul li a:hover,
+#dropdown:active, #dropdown.open:active, #dropdown ul:active{
+  color: black;
+  background-color: rgba(0,0,0,0);
+}
+.panel-heading a {
+  font-size: 20;
+  color: black;
+  text-decoration: none;
+}
+.panel-heading a:hover {
+  color: #757d83;
+} 
+.panel-details {
+  font-size: 11;
+  padding: 0px 15px;
+}
+.panel-controls-left {
+  font-size: 11;
+}
+.panel-controls-right {
+  
+}
+.panel-body {
+  padding-left: 0px;
+  padding-right: 0px; 
+  overflow: hidden;
+  max-height: 150px;
+}
+.panel-bottom {
+  display: inline-block;
+  padding: 15px;
+}
+.panel-body:focus {
+-webkit-animation: expand-out .4s forwards;
+   -moz-animation: expand-out .4s forwards;
+    -ms-animation: expand-out .4s forwards;
+     -o-animation: expand-out .4s forwards;
+        animation: expand-out .4s forwards;
+    outline: none;
+}
+.panel-body {
+  -webkit-animation: expand-in .8s forwards;
+  max-height: 10%;
+}
+.panel-body img {
+  width: 100%;
+}
+@-webkit-keyframes expand-out {
+  from {
+    max-height: 150px;
+  }
+  to {
+    max-height: 300px;
+  }
+}
+@-webkit-keyframes expand-in {
+  from {
+    max-height: 300px;
+  }
+  to {
+    max-height: 150px;
+  }
+}
+@media (max-width: 991px) {
+  .right-sidebar {
+    float: right;
+  }
+}
+@media (max-width: 767px) {
+.navbar-form .form-group {
+  margin-bottom: 0px;
+}
+.row .col-xs-12 .input-group {
+  width: 300px;
+}
+}
+@media (max-width: 350px) {
+.search-input {
+  width: 140px;
+}
 }
