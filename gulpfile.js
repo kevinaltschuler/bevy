@@ -24,7 +24,7 @@ gulp.task('js', function () {
 		return bundleShare(b);
 	});
 	b.on('log', function(msg) {
-		console.log(msg);
+		console.log('BROWSERIFY ::', msg);
 	})
 	b.transform(reactify);
 	b.transform(to5ify);
@@ -43,7 +43,7 @@ function bundleShare(b) {
 
 gulp.task('less', function() {
 	var stream = gulp.src('./public/less/app.less')
-		.pipe(watch('app.less'))
+		.pipe(watch('app.less'), { verbose: true })
 		.pipe(less({
 			paths: []
 		}))
