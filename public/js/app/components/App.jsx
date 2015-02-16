@@ -9,7 +9,7 @@ module.exports = React.createClass({
 		return <div>
 		<Router />
 		the app<br/>
-		<RouterLink href="#test">test</RouterLink>
+		<RouterLink href="#/test">test</RouterLink>
 		</div>;
 
 	}
