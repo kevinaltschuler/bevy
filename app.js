@@ -96,8 +96,8 @@ app.use(subdomain('api', api_router));
 var routes = require('./routes')(app);
 
 // static directories
-app.use(serveStatic(__dirname + '/public'));
-app.use('/fonts', serveStatic(__dirname + '/node_modules/bootstrap/fonts'));
+app.use(serveStatic(__dirname + '/public')); // app-specific assets
+app.use('/fonts', serveStatic(__dirname + '/node_modules/bootstrap/fonts')); // load bootstrap fonts
 
 // error handling
 var error = require('./error');
