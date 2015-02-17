@@ -6,11 +6,11 @@ var Router = require('./../../router/components/Router.jsx');
 
 var Header = require('./Header.jsx');
 var Navbar = require('./Navbar.jsx');
-var PostSubmit = require('./PostSubmit.jsx');
-var PostSort = require('./PostSort.jsx');
+var PostSubmit = require('./../../post/components/PostSubmit.jsx');
+var PostSort = require('./../../post/components/PostSort.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx')
-var PanelContainer = require('./../../panel/components/PanelContainer.jsx');
+var PostContainer = require('./../../post/components/PostContainer.jsx');
 
 module.exports = React.createClass({
 	render: function(){
@@ -23,7 +23,7 @@ module.exports = React.createClass({
 							</div>
 							<LeftSidebar />
 
-							<PanelContainer />
+							<PostContainer />
 
 							<RightSidebar />
 						</div>
