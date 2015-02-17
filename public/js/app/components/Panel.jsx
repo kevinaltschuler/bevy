@@ -3,6 +3,19 @@
 var React = require('react');
 
 module.exports = React.createClass({
+
+	propTypes:{
+
+	},
+
+	defaults: {
+
+	},
+
+	getInitialState: function() {
+
+	},
+
 	render: function() {
 		return	<div className="panel">
 						<div className="panel-heading">
