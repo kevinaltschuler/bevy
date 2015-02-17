@@ -5,7 +5,8 @@ var _ = require('underscore');
 
 var Post = Backbone.Model.extend({
 	defaults: {
-		  title: null
+		  id: null
+		, title: null
 		, body: null
 		, image_url: null
 		, author: null
@@ -15,5 +16,10 @@ var Post = Backbone.Model.extend({
 		, point_count: 0
 		, created: new Date()
 		, updated: new Date()
+	},
+
+	// where to send the rest calls
+	url: function() {
+		return (this.id) ? '/posts/' + this.id : '/posts/';
 	}
 });
