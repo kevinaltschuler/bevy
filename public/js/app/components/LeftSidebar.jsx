@@ -11,18 +11,18 @@ module.exports = React.createClass({
                     <button type="button" className="sort-btn btn">New England Melee</button>
                   <br/>
                   <button type="button" className="sort-btn btn">
-                    Burlap 
+                    Burlap  
                     <span className="badge">12</span>
                   </button>
                   <br/>
                   <button type="button" className="sort-btn btn">
-                    Neu Frisbee 
+                    Neu Frisbee  
                     <span className="badge">4</span>
                   </button> 
                   <br/>
                     <button type="button" className="sort-btn btn">Bevy Team</button>
                   <br/>
                 </text>
-              </div>
+              </div>;
   }
 });

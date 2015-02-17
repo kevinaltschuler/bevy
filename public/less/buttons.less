@@ -1,16 +1,17 @@
 //GENERAL
+
 .row .col-xs-12 .btn &:hover &:active{
   border-radius: 3px;
-  border-left-color: #fff;
-  background-color: #fff;
+  border-left-color: white;
+  background-color: white;
 }
 .sort-btn {
   background-color: rgba(0,0,0,0);
-  color: #757d83;
+  color: @light-font;
   font-size: inherit;
   transition: all 0.15s linear;
 }
-.sort-btn:active, .sort-btn.active{
+.sort-btn:active, .sort-btn.active, .btn.active, .btn:active{
   outline: none;
   text-decoration: underline;
   color: black;
@@ -32,7 +33,7 @@
     height: 36px;
 }
 .btn-group-text {
-  color: #757d83; 
+  color: @light-font; 
   margin-left: auto; 
   margin-right: auto;
 }

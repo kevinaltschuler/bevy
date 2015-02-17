@@ -8,7 +8,9 @@ var Header = require('./Header.jsx');
 var Navbar = require('./Navbar.jsx');
 var PostSubmit = require('./PostSubmit.jsx');
 var PostSort = require('./PostSort.jsx');
-var LeftSidebar = require('./LeftSidebar.jsx')
+var LeftSidebar = require('./LeftSidebar.jsx');
+var RightSidebar = require('./RightSidebar.jsx')
+var Panel = require('./Panel.jsx');
 
 module.exports = React.createClass({
 	render: function(){
@@ -19,7 +21,11 @@ module.exports = React.createClass({
 				<PostSubmit />
 				<PostSort />
 			</div>
-			<LeftSidebar />
+			<LeftSidebar /> 
+			<div className="col-xs-6">
+				<Panel />
+			</div>
+			<RightSidebar />
 		</div>
 		</div>;
 
