@@ -14,20 +14,20 @@ var Panel = require('./Panel.jsx');
 
 module.exports = React.createClass({
 	render: function(){
-		return <div>
-		<Navbar />
-		<div className="Container">
-			<div className="row">
-				<PostSubmit />
-				<PostSort />
-			</div>
-			<LeftSidebar /> 
-			<div className="col-xs-6">
-				<Panel />
-			</div>
-			<RightSidebar />
-		</div>
-		</div>;
+		return	<div>
+						<Navbar />
+						<div className="Container">
+							<div className="row">
+								<PostSubmit />
+								<PostSort />
+							</div>
+							<LeftSidebar />
+							<div className="col-xs-6">
+								<Panel />
+							</div>
+							<RightSidebar />
+						</div>
+					</div>;
 
 	}
 });
