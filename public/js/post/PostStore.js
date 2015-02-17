@@ -3,6 +3,8 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 
+var Dispatcher = require('./../shared/dispatcher');
+
 var Post = Backbone.Model.extend({
 	defaults: {
 		  id: null
@@ -21,5 +23,11 @@ var Post = Backbone.Model.extend({
 	// where to send the rest calls
 	url: function() {
 		return (this.id) ? '/posts/' + this.id : '/posts/';
+	}
+});
+
+Dispatcher.on('all', function(eventName, payload) {
+	switch(eventName) {
+
 	}
 });
