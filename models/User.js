@@ -8,7 +8,11 @@ module.exports = new Schema({
 	, provider: String // third-party service connected to
 	, token: String
 	, password: String
-	, email: String
+	, email: {
+		  type: String
+		, required: true
+		, unique: true
+	}
 	, aliases: [Schema.Types.ObjectId]
 	, created: {
 		  type: Date
