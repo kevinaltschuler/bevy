@@ -3,7 +3,11 @@
 require('./shared/polyfills/Object.assign.js');
 
 var Backbone = require('backbone');
-Backbone.$ = require('jquery');
+var $ = require('jquery');
+global.jQuery = require('jquery');
+Backbone.$ = $;
+
+require('bootstrap');
 
 var React = require('react');
 var App = require('./app/components/App.jsx');
@@ -11,3 +15,4 @@ var App = require('./app/components/App.jsx');
 //var RouterStore = require('./router/RouterStore');
 
 React.render(<App />, document.getElementById('app'));
+
