@@ -4,7 +4,6 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = new Schema({
-	  _id: Schema.Types.ObjectId // internal id
 	, open_id: String // openid from third-party service, if applicable
 	, provider: String // third-party service connected to
 	, token: String
