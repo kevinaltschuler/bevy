@@ -10,7 +10,7 @@ module.exports = React.createClass({
 		              <button type="button" className="sort-btn btn active" id="top-btn">top</button>
 		              •
 		              <button type="button" className="sort-btn btn" id="new-btn">new</button>
-		            </text>-
+		            </text>
 		          </div>
 		        </div>;
 	}
