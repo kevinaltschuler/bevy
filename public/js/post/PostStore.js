@@ -5,6 +5,15 @@ var _ = require('underscore');
 
 var Dispatcher = require('./../shared/dispatcher');
 
+// register dispatcher
+var dispatchId = Dispatcher.register(handleDispatch);
+
+function handleDispatch(eventName, payload) {
+	switch(eventName) {
+
+	}
+}
+
 var Post = Backbone.Model.extend({
 	defaults: {
 		  id: null
