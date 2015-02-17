@@ -30,5 +30,10 @@ var Posts = Backbone.Collection.extend({
 	  model: Post
 	, url: '/posts'
 });
-
 var posts = new Posts;
+
+var PostStore = {
+
+};
+
+module.exports = PostStore;
