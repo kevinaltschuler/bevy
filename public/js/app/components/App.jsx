@@ -5,15 +5,20 @@ var RouterLink = require('./../../router/components/RouterLink.jsx');
 var Router = require('./../../router/components/Router.jsx');
 
 var Header = require('./Header.jsx');
-var Navbar = require('./Navbar.jsx')
+var Navbar = require('./Navbar.jsx');
+var PostSubmit = require('./PostSubmit.jsx');
+var PostSort = require('./PostSort.jsx');
 
 module.exports = React.createClass({
 	render: function(){
 		return <div>
 		<Navbar />
-		<Router />
-		the app<br/>
-		<RouterLink href="#/test">test</RouterLink>
+		<div className="Container">
+			<div className="row">
+				<PostSubmit />
+				<PostSort />
+			</div>
+		</div>
 		</div>;
 
 	}

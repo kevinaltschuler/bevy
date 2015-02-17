@@ -16,7 +16,7 @@ module.exports = React.createClass({
 							<div className="form-group" /*style="padding-right: 10px"*/>
 								<input type="text" className="search-input" placeholder="  "/>
 							</div>
-							<span className="glyphicon glyphicon-search"/*style="color:#FFF"*/></span>
+							<span className="glyphicon glyphicon-search search-icon"/*style="color:#FFF"*/></span>
 						</form>
 					</div>
 				</div>;
