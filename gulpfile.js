@@ -72,6 +72,7 @@ gulp.task('serve', function() {
 			, './config/*.*'
 			, './api/**/*.*'
 			, './api/*.*'
+			, '*.*'
 		]
 		, ignore: [
 			  './public/*.*'
