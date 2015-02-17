@@ -2,7 +2,7 @@
 
 var React = require('react');
 
-var Panel = require('./Post.jsx');
+var Post = require('./Post.jsx');
 
 module.exports = React.createClass({
 	render: function() {
