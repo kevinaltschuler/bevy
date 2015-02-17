@@ -26,6 +26,11 @@ var Post = Backbone.Model.extend({
 	}
 });
 
+var Posts = Backbone.Collection.extend({
+	  model: Post
+	, url: '/posts'
+});
+
 Dispatcher.on('all', function(eventName, payload) {
 	switch(eventName) {
 
