@@ -31,8 +31,4 @@ var Posts = Backbone.Collection.extend({
 	, url: '/posts'
 });
 
-Dispatcher.on('all', function(eventName, payload) {
-	switch(eventName) {
-
-	}
-});
+var posts = new Posts;
