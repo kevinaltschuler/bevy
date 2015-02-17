@@ -25,6 +25,8 @@ var session = require('express-session');
 var csrf = require('csurf');
 var passport = require('passport');
 
+var serveStatic = require('serve-static');
+
 // custom middleware
 var middleware = require('./middleware');
 
@@ -94,7 +96,7 @@ app.use(subdomain('api', api_router));
 var routes = require('./routes')(app);
 
 // static directories
-app.use(express.static(__dirname + '/public'));
+app.use(serveStatic(__dirname + '/public'));
 
 // error handling
 var error = require('./error');
