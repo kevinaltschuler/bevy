@@ -28,6 +28,7 @@
     "passport-google": "^0.3.0",
     "passport-local": "^1.0.0",
     "react": "^0.12.2",
+    "react-bootstrap": "^0.15.1",
     "serve-favicon": "^2.2.0",
     "serve-static": "^1.9.0",
     "underscore": "^1.7.0"
