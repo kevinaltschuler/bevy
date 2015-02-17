@@ -13,7 +13,6 @@ module.exports = new Schema({
 	, password: String
 	, email: {
 		  type: String
-		, required: true
 		, unique: true
 	}
 	, aliases: [Schema.Types.ObjectId]
