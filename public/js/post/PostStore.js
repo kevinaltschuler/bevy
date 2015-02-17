@@ -5,15 +5,15 @@ var _ = require('underscore');
 
 var Post = Backbone.Model.extend({
 	defaults: {
-		  image_url: null
+		  title: null
+		, body: null
+		, image_url: null
+		, author: null
+		, bevy: null
+		, comments: []
 		, comment_count: 0
 		, point_count: 0
 		, created: new Date()
 		, updated: new Date()
-		, author: null
-		, comments: []
-		, bevy: null
-		, title: null
-		, body: null
 	}
 });
