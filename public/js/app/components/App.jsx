@@ -10,7 +10,7 @@ var PostSubmit = require('./PostSubmit.jsx');
 var PostSort = require('./PostSort.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx')
-var Panel = require('./Panel.jsx');
+var Panel = require('./../../panel/components/Panel.jsx');
 
 module.exports = React.createClass({
 	render: function(){
