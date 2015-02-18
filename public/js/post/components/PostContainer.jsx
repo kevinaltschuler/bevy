@@ -21,6 +21,7 @@ var PostContainer = React.createClass({
 
 		if(Object.keys(this.props.allPosts).length < 1) {
 			// no posts
+			return <div className="col-xs-6" />;
 		}
 
 		var allPosts = this.props.allPosts;
