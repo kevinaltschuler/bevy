@@ -72,12 +72,12 @@ gulp.task('serve', function() {
 			, './config/*.*'
 			, './api/**/*.*'
 			, './api/*.*'
-			, '*.*'
 		]
 		, ignore: [
 			  './public/*.*'
 			, './public/**/*.*'
 			, './public/js/build/bundle.js'
+			, './gulpfile.js'
 		]
 	}).on('restart', function() {
 		console.log('restarted!');
