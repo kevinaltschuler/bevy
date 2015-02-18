@@ -67,6 +67,11 @@ gulp.task('build', function() {
 	// less
 	gulp.src('public/less/app.less')
 		.pipe(less())
+		// now do css transformations
+		.pipe(autoprefixer({
+			  browser: ['last 2 versions']
+			, cascade: true
+		}))
 		.pipe(gulp.dest('public/css'));
 
 	// js
