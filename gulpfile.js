@@ -1,5 +1,7 @@
 var gulp = require('gulp');
 
+var fs = require('fs');
+
 var gutil = require('gulp-util');
 var watch = require('gulp-watch');
 var sourcemaps = require('gulp-sourcemaps');
@@ -64,6 +66,15 @@ gulp.task('less', function() {
 
 // build task for a one-timer
 gulp.task('build', function() {
+
+	// log files
+	fs.open('./log', 'r', function(err, fd) {
+		if(err) {
+			console.log('no log folder found. creating log folder...');
+			fs.mkdirSync('./log');
+		}
+	});
+
 	// less
 	gulp.src('public/less/app.less')
 		.pipe(less())

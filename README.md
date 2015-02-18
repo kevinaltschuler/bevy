@@ -10,11 +10,10 @@ to use:
 
 ```javascript
 git clone git@github.com:blahoink/bevy
-npm install
-mkdir ./log
-chmod a+w log
+npm install --verbose
 gulp build
 gulp serve
 ```
+go to http://localhost:80
 
 it's that easy
