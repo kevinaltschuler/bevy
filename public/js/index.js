@@ -12,7 +12,11 @@ require('bootstrap');
 var React = require('react');
 var App = require('./app/components/App.jsx');
 
-//var RouterStore = require('./router/RouterStore');
+Backbone.sync = function(method, model) {
+	alert(method + ':' + JSON.stringify(model));
+	// set a flub id
+	model.set('id', Date.now());
+}
 
 React.render(<App />, document.getElementById('app'));
 
