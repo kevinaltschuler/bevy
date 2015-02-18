@@ -1,10 +1,20 @@
+/**
+ * Post.jsx
+ * React class for an individual post
+ * Created en masse by PostContainer.jsx
+ * @author albert
+ */
+
 'use strict';
 
+// imports
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
+// React class
 var Post = React.createClass({
 
+	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
 		  title: ReactPropTypes.string
 		, body: ReactPropTypes.string
@@ -14,7 +24,8 @@ var Post = React.createClass({
 	},
 
 	defaults: {
-
+		// no need to set these, as they've already been set
+		// by PostActions.js
 	},
 
 	getInitialState: function() {
