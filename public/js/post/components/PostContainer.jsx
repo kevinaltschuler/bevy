@@ -8,7 +8,7 @@ var Post = require('./Post.jsx');
 var PostStore = require('./../PostStore');
 
 
-module.exports = React.createClass({
+var PostContainer = React.createClass({
 
 	propTypes: {
 		allPosts: ReactPropTypes.object.isRequired
@@ -32,3 +32,5 @@ module.exports = React.createClass({
 					</div>
 	}
 });
+
+module.exports = PostContainer;
