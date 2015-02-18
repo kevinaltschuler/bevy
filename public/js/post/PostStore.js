@@ -35,7 +35,8 @@ var Posts = Backbone.Collection.extend({
 });
 var posts = new Posts;
 
-var PostStore = {
+var PostStore = _.extend({}, Backbone.Events);
+_.extend(PostStore, {
 	initialize: function() {
 		// register dispatcher
 		var dispatchId = Dispatcher.register(this.handleDispatch.bind(this));
@@ -52,6 +53,7 @@ var PostStore = {
 		switch(payload.actionType) {
 			case 'create':
 				console.log('now im in the store dispatch handler');
+
 				title = payload.title;
 				body = payload.body;
 				image_url = payload.image_url;
@@ -65,6 +67,8 @@ var PostStore = {
 					, author: author
 					, bevy: bevy
 				});
+
+				this.trigger('change');
 				break;
 		}
 	},
@@ -73,8 +77,8 @@ var PostStore = {
 		// plug sorting (new/top) into here?
 		return posts.toJSON();
 	}
-};
-_.extend(PostStore, Backbone.Events);
+});
+
 
 module.exports = PostStore;
 
