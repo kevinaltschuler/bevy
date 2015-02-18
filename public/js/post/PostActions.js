@@ -4,6 +4,7 @@ var dispatch = require('./../shared/helpers/dispatch');
 
 var PostActions = {
 	create: function(title, body, image_url, author, bevy) {
+		console.log('creating post action...');
 		dispatch('create', {
 			  title: (title == undefined) ? 'untitled' : title
 			, body: (body == undefined) ? 'nothing here' : body

@@ -25,6 +25,7 @@ function getPostState() {
 module.exports = React.createClass({
 
 	getInitialState: function() {
+		PostStore.initialize();
 		return getPostState();
 	},
 

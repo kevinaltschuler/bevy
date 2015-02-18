@@ -7,9 +7,6 @@ var _ = require('underscore');
 
 var Dispatcher = require('./../shared/dispatcher');
 
-// register dispatcher
-var dispatchId = Dispatcher.register(handleDispatch);
-
 
 var Post = Backbone.Model.extend({
 	defaults: {
@@ -38,11 +35,40 @@ var Posts = Backbone.Collection.extend({
 });
 var posts = new Posts;
 
-posts.add({
-	title: 'test'
-});
-
 var PostStore = {
+	initialize: function() {
+		// register dispatcher
+		var dispatchId = Dispatcher.register(this.handleDispatch.bind(this));
+	},
+
+	handleDispatch: function(payload) {
+		var
+		  title
+		, body
+		, image_url
+		, author
+		, bevy;
+
+		switch(payload.actionType) {
+			case 'create':
+				console.log('now im in the store dispatch handler');
+				title = payload.title;
+				body = payload.body;
+				image_url = payload.image_url;
+				author = payload.author;
+				bevy = payload.bevy;
+
+				create({
+					  title: title
+					, body: body
+					, image_url: image_url
+					, author: author
+					, bevy: bevy
+				});
+				break;
+		}
+	},
+
 	getAll: function() {
 		// plug sorting (new/top) into here?
 		return posts.toJSON();
@@ -62,37 +88,18 @@ function create(options) {
 	});
 
 	// PUT to db
-	newPost.save();
+	//newPost.save();
+	newPost.id = Date.now();
 
-	console.log('new post id:', newPost.id);
+	console.log(newPost);
 
 	posts.add(newPost);
 }
 
 
-function handleDispatch(eventName, payload) {
-	var
-	  title
-	, body
-	, image_url
-	, author
-	, bevy;
 
-	switch(eventName) {
-		case 'create':
-			title = payload.title;
-			body = payload.body;
-			image_url = payload.image_url;
-			author = payload.author;
-			bevy = payload.bevy;
 
-			create({
-				  title: title
-				, body: body
-				, image_url: image_url
-				, author: author
-				, bevy: bevy
-			});
-			break;
-	}
-}
+
+/*create({
+	  title: 'Carrot Boulder, Lake Huron - Port Austin, Michigan'
+});*/

@@ -26,8 +26,11 @@ var PostContainer = React.createClass({
 		var allPosts = this.props.allPosts;
 		var posts = [];
 
-		for(var key in allPosts) {
-			posts.push(<Post />);
+		for(var post in allPosts) {
+			//console.log(post);
+			posts.push(<Post title = { post.title }
+				body = { post.body } image_url = { post.image_url }
+				author = { post.author } bevy = { post.bevy } />);
 		}
 
 		return	<div className="col-xs-6">

@@ -3,10 +3,14 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
-module.exports = React.createClass({
+var Post = React.createClass({
 
-	propTypes:{
-
+	propTypes: {
+		  title: ReactPropTypes.string
+		, body: ReactPropTypes.string
+		, image_url: ReactPropTypes.string
+		, author: ReactPropTypes.string
+		, bevy: ReactPropTypes.string
 	},
 
 	defaults: {
@@ -20,7 +24,7 @@ module.exports = React.createClass({
 	render: function() {
 		return	<div className="panel">
 						<div className="panel-heading">
-							<a href="https://farm8.staticflickr.com/7363/9218137415_72af1b75b4_k.jpg">Turnip Rock, Lake Huron - Port Austin, Michigan</a>
+							<a href="https://farm8.staticflickr.com/7363/9218137415_72af1b75b4_k.jpg">{ this.props.title }</a>
 						</div>
 						<div className="panel-details">Kevin Altschuler • Burlap • 12 hours ago</div>
 						<div className="panel-body" tabIndex="0">
@@ -40,3 +44,5 @@ module.exports = React.createClass({
 					</div>
 	}
 });
+
+module.exports = Post;
