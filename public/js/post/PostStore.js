@@ -42,7 +42,10 @@ var Posts = Backbone.Collection.extend({
 var posts = new Posts;
 
 var PostStore = {
-
+	getAll: function() {
+		// plug sorting (new/top) into here?
+		return posts.toJSON();
+	}
 };
 
 module.exports = PostStore;
