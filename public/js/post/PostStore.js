@@ -88,8 +88,6 @@ function handleDispatch(eventName, payload) {
 				, author: author
 				, bevy: bevy
 			});
-
-
 			break;
 	}
 }

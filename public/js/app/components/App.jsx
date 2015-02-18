@@ -12,7 +12,34 @@ var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx')
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 
+var PostStore = require('./../../post/PostStore');
+
+
+
+function getPostState() {
+	return {
+		allPosts: PostStore.getAll()
+	}
+}
+
 module.exports = React.createClass({
+
+	getInitialState: function() {
+		return getPostState();
+	},
+
+	componentDidMount: function() {
+		PostStore.on('change', this._onPostChange);
+	},
+
+	componentWillUnmount: function() {
+		PostStore.off('change', this._onPostChange);
+	},
+
+	_onPostChange: function() {
+		this.setState(getPostState());
+	},
+
 	render: function(){
 		return	<div>
 						<Navbar />
@@ -23,11 +50,12 @@ module.exports = React.createClass({
 							</div>
 							<LeftSidebar />
 
-							<PostContainer />
+							<PostContainer
+								allPosts = { this.state.allPosts }
+							/>
 
 							<RightSidebar />
 						</div>
 					</div>;
-
 	}
 });
