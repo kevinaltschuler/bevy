@@ -10,7 +10,7 @@ var PostStore = require('./../PostStore');
 var PostContainer = React.createClass({
 
 	propTypes: {
-		allPosts: ReactPropTypes.object.isRequired
+		allPosts: ReactPropTypes.array.isRequired
 	},
 
 	getInitialState: function() {
