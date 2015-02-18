@@ -9,7 +9,7 @@ to use:
 (need mongodb, node, and git first)
 
 ```javascript
-git clone git@github.com:blahoink/bevy
+git clone https://github.com/blahoink/bevy.git
 npm install --verbose
 gulp build
 gulp serve
