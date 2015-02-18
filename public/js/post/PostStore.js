@@ -52,7 +52,7 @@ _.extend(PostStore, {
 
 		switch(payload.actionType) {
 			case 'create':
-				console.log('now im in the store dispatch handler');
+				//console.log('now im in the store dispatch handler');
 
 				title = payload.title;
 				body = payload.body;
@@ -95,7 +95,7 @@ function create(options) {
 	//newPost.save();
 	newPost.id = Date.now();
 
-	console.log(newPost);
+	//console.log(newPost);
 
 	posts.add(newPost);
 }
