@@ -77,6 +77,7 @@ gulp.task('serve', function() {
 		, ignore: [
 			  './public/*.*'
 			, './public/**/*.*'
+			, './public/js/build/bundle.js'
 		]
 	}).on('restart', function() {
 		console.log('restarted!');
