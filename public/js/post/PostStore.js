@@ -97,7 +97,9 @@ function create(options) {
 
 	//console.log(newPost);
 
-	posts.add(newPost);
+	posts.add(newPost, {
+		at: 0
+	});
 }
 
 
