@@ -13,6 +13,7 @@ git clone git@github.com:blahoink/bevy
 npm install
 mkdir ./log
 chmod a+w log
+gulp build
 gulp serve
 ```
 
