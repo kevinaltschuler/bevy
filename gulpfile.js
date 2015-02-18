@@ -56,6 +56,23 @@ gulp.task('less', function() {
 });
 
 
+// build task for a one-timer
+gulp.task('build', function() {
+	// less
+	gulp.src('public/less/app.less')
+		.pipe(less())
+		.pipe(gulp.dest('public/css'));
+
+	// js
+	var b = browserify();
+	b.transform(reactify);
+	b.transform(to5ify);
+	b.add('./public/js/index.js');
+	b.bundle()
+		.pipe(source('bundle.js'))
+		.pipe(gulp.dest('./public/js/build'));
+});
+
 gulp.task('serve', function() {
 	nodemon({
 		  verbose: true
