@@ -11,6 +11,7 @@ to use:
 ```javascript
 git clone https://github.com/blahoink/bevy.git
 npm install --verbose
+npm install -g gulp
 gulp build
 gulp serve
 ```
