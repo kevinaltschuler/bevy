@@ -4,6 +4,7 @@ var gutil = require('gulp-util');
 var watch = require('gulp-watch');
 var sourcemaps = require('gulp-sourcemaps');
 var less = require('gulp-less');
+var autoprefixer = require('gulp-autoprefixer');
 
 var nodemon = require('gulp-nodemon');
 var browserify = require('browserify');
@@ -51,6 +52,11 @@ gulp.task('less', function() {
 	var stream = gulp.src('public/less/app.less')
 		.pipe(watch('public/less/*.less'))
 		.pipe(less())
+		// now do css transformations
+		.pipe(autoprefixer({
+			  browser: ['last 2 versions']
+			, cascade: true
+		}))
 		.pipe(gulp.dest('public/css'));
 	return stream;
 });
