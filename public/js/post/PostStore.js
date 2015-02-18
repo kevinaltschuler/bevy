@@ -38,6 +38,10 @@ var Posts = Backbone.Collection.extend({
 });
 var posts = new Posts;
 
+posts.add({
+	title: 'test'
+});
+
 var PostStore = {
 	getAll: function() {
 		// plug sorting (new/top) into here?

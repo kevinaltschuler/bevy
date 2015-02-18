@@ -4,7 +4,6 @@ var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
 var Post = require('./Post.jsx');
-
 var PostStore = require('./../PostStore');
 
 
@@ -12,6 +11,10 @@ var PostContainer = React.createClass({
 
 	propTypes: {
 		allPosts: ReactPropTypes.object.isRequired
+	},
+
+	getInitialState: function() {
+		return {};
 	},
 
 	render: function() {
