@@ -48,6 +48,7 @@ var PostStore = {
 		return posts.toJSON();
 	}
 };
+_.extend(PostStore, Backbone.Events);
 
 module.exports = PostStore;
 
