@@ -1,4 +1,5 @@
 var gulp = require('gulp');
+
 var gutil = require('gulp-util');
 var watch = require('gulp-watch');
 var sourcemaps = require('gulp-sourcemaps');
@@ -9,9 +10,14 @@ var browserify = require('browserify');
 var to5ify = require('6to5ify');
 var reactify = require('reactify');
 var watchify = require('watchify');
+
 var browserSync = require('browser-sync');
+
 var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
+
+
+gulp.task('watch', ['less', 'js']);
 
 gulp.task('js', function () {
 	var b = browserify({
@@ -30,7 +36,7 @@ gulp.task('js', function () {
 	b.transform(to5ify);
 	b.add('./public/js/index.js');
 	return bundleShare(b);
-})
+});
 
 function bundleShare(b) {
 	var stream = b.bundle()
@@ -42,14 +48,13 @@ function bundleShare(b) {
 }
 
 gulp.task('less', function() {
-	var stream = gulp.src('public/less/*.less')
-		.pipe(watch('public/less/app.less'))
+	var stream = gulp.src('public/less/app.less')
+		.pipe(watch('public/less/*.less'))
 		.pipe(less())
 		.pipe(gulp.dest('public/css'));
 	return stream;
 });
 
-gulp.task('watch', ['less', 'js']);
 
 gulp.task('serve', function() {
 	nodemon({
