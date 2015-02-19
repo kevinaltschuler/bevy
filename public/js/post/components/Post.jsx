@@ -29,8 +29,6 @@ var Post = React.createClass({
 		, bevy: ReactPropTypes.string
 		, comments: ReactPropTypes.array
 		, points: ReactPropTypes.array
-		, created: ReactPropTypes.date
-		, updated: ReactPropTypes.date
 	},
 
 	defaults: {

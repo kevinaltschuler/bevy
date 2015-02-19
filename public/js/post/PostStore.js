@@ -40,6 +40,14 @@ var Post = Backbone.Model.extend({
 	// where to send the CRUD calls (create, read, update, delete)
 	url: function() {
 		return (this.id) ? '/posts/' + this.id : '/posts/';
+	},
+
+	countVotes: function() {
+		var sum = 0;
+		this.get('points').forEach(function(vote) {
+			sum += vote.value;
+		});
+		return sum;
 	}
 });
 
@@ -136,6 +144,8 @@ _.extend(PostStore, {
 
 				this.trigger('change');
 
+				console.log(posts);
+
 				break;
 		}
 	},
@@ -229,6 +239,18 @@ function sort(by, direction) {
 
 	switch(by) {
 		default:
+		case 'top':
+			posts.comparator = function(post_one, post_two) {
+				var ret = 0;
+				if(post_one.countVotes() > post_two.countVotes()) ret = -1;
+				else if (post_one.countVotes() == post_two.countVotes()) ret = 0;
+				else ret = 1;
+
+				if(direction === 'asc') return ret;
+				else if(direction === 'desc') return (ret * -1);
+				else return ret; // ascending by default
+			}
+			break;
 		case 'new': // sort by most recent
 			posts.comparator = function(post_one, post_two) {
 				var ret = 0;
