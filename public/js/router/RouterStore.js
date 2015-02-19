@@ -13,7 +13,7 @@ var RouterModel = Backbone.Model.extend({
 	},
 
 	initialize: function() {
-		console.log('loading router...');
+		//console.log('loading router...');
 		this.router = new AppRouter(this, routes.ROUTE_ROUTES);
 		this.dispatchId = Dispatcher.register(this.handleDispatch.bind(this));
 	},

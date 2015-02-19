@@ -100,7 +100,7 @@ _.extend(PostStore, {
 				break;
 
 			case 'upvote':
-				console.log('upvote');
+				//console.log('upvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
@@ -111,7 +111,7 @@ _.extend(PostStore, {
 				break;
 
 			case 'downvote':
-				console.log('downvote');
+				//console.log('downvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
@@ -122,7 +122,7 @@ _.extend(PostStore, {
 				break;
 
 			case 'sort':
-				console.log('sort', payload.by, payload.direction);
+				//console.log('sort', payload.by, payload.direction);
 				var by = payload.by;
 				var direction = payload.direction;
 
