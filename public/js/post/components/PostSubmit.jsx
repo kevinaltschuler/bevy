@@ -11,27 +11,18 @@ module.exports = React.createClass({
 
 
 	submit: function(ev) {
-		ev.preventDefault();
+		//ev.preventDefault();
 		PostActions.create();
 	},
 
 	getInitialState: function() {
-		return {
-			value: ''
-		};
+		return { };
 	},
 
 	handleChange: function(ev) {
 		//if the user hits enter, submit a new post
-		//chaneg if to "this.refs.input.getValue() === 13"
 		if(ev.which === 13) {
 			this.submit(ev);
-		}
-		//otherwise, allow form input
-		else {
-			this.setState({
-			  value: this.refs.input.getValue()
-			});
 		}
 	},
 
