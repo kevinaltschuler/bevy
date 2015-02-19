@@ -62,7 +62,8 @@ var PostActions = {
 
 	sort: function(by, direction) {
 		dispatch('sort', {
-
+			  by: (by == undefined) ? 'new' : by
+			, direction: (direction == undefined) ? 'asc' : direction
 		});
 	}
 };
