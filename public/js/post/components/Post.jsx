@@ -21,7 +21,8 @@ var Post = React.createClass({
 
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
-		  title: ReactPropTypes.string
+		  id: ReactPropTypes.number
+		, title: ReactPropTypes.string
 		, body: ReactPropTypes.string
 		, image_url: ReactPropTypes.string
 		, author: ReactPropTypes.string
