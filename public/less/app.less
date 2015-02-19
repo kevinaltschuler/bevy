@@ -17,11 +17,15 @@
 @import 'panels.less';
 @import 'variables.less';
 
+<<<<<<< HEAD
+
+=======
 html {
   font-family: Lucida Sans Unicode !important;
 }
+>>>>>>> a2fb67f1035b3ba204d844014521f28c37424bf2
 body {
-  font-family: Lucida Sans Unicode;
+  font-family: Lucida Sans Unicode !important;
   padding-top: 85px;
   background-color: #edeeee;
 }
@@ -35,6 +39,10 @@ body {
 }
 .post-container {
 
+}
+.search-input {
+  padding-left: 4px;
+  padding-bottom: 2px;
 }
 // disabling bootstrap glow
 input, textarea, select, a {
@@ -71,6 +79,10 @@ button:hover
   color: @light-font;
   display: inline-block;
   float: left;
+}
+.glyphicon-search {
+  color: white;
+  font-size: 1em;
 }
 @media (max-width: 991px) {
   .right-sidebar {

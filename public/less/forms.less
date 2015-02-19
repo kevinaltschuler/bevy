@@ -15,7 +15,7 @@ input[type="search"]:focus,
 input[type="tel"]:focus,
 input[type="color"]:focus,
 .uneditable-input:focus {
-  /*(border-color: rgba(0, 0, 0, 0);*/
+  border-color: @light-font;
   outline: 0;
   outline: thin dotted 9;
   /* IE6-9 */
@@ -51,7 +51,6 @@ input:-moz-placeholder, textarea:-moz-placeholder {
 }
 .form-group {
   position: relative;
-  right: 20%;
 }
 
 //NEW POST 
@@ -59,7 +58,4 @@ input:-moz-placeholder, textarea:-moz-placeholder {
   width: 350px;
   margin-left: auto;
   margin-right: auto;
-}
-.row .col-xs-12 input {
-  border-right-color: #FFF;
 }
