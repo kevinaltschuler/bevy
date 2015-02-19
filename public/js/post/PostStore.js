@@ -139,6 +139,8 @@ function create(options) {
 		, image_url: options.image_url
 		, author: options.author
 		, bevy: options.bevy
+		, points: []
+		, comments: []
 	});
 
 	// PUT to db
