@@ -50,12 +50,13 @@ var Post = React.createClass({
 								1252 points<br/>53 comments
 							</div>
 							<div className="panel-controls-right">
-								<span className="glyphicon glyphicon-menu-up btn" aria-hidden="true"></span>&nbsp;&nbsp;
-								<span className="glyphicon glyphicon-menu-down btn" aria-hidden="true"></span>&nbsp;&nbsp;
-								<span className="glyphicon glyphicon-option-vertical btn" aria-hidden="true"></span>
 								<IconButton tooltip='upvote'>
 									<span className="glyphicon glyphicon-menu-up btn" aria-hidden="true"></span>
 								</IconButton>
+								<IconButton tooltip='downvote'>
+									<span className="glyphicon glyphicon-menu-down btn" aria-hidden="true"></span>
+								</IconButton>
+								<span className="glyphicon glyphicon-option-vertical btn" aria-hidden="true"></span>
 							</div>
 						</div>
 					</div>
