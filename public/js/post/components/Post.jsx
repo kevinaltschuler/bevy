@@ -94,11 +94,11 @@ var Post = React.createClass({
 			var days = Math.floor(elapsed / (1000*60*60*24));
 			return (days > 1) ? days + ' days ago' : days + ' day ago';
 
-		} else if (elapsed <= 1000*60*60*24*30*365) {
+		} else if (elapsed <= 1000*60*60*24*365) {
 			var months = Math.floor(elapsed / (1000*60*60*24*30));
 			return (months > 1) ? months + ' months ago' : months + ' month ago';
 
-		} else if (elapsed > 1000*60*60*24*30*365) {
+		} else if (elapsed > 1000*60*60*24*365) {
 			var years = Math.floor(elapsed / (1000*60*60*24*365));
 			return (years > 1) ? years + ' years ago' : years + ' year ago';
 
