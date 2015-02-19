@@ -15,6 +15,7 @@ var mui = require('material-ui');
 var IconButton = mui.IconButton;
 
 var PostActions = require('./../PostActions');
+var PostStore = require('./../PostStore');
 
 // React class
 var Post = React.createClass({
@@ -37,17 +38,28 @@ var Post = React.createClass({
 	},
 
 	getInitialState: function() {
-		return {};
+		return PostStore.getPost(this.props.id);
+	},
+
+	componentDidMount:function() {
+
+	},
+	componentWillUnmount: function() {
+
+	},
+
+	_onPostChange: function() {
+
 	},
 
 	upvote: function(ev) {
 		ev.preventDefault();
-		PostActions.upvote(this.props.id, this.props.author);
+		PostActions.upvote(this.state.id, this.state.author);
 	},
 
 	downvote: function(ev) {
 		ev.preventDefault();
-		PostActions.downvote(this.props.id, this.props.author);
+		PostActions.downvote(this.state.id, this.state.author);
 	},
 
 	/**
@@ -57,7 +69,7 @@ var Post = React.createClass({
 	 */
 	countVotes: function() {
 		var sum = 0;
-		this.props.points.forEach(function(vote) {
+		this.state.points.forEach(function(vote) {
 			sum += vote.value;
 		});
 		return sum;
@@ -69,7 +81,7 @@ var Post = React.createClass({
 	 * @return {string}
 	 */
 	timeAgo: function() {
-		var created = this.props.created;
+		var created = this.state.created;
 		var now = Date.now();
 		var elapsed = now - created;
 
@@ -107,18 +119,18 @@ var Post = React.createClass({
 	},
 
 	render: function() {
-		return	<div className="panel" postId={ this.props.id }>
+		return	<div className="panel" postId={ this.state.id }>
 						<div className="panel-heading">
-							<a href={ this.props.image_url }>{ this.props.title }</a>
+							<a href={ this.state.image_url }>{ this.state.title }</a>
 						</div>
-						<div className="panel-details">{ this.props.author } • { this.props.bevy } • { this.timeAgo() }</div>
+						<div className="panel-details">{ this.state.author } • { this.state.bevy } • { this.timeAgo() }</div>
 						<div className="panel-body" tabIndex="0">
-							<img className="panel-media" src={ this.props.image_url }/>
+							<img className="panel-media" src={ this.state.image_url }/>
 						</div>
 						<div className="panel-commments"></div>
 						<div className="panel-bottom">
 							<div className="panel-controls-left">
-								{ this.countVotes() } points<br/>{ this.props.comments.length } comments
+								{ this.countVotes() } points<br/>{ this.state.comments.length } comments
 							</div>
 							<div className="panel-controls-right">
 								<IconButton tooltip='upvote'>

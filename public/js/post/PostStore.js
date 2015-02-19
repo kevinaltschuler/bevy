@@ -157,6 +157,15 @@ _.extend(PostStore, {
 	},
 
 	/**
+	 * get post by id
+	 * @param  {number} post id
+	 * @return {[type]}
+	 */
+	getPost: function(id) {
+		return posts.get(id).toJSON();
+	},
+
+	/**
 	 * get how the post list is currently sorted
 	 * @return {[type]}
 	 */
