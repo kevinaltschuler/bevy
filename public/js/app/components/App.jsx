@@ -56,7 +56,7 @@ var App = React.createClass({
 
 	// event listener callbacks
 	_onPostChange: function() {
-		this.setState(getPostState());
+		this.replaceState(getPostState());
 	},
 
 	render: function(){
