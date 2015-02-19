@@ -3,7 +3,6 @@ var gulp = require('gulp');
 var fs = require('fs');
 
 var gutil = require('gulp-util');
-var watch = require('gulp-watch');
 var sourcemaps = require('gulp-sourcemaps');
 var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
