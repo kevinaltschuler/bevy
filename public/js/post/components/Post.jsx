@@ -48,7 +48,7 @@ var Post = React.createClass({
 	},
 
 	render: function() {
-		return	<div className="panel">
+		return	<div className="panel" postId={ this.props.id }>
 						<div className="panel-heading">
 							<a href={ this.props.image_url }>{ this.props.title }</a>
 						</div>

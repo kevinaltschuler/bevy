@@ -130,7 +130,7 @@ function create(options) {
 	// PUT to db
 	//newPost.save();
 	// generate fake ID for now
-	newPost.id = Date.now();
+	newPost.set('id', Date.now());
 
 	// add to collection
 	// TODO: sort collection here
