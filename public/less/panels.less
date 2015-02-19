@@ -3,30 +3,30 @@
 .panel {
 	-webkit-box-shadow: 1px 1px 1px rgba(1, 1, 1, 0.2);
 
-	.panel-heading a {
-		font-size: 1.4em;
-		color: black;
-		text-decoration: none;
+	.panel-heading {
+		padding: 3% 3.5%;
+		a {
+			font-size: 1.4em;
+			color: black;
+			text-decoration: none;
 
-		&:hover {
-			color: @light-font;
+			&:hover {
+				color: @light-font;
+			}
 		}
 	}
 
 	.panel-details {
 		font-size: .68em;
-		padding: 0px 15px;
+		padding: 0px 3.5%;
 	}
-
 	.panel-body {
 		padding-left: 0px;
 		padding-right: 0px;
 		overflow: hidden;
 		max-height: 150px;
-
 		-webkit-animation: expand-in .8s forwards;
 		max-height: 10%;
-
 		&:focus {
 			-webkit-animation: expand-out .4s forwards;
 			-moz-animation: expand-out .4s forwards;
@@ -35,7 +35,19 @@
 			animation: expand-out .4s forwards;
 			outline: none;
 		}
+	}
+	.panel-body-text {
+		border-top: solid 1px @light-font;
+		border-bottom: solid 1px @light-font;
+		margin-top: 3%;
+		width: 93%;
+		margin-left: auto;
+		margin-right: auto;
+		color: @light-font;
+		font-size: .85em;
 
+	}
+	.panel-body-image {
 		img {
 			width: 100%;
 		}
@@ -54,6 +66,7 @@
 			position: relative;
 			top: 50%;
 			transform: translateY(10%);
+			padding-left: 1.5%;
 		}
 
 		.panel-controls-right {
@@ -88,17 +101,17 @@
 
 @-webkit-keyframes expand-out {
 	from {
-		max-height: 150px;
+		height: 10%;
 	}
 	to {
-		max-height: 300px;
+		height: 100%;
 	}
 }
 @-webkit-keyframes expand-in {
 	from {
-		max-height: 300px;
+		height: 10%;
 	}
 	to {
-		max-height: 150px;
+		height: 100%;
 	}
 }

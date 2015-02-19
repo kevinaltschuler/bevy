@@ -4,7 +4,9 @@ var React = require('react');
 var Input = require('react-bootstrap').Input;
 var NavItem = require('react-bootstrap').NavItem;
 var IconButton = require('material-ui').IconButton;
+var LeftNav = require('material-ui').LeftNav;
 
+var menuItems;
 
 module.exports = React.createClass({
 	render:function() {

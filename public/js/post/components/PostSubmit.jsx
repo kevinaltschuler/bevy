@@ -11,7 +11,7 @@ module.exports = React.createClass({
 		ev.preventDefault();
 		PostActions.create();
 	},
-
+	
 	render: function() {
 		return	<div className="col-xs-12">
 						<div className="input-group">
