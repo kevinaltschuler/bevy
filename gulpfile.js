@@ -51,7 +51,7 @@ function bundleShare(b) {
 }
 
 gulp.task('less', function() {
-	var stream = gulp.src('public/less/app.less')
+	var stream = gulp.src('public/less/*.less')
 		.pipe(watch('public/less/*.less'))
 		.pipe(less())
 		// now do css transformations
