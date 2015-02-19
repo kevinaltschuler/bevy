@@ -80,7 +80,8 @@ var Post = React.createClass({
 
 		} else if (elapsed <= 1000*60) {
 			var seconds = Math.floor(elapsed / 1000);
-			return (seconds > 1) ? seconds + ' seconds ago' : seconds + ' second ago';
+			//return (seconds > 1) ? seconds + ' seconds ago' : seconds + ' second ago';
+			return 'a few seconds ago';
 
 		} else if (elapsed <= 1000*60*60) {
 			var minutes = Math.floor(elapsed / (1000*60));
