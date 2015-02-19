@@ -16,6 +16,8 @@ var IconButton = mui.IconButton;
 
 var PostActions = require('./../PostActions');
 
+var $ = require('jquery');
+
 // React class
 var Post = React.createClass({
 
@@ -108,9 +110,16 @@ var Post = React.createClass({
 		}
 	},
 
+	removeFocus: function(ev) {
+		if(ev.target.className.equals('.panel-body:focus .panel-body-image')) {
+			$(ev.target).removeClass('focus');
+		}
+	},
+
+
 	render: function() {
 		//TODO: fix if logic
-		if(false) {
+		if(true) {
 			return	<div className="panel" postId={ this.props.id }>
 						<div className="panel-heading">
 							<a href={ this.props.image_url }>{ this.props.title }</a>
@@ -135,13 +144,14 @@ var Post = React.createClass({
 							</div>
 						</div>
 					</div>
+				}
 		else {
 			return  <div className="panel" postId={ this.props.id }>
 						<div className="panel-heading">
 							<a href={ this.props.image_url }>{ this.props.title }</a>
 						</div>
 						<div className="panel-details">{ this.props.author } • { this.props.bevy } • 12 hours ago</div>
-						<div className="panel-body panel-body-text" tabIndex="0">
+						<div className="panel-body panel-body-text" tabIndex="0" >
 							Nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
 							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
 							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
