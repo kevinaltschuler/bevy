@@ -33,8 +33,8 @@ var Post = Backbone.Model.extend({
 		, bevy: null
 		, comments: []
 		, points: []
-		, created: new Date()
-		, updated: new Date()
+		, created: 0
+		, updated: 0
 	},
 
 	// where to send the CRUD calls (create, read, update, delete)
@@ -100,7 +100,7 @@ _.extend(PostStore, {
 				break;
 
 			case 'upvote':
-				console.log('upvote');
+				//console.log('upvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
@@ -109,12 +109,24 @@ _.extend(PostStore, {
 				this.trigger('change');
 
 				break;
+
 			case 'downvote':
-				console.log('downvote');
+				//console.log('downvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
 				vote(post_id, author, -1);
+
+				this.trigger('change');
+
+				break;
+
+			case 'sort':
+				//console.log('sort', payload.by, payload.direction);
+				var by = payload.by;
+				var direction = payload.direction;
+
+				sort(by, direction);
 
 				this.trigger('change');
 
@@ -139,6 +151,10 @@ function create(options) {
 		, image_url: options.image_url
 		, author: options.author
 		, bevy: options.bevy
+		, points: []
+		, comments: []
+		, created: new Date()
+		, updated: new Date()
 	});
 
 	// PUT to db
@@ -163,8 +179,51 @@ function vote(post_id, author, value) {
 	}
 
 	var points = post.get('points');
+
 	// check for already voted
+	var maxVotes = 3;
+	var votes = value; //take into account the current vote
+	points.forEach(function(vote) {
+		if(vote.author === author) votes += vote.value;
+	});
+	if(votes > maxVotes || votes < (0 - maxVotes)) {
+		// over the limit son
+		return;
+	}
 
 	points.push({ author: author, value: value });
 	post.set('points', points);
+
+	// TODO: save post
+}
+
+/**
+ * set the collection comparator function
+ * and force sort
+ * @param  {string} by - method to sort by
+ * @param  {string} direction - either 'asc' (ascending)
+ * or 'desc' (descending)
+ * @return {[type]}
+ */
+function sort(by, direction) {
+	switch(by) {
+		case 'new': // sort by most recent
+			posts.comparator = function(post_one, post_two) {
+				var ret = 0;
+				if(post_one.created > post_two.created) ret = 1;
+				else ret = -1;
+
+				if(direction === 'asc') return ret;
+				else if(direction === 'desc') return (ret * -1);
+				else return ret; // ascending by default
+			}
+
+			// force sort
+			posts.sort();
+
+			break;
+
+		default:
+			break;
+	}
 }

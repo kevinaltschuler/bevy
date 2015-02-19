@@ -58,6 +58,13 @@ var PostActions = {
 			  post_id: (post_id == undefined) ? 'default' : post_id
 			, author: (author == undefined) ? 'current author' : author
 		});
+	},
+
+	sort: function(by, direction) {
+		dispatch('sort', {
+			  by: (by == undefined) ? 'new' : by
+			, direction: (direction == undefined) ? 'asc' : direction
+		});
 	}
 };
 
