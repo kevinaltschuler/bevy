@@ -180,3 +180,10 @@ function vote(post_id, author, value) {
 	points.push({ author: author, value: value });
 	post.set('points', points);
 }
+
+function sort(by) {
+	switch(by) {
+		default:
+			break;
+	}
+}
