@@ -61,6 +61,7 @@ var App = React.createClass({
 
 	render: function(){
 		return	<div>
+						<Router />
 						<Navbar />
 						<div className="Container">
 							<div className="row">
