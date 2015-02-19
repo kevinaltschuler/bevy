@@ -1,12 +1,21 @@
 'use strict';
 
 var React = require('react');
+var $ = require('jquery');
 
 var PostActions = require('./../PostActions');
 
 module.exports = React.createClass({
 
 	sort: function(ev) {
+
+		// visual changes
+		var id = ev.target.getAttribute('id');
+		// remove all active classes first
+		$('.sort-well button.sort-btn').removeClass('active');
+		// then apply to active one
+		$('button#' + id).addClass('active');
+
 		var by = ev.target.textContent;
 		PostActions.sort(by);
 	},
