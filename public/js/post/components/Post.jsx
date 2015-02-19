@@ -128,7 +128,6 @@ var Post = React.createClass({
 
 
 	render: function() {
-<<<<<<< HEAD
 		//TODO: fix if logic
 		if(true) {
 		return	<div className="panel" postId={ this.state.id }>
