@@ -19,11 +19,21 @@
 
 html {
   font-family: Lucida Sans Unicode !important;
+  height: 100%;
 }
 body {
   font-family: Lucida Sans Unicode !important;
   padding-top: 85px;
   background-color: #edeeee;
+  height: 100%;
+  margin: 0%;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+}
+.container {
+  background-color: #edeeee; 
+  margin: 0%;
+  width: 100%;
 }
 .mui-drop-down-menu .mui-menu-control .mui-menu-control-underline {
   border-top: solid 0px;
@@ -34,7 +44,9 @@ body {
   white-space: nowrap;
 }
 .post-container {
-
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
 }
 .search-input {
   padding-left: 4px;
@@ -64,6 +76,8 @@ button:hover
   min-height: 20px;
   padding: 0px;
   margin-bottom: 10px;
+  margin-left: 20px;
+  margin-right: 5%;
   background-color: rgba(0,0,0,0);
   border: 0px;
   border-radius: 0px;
@@ -89,6 +103,7 @@ button:hover
 @media (max-width: 767px) {
 .navbar-form .form-group {
   margin-bottom: 0px;
+  display: inline-block;
 }
 .row .col-xs-12 .input-group {
   width: 300px;

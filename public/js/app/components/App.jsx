@@ -63,7 +63,7 @@ var App = React.createClass({
 		return	<div>
 						<Router />
 						<Navbar />
-						<div className="Container">
+						<div className="Container col-xs-12">
 							<div className="row">
 								<PostSubmit />
 								<PostSort />
