@@ -10,7 +10,7 @@ var PostActions = require('./../PostActions');
 module.exports = React.createClass({
   
 
-	submit: function(ev) {
+	handleSubmit: function(ev) {
 		ev.preventDefault();
 		PostActions.create();
 	},
@@ -22,17 +22,10 @@ module.exports = React.createClass({
 	},
 
 	handleChange: function(ev) {
-		//if the user hits enter, submit a new post
-		//chaneg if to "this.refs.input.getValue() === 13"
-		if(true) {
-			this.submit(ev);
-		}
 		//otherwise, allow form input
-		else {
 			this.setState({
 			  value: this.refs.input.getValue()
 			});
-		}
 	},
 	
 	render: function() {
@@ -45,7 +38,8 @@ module.exports = React.createClass({
 					  groupClassName="group-class"
 					  wrapperClassName="wrapper-class"
 					  labelClassName="label-class"
-					  onChange={this.handleChange}/>
+					  onChange={this.handleChange}
+					  onSubmit={this.handleSubmit}/>
 	}
 });
 
