@@ -79,19 +79,19 @@ var Post = React.createClass({
 			return 'just now';
 		} else if (elapsed <= 1000*60) {
 			var seconds = Math.floor(elapsed / 1000);
-			return seconds + ' seconds ago';
+			return (seconds > 1) ? seconds + ' seconds ago' : seconds + ' second ago';
 		} else if (elapsed <= 1000*60*60) {
 			var minutes = Math.floor(elapsed / (1000*60));
-			return minutes + ' minutes ago';
+			return (minutes > 1) ? minutes + ' minutes ago' : minutes + ' minute ago';
 		} else if (elapsed <= 1000*60*60*24) {
 			var hours = Math.floor(elapsed / (1000*60*60));
-			return hours + ' hours ago';
+			return (hours > 1) ? hours + ' hours ago' : hours + ' hour ago';
 		} else if (elapsed <= 1000*60*60*24*30) {
 			var days = Math.floor(elapsed / (1000*60*60*24));
-			return days + ' days ago';
+			return (days > 1) ? days + ' days ago' : days + ' day ago';
 		} else if (elapsed <= 1000*60*60*24*30*365) {
 			var months = Math.floor(elapsed / (1000*60*60*24*30));
-			return months + ' months ago';
+			return (months > 1) ? months + ' months ago' : months + ' month ago';
 		} else {
 			return elapsed;
 		}
