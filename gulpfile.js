@@ -52,8 +52,9 @@ function bundleShare(b) {
 
 gulp.task('less', function() {
 	var stream = gulp.src('public/less/*.less')
-		.pipe(watch('public/less/*.less'))
+		.pipe(watch(['public/less/*.less']))
 		.pipe(less())
+		.on('error', function(err){ console.log(err.message); })
 		// now do css transformations
 		.pipe(autoprefixer({
 			  browser: ['last 2 versions']
