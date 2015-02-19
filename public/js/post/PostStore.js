@@ -101,9 +101,14 @@ _.extend(PostStore, {
 
 			case 'upvote':
 				console.log('upvote');
+				var post_id = payload.post_id;
+				var author = payload.author;
+
 				break;
 			case 'downvote':
 				console.log('downvote');
+				var post_id = payload.post_id;
+				var author = payload.author;
 				break;
 		}
 	},
@@ -139,7 +144,12 @@ function create(options) {
 	});
 }
 
+function upvote() {
 
+}
+function downvote() {
+
+}
 
 
 

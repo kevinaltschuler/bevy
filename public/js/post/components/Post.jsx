@@ -62,7 +62,7 @@ var Post = React.createClass({
 						<div className="panel-commments"></div>
 						<div className="panel-bottom">
 							<div className="panel-controls-left">
-								1252 points<br/>53 comments
+								{ this.props.points.length } points<br/>{ this.props.comments.length } comments
 							</div>
 							<div className="panel-controls-right">
 								<IconButton tooltip='upvote'>
