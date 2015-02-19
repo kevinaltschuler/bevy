@@ -17,6 +17,9 @@
 @import 'panels.less';
 @import 'variables.less';
 
+* {
+  font-family: Lucida Sans Unicode!important;
+}
 html {
   font-family: Lucida Sans Unicode !important;
 }
@@ -24,6 +27,17 @@ body {
   font-family: Lucida Sans Unicode;
   padding-top: 85px;
   background-color: #edeeee;
+}
+.mui-drop-down-menu .mui-menu-control .mui-menu-control-underline {
+  border-top: solid 0px;
+}
+.right-sidebar {
+  float: right;
+  display: inline-block;
+  white-space: nowrap;
+}
+.post-container {
+
 }
 // disabling bootstrap glow
 input, textarea, select, a {
@@ -58,10 +72,12 @@ button:hover
 .left-sidebar {
   border-bottom: 0px solid rgba(0,0,0,0)!important;
   color: @light-font;
+  display: inline-block;
   float: left;
 }
 @media (max-width: 991px) {
   .right-sidebar {
+    display: inline-block;
     float: right;
   }
 }

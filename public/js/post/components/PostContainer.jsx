@@ -33,7 +33,7 @@ var PostContainer = React.createClass({
 		if(Object.keys(this.props.allPosts).length < 1) {
 			// no posts
 			// still return column so the app retains its structure
-			return	<div className="col-xs-6">
+			return	<div className="col-xs-6 post-container">
 							Nothing to see here...
 						</div>;
 		}
@@ -51,7 +51,7 @@ var PostContainer = React.createClass({
 				author = { post.author } bevy = { post.bevy } />);
 		}
 
-		return	<div className="col-xs-6">
+		return	<div className="col-xs-6 post-container">
 						{posts}
 					</div>
 	}
