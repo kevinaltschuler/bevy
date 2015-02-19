@@ -20,9 +20,15 @@ var source = require('vinyl-source-stream');
 var buffer = require('vinyl-buffer');
 
 
-gulp.task('watch', ['less', 'js']);
+gulp.task('watch', function() {
+	var js_stream = watchjs();
+	var less_watcher = gulp.watch(['public/less/*.less', 'public/less/**/*.less'], function(event) {
+		console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
+		buildLess();
+	});
+});
 
-gulp.task('js', function () {
+function watchjs() {
 	var b = browserify({
 		  cache: {}
 		, packageCache: {}
@@ -39,7 +45,7 @@ gulp.task('js', function () {
 	b.transform(to5ify);
 	b.add('./public/js/index.js');
 	return bundleShare(b);
-});
+}
 
 function bundleShare(b) {
 	var stream = b.bundle()
@@ -50,9 +56,9 @@ function bundleShare(b) {
 	return stream;
 }
 
-gulp.task('less', function() {
-	var stream = gulp.src('public/less/*.less')
-		.pipe(watch(['public/less/*.less']))
+function buildLess() {
+	console.log('building less...');
+	gulp.src('public/less/app.less')
 		.pipe(less())
 		.on('error', function(err){ console.log(err.message); })
 		// now do css transformations
@@ -61,8 +67,8 @@ gulp.task('less', function() {
 			, cascade: true
 		}))
 		.pipe(gulp.dest('public/css'));
-	return stream;
-});
+	console.log('...done');
+}
 
 
 // build task for a one-timer
@@ -76,17 +82,11 @@ gulp.task('build', function() {
 		}
 	});
 
-	// less
-	gulp.src('public/less/app.less')
-		.pipe(less())
-		// now do css transformations
-		.pipe(autoprefixer({
-			  browser: ['last 2 versions']
-			, cascade: true
-		}))
-		.pipe(gulp.dest('public/css'));
+	//less
+	buildLess();
 
 	// js
+	console.log('building js...');
 	var b = browserify();
 	b.transform(reactify);
 	b.transform(to5ify);
@@ -94,6 +94,7 @@ gulp.task('build', function() {
 	b.bundle()
 		.pipe(source('bundle.js'))
 		.pipe(gulp.dest('./public/js/build'));
+	console.log('...done');
 });
 
 gulp.task('serve', function() {
