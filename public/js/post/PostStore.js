@@ -165,7 +165,17 @@ function vote(post_id, author, value) {
 	}
 
 	var points = post.get('points');
+
 	// check for already voted
+	var maxVotes = 3;
+	var votes = value; //take into account the current vote
+	points.forEach(function(vote) {
+		if(vote.author === author) votes += vote.value;
+	});
+	if(votes > maxVotes || votes < (0 - maxVotes)) {
+		// over the limit son
+		return;
+	}
 
 	points.push({ author: author, value: value });
 	post.set('points', points);
