@@ -2,7 +2,14 @@
 
 var React = require('react');
 
+var PostActions = require('./../PostActions');
+
 module.exports = React.createClass({
+
+	sort: function() {
+		PostActions.sort();
+	},
+
 	render: function() {
 		return	<div className="sort-well">
 						<div className="col-xs-12 btn-group btn-group-sort" role="group">
