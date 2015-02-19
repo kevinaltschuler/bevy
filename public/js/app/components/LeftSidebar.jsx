@@ -5,7 +5,7 @@ var Badge = require('react-bootstrap').Badge;
 
 module.exports = React.createClass({
       render: function() {
-        return <div className="col-md-3 hidden-xs btn-group left-sidebar" role="group">
+        return <div className="col-sm-3 hidden-xs btn-group left-sidebar" role="group">
                 <text className="btn-group-text">
                   <button type="button" className="sort-btn btn active">Front Page</button>
                   <br/>
