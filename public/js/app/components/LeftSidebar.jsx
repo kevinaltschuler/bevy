@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var Badge = require('react-bootstrap').Badge;
 
 module.exports = React.createClass({
       render: function() {
@@ -11,13 +12,11 @@ module.exports = React.createClass({
                     <button type="button" className="sort-btn btn">New England Melee</button>
                   <br/>
                   <button type="button" className="sort-btn btn">
-                    Burlap  
-                    <span className="badge">12</span>
+                    Burlap <Badge>12</Badge>
                   </button>
                   <br/>
                   <button type="button" className="sort-btn btn">
-                    Neu Frisbee  
-                    <span className="badge">4</span>
+                    Neu Frisbee <Badge>4</Badge>
                   </button> 
                   <br/>
                     <button type="button" className="sort-btn btn">Bevy Team</button>

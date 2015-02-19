@@ -1,30 +1,20 @@
 'use strict';
 
 var React = require('react');
+var Badge = require('react-bootstrap').Badge;
+var DropdownButton = require('react-bootstrap').DropdownButton;
+var MenuItem = require('react-bootstrap').MenuItem;
 
 module.exports = React.createClass({
       render: function() {
-      	return         <div className="col-md-2 hidden-xs btn-group right-sidebar">
-          <div id="dropdown" className="ddmenu sort-btn">
-            Notifications
-            <span className="badge">2</span> 
-            <span className="caret"></span>
-            <ul>
-              <li><a className="sort-btn" role="menuitem" href="#">
-                Josh Guerrero and two others commented on Your Post &#34;Owl Spread-ing his Wings&#34;</a></li>
-              <li><a className="sort-btn" role="menuitem" href="#">
-                Tyler Speck and two others commented on your post &#34;Bvy.io is the-greatest&#34;</a></li>
-            </ul>
-          </div>
-          <div id="dropdown" className="ddmenu sort-btn">
-            Invites
-            <span className="badge"></span> 
-            <span className="caret"></span>
-            <ul>
-              <li><a className="sort-btn" role="menuitem" href="#">
-                You have been invited to Known Scrubs bevy "Neu Melee"</a></li>
-            </ul>
-          </div>
-        </div>;
+      	return  <div className="col-md-2 hidden-xs btn-group right-sidebar">
+                    <DropdownButton bsStyle='default' title='default' key='default'>
+                      <MenuItem eventKey="1">Action</MenuItem>
+                      <MenuItem eventKey="2">Another action</MenuItem>
+                      <MenuItem eventKey="3">Something else here</MenuItem>
+                      <MenuItem divider />
+                      <MenuItem eventKey="4">Separated link</MenuItem>
+                    </DropdownButton>
+                </div>;
       	  }
 });
