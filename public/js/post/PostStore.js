@@ -33,8 +33,8 @@ var Post = Backbone.Model.extend({
 		, bevy: null
 		, comments: []
 		, points: []
-		, created: new Date()
-		, updated: new Date()
+		, created: 0
+		, updated: 0
 	},
 
 	// where to send the CRUD calls (create, read, update, delete)
@@ -142,6 +142,8 @@ function create(options) {
 		, bevy: options.bevy
 		, points: []
 		, comments: []
+		, created: new Date()
+		, updated: new Date()
 	});
 
 	// PUT to db
