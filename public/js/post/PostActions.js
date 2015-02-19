@@ -23,7 +23,7 @@ var PostActions = {
 		dispatch('create', {
 			  title: (title == undefined) ? 'untitled' : title
 			, body: (body == undefined) ? 'nothing here' : body
-			, image_url: (image_url == undefined) ? '' : image_url
+			, image_url: (image_url == undefined) ? 'https://farm8.staticflickr.com/7363/9218137415_72af1b75b4_k.jpg' : image_url
 			, author: (author == undefined) ? 'current author' : author // grab the current, logged in user?
 			, bevy: (bevy == undefined) ? 'current bevy' : bevy // grab the current, active bevy
 		});
