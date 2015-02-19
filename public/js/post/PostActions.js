@@ -40,13 +40,11 @@ var PostActions = {
 	 * upvote a post
 	 * @param  {string} post_id
 	 * @param  {string} author
-	 * @param  {boolean} undo
 	 */
-	upvote: function(post_id, author, undo) {
+	upvote: function(post_id, author) {
 		dispatch('upvote', {
 			  post_id: (post_id == undefined) ? 'default' : post_id
 			, author: (author == undefined) ? 'current author' : author
-			, undo: (undo == undefined) ? false : undo
 		});
 	},
 
@@ -54,13 +52,11 @@ var PostActions = {
 	 * downvote a post
 	 * @param  {string} post_id
 	 * @param  {string} author
-	 * @param  {boolean} undo
 	 */
-	downvote: function(post_id, author, undo) {
+	downvote: function(post_id, author) {
 		dispatch('downvote', {
 			  post_id: (post_id == undefined) ? 'default' : post_id
 			, author: (author == undefined) ? 'current author' : author
-			, undo: (undo == undefined) ? false : undo
 		});
 	}
 };
