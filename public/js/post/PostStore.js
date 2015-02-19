@@ -109,6 +109,7 @@ _.extend(PostStore, {
 				this.trigger('change');
 
 				break;
+
 			case 'downvote':
 				console.log('downvote');
 				var post_id = payload.post_id;
@@ -179,10 +180,36 @@ function vote(post_id, author, value) {
 
 	points.push({ author: author, value: value });
 	post.set('points', points);
+
+	// TODO: save post
 }
 
-function sort(by) {
+/**
+ * set the collection comparator function
+ * and force sort
+ * @param  {string} by - method to sort by
+ * @param  {string} direction - either 'asc' (ascending)
+ * or 'desc' (descending)
+ * @return {[type]}
+ */
+function sort(by, direction) {
 	switch(by) {
+		case 'new': // sort by most recent
+			posts.comparator = function(post_one, post_two) {
+				var ret = 0;
+				if(post_one.created > post_two.created) ret = 1;
+				else ret = -1;
+
+				if(direction === 'asc') return ret;
+				else if(direction === 'desc') return (ret * -1);
+				else return ret; // ascending by default
+			}
+
+			// force sort
+			posts.sort();
+
+			break;
+
 		default:
 			break;
 	}
