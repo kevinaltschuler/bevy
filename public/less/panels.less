@@ -22,20 +22,13 @@
 		padding-left: 0px;
 		padding-right: 0px;
 		overflow: hidden;
+
+		transition: 0.5s all ease-in-out;
 		max-height: 150px;
 
-		-webkit-animation: expand-in .8s forwards;
-		max-height: 10%;
-
-		&:focus {
-			-webkit-animation: expand-out .4s forwards;
-			-moz-animation: expand-out .4s forwards;
-			-ms-animation: expand-out .4s forwards;
-			-o-animation: expand-out .4s forwards;
-			animation: expand-out .4s forwards;
-			outline: none;
+		&:focus{
+			max-height: 300px;
 		}
-
 		img {
 			width: 100%;
 		}
