@@ -10,7 +10,7 @@ function getSortState() {
 	return PostStore.getSort();
 }
 
-module.exports = React.createClass({
+var PostSort = React.createClass({
 
 	getInitialState: function() {
 		return getSortState();
@@ -60,3 +60,5 @@ module.exports = React.createClass({
 					</div>;
 	}
 });
+
+module.exports = PostSort;
