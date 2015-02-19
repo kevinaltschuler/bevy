@@ -1,0 +1,192 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files (x86)\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install',
+1 verbose cli   'react-bootstrap' ]
+2 info using npm@2.5.1
+3 info using node@v0.12.0
+4 silly cache add args [ 'react-bootstrap@^0.15.1', null ]
+5 verbose cache add spec react-bootstrap@^0.15.1
+6 silly cache add parsed spec { raw: 'react-bootstrap@^0.15.1',
+6 silly cache add   scope: null,
+6 silly cache add   name: 'react-bootstrap',
+6 silly cache add   rawSpec: '^0.15.1',
+6 silly cache add   spec: '>=0.15.1 <0.16.0',
+6 silly cache add   type: 'range' }
+7 verbose addNamed react-bootstrap@>=0.15.1 <0.16.0
+8 silly addNamed semver.valid null
+9 silly addNamed semver.validRange >=0.15.1 <0.16.0
+10 silly addNameRange { name: 'react-bootstrap',
+10 silly addNameRange   range: '>=0.15.1 <0.16.0',
+10 silly addNameRange   hasData: false }
+11 silly mapToRegistry name react-bootstrap
+12 silly mapToRegistry using default registry
+13 silly mapToRegistry registry https://registry.npmjs.org/
+14 silly mapToRegistry uri https://registry.npmjs.org/react-bootstrap
+15 verbose addNameRange registry:https://registry.npmjs.org/react-bootstrap not in flight; fetching
+16 verbose request uri https://registry.npmjs.org/react-bootstrap
+17 verbose request no auth needed
+18 info attempt registry request try #1 at 7:11:15 PM
+19 verbose request id 1b9b79acf41a5e37
+20 verbose etag "EAJ31ZKJRJE2VLCQ5P6JNVAMX"
+21 http request GET https://registry.npmjs.org/react-bootstrap
+22 http 304 https://registry.npmjs.org/react-bootstrap
+23 silly get cb [ 304,
+23 silly get   { date: 'Thu, 19 Feb 2015 00:11:13 GMT',
+23 silly get     server: 'Apache',
+23 silly get     via: '1.1 varnish',
+23 silly get     'last-modified': 'Thu, 19 Feb 2015 00:11:13 GMT',
+23 silly get     'cache-control': 'max-age=60',
+23 silly get     etag: '"EAJ31ZKJRJE2VLCQ5P6JNVAMX"',
+23 silly get     age: '0',
+23 silly get     'x-served-by': 'cache-atl6230-ATL',
+23 silly get     'x-cache': 'HIT',
+23 silly get     'x-cache-hits': '1',
+23 silly get     'x-timer': 'S1424304673.596174,VS0,VE75',
+23 silly get     vary: 'Accept',
+23 silly get     'content-length': '0',
+23 silly get     'keep-alive': 'timeout=10, max=50',
+23 silly get     connection: 'Keep-Alive' } ]
+24 verbose etag https://registry.npmjs.org/react-bootstrap from cache
+25 verbose get saving react-bootstrap to C:\Users\KEVIN\AppData\Roaming\npm-cache\registry.npmjs.org\react-bootstrap\.cache.json
+26 silly addNameRange number 2 { name: 'react-bootstrap',
+26 silly addNameRange   range: '>=0.15.1 <0.16.0',
+26 silly addNameRange   hasData: true }
+27 silly addNameRange versions [ 'react-bootstrap',
+27 silly addNameRange   [ '0.2.0',
+27 silly addNameRange     '0.3.0',
+27 silly addNameRange     '0.4.0',
+27 silly addNameRange     '0.4.2',
+27 silly addNameRange     '0.5.0',
+27 silly addNameRange     '0.5.1',
+27 silly addNameRange     '0.5.2',
+27 silly addNameRange     '0.6.2',
+27 silly addNameRange     '0.7.0',
+27 silly addNameRange     '0.6.0',
+27 silly addNameRange     '0.6.1',
+27 silly addNameRange     '0.7.1',
+27 silly addNameRange     '0.7.2',
+27 silly addNameRange     '0.8.0',
+27 silly addNameRange     '0.8.1',
+27 silly addNameRange     '0.8.2',
+27 silly addNameRange     '0.9.0',
+27 silly addNameRange     '0.10.0',
+27 silly addNameRange     '0.10.1',
+27 silly addNameRange     '0.10.2',
+27 silly addNameRange     '0.11.0',
+27 silly addNameRange     '0.11.1',
+27 silly addNameRange     '0.12.0',
+27 silly addNameRange     '0.13.0',
+27 silly addNameRange     '0.13.1',
+27 silly addNameRange     '0.13.2',
+27 silly addNameRange     '0.13.3',
+27 silly addNameRange     '0.14.0',
+27 silly addNameRange     '0.14.1',
+27 silly addNameRange     '0.15.0',
+27 silly addNameRange     '0.15.1' ] ]
+28 verbose addNamed react-bootstrap@0.15.1
+29 silly addNamed semver.valid 0.15.1
+30 silly addNamed semver.validRange 0.15.1
+31 silly cache afterAdd react-bootstrap@0.15.1
+32 verbose afterAdd C:\Users\KEVIN\AppData\Roaming\npm-cache\react-bootstrap\0.15.1\package\package.json not in flight; writing
+33 verbose afterAdd C:\Users\KEVIN\AppData\Roaming\npm-cache\react-bootstrap\0.15.1\package\package.json written
+34 silly install resolved [ { name: 'react-bootstrap',
+34 silly install resolved     version: '0.15.1',
+34 silly install resolved     description: 'Bootstrap 3 components build with React',
+34 silly install resolved     repository:
+34 silly install resolved      { type: 'git',
+34 silly install resolved        url: 'https://github.com/react-bootstrap/react-bootstrap' },
+34 silly install resolved     homepage: 'http://react-bootstrap.github.io/',
+34 silly install resolved     scripts:
+34 silly install resolved      { build: 'grunt build',
+34 silly install resolved        'test-watch': 'grunt watch 2>&1 >/dev/null & ./node_modules/karma/bin/karma start karma.dev.js',
+34 silly install resolved        test: 'grunt build && ./node_modules/karma/bin/karma start karma.ci.js' },
+34 silly install resolved     main: 'lib/main.js',
+34 silly install resolved     directories: { lib: 'lib/' },
+34 silly install resolved     keywords: [ 'react', 'ecosystem-react', 'react-component', 'bootstrap' ],
+34 silly install resolved     author: { name: 'Stephen J. Collings', email: 'stevoland@gmail.com' },
+34 silly install resolved     license: 'MIT',
+34 silly install resolved     peerDependencies: { react: '>=0.12' },
+34 silly install resolved     devDependencies:
+34 silly install resolved      { async: '~0.2.9',
+34 silly install resolved        envify: '~1.2.1',
+34 silly install resolved        grunt: '~0.4.2',
+34 silly install resolved        'grunt-amd-wrap': '^1.0.1',
+34 silly install resolved        'grunt-browserify': '~1.3.0',
+34 silly install resolved        'grunt-cli': '~0.1.13',
+34 silly install resolved        'grunt-contrib-clean': '~0.5.0',
+34 silly install resolved        'grunt-contrib-copy': '~0.5.0',
+34 silly install resolved        'grunt-contrib-requirejs': '~0.4.1',
+34 silly install resolved        'grunt-contrib-uglify': '~0.3.2',
+34 silly install resolved        'grunt-contrib-watch': '~0.5.3',
+34 silly install resolved        'grunt-react': '~0.10.0',
+34 silly install resolved        'grunt-shell': '~0.6.4',
+34 silly install resolved        karma: '~0.12.8',
+34 silly install resolved        'karma-chai': '0.0.2',
+34 silly install resolved        'karma-chrome-launcher': '~0.1.2',
+34 silly install resolved        'karma-coffee-preprocessor': '~0.1.2',
+34 silly install resolved        'karma-firefox-launcher': '~0.1.3',
+34 silly install resolved        'karma-html2js-preprocessor': '~0.1.0',
+34 silly install resolved        'karma-jasmine': '~0.1.5',
+34 silly install resolved        'karma-mocha': '~0.1.1',
+34 silly install resolved        'karma-phantomjs-launcher': '~0.1.1',
+34 silly install resolved        'karma-requirejs': '~0.2.1',
+34 silly install resolved        'karma-script-launcher': '~0.1.0',
+34 silly install resolved        'karma-sinon': '^1.0.3',
+34 silly install resolved        mocha: '~1.16.2',
+34 silly install resolved        react: '~0.12.0',
+34 silly install resolved        'react-async': '~2.0.0',
+34 silly install resolved        'react-router-component': 'git://github.com/STRML/react-router-component#react-0.12',
+34 silly install resolved        requirejs: '~2.1.9',
+34 silly install resolved        'rf-changelog': '^0.4.0',
+34 silly install resolved        semver: '~2.0.7',
+34 silly install resolved        sinon: '^1.10.3' },
+34 silly install resolved     gitHead: 'f26e39f4f8fc5a1906c829d82d6ddb48c5dd422a',
+34 silly install resolved     bugs: { url: 'https://github.com/react-bootstrap/react-bootstrap/issues' },
+34 silly install resolved     _id: 'react-bootstrap@0.15.1',
+34 silly install resolved     _shasum: '057a897a144e140e14fb58f470e3c3e205e6ef6d',
+34 silly install resolved     _from: 'react-bootstrap@>=0.15.1 <0.16.0',
+34 silly install resolved     _npmVersion: '1.4.28',
+34 silly install resolved     _npmUser: { name: 'mtscout6', email: 'mtscout6@gmail.com' },
+34 silly install resolved     maintainers: [ [Object], [Object] ],
+34 silly install resolved     dist:
+34 silly install resolved      { shasum: '057a897a144e140e14fb58f470e3c3e205e6ef6d',
+34 silly install resolved        tarball: 'http://registry.npmjs.org/react-bootstrap/-/react-bootstrap-0.15.1.tgz' },
+34 silly install resolved     _resolved: 'https://registry.npmjs.org/react-bootstrap/-/react-bootstrap-0.15.1.tgz',
+34 silly install resolved     readme: 'ERROR: No README data found!' } ]
+35 info install react-bootstrap@0.15.1 into c:\Users\KEVIN\git\bevy
+36 info installOne react-bootstrap@0.15.1
+37 verbose installOne of react-bootstrap to c:\Users\KEVIN\git\bevy not in flight; installing
+38 verbose lock using C:\Users\KEVIN\AppData\Roaming\npm-cache\_locks\react-bootstrap-8e7622420a08f59a.lock for c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap
+39 silly install write writing react-bootstrap 0.15.1 to c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap
+40 silly cache addNamed cb react-bootstrap@0.15.1
+41 verbose unbuild node_modules\react-bootstrap
+42 info preuninstall react-bootstrap@0.15.1
+43 info uninstall react-bootstrap@0.15.1
+44 verbose unbuild rmStuff react-bootstrap@0.15.1 from c:\Users\KEVIN\git\bevy\node_modules
+45 info postuninstall react-bootstrap@0.15.1
+46 verbose gentlyRm vacuuming c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap
+47 silly gentlyRm purging c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap
+48 verbose unlock done using C:\Users\KEVIN\AppData\Roaming\npm-cache\_locks\react-bootstrap-8e7622420a08f59a.lock for c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap
+49 verbose stack Error: EPERM, unlink 'c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap\ie8\assets'
+49 verbose stack     at Error (native)
+50 verbose cwd c:\Users\KEVIN\git\bevy
+51 error Windows_NT 6.1.7601
+52 error argv "c:\\Program Files (x86)\\nodejs\\node.exe" "c:\\Program Files (x86)\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install" "react-bootstrap"
+53 error node v0.12.0
+54 error npm  v2.5.1
+55 error path c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap\ie8\assets
+56 error code EPERM
+57 error errno -4048
+58 error Error: EPERM, unlink 'c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap\ie8\assets'
+58 error     at Error (native)
+58 error  { [Error: EPERM, unlink 'c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap\ie8\assets']
+58 error   errno: -4048,
+58 error   code: 'EPERM',
+58 error   path: 'c:\\Users\\KEVIN\\git\\bevy\\node_modules\\react-bootstrap\\ie8\\assets' }
+59 error Please try running this command again as root/Administrator.
+60 verbose exit [ -4048, true ]
+61 verbose unbuild node_modules\react-bootstrap
+62 verbose gentlyRm vacuuming c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap
+63 silly gentlyRm purging c:\Users\KEVIN\git\bevy\node_modules\react-bootstrap
+64 silly gentlyRm quitting because other entries in c:\Users\KEVIN\git\bevy\node_modules
