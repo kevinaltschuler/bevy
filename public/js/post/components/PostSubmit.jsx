@@ -20,7 +20,7 @@ module.exports = React.createClass({
 								<OverlayTrigger placement="right" overlay={
 									<Tooltip>Add a post to this bevy</Tooltip>
 								}>
-									<button className="btn btn-default" data-toggle="tooltip"
+									<button className="btn btn-default btn-submit" data-toggle="tooltip"
 										data-placement="right" title="" data-original-title="add media to your post"
 										type="button" onClick={ this.submit }>+
 									</button>
