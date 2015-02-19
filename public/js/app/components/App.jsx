@@ -70,9 +70,7 @@ var App = React.createClass({
 							</div>
 							<LeftSidebar />
 
-							<PostContainer
-								allPosts = { this.state.allPosts }
-							/>
+							<PostContainer allPosts={ this.state.allPosts } />
 
 							<RightSidebar />
 						</div>
