@@ -27,6 +27,8 @@ var Post = React.createClass({
 		, image_url: ReactPropTypes.string
 		, author: ReactPropTypes.string
 		, bevy: ReactPropTypes.string
+		, comments: ReactPropTypes.array
+		, points: ReactPropTypes.array
 	},
 
 	defaults: {
