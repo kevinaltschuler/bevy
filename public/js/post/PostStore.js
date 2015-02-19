@@ -48,6 +48,12 @@ var Post = Backbone.Model.extend({
 var Posts = Backbone.Collection.extend({
 	  model: Post
 	, url: '/posts'
+	, _meta: {
+		sort: {
+			  by: 'top'
+			, direction: 'asc'
+		}
+	}
 });
 // create collection
 var posts = new Posts;
@@ -122,7 +128,7 @@ _.extend(PostStore, {
 				break;
 
 			case 'sort':
-				//console.log('sort', payload.by, payload.direction);
+				console.log('sort', payload.by, payload.direction);
 				var by = payload.by;
 				var direction = payload.direction;
 
@@ -138,6 +144,17 @@ _.extend(PostStore, {
 	getAll: function() {
 		// TODO: plug sorting (new/top) into here?
 		return posts.toJSON();
+	},
+
+	/**
+	 * get how the post list is currently sorted
+	 * @return {[type]}
+	 */
+	getSort: function() {
+		return {
+			  by: posts._meta.sort.by
+			, direction: posts._meta.sort.direction
+		};
 	}
 });
 module.exports = PostStore;
@@ -206,7 +223,12 @@ function vote(post_id, author, value) {
  * @return {[type]}
  */
 function sort(by, direction) {
+
+	posts._meta.sort.by = by;
+	posts._meta.sort.direction = direction;
+
 	switch(by) {
+		default:
 		case 'new': // sort by most recent
 			posts.comparator = function(post_one, post_two) {
 				var ret = 0;
@@ -217,13 +239,9 @@ function sort(by, direction) {
 				else if(direction === 'desc') return (ret * -1);
 				else return ret; // ascending by default
 			}
-
-			// force sort
-			posts.sort();
-
-			break;
-
-		default:
 			break;
 	}
+
+	// force sort
+	posts.sort();
 }
