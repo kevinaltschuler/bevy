@@ -49,7 +49,8 @@ var PostContainer = React.createClass({
 			posts.push(<Post id={ post.id } title={ post.title }
 				body={ post.body } image_url={ post.image_url }
 				author={ post.author } bevy={ post.bevy }
-				comments={ post.comments } points={ post.points }/>);
+				comments={ post.comments } points={ post.points }
+				created={ post.created } updated={ post.updated } />);
 		}
 
 		return	<div className="col-xs-6 post-container">
