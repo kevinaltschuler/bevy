@@ -44,7 +44,9 @@ var PostActions = {
 	 */
 	upvote: function(post_id, author, undo) {
 		dispatch('upvote', {
-
+			  post_id: (post_id == undefined) ? 'default' : post_id
+			, author: (author == undefined) ? 'current author' : author
+			, undo: (undo == undefined) ? false : undo
 		});
 	},
 
@@ -56,7 +58,9 @@ var PostActions = {
 	 */
 	downvote: function(post_id, author, undo) {
 		dispatch('downvote', {
-
+			  post_id: (post_id == undefined) ? 'default' : post_id
+			, author: (author == undefined) ? 'current author' : author
+			, undo: (undo == undefined) ? false : undo
 		});
 	}
 };
