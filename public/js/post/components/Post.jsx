@@ -50,6 +50,14 @@ var Post = React.createClass({
 		PostActions.downvote(this.props.id, this.props.author);
 	},
 
+	countVotes: function() {
+		var sum = 0;
+		this.props.points.forEach(function(vote) {
+			sum += vote.value;
+		});
+		return sum;
+	},
+
 	render: function() {
 		return	<div className="panel" postId={ this.props.id }>
 						<div className="panel-heading">
@@ -62,7 +70,7 @@ var Post = React.createClass({
 						<div className="panel-commments"></div>
 						<div className="panel-bottom">
 							<div className="panel-controls-left">
-								{ this.props.points.length } points<br/>{ this.props.comments.length } comments
+								{ this.countVotes() } points<br/>{ this.props.comments.length } comments
 							</div>
 							<div className="panel-controls-right">
 								<IconButton tooltip='upvote'>
