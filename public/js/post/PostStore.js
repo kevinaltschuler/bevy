@@ -40,6 +40,14 @@ var Post = Backbone.Model.extend({
 	// where to send the CRUD calls (create, read, update, delete)
 	url: function() {
 		return (this.id) ? '/posts/' + this.id : '/posts/';
+	},
+
+	countVotes: function() {
+		var sum = 0;
+		this.get('points').forEach(function(vote) {
+			sum += vote.value;
+		});
+		return sum;
 	}
 });
 
@@ -48,6 +56,12 @@ var Post = Backbone.Model.extend({
 var Posts = Backbone.Collection.extend({
 	  model: Post
 	, url: '/posts'
+	, _meta: {
+		sort: {
+			  by: 'top'
+			, direction: 'asc'
+		}
+	}
 });
 // create collection
 var posts = new Posts;
@@ -106,7 +120,7 @@ _.extend(PostStore, {
 
 				vote(post_id, author, 1);
 
-				this.trigger('change');
+				this.trigger('post-change');
 
 				break;
 
@@ -117,18 +131,20 @@ _.extend(PostStore, {
 
 				vote(post_id, author, -1);
 
-				this.trigger('change');
+				this.trigger('post-change');
 
 				break;
 
 			case 'sort':
-				//console.log('sort', payload.by, payload.direction);
+				console.log('sort', payload.by, payload.direction);
 				var by = payload.by;
 				var direction = payload.direction;
 
 				sort(by, direction);
 
 				this.trigger('change');
+
+				console.log(posts);
 
 				break;
 		}
@@ -138,6 +154,26 @@ _.extend(PostStore, {
 	getAll: function() {
 		// TODO: plug sorting (new/top) into here?
 		return posts.toJSON();
+	},
+
+	/**
+	 * get post by id
+	 * @param  {number} post id
+	 * @return {[type]}
+	 */
+	getPost: function(id) {
+		return posts.get(id).toJSON();
+	},
+
+	/**
+	 * get how the post list is currently sorted
+	 * @return {[type]}
+	 */
+	getSort: function() {
+		return {
+			  by: posts._meta.sort.by
+			, direction: posts._meta.sort.direction
+		};
 	}
 });
 module.exports = PostStore;
@@ -206,24 +242,37 @@ function vote(post_id, author, value) {
  * @return {[type]}
  */
 function sort(by, direction) {
+
+	posts._meta.sort.by = by;
+	posts._meta.sort.direction = direction;
+
 	switch(by) {
-		case 'new': // sort by most recent
+		default:
+		case 'top':
 			posts.comparator = function(post_one, post_two) {
 				var ret = 0;
-				if(post_one.created > post_two.created) ret = 1;
-				else ret = -1;
+				if(post_one.countVotes() > post_two.countVotes()) ret = -1;
+				else if (post_one.countVotes() == post_two.countVotes()) ret = 0;
+				else ret = 1;
 
 				if(direction === 'asc') return ret;
 				else if(direction === 'desc') return (ret * -1);
 				else return ret; // ascending by default
 			}
-
-			// force sort
-			posts.sort();
-
 			break;
+		case 'new': // sort by most recent
+			posts.comparator = function(post_one, post_two) {
+				var ret = 0;
+				if(post_one.created > post_two.created) ret = -1;
+				else ret = 1;
 
-		default:
+				if(direction === 'asc') return ret;
+				else if(direction === 'desc') return (ret * -1);
+				else return ret; // ascending by default
+			}
 			break;
 	}
+
+	// force sort
+	posts.sort();
 }

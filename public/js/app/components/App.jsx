@@ -61,6 +61,7 @@ var App = React.createClass({
 
 	render: function(){
 		return	<div>
+						<Router />
 						<Navbar />
 						<div className="Container col-xs-12">
 							<div className="row">
