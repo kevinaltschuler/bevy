@@ -16,6 +16,7 @@ module.exports = React.createClass({
 		// then apply to active one
 		$('button#' + id).addClass('active');
 
+		// now call action
 		var by = ev.target.textContent;
 		PostActions.sort(by);
 	},
