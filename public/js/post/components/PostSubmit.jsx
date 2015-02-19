@@ -21,10 +21,11 @@ module.exports = React.createClass({
 		};
 	},
 
-	handleChange: function() {
+	handleChange: function(ev) {
 		//if the user hits enter, submit a new post
+		//chaneg if to "this.refs.input.getValue() === 13"
 		if(this.refs.input.getValue() === 13) {
-			this.submit();
+			this.submit(ev);
 		}
 		//otherwise, allow form input
 		else {
