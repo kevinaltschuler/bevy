@@ -104,11 +104,20 @@ _.extend(PostStore, {
 				var post_id = payload.post_id;
 				var author = payload.author;
 
+				vote(post_id, author, 1);
+
+				this.trigger('change');
+
 				break;
 			case 'downvote':
 				console.log('downvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
+
+				vote(post_id, author, -1);
+
+				this.trigger('change');
+
 				break;
 		}
 	},
@@ -144,15 +153,18 @@ function create(options) {
 	});
 }
 
-function upvote() {
+function vote(post_id, author, value) {
+	var post = posts.get(post_id);
 
+	if(!post) {
+		// post not found
+		// TODO: return a snackbar message or something
+		return;
+	}
+
+	var points = post.get('points');
+	// check for already voted
+
+	points.push({ author: author, value: value });
+	post.set('points', points);
 }
-function downvote() {
-
-}
-
-
-
-/*create({
-	  title: 'Carrot Boulder, Lake Huron - Port Austin, Michigan'
-});*/
