@@ -8,13 +8,13 @@ var Input = require('react-bootstrap').Input;
 var PostActions = require('./../PostActions');
 
 module.exports = React.createClass({
-  
+
 
 	submit: function(ev) {
 		ev.preventDefault();
 		PostActions.create();
 	},
-  
+
 	getInitialState: function() {
 		return {
 			value: ''
@@ -24,7 +24,7 @@ module.exports = React.createClass({
 	handleChange: function(ev) {
 		//if the user hits enter, submit a new post
 		//chaneg if to "this.refs.input.getValue() === 13"
-		if(true) {
+		if(ev.which === 13) {
 			this.submit(ev);
 		}
 		//otherwise, allow form input
@@ -34,7 +34,7 @@ module.exports = React.createClass({
 			});
 		}
 	},
-	
+
 	render: function() {
 			return  <Input
 					  type="text"
@@ -45,7 +45,7 @@ module.exports = React.createClass({
 					  groupClassName="group-class"
 					  wrapperClassName="wrapper-class"
 					  labelClassName="label-class"
-					  onChange={this.handleChange}/>
+					  onKeyUp={this.handleChange}/>
 	}
 });
 
