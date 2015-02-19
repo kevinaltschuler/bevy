@@ -254,8 +254,8 @@ function sort(by, direction) {
 		case 'new': // sort by most recent
 			posts.comparator = function(post_one, post_two) {
 				var ret = 0;
-				if(post_one.created > post_two.created) ret = 1;
-				else ret = -1;
+				if(post_one.created > post_two.created) ret = -1;
+				else ret = 1;
 
 				if(direction === 'asc') return ret;
 				else if(direction === 'desc') return (ret * -1);
