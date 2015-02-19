@@ -11,6 +11,9 @@
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
+var mui = require('material-ui');
+var IconButton = mui.IconButton;
+
 // React class
 var Post = React.createClass({
 
@@ -35,11 +38,11 @@ var Post = React.createClass({
 	render: function() {
 		return	<div className="panel">
 						<div className="panel-heading">
-							<a href="https://farm8.staticflickr.com/7363/9218137415_72af1b75b4_k.jpg">{ this.props.title }</a>
+							<a href={ this.props.image_url }>{ this.props.title }</a>
 						</div>
-						<div className="panel-details">Kevin Altschuler • Burlap • 12 hours ago</div>
+						<div className="panel-details">{ this.props.author } • { this.props.bevy } • 12 hours ago</div>
 						<div className="panel-body" tabIndex="0">
-							<img className="panel-media" src="https://farm8.staticflickr.com/7363/9218137415_72af1b75b4_k.jpg"/>
+							<img className="panel-media" src={ this.props.image_url }/>
 						</div>
 						<div className="panel-commments"></div>
 						<div className="panel-bottom">
@@ -50,6 +53,9 @@ var Post = React.createClass({
 								<span className="glyphicon glyphicon-menu-up btn" aria-hidden="true"></span>&nbsp;&nbsp;
 								<span className="glyphicon glyphicon-menu-down btn" aria-hidden="true"></span>&nbsp;&nbsp;
 								<span className="glyphicon glyphicon-option-vertical btn" aria-hidden="true"></span>
+								<IconButton tooltip='upvote'>
+									<span className="glyphicon glyphicon-menu-up btn" aria-hidden="true"></span>
+								</IconButton>
 							</div>
 						</div>
 					</div>
