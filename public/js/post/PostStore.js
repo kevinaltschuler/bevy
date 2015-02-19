@@ -120,6 +120,17 @@ _.extend(PostStore, {
 				this.trigger('change');
 
 				break;
+
+			case 'sort':
+				console.log('sort', payload.by, payload.direction);
+				var by = payload.by;
+				var direction = payload.direction;
+
+				sort(by, direction);
+
+				this.trigger('change');
+
+				break;
 		}
 	},
 
