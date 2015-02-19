@@ -120,7 +120,7 @@ _.extend(PostStore, {
 
 				vote(post_id, author, 1);
 
-				this.trigger('change');
+				this.trigger('post-change');
 
 				break;
 
@@ -131,7 +131,7 @@ _.extend(PostStore, {
 
 				vote(post_id, author, -1);
 
-				this.trigger('change');
+				this.trigger('post-change');
 
 				break;
 
