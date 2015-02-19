@@ -42,14 +42,14 @@ var Post = React.createClass({
 	},
 
 	componentDidMount:function() {
-
+		PostStore.on('post-change', this._onPostChange);
 	},
 	componentWillUnmount: function() {
-
+		PostStore.off('post-change', this._onPostChange);
 	},
 
 	_onPostChange: function() {
-
+		this.setState(PostStore.getPost(this.props.id));
 	},
 
 	upvote: function(ev) {
