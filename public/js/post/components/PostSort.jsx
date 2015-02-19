@@ -15,9 +15,15 @@ module.exports = React.createClass({
 		return	<div className="sort-well">
 						<div className="col-xs-12 btn-group btn-group-sort" role="group">
 							<text className="btn-group-text">
-								<button type="button" className="sort-btn btn active" id="top-btn" onClick={ this.sort }>top</button>
+								<button type="button" className="sort-btn btn active"
+									id="top-btn" onClick={ this.sort }>
+									top
+								</button>
 								•
-								<button type="button" className="sort-btn btn" id="new-btn" onClick={ this.sort }>new</button>
+								<button type="button" className="sort-btn btn"
+									id="new-btn" onClick={ this.sort }>
+									new
+								</button>
 							</text>
 						</div>
 					</div>;
