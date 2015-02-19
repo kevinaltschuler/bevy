@@ -46,9 +46,10 @@ var PostContainer = React.createClass({
 		for(var key in allPosts) {
 			var post = allPosts[key];
 			// load post into array
-			posts.push(<Post title = { post.title }
-				body = { post.body } image_url = { post.image_url }
-				author = { post.author } bevy = { post.bevy } />);
+			posts.push(<Post id={ post.id } title={ post.title }
+				body={ post.body } image_url={ post.image_url }
+				author={ post.author } bevy={ post.bevy }
+				comments={ post.comments } points={ post.points }/>);
 		}
 
 		return	<div className="col-xs-6 post-container">

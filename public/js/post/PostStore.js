@@ -76,6 +76,7 @@ _.extend(PostStore, {
 		, bevy;
 
 		switch(payload.actionType) {
+
 			case 'create': // create a post
 
 				// collect payload vars
@@ -96,6 +97,18 @@ _.extend(PostStore, {
 
 				// this requires a visual update
 				this.trigger('change');
+				break;
+
+			case 'upvote':
+				console.log('upvote');
+				var post_id = payload.post_id;
+				var author = payload.author;
+
+				break;
+			case 'downvote':
+				console.log('downvote');
+				var post_id = payload.post_id;
+				var author = payload.author;
 				break;
 		}
 	},
@@ -122,7 +135,7 @@ function create(options) {
 	// PUT to db
 	//newPost.save();
 	// generate fake ID for now
-	newPost.id = Date.now();
+	newPost.set('id', Date.now());
 
 	// add to collection
 	// TODO: sort collection here
@@ -131,7 +144,12 @@ function create(options) {
 	});
 }
 
+function upvote() {
 
+}
+function downvote() {
+
+}
 
 
 
