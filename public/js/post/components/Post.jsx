@@ -52,6 +52,11 @@ var Post = React.createClass({
 		PostActions.downvote(this.props.id, this.props.author);
 	},
 
+	/**
+	 * count the summed value of all of the votes
+	 * for this post
+	 * @return {int}
+	 */
 	countVotes: function() {
 		var sum = 0;
 		this.props.points.forEach(function(vote) {
@@ -60,12 +65,44 @@ var Post = React.createClass({
 		return sum;
 	},
 
+	/**
+	 * calculates how long ago
+	 * this post was posted
+	 * @return {string}
+	 */
+	timeAgo: function() {
+		var created = this.props.created;
+		var now = Date.now();
+		var elapsed = now - created;
+
+		if(elapsed <= 1000*10) {
+			return 'just now';
+		} else if (elapsed <= 1000*60) {
+			var seconds = Math.floor(elapsed / 1000);
+			return seconds + ' seconds ago';
+		} else if (elapsed <= 1000*60*60) {
+			var minutes = Math.floor(elapsed / (1000*60));
+			return minutes + ' minutes ago';
+		} else if (elapsed <= 1000*60*60*24) {
+			var hours = Math.floor(elapsed / (1000*60*60));
+			return hours + ' hours ago';
+		} else if (elapsed <= 1000*60*60*24*30) {
+			var days = Math.floor(elapsed / (1000*60*60*24));
+			return days + ' days ago';
+		} else if (elapsed <= 1000*60*60*24*30*365) {
+			var months = Math.floor(elapsed / (1000*60*60*24*30));
+			return months + ' months ago';
+		} else {
+			return elapsed;
+		}
+	},
+
 	render: function() {
 		return	<div className="panel" postId={ this.props.id }>
 						<div className="panel-heading">
 							<a href={ this.props.image_url }>{ this.props.title }</a>
 						</div>
-						<div className="panel-details">{ this.props.author } • { this.props.bevy } • 12 hours ago</div>
+						<div className="panel-details">{ this.props.author } • { this.props.bevy } • { this.timeAgo() }</div>
 						<div className="panel-body" tabIndex="0">
 							<img className="panel-media" src={ this.props.image_url }/>
 						</div>
