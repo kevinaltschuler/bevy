@@ -76,6 +76,7 @@ _.extend(PostStore, {
 		, bevy;
 
 		switch(payload.actionType) {
+
 			case 'create': // create a post
 
 				// collect payload vars
@@ -96,6 +97,13 @@ _.extend(PostStore, {
 
 				// this requires a visual update
 				this.trigger('change');
+				break;
+
+			case 'upvote':
+				console.log('upvote');
+				break;
+			case 'downvote':
+				console.log('downvote');
 				break;
 		}
 	},

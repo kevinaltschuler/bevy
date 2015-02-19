@@ -14,6 +14,8 @@ var ReactPropTypes = React.PropTypes;
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
 
+var PostActions = require('./../PostActions');
+
 // React class
 var Post = React.createClass({
 
@@ -35,6 +37,16 @@ var Post = React.createClass({
 		return {};
 	},
 
+	upvote: function(ev) {
+		ev.preventDefault();
+		PostActions.upvote();
+	},
+
+	downvote: function(ev) {
+		ev.preventDefault();
+		PostActions.downvote();
+	},
+
 	render: function() {
 		return	<div className="panel">
 						<div className="panel-heading">
@@ -51,12 +63,12 @@ var Post = React.createClass({
 							</div>
 							<div className="panel-controls-right">
 								<IconButton tooltip='upvote'>
-									<span className="glyphicon glyphicon-menu-up btn" aria-hidden="true"></span>
+									<span className="glyphicon glyphicon-menu-up btn" onClick={ this.upvote }></span>
 								</IconButton>
 								<IconButton tooltip='downvote'>
-									<span className="glyphicon glyphicon-menu-down btn" aria-hidden="true"></span>
+									<span className="glyphicon glyphicon-menu-down btn" onClick={ this.downvote }></span>
 								</IconButton>
-								<span className="glyphicon glyphicon-option-vertical btn" aria-hidden="true"></span>
+								<span className="glyphicon glyphicon-option-vertical btn"></span>
 							</div>
 						</div>
 					</div>
