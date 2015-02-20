@@ -2,3 +2,5 @@ node_modules
 log/*
 public/js/build/*
 public/css/*
+.sublime-workspace
+.sublime-project
