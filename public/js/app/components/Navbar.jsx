@@ -28,7 +28,7 @@ var Navbar = React.createClass({
 
 	render: function() {
 
-		var header = <div className='logo'>bevy</div>;
+		var header = <div className='logo'></div>;
 
 		return	<div className="navbar navbar-fixed-top">
 						<LeftNav docked={false} isInitiallyOpen={ false } ref="leftNav"
