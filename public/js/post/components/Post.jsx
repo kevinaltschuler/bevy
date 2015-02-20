@@ -19,19 +19,16 @@ var PostStore = require('./../PostStore');
 
 var $ = require('jquery');
 
+function getPostState(id) {
+	return PostStore.getPost(id);
+}
+
 // React class
 var Post = React.createClass({
 
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
-		  id: ReactPropTypes.number
-		, title: ReactPropTypes.string
-		, body: ReactPropTypes.string
-		, image_url: ReactPropTypes.string
-		, author: ReactPropTypes.string
-		, bevy: ReactPropTypes.string
-		, comments: ReactPropTypes.array
-		, points: ReactPropTypes.array
+		  id: ReactPropTypes.number.isRequired
 	},
 
 	defaults: {
@@ -40,7 +37,7 @@ var Post = React.createClass({
 	},
 
 	getInitialState: function() {
-		return PostStore.getPost(this.props.id);
+		return getPostState(this.props.id);
 	},
 
 	componentDidMount:function() {
@@ -51,7 +48,7 @@ var Post = React.createClass({
 	},
 
 	_onPostChange: function() {
-		this.setState(PostStore.getPost(this.props.id));
+		this.setState(getPostState(this.props.id));
 	},
 
 	upvote: function(ev) {
@@ -120,16 +117,10 @@ var Post = React.createClass({
 		}
 	},
 
-	removeFocus: function(ev) {
-		if(ev.target.className.equals('.panel-body:focus .panel-body-image')) {
-			$(ev.target).removeClass('focus');
-		}
-	},
-
-
 	render: function() {
+		//console.log(this.state);
 		//TODO: fix if logic
-		if(true) {
+		//if(true) {
 		return	<div className="panel" postId={ this.state.id }>
 						<div className="panel-heading">
 							<a href={ this.state.image_url }>{ this.state.title }</a>
@@ -154,20 +145,20 @@ var Post = React.createClass({
 							</div>
 						</div>
 					</div>
-				}
-		else {
+		//		}
+		/*else {
 			return  <div className="panel" postId={ this.state.id }>
 						<div className="panel-heading">
 							<a href={ this.props.image_url }>{ this.props.title }</a>
 						</div>
 						<div className="panel-details">{ this.props.author } • { this.props.bevy } • 12 hours ago</div>
 						<div className="panel-body panel-body-text" tabIndex="0" >
-							Nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
-							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
-							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
-							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
-							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
-							nuts nuts nuts nuts nuts nuts nuts nuts nuts 
+							Nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts
+							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts
+							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts
+							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts
+							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts
+							nuts nuts nuts nuts nuts nuts nuts nuts nuts
 						</div>
 						<div className="panel-commments"></div>
 						<div className="panel-bottom">
@@ -185,7 +176,7 @@ var Post = React.createClass({
 							</div>
 						</div>
 					</div>
-		}
+		}*/
 	}
 });
 

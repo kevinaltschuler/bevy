@@ -17,28 +17,15 @@ var PostSort = React.createClass({
 		return getSortState();
 	},
 
-	componentDidMount: function() {
-		PostStore.on('change', this._onSortChange);
-	},
-	componentWillUnmount: function() {
-		PostStore.off('change', this._onSortChange);
-	},
-
-	_onSortChange: function() {
-		this.setState(getSortState());
-	},
-
 	sort: function(ev) {
+		var by = ev.target.textContent;
 
-		// visual changes
-		var id = ev.target.getAttribute('id');
-		// remove all active classes first
-		$('.sort-well button.sort-btn').removeClass('active');
-		// then apply to active one
-		$('button#' + id).addClass('active');
+		this.setState({
+			  by: by
+			, direction: 'asc'
+		});
 
 		// now call action
-		var by = ev.target.textContent;
 		PostActions.sort(by);
 	},
 
@@ -56,7 +43,7 @@ var PostSort = React.createClass({
 			var dot = (key == (sort_types.length-1)) ? '' : '•';
 
 			sorts.push( <button type='button' className={ className }
-							id={ id } onClick={ this.sort }>{ type }
+							key={ id } id={ id } onClick={ this.sort }>{ type }
 							</button>);
 			sorts.push(dot);
 		}
