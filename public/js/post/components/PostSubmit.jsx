@@ -7,37 +7,48 @@ var Input = require('react-bootstrap').Input;
 
 var PostActions = require('./../PostActions');
 
-module.exports = React.createClass({
+var PostSubmit = React.createClass({
 
 
-	submit: function(ev) {
-		//ev.preventDefault();
-		PostActions.create(this.refs.input.getValue());
+	submit: function() {
+		PostActions.create(this.state.title);
 	},
 
 	getInitialState: function() {
-		return { };
+		return {
+			title: ''
+		};
 	},
 
-	handleChange: function(ev) {
+	onKeyUp: function(ev) {
 		//if the user hits enter, submit a new post
 		if(ev.which === 13) {
-			this.submit(ev);
+			this.submit();
+			this.setState({
+				title: ''
+			});
 		}
+	},
+
+	handleChange: function() {
+		this.setState({
+			title: this.refs.input.getValue()
+		})
 	},
 
 	render: function() {
 			return  <Input
 					  type="text"
-					  value={this.state.value}
+					  value={ this.state.title }
 					  placeholder="New Post"
 					  hasFeedback
 					  ref="input"
 					  groupClassName="group-class"
 					  wrapperClassName="wrapper-class"
 					  labelClassName="label-class"
-					  onKeyUp={this.handleChange}/>
+					  onChange={ this.handleChange }
+					  onKeyUp={ this.onKeyUp } />
 	}
 });
 
-
+module.exports = PostSubmit;
