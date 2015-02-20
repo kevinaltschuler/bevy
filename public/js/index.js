@@ -29,6 +29,7 @@ var React = require('react');
 // load components
 var Navbar = require('./app/components/Navbar.jsx');
 var MainSection = require('./app/components/MainSection.jsx');
+var ProfilePage = require('./profile/components/ProfilePage.jsx');
 
 // load react-router
 var Router = require('react-router');
@@ -69,6 +70,7 @@ var App = React.createClass({
 // route configuration
 var routes = (
 	<Route name='app' path='/' handler={App}>
+		<Route name='profile' handler={ProfilePage} />
 		<DefaultRoute handler={MainSection} />
 	</Route>
 );
