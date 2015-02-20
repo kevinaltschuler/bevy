@@ -14,7 +14,10 @@ var React = require('react');
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 
-var Well = require('react-bootstrap').Well;
+var rbs = require('react-bootstrap');
+var Well = rbs.Well;
+var Button = rbs.Button;
+var ButtonGroup = rbs.ButtonGroup;
 
 
 /**
@@ -80,18 +83,18 @@ var PostSort = React.createClass({
 			// don't generate for the last one
 			var dot = (key == (sort_types.length-1)) ? '' : '•';
 
-			sorts.push( <button type='button' className={ className }
+			sorts.push( <Button type='button' className={ className }
 							key={ id } id={ id } onClick={ this.sort }>{ type }
-							</button>);
+							</Button>);
 			sorts.push(dot);
 		}
 
 		return	<Well className="sort-well">
-					<div className="col-xs-12 btn-group btn-group-sort" role="group">
+					<ButtonGroup className="col-xs-12 btn-group-sort" role="group">
 						<text className="btn-group-text">
 							{ sorts }
 						</text>
-					</div>
+					</ButtonGroup>
 				</Well>;
 	}
 });
