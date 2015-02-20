@@ -38,5 +38,3 @@ var Navbar = React.createClass({
 });
 
 module.exports = Navbar;
-
-//<LeftNav docked={true} menuItems={menuItems} />
