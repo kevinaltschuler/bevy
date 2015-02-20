@@ -1,3 +1,5 @@
+'use strict';
+
 var gulp = require('gulp');
 
 var fs = require('fs');
@@ -8,52 +10,62 @@ var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
 
 var nodemon = require('gulp-nodemon');
-var browserify = require('browserify');
-var to5ify = require('6to5ify');
-var reactify = require('reactify');
-var watchify = require('watchify');
-
-var browserSync = require('browser-sync');
-
-var source = require('vinyl-source-stream');
-var buffer = require('vinyl-buffer');
 
 
-gulp.task('watch', function() {
-	var js_stream = watchjs();
-	var less_watcher = gulp.watch(['public/less/*.less', 'public/less/**/*.less'], function(event) {
+var webpack = require('webpack');
+var WebpackDevServer = require('webpack-dev-server');
+var webpackConfig = require('./webpack.config.js');
+var webpackProductionConfig = require('./webpack.production.config.js');
+
+
+gulp.task('webpack:build', function(callback) {
+  //Run webpack.
+  webpack(webpackProductionConfig, function(err, stats) {
+		if(err) throw new gutil.PluginError('webpack:build', err);
+		gutil.log('[webpack:build]', stats.toString({ colors: true }));
+		callback();
+		return;
+	});
+});
+
+var devCompiler = webpack(webpackConfig);
+gulp.task('webpack:build-dev', function(callback) {
+	devCompiler.run(function(err, stats) {
+		if(err) throw new gutil.PluginError('webpack:build-dev', err);
+		gutil.log('[webpack:build-dev]', stats.toString({ colors: true }));
+		callback();
+		return;
+	});
+	return;
+});
+
+var devServer = {};
+gulp.task('webpack-dev-server', function(callback) {
+	devServer = new WebpackDevServer(webpack(webpackConfig), {
+		  contentBase: 'public/'
+		//, publicPath: '/scripts/'
+		, hot: true
+		, watchDelay: 100
+		, stats: { colors: true }
+		, noInfo: true
+	});
+	devServer.listen(80, 'localhost', function(err) {
+		if(err) throw new gutil.PluginError('webpack-dev-server', err);
+		gutil.log('[webpack-dev-server]', 'http://localhost:80');
+		callback();
+	});
+	return;
+});
+
+gulp.task('watch', ['webpack-dev-server', 'less']);
+
+gulp.task('less', function() {
+	gulp.watch(['public/less/*.less', 'public/less/**/*.less'], function(event) {
 		console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 		buildLess();
 	});
 });
 
-function watchjs() {
-	var b = browserify({
-		  cache: {}
-		, packageCache: {}
-		, fullPaths: true
-	});
-	b = watchify(b);
-	b.on('update', function() {
-		return bundleShare(b);
-	});
-	b.on('log', function(msg) {
-		console.log('BROWSERIFY ::', msg);
-	})
-	b.transform(reactify);
-	b.transform(to5ify);
-	b.add('./public/js/index.js');
-	return bundleShare(b);
-}
-
-function bundleShare(b) {
-	var stream = b.bundle()
-		.on('error', gutil.log.bind(gutil, 'Browserify Error'))
-		.pipe(source('bundle.js'))
-		.pipe(gulp.dest('./public/js/build'));
-	browserSync.reload();
-	return stream;
-}
 
 function buildLess() {
 	console.log('building less...');
@@ -71,7 +83,7 @@ function buildLess() {
 
 
 // build task for a one-timer
-gulp.task('build', function() {
+gulp.task('build', ['webpack:build'], function() {
 
 	// log files
 	fs.open('./log', 'r', function(err, fd) {
@@ -83,17 +95,6 @@ gulp.task('build', function() {
 
 	//less
 	buildLess();
-
-	// js
-	console.log('building js...');
-	var b = browserify();
-	b.transform(reactify);
-	b.transform(to5ify);
-	b.add('./public/js/index.js');
-	b.bundle()
-		.pipe(source('bundle.js'))
-		.pipe(gulp.dest('./public/js/build'));
-	console.log('...done');
 });
 
 gulp.task('serve', function() {
@@ -127,12 +128,4 @@ gulp.task('serve', function() {
 	}).on('restart', function() {
 		console.log('restarted!');
 	});
-});
-
-//gulp.task('watch', function() {
-//	gulp.watch(["*.js", "*.jsx"], ['compile', browserSync.reload]);
-//});
-
-gulp.task('default', function() {
-
 });
