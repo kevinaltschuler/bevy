@@ -3,9 +3,6 @@
 var React = require('react');
 var Input = require('react-bootstrap').Input;
 
-var rbs = require('react-bootstrap')
-var NavItem = rbs.NavItem;
-
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
@@ -22,7 +19,13 @@ var Navbar = React.createClass({
 		this.refs.leftNav.toggle();
 	},
 
-	_onLeftNavChange: function(e, key, payload) {
+	/**
+	 * triggered whenever a left nav button is pressed
+	 * @param  e - the browser event
+	 * @param  key - index of the item in the menu
+	 * @param  menuItem - the menu item triggered
+	 */
+	_onLeftNavChange: function(e, key, menuItem) {
 		//this.refs.leftNav.toggle();
 	},
 
