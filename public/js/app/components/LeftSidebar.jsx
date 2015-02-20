@@ -1,27 +1,31 @@
 'use strict';
 
 var React = require('react');
-var Badge = require('react-bootstrap').Badge;
+
+var rbs = require('react-bootstrap');
+var Badge = rbs.Badge;
+var Button = rbs.Button;
+var ButtonGroup = rbs.ButtonGroup;
 
 module.exports = React.createClass({
       render: function() {
-        return <div className="col-sm-3 hidden-xs btn-group left-sidebar" role="group">
+        return <ButtonGroup className="col-sm-3 hidden-xs btn-group left-sidebar" role="group">
                 <text className="btn-group-text">
-                  <button type="button" className="sort-btn btn active">Front Page</button>
+                  <Button type="button" className="sort-btn btn active">Front Page</Button>
                   <br/>
-                    <button type="button" className="sort-btn btn">New England Melee</button>
+                    <Button type="button" className="sort-btn btn">New England Melee</Button>
                   <br/>
-                  <button type="button" className="sort-btn btn">
+                  <Button type="button" className="sort-btn btn">
                     Burlap <Badge>12</Badge>
-                  </button>
+                  </Button>
                   <br/>
-                  <button type="button" className="sort-btn btn">
+                  <Button type="button" className="sort-btn btn">
                     Neu Frisbee <Badge>4</Badge>
-                  </button> 
+                  </Button> 
                   <br/>
-                    <button type="button" className="sort-btn btn">Bevy Team</button>
+                    <Button type="button" className="sort-btn btn">Bevy Team</Button>
                   <br/>
                 </text>
-              </div>;
-  }
+               </ButtonGroup>;
+             }
 });

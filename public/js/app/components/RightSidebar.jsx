@@ -1,18 +1,25 @@
 'use strict';
 
 var React = require('react');
-var Badge = require('react-bootstrap').Badge;
+
+var rbs = require('react-bootstrap');
+var Badge = rbs.Badge;
+var Button = rbs.Button;
+var ButtonGroup = rbs.ButtonGroup;
+var DropdownButton = rbs.DropdownButton;
+var MenuItem = rbs.MenuItem;
 
 module.exports = React.createClass({
       render: function() {
-      	return  <div className="col-sm-2 hidden-xs btn-group right-sidebar">
-                  <div id="dropdown" className="ddmenu sort-btn">
-                    Notifications <Badge>2</Badge> <span className="caret"></span>
-                  </div>
+      	return  <ButtonGroup className="col-sm-2 hidden-xs btn-group right-sidebar">
+                  <DropdownButton title='Notifications'>
+                    <MenuItem eventKey="1">Action</MenuItem>
+                  </DropdownButton>
+                  <Badge>2</Badge>
                     <br/>
-                  <div>
-                    Invites <span className="caret"></span>
-                  </div>
-                </div>;
-      	  }
+                  <DropdownButton title='Invites'>
+                    <MenuItem eventKey="1">Action</MenuItem> 
+                  </DropdownButton>
+                </ButtonGroup>;
+              }
 });

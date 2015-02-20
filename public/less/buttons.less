@@ -12,16 +12,18 @@
   color: @light-font;
   font-size: inherit;
   transition: all 0.15s linear;
-}
-.sort-btn:active, .sort-btn.active, .btn.active, .btn:active{
+  border: none;
+  &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
   outline: none;
   text-decoration: underline;
   color: black;
   -webkit-box-shadow: none;
   box-shadow: none;
+  background-color: rgba(0,0,0,0);
 }
-Button {
-  border: none;
+&:hover {
+  background-color: rgba(0,0,0,0);
+}
 }
 //GROUPS
 .btn-group-vertical {
