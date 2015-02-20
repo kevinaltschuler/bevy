@@ -37,8 +37,13 @@ function getPostState() {
 	}
 }
 
+
+
 // create app
 var App = React.createClass({
+
+
+
 
 	// called directly after mounting
 	getInitialState: function() {
@@ -65,7 +70,6 @@ var App = React.createClass({
 	render: function(){
 		return	<div>
 						<Router />
-						<LeftNav menuItems={menuItems} />
 						<Navbar />
 						<div className="Container col-xs-12">
 							<div className="row">
