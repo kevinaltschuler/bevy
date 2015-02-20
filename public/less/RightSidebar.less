@@ -1,0 +1,30 @@
+@import 'variables.less';
+
+//dropdown buttons
+.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, 
+.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle,
+.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child{
+	  background: rgba(0,0,0,0);
+	  border: 0px;
+	  -webkit-box-shadow: none;
+	  box-shadow: none;
+	  color: @light-font;
+	  font-size: inherit;
+	  position: relative;
+	  & .open {
+	  	text-decoration: underline;
+	  }
+	  &:active{
+	  	color: black;
+	  }
+	  &:focus {
+	  	color: black;
+	  }
+	  &:hover{
+	  	color: black;
+	  }
+	}
+//open dropdown menu
+.open > .dropdown-menu {
+	position: relative;
+}
