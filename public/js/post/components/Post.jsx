@@ -13,6 +13,7 @@ var ReactPropTypes = React.PropTypes;
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
+var Paper = mui.Paper;
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
@@ -166,7 +167,7 @@ var Post = React.createClass({
 					</div>
 				}
 		else {
-			return  <div className="panel" postId={ this.state.id }>
+			return  <Paper zDepth={1} postId={ this.state.id }>
 						<Input type="text" placeholder="Title" />
       					<Input type="textarea" placeholder="Body"/>
 						<div className="panel-commments"></div>
@@ -176,7 +177,7 @@ var Post = React.createClass({
 								<IconButton iconClassName="glyphicon glyphicon-send" tooltip="Post"/>
 							</div>
 						</div>
-					</div>
+					</paper>
 		}
 	}
 });
