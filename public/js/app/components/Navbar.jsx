@@ -9,6 +9,7 @@ var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var LeftNav = mui.LeftNav;
 
+// mixins to enable navigation
 var Navigation = require('react-router').Navigation;
 var State = require('react-router').State;
 
@@ -33,7 +34,6 @@ var Navbar = React.createClass({
 	 * @param  menuItem - the menu item triggered
 	 */
 	_onLeftNavChange: function(e, key, menuItem) {
-		//this.refs.leftNav.toggle();
 		this.transitionTo(menuItem.route);
 	},
 
