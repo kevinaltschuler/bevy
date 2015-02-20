@@ -23,6 +23,9 @@ var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var PostStore = require('./../../post/PostStore');
 
+var mui = require('material-ui');
+var LeftNav = mui.LeftNav;
+
 
 /**
  * update posts by getting the collection from the store
@@ -62,6 +65,7 @@ var App = React.createClass({
 	render: function(){
 		return	<div>
 						<Router />
+						<LeftNav menuItems={menuItems} />
 						<Navbar />
 						<div className="Container col-xs-12">
 							<div className="row">

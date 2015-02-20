@@ -2,13 +2,14 @@
 
 var React = require('react');
 var Input = require('react-bootstrap').Input;
-var NavItem = require('react-bootstrap').NavItem;
+
+var rbs = require('react-bootstrap')
+var NavItem = rbs.NavItem;
+
 var mui = require('material-ui');
-var LeftNav = mui.LeftNav;
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 
-var menuItems;
 
 module.exports = React.createClass({
 	render:function() {
