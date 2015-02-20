@@ -1,6 +1,9 @@
 /**
- * App.jsx
- * the main react component of the app. the entry point within the entry point
+ * MainSection.jsx
+ *
+ * the main react component of the app. shows posts and allows
+ * the user to switch bevys
+ *
  * @author albert
  */
 

@@ -1,40 +1,67 @@
+/**
+ * Navbar.jsx
+ *
+ * The top navbar of the application
+ * automatically added to every page, no matter
+ * what the route is (see index.js)
+ *
+ * Also contains the code for the toggleable
+ * LeftNav
+ *
+ * TODO: fix lag issues?
+ *
+ * @author albert
+ */
+
 'use strict';
 
+// imports
 var React = require('react');
-var Input = require('react-bootstrap').Input;
 
-var rbs = require('react-bootstrap')
-var NavItem = rbs.NavItem;
+var Input = require('react-bootstrap').Input;
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var LeftNav = mui.LeftNav;
 
-var menuItems = [{ route: 'get-started', text: 'Get Started' },
-					{ route: 'css-framework', text: 'CSS Framework' },
-  					{ route: 'components', text: 'Components' },];
+// mixins to enable navigation
+var Navigation = require('react-router').Navigation;
+var State = require('react-router').State;
 
+// menu items to generate on the left nav
+var menuItems = [{ route: 'profile', text: 'Profile Page'},
+					{ route: 'get-started', text: 'Get Started' },
+					{ route: 'css-framework', text: 'CSS Framework' },
+  					{ route: 'components', text: 'Components' }];
+
+// react component
 var Navbar = React.createClass({
+	mixins: [Navigation, State],
 
 	toggle: function() {
-		console.log('toggling nav');
 		this.refs.leftNav.toggle();
 	},
 
-	_onLeftNavChange: function(e, key, payload) {
-		//this.refs.leftNav.toggle();
+	/**
+	 * triggered whenever a left nav button is pressed
+	 * @param  e - the browser event
+	 * @param  key - index of the item in the menu
+	 * @param  menuItem - the menu item triggered
+	 */
+	_onLeftNavChange: function(e, key, menuItem) {
+		this.transitionTo(menuItem.route);
 	},
 
 	render: function() {
 
-		var header = <div className='logo'></div>;
+		var header = <div className='logo'>bevy logo here</div>;
 
 		return	<div className="navbar navbar-fixed-top">
 						<LeftNav docked={false} isInitiallyOpen={ false } ref="leftNav"
 						menuItems={menuItems} onChange={ this._onLeftNavChange } header={ header }/>
 						<div className="navbar-header pull-left">
-							<a className="navbar-brand" href="#">
+							<a className="navbar-brand">
 								<IconButton iconClassName="glyphicon glyphicon-menu-hamburger" onTouchTap={ this.toggle }/>
 							</a>
 						</div>
@@ -49,7 +76,6 @@ var Navbar = React.createClass({
 						</div>
 					</div>;
 	}
-
 });
 
 module.exports = Navbar;
