@@ -18,6 +18,7 @@ var menuItems = [{ route: 'get-started', text: 'Get Started' },
 var Navbar = React.createClass({
 	render:function() {
 		return  <div className="navbar navbar-fixed-top">
+					<LeftNav docked={true} menuItems={menuItems} />
 					<div className="navbar-header pull-left">
 						<a className="navbar-brand" href="#">
 							<IconButton iconClassName="glyphicon glyphicon-menu-hamburger" onClick={LeftNav.toggle}/>
