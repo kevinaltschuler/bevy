@@ -2,6 +2,7 @@
 
 .panel {
 	-webkit-box-shadow: 1px 1px 1px rgba(1, 1, 1, 0.2);
+	padding: 8px;
 
 	.panel-heading {
 		padding: 3% 3.5%;
@@ -28,24 +29,27 @@
 
 		transition: 0.5s all ease-in-out;
 		max-height: 150px;
-
 		&:focus{
 			max-height: 300px;
+			border: none;
+			-webkit-appearance:none;
+			outline:0px !important;
 		}
-
 		img{
 			width: 100%;
 		}
 	}
 	.panel-body-text {
-		border-top: solid 1px @light-font;
-		border-bottom: solid 1px @light-font;
+		box-shadow: none;
+		-moz-box-shadow: none;
+		-webkit-box-shadow: none;
 		margin-top: 3%;
 		width: 93%;
 		margin-left: auto;
 		margin-right: auto;
 		color: @light-font;
 		font-size: .85em;
+
 
 	}
 	.panel-body-image {

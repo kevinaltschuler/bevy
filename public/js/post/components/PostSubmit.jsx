@@ -37,7 +37,6 @@ module.exports = React.createClass({
 					 wrapperClassName="wrapper-class"
 					 labelClassName="label-class"
 					 onKeyUp={this.handleChange}>
-					 	<PostSubmitButtons />
 					</Input>
 	}
 });
