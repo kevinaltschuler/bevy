@@ -19,9 +19,8 @@ require('./shared/polyfills/Object.assign.js');
 
 // load globals
 var Backbone = require('backbone');
-var $ = require('jquery');
 global.jQuery = require('jquery');
-Backbone.$ = $;
+Backbone.$ = require('jquery');
 
 require('bootstrap');
 
