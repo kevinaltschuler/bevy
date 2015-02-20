@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+
 var Input = require('react-bootstrap').Input;
 
 var mui = require('material-ui');
@@ -8,14 +9,20 @@ var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var LeftNav = mui.LeftNav;
 
-var menuItems = [{ route: 'get-started', text: 'Get Started' },
-					{ route: 'css-framework', text: 'CSS Framework' },
-  					{ route: 'components', text: 'Components' },];
+var Navigation = require('react-router').Navigation;
+var State = require('react-router').State;
 
+// menu items to generate on the left nav
+var menuItems = [{ route: 'profile', text: 'Profile Page'},
+					{ route: 'get-started', text: 'Get Started' },
+					{ route: 'css-framework', text: 'CSS Framework' },
+  					{ route: 'components', text: 'Components' }];
+
+// react component
 var Navbar = React.createClass({
+	mixins: [Navigation, State],
 
 	toggle: function() {
-		console.log('toggling nav');
 		this.refs.leftNav.toggle();
 	},
 
@@ -27,6 +34,7 @@ var Navbar = React.createClass({
 	 */
 	_onLeftNavChange: function(e, key, menuItem) {
 		//this.refs.leftNav.toggle();
+		this.transitionTo(menuItem.route);
 	},
 
 	render: function() {
