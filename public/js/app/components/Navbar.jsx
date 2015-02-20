@@ -61,7 +61,7 @@ var Navbar = React.createClass({
 						<LeftNav docked={false} isInitiallyOpen={ false } ref="leftNav"
 						menuItems={menuItems} onChange={ this._onLeftNavChange } header={ header }/>
 						<div className="navbar-header pull-left">
-							<a className="navbar-brand" href="#">
+							<a className="navbar-brand">
 								<IconButton iconClassName="glyphicon glyphicon-menu-hamburger" onTouchTap={ this.toggle }/>
 							</a>
 						</div>
