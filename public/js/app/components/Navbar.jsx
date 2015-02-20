@@ -1,5 +1,21 @@
+/**
+ * Navbar.jsx
+ *
+ * The top navbar of the application
+ * automatically added to every page, no matter
+ * what the route is (see index.js)
+ *
+ * Also contains the code for the toggleable
+ * LeftNav
+ *
+ * TODO: fix lag issues?
+ *
+ * @author albert
+ */
+
 'use strict';
 
+// imports
 var React = require('react');
 
 var Input = require('react-bootstrap').Input;
@@ -39,7 +55,7 @@ var Navbar = React.createClass({
 
 	render: function() {
 
-		var header = <div className='logo'></div>;
+		var header = <div className='logo'>bevy logo here</div>;
 
 		return	<div className="navbar navbar-fixed-top">
 						<LeftNav docked={false} isInitiallyOpen={ false } ref="leftNav"
@@ -60,7 +76,6 @@ var Navbar = React.createClass({
 						</div>
 					</div>;
 	}
-
 });
 
 module.exports = Navbar;
