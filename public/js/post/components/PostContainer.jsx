@@ -46,7 +46,7 @@ var PostContainer = React.createClass({
 		for(var key in allPosts) {
 			var post = allPosts[key];
 			// load post into array
-			posts.push(<Post id={ post.id } />);
+			posts.push(<Post id={ post.id } key={ post.id }/>);
 		}
 
 		return	<div className="col-xs-6 post-container">

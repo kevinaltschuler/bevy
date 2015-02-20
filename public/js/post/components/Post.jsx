@@ -22,19 +22,16 @@ var Input = require('react-bootstrap').Input;
 
 var $ = require('jquery');
 
+function getPostState(id) {
+	return PostStore.getPost(id);
+}
+
 // React class
 var Post = React.createClass({
 
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
-		  id: ReactPropTypes.number
-		, title: ReactPropTypes.string
-		, body: ReactPropTypes.string
-		, image_url: ReactPropTypes.string
-		, author: ReactPropTypes.string
-		, bevy: ReactPropTypes.string
-		, comments: ReactPropTypes.array
-		, points: ReactPropTypes.array
+		  id: ReactPropTypes.number.isRequired
 	},
 
 	defaults: {
@@ -43,7 +40,7 @@ var Post = React.createClass({
 	},
 
 	getInitialState: function() {
-		return PostStore.getPost(this.props.id);
+		return getPostState(this.props.id);
 	},
 
 	componentDidMount:function() {
@@ -54,7 +51,7 @@ var Post = React.createClass({
 	},
 
 	_onPostChange: function() {
-		this.setState(PostStore.getPost(this.props.id));
+		this.setState(getPostState(this.props.id));
 	},
 
 	upvote: function(ev) {
@@ -123,14 +120,8 @@ var Post = React.createClass({
 		}
 	},
 
-	removeFocus: function(ev) {
-		if(ev.target.className.equals('.panel-body:focus .panel-body-image')) {
-			$(ev.target).removeClass('focus');
-		}
-	},
-
-
 	render: function() {
+		//console.log(this.state);
 		//TODO: fix if logic
 		if(false) {
 		return	<div className="panel" postId={ this.state.id }>
@@ -170,7 +161,6 @@ var Post = React.createClass({
 			return  <Paper zDepth={1} postId={ this.state.id }>
 						<Input type="text" placeholder="Title" />
       					<Input type="textarea" placeholder="Body"/>
-						<div className="panel-commments"></div>
 						<div className="panel-bottom">
 							<div className="panel-controls-right">
 								<IconButton iconClassName="glyphicon glyphicon-plus" tooltip="attach media"/>
@@ -178,7 +168,7 @@ var Post = React.createClass({
 							</div>
 						</div>
 					</paper>
-		}
+		}*/
 	}
 });
 

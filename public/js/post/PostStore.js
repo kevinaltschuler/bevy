@@ -62,6 +62,7 @@ var Posts = Backbone.Collection.extend({
 			, direction: 'asc'
 		}
 	}
+	, comparator: sortByTop
 });
 // create collection
 var posts = new Posts;
@@ -121,7 +122,6 @@ _.extend(PostStore, {
 				vote(post_id, author, 1);
 
 				this.trigger('post-change');
-
 				break;
 
 			case 'downvote':
@@ -132,7 +132,6 @@ _.extend(PostStore, {
 				vote(post_id, author, -1);
 
 				this.trigger('post-change');
-
 				break;
 
 			case 'sort':
@@ -140,12 +139,18 @@ _.extend(PostStore, {
 				var by = payload.by;
 				var direction = payload.direction;
 
-				sort(by, direction);
+				switch(by) {
+					case 'new':
+						posts.comparator = sortByNew;
+						break;
+					case 'top':
+						posts.comparator = sortByTop;
+						break;
+				}
+				posts.sort();
+				console.log(posts.pluck('title'));
 
 				this.trigger('change');
-
-				console.log(posts);
-
 				break;
 		}
 	},
@@ -199,10 +204,7 @@ function create(options) {
 	newPost.set('id', Date.now());
 
 	// add to collection
-	// TODO: sort collection here
-	posts.add(newPost, {
-		at: 0
-	});
+	posts.add(newPost);
 }
 
 function vote(post_id, author, value) {
@@ -233,46 +235,10 @@ function vote(post_id, author, value) {
 	// TODO: save post
 }
 
-/**
- * set the collection comparator function
- * and force sort
- * @param  {string} by - method to sort by
- * @param  {string} direction - either 'asc' (ascending)
- * or 'desc' (descending)
- * @return {[type]}
- */
-function sort(by, direction) {
+function sortByTop(post) {
+	return -post.countVotes();
+};
 
-	posts._meta.sort.by = by;
-	posts._meta.sort.direction = direction;
-
-	switch(by) {
-		default:
-		case 'top':
-			posts.comparator = function(post_one, post_two) {
-				var ret = 0;
-				if(post_one.countVotes() > post_two.countVotes()) ret = -1;
-				else if (post_one.countVotes() == post_two.countVotes()) ret = 0;
-				else ret = 1;
-
-				if(direction === 'asc') return ret;
-				else if(direction === 'desc') return (ret * -1);
-				else return ret; // ascending by default
-			}
-			break;
-		case 'new': // sort by most recent
-			posts.comparator = function(post_one, post_two) {
-				var ret = 0;
-				if(post_one.created > post_two.created) ret = -1;
-				else ret = 1;
-
-				if(direction === 'asc') return ret;
-				else if(direction === 'desc') return (ret * -1);
-				else return ret; // ascending by default
-			}
-			break;
-	}
-
-	// force sort
-	posts.sort();
+function sortByNew(post) {
+	return post.get('created');
 }
