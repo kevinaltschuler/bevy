@@ -12,7 +12,7 @@ module.exports = React.createClass({
 
 	submit: function(ev) {
 		//ev.preventDefault();
-		PostActions.create();
+		PostActions.create(this.refs.input.getValue());
 	},
 
 	getInitialState: function() {
