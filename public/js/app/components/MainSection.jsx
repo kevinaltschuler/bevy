@@ -10,11 +10,6 @@
 var React = require('react');
 var _ = require('underscore');
 
-var RouterLink = require('./../../router/components/RouterLink.jsx');
-var Router = require('./../../router/components/Router.jsx');
-
-var Navbar = require('./Navbar.jsx');
-
 var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx')
 
@@ -22,9 +17,6 @@ var PostSubmit = require('./../../post/components/PostSubmit.jsx');
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var PostStore = require('./../../post/PostStore');
-
-var mui = require('material-ui');
-var LeftNav = mui.LeftNav;
 
 
 /**
@@ -36,15 +28,8 @@ function getPostState() {
 		allPosts: PostStore.getAll()
 	}
 }
-
-
-
 // create app
-var App = React.createClass({
-
-
-
-
+var MainSection = React.createClass({
 	// called directly after mounting
 	getInitialState: function() {
 		// init posts
@@ -68,23 +53,17 @@ var App = React.createClass({
 	},
 
 	render: function(){
-		return	<div>
-						<Router />
-						<Navbar />
-						<div className="Container col-xs-12">
-							<div className="row">
-								<PostSubmit />
-								<PostSort />
-							</div>
-							<LeftSidebar />
-
-							<PostContainer allPosts={ this.state.allPosts } />
-
-							<RightSidebar />
+		return	<div className="Container col-xs-12">
+						<div className="row">
+							<PostSubmit />
+							<PostSort />
 						</div>
+						<LeftSidebar />
+						<PostContainer allPosts={ this.state.allPosts } />
+						<RightSidebar />
 					</div>;
 	}
 });
 
 // pipe back to index.js
-module.exports = App;
+module.exports = MainSection;
