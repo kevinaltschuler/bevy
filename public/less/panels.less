@@ -2,8 +2,6 @@
 
 .panel {
 	-webkit-box-shadow: 1px 1px 1px rgba(1, 1, 1, 0.2);
-	padding: 8px;
-
 	.panel-heading {
 		padding: 3% 3.5%;
 		a {
@@ -31,7 +29,6 @@
 		max-height: 150px;
 		&:focus{
 			max-height: 300px;
-			border: none;
 			-webkit-appearance:none;
 			outline:0px !important;
 		}
@@ -49,7 +46,7 @@
 		margin-right: auto;
 		color: @light-font;
 		font-size: .85em;
-
+		border-top: 1px solid @light-font;
 
 	}
 	.panel-body-image {
@@ -100,5 +97,9 @@
 	}
 }
 
+Paper {
+	padding: 8px;
+	background-color: white;
+}
 
 

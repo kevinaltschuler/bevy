@@ -14,6 +14,8 @@ var React = require('react');
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 
+var Well = require('react-bootstrap').Well;
+
 
 /**
  * grab the current sort mechanism from the store
@@ -84,13 +86,13 @@ var PostSort = React.createClass({
 			sorts.push(dot);
 		}
 
-		return	<div className="sort-well">
-						<div className="col-xs-12 btn-group btn-group-sort" role="group">
-							<text className="btn-group-text">
-								{ sorts }
-							</text>
-						</div>
-					</div>;
+		return	<Well className="sort-well">
+					<div className="col-xs-12 btn-group btn-group-sort" role="group">
+						<text className="btn-group-text">
+							{ sorts }
+						</text>
+					</div>
+				</Well>;
 	}
 });
 
