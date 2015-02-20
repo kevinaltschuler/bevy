@@ -48,6 +48,7 @@ var Navbar = React.createClass({
 	 * @param  e - the browser event
 	 * @param  key - index of the item in the menu
 	 * @param  menuItem - the menu item triggered
+	 * (same as the ones defined above)
 	 */
 	_onLeftNavChange: function(e, key, menuItem) {
 		this.transitionTo(menuItem.route);
