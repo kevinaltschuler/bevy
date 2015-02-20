@@ -11,8 +11,13 @@
 
 'use strict';
 
+// polyfills and shims
+// files/functions which patch functionality for
+// older browsers that don't support new features
+// TODO: es6 support
 require('./shared/polyfills/Object.assign.js');
 
+// load globals
 var Backbone = require('backbone');
 var $ = require('jquery');
 global.jQuery = require('jquery');
@@ -22,9 +27,11 @@ require('bootstrap');
 
 var React = require('react');
 
+// load components
 var Navbar = require('./app/components/Navbar.jsx');
 var MainSection = require('./app/components/MainSection.jsx');
 
+// load react-router
 var Router = require('react-router');
 
 var DefaultRoute = Router.DefaultRoute;
@@ -32,21 +39,25 @@ var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-var injectTapEventPlugin = require('react-tap-event-plugin');
-//Needed for onTouchTap
+
+//Needed for onTouchTap - a feature of Material-UI
 //Can go away when react 1.0 release
 //Check this repo:
 //https://github.com/zilverline/react-tap-event-plugin
+var injectTapEventPlugin = require('react-tap-event-plugin');
 injectTapEventPlugin();
 
+
+// override default save function
+// remove when DB connection is stable
 Backbone.sync = function(method, model) {
 	alert(method + ':' + JSON.stringify(model));
 	// set a flub id
 	model.set('id', Date.now());
 }
 
-//React.render(<App />, document.getElementById('app'));
 
+// App bootstrap
 var App = React.createClass({
 	render: function() {
 		return	<div>
@@ -56,6 +67,7 @@ var App = React.createClass({
 	}
 });
 
+// route configuration
 var routes = (
 	<Route name='app' path='/' handler={App}>
 		<DefaultRoute handler={MainSection} />
