@@ -8,6 +8,7 @@
 
 // imports
 var React = require('react');
+var _ = require('underscore');
 
 var RouterLink = require('./../../router/components/RouterLink.jsx');
 var Router = require('./../../router/components/Router.jsx');
@@ -41,7 +42,6 @@ var App = React.createClass({
 		// init posts
 		PostStore.initialize();
 		return getPostState();
-
 	},
 
 	// mount event listeners
@@ -56,7 +56,7 @@ var App = React.createClass({
 
 	// event listener callbacks
 	_onPostChange: function() {
-		this.replaceState(getPostState());
+		this.setState(getPostState());
 	},
 
 	render: function(){
