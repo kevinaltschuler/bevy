@@ -1,3 +1,6 @@
+
+@import 'variables.less';
+
 .navbar {
   background-color: #2cb673;
   border-color: rgba(0,0,0,0);
@@ -21,45 +24,65 @@
     padding: 23px 0px;
     color: #FFF
   }
-}
-.navbar-form {
-  padding-top: 0px;
-  padding-right: 30px;
-  border-top: none; 
-  border-bottom: none; 
-  -webkit-box-shadow: none; 
-  box-shadow: none; 
-  &.form-group {
-    display: inline-block;
+    .navbar-form {
+    padding-top: 0px;
+    padding-right: 30px;
+    border-top: none; 
+    border-bottom: none; 
+    -webkit-box-shadow: none; 
+    box-shadow: none; 
+    &.form-group {
+      display: inline-block;
+    }
+      //SEARCH
+    .search-input{
+        background-color: rgba(0,0,0,0); 
+        border-bottom: none; 
+        border-left: 0px;
+        border-top: 0px;
+        border-right: 0px;
+        box-shadow: none; 
+        border-radius: 0px;
+        color: #fff;
+        padding-left: 4px;
+        padding-bottom: 2px;
+    }
+    .search-icon {
+      position:relative; 
+      color: #fff; 
+      right: 30px; 
+      top: 2px;
+    }
+    .glyphicon-search {
+      color: white;
+      font-size: 1em;
+    }
+    .mui-icon-button {
+      padding: 5px;
+    }
+    .mui-text-field .mui-text-field-focus-underline {
+      border-color: white;
+    }
+    .mui-text-field .mui-text-field-underline {
+      border-top: 1px solid rgba(255,255,255,.2);
+    }
+    .mui-text-field .mui-text-field-input, .mui-text-field .mui-text-field-textarea {
+      -webkit-box-shadow: none; 
+      box-shadow: none!important; 
+      color: white;
+    }
   }
 }
-.search-input{
-    background-color: rgba(0,0,0,0); 
-    border-bottom: none; 
-    border-left: 0px;
-    border-top: 0px;
-    border-right: 0px;
-    box-shadow: none; 
-    border-radius: 0px;
-    color: #fff;
+
+
+
+
+@media (max-width: 767px) {
+.navbar-form .form-group {
+  margin-bottom: 0px;
+  display: inline-block;
 }
-.search-icon {
-  position:relative; 
-  color: #fff; 
-  right: 30px; 
-  top: 2px;
-}
-.mui-icon-button {
-  padding: 5px;
-}
-.mui-text-field .mui-text-field-focus-underline {
-  border-color: white;
-}
-.mui-text-field .mui-text-field-underline {
-  border-top: 1px solid rgba(255,255,255,.2);
-}
-.mui-text-field .mui-text-field-input, .mui-text-field .mui-text-field-textarea {
-  -webkit-box-shadow: none; 
-  box-shadow: none!important; 
-  color: white;
+@media (max-width: 420px) {
+.search-input {
+  width: 140px;
 }

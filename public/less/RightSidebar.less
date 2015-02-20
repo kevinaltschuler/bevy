@@ -1,5 +1,11 @@
 @import 'variables.less';
 
+.right-sidebar {
+  float: right;
+  display: inline-block;
+  white-space: nowrap;
+}
+
 //dropdown buttons
 .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child, 
 .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle,
@@ -27,4 +33,11 @@
 //open dropdown menu
 .open > .dropdown-menu {
 	position: relative;
+}
+
+@media (max-width: 991px) {
+  .right-sidebar {
+    display: inline-block;
+    float: right;
+  }
 }
