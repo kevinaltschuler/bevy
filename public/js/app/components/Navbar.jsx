@@ -11,11 +11,11 @@ var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var LeftNav = mui.LeftNav;
 
-var	menuItems = [{ route: 'get-started', text: 'Get Started' },
+var menuItems = [{ route: 'get-started', text: 'Get Started' },
 					{ route: 'css-framework', text: 'CSS Framework' },
   					{ route: 'components', text: 'Components' },];
 
-module.exports = React.createClass({
+var Navbar = React.createClass({
 	render:function() {
 		return  <div className="navbar navbar-fixed-top">
 					<div className="navbar-header pull-left">
@@ -36,5 +36,7 @@ module.exports = React.createClass({
 	}
 
 });
+
+module.exports = Navbar;
 
 //<LeftNav docked={true} menuItems={menuItems} />
