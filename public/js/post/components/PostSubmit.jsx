@@ -6,40 +6,39 @@ var Tooltip = require('react-bootstrap').Tooltip;
 var Input = require('react-bootstrap').Input;
 
 var PostActions = require('./../PostActions');
+var PostSubmitButtons = require('./PostSubmitButtons.jsx');
 
 module.exports = React.createClass({
-  
 
-	handleSubmit: function(ev) {
-		ev.preventDefault();
+	submit: function(ev) {
+		//ev.preventDefault();
 		PostActions.create();
 	},
-  
+
 	getInitialState: function() {
-		return {
-			value: ''
-		};
+		return { };
 	},
 
 	handleChange: function(ev) {
-		//otherwise, allow form input
-			this.setState({
-			  value: this.refs.input.getValue()
-			});
+		//if the user hits enter, submit a new post
+		if(ev.which === 13) {
+			this.submit(ev);
+		}
 	},
-	
+
 	render: function() {
 			return  <Input
-					  type="text"
-					  value={this.state.value}
-					  placeholder="New Post"
-					  hasFeedback
-					  ref="input"
-					  groupClassName="group-class"
-					  wrapperClassName="wrapper-class"
-					  labelClassName="label-class"
-					  onChange={this.handleChange}
-					  onSubmit={this.handleSubmit}/>
+					 type="text"
+					 value={this.state.value}
+					 placeholder="New Post"
+					 hasFeedback
+					 ref="input"
+					 groupClassName="group-class"
+					 wrapperClassName="wrapper-class"
+					 labelClassName="label-class"
+					 onKeyUp={this.handleChange}>
+					 	<PostSubmitButtons />
+					</Input>
 	}
 });
 

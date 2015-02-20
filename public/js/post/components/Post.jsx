@@ -129,38 +129,38 @@ var Post = React.createClass({
 
 	render: function() {
 		//TODO: fix if logic
-		if(true) {
+		if(false) {
 		return	<div className="panel" postId={ this.state.id }>
-						<div className="panel-heading">
-							<a href={ this.state.image_url }>{ this.state.title }</a>
+					<div className="panel-heading">
+						<a href={ this.state.image_url }>{ this.state.title }</a>
+					</div>
+					<div className="panel-details">{ this.state.author } • { this.state.bevy } • { this.timeAgo() }</div>
+					<div className="panel-body" tabIndex="0">
+						<img className="panel-media" src={ this.state.image_url }/>
+					</div>
+					<div className="panel-commments"></div>
+					<div className="panel-bottom">
+						<div className="panel-controls-left">
+							{ this.countVotes() } points<br/>{ this.state.comments.length } comments
 						</div>
-						<div className="panel-details">{ this.state.author } • { this.state.bevy } • { this.timeAgo() }</div>
-						<div className="panel-body" tabIndex="0">
-							<img className="panel-media" src={ this.state.image_url }/>
-						</div>
-						<div className="panel-commments"></div>
-						<div className="panel-bottom">
-							<div className="panel-controls-left">
-								{ this.countVotes() } points<br/>{ this.state.comments.length } comments
-							</div>
-							<div className="panel-controls-right">
-								<IconButton tooltip='upvote'>
-									<span className="glyphicon glyphicon-menu-up btn" onClick={ this.upvote }></span>
-								</IconButton>
-								<IconButton tooltip='downvote'>
-									<span className="glyphicon glyphicon-menu-down btn" onClick={ this.downvote }></span>
-								</IconButton>
-								<span className="glyphicon glyphicon-option-vertical btn"></span>
-							</div>
+						<div className="panel-controls-right">
+							<IconButton tooltip='upvote'>
+								<span className="glyphicon glyphicon-menu-up btn" onClick={ this.upvote }></span>
+							</IconButton>
+							<IconButton tooltip='downvote'>
+								<span className="glyphicon glyphicon-menu-down btn" onClick={ this.downvote }></span>
+							</IconButton>
+							<span className="glyphicon glyphicon-option-vertical btn"></span>
 						</div>
 					</div>
+				</div>
 				}
 		else {
 			return  <div className="panel" postId={ this.state.id }>
+						<div className="panel-details">{ this.props.author } • { this.props.bevy } • 12 hours ago</div>
 						<div className="panel-heading">
 							<a href={ this.props.image_url }>{ this.props.title }</a>
 						</div>
-						<div className="panel-details">{ this.props.author } • { this.props.bevy } • 12 hours ago</div>
 						<div className="panel-body panel-body-text" tabIndex="0" >
 							Nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
 							nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts nuts 
