@@ -11,14 +11,14 @@ var User = mongoose.model('User');
 var Alias = mongoose.model('Alias');
 
 // INDEX
-// GET /users/:id/aliases/
+// GET /aliases/
 exports.index = function(req, res, next) {
 
 }
 
 // CREATE
-// GET /users/:id/aliases/create
-// POST /users/:id/aliases
+// GET /aliases/create
+// POST /aliases
 exports.create = function(req, res, next) {
 
 }
