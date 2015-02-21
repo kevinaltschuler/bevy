@@ -48,10 +48,6 @@ exports.create = function(req, res, next) {
 
 	if(!update.name) throw error.gen('bevy name not specified', req);
 
-	// set dates
-	update.created = new Date();
-	update.updated = new Date();
-
 	Bevy.create(update, function(err, bevy) {
 		if(err) throw err;
 
@@ -82,7 +78,6 @@ exports.show = function(req, res, next) {
 	}, function(err) {
 		next(err);
 	});
-
 }
 
 // EDIT
