@@ -30,6 +30,7 @@ var React = require('react');
 var Navbar = require('./app/components/Navbar.jsx');
 var MainSection = require('./app/components/MainSection.jsx');
 var ProfilePage = require('./profile/components/ProfilePage.jsx');
+var LoginPage = require('./login/components/LoginPage.jsx');
 
 // load react-router
 var Router = require('react-router');
@@ -52,9 +53,9 @@ injectTapEventPlugin();
 var App = React.createClass({
 	render: function() {
 		return	<div>
-						<Navbar />
-						<RouteHandler/>
-					</div>
+					<Navbar />
+					<RouteHandler/>
+				</div>
 	}
 });
 
@@ -62,6 +63,7 @@ var App = React.createClass({
 var routes = (
 	<Route name='app' path='/' handler={App}>
 		<Route name='profile' handler={ProfilePage} />
+		<Route name='login' handler={LoginPage} />
 		<DefaultRoute handler={MainSection} />
 	</Route>
 );

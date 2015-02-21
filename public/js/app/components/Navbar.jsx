@@ -31,7 +31,7 @@ var State = require('react-router').State;
 
 // menu items to generate on the left nav
 var menuItems = [{ route: 'profile', text: 'Profile Page'},
-					{ route: 'get-started', text: 'Get Started' },
+					{ route: 'sample-bevy', text: 'Get Started' },
 					{ route: 'css-framework', text: 'CSS Framework' },
   					{ route: 'components', text: 'Components' }];
 
@@ -66,11 +66,13 @@ var Navbar = React.createClass({
 								<IconButton iconClassName="glyphicon glyphicon-menu-hamburger" onTouchTap={ this.toggle }/>
 							</a>
 						</div>
-						<text className="navbar-brand navbar-brand-text">Bevy</text>
+						<a href='#'>
+							<text className="navbar-brand navbar-brand-text">Bevy</text>
+						</a>
 						<div className="navbar-header pull-right" id="bs-example-navbar-collapse-1">
 							<form className="navbar-form navbar-right" role="search">
 								<div className="form-group">
-									<TextField type="text" className="search-input" placeholder="  "/>
+									<TextField type="text" className="search-input" placeholder=" "/>
 								</div>
 								<IconButton iconClassName="glyphicon glyphicon-search" href="#"/>
 							</form>
