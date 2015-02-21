@@ -109,43 +109,14 @@ exports.show = function(req, res, next) {
 	}, function(err) { next(err); });
 }
 
-// EDIT
-// GET /users/:id/edit
-exports.edit = function(req, res, next) {
-	var id = req.params.id;
-
-	var update = collectUserParams(req);
-	update.updated = new Date();
-	// hash password if it exists
-	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
-
-	var query = { _id: id };
-	var promise = User.findOneAndUpdate(query, update)
-		.populate('aliases')
-		.exec()
-	promise.then(function(user) {
-		res.json({
-			  status: 'GET /user/' + id + '/edit'
-			, object: 'user'
-			, user: user
-		});
-	}, function(err) { next(err); });
-}
-
 // UPDATE
-// get /users/:id/update
+// GET /users/:id/edit
+// GET /users/:id/update
 // PUT/PATCH /users/:id
 exports.update = function(req, res, next) {
 	var id = req.params.id;
 
 	var update = collectUserParams(req);
-
-	if(_.isEmpty(update.email))
-		throw error.gen('missing identifier - email or openid', req);
-	else if(_.isEmpty(update.password))
-		throw error.gen('missing verification - password or openid', req);
-
-	// if there's a change, set the update date to now
 	update.updated = new Date();
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);

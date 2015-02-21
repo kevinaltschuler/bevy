@@ -20,7 +20,7 @@ module.exports = function(router) {
 	router.get('/users/:id', api.users.show);
 
 	// EDIT
-	router.get('/users/:id/edit', api.users.edit);
+	router.get('/users/:id/edit', api.users.update);
 
 	// UPDATE
 	router.put('/users/:id', api.users.update);
