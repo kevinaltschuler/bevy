@@ -1,7 +1,13 @@
 //TODO: AUTH
-//TODO: CUSTOM EXCEPTIONS
 //TODO: PAGINATION
-// handleError(err) <--
+
+/**
+ * users.js
+ *
+ * API for users
+ *
+ * @author albert
+ */
 
 'use strict';
 
@@ -57,7 +63,9 @@ exports.create = function(req, res, next) {
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
-	var promise = User.findOne({ email: update.email }).exec();
+	var promise = User.findOne({ email: update.email })
+		.populate('aliases')
+		.exec();
 	promise.then(function(user) {
 		if(user) {
 			// duplicate exists
@@ -173,7 +181,9 @@ exports.destroy = function(req, res, next) {
 	var id = req.params.id;
 
 	var query = { _id: id };
-	var promise = User.findOne(query).exec();
+	var promise = User.findOne(query)
+		.populate('aliases')
+		.exec();
 	promise.then(function(user) {
 		if(!user) {
 			var err = error.gen('user not found', req);

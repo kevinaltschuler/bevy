@@ -1,16 +1,24 @@
+/**
+ * Bevy.js
+ *
+ * Bevy database model
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = new Schema({
-	  aliases: [{
+	  name: String
+	, color: String
+	, imageURL: String
+	, members: [{
 	  	  type: Schema.Types.ObjectId
 	  	, ref: 'Alias'
 	  }]
-	, name: String
-	, color: String
-	, imageURL: String
 	, settings: {
 		visibility: String
 	}

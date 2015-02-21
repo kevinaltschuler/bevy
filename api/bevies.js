@@ -18,12 +18,10 @@ var Bevy = mongoose.model('Bevy');
 // INDEX
 // GET /bevies
 exports.index = function(req, res, next) {
-	Bevy.find()
-		.populate('aliases')
-		.exec(function(err, bevies) {
-		if(err) throw err;
-		return bevies;
-	}).then(function(bevies) {
+	var promise = Bevy.find()
+		.populate('members')
+		.exec();
+	promise.then(function(bevies) {
 		res.json({
 			  status: 'INDEX BEVIES'
 			, object: 'bevy array'
@@ -66,8 +64,10 @@ exports.show = function(req, res, next) {
 	var id = req.params.id;
 
 	var query = { _id: id };
-	Bevy.findOne(query).exec(function(err, bevy) {
-		if(err) throw err;
+	var promise = Bevy.findOne(query)
+		.populate('members')
+		.exec();
+	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
 		return bevy;
 	}).then(function(bevy) {
