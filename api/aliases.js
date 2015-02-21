@@ -5,15 +5,23 @@ var error = require('./../error');
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var ObjectId = mongoose.Types.ObjectId;
 
-var User = mongoose.model('User');
 var Alias = mongoose.model('Alias');
 
 // INDEX
 // GET /aliases/
 exports.index = function(req, res, next) {
-
+	Alias.find()
+		.exec(function(err, aliases) {
+		if(err) throw err;
+		return aliases;
+	}).then(function(aliases) {
+		res.json({
+			  status: 'INDEX ALIASES'
+			, object: 'alias array'
+			, aliases: aliases
+		});
+	}, function(err) { next(err); });
 }
 
 // CREATE
