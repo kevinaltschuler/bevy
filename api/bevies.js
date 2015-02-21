@@ -1,8 +1,22 @@
 'use strict';
 
-// INDEX
-exports.index = function(req, res, next) {
+var mongoose = require('mongoose');
 
+var Bevy = mongoose.model('Bevy');
+
+// INDEX
+// GET /bevies
+exports.index = function(req, res, next) {
+	Bevy.find().exec(function(err, bevies) {
+		if(err) throw err;
+		return bevies;
+	}).then(function(bevies) {
+		res.json({
+			  status: 'INDEX BEVIES'
+			, object: 'bevy array'
+			, bevies: bevies
+		});
+	}, function(err) { next(err); });
 }
 
 // CREATE
