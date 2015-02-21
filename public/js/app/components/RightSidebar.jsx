@@ -9,8 +9,6 @@ var ButtonGroup = rbs.ButtonGroup;
 var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
 
-var $ = require('jquery');
-
 module.exports = React.createClass({
 	render: function() {
 		return	<ButtonGroup className="col-sm-2 hidden-xs btn-group right-sidebar">
