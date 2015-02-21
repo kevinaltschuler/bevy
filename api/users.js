@@ -124,8 +124,11 @@ exports.update = function(req, res, next) {
 	var query = { _id: id };
 	var promise = User.findOneAndUpdate(query, update)
 		.populate('aliases')
-		.exec()
+		.exec();
 	promise.then(function(user) {
+		if(!user) throw error.gen('user not found', req);
+		return user;
+	}).then(function(user) {
 		res.json({
 			  status: 'PUT/PATCH /user/' + id
 			, object: 'user'
