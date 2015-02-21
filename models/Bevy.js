@@ -4,7 +4,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = new Schema({
-	  aliases: [Schema.Types.Mixed]
+	  aliases: [{
+	  	  type: Schema.Types.ObjectId
+	  	, ref: 'Alias'
+	  }]
 	, name: String
 	, color: String
 	, imageURL: String
