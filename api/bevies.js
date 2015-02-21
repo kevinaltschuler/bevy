@@ -18,7 +18,9 @@ var Bevy = mongoose.model('Bevy');
 // INDEX
 // GET /bevies
 exports.index = function(req, res, next) {
-	Bevy.find().exec(function(err, bevies) {
+	Bevy.find()
+		.populate('aliases')
+		.exec(function(err, bevies) {
 		if(err) throw err;
 		return bevies;
 	}).then(function(bevies) {
@@ -96,7 +98,9 @@ exports.edit = function(req, res, next) {
 	});
 
 	var query = { _id: id };
-	Bevy.findOneAndUpdate(query, update).exec(function(err, bevy) {
+	Bevy.findOneAndUpdate(query, update)
+		.populate('aliases')
+		.exec(function(err, bevy) {
 		if(err) throw err;
 		if(!bevy) throw error.gen('bevy not found', req);
 		return bevy;
