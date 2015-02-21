@@ -2,6 +2,6 @@
 
 module.exports = function(app) {
 	app.get('/', function(req, res, next) {
-		res.render('app', {});
+		res.render('app', { env: process.env.NODE_ENV });
 	});
 }
