@@ -63,8 +63,7 @@ exports.create = function(req, res, next) {
 			// duplicate exists
 			throw error.gen('another user with the same email exists', req);
 		}
-	}).then(
-	function() {
+	}).then( function() {
 		User.create(update, function(err, user) {
 			if(err) throw err;
 			res.json({
@@ -74,16 +73,13 @@ exports.create = function(req, res, next) {
 			});
 		});
 	},
-	function(err) {
-		next(err);
-	});
+	function(err) { next(err); });
 }
 
 // SHOW
 // GET /users/:id/
 exports.show = function(req, res, next) {
-	var _id = req.params.id;
-	var object_id = ObjectId.createFromHexString(_id);
+	var id = req.params.id;
 
 	// todo: verify object id
 
