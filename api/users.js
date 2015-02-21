@@ -15,9 +15,6 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var User = mongoose.model('User');
 
-
-/** RESOURCE API **/
-
 // INDEX
 // GET /users
 exports.index = function(req, res, next) {
@@ -35,59 +32,41 @@ exports.index = function(req, res, next) {
 	}, function(err) { next(err); });
 }
 
-//CREATE
+// CREATE
 // GET /users/create
 // POST /users
 exports.create = function(req, res, next) {
 	//TODO: check for dupes
-
 	//TODO: verify email
-
 	var update = {};
-
 	User.schema.eachPath(function(pathname, schema_type) {
 		// collect path value
 		var val = null;
 		if(req.body != undefined) val = req.body[pathname];
 		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
 		if(!val) return;
-
 		update[pathname] = val;
 	});
 
-	if(_.isEmpty(update.email) && _.isEmpty(update.open_id)) {
-		throw error.gen('missing identifier - email or openid', req);
-	}
-	else if(_.isEmpty(update.open_id) && _.isEmpty(update.password)) {
-		throw error.gen('missing verification - password or openid', req);
-	}
-
-	// if there's a change, set the update and create date to now
-	if(!_.isEmpty(update)) {
-		update.updated = new Date();
-		update.created = new Date();
-	}
+	// check for required fields
+	if(_.isEmpty(update.email))
+		throw error.gen('missing identifier - email', req);
+	else if(_.isEmpty(update.password))
+		throw error.gen('missing verification - password', req);
 
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
-	// create objectid
-	update._id = new ObjectId();
 
-	var promise = User.findOne({ $or:[{ email: update.email }, { open_id: update.open_id }] }).exec();
-
-	promise.then(function(err, user) {
-		if(err) throw err;
+	var promise = User.findOne({ email: update.email }).exec();
+	promise.then(function(user) {
 		if(user) {
 			// duplicate exists
-			//throw error.gen('another user with the same email or openid exists', req);
-			throw error.gen('duplicate exists!', req);
+			throw error.gen('another user with the same email exists', req);
 		}
-
 	}).then(
 	function() {
 		User.create(update, function(err, user) {
 			if(err) throw err;
-
 			res.json({
 				  status: 'GET /user/create'
 				, object: 'user'
@@ -96,10 +75,8 @@ exports.create = function(req, res, next) {
 		});
 	},
 	function(err) {
-		console.error(err);
 		next(err);
-	}).end();
-
+	});
 }
 
 // SHOW
