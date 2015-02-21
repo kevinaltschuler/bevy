@@ -34,9 +34,7 @@ connection.once('open', function() {
 			console.log('seeding users...');
 
 			User.create({
-				  _id: mongoose.Types.ObjectId()
-				, token: ''
-				, display_name: 'foobar'
+				  token: ''
 				, password: bcrypt.hashSync('foobar', 8)
 				, email: 'foobar@example.com'
 				, created: new Date()
@@ -44,6 +42,21 @@ connection.once('open', function() {
 			});
 		} else {
 			//console.log(users);
+		}
+	});
+
+	var Bevy = mongoose.model('Bevy');
+
+	Bevy.find(function(err, bevys) {
+		if(err) return console.error(err);
+
+		if(bevys.length == 0) {
+			console.log('seeding bevys...');
+
+			Bevy.create({
+				  name: 'Monsta Island Czars'
+				, color: 'FF0000'
+			});
 		}
 	});
 });
