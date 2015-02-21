@@ -42,7 +42,7 @@ exports.index = function(req, res, next) {
 		.exec();
 	promise.then(function(users) {
 		res.json({
-			  status: 'GET /user'
+			  status: 'INDEX USERS'
 			, object: 'user array'
 			, users: users
 		});
@@ -78,7 +78,7 @@ exports.create = function(req, res, next) {
 		User.create(update, function(err, user) {
 			if(err) throw err;
 			res.json({
-				  status: 'GET /user/create'
+				  status: 'CREATE USERS'
 				, object: 'user'
 				, user: user
 			});
@@ -100,7 +100,7 @@ exports.show = function(req, res, next) {
 		return user;
 	}).then(function(user) {
 		res.json({
-			  status: 'GET /user/' + id
+			  status: 'SHOW USER ' + id
 			, object: 'user'
 			, user: user
 		});
@@ -128,7 +128,7 @@ exports.update = function(req, res, next) {
 		return user;
 	}).then(function(user) {
 		res.json({
-			  status: 'PUT/PATCH /user/' + id
+			  status: 'UPDATE USER ' + id
 			, object: 'user'
 			, user: user
 		});
@@ -149,7 +149,7 @@ exports.destroy = function(req, res, next) {
 		return user;
 	}).then(function(user) {
 		res.json({
-			  status: 'DELETE /user' + id
+			  status: 'DESTROY USER ' + id
 			, object: 'user'
 			, user: user
 		});
