@@ -1,4 +1,5 @@
 'use strict';
 
-exports.users = require('./users');
 exports.aliases = require('./aliases');
+exports.bevies = require('./bevies');
+exports.users = require('./users');
