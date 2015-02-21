@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = new Schema({
-	, name: String
+	  name: String
 	, photos: [{ url: String }]
 	, karma: Number
 	, created: {
