@@ -42,16 +42,15 @@ gulp.task('webpack:build-dev', function(callback) {
 var devServer = {};
 gulp.task('webpack-dev-server', function(callback) {
 	devServer = new WebpackDevServer(webpack(webpackConfig), {
-		  contentBase: 'public/'
-		//, publicPath: '/scripts/'
+		  contentBase: 'http://localhost:8888'
+		, publicPath: webpackConfig.output.publicPath
 		, hot: true
-		, watchDelay: 100
 		, stats: { colors: true }
 		, noInfo: true
 	});
-	devServer.listen(80, 'localhost', function(err) {
+	devServer.listen(8888, 'localhost', function(err) {
 		if(err) throw new gutil.PluginError('webpack-dev-server', err);
-		gutil.log('[webpack-dev-server]', 'http://localhost:80');
+		gutil.log('[webpack-dev-server]', 'http://localhost:8888');
 		callback();
 	});
 	return;
