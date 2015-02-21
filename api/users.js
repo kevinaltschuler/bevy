@@ -1,7 +1,5 @@
 //TODO: AUTH
-//TODO: CUSTOM EXCEPTIONS
 //TODO: PAGINATION
-// handleError(err) <--
 
 'use strict';
 
