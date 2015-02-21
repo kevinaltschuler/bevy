@@ -4,7 +4,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = new Schema({
-	  aliases: [Schema.Types.ObjectId]
+	  aliases: [Schema.Types.Mixed]
 	, name: String
 	, color: String
 	, imageURL: String
