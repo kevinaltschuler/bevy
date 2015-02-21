@@ -84,9 +84,11 @@ exports.show = function(req, res, next) {
 	}, function(err) { next(err);	});
 }
 
-// EDIT
+// UPDATE
 // GET /bevies/:id/edit
-exports.edit = function(req, res, next) {
+// GET /bevies/:id/update
+// PUT/PATCH /bevies/:id
+exports.update = function(req, res, next) {
 	var id = req.params.id;
 
 	var update = collectBevyParams(req);
@@ -100,16 +102,11 @@ exports.edit = function(req, res, next) {
 		return bevy;
 	}).then(function(bevy) {
 		res.json({
-			  status: 'EDIT BEVIES'
+			  status: 'UPDATE BEVIES'
 			, object: 'bevy'
 			, bevy: bevy
 		});
 	}, function(err) { next(err); });
-}
-
-// UPDATE
-exports.update = function(req, res, next) {
-
 }
 
 // DESTROY
