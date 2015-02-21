@@ -99,43 +99,37 @@ exports.show = function(req, res, next) {
 // EDIT
 // GET /users/:id/edit
 exports.edit = function(req, res, next) {
-	var _id = req.params.id;
-	var object_id = ObjectId.createFromHexString(_id);
+	var id = req.params.id;
 
 	var update = {};
-
 	User.schema.eachPath(function(pathname, schema_type) {
 		// collect path value
 		var val = null;
 		if(req.body != undefined) val = req.body[pathname];
 		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
 		if(!val) return;
-
 		update[pathname] = val;
 	});
 
-	// if there's a change, set the update date to now
-	if(!_.isEmpty(update)) update.updated = new Date();
-
+	update.updated = new Date();
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
-	// todo: verify object id
-
-	var query = { _id: object_id };
-	User.findOneAndUpdate(query, update).exec(function(err, user) {
-		if(err) throw err;
-
+	var query = { _id: id };
+	var promise = User.findOneAndUpdate(query, update)
+		.populate('aliases')
+		.exec()
+	promise.then(function(user) {
 		res.json({
-			  status: 'GET /user/' + _id + '/edit'
+			  status: 'GET /user/' + id + '/edit'
 			, object: 'user'
 			, user: user
 		});
-	});
+	}, function(err) { next(err); });
 }
 
 // UPDATE
-// force update
+// get /users/:id/update
 // PUT/PATCH /users/:id
 exports.update = function(req, res, next) {
 	var _id = req.params.id;
