@@ -20,6 +20,6 @@ module.exports = React.createClass({
 						<DropdownButton className="dropdown-button" title='Invites'>
 							<MenuItem eventKey="1">Action</MenuItem>
 						</DropdownButton>
-					</ButtonGroup>;
+				</ButtonGroup>;
 	}
 });

@@ -7,6 +7,9 @@ var Badge = rbs.Badge;
 var Button = rbs.Button;
 var ButtonGroup = rbs.ButtonGroup;
 
+var mui = require('material-ui');
+var IconButton = mui.IconButton;
+
 module.exports = React.createClass({
       render: function() {
         return <ButtonGroup className="col-sm-3 hidden-xs btn-group left-sidebar" role="group">
@@ -23,8 +26,9 @@ module.exports = React.createClass({
                     Neu Frisbee <Badge>4</Badge>
                   </Button> 
                   <br/>
-                    <Button type="button" className="sort-btn btn">Bevy Team</Button>
+                  <Button type="button" className="sort-btn btn">Bevy Team</Button>
                   <br/>
+                  <IconButton iconClassName="glyphicon glyphicon-plus" tooltip="Create new bevy"/>
                 </text>
                </ButtonGroup>;
              }
