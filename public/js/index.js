@@ -48,15 +48,6 @@ var injectTapEventPlugin = require('react-tap-event-plugin');
 injectTapEventPlugin();
 
 
-// override default save function
-// remove when DB connection is stable
-Backbone.sync = function(method, model) {
-	alert(method + ':' + JSON.stringify(model));
-	// set a flub id
-	model.set('id', Date.now());
-}
-
-
 // App bootstrap
 var App = React.createClass({
 	render: function() {
