@@ -21,7 +21,9 @@ var User = mongoose.model('User');
 // INDEX
 // GET /users
 exports.index = function(req, res, next) {
-	User.find().exec(function(err, users) {
+	User.find()
+		.populate('aliases')
+		.exec(function(err, users) {
 		if(err) throw err;
 		return users;
 	}).then(function(users) {
