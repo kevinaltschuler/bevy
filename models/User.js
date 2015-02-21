@@ -18,7 +18,7 @@ module.exports = new Schema({
 	, aliases: [{
 		  type: Schema.Types.ObjectId
 		, ref: 'Alias'
-	}]
+	  }]
 	, created: {
 		  type: Date
 		, default: Date.now }
