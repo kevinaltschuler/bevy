@@ -77,7 +77,7 @@ exports.show = function(req, res, next) {
 		return bevy;
 	}).then(function(bevy) {
 		res.json({
-			  status: 'SHOW BEVIES'
+			  status: 'SHOW BEVY ' + id
 			, object: 'bevy'
 			, bevy: bevy
 		});
@@ -102,7 +102,7 @@ exports.update = function(req, res, next) {
 		return bevy;
 	}).then(function(bevy) {
 		res.json({
-			  status: 'UPDATE BEVIES'
+			  status: 'UPDATE BEVY ' + id
 			, object: 'bevy'
 			, bevy: bevy
 		});
