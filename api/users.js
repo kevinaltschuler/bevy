@@ -21,12 +21,8 @@ var User = mongoose.model('User');
 // INDEX
 // GET /users
 exports.index = function(req, res, next) {
-
-	// for now just returns all
-
 	User.find().exec(function(err, users) {
 		if(err) throw err;
-
 		return users;
 	}).then(function(users) {
 		res.json({
@@ -34,7 +30,7 @@ exports.index = function(req, res, next) {
 			, object: 'user array'
 			, users: users
 		});
-	});
+	}, function(err) { next(err); });
 }
 
 //CREATE
