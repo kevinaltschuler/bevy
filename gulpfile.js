@@ -98,7 +98,7 @@ gulp.task('build', ['webpack:build'], function() {
 
 gulp.task('serve:dev', [ 'webpack-dev-server', 'less', 'serve' ]);
 
-gulp.task('serve', function() {
+gulp.task('serve', ['build'], function() {
 	nodemon({
 		  verbose: true
 		, script: 'app.js'
