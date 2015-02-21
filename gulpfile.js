@@ -56,7 +56,7 @@ gulp.task('webpack-dev-server', function(callback) {
 	return;
 });
 
-gulp.task('watch', ['webpack-dev-server', 'less']);
+gulp.task('watch', ['webpack-dev-server', 'less', 'serve:dev']);
 
 gulp.task('less', function() {
 	gulp.watch(['public/less/*.less', 'public/less/**/*.less'], function(event) {
@@ -96,7 +96,39 @@ gulp.task('build', ['webpack:build'], function() {
 	buildLess();
 });
 
-gulp.task('serve:dev', [ 'webpack-dev-server', 'less', 'serve' ]);
+//gulp.task('serve:dev', [ 'webpack-dev-server', 'less', 'serve' ]);
+
+gulp.task('serve:dev', function() {
+	nodemon({
+		  script: 'app.js'
+		, ext: 'html js jade'
+		, env: {
+			  'NODE_ENV': 'development'
+			, 'COOKIE_SECRET': 'foobar'
+			, 'SESSION_SECRET': 'foobar'
+		}
+		, watch: [
+			  './*.*'
+			, './routes/*.*'
+			, './routes/**/*.*'
+			, './views/*.*'
+			, './views/**/*.*'
+			, './models/*.*'
+			, './middleware/*.*'
+			, './config/*.*'
+			, './api/**/*.*'
+			, './api/*.*'
+		]
+		, ignore: [
+			  './public/*.*'
+			, './public/**/*.*'
+			, './public/js/build/bundle.js'
+			, './gulpfile.js'
+		]
+	}).on('restart', function() {
+		console.log('restarted!');
+	});
+});
 
 gulp.task('serve', ['build'], function() {
 	nodemon({
@@ -104,7 +136,7 @@ gulp.task('serve', ['build'], function() {
 		, script: 'app.js'
 		, ext: 'html js jade'
 		, env: {
-			  'NODE_ENV': 'development'
+			  'NODE_ENV': 'production'
 			, 'COOKIE_SECRET': 'foobar'
 			, 'SESSION_SECRET': 'foobar'
 		}
