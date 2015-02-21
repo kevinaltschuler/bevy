@@ -1,3 +1,11 @@
+/**
+ * aliases.js
+ *
+ * Alias database API
+ *
+ * @author albert
+ */
+
 'use strict'
 
 var _ = require('underscore');
