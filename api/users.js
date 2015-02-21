@@ -80,29 +80,20 @@ exports.create = function(req, res, next) {
 // GET /users/:id/
 exports.show = function(req, res, next) {
 	var id = req.params.id;
-
-	// todo: verify object id
-
-	User.findOne({
-		_id: object_id
-	}).exec(function(err, user) {
-		if(err) throw err;
-
-		return user
+	var query = { _id: id };
+	var promise = User.findOne(query)
+		.populate('aliases')
+		.exec();
+	promise.then(function(user) {
+		if(!user) throw error.gen('user not found', req);
+		return user;
 	}).then(function(user) {
-
-		if(!user) {
-			var err = error.gen('user not found', req);
-			next(err);
-		}
-
 		res.json({
-			  status: 'GET /user/' + _id
+			  status: 'GET /user/' + id
 			, object: 'user'
 			, user: user
 		});
-		next();
-	});
+	}, function(err) { next(err); });
 }
 
 // EDIT
