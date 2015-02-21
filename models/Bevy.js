@@ -15,7 +15,7 @@ module.exports = new Schema({
 	  name: String
 	, color: String
 	, imageURL: String
-	, aliases: [{
+	, members: [{
 	  	  type: Schema.Types.ObjectId
 	  	, ref: 'Alias'
 	  }]
