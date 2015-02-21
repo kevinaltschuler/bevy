@@ -42,22 +42,21 @@ gulp.task('webpack:build-dev', function(callback) {
 var devServer = {};
 gulp.task('webpack-dev-server', function(callback) {
 	devServer = new WebpackDevServer(webpack(webpackConfig), {
-		  contentBase: 'public/'
-		//, publicPath: '/scripts/'
+		  contentBase: 'http://localhost:8888'
+		, publicPath: webpackConfig.output.publicPath
 		, hot: true
-		, watchDelay: 100
 		, stats: { colors: true }
 		, noInfo: true
 	});
-	devServer.listen(80, 'localhost', function(err) {
+	devServer.listen(8888, 'localhost', function(err) {
 		if(err) throw new gutil.PluginError('webpack-dev-server', err);
-		gutil.log('[webpack-dev-server]', 'http://localhost:80');
+		gutil.log('[webpack-dev-server]', 'http://localhost:8888');
 		callback();
 	});
 	return;
 });
 
-gulp.task('watch', ['webpack-dev-server', 'less']);
+gulp.task('watch', ['webpack-dev-server', 'less', 'serve:dev']);
 
 gulp.task('less', function() {
 	gulp.watch(['public/less/*.less', 'public/less/**/*.less'], function(event) {
@@ -97,13 +96,47 @@ gulp.task('build', ['webpack:build'], function() {
 	buildLess();
 });
 
-gulp.task('serve', function() {
+//gulp.task('serve:dev', [ 'webpack-dev-server', 'less', 'serve' ]);
+
+gulp.task('serve:dev', function() {
+	nodemon({
+		  script: 'app.js'
+		, ext: 'html js jade'
+		, env: {
+			  'NODE_ENV': 'development'
+			, 'COOKIE_SECRET': 'foobar'
+			, 'SESSION_SECRET': 'foobar'
+		}
+		, watch: [
+			  './*.*'
+			, './routes/*.*'
+			, './routes/**/*.*'
+			, './views/*.*'
+			, './views/**/*.*'
+			, './models/*.*'
+			, './middleware/*.*'
+			, './config/*.*'
+			, './api/**/*.*'
+			, './api/*.*'
+		]
+		, ignore: [
+			  './public/*.*'
+			, './public/**/*.*'
+			, './public/js/build/bundle.js'
+			, './gulpfile.js'
+		]
+	}).on('restart', function() {
+		console.log('restarted!');
+	});
+});
+
+gulp.task('serve', ['build'], function() {
 	nodemon({
 		  verbose: true
 		, script: 'app.js'
 		, ext: 'html js jade'
 		, env: {
-			  'NODE_ENV': 'development'
+			  'NODE_ENV': 'production'
 			, 'COOKIE_SECRET': 'foobar'
 			, 'SESSION_SECRET': 'foobar'
 		}

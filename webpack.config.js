@@ -5,13 +5,14 @@ var path = require('path');
 
 module.exports = {
 	entry: [
-		'webpack-dev-server/client?http://localhost:80',
+		'webpack-dev-server/client?http://localhost:8888',
 		'webpack/hot/only-dev-server',
 		'./public/js/index'
 	],
 	output: {
 		path: path.join(__dirname, '/public/'),
-		filename: 'bundle.js'
+		filename: 'bundle.js',
+		publicPath: 'http://localhost:8888/build'
 	},
 	module: {
 		loaders: [
