@@ -15,6 +15,20 @@ var _ = require('underscore');
 
 var Bevy = mongoose.model('Bevy');
 
+function collectBevyParams(req) {
+	var update = {};
+	// dynamically load schema values from request object
+	Bevy.schema.eachPath(function(pathname, schema_type) {
+		// collect path value
+		var val = null;
+		if(req.body != undefined) val = req.body[pathname];
+		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
+		if(!val) return;
+		update[pathname] = val;
+	});
+	return update;
+}
+
 // INDEX
 // GET /bevies
 exports.index = function(req, res, next) {
@@ -34,17 +48,8 @@ exports.index = function(req, res, next) {
 // GET /bevies/create
 // POST /bevies
 exports.create = function(req, res, next) {
-	var update = {};
-	// dynamically load schema values from request object
-	Bevy.schema.eachPath(function(pathname, schema_type) {
-		// collect path value
-		var val = null;
-		if(req.body != undefined) val = req.body[pathname];
-		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
-		if(!val) return;
-		update[pathname] = val;
-	});
 
+	var update = collectBevyParams(req);
 	if(!update.name) throw error.gen('bevy name not specified', req);
 
 	Bevy.create(update, function(err, bevy) {
@@ -76,9 +81,7 @@ exports.show = function(req, res, next) {
 			, object: 'bevy'
 			, bevy: bevy
 		});
-	}, function(err) {
-		next(err);
-	});
+	}, function(err) { next(err);	});
 }
 
 // EDIT
@@ -86,22 +89,13 @@ exports.show = function(req, res, next) {
 exports.edit = function(req, res, next) {
 	var id = req.params.id;
 
-	var update = {};
-	// dynamically load schema values from request object
-	Bevy.schema.eachPath(function(pathname, schema_type) {
-		// collect path value
-		var val = null;
-		if(req.body != undefined) val = req.body[pathname];
-		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
-		if(!val) return;
-		update[pathname] = val;
-	});
+	var update = collectBevyParams(req);
 
 	var query = { _id: id };
-	Bevy.findOneAndUpdate(query, update)
+	var promise = Bevy.findOneAndUpdate(query, update)
 		.populate('aliases')
-		.exec(function(err, bevy) {
-		if(err) throw err;
+		.exec();
+	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
 		return bevy;
 	}).then(function(bevy) {
@@ -110,9 +104,7 @@ exports.edit = function(req, res, next) {
 			, object: 'bevy'
 			, bevy: bevy
 		});
-	}, function(err) {
-		next(err);
-	});
+	}, function(err) { next(err); });
 }
 
 // UPDATE
