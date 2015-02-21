@@ -15,20 +15,20 @@ module.exports = function(router) {
 	router.post('/aliases', api.aliases.create);
 
 	// SHOW
-	router.get('/aliases/:name', api.aliases.show);
+	router.get('/aliases/:id', api.aliases.show);
 
 	// EDIT
-	router.get('/aliases/:name/edit', api.aliases.edit);
+	router.get('/aliases/:id/edit', api.aliases.edit);
 
 	// UPDATE
-	router.put('/aliases/:name', api.aliases.update);
+	router.put('/aliases/:id', api.aliases.update);
 	// browser hack
 	// TODO: disable on production
-	router.get('/aliases/:name/update', api.aliases.update);
+	router.get('/aliases/:id/update', api.aliases.update);
 
 	// DESTROY
-	router.delete('/aliases/:name', api.aliases.destroy);
+	router.delete('/aliases/:id', api.aliases.destroy);
 	// browser hack
 	// TODO: disable on production
-	router.get('/aliases/:name/destroy', api.aliases.destroy);
+	router.get('/aliases/:id/destroy', api.aliases.destroy);
 }
