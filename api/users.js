@@ -21,6 +21,19 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var User = mongoose.model('User');
 
+function collectUserParams(req) {
+	var update = {};
+	User.schema.eachPath(function(pathname, schema_type) {
+		// collect path value
+		var val = null;
+		if(req.body != undefined) val = req.body[pathname];
+		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
+		if(!val) return;
+		update[pathname] = val;
+	});
+	return update;
+}
+
 // INDEX
 // GET /users
 exports.index = function(req, res, next) {
@@ -44,15 +57,7 @@ exports.index = function(req, res, next) {
 exports.create = function(req, res, next) {
 	//TODO: check for dupes
 	//TODO: verify email
-	var update = {};
-	User.schema.eachPath(function(pathname, schema_type) {
-		// collect path value
-		var val = null;
-		if(req.body != undefined) val = req.body[pathname];
-		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
-		if(!val) return;
-		update[pathname] = val;
-	});
+	var update = collectUserParams(req);
 
 	// check for required fields
 	if(_.isEmpty(update.email))
@@ -109,16 +114,7 @@ exports.show = function(req, res, next) {
 exports.edit = function(req, res, next) {
 	var id = req.params.id;
 
-	var update = {};
-	User.schema.eachPath(function(pathname, schema_type) {
-		// collect path value
-		var val = null;
-		if(req.body != undefined) val = req.body[pathname];
-		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
-		if(!val) return;
-		update[pathname] = val;
-	});
-
+	var update = collectUserParams(req);
 	update.updated = new Date();
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
@@ -142,15 +138,7 @@ exports.edit = function(req, res, next) {
 exports.update = function(req, res, next) {
 	var id = req.params.id;
 
-	var update = {};
-	User.schema.eachPath(function(pathname, schema_type) {
-		// collect path value
-		var val = null;
-		if(req.body != undefined) val = req.body[pathname];
-		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
-		if(!val) return;
-		update[pathname] = val;
-	});
+	var update = collectUserParams(req);
 
 	if(_.isEmpty(update.email))
 		throw error.gen('missing identifier - email or openid', req);
