@@ -30,10 +30,9 @@ var Navigation = require('react-router').Navigation;
 var State = require('react-router').State;
 
 // menu items to generate on the left nav
-var menuItems = [{ route: 'profile', text: 'Profile Page'},
-					{ route: 'sample-bevy', text: 'Get Started' },
-					{ route: 'css-framework', text: 'CSS Framework' },
-  					{ route: 'components', text: 'Components' }];
+var menuItems = [{ route: 'login', text: 'Login'},
+					{ route: 'profile', text: 'Profile Page'},
+					{ route: 'sample-bevy', text: 'Sample Bevy' }];
 
 // react component
 var Navbar = React.createClass({
