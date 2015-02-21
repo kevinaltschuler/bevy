@@ -143,21 +143,17 @@ exports.destroy = function(req, res, next) {
 	var id = req.params.id;
 
 	var query = { _id: id };
-	var promise = User.findOne(query)
+	var promise = User.findOneAndRemove(query)
 		.populate('aliases')
 		.exec();
 	promise.then(function(user) {
-		if(!user) {
-			var err = error.gen('user not found', req);
-			next(err);
-		}
-		user.remove(function(err, user) {
-			if(err) throw err;
-			res.json({
-				  status: 'DELETE /user' + _id
-				, object: 'user'
-				, user: user
-			});
+		if(!user) throw error.gen('user not found', req);
+		return user;
+	}).then(function(user) {
+		res.json({
+			  status: 'DELETE /user' + id
+			, object: 'user'
+			, user: user
 		});
-	}).then(null, function(err) { next(err); });
+	}, function(err) { next(err); });
 }
