@@ -132,63 +132,53 @@ exports.edit = function(req, res, next) {
 // get /users/:id/update
 // PUT/PATCH /users/:id
 exports.update = function(req, res, next) {
-	var _id = req.params.id;
-	var object_id = ObjectId.createFromHexString(_id);
+	var id = req.params.id;
 
 	var update = {};
-
 	User.schema.eachPath(function(pathname, schema_type) {
 		// collect path value
 		var val = null;
 		if(req.body != undefined) val = req.body[pathname];
 		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
 		if(!val) return;
-
 		update[pathname] = val;
 	});
 
-	if(_.isEmpty(update.email) && _.isEmpty(update.open_id)) {
+	if(_.isEmpty(update.email))
 		throw error.gen('missing identifier - email or openid', req);
-	}
-	else if(_.isEmpty(update.open_id) && _.isEmpty(update.password)) {
+	else if(_.isEmpty(update.password))
 		throw error.gen('missing verification - password or openid', req);
-	}
 
 	// if there's a change, set the update date to now
-	if(!_.isEmpty(update)) update.updated = new Date();
-
+	update.updated = new Date();
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
-	var query = { _id: object_id };
-	User.findOneAndUpdate(query, update).exec(function(err, user) {
-		if(err) throw err;
-
+	var query = { _id: id };
+	var promise = User.findOneAndUpdate(query, update)
+		.populate('aliases')
+		.exec()
+	promise.then(function(user) {
 		res.json({
-			  status: 'PUT/PATCH /user/' + _id
+			  status: 'PUT/PATCH /user/' + id
 			, object: 'user'
 			, user: user
 		});
-	});
+	}, function(err) { next(err); });
 }
 
 // DESTROY
 // DELETE /users/:id
 exports.destroy = function(req, res, next) {
-	var _id = req.params.id;
-	var object_id = ObjectId.createFromHexString(_id);
+	var id = req.params.id;
 
-	var query = { _id: object_id };
-	User.findOne(query).exec(function(err, user) {
-		if(err) throw err;
-		return user;
-	}).then(function(user) {
-
+	var query = { _id: id };
+	var promise = User.findOne(query).exec();
+	promise.then(function(user) {
 		if(!user) {
 			var err = error.gen('user not found', req);
 			next(err);
 		}
-
 		user.remove(function(err, user) {
 			if(err) throw err;
 			res.json({
@@ -196,7 +186,6 @@ exports.destroy = function(req, res, next) {
 				, object: 'user'
 				, user: user
 			});
-			next();
 		});
-	});
+	}).then(null, function(err) { next(err); });
 }
