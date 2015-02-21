@@ -96,6 +96,8 @@ gulp.task('build', ['webpack:build'], function() {
 	buildLess();
 });
 
+gulp.task('serve:dev', [ 'webpack-dev-server', 'less', 'serve' ]);
+
 gulp.task('serve', function() {
 	nodemon({
 		  verbose: true
