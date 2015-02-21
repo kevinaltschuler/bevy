@@ -34,7 +34,6 @@ exports.index = function(req, res, next) {
 // GET /bevies/create
 // POST /bevies
 exports.create = function(req, res, next) {
-
 	var update = {};
 	// dynamically load schema values from request object
 	Bevy.schema.eachPath(function(pathname, schema_type) {
@@ -60,13 +59,13 @@ exports.create = function(req, res, next) {
 }
 
 // SHOW
+// GET /bevies/:id
 exports.show = function(req, res, next) {
 	var id = req.params.id;
 
 	var query = { _id: id };
 	Bevy.findOne(query).exec(function(err, bevy) {
 		if(err) throw err;
-
 		if(!bevy) throw error.gen('bevy not found', req);
 		return bevy;
 	}).then(function(bevy) {
@@ -81,8 +80,35 @@ exports.show = function(req, res, next) {
 }
 
 // EDIT
+// GET /bevies/:id/edit
 exports.edit = function(req, res, next) {
+	var id = req.params.id;
 
+	var update = {};
+	// dynamically load schema values from request object
+	Bevy.schema.eachPath(function(pathname, schema_type) {
+		// collect path value
+		var val = null;
+		if(req.body != undefined) val = req.body[pathname];
+		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
+		if(!val) return;
+		update[pathname] = val;
+	});
+
+	var query = { _id: id };
+	Bevy.findOneAndUpdate(query, update).exec(function(err, bevy) {
+		if(err) throw err;
+		if(!bevy) throw error.gen('bevy not found', req);
+		return bevy;
+	}).then(function(bevy) {
+		res.json({
+			  status: 'EDIT BEVIES'
+			, object: 'bevy'
+			, bevy: bevy
+		});
+	}, function(err) {
+		next(err);
+	});
 }
 
 // UPDATE
