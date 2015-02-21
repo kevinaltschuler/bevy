@@ -37,12 +37,10 @@ function collectUserParams(req) {
 // INDEX
 // GET /users
 exports.index = function(req, res, next) {
-	User.find()
+	var promise = User.find()
 		.populate('aliases')
-		.exec(function(err, users) {
-		if(err) throw err;
-		return users;
-	}).then(function(users) {
+		.exec();
+	promise.then(function(users) {
 		res.json({
 			  status: 'GET /user'
 			, object: 'user array'
