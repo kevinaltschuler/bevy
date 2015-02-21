@@ -1,6 +1,14 @@
 //TODO: AUTH
 //TODO: PAGINATION
 
+/**
+ * users.js
+ *
+ * API for users
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var _ = require('underscore');
