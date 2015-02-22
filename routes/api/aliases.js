@@ -18,7 +18,7 @@ module.exports = function(router) {
 	router.get('/aliases/:id', api.aliases.show);
 
 	// EDIT
-	router.get('/aliases/:id/edit', api.aliases.edit);
+	router.get('/aliases/:id/edit', api.aliases.update);
 
 	// UPDATE
 	router.put('/aliases/:id', api.aliases.update);

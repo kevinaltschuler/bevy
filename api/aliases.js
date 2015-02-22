@@ -44,11 +44,6 @@ exports.show = function(req, res, next) {
 
 }
 
-// EDIT
-exports.edit = function(req, res, next) {
-
-}
-
 // UPDATE
 exports.update = function(req, res, next) {
 
