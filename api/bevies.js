@@ -77,42 +77,53 @@ exports.show = function(req, res, next) {
 		return bevy;
 	}).then(function(bevy) {
 		res.json({
-			  status: 'SHOW BEVIES'
+			  status: 'SHOW BEVY ' + id
 			, object: 'bevy'
 			, bevy: bevy
 		});
 	}, function(err) { next(err);	});
 }
 
-// EDIT
+// UPDATE
 // GET /bevies/:id/edit
-exports.edit = function(req, res, next) {
+// GET /bevies/:id/update
+// PUT/PATCH /bevies/:id
+exports.update = function(req, res, next) {
 	var id = req.params.id;
 
 	var update = collectBevyParams(req);
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update)
-		.populate('aliases')
+		.populate('members')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
 		return bevy;
 	}).then(function(bevy) {
 		res.json({
-			  status: 'EDIT BEVIES'
+			  status: 'UPDATE BEVY ' + id
 			, object: 'bevy'
 			, bevy: bevy
 		});
 	}, function(err) { next(err); });
 }
 
-// UPDATE
-exports.update = function(req, res, next) {
-
-}
-
 // DESTROY
+// GET /bevies/:id/destroy
+// DELETE /bevies/:id
 exports.destroy = function(req, res, next) {
+	var id = req.params.id;
 
+	var query = { _id: id };
+	var promise = Bevy.findOneAndRemove(query)
+		.populate('members')
+		.exec();
+	promise.then(function(bevy) {
+		res.json({
+			  status: 'DESTROY BEVY ' + id
+			, object: 'bevy'
+			, bevy: bevy
+		});
+	}, function(err) { next(err); })
 }
