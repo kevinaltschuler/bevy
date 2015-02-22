@@ -48,7 +48,6 @@ exports.index = function(req, res, next) {
 // GET /bevies/create
 // POST /bevies
 exports.create = function(req, res, next) {
-
 	var update = collectBevyParams(req);
 	if(!update.name) throw error.gen('bevy name not specified', req);
 
