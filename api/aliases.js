@@ -16,6 +16,20 @@ var Schema = mongoose.Schema;
 
 var Alias = mongoose.model('Alias');
 
+function collectAliasParams(req) {
+	var update = {};
+	// dynamically load schema values from request object
+	Alias.schema.eachPath(function(pathname, schema_type) {
+		// collect path value
+		var val = null;
+		if(req.body != undefined) val = req.body[pathname];
+		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
+		if(!val) return;
+		update[pathname] = val;
+	});
+	return update;
+}
+
 // INDEX
 // GET /aliases/
 exports.index = function(req, res, next) {
