@@ -2,10 +2,13 @@
 
 var React = require('react');
 
+var CreateNewBevy = require('./../../modals/components/CreateNewBevy.jsx');
+
 var rbs = require('react-bootstrap');
 var Badge = rbs.Badge;
 var Button = rbs.Button;
 var ButtonGroup = rbs.ButtonGroup;
+var ModalTrigger = rbs.ModalTrigger;
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
@@ -28,7 +31,9 @@ module.exports = React.createClass({
                   <br/>
                   <Button type="button" className="sort-btn btn">Bevy Team</Button>
                   <br/>
-                  <IconButton iconClassName="glyphicon glyphicon-plus" tooltip="Create new bevy"/>
+                  <ModalTrigger modal={<CreateNewBevy />}>
+                    <IconButton iconClassName="glyphicon glyphicon-plus" tooltip="Create new bevy"/>
+                  </ModalTrigger>
                 </text>
                </ButtonGroup>;
              }

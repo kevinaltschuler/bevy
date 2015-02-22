@@ -7,6 +7,10 @@ var Panel = rbs.Panel;
 var Input = rbs.Input;
 var Button = rbs.Button;
 
+var mui = require('material-ui');
+var FlatButton = mui.FlatButton;
+var RaisedButton = mui.RaisedButton;
+
 var LoginPanel = React.createClass({
 	render: function() {
 		return	<Panel className="login-panel">
@@ -14,9 +18,7 @@ var LoginPanel = React.createClass({
 						<Input type="text" placeholder="Email" />
 	  					<Input type="text" placeholder="Password" />
 						<div className="panel-bottom">
-							<Button>
-							Sign in
-							</Button>
+							<RaisedButton label="Sign in" linkButton={true} href="#"/>
 						</div>
 					</Panel>;
 				}
