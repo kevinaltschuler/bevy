@@ -76,7 +76,7 @@ exports.show = function(req, res, next) {
 		return alias;
 	}).then(function(alias){
 		res.json({
-			  status: 'SHOW ALIASES'
+			  status: 'SHOW ALIAS ' + id
 			, object: 'alias'
 			, alias: alias
 		});
@@ -98,7 +98,7 @@ exports.update = function(req, res, next) {
 		return alias;
 	}).then(function(alias) {
 		res.json({
-			  status: 'SHOW ALIASES'
+			  status: 'UPDATE ALIAS ' + id
 			, object: 'alias'
 			, alias: alias
 		});
@@ -106,6 +106,18 @@ exports.update = function(req, res, next) {
 }
 
 // DESTROY
+// GET /aliases/:id/destroy
+// DELETE /aliases/:id
 exports.destroy = function(req, res, next) {
+	var id = req.params.id;
 
+	var query = { _id: id };
+	var promise = Alias.findOneAndRemove(query).exec();
+	promise.then(function(alias) {
+		res.json({
+			  status: 'DESTROY ALIAS ' + id
+			, object: 'alias'
+			, alias: alias
+		});
+	}, function(err) { next(err); });
 }
