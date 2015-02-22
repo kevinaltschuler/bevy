@@ -70,7 +70,7 @@ exports.show = function(req, res, next) {
 	var id = req.params.id;
 
 	var query = { _id: id };
-	var promise = Alias.find(query).exec();
+	var promise = Alias.findOne(query).exec();
 	promise.then(function(alias) {
 		if(!alias) throw error.gen('alias not found');
 		return alias;
@@ -84,8 +84,25 @@ exports.show = function(req, res, next) {
 }
 
 // UPDATE
+// GET /aliases/:id/edit
+// POST /aliases/:id
+// GET /aliases/:id/update
 exports.update = function(req, res, next) {
+	var id = req.params.id;
+	var update = collectAliasParams(req);
 
+	var query = { _id: id };
+	var promise = Alias.findOneAndUpdate(query, update).exec();
+	promise.then(function(alias) {
+		if(!alias) throw error.gen('alias not found');
+		return alias;
+	}).then(function(alias) {
+		res.json({
+			  status: 'SHOW ALIASES'
+			, object: 'alias'
+			, alias: alias
+		});
+	}, function(err) { next(err); });
 }
 
 // DESTROY
