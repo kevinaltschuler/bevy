@@ -50,7 +50,18 @@ exports.index = function(req, res, next) {
 // GET /aliases/create
 // POST /aliases
 exports.create = function(req, res, next) {
+	var update = collectAliasParams(req);
+	if(!update.name) throw error.gen('alias name not specified');
 
+	Alias.create(update, function(err, alias) {
+		if(err) throw err;
+
+		res.json({
+			  status: 'CREATE BEVIES'
+			, object: 'alias'
+			, alias: alias
+		});
+	});
 }
 
 // SHOW
