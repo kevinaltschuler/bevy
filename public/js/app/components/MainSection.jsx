@@ -14,8 +14,9 @@ var React = require('react');
 var _ = require('underscore');
 
 var LeftSidebar = require('./LeftSidebar.jsx');
-var RightSidebar = require('./RightSidebar.jsx')
+var RightSidebar = require('./RightSidebar.jsx');
 
+var Navbar = require('./Navbar.jsx');
 var PostSubmit = require('./../../post/components/PostSubmit.jsx');
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
@@ -56,7 +57,9 @@ var MainSection = React.createClass({
 	},
 
 	render: function(){
-		return	<div className="Container col-xs-12">
+		return	<div>
+					<Navbar />
+					<div className="Container col-xs-12">
 						<div className="row">
 							<PostSubmit />
 							<PostSort />
@@ -64,7 +67,8 @@ var MainSection = React.createClass({
 						<LeftSidebar />
 						<PostContainer allPosts={ this.state.allPosts } />
 						<RightSidebar />
-					</div>;
+					</div>
+				</div>;
 	}
 });
 

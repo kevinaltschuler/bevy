@@ -3,10 +3,30 @@
 .right-sidebar {
   float: right;
   display: inline-block;
-  white-space: nowrap;
-  .badge {
-  	margin-top: 0px;
-  }
+	.dropdown-button {
+		.panel {
+			word-wrap: normal;
+			background-color: rgba(0,0,0,0);
+			border: 0px;
+			-webkit-box-shadow: none;
+			.panel-heading {
+				background-color: rgba(0,0,0,0);
+				.panel-title {
+					padding-top: 3px;
+					font-size: .8em;
+				}
+			}
+			.panel-collapse {
+				width: 110%;
+				border: none;
+				padding-left: 12px;
+				font-size: .9em;
+				.panel-body {
+					border: none;
+				}
+			}
+		}
+	}
 }
 
 //dropdown buttons

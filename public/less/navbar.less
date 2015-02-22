@@ -2,7 +2,8 @@
 @import 'variables.less';
 
 .navbar {
-  background-color: #2cb673;
+  z-index: 2;
+  background-color: @bevy-green;
   border-color: rgba(0,0,0,0);
   border-radius: 0px;
   height: 68px;
@@ -28,8 +29,17 @@
   }
   .navbar-brand-text {
     font-size: 1.2em;
-    padding: 23px 0px;
-    color: #FFF
+    padding: 0px;
+    margin-top: 8px;
+    color: #FFF;
+    background-color: rgba(0,0,0,0); 
+    border: none;
+
+    &:active {
+      color: rgba(255,255,255,.7);
+      -webkit-box-shadow: none;
+      box-shadow: none;
+    }
   }
     .navbar-form {
     padding-top: 0px;

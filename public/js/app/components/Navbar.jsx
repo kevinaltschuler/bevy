@@ -18,7 +18,12 @@
 // imports
 var React = require('react');
 
-var Input = require('react-bootstrap').Input;
+var ProfileModal = require('./../../modals/components/ProfileModal.jsx');
+
+var rbs = require('react-bootstrap');
+var Input = rbs.Input;
+var ModalTrigger = rbs.ModalTrigger;
+var Button = rbs.Button;
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
@@ -65,9 +70,9 @@ var Navbar = React.createClass({
 								<IconButton iconClassName="glyphicon glyphicon-menu-hamburger" onTouchTap={ this.toggle }/>
 							</a>
 						</div>
-						<a href='#'>
-							<text className="navbar-brand navbar-brand-text">Bevy</text>
-						</a>
+						<ModalTrigger modal={<ProfileModal />}>
+							<Button className="navbar-brand navbar-brand-text">Bevy</Button>
+						</ModalTrigger>
 						<div className="navbar-header pull-right" id="bs-example-navbar-collapse-1">
 							<form className="navbar-form navbar-right" role="search">
 								<div className="form-group">

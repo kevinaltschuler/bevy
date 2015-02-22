@@ -19,6 +19,9 @@
 @import 'PostSort.less';
 @import 'NewPostForm.less';
 @import 'LoginPage.less';
+@import 'modal.less';
+@import 'ProfileModal.less';
+@import 'CreateNewBevy.less';
 
 html {
   font-family: Lucida Sans Unicode !important;
@@ -45,9 +48,13 @@ body {
   float: left;
   height: 100%;
 }
+.form-control {
+  -webkit-box-shadow: none;
+}
 // disabling bootstrap glow
 input, textarea, select, a {
   outline: none;
+  transition: 0.2s all ease-in;
 }
 textarea:hover,
 input:hover,
@@ -61,38 +68,46 @@ button:hover
 {
   outline:0px !important;
   -webkit-appearance:none;
-  box-shadow: none;
-  -moz-box-shadow: none;
 }
 //for all forms
-textarea:focus,
-input[type="text"]:focus,
-input[type="password"]:focus,
-input[type="datetime"]:focus,
-input[type="datetime-local"]:focus,
-input[type="date"]:focus,
-input[type="month"]:focus,
-input[type="time"]:focus,
-input[type="week"]:focus,
-input[type="number"]:focus,
-input[type="email"]:focus,
-input[type="url"]:focus,
-input[type="search"]:focus,
-input[type="tel"]:focus,
-input[type="color"]:focus,
-textarea[type="textarea"]:focus,
-.uneditable-input:focus {
-  border-color: #cccccc;
-  outline: 0;
-  /* IE6-9 */
-  -webkit-box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.075);
-  -moz-box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.075);
-  box-shadow: 4px 4px 6px rgba(0, 0, 0, 0.075);
-
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+textarea[type="textarea"],
+.uneditable-input {
   transition: 0.2s all ease-in;
+  &:hover {
+    -webkit-box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
+  }
+  &:focus{
+    border-color: #cccccc;
+    outline: 0;
+    -webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23);
+    transition: 0.2s all ease-in;
+  }
 }
-// top • new
 
+@media (max-width: 767px) {
+  .post-container {
+    float: none;
+    width: 80%;
+  }
+}
 
-
-
+@media (max-width: 500px) {
+  .post-container {
+    width: 100%;
+  }
+}
