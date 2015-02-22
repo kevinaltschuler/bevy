@@ -7,17 +7,24 @@ var Badge = rbs.Badge;
 var ButtonGroup = rbs.ButtonGroup;
 var MenuItem = rbs.MenuItem;
 var Accordion = rbs.Accordion;
+var Panel = rbs.Panel;
+
+var NotificationHeader = 
 
 module.exports = React.createClass({
 	render: function() {
 		return	<ButtonGroup className="col-sm-2 hidden-xs btn-group right-sidebar">
 						<Accordion className="dropdown-button" title='Notifications'>
-							<MenuItem eventKey="1">Action</MenuItem>
+							<Panel header="Notifications" eventKey='1'>
+								• 'Josh Guererro commented on your post "Owl Spreading its wings'
+								<br/>
+
+							</Panel>
 						</Accordion>
-						<Badge>2</Badge>
-						<br/>
 						<Accordion className="dropdown-button" title='Invites'>
-							<MenuItem eventKey="1">Action</MenuItem>
+							<Panel header="Invites" eventKey='1'>
+								
+							</Panel>
 						</Accordion>
 				</ButtonGroup>;
 	}

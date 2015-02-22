@@ -1,31 +1,40 @@
 @import 'variables.less';
 
-	.modal-content {
-		padding: 15px;
-		box-shadow: 0 5px 15px rgba(0, 0, 0, 0.25);
-		.modal-header {
-			padding-top: 0px;
-			padding-left: 3px;
+.modal-content {
+	padding: 15px;
+	-webkit-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23);
+  	border-radius: 2px;
+	.modal-header {
+		padding-top: 0px;
+		padding-left: 3px;
+		border: none;
+		.modal-title {
+			padding-top: 5px;
 		}
-		.panel-bottom {
-			height: 35px;
-			.mui-flat-button {
-				float: right;
-			}
-			.mui-raised-button {
-				float: right;
-				margin-left: 7px;
-				.mui-paper-container {
-					.mui-raised-button-container {
-						background-color: @bevy-green;
-						color: white;
-						div {
-							.mui-raised-button-label {
-								color: white;
-							}
+	}
+	.panel-bottom {
+		height: 35px;
+		.mui-flat-button {
+			float: right;
+		}
+		.mui-raised-button {
+			float: right;
+			margin-left: 7px;
+			.mui-paper-container {
+				.mui-raised-button-container {
+					background-color: @bevy-green;
+					color: white;
+					div {
+						.mui-raised-button-label {
+							color: white;
 						}
 					}
 				}
 			}
 		}
 	}
+}
+
+.modal-container .modal, .modal-container .modal-backdrop {
+  position: absolute;
+}
