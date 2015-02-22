@@ -57,7 +57,7 @@ exports.create = function(req, res, next) {
 		if(err) throw err;
 
 		res.json({
-			  status: 'CREATE BEVIES'
+			  status: 'CREATE ALIASES'
 			, object: 'alias'
 			, alias: alias
 		});
@@ -65,8 +65,22 @@ exports.create = function(req, res, next) {
 }
 
 // SHOW
+// GET /aliases/:id
 exports.show = function(req, res, next) {
+	var id = req.params.id;
 
+	var query = { _id: id };
+	var promise = Alias.find(query).exec();
+	promise.then(function(alias) {
+		if(!alias) throw error.gen('alias not found');
+		return alias;
+	}).then(function(alias){
+		res.json({
+			  status: 'SHOW ALIASES'
+			, object: 'alias'
+			, alias: alias
+		});
+	}, function(err) { next(err); });
 }
 
 // UPDATE
