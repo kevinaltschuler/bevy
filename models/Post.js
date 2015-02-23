@@ -1,3 +1,11 @@
+/**
+ * Post.js
+ *
+ * Post database model
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
