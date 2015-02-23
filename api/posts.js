@@ -47,8 +47,23 @@ exports.index = function(req, res, next) {
 	}, function(err) { next(err); });
 }
 
+// CREATE
+// GET /bevies/:bevyid/posts/create
+// POST /bevies/:bevyid/posts
 exports.create = function(req, res, next) {
 	var bevy_id = req.params.bevyid;
+	var update = collectPostParams(req);
+	update.bevy = bevy_id;
+
+	Post.create(update, function(err, post) {
+		if(err) throw err;
+
+		res.json({
+			  status: 'CREATE BEVY ' + bevy_id + ' POSTS'
+			, object: 'post'
+			, post: post
+		});
+	});
 }
 
 exports.show = function(req, res, next) {
