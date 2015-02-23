@@ -13,6 +13,21 @@ var _ = require('underscore');
 
 var Post = mongoose.model('Post');
 
+
+function collectPostParams(req) {
+	var update = {};
+	// dynamically load schema values from request object
+	Post.schema.eachPath(function(pathname, schema_type) {
+		// collect path value
+		var val = null;
+		if(req.body != undefined) val = req.body[pathname];
+		if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
+		if(!val) return;
+		update[pathname] = val;
+	});
+	return update;
+}
+
 // INDEX
 // GET /bevies/:bevyid/posts
 exports.index = function(req, res, next) {
