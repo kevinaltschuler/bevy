@@ -45,6 +45,8 @@ connection.once('open', function() {
 		}
 	});
 
+	var bevy_id;
+
 	var Bevy = mongoose.model('Bevy');
 
 	Bevy.find(function(err, bevys) {
@@ -56,6 +58,23 @@ connection.once('open', function() {
 			Bevy.create({
 				  name: 'Monsta Island Czars'
 				, color: 'FF0000'
+			}, function(err, bevy) {
+				bevy_id = bevy._id; // save bevy id for future refs
+			});
+		}
+	});
+
+	var Post = mongoose.model('Post');
+
+	Post.find(function(err, posts) {
+		if(err) console.error(err);
+
+		if(posts.length == 0) {
+			console.log('seeding posts...');
+
+			Post.create({
+				  bevy: bevy_id
+				, title: 'Who Is Mr. Fantastik?'
 			});
 		}
 	});
