@@ -91,8 +91,31 @@ exports.show = function(req, res, next) {
 	}, function(err) { next(err); });
 }
 
+// UPDATE
+// GET /bevies/:bevyid/posts/:id/update
+// GET /bevies/:bevyid/posts/:id/edit
+// PUT/PATCH /bevies/:bevyid/posts/:id
 exports.update = function(req, res, next) {
+	var bevy_id = req.params.id;
+	var id = req.params.id;
+	var update = collectPostParams(req);
 
+	// var query = { _id: id, bevy: bevy_id };
+	var query = { _id: id };
+	var promise = Post.findOneAndUpdate(query, update)
+		.populate('bevy')
+		.populate('comments')
+		.exec();
+	promise.then(function(post) {
+		if(!post) throw error.gen('post not found');
+		return post;
+	}).then(function(post) {
+		res.json({
+			  status: 'UPDATE BEVY ' + bevy_id + ' POST ' + id
+			, object: 'post'
+			, post: post
+		});
+	}, function(err) { next(err); });
 }
 
 exports.destroy = function(req, res, next) {
