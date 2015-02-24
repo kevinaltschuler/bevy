@@ -9,6 +9,7 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var error = require('./../error');
 var _ = require('underscore');
 
 var Post = mongoose.model('Post');
@@ -66,8 +67,28 @@ exports.create = function(req, res, next) {
 	});
 }
 
+// SHOW
+// GET /bevies/:bevyid/posts/:id
 exports.show = function(req, res, next) {
+	var bevy_id = req.params.bevyid;
+	var id = req.params.id;
 
+	// var query = { _id: id, bevy: bevy_id };
+	var query = { _id: id };
+	var promise = Post.find(query)
+		.populate('bevy')
+		.populate('comments')
+		.exec();
+	promise.then(function(post) {
+		if(!post) throw error.gen('post not found');
+		return post;
+	}).then(function(post) {
+		res.json({
+			  status: 'SHOW BEVY ' + bevy_id + ' POST ' + id
+			, object: 'post'
+			, post: post
+		});
+	}, function(err) { next(err); });
 }
 
 exports.update = function(req, res, next) {
