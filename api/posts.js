@@ -75,7 +75,7 @@ exports.show = function(req, res, next) {
 
 	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
-	var promise = Post.find(query)
+	var promise = Post.findOne(query)
 		.populate('bevy')
 		.populate('comments')
 		.exec();
