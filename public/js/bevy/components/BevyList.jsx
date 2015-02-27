@@ -9,6 +9,7 @@
 'use strict';
 
 var React = require('react');
+var ReactPropTypes = React.PropTypes;
 
 var rbs = require('react-bootstrap');
 var Badge = rbs.Badge;
@@ -22,6 +23,14 @@ var IconButton = mui.IconButton;
 var CreateNewBevy = require('./../../modals/components/CreateNewBevy.jsx');
 
 var BevyList = React.createClass({
+
+	propTypes: {
+		allBevies: ReactPropTypes.array.isRequired
+	},
+
+	getInitialState: function() {
+		return {};
+	},
 
 	render: function() {
 		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group left-sidebar" role="group">

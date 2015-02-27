@@ -77,7 +77,7 @@ var MainSection = React.createClass({
 								<PostSubmit />
 								<PostSort />
 							</div>
-							<LeftSidebar />
+							<LeftSidebar allBevies={ this.state.allBevies } />
 							<PostContainer allPosts={ this.state.allPosts } />
 							<RightSidebar />
 						</div>
