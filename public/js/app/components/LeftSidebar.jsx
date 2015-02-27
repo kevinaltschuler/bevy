@@ -16,6 +16,8 @@ module.exports = React.createClass({
 	},
 
 	render: function() {
-		return	<BevyList allBevies={ this.props.allBevies }/>;
+		return	<div className='col-sm-3 hidden-xs left-sidebar'>
+						<BevyList allBevies={ this.props.allBevies }/>
+					</div>;
 	}
 });

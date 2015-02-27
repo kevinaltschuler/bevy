@@ -42,14 +42,16 @@ var BevyList = React.createClass({
 			bevies.push(<Button key={ bevy._id } type="button" className="bevy-btn btn">{ bevy.name }</Button>);
 		}
 
-		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group left-sidebar" role="group">
-						<text className="btn-group-text">
-							{bevies}
-							<ModalTrigger modal={<CreateNewBevy />}>
-								<IconButton iconClassName="glyphicon glyphicon-plus" tooltip="Create new bevy"/>
-							</ModalTrigger>
-						</text>
-					</ButtonGroup>;
+		return	<div className='bevy-list'>
+						<ButtonGroup role="group">
+							<text>
+								{bevies}
+								<ModalTrigger modal={<CreateNewBevy />}>
+									<IconButton iconClassName="glyphicon glyphicon-plus" tooltip="Create new bevy"/>
+								</ModalTrigger>
+							</text>
+						</ButtonGroup>
+					</div>;
 	}
 
 });
