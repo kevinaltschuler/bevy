@@ -20,6 +20,7 @@ var Navbar = require('./Navbar.jsx');
 var PostSubmit = require('./../../post/components/PostSubmit.jsx');
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
+
 var PostStore = require('./../../post/PostStore');
 
 
@@ -58,17 +59,17 @@ var MainSection = React.createClass({
 
 	render: function(){
 		return	<div>
-					<Navbar />
-					<div className="Container col-xs-12">
-						<div className="row">
-							<PostSubmit />
-							<PostSort />
+						<Navbar />
+						<div className="Container col-xs-12">
+							<div className="row">
+								<PostSubmit />
+								<PostSort />
+							</div>
+							<LeftSidebar />
+							<PostContainer allPosts={ this.state.allPosts } />
+							<RightSidebar />
 						</div>
-						<LeftSidebar />
-						<PostContainer allPosts={ this.state.allPosts } />
-						<RightSidebar />
-					</div>
-				</div>;
+					</div>;
 	}
 });
 
