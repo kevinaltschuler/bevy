@@ -17,6 +17,7 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 
+var POST = require('./../constants').POST;
 var Dispatcher = require('./../shared/dispatcher');
 
 var Post = require('./PostModel');
@@ -50,7 +51,7 @@ _.extend(PostStore, {
 
 		switch(payload.actionType) {
 
-			case 'create': // create a post
+			case POST.CREATE: // create a post
 
 				// collect payload vars
 				title = payload.title;
@@ -72,7 +73,7 @@ _.extend(PostStore, {
 				this.trigger('change');
 				break;
 
-			case 'upvote':
+			case POST.UPVOTE:
 				//console.log('upvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
@@ -82,7 +83,7 @@ _.extend(PostStore, {
 				this.trigger('post-change');
 				break;
 
-			case 'downvote':
+			case POST.DOWNVOTE:
 				//console.log('downvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
@@ -92,7 +93,7 @@ _.extend(PostStore, {
 				this.trigger('post-change');
 				break;
 
-			case 'sort':
+			case POST.SORT:
 				console.log('sort', payload.by, payload.direction);
 				var by = payload.by;
 				var direction = payload.direction;

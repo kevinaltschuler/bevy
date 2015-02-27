@@ -24,3 +24,10 @@ exports.hostname = hostname;
 exports.protocol = protocol;
 exports.api_subdomain = api_subdomain;
 exports.api_version = api_version;
+
+exports.POST = {
+	  CREATE: 'post_create'
+	, UPVOTE: 'post_upvote'
+	, DOWNVOTE: 'post_downvote'
+	, SORT: 'post_sort'
+};
