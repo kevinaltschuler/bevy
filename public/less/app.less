@@ -11,6 +11,7 @@
 @import '../../node_modules/bootstrap/less/bootstrap.less';
 
 @import 'panels.less';
+@import 'forms.less';
 @import 'variables.less';
 @import 'buttons.less';
 
@@ -41,54 +42,3 @@ body {
 	padding-top: 85px;
 	background-color: @background-grey;
 }
-
-
-// disabling bootstrap glow
-input, textarea, select, a {
-	outline: none;
-	transition: 0.2s all ease-in;
-}
-textarea:hover,
-input:hover,
-textarea:active,
-input:active,
-textarea:focus,
-input:focus,
-button:focus,
-button:active,
-button:hover
-{
-	outline:0px;
-	appearance:none;
-}
-//for all forms
-textarea,
-input[type="text"],
-input[type="password"],
-input[type="datetime"],
-input[type="datetime-local"],
-input[type="date"],
-input[type="month"],
-input[type="time"],
-input[type="week"],
-input[type="number"],
-input[type="email"],
-input[type="url"],
-input[type="search"],
-input[type="tel"],
-input[type="color"],
-textarea[type="textarea"],
-.uneditable-input {
-	transition: 0.2s all ease-in;
-	&:hover {
-		box-shadow: 0 1px 4px rgba(0, 0, 0, 0.24);
-	}
-	&:focus{
-		border-color: #cccccc;
-		outline: 0;
-		box-shadow: 0 3px 10px rgba(0, 0, 0, 0.23);
-		transition: 0.2s all ease-in;
-	}
-}
-
-
