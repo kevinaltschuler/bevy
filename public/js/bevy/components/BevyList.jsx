@@ -25,7 +25,8 @@ var CreateNewBevy = require('./../../modals/components/CreateNewBevy.jsx');
 var BevyList = React.createClass({
 
 	propTypes: {
-		allBevies: ReactPropTypes.array.isRequired
+		  allBevies: ReactPropTypes.array.isRequired
+		, activeBevy: ReactPropTypes.number.isRequired
 	},
 
 	getInitialState: function() {
@@ -39,7 +40,8 @@ var BevyList = React.createClass({
 		bevies.push(<Button key='0' type='button' className='bevy-btn'>Front Page</Button>)
 		for(var key in allBevies) {
 			var bevy = allBevies[key];
-			bevies.push(<Button key={ bevy._id } type="button" className="bevy-btn">{ bevy.name }</Button>);
+			var className = 'bevy-btn';
+			bevies.push(<Button key={ bevy._id } type="button" className={ className }>{ bevy.name }</Button>);
 		}
 
 		return	<div className='bevy-list'>

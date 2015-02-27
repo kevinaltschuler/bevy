@@ -37,7 +37,8 @@ function getPostState() {
 
 function getBevyState() {
 	return {
-		  activeBevy: ''
+			// later, load this from session/cookies
+		  activeBevy: 0
 		, allBevies: BevyStore.getAll()
 	}
 }
@@ -90,7 +91,7 @@ var MainSection = React.createClass({
 									<PostSubmit />
 									<PostSort />
 								</div>
-								<LeftSidebar allBevies={ this.state.allBevies } />
+								<LeftSidebar allBevies={ this.state.allBevies } activeBevy={ this.state.activeBevy }/>
 								<PostContainer allPosts={ this.state.allPosts } />
 								<RightSidebar />
 							</div>
