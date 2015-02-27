@@ -63,9 +63,9 @@ var PostSubmit = React.createClass({
 					  placeholder="New Post"
 					  hasFeedback
 					  ref="input"
-					  groupClassName="group-class"
-					  wrapperClassName="wrapper-class"
-					  labelClassName="label-class"
+					  groupClassName='post-submit-group'
+					  wrapperClassName='post-submit-wrapper'
+					  labelClassName='post-submit-label'
 					  onChange={ this.handleChange }
 					  onKeyUp={ this.onKeyUp } />
 	}
