@@ -63,16 +63,22 @@ var MainSection = React.createClass({
 	// mount event listeners
 	componentDidMount: function() {
 		PostStore.on('change', this._onPostChange);
+		BevyStore.on('change', this._onBevyChange);
 	},
 
 	// unmount event listeners
 	componentWillUnmount: function() {
 		PostStore.off('change', this._onPostChange);
+		BevyStore.off('change', this._onBevyChange);
 	},
 
 	// event listener callbacks
 	_onPostChange: function() {
-		this.setState(collectState());
+		this.setState(_.extend(this.state, getPostState()));
+	},
+
+	_onBevyChange: function() {
+		this.setState(_.extend(this.state, getBevyState()));
 	},
 
 	render: function(){
