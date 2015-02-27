@@ -36,11 +36,7 @@ exports.index = function(req, res, next) {
 		.populate('members')
 		.exec();
 	promise.then(function(bevies) {
-		res.json({
-			  status: 'INDEX BEVIES'
-			, object: 'bevy array'
-			, bevies: bevies
-		});
+		res.json(bevies);
 	}, function(err) { next(err); });
 }
 
@@ -54,11 +50,7 @@ exports.create = function(req, res, next) {
 	Bevy.create(update, function(err, bevy) {
 		if(err) throw err;
 
-		res.json({
-			  status: 'CREATE BEVIES'
-			, object: 'bevy'
-			, bevy: bevy
-		});
+		res.json(bevy);
 	});
 }
 
@@ -75,11 +67,7 @@ exports.show = function(req, res, next) {
 		if(!bevy) throw error.gen('bevy not found', req);
 		return bevy;
 	}).then(function(bevy) {
-		res.json({
-			  status: 'SHOW BEVY ' + id
-			, object: 'bevy'
-			, bevy: bevy
-		});
+		res.json(bevy);
 	}, function(err) { next(err);	});
 }
 
@@ -100,11 +88,7 @@ exports.update = function(req, res, next) {
 		if(!bevy) throw error.gen('bevy not found', req);
 		return bevy;
 	}).then(function(bevy) {
-		res.json({
-			  status: 'UPDATE BEVY ' + id
-			, object: 'bevy'
-			, bevy: bevy
-		});
+		res.json(bevy);
 	}, function(err) { next(err); });
 }
 
@@ -119,10 +103,6 @@ exports.destroy = function(req, res, next) {
 		.populate('members')
 		.exec();
 	promise.then(function(bevy) {
-		res.json({
-			  status: 'DESTROY BEVY ' + id
-			, object: 'bevy'
-			, bevy: bevy
-		});
+		res.json(bevy);
 	}, function(err) { next(err); })
 }

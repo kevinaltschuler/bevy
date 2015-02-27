@@ -41,11 +41,7 @@ exports.index = function(req, res, next) {
 		.populate('aliases')
 		.exec();
 	promise.then(function(users) {
-		res.json({
-			  status: 'INDEX USERS'
-			, object: 'user array'
-			, users: users
-		});
+		res.json(users);
 	}, function(err) { next(err); });
 }
 
@@ -77,11 +73,7 @@ exports.create = function(req, res, next) {
 	}).then( function() {
 		User.create(update, function(err, user) {
 			if(err) throw err;
-			res.json({
-				  status: 'CREATE USERS'
-				, object: 'user'
-				, user: user
-			});
+			res.json(user);
 		});
 	},
 	function(err) { next(err); });
@@ -99,11 +91,7 @@ exports.show = function(req, res, next) {
 		if(!user) throw error.gen('user not found', req);
 		return user;
 	}).then(function(user) {
-		res.json({
-			  status: 'SHOW USER ' + id
-			, object: 'user'
-			, user: user
-		});
+		res.json(user);
 	}, function(err) { next(err); });
 }
 
@@ -127,11 +115,7 @@ exports.update = function(req, res, next) {
 		if(!user) throw error.gen('user not found', req);
 		return user;
 	}).then(function(user) {
-		res.json({
-			  status: 'UPDATE USER ' + id
-			, object: 'user'
-			, user: user
-		});
+		res.json(user);
 	}, function(err) { next(err); });
 }
 
@@ -148,10 +132,6 @@ exports.destroy = function(req, res, next) {
 		if(!user) throw error.gen('user not found', req);
 		return user;
 	}).then(function(user) {
-		res.json({
-			  status: 'DESTROY USER ' + id
-			, object: 'user'
-			, user: user
-		});
+		res.json(user);
 	}, function(err) { next(err); });
 }

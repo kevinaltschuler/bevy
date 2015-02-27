@@ -40,11 +40,7 @@ exports.index = function(req, res, next) {
 		.populate('comments')
 		.exec();
 	promise.then(function(posts) {
-		res.json({
-			  status: 'INDEX BEVY ' + bevy_id + ' POSTS'
-			, object: 'post array'
-			, posts: posts
-		});
+		res.json(posts);
 	}, function(err) { next(err); });
 }
 
@@ -59,11 +55,7 @@ exports.create = function(req, res, next) {
 	Post.create(update, function(err, post) {
 		if(err) throw err;
 
-		res.json({
-			  status: 'CREATE BEVY ' + bevy_id + ' POSTS'
-			, object: 'post'
-			, post: post
-		});
+		res.json(post);
 	});
 }
 
@@ -83,11 +75,7 @@ exports.show = function(req, res, next) {
 		if(!post) throw error.gen('post not found');
 		return post;
 	}).then(function(post) {
-		res.json({
-			  status: 'SHOW BEVY ' + bevy_id + ' POST ' + id
-			, object: 'post'
-			, post: post
-		});
+		res.json(post);
 	}, function(err) { next(err); });
 }
 
@@ -110,11 +98,7 @@ exports.update = function(req, res, next) {
 		if(!post) throw error.gen('post not found');
 		return post;
 	}).then(function(post) {
-		res.json({
-			  status: 'UPDATE BEVY ' + bevy_id + ' POST ' + id
-			, object: 'post'
-			, post: post
-		});
+		res.json(post);
 	}, function(err) { next(err); });
 }
 
@@ -135,10 +119,6 @@ exports.destroy = function(req, res, next) {
 		if(!post) throw error.gen('post not found');
 		return post;
 	}).then(function(post) {
-		res.json({
-			  status: 'DESTROY BEVY ' + bevy_id + ' POST ' + id
-			, object: 'post'
-			, post: post
-		});
+		res.json(post);
 	}, function(err) { next(err); });
 }
