@@ -2,108 +2,109 @@
 @import 'variables.less';
 
 .navbar {
-  z-index: 2;
-  background-color: @bevy-green;
-  border-color: rgba(0,0,0,0);
-  border-radius: 0px;
-  height: 68px;
-  box-shadow: 0px 1px 4px rgba(0,0,0,.3);
-  &:focus, .navbar-brand:hover {
-    color: #e6e6e6;
-  }
-  .navbar-header {
-    .navbar-brand {
-      padding: 15% 15px;
-      .mui-icon-button {
-        border-radius: 3px;
-        height: 42px;
-        &:hover {
-        background-color: rgba(0,0,0,.2);
-        }
-      }
-      .glyphicon {
-        color: #FFF;
-        font-size: .9em;
-      }
-    }
-  }
-  .navbar-brand-text {
-    font-size: 1.2em;
-    padding: 0px;
-    margin-top: 8px;
-    color: #FFF;
-    background-color: rgba(0,0,0,0); 
-    border: none;
+	z-index: 2;
+	background-color: @bevy-green;
+	border-color: rgba(0,0,0,0);
+	border-radius: 0px;
+	height: 68px;
+	box-shadow: 0px 1px 4px rgba(0,0,0,.3);
+	&:focus, .navbar-brand:hover {
+		color: #e6e6e6;
+	}
+	.navbar-header {
+		.navbar-brand {
+			padding: 15% 15px;
+			.mui-icon-button {
+				border-radius: 3px;
+				height: 42px;
+				&:hover {
+					background-color: rgba(0,0,0,.2);
+				}
+			}
+			.glyphicon {
+				color: #FFF;
+				font-size: .9em;
+			}
+		}
+	}
+	.navbar-brand-text {
+		font-size: 1.2em;
+		padding: 0px;
+		margin-top: 8px;
+		color: #FFF;
+		background-color: rgba(0,0,0,0);
+		border: none;
 
-    &:active {
-      color: rgba(255,255,255,.7);
-      -webkit-box-shadow: none;
-      box-shadow: none;
-    }
-  }
-    .navbar-form {
-    padding-top: 0px;
-    padding-right: 30px;
-    border-top: none; 
-    border-bottom: none; 
-    -webkit-box-shadow: none; 
-    box-shadow: none; 
-    &.form-group {
-      display: inline-block;
-    }
-      //SEARCH
-    .search-input{
-        background-color: rgba(0,0,0,0); 
-        border-bottom: none; 
-        border-left: 0px;
-        border-top: 0px;
-        border-right: 0px;
-        box-shadow: none; 
-        border-radius: 0px;
-        color: #fff;
-        padding-left: 4px;
-        padding-bottom: 2px;
-    }
-    .search-icon {
-      position:relative; 
-      color: #fff; 
-      right: 30px; 
-      top: 2px;
-    }
-    .glyphicon-search {
-      color: white;
-      font-size: 1em;
-    }
-    .mui-icon-button {
-      padding: 5px;
-    }
-    .mui-text-field .mui-text-field-focus-underline {
-      border-color: white;
-    }
-    .mui-text-field .mui-text-field-underline {
-      border-top: 1px solid rgba(255,255,255,.2);
-    }
-    .mui-text-field .mui-text-field-input, .mui-text-field .mui-text-field-textarea {
-      -webkit-box-shadow: none; 
-      box-shadow: none!important; 
-      color: white;
-    }
-  }
+		&:active {
+			color: rgba(255,255,255,.7);
+			-webkit-box-shadow: none;
+			box-shadow: none;
+		}
+	}
+	.navbar-form {
+		padding-top: 0px;
+		padding-right: 30px;
+		border-top: none;
+		border-bottom: none;
+		-webkit-box-shadow: none;
+		box-shadow: none;
+
+		&.form-group {
+			display: inline-block;
+		}
+		//SEARCH
+		.search-input{
+			background-color: rgba(0,0,0,0);
+			border-bottom: none;
+			border-left: 0px;
+			border-top: 0px;
+			border-right: 0px;
+			box-shadow: none;
+			border-radius: 0px;
+			color: #fff;
+			padding-left: 4px;
+			padding-bottom: 2px;
+		}
+		.search-icon {
+			position:relative;
+			color: #fff;
+			right: 30px;
+			top: 2px;
+		}
+		.glyphicon-search {
+			color: white;
+			font-size: 1em;
+		}
+		.mui-icon-button {
+			padding: 5px;
+		}
+		.mui-text-field .mui-text-field-focus-underline {
+			border-color: white;
+		}
+		.mui-text-field .mui-text-field-underline {
+			border-top: 1px solid rgba(255,255,255,.2);
+		}
+		.mui-text-field .mui-text-field-input, .mui-text-field .mui-text-field-textarea {
+			-webkit-box-shadow: none;
+			box-shadow: none!important;
+			color: white;
+		}
+	}
 }
 
 
 .navbar-form .form-group {
-  display: inline-block;
+	display: inline-block;
 }
 
 @media (max-width: 767px) {
-  .navbar-form .form-group {
-    margin-bottom: 0px;
-    display: inline-block;
-  }
+	.navbar-form .form-group {
+		margin-bottom: 0px;
+		display: inline-block;
+	}
 }
 @media (max-width: 402px) {
-  .navbar .navbar-form .search-input {
-    width: 150px;
-  }
+	.navbar .navbar-form .search-input {
+		width: 150px;
+	}
 }
