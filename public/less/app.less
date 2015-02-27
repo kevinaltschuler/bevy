@@ -23,6 +23,7 @@
 
 @import 'post/PostSort.less';
 @import 'post/PostSubmit.less';
+@import 'post/PostContainer.less';
 
 @import 'app/RightSidebar.less';
 
@@ -41,16 +42,7 @@ body {
 	background-color: @background-grey;
 }
 
-/*FORMS*/
-.post-container {
-	margin-left: auto;
-	margin-right: auto;
-	float: left;
-	height: 100%;
-}
-.form-control {
-	box-shadow: none;
-}
+
 // disabling bootstrap glow
 input, textarea, select, a {
 	outline: none;
@@ -99,15 +91,4 @@ textarea[type="textarea"],
 	}
 }
 
-@media (max-width: 767px) {
-	.post-container {
-		float: none;
-		width: 80%;
-	}
-}
 
-@media (max-width: 500px) {
-	.post-container {
-		width: 100%;
-	}
-}
