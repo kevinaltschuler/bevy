@@ -48,6 +48,7 @@ var MainSection = React.createClass({
 	getInitialState: function() {
 		// init posts
 		PostStore.initialize();
+		BevyStore.initialize();
 		return getPostState();
 	},
 
