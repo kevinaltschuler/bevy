@@ -33,15 +33,12 @@ var BevyList = React.createClass({
 	},
 
 	render: function() {
-
 		var allBevies = this.props.allBevies;
 		var bevies = [];
 
-		console.log(allBevies);
-
+		bevies.push(<Button key='0' type='button' className='bevy-btn btn'>Front Page</Button>)
 		for(var key in allBevies) {
 			var bevy = allBevies[key];
-
 			bevies.push(<Button key={ bevy._id } type="button" className="bevy-btn btn">{ bevy.name }</Button>);
 		}
 
