@@ -42,6 +42,13 @@ function getBevyState() {
 	}
 }
 
+function collectState() {
+	var state = {};
+	_.extend(state, getPostState());
+	_.extend(state, getBevyState());
+	return state;
+}
+
 // create app
 var MainSection = React.createClass({
 	// called directly after mounting
@@ -49,7 +56,8 @@ var MainSection = React.createClass({
 		// init posts
 		PostStore.initialize();
 		BevyStore.initialize();
-		return getPostState();
+
+		return collectState();
 	},
 
 	// mount event listeners
@@ -64,9 +72,7 @@ var MainSection = React.createClass({
 
 	// event listener callbacks
 	_onPostChange: function() {
-		var state = _.extend({}, getPostState());
-		_.extend(state, getBevyState());
-		this.setState(state);
+		this.setState(collectState());
 	},
 
 	render: function(){
