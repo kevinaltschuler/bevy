@@ -11,9 +11,10 @@
 // imports
 var Backbone = require('backbone');
 var Bevy = require('./BevyModel');
+var constants = require('./../constants');
 
 // backbone collection
 module.exports = Backbone.Collection.extend({
 	  model: Bevy
-	, url: '/bevies'
+	, url: constants.apiurl + '/bevies'
 });

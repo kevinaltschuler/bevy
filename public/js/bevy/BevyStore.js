@@ -20,6 +20,7 @@ var Bevies = require('./BevyCollection');
 
 // create collection
 var bevies = new Bevies;
+bevies.fetch();
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
