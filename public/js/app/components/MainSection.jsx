@@ -84,7 +84,7 @@ var MainSection = React.createClass({
 	render: function(){
 		return	<div>
 						<Navbar />
-						<div className="Container col-xs-12">
+						<div className="container col-xs-12">
 							<div className="row">
 								<PostSubmit />
 								<PostSort />
