@@ -20,7 +20,15 @@ var Bevies = require('./BevyCollection');
 
 // create collection
 var bevies = new Bevies;
-bevies.fetch();
+bevies.fetch({
+	  reset: true
+	, success: function(collection, response, options) {
+
+	}
+	, error: function(collection, response, options) {
+
+	}
+});
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
