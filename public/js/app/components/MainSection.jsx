@@ -22,6 +22,7 @@ var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 
 var PostStore = require('./../../post/PostStore');
+var BevyStore = require('./../../bevy/BevyStore');
 
 
 /**
@@ -33,6 +34,14 @@ function getPostState() {
 		allPosts: PostStore.getAll()
 	}
 }
+
+function getBevyState() {
+	return {
+		  activeBevy: ''
+		, allBevies: BevyStore.getAll()
+	}
+}
+
 // create app
 var MainSection = React.createClass({
 	// called directly after mounting
@@ -54,7 +63,9 @@ var MainSection = React.createClass({
 
 	// event listener callbacks
 	_onPostChange: function() {
-		this.setState(getPostState());
+		var state = _.extend({}, getPostState());
+		_.extend(state, getBevyState());
+		this.setState(state);
 	},
 
 	render: function(){

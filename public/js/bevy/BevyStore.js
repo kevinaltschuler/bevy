@@ -39,6 +39,10 @@ _.extend(PostStore, {
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
 		}
+	},
+
+	getAll: function() {
+		return bevies.toJSON();
 	}
 
 });
