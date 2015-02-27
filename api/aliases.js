@@ -38,11 +38,7 @@ exports.index = function(req, res, next) {
 		if(err) throw err;
 		return aliases;
 	}).then(function(aliases) {
-		res.json({
-			  status: 'INDEX ALIASES'
-			, object: 'alias array'
-			, aliases: aliases
-		});
+		res.json(aliases);
 	}, function(err) { next(err); });
 }
 
@@ -56,11 +52,7 @@ exports.create = function(req, res, next) {
 	Alias.create(update, function(err, alias) {
 		if(err) throw err;
 
-		res.json({
-			  status: 'CREATE ALIASES'
-			, object: 'alias'
-			, alias: alias
-		});
+		res.json(alias);
 	});
 }
 
@@ -75,11 +67,7 @@ exports.show = function(req, res, next) {
 		if(!alias) throw error.gen('alias not found');
 		return alias;
 	}).then(function(alias){
-		res.json({
-			  status: 'SHOW ALIAS ' + id
-			, object: 'alias'
-			, alias: alias
-		});
+		res.json(alias);
 	}, function(err) { next(err); });
 }
 
@@ -97,11 +85,7 @@ exports.update = function(req, res, next) {
 		if(!alias) throw error.gen('alias not found');
 		return alias;
 	}).then(function(alias) {
-		res.json({
-			  status: 'UPDATE ALIAS ' + id
-			, object: 'alias'
-			, alias: alias
-		});
+		res.json(alias);
 	}, function(err) { next(err); });
 }
 
@@ -114,10 +98,6 @@ exports.destroy = function(req, res, next) {
 	var query = { _id: id };
 	var promise = Alias.findOneAndRemove(query).exec();
 	promise.then(function(alias) {
-		res.json({
-			  status: 'DESTROY ALIAS ' + id
-			, object: 'alias'
-			, alias: alias
-		});
+		res.json(alias);
 	}, function(err) { next(err); });
 }
