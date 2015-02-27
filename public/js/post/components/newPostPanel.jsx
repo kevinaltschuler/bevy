@@ -19,15 +19,15 @@ var Post = React.createClass({
 
 	render: function() {
 
-		return  <div className="panel" postId={ this.state.id }>
-					<Input type="text" placeholder="Title" />
-  					<Input type="textarea" placeholder="Body"/>
-					<div className="panel-bottom">
-						<div className="panel-controls-right">
-							<IconButton iconClassName="glyphicon glyphicon-plus" tooltip="attach media"/>
-							<IconButton iconClassName="glyphicon glyphicon-send" tooltip="Post" onClick={PostSubmit.submit}/>
+		return	<div className="panel" postId={ this.state.id }>
+						<Input type="text" placeholder="Title" />
+	  					<Input type="textarea" placeholder="Body"/>
+						<div className="panel-bottom">
+							<div className="panel-controls-right">
+								<IconButton iconClassName="glyphicon glyphicon-plus" tooltip="attach media"/>
+								<IconButton iconClassName="glyphicon glyphicon-send" tooltip="Post" onClick={PostSubmit.submit}/>
+							</div>
 						</div>
 					</div>
-				</div>
 			}
 		});
