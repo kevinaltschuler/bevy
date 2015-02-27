@@ -72,3 +72,5 @@ var routes = (
 Router.run(routes, function(Handler) {
 	React.render(<Handler/>, document.getElementById('app'));
 });
+
+console.log(window.hadoop);
