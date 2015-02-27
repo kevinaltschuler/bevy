@@ -33,13 +33,21 @@ var BevyList = React.createClass({
 	},
 
 	render: function() {
+
+		var allBevies = this.props.allBevies;
+		var bevies = [];
+
+		console.log(allBevies);
+
+		for(var key in allBevies) {
+			var bevy = allBevies[key];
+
+			bevies.push(<Button key={ bevy._id } type="button" className="bevy-btn btn">{ bevy.name }</Button>);
+		}
+
 		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group left-sidebar" role="group">
 						<text className="btn-group-text">
-							<Button type="button" className="sort-btn btn active">Front Page</Button><br/>
-							<Button type="button" className="sort-btn btn">New England Melee</Button><br/>
-							<Button type="button" className="sort-btn btn">Burlap <Badge>12</Badge></Button><br/>
-							<Button type="button" className="sort-btn btn">Neu Frisbee <Badge>4</Badge></Button><br/>
-							<Button type="button" className="sort-btn btn">Bevy Team</Button><br/>
+							{bevies}
 							<ModalTrigger modal={<CreateNewBevy />}>
 								<IconButton iconClassName="glyphicon glyphicon-plus" tooltip="Create new bevy"/>
 							</ModalTrigger>
