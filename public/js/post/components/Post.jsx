@@ -135,11 +135,11 @@ var Post = React.createClass({
 								{ this.countVotes() } points<br/>{ this.state.comments.length } comments
 							</div>
 							<div className="panel-controls-right">
-								<IconButton tooltip='upvote'>
-									<span className="glyphicon glyphicon-menu-up btn" onClick={ this.upvote }></span>
+								<IconButton tooltip='upvote' onClick={ this.upvote }>
+									<span className="glyphicon glyphicon-menu-up btn"></span>
 								</IconButton>
-								<IconButton tooltip='downvote'>
-									<span className="glyphicon glyphicon-menu-down btn" onClick={ this.downvote }></span>
+								<IconButton tooltip='downvote' onClick={ this.downvote }>
+									<span className="glyphicon glyphicon-menu-down btn"></span>
 								</IconButton>
 								<span className="glyphicon glyphicon-option-vertical btn"></span>
 							</div>
