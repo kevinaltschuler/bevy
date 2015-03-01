@@ -31,3 +31,7 @@ exports.POST = {
 	, DOWNVOTE: 'post_downvote'
 	, SORT: 'post_sort'
 };
+
+exports.BEVY = {
+	SWITCH: 'bevy_switch'
+};

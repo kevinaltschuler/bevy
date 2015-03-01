@@ -22,6 +22,8 @@ var IconButton = mui.IconButton;
 
 var CreateNewBevy = require('./../../modals/components/CreateNewBevy.jsx');
 
+var BevyActions = require('./../BevyActions');
+
 var BevyList = React.createClass({
 
 	propTypes: {
@@ -33,6 +35,13 @@ var BevyList = React.createClass({
 		return {};
 	},
 
+	switchBevy: function(ev) {
+		// get the bevy id
+		var id = ev.target.getAttribute('key');
+
+		BevyActions.switchBevy(id);
+	},
+
 	render: function() {
 		var allBevies = this.props.allBevies;
 		var bevies = [];
@@ -41,7 +50,9 @@ var BevyList = React.createClass({
 		for(var key in allBevies) {
 			var bevy = allBevies[key];
 			var className = 'bevy-btn';
-			bevies.push(<Button key={ bevy._id } type="button" className={ className }>{ bevy.name }</Button>);
+
+			bevies.push(<Button key={ bevy._id } type="button" className={ className }
+				onClick={ this.switchBevy }>{ bevy.name }</Button>);
 		}
 
 		return	<div className='bevy-list'>
