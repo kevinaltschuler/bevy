@@ -9,7 +9,7 @@ module.exports = React.createClass({
 
 	propTypes: {
 		  allBevies: ReactPropTypes.array.isRequired
-		, activeBevy: ReactPropTypes.number.isRequired
+		, activeBevy: ReactPropTypes.object.isRequired
 	},
 
 	getInitialState: function() {

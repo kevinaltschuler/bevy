@@ -22,7 +22,7 @@ var PostContainer = React.createClass({
 	// see App.jsx and PostStore.js for more details
 	propTypes: {
 		  allPosts: ReactPropTypes.array.isRequired
-		, activeBevy: ReactPropTypes.number.isRequired
+		, activeBevy: ReactPropTypes.object.isRequired
 	},
 
 	getInitialState: function() {

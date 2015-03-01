@@ -48,11 +48,8 @@ _.extend(PostStore, {
 		switch(payload.actionType) {
 			case BEVY.SWITCH:
 				var id = payload.id;
-
-				//var activeBevy = bevies.get(id);
 				bevies._meta.active = id;
-
-				console.log(id);
+				this.trigger('change');
 				break;
 		}
 	},
