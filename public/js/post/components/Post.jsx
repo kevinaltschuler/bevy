@@ -10,6 +10,7 @@
 // imports
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
+var _ = require('underscore');
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
@@ -118,13 +119,18 @@ var Post = React.createClass({
 	},
 
 	render: function() {
-		//console.log(this.state);
-		//TODO: fix if logic
-		//if(true) {
+
+		var panelHeading;
+		if(_.isEmpty(this.state.image_url)) {
+			panelHeading = <div className='panel-heading'>{ this.state.title }</div>;
+		} else {
+			panelHeading = <div className='panel-heading'>
+				<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
+			</div>;
+		}
+
 		return	<div className="panel" postId={ this.state.id }>
-						<div className="panel-heading">
-							<a href={ this.state.image_url }>{ this.state.title }</a>
-						</div>
+						{ panelHeading }
 						<div className="panel-details">{ this.state.author } • { this.state.bevy } • { this.timeAgo() }</div>
 						<div className="panel-body" tabIndex="0">
 							<img className="panel-media" src={ this.state.image_url }/>
