@@ -9,7 +9,7 @@ var MenuItem = rbs.MenuItem;
 var Accordion = rbs.Accordion;
 var Panel = rbs.Panel;
 
-var NotificationHeader = 
+var NotificationHeader =
 
 module.exports = React.createClass({
 	render: function() {
@@ -23,9 +23,9 @@ module.exports = React.createClass({
 						</Accordion>
 						<Accordion className="dropdown-button" title='Invites'>
 							<Panel header="Invites" eventKey='1'>
-								
+
 							</Panel>
 						</Accordion>
-				</ButtonGroup>;
+					</ButtonGroup>;
 	}
 });
