@@ -17,7 +17,7 @@ var PostActions = {
 
 	switchBevy: function(id) {
 		dispatch(BEVY.SWITCH, {
-			id: id
+			id: (id == undefined) ? '0' : id
 		});
 	}
 };
