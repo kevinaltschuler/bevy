@@ -21,7 +21,8 @@ var PostContainer = React.createClass({
 	// expects App.jsx to pass in Posts collection
 	// see App.jsx and PostStore.js for more details
 	propTypes: {
-		allPosts: ReactPropTypes.array.isRequired
+		  allPosts: ReactPropTypes.array.isRequired
+		, activeBevy: ReactPropTypes.number.isRequired
 	},
 
 	getInitialState: function() {

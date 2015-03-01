@@ -92,7 +92,7 @@ var MainSection = React.createClass({
 									<PostSort />
 								</div>
 								<LeftSidebar allBevies={ this.state.allBevies } activeBevy={ this.state.activeBevy }/>
-								<PostContainer allPosts={ this.state.allPosts } />
+								<PostContainer allPosts={ this.state.allPosts } activeBevy={ this.state.activeBevy }/>
 								<RightSidebar />
 							</div>
 						</div>
