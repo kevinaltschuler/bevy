@@ -1,7 +1,7 @@
 @import '../variables.less';
 
 .panel {
-	-webkit-box-shadow: 1px 2px 1px rgba(1, 1, 1, 0.2);
+	box-shadow: 1px 2px 1px rgba(1, 1, 1, 0.2);
 	.form-control {
 		box-shadow: none;
 	}
@@ -35,7 +35,7 @@
 		max-height: 50px;
 		&:focus{
 			max-height: 300px;
-			-webkit-appearance:none;
+			appearance:none;
 			outline:0px !important;
 		}
 		img{
@@ -44,8 +44,6 @@
 	}
 	.panel-body-text {
 		box-shadow: none;
-		-moz-box-shadow: none;
-		-webkit-box-shadow: none;
 		margin-top: 2%;
 		padding-top: 2%;
 		padding-bottom: 2%;
