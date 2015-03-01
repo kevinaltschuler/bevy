@@ -106,6 +106,10 @@ gulp.task('serve:dev', function() {
 			, 'COOKIE_SECRET': 'foobar'
 			, 'SESSION_SECRET': 'foobar'
 		}
+		, ignore: [
+			  'public/*.*'
+			, 'public/**/*.*'
+		]
 	}).on('restart', function() {
 		console.log('restarted!');
 	});
