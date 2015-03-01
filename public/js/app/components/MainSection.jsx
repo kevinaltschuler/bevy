@@ -38,7 +38,7 @@ function getPostState() {
 function getBevyState() {
 	return {
 			// later, load this from session/cookies
-		  activeBevy: 0
+		  activeBevy: BevyStore.getActive()
 		, allBevies: BevyStore.getAll()
 	}
 }

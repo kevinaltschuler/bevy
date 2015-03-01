@@ -17,4 +17,7 @@ var constants = require('./../constants');
 module.exports = Backbone.Collection.extend({
 	  model: Bevy
 	, url: constants.apiurl + '/bevies'
+	, _meta: {
+		active: null
+	}
 });

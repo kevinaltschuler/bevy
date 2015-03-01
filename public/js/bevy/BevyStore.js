@@ -49,6 +49,9 @@ _.extend(PostStore, {
 			case BEVY.SWITCH:
 				var id = payload.id;
 
+				//var activeBevy = bevies.get(id);
+				bevies._meta.active = id;
+
 				console.log(id);
 				break;
 		}
@@ -56,7 +59,10 @@ _.extend(PostStore, {
 
 	getAll: function() {
 		return bevies.toJSON();
-	}
+	},
 
+	getActive: function() {
+		return (bevies._meta.active == null) ? {} : bevies.get(bevies._meta.active);
+	}
 });
 module.exports = PostStore;
