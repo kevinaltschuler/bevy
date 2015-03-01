@@ -39,7 +39,7 @@ var BevyList = React.createClass({
 	switchBevy: function(ev) {
 		// get the bevy id
 		var id = ev.target.getAttribute('key');
-
+		// call action
 		BevyActions.switchBevy(id);
 	},
 
@@ -47,7 +47,7 @@ var BevyList = React.createClass({
 		var allBevies = this.props.allBevies;
 		var bevies = [];
 
-		bevies.push(<Button key='0' type='button' className='bevy-btn'>Front Page</Button>)
+		//bevies.push(<Button key='0' type='button' className='bevy-btn'>Front Page</Button>)
 		for(var key in allBevies) {
 			var bevy = allBevies[key];
 			var className = 'bevy-btn';
