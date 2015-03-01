@@ -52,7 +52,7 @@ connection.once('open', function() {
 	Bevy.find(function(err, bevys) {
 		if(err) return console.error(err);
 
-		if(bevys.length == 0) {
+		if(bevys.length <= 1) {
 			console.log('seeding bevys...');
 
 			Bevy.create({
@@ -60,6 +60,12 @@ connection.once('open', function() {
 				, color: 'FF0000'
 			}, function(err, bevy) {
 				bevy_id = bevy._id; // save bevy id for future refs
+			});
+
+			Bevy.create({
+				  name: 'The Burlap'
+				, color: '0000FF'
+			}, function(err, bevy) {
 			});
 		}
 	});
