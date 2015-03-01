@@ -18,6 +18,8 @@ var Dispatcher = require('./../shared/dispatcher');
 var Bevy = require('./BevyModel');
 var Bevies = require('./BevyCollection');
 
+var BEVY = require('./../constants').BEVY;
+
 // create collection
 var bevies = new Bevies;
 bevies.fetch({
@@ -44,6 +46,11 @@ _.extend(PostStore, {
 	// these are created from BevyActions.js
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
+			case BEVY.SWITCH:
+				var id = payload.id;
+
+				console.log(id);
+				break;
 		}
 	},
 
