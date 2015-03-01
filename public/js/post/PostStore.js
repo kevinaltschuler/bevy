@@ -94,7 +94,7 @@ _.extend(PostStore, {
 				break;
 
 			case POST.SORT:
-				console.log('sort', payload.by, payload.direction);
+				//console.log('sort', payload.by, payload.direction);
 				var by = payload.by;
 				var direction = payload.direction;
 
@@ -107,7 +107,7 @@ _.extend(PostStore, {
 						break;
 				}
 				posts.sort();
-				console.log(posts.pluck('title'));
+				//console.log(posts.pluck('title'));
 
 				this.trigger('change');
 				break;
