@@ -8,6 +8,7 @@
 
 'use strict';
 
+// imports
 var React = require('react');
 var ReactPropTypes = React.PropTypes;
 
@@ -50,6 +51,7 @@ var BevyList = React.createClass({
 		for(var key in allBevies) {
 			var bevy = allBevies[key];
 			var className = 'bevy-btn';
+			if(bevy._id == activeBevy) className += ' active';
 
 			bevies.push(<Button key={ bevy._id } type="button" className={ className }
 				onClick={ this.switchBevy }>{ bevy.name }</Button>);
