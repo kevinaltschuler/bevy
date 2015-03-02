@@ -23,7 +23,7 @@ module.exports = React.createClass({
 
 		var bevyName = (_.isEmpty(this.props.activeBevy)) ? 'not in a bevy' : this.props.activeBevy.get('name');
 
-		return	<ButtonGroup className="col-sm-2 hidden-xs btn-group right-sidebar">
+		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
 						<p>current bevy: { bevyName }</p>
 						<Accordion className="dropdown-button" title='Notifications'>
 							<Panel header="Notifications" eventKey='1'>
