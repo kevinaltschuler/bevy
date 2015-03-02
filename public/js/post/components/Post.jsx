@@ -142,7 +142,7 @@ var Post = React.createClass({
 							</div>;
 		}
 
-		return	<div className="panel" postId={ this.state.id }>
+		return	<div className="post panel" postId={ this.state.id }>
 						{ panelHeading }
 						<div className="panel-details">{ this.state.author } • { this.state.bevy } • { this.timeAgo() }</div>
 						{ panelBody }
