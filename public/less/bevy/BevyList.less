@@ -11,7 +11,7 @@
 		font-size: 1.2em;
 	}
 	.bevy-btn {
-		background-color: rgba(0,0,0,0);
+		background-color: @clear;
 		color: @light-font;
 		font-size: inherit;
 		transition: all 0.15s linear;
@@ -20,12 +20,12 @@
 		&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
 			outline: none;
 			text-decoration: underline;
-			color: black;
+			color: @dark-font;
 			box-shadow: none;
-			background-color: rgba(0,0,0,0);
+			background-color: @clear;
 		}
 		&:hover {
-			background-color: rgba(0,0,0,0);
+			background-color: @clear;
 		}
 	}
 }
