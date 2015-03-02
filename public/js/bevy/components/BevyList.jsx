@@ -59,7 +59,7 @@ var BevyList = React.createClass({
 
 		return	<div className='bevy-list panel'>
 						<div className='panel-header'>
-
+						<p>Bevies</p>
 						</div>
 						<ButtonGroup role="group">
 							<text>

@@ -124,9 +124,9 @@ var Post = React.createClass({
 		// generate panel
 		var panelHeading;
 		if(_.isEmpty(this.state.image_url)) {
-			panelHeading = <div className='panel-heading'>{ this.state.title }</div>;
+			panelHeading = <div className='panel-header'>{ this.state.title }</div>;
 		} else {
-			panelHeading = <div className='panel-heading'>
+			panelHeading = <div className='panel-header'>
 				<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
 			</div>;
 		}
