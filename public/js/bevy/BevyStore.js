@@ -29,6 +29,7 @@ bevies.fetch({
 		var first = collection.get('c1');
 		if(!_.isEmpty(first)) bevies._meta.active = first;
 
+		// propagate change
 		PostStore.trigger(BEVY.CHANGE_ALL);
 	}
 });

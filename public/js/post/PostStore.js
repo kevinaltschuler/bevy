@@ -18,6 +18,7 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 
 var POST = require('./../constants').POST;
+var BEVY = require('./../constants').BEVY;
 var Dispatcher = require('./../shared/dispatcher');
 
 var Post = require('./PostModel');
@@ -110,6 +111,17 @@ _.extend(PostStore, {
 				//console.log(posts.pluck('title'));
 
 				this.trigger(POST.CHANGE_ALL);
+				break;
+
+			case BEVY.SWITCH:
+				var id = payload.id;
+				posts._meta.bevyid = id;
+
+				posts.fetch({
+					success: function(collection, response, options) {
+						PostStore.trigger(POST.CHANGE_ALL);
+					}
+				});
 				break;
 		}
 	},

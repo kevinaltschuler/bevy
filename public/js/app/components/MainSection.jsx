@@ -82,6 +82,7 @@ var MainSection = React.createClass({
 	},
 
 	_onBevyChange: function() {
+		// set state
 		this.setState(_.extend(this.state, getBevyState()));
 	},
 

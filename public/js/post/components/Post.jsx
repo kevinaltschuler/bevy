@@ -31,7 +31,7 @@ var Post = React.createClass({
 
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
-		  id: ReactPropTypes.number.isRequired
+		  id: ReactPropTypes.string.isRequired
 	},
 
 	defaults: {
@@ -83,7 +83,7 @@ var Post = React.createClass({
 	 * @return {string}
 	 */
 	timeAgo: function() {
-		var created = this.state.created;
+		var created = Date.parse(this.state.created);
 		var now = Date.now();
 		var elapsed = now - created;
 
@@ -144,7 +144,7 @@ var Post = React.createClass({
 
 		return	<div className="post panel" postId={ this.state.id }>
 						{ panelHeading }
-						<div className="panel-details">{ this.state.author } • { this.state.bevy } • { this.timeAgo() }</div>
+						<div className="panel-details">{ this.state.author } • { this.state.bevy.name } • { this.timeAgo() }</div>
 						{ panelBody }
 						<div className="panel-commments"></div>
 						<div className="panel-bottom">

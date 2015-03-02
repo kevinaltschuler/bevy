@@ -13,6 +13,8 @@
 // imports
 var Backbone = require('backbone');
 
+var constants = require('./../constants');
+
 // backbone model
 module.exports = Backbone.Model.extend({
 	defaults: {
@@ -28,10 +30,12 @@ module.exports = Backbone.Model.extend({
 		, updated: 0
 	},
 
+	idAttribute: '_id',
+
 	// where to send the CRUD calls (create, read, update, delete)
-	url: function() {
-		return (this.id) ? '/posts/' + this.id : '/posts/';
-	},
+	//url: function() {
+	//	return (this.id) ? constants.apiurl + '/posts/' + this.id : constants.apiurl + '/posts/';
+	//},
 
 	countVotes: function() {
 		var sum = 0;
