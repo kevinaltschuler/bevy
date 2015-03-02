@@ -25,6 +25,7 @@ var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 
 var POST = require('./../../constants').POST;
+var BEVY = require('./../../constants').BEVY;
 
 
 /**
@@ -66,13 +67,13 @@ var MainSection = React.createClass({
 	// mount event listeners
 	componentDidMount: function() {
 		PostStore.on(POST.CHANGE_ALL, this._onPostChange);
-		BevyStore.on('change', this._onBevyChange);
+		BevyStore.on(BEVY.CHANGE_ALL, this._onBevyChange);
 	},
 
 	// unmount event listeners
 	componentWillUnmount: function() {
 		PostStore.off(POST.CHANGE_ALL, this._onPostChange);
-		BevyStore.off('change', this._onBevyChange);
+		BevyStore.off(BEVY.CHANGE_ALL, this._onBevyChange);
 	},
 
 	// event listener callbacks

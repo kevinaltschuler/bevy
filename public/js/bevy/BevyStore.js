@@ -53,7 +53,7 @@ _.extend(PostStore, {
 			case BEVY.SWITCH:
 				var id = payload.id;
 				bevies._meta.active = id;
-				this.trigger('change');
+				this.trigger(BEVY.CHANGE_ALL);
 				break;
 		}
 	},
