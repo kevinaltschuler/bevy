@@ -23,7 +23,6 @@ var POST = require('./../../constants').POST;
 var $ = require('jquery');
 
 function getPostState(id) {
-	console.log(PostStore.getPost(id));
 	return PostStore.getPost(id);
 }
 
@@ -57,12 +56,12 @@ var Post = React.createClass({
 
 	upvote: function(ev) {
 		ev.preventDefault();
-		PostActions.upvote(this.state.id, this.state.author);
+		PostActions.upvote(this.state._id, this.state.author);
 	},
 
 	downvote: function(ev) {
 		ev.preventDefault();
-		PostActions.downvote(this.state.id, this.state.author);
+		PostActions.downvote(this.state._id, this.state.author);
 	},
 
 	/**
@@ -143,7 +142,7 @@ var Post = React.createClass({
 							</div>;
 		}
 
-		return	<div className="post panel" postId={ this.state.id }>
+		return	<div className="post panel" postId={ this.state._id }>
 						{ panelHeading }
 						<div className="panel-details">{ this.state.author } • { this.state.bevy.name } • { this.timeAgo() }</div>
 						{ panelBody }

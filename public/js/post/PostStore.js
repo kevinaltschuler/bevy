@@ -119,6 +119,8 @@ _.extend(PostStore, {
 
 				posts.fetch({
 					success: function(collection, response, options) {
+						// for some reason this.trigger(POST.CHANGE_ALL)
+						// doesn't work at all
 						PostStore.trigger(POST.CHANGE_ALL);
 					}
 				});
