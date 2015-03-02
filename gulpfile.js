@@ -127,24 +127,6 @@ gulp.task('serve', ['build'], function() {
 			, 'COOKIE_SECRET': 'foobar'
 			, 'SESSION_SECRET': 'foobar'
 		}
-		, watch: [
-			  './*.*'
-			, './routes/*.*'
-			, './routes/**/*.*'
-			, './views/*.*'
-			, './views/**/*.*'
-			, './models/*.*'
-			, './middleware/*.*'
-			, './config/*.*'
-			, './api/**/*.*'
-			, './api/*.*'
-		]
-		, ignore: [
-			  './public/*.*'
-			, './public/**/*.*'
-			, './public/js/build/bundle.js'
-			, './gulpfile.js'
-		]
 	}).on('restart', function() {
 		console.log('restarted!');
 	});
