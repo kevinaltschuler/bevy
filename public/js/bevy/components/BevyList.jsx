@@ -57,11 +57,11 @@ var BevyList = React.createClass({
 				onClick={ this.switchBevy }>{ bevy.name }</Button>);
 		}
 
-		return	<div className='bevy-list panel'>
+		return	<div className='panel'>
 						<div className='panel-header'>
-						<p>Bevies</p>
+							<p>Bevies</p>
 						</div>
-						<ButtonGroup role="group">
+						<ButtonGroup className='bevy-list' role="group">
 							<text>
 								{bevies}
 								<ModalTrigger modal={<CreateNewBevy />}>
