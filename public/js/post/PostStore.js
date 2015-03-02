@@ -199,5 +199,5 @@ function sortByTop(post) {
 };
 
 function sortByNew(post) {
-	return post.get('created');
+	return -post.get('created');
 }
