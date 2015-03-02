@@ -86,18 +86,17 @@ var MainSection = React.createClass({
 	},
 
 	render: function(){
-		return	<div className='container'>
+		return	<div className='main-section'>
 						<Navbar />
+						<div className="row">
+							<PostSubmit />
+							<PostSort />
+						</div>
 						<div className='row'>
-							<div className='main-section col-xs-12'>
-								<div className="row">
-									<PostSubmit />
-									<PostSort />
-								</div>
+
 								<LeftSidebar allBevies={ this.state.allBevies } activeBevy={ this.state.activeBevy }/>
 								<PostContainer allPosts={ this.state.allPosts } activeBevy={ this.state.activeBevy }/>
 								<RightSidebar activeBevy={ this.state.activeBevy }/>
-							</div>
 						</div>
 					</div>;
 	}
