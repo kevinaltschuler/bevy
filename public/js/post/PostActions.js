@@ -62,6 +62,11 @@ var PostActions = {
 		});
 	},
 
+	/**
+	 * sort the list of posts
+	 * @param  {string} by        the sorting method ('top', 'new')
+	 * @param  {string} direction either 'asc' or 'desc'
+	 */
 	sort: function(by, direction) {
 		dispatch(POST.SORT, {
 			  by: (by == undefined) ? 'new' : by
