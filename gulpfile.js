@@ -69,6 +69,7 @@ gulp.task('less', function() {
 function buildLess() {
 	console.log('building less...');
 	gulp.src('public/less/app.less')
+		.pipe(sourcemaps.init())
 		.pipe(less())
 		.on('error', function(err){ console.log(err.message); })
 		// now do css transformations
@@ -76,6 +77,7 @@ function buildLess() {
 			  browser: ['last 2 versions']
 			, cascade: true
 		}))
+		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('public/css'));
 	console.log('...done');
 }
