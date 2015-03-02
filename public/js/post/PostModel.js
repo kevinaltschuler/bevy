@@ -22,7 +22,7 @@ module.exports = Backbone.Model.extend({
 		, title: null
 		, body: null
 		, image_url: null
-		, author: null
+		, author: 'placeholder-author'
 		, bevy: null
 		, comments: []
 		, points: []
