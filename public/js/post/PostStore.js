@@ -22,10 +22,10 @@ var BEVY = require('./../constants').BEVY;
 var Dispatcher = require('./../shared/dispatcher');
 
 var Post = require('./PostModel');
-var Posts = require('./PostCollection');
+var PostCollection = require('./PostCollection');
 
 // create collection
-var posts = new Posts;
+var posts = new PostCollection;
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
@@ -75,7 +75,7 @@ _.extend(PostStore, {
 				break;
 
 			case POST.UPVOTE:
-				//console.log('upvote');
+				console.log('upvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
@@ -85,7 +85,7 @@ _.extend(PostStore, {
 				break;
 
 			case POST.DOWNVOTE:
-				//console.log('downvote');
+				console.log('downvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
