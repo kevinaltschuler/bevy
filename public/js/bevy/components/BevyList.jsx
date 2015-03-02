@@ -57,7 +57,7 @@ var BevyList = React.createClass({
 				onClick={ this.switchBevy }>{ bevy.name }</Button>);
 		}
 
-		return	<div className='panel'>
+		return	<div>
 						<div className='panel-header'>
 							<p>Bevies</p>
 						</div>
