@@ -20,6 +20,10 @@ module.exports = new Schema({
 		  type: Schema.Types.ObjectId
 		, ref: 'Comment'
 	}]
+	, author: {
+		  type: Schema.Types.ObjectId
+		, ref: 'Alias'
+	}
 	, title: String
 	, body: String
 	, link: String
