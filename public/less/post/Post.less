@@ -19,7 +19,7 @@
 		&:focus{
 			max-height: 300px;
 			appearance:none;
-			outline:0px !important;
+			outline:0px;
 		}
 		img{
 			width: 100%;
@@ -56,7 +56,7 @@
 			display: inline-block;
 			position: relative;
 			top: 50%;
-			transform: translateY(10%);
+			padding-top: 1%;
 			padding-left: 1.5%;
 		}
 
@@ -71,14 +71,14 @@
 			}
 
 			.btn {
-				background-color: rgba(0,0,0,0);
+				background-color: @clear;
 				color: @light-font;
 				font-size: inherit;
 				transition: all 0.15s linear;
 				padding: 0px 0px;
 
 				&:active {
-					color: black;
+					color: @dark-font;
 					text-decoration: none;
 				}
 			}
