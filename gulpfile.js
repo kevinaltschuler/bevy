@@ -56,15 +56,24 @@ gulp.task('webpack-dev-server', function(callback) {
 	return;
 });
 
-gulp.task('watch', ['webpack-dev-server', 'less', 'serve:dev']);
 
-gulp.task('less', function() {
+gulp.task('watch', ['webpack-dev-server', 'less:watch', 'serve:dev']);
+gulp.task('watch:nohot', ['less:watch', 'webpack:watch', 'serve']);
+
+gulp.task('less:watch', function() {
 	gulp.watch(['public/less/*.less', 'public/less/**/*.less'], function(event) {
 		console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 		buildLess();
 	});
 });
 
+gulp.task('webpack:watch', function() {
+	gulp.watch(['public/js/*.js', 'public/js/**/*.js', 'public/js/*.jsx', 'public/js/**/*.jsx'], function(event) {
+	  //Run webpack.
+	  webpack(webpackProductionConfig, function(err, stats) {
+		});
+	});
+});
 
 function buildLess() {
 	console.log('building less...');
@@ -117,10 +126,9 @@ gulp.task('serve:dev', function() {
 	});
 });
 
-gulp.task('serve', ['build'], function() {
+gulp.task('serve', function() {
 	nodemon({
-		  verbose: true
-		, script: 'app.js'
+		  script: 'app.js'
 		, ext: 'html js jade'
 		, env: {
 			  'NODE_ENV': 'production'
