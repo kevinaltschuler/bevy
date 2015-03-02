@@ -70,7 +70,7 @@ _.extend(PostStore, {
 				});
 
 				// this requires a visual update
-				this.trigger('change');
+				this.trigger(POST.CHANGE_ALL);
 				break;
 
 			case POST.UPVOTE:
@@ -80,7 +80,7 @@ _.extend(PostStore, {
 
 				vote(post_id, author, 1);
 
-				this.trigger('post-change');
+				this.trigger(POST.CHANGE_ONE);
 				break;
 
 			case POST.DOWNVOTE:
@@ -90,7 +90,7 @@ _.extend(PostStore, {
 
 				vote(post_id, author, -1);
 
-				this.trigger('post-change');
+				this.trigger(POST.CHANGE_ONE);
 				break;
 
 			case POST.SORT:
@@ -109,7 +109,7 @@ _.extend(PostStore, {
 				posts.sort();
 				//console.log(posts.pluck('title'));
 
-				this.trigger('change');
+				this.trigger(POST.CHANGE_ALL);
 				break;
 		}
 	},

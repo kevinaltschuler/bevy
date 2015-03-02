@@ -18,6 +18,8 @@ var IconButton = mui.IconButton;
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 
+var POST = require('./../../constants').POST;
+
 var $ = require('jquery');
 
 function getPostState(id) {
@@ -42,10 +44,10 @@ var Post = React.createClass({
 	},
 
 	componentDidMount:function() {
-		PostStore.on('post-change', this._onPostChange);
+		PostStore.on(POST.CHANGE_ONE, this._onPostChange);
 	},
 	componentWillUnmount: function() {
-		PostStore.off('post-change', this._onPostChange);
+		PostStore.off(POST.CHANGE_ONE, this._onPostChange);
 	},
 
 	_onPostChange: function() {

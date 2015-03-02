@@ -30,6 +30,9 @@ exports.POST = {
 	, UPVOTE: 'post_upvote'
 	, DOWNVOTE: 'post_downvote'
 	, SORT: 'post_sort'
+
+	, CHANGE_ALL: 'post_change_all'
+	, CHANGE_ONE: 'post_change_one'
 };
 
 exports.BEVY = {
