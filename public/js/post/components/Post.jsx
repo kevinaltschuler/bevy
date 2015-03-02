@@ -23,6 +23,7 @@ var POST = require('./../../constants').POST;
 var $ = require('jquery');
 
 function getPostState(id) {
+	console.log(PostStore.getPost(id));
 	return PostStore.getPost(id);
 }
 

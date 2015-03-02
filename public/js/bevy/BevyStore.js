@@ -19,6 +19,7 @@ var Bevy = require('./BevyModel');
 var Bevies = require('./BevyCollection');
 
 var BEVY = require('./../constants').BEVY;
+var POST = require('./../constants').POST;
 
 // create collection
 var bevies = new Bevies;
@@ -30,17 +31,17 @@ bevies.fetch({
 		if(!_.isEmpty(first)) bevies._meta.active = first;
 
 		// propagate change
-		PostStore.trigger(BEVY.CHANGE_ALL);
+		BevyStore.trigger(BEVY.CHANGE_ALL);
 	}
 });
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
 // to this store's events
-var PostStore = _.extend({}, Backbone.Events);
+var BevyStore = _.extend({}, Backbone.Events);
 
 // now add some custom functions
-_.extend(PostStore, {
+_.extend(BevyStore, {
 
 	initialize: function() {
 		// register dispatcher
@@ -67,4 +68,4 @@ _.extend(PostStore, {
 		return (bevies._meta.active == null) ? {} : bevies.get(bevies._meta.active);
 	}
 });
-module.exports = PostStore;
+module.exports = BevyStore;
