@@ -75,12 +75,17 @@ connection.once('open', function() {
 	Post.find(function(err, posts) {
 		if(err) console.error(err);
 
-		if(posts.length == 0) {
+		if(posts.length <= 1) {
 			console.log('seeding posts...');
 
 			Post.create({
 				  bevy: bevy_id
 				, title: 'Who Is Mr. Fantastik?'
+			});
+
+			Post.create({
+				  bevy: bevy_id
+				, title: 'Viktor Vaughn: Lickupon'
 			});
 		}
 	});
