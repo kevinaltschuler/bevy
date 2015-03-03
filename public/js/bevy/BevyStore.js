@@ -21,6 +21,8 @@ var Bevies = require('./BevyCollection');
 var BEVY = require('./../constants').BEVY;
 var POST = require('./../constants').POST;
 
+var BevyActions = require('./BevyActions');
+
 // create collection
 var bevies = new Bevies;
 bevies.fetch({
@@ -32,6 +34,9 @@ bevies.fetch({
 
 		// propagate change
 		BevyStore.trigger(BEVY.CHANGE_ALL);
+		// also update posts
+		//BevyStore.trigger(POST.CHANGE_ALL);
+		BevyActions.switchBevy(collection.get('c1').id);
 	}
 });
 

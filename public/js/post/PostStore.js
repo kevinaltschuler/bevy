@@ -75,7 +75,7 @@ _.extend(PostStore, {
 				break;
 
 			case POST.UPVOTE:
-				console.log('upvote');
+				//console.log('upvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
@@ -85,7 +85,7 @@ _.extend(PostStore, {
 				break;
 
 			case POST.DOWNVOTE:
-				console.log('downvote');
+				//console.log('downvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
