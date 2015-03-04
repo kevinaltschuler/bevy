@@ -18,7 +18,7 @@ var constants = require('./../constants');
 // backbone model
 module.exports = Backbone.Model.extend({
 	defaults: {
-		  id: null
+		  _id: null
 		, title: null
 		, body: null
 		, image_url: null

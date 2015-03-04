@@ -172,10 +172,12 @@ function create(options) {
 	// PUT to db
 	//newPost.save();
 	// generate fake ID for now
-	newPost.set('id', Date.now());
+	newPost.set('_id', Date.now());
 
 	// add to collection
 	posts.add(newPost);
+
+	console.log(posts);
 }
 
 function vote(post_id, author, value) {
