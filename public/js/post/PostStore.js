@@ -167,8 +167,6 @@ function create(options) {
 		, bevy: options.bevy
 		, points: []
 		, comments: []
-		, created: new Date()
-		, updated: new Date()
 	});
 
 	// PUT to db
