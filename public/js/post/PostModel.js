@@ -23,7 +23,7 @@ module.exports = Backbone.Model.extend({
 		, title: null
 		, body: null
 		, image_url: null
-		, author: 'placeholder-author'
+		, author: null
 		, bevy: null
 		, comments: []
 		, points: []
@@ -32,14 +32,6 @@ module.exports = Backbone.Model.extend({
 	},
 
 	idAttribute: '_id',
-
-	// where to send the CRUD calls (create, read, update, delete)
-	url: function() {
-		if(_.isEmpty(this.bevy)) return;
-
-		return (this._id) ? constants.apiurl + '/bevies/' + this.bevy._id + '/posts/' + this._id
-		 : constants.apiurl + '/bevies/' + this.bevy._id + '/posts/';
-	},
 
 	countVotes: function() {
 		var sum = 0;
