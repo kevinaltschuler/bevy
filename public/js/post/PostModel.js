@@ -27,8 +27,8 @@ module.exports = Backbone.Model.extend({
 		, bevy: null
 		, comments: []
 		, points: []
-		, created: 0
-		, updated: 0
+		, created: new Date()
+		, updated: new Date()
 	},
 
 	idAttribute: '_id',
