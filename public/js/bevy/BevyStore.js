@@ -47,12 +47,6 @@ var BevyStore = _.extend({}, Backbone.Events);
 
 // now add some custom functions
 _.extend(BevyStore, {
-
-	initialize: function() {
-		// register dispatcher
-		var dispatchId = Dispatcher.register(this.handleDispatch.bind(this));
-	},
-
 	// handle calls from the dispatcher
 	// these are created from BevyActions.js
 	handleDispatch: function(payload) {
@@ -73,4 +67,5 @@ _.extend(BevyStore, {
 		return (bevies._meta.active == null) ? {} : bevies.get(bevies._meta.active);
 	}
 });
+Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
 module.exports = BevyStore;

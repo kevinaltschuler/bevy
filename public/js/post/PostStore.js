@@ -21,8 +21,9 @@ var POST = require('./../constants').POST;
 var BEVY = require('./../constants').BEVY;
 var Dispatcher = require('./../shared/dispatcher');
 
-var Post = require('./PostModel');
+//var Post = require('./PostModel');
 var PostCollection = require('./PostCollection');
+var Post = PostCollection.model;
 
 // create collection
 var posts = new PostCollection;
@@ -33,12 +34,6 @@ var posts = new PostCollection;
 var PostStore = _.extend({}, Backbone.Events);
 // now add some custom functions
 _.extend(PostStore, {
-
-	initialize: function() {
-		// register dispatcher
-		var dispatchId = Dispatcher.register(this.handleDispatch.bind(this));
-	},
-
 	// handle calls from the dispatcher
 	// these are created from PostActions.js
 	handleDispatch: function(payload) {
@@ -154,12 +149,18 @@ _.extend(PostStore, {
 		};
 	}
 });
+Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
 module.exports = PostStore;
+
+posts.on('sync', function() {
+	console.log('synced');
+	PostStore.trigger(POST.CHANGE_ALL);
+});
 
 // create a post
 // and save to db (not implemented yet)
 function create(options) {
-	var newPost = new Post({
+	var newPost = {
 		  title: options.title
 		, body: options.body
 		, image_url: options.image_url
@@ -167,16 +168,18 @@ function create(options) {
 		, bevy: options.bevy
 		, points: []
 		, comments: []
-	});
+	};
 
 	// PUT to db
 	//newPost.save();
 	// generate fake ID for now
-	newPost.set('_id', new Date().toString());
+	//newPost._id = new Date().toString();
 
 	// add to collection
-	posts.add(newPost);
-
+	//posts.add(newPost);
+	posts.create(newPost, {
+		wait: true
+	});
 	console.log(posts);
 }
 

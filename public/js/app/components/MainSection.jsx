@@ -33,6 +33,7 @@ var BEVY = require('./../../constants').BEVY;
  * @return [post_obj] collection of post models - refer to PostStore.js for more details
  */
 function getPostState() {
+	console.log(PostStore.getAll());
 	return {
 		allPosts: PostStore.getAll()
 	}
@@ -57,10 +58,6 @@ function collectState() {
 var MainSection = React.createClass({
 	// called directly after mounting
 	getInitialState: function() {
-		// init posts
-		PostStore.initialize();
-		BevyStore.initialize();
-
 		return collectState();
 	},
 
