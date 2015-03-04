@@ -172,7 +172,7 @@ function create(options) {
 	// PUT to db
 	//newPost.save();
 	// generate fake ID for now
-	newPost.set('_id', Date.now());
+	newPost.set('_id', new Date().toString());
 
 	// add to collection
 	posts.add(newPost);
