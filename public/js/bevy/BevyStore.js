@@ -35,7 +35,8 @@ bevies.fetch({
 		// propagate change
 		BevyStore.trigger(BEVY.CHANGE_ALL);
 		// also update posts
-		//BevyStore.trigger(POST.CHANGE_ALL);
+		// unorthodox and breaks flux flow...
+		// but whatever. will figure out a better way later
 		BevyActions.switchBevy(collection.get('c1').id);
 	}
 });

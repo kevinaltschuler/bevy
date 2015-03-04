@@ -46,13 +46,14 @@ connection.once('open', function() {
 	});
 
 	var bevy_id;
+	var bevy_id_2;
 
 	var Bevy = mongoose.model('Bevy');
 
 	Bevy.find(function(err, bevys) {
 		if(err) return console.error(err);
 
-		if(bevys.length <= 1) {
+		if(bevys.length < 2) {
 			console.log('seeding bevys...');
 
 			Bevy.create({
@@ -66,6 +67,7 @@ connection.once('open', function() {
 				  name: 'The Burlap'
 				, color: '0000FF'
 			}, function(err, bevy) {
+				bevy_id_2 = bevy._id; // save bevy id for future refs
 			});
 		}
 	});
@@ -75,7 +77,7 @@ connection.once('open', function() {
 	Post.find(function(err, posts) {
 		if(err) console.error(err);
 
-		if(posts.length <= 1) {
+		if(posts.length < 2) {
 			console.log('seeding posts...');
 
 			Post.create({
@@ -86,6 +88,11 @@ connection.once('open', function() {
 			Post.create({
 				  bevy: bevy_id
 				, title: 'Viktor Vaughn: Lickupon'
+			});
+
+			Post.create({
+				  bevy: bevy_id_2
+				, title: 'Smith Hall Smells'
 			});
 		}
 	});
