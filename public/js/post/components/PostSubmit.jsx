@@ -29,8 +29,8 @@ var PostSubmit = React.createClass({
 	// trigger the create action
 	// TODO: pass in the rest of the state attributes needed
 	submit: function() {
-		PostActions.create(this.state.title, 'placeholder-body',
-			null, 'placeholder-author', this.props.activeBevy.toJSON());
+		PostActions.create(this.state.title, null,
+			null, null, this.props.activeBevy.toJSON());
 	},
 
 	// start with an empty title
