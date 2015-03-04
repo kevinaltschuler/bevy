@@ -181,15 +181,17 @@ function create(options) {
 }
 
 function vote(post_id, author, value) {
-	var post = posts.get(post_id);
+	var voted_post = posts.get(post_id);
 
-	if(!post) {
+	if(!voted_post) {
 		// post not found
 		// TODO: return a snackbar message or something
 		return;
 	}
 
-	var points = post.get('points');
+	// create a shallow copy so we don't descend
+	// into reference hell
+	var points = voted_post.get('points').slice();
 
 	// check for already voted
 	var maxVotes = 3;
@@ -203,7 +205,7 @@ function vote(post_id, author, value) {
 	}
 
 	points.push({ author: author, value: value });
-	post.set('points', points);
+	voted_post.set('points', points);
 
 	// TODO: save post
 }
