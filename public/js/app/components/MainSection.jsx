@@ -90,7 +90,7 @@ var MainSection = React.createClass({
 		return	<div className='main-section'>
 						<Navbar />
 						<div className="row">
-							<PostSubmit />
+							<PostSubmit activeBevy={ this.state.activeBevy }/>
 							<PostSort />
 						</div>
 						<div className='row'>
