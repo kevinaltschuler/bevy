@@ -8,6 +8,10 @@ module.exports = function(app) {
 		res.render('login', {});
 	});
 
+	app.get('/register', function(req, res, next) {
+		res.render('register', {});
+	});
+
 	app.post('/login',
 		passport.authenticate('local', {
 			  successRedirect: '/'
