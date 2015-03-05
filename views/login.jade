@@ -1,15 +1,26 @@
 extends ./base.jade
 
+block scripts
+	style
+		include ./../public/css/app.css
+
 block content
-	h1 login
-	p #{message}
-	form( action='/login', method='post', enctype='x-www-form-urlencoded')
-		p
-			label Email:
-			input(id='email', type='text', name='email')
-		p
-			label Password:
-			input(id='password', type='password', name='password')
-		p
-			input(id='submit', type='submit', value='Log In')
+	#app.container
+		.login-container
+			.login-header.row
+				img(src="../../../img/logo_100.png",height="60", width="60")
+			.login-title.row
+				h1 Join the Fun ;)
+				h2 Sign in to continue to Bevy.
+			.login-panel.panel.panel-default
+				.panel-body
+					img(src="//ssl.gstatic.com/accounts/ui/avatar_2x.png",alt="")
+					.form-group
+						input.form-control(placeholder="Email",type="text")
+					.form-group
+						input.form-control(placeholder="Password",type="text")
+					.panel-bottom
+						.mui-raised-button.mui-paper.mui-z-depth-1.mui-rounded
+							.mui-paper-container.mui-z-depth-bottom
+								<a href="#" class="mui-raised-button-container mui-enhanced-button mui-is-link-button" data-reactid=".0.0.2.1:$0.3.0.0.0"><div data-reactid=".0.0.2.1:$0.3.0.0.0.$touchRipple"><div class="mui-touch-ripple" data-reactid=".0.0.2.1:$0.3.0.0.0.$touchRipple.0"><div class="mui-ripple-circle" data-reactid=".0.0.2.1:$0.3.0.0.0.$touchRipple.0.$0"><div class="mui-ripple-circle-inner" data-reactid=".0.0.2.1:$0.3.0.0.0.$touchRipple.0.$0.0"></div></div></div><span class="mui-raised-button-label" data-reactid=".0.0.2.1:$0.3.0.0.0.$touchRipple.1">Sign in</span></div><div style="height: 240px; top: -102px;" class="mui-focus-ripple" data-reactid=".0.0.2.1:$0.3.0.0.0.$focusRipple"><div class="mui-focus-ripple-inner" data-reactid=".0.0.2.1:$0.3.0.0.0.$focusRipple.0"></div></div></a></div></div></div></div></div><a href="/#/register" data-reactid=".0.0.3">Create an account</a></div></div>
 
