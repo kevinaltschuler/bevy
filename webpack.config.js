@@ -4,11 +4,11 @@ var webpack = require('webpack');
 var path = require('path');
 
 module.exports = {
-	entry: [
-		'webpack-dev-server/client?http://localhost:8888',
+	entry: {
+		app: ['webpack-dev-server/client?http://localhost:8888',
 		'webpack/hot/only-dev-server',
-		'./public/js/index'
-	],
+		'./public/js/index']
+	},
 	output: {
 		path: path.join(__dirname, '/public/'),
 		filename: 'bundle.js',
