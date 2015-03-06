@@ -20,7 +20,7 @@ var LoginPage = React.createClass({
 							<h2>Sign in to continue to Bevy.</h2>
 						</div>
 						<LoginPanel />
-						<a href="/#/register">
+						<a href="/register">
 							Create an account
 						</a>
 						<br/>
