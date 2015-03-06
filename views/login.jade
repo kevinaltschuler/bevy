@@ -6,24 +6,10 @@ block scripts
 
 block content
 	#app.container
-		.login-container
-			.login-header.row
-				img(src="../../../img/logo_100.png",height="60", width="60")
-			.login-title.row
-				h1 Join the Fun ;)
-				h2 Sign in to continue to Bevy.
-			.login-panel.panel.panel-default
-				.panel-body
-					img(src="//ssl.gstatic.com/accounts/ui/avatar_2x.png",alt="")
-					form(method='post', action='/login')
-						.form-group
-							input.form-control(name='email', placeholder="Email",type="text")
-						.form-group
-							input.form-control(name='password', placeholder="Password",type="password")
-						.form-group
-							input.form-control(type='submit' value='Log In')
-			a(href='register') Create a New Account
-			br
-			br
+
+	if env == 'development'
+		script(src='http://localhost:8888/build/login.bundle.js')
+	else
+		script(src='js/build/login.bundle.js')
 
 

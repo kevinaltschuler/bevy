@@ -5,7 +5,8 @@ var path = require('path');
 
 module.exports = {
 	entry: [
-		'./public/js/index.js'
+		app: ['./public/js/index.js'],
+		login: ['./public/js/login/login-index.js']
 	],
 	output: {
 		path: path.join(__dirname, "public/js/build"),

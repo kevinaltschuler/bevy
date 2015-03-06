@@ -5,7 +5,7 @@ var passport = require('passport');
 module.exports = function(app) {
 
 	app.get('/login', function(req, res, next) {
-		res.render('login', {});
+		res.render('login', { env: process.env.NODE_ENV });
 	});
 
 	app.get('/register', function(req, res, next) {
