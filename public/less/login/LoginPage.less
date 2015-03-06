@@ -1,7 +1,7 @@
 @import '../variables.less';
 
 .login-container {
-	margin-top: -5%;
+	//margin-top: -5%;
 	.login-header {
 		img{
 			float: none;
@@ -44,50 +44,33 @@
 		padding: 40px 40px;
 		margin-left: auto;
 		margin-right: auto;
-		.panel-body {
-			max-height: none;
-			overflow: visible;
-			img{
-				width: 96px;
-				height: 96px;
-				margin: 0 auto 35px;
-				display: block;
-				border-radius: 50%;
-			}
-			.form-group {
-				margin: 10px;
-				.form-control {
-					background-color: white;
-					color: black;
-				}
-			}
-			input[type='submit'].form-control {
-				color: #fff;
-				background-color: @bevy-green;
+		img{
+			width: 96px;
+			height: 96px;
+			margin: 0 auto 35px;
+			display: block;
+			border-radius: 50%;
+		}
+		.form-group {
+			margin: 10px;
+			.form-control {
+				background-color: white;
+				color: black;
 			}
 		}
-		.panel-bottom {
-			padding-top: 3px;
-			.mui-raised-button {
-				float: right;
-				width: 100%;
-				.mui-paper-container {
-					.mui-raised-button-container {
-						background-color: @bevy-green;
-						color: white;
-						div {
-							.mui-raised-button-label {
-								color: white;
-							}
+		.login-submit.mui-raised-button {
+			background-color: @bevy-green;
+			color: white;
+			float: right;
+			width: 100%;
+			.mui-paper-container {
+				.mui-raised-button-container {
+					background-color: @bevy-green;
+					color: white;
+					div {
+						.mui-raised-button-label {
+							color: white;
 						}
-					}
-				}
-			}
-			.mui-flat-button {
-				width: 100%;
-				div {
-					.mui-flat-button-label {
-						//color: @bevy-green;
 					}
 				}
 			}

@@ -1,3 +1,10 @@
+/**
+ * LoginPanel.jsx
+ *
+ * @author albert
+ * @author kevin
+ */
+
 'use strict';
 
 var React = require('react');
@@ -14,12 +21,14 @@ var RaisedButton = mui.RaisedButton;
 var LoginPanel = React.createClass({
 	render: function() {
 		return	<Panel className="login-panel">
-						<img class="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt=""/>
-						<Input type="text" placeholder="Email" />
-	  					<Input type="text" placeholder="Password" />
-						<div className="panel-bottom">
-							<RaisedButton label="Sign in" linkButton={true} href="#"/>
-						</div>
+						<form method='post' action='/login'>
+							<img className="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt=""/>
+							<Input type="text" name='email' placeholder="Email" />
+		  					<Input type="password" name='password' placeholder="Password" />
+							<RaisedButton className='login-submit' label='Sign In'>
+								<input value='' type='submit'/>
+							</RaisedButton>
+						</form>
 					</Panel>;
 				}
 			});
