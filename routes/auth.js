@@ -9,7 +9,7 @@ module.exports = function(app) {
 	});
 
 	app.get('/register', function(req, res, next) {
-		res.render('register', {});
+		res.render('register', { env: process.env.NODE_ENV });
 	});
 
 	app.post('/login',

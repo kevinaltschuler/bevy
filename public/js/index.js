@@ -30,8 +30,6 @@ var React = require('react');
 var Navbar = require('./app/components/Navbar.jsx');
 var MainSection = require('./app/components/MainSection.jsx');
 var ProfilePage = require('./profile/components/ProfilePage.jsx');
-var LoginPage = require('./login/components/LoginPage.jsx');
-var RegisterPage = require('./login/components/RegisterPage.jsx')
 
 // load react-router
 var Router = require('react-router');

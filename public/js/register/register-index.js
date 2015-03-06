@@ -1,7 +1,7 @@
 /**
- * login-index.js
+ * register-index.js
  *
- * entry point for the login page
+ * entry point for the register page
  *
  * @author albert
  */
@@ -47,12 +47,12 @@ var App = React.createClass({
 	}
 });
 
-var LoginPage = require('./components/LoginPage.jsx');
+var LoginPage = require('./components/RegisterPage.jsx');
 
 // route configuration
 var routes = (
 	<Route name='app' path='/' handler={App}>
-		<DefaultRoute handler={LoginPage} />
+		<DefaultRoute handler={RegisterPage} />
 	</Route>
 );
 

@@ -8,7 +8,8 @@ module.exports = {
 		app: ['webpack-dev-server/client?http://localhost:8888',
 		'webpack/hot/only-dev-server',
 		'./public/js/index'],
-		login: './public/js/login/login-index.js'
+		login: './public/js/login/login-index.js',
+		register: './public/js/register/register-index.js'
 	},
 	output: {
 		path: path.join(__dirname, '/public/'),
