@@ -23,6 +23,8 @@ var LoginPage = React.createClass({
 						<a href="/#/register">
 							Create an account
 						</a>
+						<br/>
+						<br/>
 					</div>
 	}
 });
