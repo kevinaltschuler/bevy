@@ -47,7 +47,7 @@ var App = React.createClass({
 	}
 });
 
-var LoginPage = require('./components/RegisterPage.jsx');
+var RegisterPage = require('./components/RegisterPage.jsx');
 
 // route configuration
 var routes = (
