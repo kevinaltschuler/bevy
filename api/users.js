@@ -15,6 +15,8 @@ var _ = require('underscore');
 var error = require('./../error');
 var bcrypt = require('bcryptjs');
 
+var mailgun = require('./../config').mailgun();
+
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var ObjectId = mongoose.Types.ObjectId;
@@ -72,6 +74,8 @@ exports.create = function(req, res, next) {
 		}
 	}).then( function() {
 
+		// if it's a test, dont actually create the user, and return the
+		// update object
 		if(!_.isEmpty(req.query['test']) || !_.isEmpty(req.body['test'])) {
 			res.json(update);
 			next();
@@ -80,6 +84,17 @@ exports.create = function(req, res, next) {
 
 		User.create(update, function(err, user) {
 			if(err) throw err;
+
+			// send a welcome email
+			if(req.query['email'] == true || req.body['email'] == true) {
+				mailgun.messages().send({
+					  from: 'Bevy Team <contact@bvy.io>'
+					, to: user.email
+					, subject: 'Welcome to Bevy!'
+					, text: 'Thanks for signing up for bevy! A prettier template is coming soon.'
+				});
+			}
+
 			res.json(user);
 		});
 	},
