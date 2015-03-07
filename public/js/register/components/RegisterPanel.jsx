@@ -166,7 +166,7 @@ var RegisterPanel = React.createClass({
 		}
 
 		return	<Panel className="register-panel">
-						<img className="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt=""/>
+						<img className="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Avatar"/>
 						{ error }
 						<form method='post' action='/register'>
 							<Input
