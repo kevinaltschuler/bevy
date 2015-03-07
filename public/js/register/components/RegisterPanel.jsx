@@ -1,5 +1,13 @@
+/**
+ * RegisterPanel.jsx
+ *
+ * @author albert
+ * @author kevin
+ */
+
 'use strict';
 
+// imports
 var React = require('react');
 var $ = require('jquery');
 var _ = require('underscore');
@@ -47,7 +55,7 @@ var RegisterPanel = React.createClass({
 		// first check if the email is valid
 		// TODO: validate this on the server as well
 		if(!validateEmail(emailVal)) {
-			//console.log('not valid email');
+			// invalid email
 			this.setState({
 				  emailBsStyle: 'error'
 				, errorText: 'Please enter a valid email address'
@@ -55,6 +63,7 @@ var RegisterPanel = React.createClass({
 				, validInput: false
 			});
 		} else {
+			// valid email
 			this.setState({
 				  emailBsStyle: 'success'
 			});
@@ -70,11 +79,13 @@ var RegisterPanel = React.createClass({
 				// and finally, check if the password is set
 				// TODO: password strength
 				if(!_.isEmpty(passwordVal)) {
+					// valid password
 					this.setState({
 						  passwordBsStyle: 'success'
 						, validInput: true
 					});
 				} else {
+					// invalid/nonexistent password
 					this.setState({
 						  passwordBsStyle: 'error'
 						, errorText: 'Please enter a valid password'
@@ -83,6 +94,7 @@ var RegisterPanel = React.createClass({
 				}
 
 			} else {
+				// email and confirm email dont match
 				this.setState({
 					  confirmEmailBsStyle: 'error'
 					, errorText: 'Please ensure that the given emails match'
@@ -100,8 +112,6 @@ var RegisterPanel = React.createClass({
 		var password = this.refs.password.getValue()
 
 		if(this.state.validInput) {
-			//console.log('everything checks out!');
-
 			// send api request
 			$.post(
 				constants.apiurl + '/users/',
@@ -112,7 +122,6 @@ var RegisterPanel = React.createClass({
 				},
 				function(data, textStatus, jqXHR) {
 					//success
-					//console.log(data);
 					// login the new user immediately
 					$.post(
 						constants.siteurl + '/login',
@@ -121,6 +130,8 @@ var RegisterPanel = React.createClass({
 							, password: password
 						},
 						function(response) {
+							// assume the login ajax worked
+							// and redirect to the main app
 							window.location.href = constants.siteurl;
 						}
 					);
