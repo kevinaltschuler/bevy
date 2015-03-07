@@ -69,4 +69,4 @@ Router.run(routes, function(Handler) {
 	React.render(<Handler/>, document.getElementById('app'));
 });
 
-console.log(window.hadoop);
+//console.log(window.bootstrap.user);

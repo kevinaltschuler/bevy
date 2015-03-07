@@ -4,13 +4,16 @@ var passport = require('passport');
 
 module.exports = function(app) {
 	app.get('/', require_user, function(req, res, next) {
-		res.render('app', { env: process.env.NODE_ENV });
+		res.render('app', {
+			  env: process.env.NODE_ENV
+			, user: req.user
+		});
 	});
 }
 
 function require_user(req, res, next) {
 	if(req.user) {
-		console.log(req.user);
+		//console.log(req.user);
 		next();
 	}
 	else {

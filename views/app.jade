@@ -5,12 +5,14 @@ block scripts
 		include ./../public/css/app.css
 
 block content
-	// h1 environment: #{env}
 	#app.container
+
+	- console.log(user);
 
 	script(type='text/javascript').
 		// jenk global variable bootstrapping
-		window.hadoop = 2;
+		window.bootstrap = {};
+		window.bootstrap.user = !{JSON.stringify(user)};
 
 
 	if env == 'development'
