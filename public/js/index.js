@@ -29,7 +29,10 @@ var React = require('react');
 // load components
 var Navbar = require('./app/components/Navbar.jsx');
 var MainSection = require('./app/components/MainSection.jsx');
+
 var ProfilePage = require('./profile/components/ProfilePage.jsx');
+var LoginPage = require('./login/components/LoginPage.jsx');
+var RegisterPage = require('./register/components/RegisterPage.jsx');
 
 // load react-router
 var Router = require('react-router');
@@ -61,11 +64,13 @@ var App = React.createClass({
 var routes = (
 	<Route name='app' path='/' handler={App}>
 		<Route name='profile' handler={ProfilePage} />
+		<Route name='login' handler={LoginPage} />
+		<Route name='register' handler={RegisterPage} />
 		<DefaultRoute handler={MainSection} />
 	</Route>
 );
 
-Router.run(routes, function(Handler) {
+Router.run(routes, Router.HistoryLocation, function(Handler) {
 	React.render(<Handler/>, document.getElementById('app'));
 });
 
