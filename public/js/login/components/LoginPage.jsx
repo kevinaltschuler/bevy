@@ -7,13 +7,10 @@
 
 'use strict';
 
+// imports
 var React = require('react');
 
 var LoginPanel = require('./LoginPanel.jsx')
-
-var rbs = require('react-bootstrap');
-var Panel = rbs.Panel;
-var Input = rbs.Input;
 
 var LoginPage = React.createClass({
 	render: function() {
