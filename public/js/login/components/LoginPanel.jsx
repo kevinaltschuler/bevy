@@ -15,7 +15,6 @@ var Input = rbs.Input;
 var Button = rbs.Button;
 
 var mui = require('material-ui');
-var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
 
 var LoginPanel = React.createClass({
