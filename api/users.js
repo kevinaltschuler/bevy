@@ -71,6 +71,13 @@ exports.create = function(req, res, next) {
 			throw error.gen('another user with the same email exists', req);
 		}
 	}).then( function() {
+
+		if(!_.isEmpty(req.query['test']) || !_.isEmpty(req.body['test'])) {
+			res.json(update);
+			next();
+			return;
+		}
+
 		User.create(update, function(err, user) {
 			if(err) throw err;
 			res.json(user);
