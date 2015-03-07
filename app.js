@@ -94,11 +94,11 @@ var api_router = express.Router();
 require('./routes/api')(api_router);
 app.use(subdomain('api', api_router));
 
-// load routes
-var routes = require('./routes')(app);
-
 // static directories
 app.use(serveStatic(__dirname + '/public')); // app-specific assets
+
+// load routes
+var routes = require('./routes')(app);
 
 // error handling
 var error = require('./error');
