@@ -1,8 +1,21 @@
 'use strict';
 
 var passport = require('passport');
+var mailgun = require('./../config').mailgun();
 
 module.exports = function(app) {
+
+	//test email
+	app.get('/emailtest', function(req, res, next) {
+		mailgun.messages().send({
+			  from: 'Bevy Team <contact@bvy.io>'
+			, to: 'blahoink@gmail.com'
+			, subject: 'Test Subject'
+			, text: 'Test Body'
+		}, function(error, body) {
+			res.json(body);
+		});
+	});
 
 	app.get('/login', function(req, res, next) {
 		res.render('app', {
