@@ -1,14 +1,9 @@
 @import '../variables.less';
 
-.login-container {
-	.login-header {
-		img{
-			float: none;
-			margin: 20px auto 30px;
-			display: block;
-		}
-	}
-	.login-title {
+.register-container{
+	padding-top: 50px;
+
+	.register-title {
 		h1, h2 {
 			-webkit-animation-duration: 0.1s;
 			-webkit-animation-name: fontfix;
@@ -38,7 +33,7 @@
 		}
 	}
 
-	.login-panel {
+	.register-panel {
 		width: 350px;
 		padding: 40px 40px;
 		margin-left: auto;
@@ -50,6 +45,17 @@
 			display: block;
 			border-radius: 50%;
 		}
+		.register-error{
+			background-color: @bevy-danger;
+			padding: 5px 10px;
+			border-radius: 5px;
+			margin: 0 10px;
+			text-align: center;
+			span{
+				color: white;
+				font-weight: bold;
+			}
+		}
 		.form-group {
 			margin: 10px;
 			.form-control {
@@ -57,7 +63,7 @@
 				color: black;
 			}
 		}
-		.login-submit.mui-raised-button {
+		.register-submit.mui-raised-button {
 			display: block;
 			background-color: @bevy-green;
 			color: white;
@@ -76,16 +82,11 @@
 			}
 		}
 	}
+
 	.back-link{
 		text-align: center;
 		a {
 			font-size: 1em;
 		}
-	}
-}
-
-.register {
-	p{
-		text-align: center;
 	}
 }

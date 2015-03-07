@@ -20,10 +20,9 @@ var LoginPage = React.createClass({
 							<h2>Sign in to continue to Bevy.</h2>
 						</div>
 						<LoginPanel />
-						<a href="/register">
-							Create an account
-						</a>
-						<br/>
+						<div className='back-link'>
+							<a href="/register">Create an account</a>
+						</div>
 						<br/>
 					</div>
 	}
