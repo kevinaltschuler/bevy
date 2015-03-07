@@ -153,7 +153,7 @@ Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
 module.exports = PostStore;
 
 posts.on('sync', function() {
-	console.log('synced');
+	//console.log('synced');
 	PostStore.trigger(POST.CHANGE_ALL);
 });
 

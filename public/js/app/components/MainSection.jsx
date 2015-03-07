@@ -33,7 +33,7 @@ var BEVY = require('./../../constants').BEVY;
  * @return [post_obj] collection of post models - refer to PostStore.js for more details
  */
 function getPostState() {
-	console.log(PostStore.getAll());
+	//console.log(PostStore.getAll());
 	return {
 		allPosts: PostStore.getAll()
 	}
