@@ -3,7 +3,7 @@
 var _ = require('underscore');
 
 exports.log_errors = function(err, req, res, next) {
-	console.error('log_errors', err.toString());
+	console.error('log_errors', JSON.stringify(err));
 	next(err);
 }
 exports.client_error_handler = function(err, req, res, next) {
