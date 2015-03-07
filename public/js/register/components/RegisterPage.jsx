@@ -1,13 +1,16 @@
+/**
+ * RegisterPage.jsx
+ *
+ * @author albert
+ * @author kevin
+ */
+
 'use strict';
 
+// imports
 var React = require('react');
 
 var RegisterPanel = require('./RegisterPanel.jsx')
-
-var rbs = require('react-bootstrap');
-var Panel = rbs.Panel;
-var Input = rbs.Input;
-var Button = rbs.Button;
 
 var RegisterPage = React.createClass({
 	render: function() {
