@@ -15,6 +15,10 @@ module.exports = function(app) {
 		});
 	});
 
+	// for everything else - pass it off to the react router
+	// on the front end
+	// this should be the last route ever checked
+	// TODO: do this smartly with a regex
 	app.get('/**', require_user, function(req, res, next) {
 		res.render('app', {
 			  env: process.env.NODE_ENV
