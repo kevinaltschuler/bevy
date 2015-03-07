@@ -11,6 +11,8 @@
 // imports
 var Backbone = require('backbone');
 
+var constants = require('./../constants');
+
 // backbone model
 module.exports = Backbone.Model.extend({
 	defaults: {
@@ -27,6 +29,8 @@ module.exports = Backbone.Model.extend({
 	idAttribute: '_id',
 
 	url: function() {
-		return (this.id) ? '/bevies/' + this.id : '/bevies/';
+		return (this.id) ?
+		   constants.apiurl + '/bevies/' + this.id
+		 : constants.apiurl + '/bevies/';
 	}
 });
