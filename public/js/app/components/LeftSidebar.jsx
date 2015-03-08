@@ -11,7 +11,7 @@ module.exports = React.createClass({
 		  allBevies: ReactPropTypes.array.isRequired
 		, activeBevy: ReactPropTypes.object.isRequired
 	},
-
+	
 	getInitialState: function() {
 		return {};
 	},

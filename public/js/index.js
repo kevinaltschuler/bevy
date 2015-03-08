@@ -42,7 +42,6 @@ var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
 
-
 //Needed for onTouchTap - a feature of Material-UI
 //Can go away when react 1.0 release
 //Check this repo:

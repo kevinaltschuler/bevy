@@ -11,7 +11,7 @@ var MenuItem = rbs.MenuItem;
 var Accordion = rbs.Accordion;
 var Panel = rbs.Panel;
 
-var NotificationHeader =
+var NotificationHeader;
 
 module.exports = React.createClass({
 
@@ -24,19 +24,19 @@ module.exports = React.createClass({
 		var bevyName = (_.isEmpty(this.props.activeBevy)) ? 'not in a bevy' : this.props.activeBevy.get('name');
 
 		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
-						<p>current bevy: { bevyName }</p>
-						<Accordion className="dropdown-button" title='Notifications'>
-							<Panel header="Notifications" eventKey='1'>
-								• 'Josh Guererro commented on your post "Owl Spreading its wings'
-								<br/>
+					<p>current bevy: { bevyName }</p>
+					<Accordion className="dropdown-button" title='Notifications'>
+						<Panel header="Notifications" eventKey='1'>
+							• 'Josh Guererro commented on your post "Owl Spreading its wings'
+							<br/>
 
-							</Panel>
-						</Accordion>
-						<Accordion className="dropdown-button" title='Invites'>
-							<Panel header="Invites" eventKey='1'>
+						</Panel>
+					</Accordion>
+					<Accordion className="dropdown-button" title='Invites'>
+						<Panel header="Invites" eventKey='1'>
 
-							</Panel>
-						</Accordion>
-					</ButtonGroup>;
+						</Panel>
+					</Accordion>
+				</ButtonGroup>;
 	}
 });
