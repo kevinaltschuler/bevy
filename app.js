@@ -91,6 +91,7 @@ app.set('views', './views');
 // TODO: user auth
 // TODO: multi level api (v1, v2, etc)
 var api_router = express.Router();
+api_router.use(middleware.cors());
 require('./routes/api')(api_router);
 app.use(subdomain('api', api_router));
 
