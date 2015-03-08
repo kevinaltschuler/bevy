@@ -41,9 +41,7 @@ var Navbar = React.createClass({
 		return	<div className="navbar navbar-fixed-top">
 
 						<div className="navbar-header pull-left">
-							<DropdownButton title='profile'>
-								<ProfileDropdown />
-							</DropdownButton>
+							<ProfileDropdown />
 						</div>
 
 						<ModalTrigger modal={<ProfileModal />}>
