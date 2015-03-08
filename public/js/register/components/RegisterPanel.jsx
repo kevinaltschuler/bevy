@@ -135,8 +135,7 @@ var RegisterPanel = React.createClass({
 							window.location.href = constants.siteurl;
 						}
 					);
-				},
-				'json'
+				}
 			).fail(function(jqXHR) {
 				// failure
 				var response = jqXHR.responseJSON;
