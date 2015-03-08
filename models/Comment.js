@@ -1,11 +1,22 @@
+/**
+ * Comment.js
+ *
+ * Comment mongoose model
+ *
+ * @author albert
+ */
+
 'use strict';
 
+// imports
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 module.exports = new Schema({
-	  _id: Schema.Types.ObjectId // internal id
-	, author: Schema.Types.ObjectId // alias
+	  author: {
+		  type: Schema.Types.ObjectId
+		, ref: 'Alias'
+	}
 	, title: String
 	, body: String
 	, link: String
