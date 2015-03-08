@@ -42,6 +42,10 @@ require('./db');
 app.set('json spaces', 2);
 
 // MIDDLEWARE
+
+// cors
+app.use(middleware.cors);
+
 app.use(favicon('./public/img/favicon.ico'));
 
 // logger
@@ -80,9 +84,6 @@ app.use(passport.session());
 //	return next();
 //});
 
-// cors
-app.use(middleware.cors());
-
 // templating engine for pages outside of the SPA
 app.set('view engine', 'jade');
 app.set('views', './views');
@@ -91,7 +92,7 @@ app.set('views', './views');
 // TODO: user auth
 // TODO: multi level api (v1, v2, etc)
 var api_router = express.Router();
-api_router.use(middleware.cors());
+api_router.use(middleware.cors);
 require('./routes/api')(api_router);
 app.use(subdomain('api', api_router));
 
