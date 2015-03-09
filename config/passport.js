@@ -5,7 +5,6 @@ var config = require('./../config');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
-var GoogleStrategy = require('passport-google').Strategy;
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
@@ -40,28 +39,6 @@ module.exports = function(app) {
 		}
 	));
 
-	passport.use(new GoogleStrategy({
-		  	returnURL: config.app.server.hostname + '/auth/google/return'
-			, realm: config.app.server.hostname
-		},
-		function(identifier, profile, done) {
-			var query = { open_id: identifier };
-			User.findOne(query).exec(function(err, user) {
-				if(err) return done(err);
-				if(!user) {
-					// doesn't exist
-					var new_user = {
-						  _id: ObjectId()
-						, open_id: identifier
-					};
-					User.create(new_user, function(err, user) {
-						if(err) return done(err);
-						done(err, user);
-					});
-				} else done(err, user);
-			});
-		}
-	));
 
 	passport.serializeUser(function(user, done) {
 		console.log('Serializing: ', user);
@@ -70,7 +47,7 @@ module.exports = function(app) {
 
 	passport.deserializeUser(function(id, done) {
 		console.log('Deserializing: ', id);
-		var query = { _id: new ObjectId.createFromHexString(id) };
+		var query = { _id: id };
 		User.findOne(query).exec(function(err, user) {
 			done(err, user);
 		});

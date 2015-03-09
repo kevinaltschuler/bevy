@@ -27,7 +27,6 @@
     "multer": "^0.1.7",
     "object-assign": "^2.0.0",
     "passport": "^0.2.1",
-    "passport-google": "^0.3.0",
     "passport-local": "^1.0.0",
     "react": "^0.12.2",
     "react-bootstrap": "^0.15.1",
