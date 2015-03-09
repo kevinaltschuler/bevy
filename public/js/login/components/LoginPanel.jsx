@@ -57,12 +57,13 @@ var LoginPanel = React.createClass({
 				, password: this.refs.password.getValue()
 			},
 			function(data) {
+				console.log(data);
 				// success
 				// let's redirect to the app
 				window.location.href = constants.siteurl;
 			}
 		).fail(function(jqXHR) {
-			// a server-side error has occured
+			// a server-side error has occured (500 internal error)
 			// load response from jqXHR
 			var response = jqXHR.responseJSON;
 			// show error
