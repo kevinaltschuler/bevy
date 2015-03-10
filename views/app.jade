@@ -7,6 +7,8 @@ block scripts
 block content
 	#app.container
 
+	- if(user == undefined) { var user = {}; }
+
 	script(type='text/javascript').
 		// jenk global variable bootstrapping
 		window.bootstrap = {};
