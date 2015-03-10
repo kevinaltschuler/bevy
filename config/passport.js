@@ -26,13 +26,15 @@ module.exports = function(app) {
 			User.findOne(query).exec(function(err, user) {
 				if(err) return done(err);
 				if(!user) {
+					console.log('incorrect email');
 					return done(null, false, { message: 'Incorrect email' });
 				}
 				var hash = user.password;
 				if(!bcrypt.compareSync(password, hash)) {
-					//fail
+					console.log('incorrect password');
 					return done(null, false, { message: 'Incorrect password' });
 				}
+				console.log('User', email, 'authenticated!');
 				return done(null, user);
 			});
 		}
