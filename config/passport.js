@@ -51,12 +51,33 @@ module.exports = function(app) {
 			, realm: config.app.server.hostname
 		},
 		function(accessToken, refreshToken, profile, done) {
-			User.findOne({ 'google.id': profile.id }, function (err, user) {
+			console.log('Authenticating user: ', profile);
+			var emails = _.pluck(profile.emails, 'value');
+
+			var id_query = { 'google.id': profile.id };
+			// match emails as well as id so we can prevent users from
+			// having both an email account and a google account (confusing!)
+			var email_query = { email: { $in: emails } };
+
+			User.findOne({ $or: [ id_query, email_query ] }, function (err, user) {
 				if(err) return done(err);
 				if(user) {
+					// user found
+					console.log('User', emails[0], 'already exists! Logging in...');
 					return done(err, user);
 				} else {
-					console.log('user doesnt exist yet');
+					// user not found. let's create an account
+					console.log('User', emails[0], 'doesnt exist. Creating new user...');
+					User.create({
+						  token: accessToken
+						, email: emails[0] // use the first email as default.
+												 // let the user change this later
+						, google: profile // load the entire profile object into the 'google' object
+					}, function(err, new_user) {
+						if(err) return done(err);
+
+						return done(new_user);
+					});
 				}
 			});
 		}
