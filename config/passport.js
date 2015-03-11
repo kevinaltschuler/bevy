@@ -13,8 +13,8 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var bcrypt = require('bcryptjs');
 
-var GOOGLE_CLIENT_ID = "997604872946-0dcs70i551uqkl4hi8e916grj654m93t.apps.googleusercontent.com";
-var GOOGLE_CLIENT_SECRET = "pVMflnd7ep-csuyw0RoOjE1R";
+var GOOGLE_CLIENT_ID = "540892787949-cmbd34cttgcd4mde0jkqb3snac67tcdq.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET = "TETz_3VIhSBbuQeTtIQFL3d-";
 
 module.exports = function(app) {
 
@@ -48,11 +48,11 @@ module.exports = function(app) {
 			  clientID: GOOGLE_CLIENT_ID
 			, clientSecret: GOOGLE_CLIENT_SECRET
 			, callbackURL: config.app.server.hostname + '/auth/google/callback'
+			, realm: config.app.server.hostname
 		},
 		function(accessToken, refreshToken, profile, done) {
 			User.findOne({ 'google.id': profile.id }, function (err, user) {
 				if(err) return done(err);
-
 				if(user) {
 					return done(err, user);
 				} else {
