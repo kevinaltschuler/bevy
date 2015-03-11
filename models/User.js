@@ -12,7 +12,15 @@ module.exports = new Schema({
 	}
 	, google: {
 		  id: String
+		, name: {
+			  familyName: String
+			, middleName: String
+			, firstName:String
+		}
+		, displayName: String
 		, token: String
+		, emails: [String]
+		, photos: [String]
 	}
 	, aliases: [{
 		  type: Schema.Types.ObjectId
