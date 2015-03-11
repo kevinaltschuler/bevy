@@ -33,13 +33,23 @@ module.exports = function(app) {
 		})(req, res, next);
 	});
 
-	app.get('/auth/google', passport.authenticate('google'));
+	app.get('/logout', function(req, res, next) {
+		// weren't logged in in the first place
+		//if(!req.user) res.redirect('/login');
 
-	app.get('/auth/google/return',
+		req.logout();
+		res.redirect('/login');
+	});
+
+	app.get('/auth/google', passport.authenticate('google', {
+		scope: ['profile', 'email']
+	}));
+
+	app.get('/auth/google/callback',
 		passport.authenticate('google', {
-			  successRedirect: '/'
-			, failureRedirect: '/login'
-		})
-	);
+			  failureRedirect: '/login'
+			, successRedirect: '/'
+		}
+	));
 
 }

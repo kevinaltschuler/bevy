@@ -2,14 +2,19 @@
 
 var error = require('./../error');
 var config = require('./../config');
+var _ = require('underscore');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 
 var bcrypt = require('bcryptjs');
+
+var GOOGLE_CLIENT_ID = "997604872946-0dcs70i551uqkl4hi8e916grj654m93t.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET = "pVMflnd7ep-csuyw0RoOjE1R";
 
 module.exports = function(app) {
 
@@ -39,17 +44,41 @@ module.exports = function(app) {
 		}
 	));
 
+	passport.use(new GoogleStrategy({
+			  clientID: GOOGLE_CLIENT_ID
+			, clientSecret: GOOGLE_CLIENT_SECRET
+			, callbackURL: config.app.server.hostname + '/auth/google/callback'
+		},
+		function(accessToken, refreshToken, profile, done) {
+			User.findOne({ 'google.id': profile.id }, function (err, user) {
+				if(err) return done(err);
+
+				if(user) {
+					return done(err, user);
+				} else {
+					console.log('user doesnt exist yet');
+				}
+			});
+		}
+	));
+
 
 	passport.serializeUser(function(user, done) {
-		console.log('Serializing: ', user);
-		done(null, user._id);
+		if(!user) {
+			console.log('no user passed to serialize func');
+			//done('woops', null);
+		} else {
+			console.log('Serializing: ', user);
+			done(null, user._id);
+		}
 	});
 
 	passport.deserializeUser(function(id, done) {
 		console.log('Deserializing: ', id);
 		var query = { _id: id };
 		User.findOne(query).exec(function(err, user) {
-			done(err, user);
+			if(err) done(err, null);
+			else done(null, user);
 		});
 	});
 }

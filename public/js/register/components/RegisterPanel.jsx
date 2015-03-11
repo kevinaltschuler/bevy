@@ -118,7 +118,7 @@ var RegisterPanel = React.createClass({
 				{
 					  email: email
 					, password: password
-					//, test: 'true'
+					, email: 'true'
 				},
 				function(data, textStatus, jqXHR) {
 					//success

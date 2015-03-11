@@ -10,10 +10,10 @@ module.exports = new Schema({
 		  type: String
 		, unique: true
 	}
-	, openid: {
-		  type: String
+	, google: {
+		  id: String
+		, token: String
 	}
-	, provider: String
 	, aliases: [{
 		  type: Schema.Types.ObjectId
 		, ref: 'Alias'

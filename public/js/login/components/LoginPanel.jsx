@@ -101,6 +101,11 @@ var LoginPanel = React.createClass({
 								className='login-submit'
 								label='Sign In'
 								onClick={ this.submit }/>
+							<br/>
+							<RaisedButton
+								className='login-google-submit'
+								label='Sign In With Google'
+								href='/auth/google' />
 						</form>
 					</Panel>;
 	}
