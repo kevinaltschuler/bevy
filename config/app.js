@@ -5,8 +5,12 @@
 
 'use strict';
 
+var fs = require('fs');
+
 // Set the current environment to true in the env object
 var current_env = process.env.NODE_ENV || 'development';
+
+var keys_dir = './';
 
 exports.name = "bevy";
 
@@ -29,6 +33,14 @@ exports.server = {
 	, ip: '127.0.0.1'
 	, hostname: 'http://bevy.dev'
 };
+
+/*exports.ssl_opts = {
+	  key: fs.readFileSync(keys_dir + 'server.key')
+	, cert: fs.readFileSync(keys_dir + 'server.crt')
+	, requestCert: true
+	, rejectUnauthorized: false
+	, agent: false
+};*/
 
 if (current_env != 'production' && current_env != 'staging') {
 	exports.enableTests = true;
