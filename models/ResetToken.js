@@ -1,3 +1,12 @@
+/**
+ * ResetToken.js
+ *
+ * Mongoose model
+ * used for resetting a forgotten password
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
