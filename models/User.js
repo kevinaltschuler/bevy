@@ -1,3 +1,11 @@
+/**
+ * User.js
+ *
+ * Mongoose models for bevy users
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
