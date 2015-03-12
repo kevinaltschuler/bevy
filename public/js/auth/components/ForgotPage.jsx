@@ -50,9 +50,20 @@ var ForgotPage = React.createClass({
 				email: email
 			},
 			function(data) {
-				console.log(data);
+				//console.log(data);
+				// success
+
+				this.setState({
+					statusText: 'Email Sent!'
+				});
 			}
 		).fail(function(jqXHR) {
+			// failure
+			var response = jqXHR.responseJSON;
+
+			this.setState({
+				statusText: response.message
+			});
 
 		}.bind(this));
 	},
