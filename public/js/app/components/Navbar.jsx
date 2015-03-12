@@ -42,9 +42,10 @@ var Navbar = React.createClass({
 
 						<div className="navbar-header pull-left">
 							<ProfileDropdown />
+							<span className="navbar-brand navbar-brand-text">Bevy</span>
 						</div>
 
-						Bevy
+
 
 
 						<div className="navbar-header pull-right">
