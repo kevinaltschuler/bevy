@@ -37,17 +37,17 @@ var ProfileDropdown = React.createClass({
 									<span className='profile-points'>123 points</span>
 								</div>
 							</div>
-							<div className='row'>
+							<div className='row profile-links'>
 								<ButtonGroup className="col-xs-12" role="group">
-									<Button type='button' className="btn">
+									<Button type='button' className="profile-link">
 										Saved Posts
 									</Button>
 									•
-									<Button type='button' className="btn">
+									<Button type='button' className="profile-link">
 										Contacts
 									</Button>
 									•
-									<Button type='button' className="btn">
+									<Button type='button' className="profile-link">
 										Settings
 									</Button>
 								</ButtonGroup>

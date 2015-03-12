@@ -11,6 +11,7 @@
 	}
 
 	.popover-content{
+
 		.row.profile-top{
 			.profile-picture{
 				img {
@@ -30,8 +31,42 @@
 					display: block;
 					margin: 0 auto;
 				}
+				span.profile-name{
+
+				}
+				span.profile-email, span.profile-points {
+					font-size: 0.8em;
+					color: @light-font;
+				}
 			}
 		}
+
+		.row.profile-links {
+			span {
+				float: right;
+				padding: 0 5px;
+			}
+			button.profile-link {
+				float: right;
+				padding: 0 5px;
+				background-color: rgba(0,0,0,0);
+				color: @light-font;
+				font-size: inherit;
+				transition: all 0.15s linear;
+				border: none;
+				&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+					outline: none;
+					text-decoration: underline;
+					color: black;
+					box-shadow: none;
+					background-color: rgba(0,0,0,0);
+				}
+				&:hover {
+					background-color: rgba(0,0,0,0);
+				}
+			}
+		}
+
 		.profile-buttons {
 			.profile-btn-left {
 				font-size: .8em;
