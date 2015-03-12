@@ -20,6 +20,7 @@ var FlatButton = mui.FlatButton;
 var user = window.bootstrap.user;
 var email = user.email;
 
+
 var ProfileDropdown = React.createClass({
 
 	render: function() {
@@ -27,27 +28,29 @@ var ProfileDropdown = React.createClass({
 		return	<OverlayTrigger trigger="click" placement="bottom" overlay={
 						<Popover>
 							<div className="row profile-top">
-								<div className="col-xs-4">
+								<div className="col-xs-3 profile-picture">
 									<img src=""/>
 								</div>
-								<div className="col-xs-8 profile-details">
-									Kevin Altschuler
-									<br/>{email}
-									<br/>123 points
-										<ButtonGroup className="col-xs-12" role="group">
-											<Button type='button' className="btn sort-btn">
-												Saved Posts
-											</Button>
-											•
-											<Button type='button' className="btn sort-btn">
-												Contacts
-											</Button>
-											•
-											<Button type='button' className="btn sort-btn">
-												Settings
-											</Button>
-										</ButtonGroup>
+								<div className="col-xs-9 profile-details">
+									<span className='profile-name'>Kevin Altschuler</span>
+									<span className='profile-email'>{ email }</span>
+									<span className='profile-points'>123 points</span>
 								</div>
+							</div>
+							<div className='row'>
+								<ButtonGroup className="col-xs-12" role="group">
+									<Button type='button' className="btn">
+										Saved Posts
+									</Button>
+									•
+									<Button type='button' className="btn">
+										Contacts
+									</Button>
+									•
+									<Button type='button' className="btn">
+										Settings
+									</Button>
+								</ButtonGroup>
 							</div>
 
 							<div className="profile-buttons">
