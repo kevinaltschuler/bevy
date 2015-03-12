@@ -17,17 +17,6 @@ module.exports = function(app) {
 		});
 	});
 
-	app.get('/login', function(req, res, next) {
-		res.render('app', {
-			env: process.env.NODE_ENV
-		});
-	});
-	app.get('/register', function(req, res, next) {
-		res.render('app', {
-			env: process.env.NODE_ENV
-		});
-	});
-
 	// for everything else - pass it off to the react router
 	// on the front end
 	// this should be the last route ever checked

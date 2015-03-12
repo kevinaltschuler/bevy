@@ -1,16 +1,25 @@
 'use strict';
 
+var async = require('async');
+var crypto = require('crypto');
+
 var passport = require('passport');
 var error = require('./../error');
+var config = require('./../config');
+var mailgun = require('./../config').mailgun();
+
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+var ResetToken = mongoose.model('ResetToken');
 
 module.exports = function(app) {
 
-	/*app.post('/login',
-		passport.authenticate('local', {
-			  successRedirect: '/'
-			, failureRedirect: '/login'
-		})
-	);*/
+	app.get('/login', function(req, res, next) {
+		res.render('app', {
+			env: process.env.NODE_ENV
+		});
+	});
+
 	app.post('/login', function(req, res, next) {
 		passport.authenticate('local', function(err, user, info) {
 			// a passport or database error
@@ -33,14 +42,7 @@ module.exports = function(app) {
 		})(req, res, next);
 	});
 
-	app.get('/logout', function(req, res, next) {
-		// weren't logged in in the first place
-		//if(!req.user) res.redirect('/login');
-
-		req.logout();
-		res.redirect('/login');
-	});
-
+	// google sign in
 	app.get('/auth/google', passport.authenticate('google', {
 		scope: ['profile', 'email']
 	}));
@@ -51,5 +53,73 @@ module.exports = function(app) {
 			, successRedirect: '/'
 		}
 	));
+
+	app.get('/logout', function(req, res, next) {
+		// weren't logged in in the first place
+		//if(!req.user) res.redirect('/login');
+
+		req.logout();
+		res.redirect('/login');
+	});
+
+	app.get('/register', function(req, res, next) {
+		res.render('app', {
+			env: process.env.NODE_ENV
+		});
+	});
+
+	// forgot password
+	app.get('/forgot', function(req, res, next) {
+		res.render('app', {
+			env: process.env.NODE_ENV
+		});
+	});
+
+	app.post('/forgot', function(req, res, next) {
+		// collect email
+		var email = req.body['email'];
+		if(!email) { next(error.gen('Email not supplied')); }
+
+		async.waterfall([
+			function(done) {
+				// find user with that email
+				var query = { email: email };
+				User.findOne(query, function(err, user) {
+					if(err) { return next(err); }
+					if(!user) { return next(error.gen('User not found')); }
+
+					done(null, user);
+				});
+			},
+			function(user, done) {
+				// create token string
+				crypto.randomBytes(20, function(err, buf) {
+					var token = buf.toString('hex');
+					done(err, token, user);
+				});
+			},
+			function(token, user, done) {
+				// create reset token
+				ResetToken.create({
+					  user: user
+					, token: token
+				}, function(err, resetToken) {
+					done(err, resetToken, user);
+				});
+			},
+			function(resetToken, user, done) {
+				// send email
+				mailgun.messages().send({
+					  from: 'Bevy Team <contact@bvy.io>'
+					, to: email
+					, subject: 'Reset Password'
+					, text: 'Heres your link: ' + config.app.server.hostname + '/reset/' + resetToken.token
+				}, function(err, body) {
+					if(err) return next(err);
+					console.log(body);
+				});
+			}
+		]);
+	});
 
 }
