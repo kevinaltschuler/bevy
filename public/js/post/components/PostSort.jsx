@@ -89,11 +89,11 @@ var PostSort = React.createClass({
 			sorts.push(dot);
 		}
 
-		return	<Well className="sort-well">
-						<ButtonGroup className="col-xs-12" role="group">
-								{ sorts }
-						</ButtonGroup>
-				</Well>;
+		return	<Well className="sort-well col-xs-12">
+							<ButtonGroup role="group">
+									{ sorts }
+							</ButtonGroup>
+					</Well>;
 	}
 });
 

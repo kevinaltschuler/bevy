@@ -64,17 +64,19 @@ var PostSubmit = React.createClass({
 	},
 
 	render: function() {
-			return  <Input
-					  type="text"
-					  value={ this.state.title }
-					  placeholder="New Post"
-					  hasFeedback
-					  ref="input"
-					  groupClassName='post-submit-group'
-					  wrapperClassName='post-submit-wrapper'
-					  labelClassName='post-submit-label'
-					  onChange={ this.handleChange }
-					  onKeyUp={ this.onKeyUp } />
+			return	<div className='col-xs-12' >
+							<Input
+								type="text"
+								value={ this.state.title }
+								placeholder="New Post"
+								hasFeedback
+								ref="input"
+								groupClassName='post-submit-group'
+								wrapperClassName='post-submit-wrapper'
+								labelClassName='post-submit-label'
+								onChange={ this.handleChange }
+								onKeyUp={ this.onKeyUp } />
+						</div>
 	}
 });
 
