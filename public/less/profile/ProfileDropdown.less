@@ -1,22 +1,35 @@
 @import './../variables.less';
 
-.popover {
+.popover.bottom.in {
+	position: fixed;
 	left: 0px !important;
+	width: 450px;
+	max-width: initial;
+
+	.arrow{
+		left: 8.75%;
+	}
 
 	.popover-content{
-		.profile-top{
+		.row.profile-top{
+			.profile-picture{
 				img {
 					display: inline-block;
 					margin: 5px;
 					border-radius: 50px;
-					width: 80px;
-					height: 80px;
+					width: 100%;
+					height: 100%;
 				}
+			}
 			.profile-details {
 				display: inline-block;
 				font-size: 1.2em;
 				padding-left: 25px;
 				padding-top: 10px;
+				span{
+					display: block;
+					margin: 0 auto;
+				}
 			}
 		}
 		.profile-buttons {
