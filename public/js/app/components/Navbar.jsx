@@ -45,9 +45,6 @@ var Navbar = React.createClass({
 							<span className="navbar-brand navbar-brand-text">Bevy</span>
 						</div>
 
-
-
-
 						<div className="navbar-header pull-right">
 							<form className="navbar-form navbar-right" role="search">
 								<div className="form-group">

@@ -7,36 +7,27 @@
 	border-radius: 0px;
 	height: 68px;
 	box-shadow: 0px 1px 4px rgba(0,0,0,.3);
-	&:focus, .navbar-brand:hover {
-		color: #e6e6e6;
-	}
-	.navbar-header {
-		.navbar-brand {
-			padding: 15% 15px;
-			.mui-icon-button {
-				border-radius: 3px;
-				height: 42px;
-				&:hover {
-					background-color: rgba(0,0,0,.2);
-				}
-			}
-			.glyphicon {
-				color: #FFF;
-				font-size: .9em;
-			}
-		}
-	}
-	.navbar-brand-text {
-		font-size: 1.2em;
-		padding: 0px;
-		margin-top: 8px;
-		color: #FFF;
-		background-color: rgba(0,0,0,0);
-		border: none;
 
-		&:active {
-			color: rgba(255,255,255,.7);
-			box-shadow: none;
+	.navbar-header.pull-left{
+		margin-left: 10px;
+		.navbar-brand.navbar-brand-text {
+			float: left;
+			font-size: 1.2em;
+			padding: 0px;
+			margin: 24px 10px;
+			height: 20px;
+			color: #FFF;
+			background-color: rgba(0,0,0,0);
+			border: none;
+
+			&:focus {
+				color: #e6e6e6;
+			}
+
+			&:active {
+				color: rgba(255,255,255,.7);
+				box-shadow: none;
+			}
 		}
 	}
 	.navbar-form {
