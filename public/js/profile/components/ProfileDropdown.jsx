@@ -25,7 +25,7 @@ var ProfileDropdown = React.createClass({
 	render: function() {
 
 		return	<OverlayTrigger trigger="click" placement="bottom" overlay={
-						<Popover title="Profile">
+						<Popover>
 							<div className="row profile-top">
 								<div className="col-xs-4">
 									<img src=""/>
@@ -46,7 +46,7 @@ var ProfileDropdown = React.createClass({
 											<Button type='button' className="btn sort-btn">
 												Settings
 											</Button>
-										</ButtonGroup> 
+										</ButtonGroup>
 								</div>
 							</div>
 
