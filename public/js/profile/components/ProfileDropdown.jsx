@@ -17,9 +17,10 @@ var ButtonGroup = rbs.ButtonGroup;
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 
+var AliasList = require('./../../alias/components/AliasList.jsx');
+
 var user = window.bootstrap.user;
 var email = user.email;
-
 
 var ProfileDropdown = React.createClass({
 
@@ -27,6 +28,7 @@ var ProfileDropdown = React.createClass({
 
 		return	<OverlayTrigger trigger="click" placement="bottom" overlay={
 						<Popover>
+
 							<div className="row profile-top">
 								<div className="col-xs-3 profile-picture">
 									<img src=""/>
@@ -37,6 +39,7 @@ var ProfileDropdown = React.createClass({
 									<span className='profile-points'>123 points</span>
 								</div>
 							</div>
+
 							<div className='row profile-links'>
 								<ButtonGroup className="col-xs-12" role="group">
 									<Button type='button' className="profile-link">
@@ -52,6 +55,8 @@ var ProfileDropdown = React.createClass({
 									</Button>
 								</ButtonGroup>
 							</div>
+
+							<AliasList />
 
 							<div className="profile-buttons">
 								<div className="profile-btn-left">
