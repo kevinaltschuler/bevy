@@ -44,9 +44,7 @@ var Navbar = React.createClass({
 							<ProfileDropdown />
 						</div>
 
-						<ModalTrigger modal={<ProfileModal />}>
-							<Button className="navbar-brand navbar-brand-text">Bevy</Button>
-						</ModalTrigger>
+						Bevy
 
 
 						<div className="navbar-header pull-right">
