@@ -4,6 +4,8 @@
  * @author albert
  */
 
+'use strict';
+
 var React = require('react');
 var $ = require('jquery');
 var _ = require('underscore');
@@ -81,6 +83,7 @@ var ForgotPage = React.createClass({
 		}
 
 		return	<div>
+						<h1>Forgot Password</h1>
 						{ statusText }
 						<form method='post' action='/forgot'>
 							<Input
