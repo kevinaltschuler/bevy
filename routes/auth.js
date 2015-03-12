@@ -2,6 +2,7 @@
 
 var async = require('async');
 var crypto = require('crypto');
+var bcrypt = require('bcryptjs');
 
 var passport = require('passport');
 var error = require('./../error');
@@ -122,4 +123,44 @@ module.exports = function(app) {
 		]);
 	});
 
+	// reset password
+	app.get('/reset/:token', checkToken, function(req, res, next) {
+		res.render('app', {
+			env: process.env.NODE_ENV
+		});
+	});
+
+	app.post('/reset/:token', checkToken, function(req, res, next) {
+		// then collect password params
+		var password = req.body['password'];
+		if(!password) return next(error.gen('Password not supplied'));
+
+		// update user with new password
+		var query = { _id: req.resetTokenUser };
+		var update = { password: bcrypt.hashSync(password, 8) }
+		User.findOneAndUpdate(query, update, function(err, user) {
+			if(err) return next(err);
+
+			// TODO: log user in automatically?
+			//res.redirect('/login');
+			res.json({
+				message: 'success!'
+			});
+		});
+	});
+
+}
+
+function checkToken(req, res, next) {
+	var token = req.params.token;
+	var query = { token: token };
+	ResetToken.findOne(query, function(err, token) {
+		if(err) return next(err);
+		if(!token) {
+			// token not found
+			return res.redirect('/login');
+		}
+		req.resetTokenUser = token.user;
+		return next();
+	});
 }
