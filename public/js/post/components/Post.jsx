@@ -14,6 +14,7 @@ var _ = require('underscore');
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
+var TextField = mui.TextField;
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
@@ -21,6 +22,10 @@ var PostStore = require('./../PostStore');
 var POST = require('./../../constants').POST;
 
 var $ = require('jquery');
+
+var user = window.bootstrap.user;
+var email = user.email;
+var proPic = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p160x160/1509256_10204314494755893_1435107074343434421_n.jpg?oh=d00b5d6de22f955e720b8ce90c8d547f&oe=5584C139&__gda__=1434904774_45451783eeafea83b652302f081b7cc8";
 
 function getPostState(id) {
 	return PostStore.getPost(id);
@@ -146,10 +151,16 @@ var Post = React.createClass({
 						{ panelHeading }
 						<div className="panel-details">{ this.state.author } • { this.state.bevy.name } • { this.timeAgo() }</div>
 						{ panelBody }
-						<div className="panel-commments"></div>
+						<div className="panel-commments">
+						</div>
 						<div className="panel-bottom">
 							<div className="panel-controls-left">
 								{ this.countVotes() } points<br/>{ this.state.comments.length } comments
+								<div className="profile-btn"/>
+							</div>
+							<div className="panel-comment-input">
+								<img className="profile-img" src={proPic}/>
+								<TextField className="panel-comment-textfield" hintText="Write a Comment"/>
 							</div>
 							<div className="panel-controls-right">
 								<IconButton tooltip='upvote' onClick={ this.upvote }>

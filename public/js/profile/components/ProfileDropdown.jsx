@@ -52,7 +52,6 @@ var ProfileDropdown = React.createClass({
 									</Button>
 								</ButtonGroup>
 							</div>
-
 							<div className="profile-buttons">
 								<div className="profile-btn-left">
 									<FlatButton label="Add Account"/>
