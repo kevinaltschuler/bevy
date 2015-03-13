@@ -50,6 +50,34 @@
 		width: 100%;
 		color: @light-font;
 
+		.panel-comment-input {
+			width: 60%;
+			float: left;
+			.profile-img {
+				margin-left: 15px;
+				margin-right: 5px;
+				display: inline-block;
+			}
+			.panel-comment-textfield {
+				background-color: rgba(0,0,0,0);
+				border-bottom: none;
+				border-left: 0px;
+				border-top: 0px;
+				border-right: 0px;
+				box-shadow: none;
+				border-radius: 0px;
+				color: #fff;
+				padding-left: 4px;
+				padding-bottom: 2px;
+				font-size: 1em;
+				display: inline-block;
+				.mui-text-field-focus-underline {
+					border-color: #4c4c4c;
+					border-bottom-width: 1px;
+				}
+			}
+		}
+
 		.panel-controls-left {
 			font-size: .8em;
 			float: left;
@@ -63,7 +91,13 @@
 		.panel-controls-right {
 			float: right;
 			display: inline-block;
-			font-size: 1.6em;
+			font-size: 1.2em;
+
+			.mui-icon-button {
+				padding: 0px;
+				height: 40px;
+				width: 40px;
+			}
 
 			.mui-tooltip {
 				// override material-ui roboto
@@ -81,6 +115,42 @@
 					color: @dark-font;
 					text-decoration: none;
 				}
+			}
+		}
+	}
+}
+
+.mui-text-field-input {
+	box-shadow: none !important;
+}
+
+@media (max-width: 1200px) {
+	.panel-bottom {
+		.panel-comment-input {
+			.panel-comment-textfield {
+				width: 75%;
+				font-size: .8em !important;
+			}
+		}
+	}
+} 
+
+@media (max-width: 991px) {
+	.panel-bottom {
+		.panel-comment-input {
+			.panel-comment-textfield {
+				width: 60%;
+				font-size: .8em !important;
+			}
+		}
+
+		.panel-controls-right {
+			padding-top: 15px;
+			margin-right: -5px;
+			.mui-icon-button {
+				padding: 0px;
+				height: 25px !important;
+				width: 25px !important;
 			}
 		}
 	}
