@@ -10,11 +10,14 @@
 
 var _ = require('underscore');
 var error = require('./../error');
+var async = require('async');
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var ObjectId = Schema.Types.ObjectId;
 
 var Alias = mongoose.model('Alias');
+var User = mongoose.model('User');
 
 function collectAliasParams(req) {
 	var update = {};
@@ -31,50 +34,82 @@ function collectAliasParams(req) {
 }
 
 // INDEX
-// GET /aliases/
+// GET /users/:userid/aliases/
 exports.index = function(req, res, next) {
-	Alias.find()
-		.exec(function(err, aliases) {
-		if(err) throw err;
-		return aliases;
-	}).then(function(aliases) {
-		res.json(aliases);
-	}, function(err) { next(err); });
-}
-
-// CREATE
-// GET /aliases/create
-// POST /aliases
-exports.create = function(req, res, next) {
-	var update = collectAliasParams(req);
-	if(!update.name) throw error.gen('alias name not specified');
-
-	Alias.create(update, function(err, alias) {
-		if(err) throw err;
-
-		res.json(alias);
+	var userid = req.params.userid;
+	var query = { _id: userid };
+	var promise = User.findOne(query)
+		.populate('aliases')
+		.exec();
+	promise.then(function(user) {
+		res.json(user.aliases);
+	}, function(err) {
+		return next(err);
 	});
 }
 
+// CREATE
+// GET /users/:userid/aliases/create
+// POST /users/:userid/aliases
+exports.create = function(req, res, next) {
+	// collect alias name
+	var update = collectAliasParams(req);
+	if(!update.name) return next(error.gen('alias name not specified'));
+
+	async.waterfall([
+		function(done) {
+			// first create the alias document
+			// and pass it off to be added to the user
+			Alias.create({
+				name: update.name
+			}, function(err, alias) {
+				if(err) return next(err);
+				done(null, alias);
+			});
+		},
+		function(alias, done) {
+			// get user doc
+			var userid = req.params.userid;
+			var query = { _id: userid };
+			var promise = User.findOne(query).exec();
+
+			promise.then(function(user) {
+				// add new alias to user's list
+				user.aliases.push(alias._id);
+				// save the user
+				user.save(function(err) {
+					if(err) return next(err);
+					// return the alias object
+					res.json(alias);
+				});
+			}, function(err) {
+				return next(err);
+			});
+		}
+	]);
+}
+
 // SHOW
-// GET /aliases/:id
+// GET /users/:userid/aliases/:id
 exports.show = function(req, res, next) {
 	var id = req.params.id;
 
 	var query = { _id: id };
 	var promise = Alias.findOne(query).exec();
 	promise.then(function(alias) {
-		if(!alias) throw error.gen('alias not found');
+		if(!alias) return next(error.gen('alias not found'));
 		return alias;
 	}).then(function(alias){
 		res.json(alias);
-	}, function(err) { next(err); });
+	}, function(err) {
+		return next(err);
+	});
 }
 
 // UPDATE
-// GET /aliases/:id/edit
-// POST /aliases/:id
-// GET /aliases/:id/update
+// GET /users/:userid/aliases/:id/edit
+// POST /users/:userid/aliases/:id
+// GET /users/:userid/aliases/:id/update
 exports.update = function(req, res, next) {
 	var id = req.params.id;
 	var update = collectAliasParams(req);
@@ -86,18 +121,47 @@ exports.update = function(req, res, next) {
 		return alias;
 	}).then(function(alias) {
 		res.json(alias);
-	}, function(err) { next(err); });
+	}, function(err) {
+		return next(err);
+	});
 }
 
 // DESTROY
-// GET /aliases/:id/destroy
-// DELETE /aliases/:id
+// GET /users/:userid/aliases/:id/destroy
+// DELETE /users/:userid/aliases/:id
 exports.destroy = function(req, res, next) {
-	var id = req.params.id;
 
-	var query = { _id: id };
-	var promise = Alias.findOneAndRemove(query).exec();
-	promise.then(function(alias) {
-		res.json(alias);
-	}, function(err) { next(err); });
+	async.waterfall([
+		function(done) {
+			// get alias
+			var id = req.params.id;
+			var query = { _id: id };
+			var promise = Alias.findOneAndRemove(query).exec();
+			promise.then(function(alias) {
+				// pass alias object off to user query
+				//res.json(alias);
+				done(null, alias);
+			}, function(err) {
+				return next(err);
+			});
+		},
+		function(alias, done) {
+			// get user
+			var userid = req.params.userid;
+			var query = { _id: userid };
+			var promise = User.findOne(query)
+				.exec();
+			// remove alias from user's alias array
+			promise.then(function(user) {
+				user.aliases.remove(alias._id);
+				// return alias object
+				user.save(function(err) {
+					if(err) next(err);
+					return res.json(alias);
+				});
+			}, function(err) {
+				return next(err);
+			})
+		}
+	]);
 }
