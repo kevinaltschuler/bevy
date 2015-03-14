@@ -71,7 +71,10 @@ var ProfileDropdown = React.createClass({
 									</ModalTrigger>
 								</div>
 								<div className="profile-btn-right">
-									<FlatButton label="Logout"/>
+									<FlatButton
+										label="Logout"
+										linkButton={ true }
+										href='/logout' />
 								</div>
 							</div>
 						</Popover>}>
