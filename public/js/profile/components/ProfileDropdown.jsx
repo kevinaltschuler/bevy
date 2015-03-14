@@ -10,6 +10,7 @@ var React = require('react');
 
 var rbs = require('react-bootstrap');
 var OverlayTrigger = rbs.OverlayTrigger;
+var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
 var Popover = rbs.Popover;
 var ButtonGroup = rbs.ButtonGroup;
@@ -18,6 +19,7 @@ var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 
 var AliasList = require('./../../alias/components/AliasList.jsx');
+var AddAliasModal = require('./../../alias/components/AddAliasModal.jsx');
 
 var user = window.bootstrap.user;
 var email = user.email;
@@ -63,8 +65,10 @@ var ProfileDropdown = React.createClass({
 							<AliasList allAliases={ this.props.allAliases }/>
 
 							<div className="profile-buttons">
-								<div className="profile-btn-left">
-									<FlatButton label="Add Account"/>
+								<div className="profile-btn-left add-alias-modal-container">
+									<ModalTrigger modal={ <AddAliasModal /> }>
+										<FlatButton label="Add Alias"/>
+									</ModalTrigger>
 								</div>
 								<div className="profile-btn-right">
 									<FlatButton label="Logout"/>
