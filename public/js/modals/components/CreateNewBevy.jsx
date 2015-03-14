@@ -16,17 +16,17 @@ var TextField = mui.TextField;
 var CreateNewBevy = React.createClass({
 	render: function() {
 		return	<Modal className="login-panel create-bevy" {...this.props} title="Create a New Bevy">
-						<div className="row"> 
-							<TextField type="text" placeholder="Group Name" /> 
+						<div className="row">
+							<TextField type="text" placeholder="Group Name" />
 						</div>
-	  					<div className="row"> 
-	  						<TextField type="text" placeholder="Add Members..." />
-	  					</div>
+							<div className="row">
+								<TextField type="text" placeholder="Add Members..." />
+							</div>
 						<div className="panel-bottom">
 							<RaisedButton label="Create"/>
 							<FlatButton label="Cancel"/>
 						</div>
-				</Modal>
+					</Modal>
 	}
 });
 
