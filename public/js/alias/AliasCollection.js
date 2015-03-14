@@ -19,7 +19,7 @@ var constants = require('./../constants');
 module.exports = Backbone.Collection.extend({
 	  model: Alias
 	, url: function() {
-		return (_.isEmpty(this._meta.bevyid)) ? constants.apiurl + '/aliases'
+		return (_.isEmpty(this._meta.userid)) ? constants.apiurl + '/aliases'
 		: constants.apiurl + '/users/' + this._meta.userid + '/aliases'
 	}
 	, _meta: {
