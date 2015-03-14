@@ -27,6 +27,7 @@ var Post = PostCollection.model;
 
 // create collection
 var posts = new PostCollection;
+posts.comparator = sortByTop;
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
