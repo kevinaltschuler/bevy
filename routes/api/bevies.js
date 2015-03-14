@@ -21,6 +21,7 @@ module.exports = function(router) {
 	// UPDATE
 	router.get('/bevies/:id/update', api.bevies.update);
 	router.put('/bevies/:id', api.bevies.update);
+	router.patch('/bevies/:id', api.bevies.update);
 
 	// DESTROY
 	router.get('/bevies/:id/destroy', api.bevies.destroy);

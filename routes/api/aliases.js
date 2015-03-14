@@ -22,6 +22,7 @@ module.exports = function(router) {
 
 	// UPDATE
 	router.put('/users/:userid/aliases/:id', api.aliases.update);
+	router.patch('/users/:userid/aliases/:id', api.aliases.update);
 	// browser hack
 	// TODO: disable on production
 	router.get('/users/:userid/aliases/:id/update', api.aliases.update);

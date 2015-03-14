@@ -26,6 +26,7 @@ module.exports = function(router) {
 	// UPDATE
 	router.get('/bevies/:bevyid/posts/:postid/comments/:id/update', api.comments.update);
 	router.put('/bevies/:bevyid/posts/:postid/comments/:id', api.comments.update);
+	router.patch('/bevies/:bevyid/posts/:postid/comments/:id', api.comments.update);
 
 	// DESTROY
 	router.get('/bevies/:bevyid/posts/:postid/comments/:id/destroy', api.comments.destroy);
@@ -49,6 +50,7 @@ module.exports = function(router) {
 	// UPDATE
 	router.get('/posts/:postid/comments/:id/update', api.comments.update);
 	router.put('/posts/:postid/comments/:id', api.comments.update);
+	router.patch('/posts/:postid/comments/:id', api.comments.update);
 
 	// DESTROY
 	router.get('/posts/:postid/comments/:id/destroy', api.comments.destroy);
