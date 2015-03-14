@@ -8,6 +8,8 @@
 
 var React = require('react');
 
+var AliasItem = require('./AliasItem.jsx');
+
 var AliasList = React.createClass({
 
 	propTypes: {
@@ -22,17 +24,19 @@ var AliasList = React.createClass({
 		if(allAliases.length < 1) {
 			// no aliases
 			return	<div>
+							no aliases
 						</div>;
 		}
 
 		for(var key in allAliases) {
 			var alias = allAliases[key];
 			aliases.push(
-				<div key={ alias.id }>{ alias.name }<br/></div>
+				<AliasItem key={ alias.id } alias={ alias } />
 			);
 		}
 
 		return	<div>
+						aliases:
 						{ aliases }
 					</div>
 	}
