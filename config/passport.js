@@ -64,6 +64,11 @@ module.exports = function(app) {
 				if(user) {
 					// user found
 					console.log('User', emails[0], 'already exists! Logging in...');
+					if(_.isEmpty(user.google)) {
+						// google profile has not yet been set
+						console.log('setting users google profile');
+						user.google = profile;
+					}
 					return done(err, user);
 				} else {
 					// user not found. let's create an account
