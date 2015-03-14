@@ -41,3 +41,8 @@ exports.BEVY = {
 	, CHANGE_ALL: 'bevy_change_all'
 	, CHANGE_ONE: 'bevy_change_one'
 };
+
+exports.ALIAS = {
+	  SETUSER: 'alias_set_user'
+	, CHANGE_ALL: 'alias_change_all'
+};

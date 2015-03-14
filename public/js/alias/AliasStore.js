@@ -12,6 +12,7 @@
 // imports
 var Backbone = require('backbone');
 var _ = require('underscore');
+var ALIAS = require('./../constants').ALIAS;
 
 var Dispatcher = require('./../shared/dispatcher');
 
@@ -22,6 +23,14 @@ var AliasActions = require('./AliasActions');
 
 // create collection
 var aliases = new AliasCollection;
+var user = window.bootstrap.user;
+aliases._meta.userid = user._id;
+aliases.fetch({
+	success: function(collection, response, options) {
+		//console.log(aliases);
+		AliasStore.trigger(ALIAS.CHANGE_ALL);
+	}
+});
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
@@ -32,8 +41,13 @@ _.extend(AliasStore, {
 
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
-
+			case ALIAS.SETUSER:
+				break;
 		}
+	},
+
+	getAll: function() {
+		return aliases.toJSON();
 	}
 
 });

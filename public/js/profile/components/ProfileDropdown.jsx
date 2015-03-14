@@ -24,6 +24,10 @@ var email = user.email;
 
 var ProfileDropdown = React.createClass({
 
+	propTypes: {
+		allAliases: React.PropTypes.array
+	},
+
 	render: function() {
 
 		return	<OverlayTrigger trigger="click" placement="bottom" overlay={
@@ -56,7 +60,7 @@ var ProfileDropdown = React.createClass({
 								</ButtonGroup>
 							</div>
 
-							<AliasList />
+							<AliasList allAliases={ this.props.allAliases }/>
 
 							<div className="profile-buttons">
 								<div className="profile-btn-left">

@@ -27,6 +27,7 @@ var AliasStore = require('./../../alias/AliasStore');
 
 var POST = require('./../../constants').POST;
 var BEVY = require('./../../constants').BEVY;
+var ALIAS = require('./../../constants').ALIAS;
 
 
 /**
@@ -73,27 +74,30 @@ var MainSection = React.createClass({
 	componentDidMount: function() {
 		PostStore.on(POST.CHANGE_ALL, this._onPostChange);
 		BevyStore.on(BEVY.CHANGE_ALL, this._onBevyChange);
+		AliasStore.on(ALIAS.CHANGE_ALL, this._onAliasChange);
 	},
 
 	// unmount event listeners
 	componentWillUnmount: function() {
 		PostStore.off(POST.CHANGE_ALL, this._onPostChange);
 		BevyStore.off(BEVY.CHANGE_ALL, this._onBevyChange);
+		AliasStore.off(ALIAS.CHANGE_ALL, this._onAliasChange);
 	},
 
 	// event listener callbacks
 	_onPostChange: function() {
 		this.setState(_.extend(this.state, getPostState()));
 	},
-
 	_onBevyChange: function() {
-		// set state
 		this.setState(_.extend(this.state, getBevyState()));
+	},
+	_onAliasChange: function() {
+		this.setState(_.extend(this.state, getAliasState()));
 	},
 
 	render: function(){
 		return	<div>
-						<Navbar />
+						<Navbar allAliases={ this.state.allAliases }/>
 						<div className='main-section'>
 							<div className='row'>
 								<PostSubmit activeBevy={ this.state.activeBevy }/>
