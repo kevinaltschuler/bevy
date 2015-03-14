@@ -208,9 +208,14 @@ function vote(post_id, author, value) {
 	}
 
 	points.push({ author: author, value: value });
-	voted_post.set('points', points);
+	//voted_post.set('points', points);
 
 	// TODO: save post
+	voted_post.save({
+		points: points
+	}, {
+		patch: true
+	});
 }
 
 function sortByTop(post) {
