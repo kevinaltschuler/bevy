@@ -28,6 +28,10 @@ module.exports = new Schema({
 	, body: String
 	, link: String
 	, imageURL: String
+	, points: [{
+		  author: String
+		, value: Number
+	}]
 	, settings: {
 		visibility: String
 	}
