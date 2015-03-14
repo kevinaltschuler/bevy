@@ -68,8 +68,11 @@ module.exports = function(app) {
 						// google profile has not yet been set
 						console.log('setting users google profile');
 						user.google = profile;
-					}
-					return done(err, user);
+						user.save(function(err) {
+							if(err) return done(err);
+							return done(err, user);
+						});
+					} else return done(err, user);
 				} else {
 					// user not found. let's create an account
 					console.log('User', emails[0], 'doesnt exist. Creating new user...');
