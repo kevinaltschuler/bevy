@@ -23,6 +23,7 @@ var PostContainer = require('./../../post/components/PostContainer.jsx');
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
+var AliasStore = require('./../../alias/AliasStore');
 
 var POST = require('./../../constants').POST;
 var BEVY = require('./../../constants').BEVY;
@@ -46,11 +47,18 @@ function getBevyState() {
 		, allBevies: BevyStore.getAll()
 	}
 }
+function getAliasState() {
+	return {
+		allAliases: AliasStore.getAll()
+	}
+}
 
 function collectState() {
 	var state = {};
-	_.extend(state, getPostState());
-	_.extend(state, getBevyState());
+	_.extend(state
+		, getPostState()
+		, getBevyState()
+		, getAliasState());
 	return state;
 }
 
