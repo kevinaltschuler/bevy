@@ -10,7 +10,7 @@
 // imports
 var React = require('react');
 
-var LoginPanel = require('./LoginPanel.jsx')
+var LoginPanel = require('./LoginPanel.jsx');
 
 var LoginPage = React.createClass({
 	render: function() {
@@ -24,7 +24,7 @@ var LoginPage = React.createClass({
 						</div>
 						<LoginPanel />
 						<div className='back-link'>
-							<a href="/register">Create an account</a>
+							<a href="/forgot">forgot your password?</a>
 						</div>
 						<br/>
 					</div>;

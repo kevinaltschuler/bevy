@@ -4,7 +4,7 @@
 	.login-header {
 		img{
 			float: none;
-			margin: 20px auto 30px;
+			margin: 20px auto 20px;
 			display: block;
 		}
 	}
@@ -40,7 +40,10 @@
 
 	.login-panel {
 		width: 350px;
-		padding: 40px 40px;
+		padding-top: 40px;
+		padding-right: 40px;
+		padding-left: 40px;
+		padding-bottom: 30px;
 		margin-left: auto;
 		margin-right: auto;
 		img{
@@ -68,12 +71,20 @@
 				color: black;
 			}
 		}
+		.register-button {
+			display: block;
+			width: 90%;
+			margin: 0px auto;
+			margin-top: 10px;
+			text-align: center;
+		}
 		.login-submit.mui-raised-button, .login-google-submit.mui-raised-button {
 			display: block;
 			background-color: @bevy-green;
 			color: white;
 			width: 90%;
 			margin: 0px auto;
+			text-align: center;
 			.mui-paper-container {
 				.mui-raised-button-container {
 					background-color: @bevy-green;
@@ -86,8 +97,8 @@
 				}
 			}
 		}
-		.login-google-submit{
-
+		.login-google-submit.mui-raised-button {
+			margin-top: -10px;
 		}
 	}
 	.back-link{

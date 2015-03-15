@@ -19,6 +19,7 @@ var Input = rbs.Input;
 
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
+var FlatButton = mui.FlatButton;
 
 var LoginPanel = React.createClass({
 
@@ -84,31 +85,36 @@ var LoginPanel = React.createClass({
 		}
 
 		return	<Panel className="login-panel">
-						<img className="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Avatar"/>
-						{ error }
-						<form method='post' action='/login'>
-							<Input
-								type='text'
-								name='email'
-								ref='email'
-								placeholder='Email' />
-		  					<Input
-		  						type='password'
-		  						name='password'
-		  						ref='password'
-		  						placeholder='Password' />
-							<RaisedButton
-								className='login-submit'
-								label='Sign In'
-								onClick={ this.submit }/>
-						</form>
-						<br/>
+					<img className="profile-img" src="/img/user-profile-icon.png" alt="Avatar"/>
+					{ error }
+					<form method='post' action='/login'>
+						<Input
+							type='text'
+							name='email'
+							ref='email'
+							placeholder='Email' />
+						<Input
+							type='password'
+							name='password'
+							ref='password'
+							placeholder='Password' />
 						<RaisedButton
-							className='login-google-submit'
-							label='Sign In With Google'
-							linkButton={true}
-							href={ constants.siteurl + '/auth/google' } />
-					</Panel>;
+							className='login-submit'
+							label='Sign In'
+							onClick={ this.submit }/>
+					</form>
+					<br/>
+					<RaisedButton
+						className='login-google-submit'
+						label='Sign In With Google'
+						linkButton={true}
+						href={ constants.siteurl + '/auth/google' } />
+					<FlatButton
+						className='register-button'
+						label='Create an Account'
+						linkButton={true}
+						href={ constants.siteurl + '/register'} />
+				</Panel>;
 	}
 });
 module.exports = LoginPanel;

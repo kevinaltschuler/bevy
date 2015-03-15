@@ -13,6 +13,7 @@ var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
 var Input = rbs.Input;
+var Panel = rbs.Panel;
 
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
@@ -93,8 +94,14 @@ var ForgotPage = React.createClass({
 								</div>
 		}
 
-		return	<div>
-						<h1>Forgot Password</h1>
+		return	<div className='forgot-container'>		
+					<div className='forgot-header'>
+						<img src='/img/logo_100.png' height="60" width="60"/>
+					</div>
+					<Panel className="forgot-panel">
+					<div className='forgot-header'>
+						<h1>Forgot Password?</h1>
+					</div>
 						{ statusText }
 						<form method='post' action='/forgot'>
 							<Input
@@ -109,7 +116,9 @@ var ForgotPage = React.createClass({
 								label='Forgot Password'
 								onClick={ this.submit } />
 						</form>
-					</div>
+					</Panel>
+						<a href="/forgot">forgot your email?</a>
+				</div>
 	}
 });
 module.exports = ForgotPage;
