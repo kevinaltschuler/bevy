@@ -28,7 +28,7 @@ var bevies = new Bevies;
 bevies.fetch({
 	success: function(collection, response, options) {
 		// set the first found bevy to the active one
-		var first = collection.get('c1');
+		var first = collection[0];
 		if(!_.isEmpty(first)) bevies._meta.active = first;
 
 		// propagate change
