@@ -28,7 +28,8 @@ var email = user.email;
 var ProfileDropdown = React.createClass({
 
 	propTypes: {
-		allAliases: React.PropTypes.array
+		  allAliases: React.PropTypes.array
+		, activeAlias: React.PropTypes.object
 	},
 
 	render: function() {
@@ -73,7 +74,9 @@ var ProfileDropdown = React.createClass({
 
 							<hr />
 
-							<AliasList allAliases={ this.props.allAliases }/>
+							<AliasList
+								allAliases={ this.props.allAliases }
+								activeAlias={ this.props.activeAlias } />
 
 							<hr />
 

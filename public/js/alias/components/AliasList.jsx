@@ -16,7 +16,8 @@ var AliasItem = require('./AliasItem.jsx');
 var AliasList = React.createClass({
 
 	propTypes: {
-		allAliases: React.PropTypes.array
+		  allAliases: React.PropTypes.array
+		, activeAlias: React.PropTypes.object
 	},
 
 	render: function() {
@@ -33,10 +34,13 @@ var AliasList = React.createClass({
 
 		for(var key in allAliases) {
 			var alias = allAliases[key];
+			var isActive = (alias._id == this.props.activeAlias.id) ? true : false;
 			aliases.push(
-				<AliasItem key={ alias._id } id={ alias._id } alias={ alias } />
+				<AliasItem key={ alias._id } id={ alias._id } alias={ alias } active={ isActive } />
 			);
 		}
+
+		console.log(this.props.activeAlias);
 
 		return	<div>
 						aliases:

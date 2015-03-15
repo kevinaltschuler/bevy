@@ -17,7 +17,7 @@ var AliasActions = {
 
 	switch: function(alias_id) {
 		dispatch(ALIAS.SWITCH, {
-
+			id: (alias_id == undefined) ? '' : alias_id
 		});
 	},
 

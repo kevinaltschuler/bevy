@@ -23,6 +23,7 @@ module.exports = Backbone.Collection.extend({
 		: constants.apiurl + '/users/' + this._meta.userid + '/aliases'
 	}
 	, _meta: {
-		userid: null
+		  userid: null
+		, active: null
 	}
 });

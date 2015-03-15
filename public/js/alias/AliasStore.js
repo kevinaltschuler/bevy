@@ -27,6 +27,10 @@ var user = window.bootstrap.user;
 aliases._meta.userid = user._id;
 aliases.fetch({
 	success: function(collection, response, options) {
+		// set the first found alias to the active one
+		var first = collection.models[0];
+		if(!_.isEmpty(first)) aliases._meta.active = first.id;
+
 		//console.log(aliases);
 		AliasStore.trigger(ALIAS.CHANGE_ALL);
 	}
@@ -41,6 +45,12 @@ _.extend(AliasStore, {
 
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
+
+			case ALIAS.SWITCH:
+				var alias_id = payload.id;
+
+				break;
+
 			case ALIAS.SETUSER:
 				break;
 		}
@@ -48,6 +58,10 @@ _.extend(AliasStore, {
 
 	getAll: function() {
 		return aliases.toJSON();
+	},
+
+	getActive: function() {
+		return (aliases._meta.active == null) ? {} : aliases.get(aliases._meta.active);
 	}
 
 });
