@@ -5,14 +5,24 @@
  */
 
 var React = require('react');
+var $ = require('jquery');
 
 var rbs = require('react-bootstrap');
-var Button = rbs.Button
+var Button = rbs.Button;
+
+var AliasActions = require('./../AliasActions');
 
 var AliasItem = React.createClass({
 
 	propTypes: {
 		alias: React.PropTypes.object
+	},
+
+	switch: function(ev) {
+		var $target = $(ev.target);
+		console.log($target.attr('id'));
+
+		AliasActions.switch($target.attr('id'));
 	},
 
 	render: function() {
@@ -23,7 +33,7 @@ var AliasItem = React.createClass({
 			return <div></div>;
 		}
 
-		return	<Button>
+		return	<Button { ...this.props} onClick={ this.switch } >
 						{ alias.name }
 					</Button>
 	}

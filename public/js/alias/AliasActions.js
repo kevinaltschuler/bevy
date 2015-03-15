@@ -15,7 +15,7 @@ var ALIAS = require('./../constants').ALIAS;
 
 var AliasActions = {
 
-	switch: function() {
+	switch: function(alias_id) {
 		dispatch(ALIAS.SWITCH, {
 
 		});

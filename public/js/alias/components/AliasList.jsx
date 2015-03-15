@@ -34,7 +34,7 @@ var AliasList = React.createClass({
 		for(var key in allAliases) {
 			var alias = allAliases[key];
 			aliases.push(
-				<AliasItem key={ alias.id } alias={ alias } />
+				<AliasItem key={ alias._id } id={ alias._id } alias={ alias } />
 			);
 		}
 
