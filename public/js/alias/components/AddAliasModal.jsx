@@ -12,7 +12,7 @@ var Input = rbs.Input;
 
 var AddAliasModal = React.createClass({
 	render: function() {
-		return	<Modal title="Add Alias">
+		return	<Modal {...this.props} title="Add Alias">
 					</Modal>
 	}
 });
