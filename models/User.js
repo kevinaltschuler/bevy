@@ -36,9 +36,11 @@ module.exports = new Schema({
 		}, {
 			_id: false
 		})]
-		, photos: [{
+		, photos: [Schema({
 			value: String
-		}]
+		}, {
+			_id: false
+		})]
 	}
 	, aliases: [{
 		  type: Schema.Types.ObjectId
