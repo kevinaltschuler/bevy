@@ -25,7 +25,6 @@ var $ = require('jquery');
 
 var user = window.bootstrap.user;
 var email = user.email;
-var proPic = "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-xap1/v/t1.0-1/p160x160/1509256_10204314494755893_1435107074343434421_n.jpg?oh=d00b5d6de22f955e720b8ce90c8d547f&oe=5584C139&__gda__=1434904774_45451783eeafea83b652302f081b7cc8";
 
 function getPostState(id) {
 	return PostStore.getPost(id);
@@ -126,6 +125,12 @@ var Post = React.createClass({
 	},
 
 	render: function() {
+
+		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var profileImage = (_.isEmpty(user.google.photos))
+		 ? defaultProfileImage
+		 : user.google.photos[0].value;
+
 		// generate panel
 		var panelHeading;
 		if(_.isEmpty(this.state.image_url)) {
@@ -159,7 +164,7 @@ var Post = React.createClass({
 								<div className="profile-btn"/>
 							</div>
 							<div className="panel-comment-input">
-								<img className="profile-img" src={proPic}/>
+								<img className="profile-img" src={ profileImage }/>
 								<TextField className="panel-comment-textfield" hintText="Write a Comment"/>
 							</div>
 							<div className="panel-controls-right">
