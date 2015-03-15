@@ -124,7 +124,7 @@ module.exports = function(app) {
 	});
 
 	// reset password
-	app.get('/reset/:token', checkToken, function(req, res, next) {
+	app.get('/reset/:token', function(req, res, next) {
 		res.render('app', {
 			env: process.env.NODE_ENV
 		});

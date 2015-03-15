@@ -134,11 +134,24 @@ var Post = React.createClass({
 		// generate panel
 		var panelHeading;
 		if(_.isEmpty(this.state.image_url)) {
-			panelHeading = <div className='panel-header'><p>{ this.state.title }</p></div>;
+			panelHeading = <div className='panel-header'>
+								{ this.state.title } 
+								&nbsp; <span className="glyphicon glyphicon-triangle-right"/> &nbsp;
+								<a className="details" href='/'>{ this.state.bevy.name } &nbsp; • &nbsp; </a>
+								<a className="details" href='/'>{ this.state.author } &nbsp; • &nbsp; </a>
+								<a className="detail-time">{ this.timeAgo() }</a>
+							</div>;
 		} else {
 			panelHeading = <div className='panel-header'>
-				<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
-			</div>;
+								<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
+								&nbsp;
+								<span className="glyphicon glyphicon-triangle-right"/>
+								<a className="details" href='/'>{ this.state.bevy.name }</a>
+								&nbsp;•&nbsp;
+								<a className="details" href='/'>{ this.state.author }</a>
+								&nbsp;•&nbsp;
+								<a className="detail-time">{ this.timeAgo() }</a>
+							</div>;
 		}
 
 		var panelBody;
@@ -154,7 +167,6 @@ var Post = React.createClass({
 
 		return	<div className="post panel" postId={ this.state._id }>
 						{ panelHeading }
-						<div className="panel-details">{ this.state.author } • { this.state.bevy.name } • { this.timeAgo() }</div>
 						{ panelBody }
 						<div className="panel-commments">
 						</div>
