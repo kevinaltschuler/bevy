@@ -28,10 +28,14 @@ module.exports = new Schema({
 		}
 		, displayName: String
 		, token: String
-		, emails: [{
+		, emails: [Schema({
 			  value: String
-			, type: String
-		}]
+			, type: {
+				type: String
+			}
+		}, {
+			_id: false
+		})]
 		, photos: [{
 			value: String
 		}]
