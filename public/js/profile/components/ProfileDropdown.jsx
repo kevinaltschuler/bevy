@@ -7,6 +7,7 @@
 'use strict';
 
 var React = require('react');
+var _ = require('underscore');
 
 var rbs = require('react-bootstrap');
 var OverlayTrigger = rbs.OverlayTrigger;
@@ -32,15 +33,23 @@ var ProfileDropdown = React.createClass({
 
 	render: function() {
 
+		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var profileImage = (_.isEmpty(user.google.photos))
+		 ? defaultProfileImage
+		 : user.google.photos[0].value;
+
+		var defaultName = 'Default Name';
+		var name = user.google.displayName || defaultName;
+
 		return	<OverlayTrigger trigger="click" placement="bottom" overlay={
 						<Popover>
 
 							<div className="row profile-top">
 								<div className="col-xs-3 profile-picture">
-									<img src=""/>
+									<img src={ profileImage }/>
 								</div>
 								<div className="col-xs-9 profile-details">
-									<span className='profile-name'>Kevin Altschuler</span>
+									<span className='profile-name'>{ name }</span>
 									<span className='profile-email'>{ email }</span>
 									<span className='profile-points'>123 points</span>
 								</div>
