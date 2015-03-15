@@ -8,6 +8,9 @@
 
 var React = require('react');
 
+var rbs = require('react-bootstrap');
+var ButtonGroup = rbs.ButtonGroup;
+
 var AliasItem = require('./AliasItem.jsx');
 
 var AliasList = React.createClass({
@@ -37,7 +40,9 @@ var AliasList = React.createClass({
 
 		return	<div>
 						aliases:
-						{ aliases }
+						<ButtonGroup vertical>
+							{ aliases }
+						</ButtonGroup>
 					</div>
 	}
 });

@@ -6,6 +6,9 @@
 
 var React = require('react');
 
+var rbs = require('react-bootstrap');
+var Button = rbs.Button
+
 var AliasItem = React.createClass({
 
 	propTypes: {
@@ -20,9 +23,9 @@ var AliasItem = React.createClass({
 			return <div></div>;
 		}
 
-		return	<div>
-						<a>{ alias.name }</a>
-					</div>
+		return	<Button>
+						{ alias.name }
+					</Button>
 	}
 });
 module.exports = AliasItem;
