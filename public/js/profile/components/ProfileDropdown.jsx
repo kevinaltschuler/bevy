@@ -42,6 +42,10 @@ var ProfileDropdown = React.createClass({
 		var defaultName = 'Default Name';
 		var name = user.google.displayName || defaultName;
 
+		var buttonStyle = {
+			backgroundImage: 'url(' + profileImage + ')'
+		};
+
 		return	<OverlayTrigger trigger="click" placement="bottom" overlay={
 						<Popover>
 
@@ -94,7 +98,9 @@ var ProfileDropdown = React.createClass({
 								</div>
 							</div>
 						</Popover>}>
-					<Button className="profile-btn" bsStyle="default"/>
+					<Button className="profile-btn" bsStyle="default" style={ buttonStyle }>
+
+					</Button>
 				</OverlayTrigger>;
 	}
 });
