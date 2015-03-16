@@ -103,7 +103,6 @@ var LoginPanel = React.createClass({
 							label='Sign In'
 							onClick={ this.submit }/>
 					</form>
-					<br/>
 					<RaisedButton
 						className='login-google-submit'
 						label='Sign In With Google'
