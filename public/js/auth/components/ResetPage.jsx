@@ -129,6 +129,7 @@ var ResetPage = React.createClass({
 									onClick={ this.submit } />
 							</form>
 						</Panel>
+						<a href='/login'>Back to Login</a>
 					</div>
 	}
 });
