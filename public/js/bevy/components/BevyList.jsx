@@ -19,7 +19,8 @@ var ButtonGroup = rbs.ButtonGroup;
 var ModalTrigger = rbs.ModalTrigger;
 
 var mui = require('material-ui');
-var IconButton = mui.IconButton;
+var FontIcon = mui.FontIcon;
+var FlatButton = mui.FlatButton;
 
 var CreateNewBevy = require('./../../modals/components/CreateNewBevy.jsx');
 
@@ -58,18 +59,21 @@ var BevyList = React.createClass({
 		}
 
 		return	<div>
-						<div className='panel-header'>
-							<p>Bevies</p>
-						</div>
-						<ButtonGroup className='bevy-list' role="group">
-							<text>
-								{bevies}
-								<ModalTrigger modal={<CreateNewBevy />}>
-									<IconButton iconClassName="glyphicon glyphicon-plus" tooltip="Create new bevy"/>
-								</ModalTrigger>
-							</text>
-						</ButtonGroup>
-					</div>;
+					<div className='panel-header'>
+						<p>Bevies</p>
+					</div>
+					<ButtonGroup className='bevy-list' role="group">
+						<text>
+							{bevies}
+							<ModalTrigger modal={<CreateNewBevy />}>
+								<button className='bevy-btn new-bevy-btn'>
+									<FontIcon className="glyphicon glyphicon-plus"/> &nbsp;
+									<span className="mui-flat-button-label">Create New Bevy</span>
+								</button>
+							</ModalTrigger>
+						</text>
+					</ButtonGroup>
+				</div>;
 	}
 
 });

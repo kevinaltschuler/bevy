@@ -137,8 +137,10 @@ var Post = React.createClass({
 			panelHeading = <div className='panel-header'>
 								{ this.state.title } 
 								&nbsp; <span className="glyphicon glyphicon-triangle-right"/> &nbsp;
-								<a className="details" href='/'>{ this.state.bevy.name } &nbsp; • &nbsp; </a>
-								<a className="details" href='/'>{ this.state.author } &nbsp; • &nbsp; </a>
+								<a className="details" href='/'>{ this.state.bevy.name }</a> 
+								<span className="dot">&nbsp; • &nbsp;</span> 
+								<a className="details" href='/'>{ this.state.author } </a>
+								<span className="dot">&nbsp; • &nbsp;</span> 
 								<a className="detail-time">{ this.timeAgo() }</a>
 							</div>;
 		} else {
@@ -168,7 +170,21 @@ var Post = React.createClass({
 		return	<div className="post panel" postId={ this.state._id }>
 						{ panelHeading }
 						{ panelBody }
-						<div className="panel-commments">
+						<div className="panel-comments">
+							<div className="comment-count">3 Comments</div>
+							<div className="row comment">
+								<img className="profile-img" src={ profileImage }/>
+								<div className="comment-text">
+									<div className="comment-title">
+										<a className="comment-name">Lisa Ding </a>
+										<text className="detail-time">{ this.timeAgo() }</text>
+									</div>
+									<div className="comment-body">Yo bro this is so sick!</div>
+									<a className="reply-link">reply</a>
+									<div className="row comment"> 
+									</div>
+								</div>
+							</div>
 						</div>
 						<div className="panel-bottom">
 							<div className="panel-controls-left">
@@ -176,6 +192,7 @@ var Post = React.createClass({
 								<div className="profile-btn"/>
 							</div>
 							<div className="panel-comment-input">
+								<div className="profile-overlay"/>
 								<img className="profile-img" src={ profileImage }/>
 								<TextField className="panel-comment-textfield" hintText="Write a Comment"/>
 							</div>

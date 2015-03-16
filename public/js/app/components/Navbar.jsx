@@ -49,7 +49,9 @@ var Navbar = React.createClass({
 							<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
 							<span className="navbar-brand navbar-brand-text">Bevy</span>
 						</div>
-
+						<div className="nav navbar-brand-text nav-center">
+							Frontpage
+						</div>
 						<div className="navbar-header pull-right">
 							<form className="navbar-form navbar-right" role="search">
 								<div className="form-group">

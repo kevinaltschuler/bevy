@@ -6,12 +6,19 @@
 	}
 	.panel-header {
 		font-size: 1.6em;
-		.details, .detail-time {
+		.details, .detail-time, .dot {
 			font-size: .5em;
 			color: @light-font;
 		}
+		.details:focus, .details:hover {
+			text-decoration: underline;
+		}
+		.details:active {
+			color: #4a4a4a;
+		}
 		.glyphicon {
-			font-size: .5em;
+			font-size: .4em;
+			color: @light-font;
 		}
 	}
 	.panel-body {
@@ -39,7 +46,7 @@
 		margin-right: auto;
 		color: @light-font;
 		font-size: .85em;
-		border-top: 1px solid @light-font;
+		border-top: 1px solid #777777;
 
 	}
 	.panel-body-image {
@@ -47,7 +54,44 @@
 			width: 100%;
 		}
 	}
-
+	.panel-comments {
+		width: 93%;
+		margin-left: auto;
+		margin-right: auto;
+		border-top: 1px solid #777777;
+		.comment-count {
+			font-size: 1.1em;
+			padding-top: 10px;
+			color: #777777;
+		}
+		.row.comment {
+			margin-top: 10px;
+			.profile-img {
+				display: inline-block;
+				margin-left: 15px;
+				margin-right: 10px;
+				margin-top: 7px;
+				vertical-align: top;
+			}
+			.comment-text {
+				display: inline-block;
+				.comment-title {
+					.comment-name {
+						color: black;
+						font-size: 1.2em;
+					}
+					.detail-time {
+						font-size: .8em;
+						color: @light-font;
+					}
+				}
+				.reply-link {
+					color: #4a4a4a;
+					text-decoration: underline;
+				}
+			}
+		}
+	}
 	.panel-bottom {
 		display: inline-block;
 		padding: 10px 10px 5px 10px;
