@@ -96,7 +96,9 @@ var ForgotPage = React.createClass({
 
 		return	<div className='forgot-container'>
 					<div className='forgot-header'>
-						<img src='/img/logo_100.png' height="60" width="60"/>
+						<a href='/'>
+							<img src='/img/logo_100.png' height="60" width="60"/>
+						</a>
 					</div>
 					<Panel className="forgot-panel">
 					<div className='forgot-header'>
