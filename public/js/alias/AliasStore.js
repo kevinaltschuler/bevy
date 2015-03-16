@@ -48,7 +48,9 @@ _.extend(AliasStore, {
 
 			case ALIAS.SWITCH:
 				var alias_id = payload.id;
+				aliases._meta.active = alias_id;
 
+				this.trigger(ALIAS.CHANGE_ALL);
 				break;
 
 			case ALIAS.SETUSER:
