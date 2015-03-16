@@ -51,13 +51,13 @@ var ForgotPage = React.createClass({
 				email: email
 			},
 			function(data) {
-				//console.log(data);
+				console.log(data);
 				// success
 
 				this.setState({
 					statusText: 'Email Sent!'
 				});
-			}
+			}.bind(this)
 		).fail(function(jqXHR) {
 			// failure
 			var response = jqXHR.responseJSON;
@@ -94,7 +94,7 @@ var ForgotPage = React.createClass({
 								</div>
 		}
 
-		return	<div className='forgot-container'>		
+		return	<div className='forgot-container'>
 					<div className='forgot-header'>
 						<img src='/img/logo_100.png' height="60" width="60"/>
 					</div>
@@ -117,7 +117,7 @@ var ForgotPage = React.createClass({
 								onClick={ this.submit } />
 						</form>
 					</Panel>
-						<a href="/forgot">forgot your email?</a>
+					<a href='/login'>Back to Login</a>
 				</div>
 	}
 });
