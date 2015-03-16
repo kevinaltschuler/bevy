@@ -105,7 +105,6 @@ var ResetPage = React.createClass({
 						</div>
 						<Panel className="forgot-panel">
 							<h1>Reset Password</h1>
-							{ this.getParams().token }
 							{ status }
 							<form method='post' action='/reset'>
 								<Input
