@@ -181,8 +181,6 @@ var Post = React.createClass({
 									</div>
 									<div className="comment-body">Yo bro this is so sick!</div>
 									<a className="reply-link">reply</a>
-									<div className="row comment"> 
-									</div>
 								</div>
 							</div>
 						</div>
