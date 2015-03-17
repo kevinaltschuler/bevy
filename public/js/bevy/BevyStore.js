@@ -29,7 +29,7 @@ bevies.fetch({
 	success: function(collection, response, options) {
 		// set the first found bevy to the active one
 		var first = collection.models[0];
-		if(!_.isEmpty(first)) bevies._meta.active = first;
+		if(!_.isEmpty(first)) bevies._meta.active = first.id;
 
 		// propagate change
 		BevyStore.trigger(BEVY.CHANGE_ALL);

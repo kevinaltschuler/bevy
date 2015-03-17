@@ -117,7 +117,8 @@ module.exports = function(app) {
 					, text: 'Heres your link: ' + config.app.server.hostname + '/reset/' + resetToken.token
 				}, function(err, body) {
 					if(err) return next(err);
-					console.log(body);
+					//console.log(body);
+					return res.json(body);
 				});
 			}
 		]);

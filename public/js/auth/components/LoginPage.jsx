@@ -24,7 +24,7 @@ var LoginPage = React.createClass({
 						</div>
 						<LoginPanel />
 						<div className='back-link'>
-							<a href="/forgot">forgot your password?</a>
+							<a href="/forgot">Forgot your password?</a>
 						</div>
 						<br/>
 					</div>;

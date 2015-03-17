@@ -99,34 +99,36 @@ var ResetPage = React.createClass({
 
 		return	<div className='forgot-container'>
 						<div className='forgot-header'>
-							<img src='/img/logo_100.png' height="60" width="60"/>
+							<a href='/'>
+								<img src='/img/logo_100.png' height="60" width="60"/>
+							</a>
 						</div>
 						<Panel className="forgot-panel">
-						<h1>Reset Password</h1>
-						{ this.getParams().token }
-						{ status }
-						<form method='post' action='/reset'>
-							<Input
-								type='password'
-								name='pass'
-								ref='pass'
-								hasFeedback
-								bsStyle={ this.state.passBsStyle }
-								placeholder='New Password'
-								onChange={ this.onChange } />
-							<Input
-								type='password'
-								name='confirmPass'
-								ref='confirmPass'
-								hasFeedback
-								bsStyle={ this.state.confirmPassBsStyle }
-								placeholder='Confirm Password'
-								onChange={ this.onChange } />
-							<RaisedButton
-								label='Submit'
-								onClick={ this.submit } />
-						</form>
+							<h1>Reset Password</h1>
+							{ status }
+							<form method='post' action='/reset'>
+								<Input
+									type='password'
+									name='pass'
+									ref='pass'
+									hasFeedback
+									bsStyle={ this.state.passBsStyle }
+									placeholder='New Password'
+									onChange={ this.onChange } />
+								<Input
+									type='password'
+									name='confirmPass'
+									ref='confirmPass'
+									hasFeedback
+									bsStyle={ this.state.confirmPassBsStyle }
+									placeholder='Confirm Password'
+									onChange={ this.onChange } />
+								<RaisedButton
+									label='Submit'
+									onClick={ this.submit } />
+							</form>
 						</Panel>
+						<a href='/login'>Back to Login</a>
 					</div>
 	}
 });

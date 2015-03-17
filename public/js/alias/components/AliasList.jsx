@@ -40,7 +40,7 @@ var AliasList = React.createClass({
 			);
 		}
 
-		console.log(this.props.activeAlias);
+		//console.log(this.props.activeAlias);
 
 		return	<div>
 						aliases:
