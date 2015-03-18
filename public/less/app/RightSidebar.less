@@ -3,6 +3,7 @@
 .right-sidebar {
   float: right;
   display: inline-block;
+
 	.dropdown-button {
 		.panel {
 			word-wrap: normal;
@@ -75,7 +76,7 @@
 			transition: all 0.15s linear;
 			border: none;
 			text-decoration: underline;
-			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus {
 				outline: none;
 				color: black;
 				box-shadow: none;
@@ -99,40 +100,38 @@
 			margin-bottom: 10px;
 			margin-top: 10px;
 		}
+	}
 }
-
-
-
 
 //dropdown buttons
 .btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
 .btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle,
 .btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child{
-	  background: rgba(0,0,0,0);
-	  border: 0px;
-	  -webkit-box-shadow: none;
-	  box-shadow: none;
-	  color: @light-font;
-	  font-size: inherit;
-	  & .open {
-	  }
-	  &:active{
-	  	color: black;
-	  }
-	  &:focus {
-	  	text-decoration: underline;
-	  	color: black;
-	  }
-	  &:hover{
-	  	color: black;
-	  }
+	background: rgba(0,0,0,0);
+	border: 0px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	color: @light-font;
+	font-size: inherit;
+	&.open {
 	}
+	&:active{
+		color: black;
+	}
+	&:focus {
+		text-decoration: underline;
+		color: black;
+	}
+	&:hover{
+		color: black;
+	}
+}
 //open dropdown menu
 .btn-group > .btn-group {
 	float: none;
 }
 
-@media (max-width: 991px) {
+@media(max-width: 991px) {
   .right-sidebar {
     display: inline-block;
     float: right;
