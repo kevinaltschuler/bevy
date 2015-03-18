@@ -37,7 +37,8 @@ var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var Navbar = React.createClass({
 
 	propTypes: {
-		  allAliases: React.PropTypes.array
+		  activeBevy: React.PropTypes.object
+		, allAliases: React.PropTypes.array
 		, activeAlias: React.PropTypes.object
 	},
 
@@ -50,7 +51,7 @@ var Navbar = React.createClass({
 							<span className="navbar-brand navbar-brand-text">Bevy</span>
 						</div>
 						<div className="nav navbar-brand-text nav-center">
-							Frontpage
+							{ this.props.activeBevy.get('name') }
 						</div>
 						<div className="navbar-header pull-right">
 							<form className="navbar-form navbar-right" role="search">

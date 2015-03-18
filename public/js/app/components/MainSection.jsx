@@ -98,7 +98,10 @@ var MainSection = React.createClass({
 
 	render: function(){
 		return	<div>
-						<Navbar allAliases={ this.state.allAliases } activeAlias={ this.state.activeAlias } />
+						<Navbar
+							activeBevy={ this.state.activeBevy }
+							allAliases={ this.state.allAliases }
+							activeAlias={ this.state.activeAlias } />
 						<div className='main-section'>
 							<div className='row'>
 								<PostSubmit activeBevy={ this.state.activeBevy }/>
