@@ -68,7 +68,7 @@ var CreateNewBevy = React.createClass({
 		var allMembers = this.state.members;
 		for(var key in allMembers) {
 			var member = allMembers[key];
-			members.push(<div>
+			members.push(<div key={ key }>
 								<span className='member-item'>
 									{ member }
 								</span>
