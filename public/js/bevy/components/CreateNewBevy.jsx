@@ -16,6 +16,12 @@ var TextField = mui.TextField;
 
 var BevyActions = require('./../BevyActions');
 
+// helper function to validate whether an email is valid
+function validateEmail(email) {
+    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+}
+
 var CreateNewBevy = React.createClass({
 
 	getInitialState: function() {
@@ -29,7 +35,7 @@ var CreateNewBevy = React.createClass({
 
 		var memberName = this.refs.addMember.getValue();
 
-		if(_.isEmpty(memberName)) {
+		if(_.isEmpty(memberName) || !validateEmail(memberName)) {
 			this.refs.addMember.setErrorText('Please enter a valid email address');
 			return;
 		}
