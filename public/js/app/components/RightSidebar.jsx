@@ -69,6 +69,21 @@ module.exports = React.createClass({
 							<DropDownMenu menuItems={notificationMenuItems} />
 						</div>
 
+						<div className='row'>
+							<div className='col-xs-12'>
+								<Button>
+									Leave Bevy
+								</Button>
+							</div>
+						</div>
+						<div className='row'>
+							<div className='col-xs-12'>
+								<Button>
+									Delete Bevy
+								</Button>
+							</div>
+						</div>
+
 
 					</ButtonGroup>
 	}
