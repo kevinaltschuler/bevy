@@ -46,6 +46,22 @@ _.extend(AliasStore, {
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
 
+			case ALIAS.CREATE:
+				var name = payload.name;
+				console.log(name);
+
+				var newAlias = {
+					name: name
+				};
+
+				aliases.create(newAlias, {
+					//wait: true
+				});
+
+				this.trigger(ALIAS.CHANGE_ALL);
+
+				break;
+
 			case ALIAS.SWITCH:
 				var alias_id = payload.id;
 				aliases._meta.active = alias_id;

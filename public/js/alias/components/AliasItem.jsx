@@ -20,7 +20,7 @@ var AliasItem = React.createClass({
 
 	switch: function(ev) {
 		var $target = $(ev.target);
-		console.log($target.attr('id'));
+		//console.log($target.attr('id'));
 
 		AliasActions.switch($target.attr('id'));
 	},

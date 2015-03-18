@@ -21,9 +21,9 @@ var AliasActions = {
 		});
 	},
 
-	create: function() {
+	create: function(name) {
 		dispatch(ALIAS.CREATE, {
-
+			name: (name == undefined) ? '' : name
 		});
 	},
 
