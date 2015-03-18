@@ -73,7 +73,10 @@ var Navbar = React.createClass({
 								<div className="form-group">
 									<TextField type="text" className="search-input" placeholder=" "/>
 								</div>
-								<IconButton iconClassName="glyphicon glyphicon-search" href="#"/>
+								<IconButton
+									iconClassName="glyphicon glyphicon-search"
+									href="#"
+									disabled/>
 							</form>
 						</div>
 					</div>;
