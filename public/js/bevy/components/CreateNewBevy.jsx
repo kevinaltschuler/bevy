@@ -69,7 +69,7 @@ var CreateNewBevy = React.createClass({
 		for(var key in allMembers) {
 			var member = allMembers[key];
 			members.push(<div>
-								<span>
+								<span className='member-item'>
 									{ member }
 								</span>
 								<br/>
@@ -77,7 +77,7 @@ var CreateNewBevy = React.createClass({
 		}
 
 
-		return	<Modal className="login-panel create-bevy" {...this.props} title="Create a New Bevy">
+		return	<Modal className="create-bevy" {...this.props} title="Create a New Bevy">
 
 						<div className="row">
 							<div className='col-xs-12'>
