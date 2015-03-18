@@ -131,16 +131,20 @@ var Post = React.createClass({
 		 ? defaultProfileImage
 		 : user.google.photos[0].value;
 
+		var author;
+		author = 'placeholder-author';
+		if(this.state.author) author = this.state.author;
+
 		// generate panel
 		var panelHeading;
 		if(_.isEmpty(this.state.image_url)) {
 			panelHeading = <div className='panel-header'>
-								{ this.state.title } 
+								{ this.state.title }
 								&nbsp; <span className="glyphicon glyphicon-triangle-right"/> &nbsp;
-								<a className="details" href='/'>{ this.state.bevy.name }</a> 
-								<span className="dot">&nbsp; • &nbsp;</span> 
-								<a className="details" href='/'>{ this.state.author } </a>
-								<span className="dot">&nbsp; • &nbsp;</span> 
+								<a className="details" href='/'>{ this.state.bevy.name }</a>
+								<span className="dot">&nbsp; • &nbsp;</span>
+								<a className="details" href='/'>{ author } </a>
+								<span className="dot">&nbsp; • &nbsp;</span>
 								<a className="detail-time">{ this.timeAgo() }</a>
 							</div>;
 		} else {
