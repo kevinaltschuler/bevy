@@ -17,7 +17,7 @@ var DropDownMenu = mui.DropDownMenu;
 
 var NotificationHeader;
 
-module.exports = React.createClass({
+var RightSidebar = React.createClass({
 
 	propTypes: {
 		activeBevy: ReactPropTypes.object
@@ -88,3 +88,4 @@ module.exports = React.createClass({
 					</ButtonGroup>
 	}
 });
+module.exports = RightSidebar;
