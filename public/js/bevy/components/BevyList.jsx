@@ -22,7 +22,7 @@ var mui = require('material-ui');
 var FontIcon = mui.FontIcon;
 var FlatButton = mui.FlatButton;
 
-var CreateNewBevy = require('./../../modals/components/CreateNewBevy.jsx');
+var CreateNewBevy = require('./CreateNewBevy.jsx');
 
 var BevyActions = require('./../BevyActions');
 

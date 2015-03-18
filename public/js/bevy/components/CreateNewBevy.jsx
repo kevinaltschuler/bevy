@@ -19,12 +19,14 @@ var CreateNewBevy = React.createClass({
 						<div className="row">
 							<TextField type="text" placeholder="Group Name" />
 						</div>
-							<div className="row">
-								<TextField type="text" placeholder="Add Members..." />
-							</div>
+						<div className="row">
+							<TextField type="text" placeholder="Add Members..." />
+						</div>
 						<div className="panel-bottom">
 							<RaisedButton label="Create"/>
-							<FlatButton label="Cancel"/>
+							<FlatButton
+								onClick={ this.props.onRequestHide }
+								label="Cancel"/>
 						</div>
 					</Modal>
 	}
