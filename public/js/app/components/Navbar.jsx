@@ -18,6 +18,7 @@
 
 // imports
 var React = require('react');
+var _ = require('underscore');
 
 var ProfileModal = require('./../../modals/components/ProfileModal.jsx');
 
@@ -33,6 +34,8 @@ var TextField = mui.TextField;
 
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 
+var user = window.bootstrap.user;
+
 // react component
 var Navbar = React.createClass({
 
@@ -44,14 +47,26 @@ var Navbar = React.createClass({
 
 	render: function() {
 
+		var name;
+		//if(!_.isEmpty(user.google.name))
+		//	name = user.google.name.givenName + ' ' + user.google.name.familyName;
+		if(!_.isEmpty(this.props.activeAlias))
+			//console.log(this.props.activeAlias);
+			name = this.props.activeAlias.get('name');
+
+		var bevyName;
+		if(!_.isEmpty(this.props.activeBevy)) {
+			bevyName = this.props.activeBevy.get('name');
+		}
+
 		return	<div className="navbar navbar-fixed-top">
 
 						<div className="navbar-header pull-left">
 							<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
-							<span className="navbar-brand navbar-brand-text">Bevy</span>
+							<span className="navbar-brand navbar-brand-text">{ name }</span>
 						</div>
 						<div className="nav navbar-brand-text nav-center">
-							{ this.props.activeBevy.get('name') }
+							{ bevyName }
 						</div>
 						<div className="navbar-header pull-right">
 							<form className="navbar-form navbar-right" role="search">
