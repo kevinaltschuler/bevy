@@ -98,9 +98,7 @@ var ProfileDropdown = React.createClass({
 								</div>
 							</div>
 						</Popover>}>
-					<Button className="profile-btn" bsStyle="default" style={ buttonStyle }>
-
-					</Button>
+					<Button className="profile-btn" style={ buttonStyle } />
 				</OverlayTrigger>;
 	}
 });

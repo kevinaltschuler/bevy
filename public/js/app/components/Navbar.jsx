@@ -59,25 +59,30 @@ var Navbar = React.createClass({
 			bevyName = this.props.activeBevy.get('name');
 		}
 
-		return	<div className="navbar navbar-fixed-top">
+		return	<div className="navbar navbar-fixed-top row">
+						<div className='col-xs-3'>
+							<div className="navbar-header pull-left">
+								<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
+								<span className="navbar-brand navbar-brand-text">{ name }</span>
+							</div>
+						</div>
 
-						<div className="navbar-header pull-left">
-							<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
-							<span className="navbar-brand navbar-brand-text">{ name }</span>
+						<div className='col-xs-6'>
+							<div className="nav navbar-brand-text nav-center">
+								{ bevyName }
+							</div>
 						</div>
-						<div className="nav navbar-brand-text nav-center">
-							{ bevyName }
-						</div>
-						<div className="navbar-header pull-right">
-							<form className="navbar-form navbar-right" role="search">
-								<div className="form-group">
+
+						<div className='col-xs-3'>
+							<div className="navbar-header pull-right">
+								<form className="navbar-form navbar-right" role="search">
 									<TextField type="text" className="search-input" placeholder=" "/>
-								</div>
-								<IconButton
-									iconClassName="glyphicon glyphicon-search"
-									href="#"
-									disabled/>
-							</form>
+									<IconButton
+										iconClassName="glyphicon glyphicon-search"
+										href="#"
+										disabled />
+								</form>
+							</div>
 						</div>
 					</div>;
 	}
