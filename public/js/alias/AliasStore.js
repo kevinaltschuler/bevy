@@ -48,7 +48,7 @@ _.extend(AliasStore, {
 
 			case ALIAS.CREATE:
 				var name = payload.name;
-				console.log(name);
+				//console.log(name);
 
 				var newAlias = {
 					name: name
