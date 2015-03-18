@@ -51,7 +51,7 @@ module.exports = function(app) {
 			, realm: config.app.server.hostname
 		},
 		function(accessToken, refreshToken, profile, done) {
-			console.log('Authenticating user: ', profile);
+			console.log('Authenticating user: ', profile.emails[0]);
 			var emails = _.pluck(profile.emails, 'value');
 
 			var id_query = { 'google.id': profile.id };
