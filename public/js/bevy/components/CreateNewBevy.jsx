@@ -1,3 +1,10 @@
+/**
+ * CreateNewBevy.jsx
+ *
+ * @author albert
+ * @author kevin
+ */
+
 'use strict';
 
 var React = require('react');
@@ -60,6 +67,9 @@ var CreateNewBevy = React.createClass({
 		}
 
 		BevyActions.create(name);
+
+		// after, close the window
+		this.props.onRequestHide();
 	},
 
 	render: function() {
