@@ -59,15 +59,17 @@ module.exports = React.createClass({
 					</div>
 
 					<div className='row sidebar-action'>
-						<div className="sidebar-action-title"> Currently Viewing </div>
-							<Button type='button' className="sidebar-action-link">
-								Nobody
-							</Button>
+						<div className="sidebar-action-title col-xs-12"> Currently Viewing </div>
+						<Button type='button' className="sidebar-action-link">
+							Nobody
+						</Button>
 					</div>
 					<div className='row sidebar-action'>
-						<div className="sidebar-action-title"> Notifications </div>
-							<DropDownMenu menuItems={notificationMenuItems} />
+						<div className="sidebar-action-title col-xs-12"> Notifications </div>
+						<DropDownMenu menuItems={notificationMenuItems} />
 					</div>
+
+
 				</ButtonGroup>
 				;
 	}
