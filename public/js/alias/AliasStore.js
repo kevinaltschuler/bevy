@@ -58,6 +58,11 @@ _.extend(AliasStore, {
 					//wait: true
 				});
 
+				// if this is the only alias, switch to it
+				if(aliases.models.length === 1) {
+					aliases._meta.active = aliases.models[0].id;
+				}
+
 				this.trigger(ALIAS.CHANGE_ALL);
 
 				break;
