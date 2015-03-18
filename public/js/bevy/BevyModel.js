@@ -25,11 +25,5 @@ module.exports = Backbone.Model.extend({
 		, updated: 0
 	},
 
-	idAttribute: '_id',
-
-	url: function() {
-		return (this.id) ?
-		   constants.apiurl + '/bevies/' + this.id
-		 : constants.apiurl + '/bevies/';
-	}
+	idAttribute: '_id'
 });
