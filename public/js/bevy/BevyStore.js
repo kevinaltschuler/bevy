@@ -54,7 +54,19 @@ _.extend(BevyStore, {
 
 			case BEVY.CREATE:
 				var name = payload.name;
-				console.log(name);
+				var members = payload.members;
+				console.log(name, members);
+
+				var newBevy = {
+					  name: name
+					//, members: members
+				};
+
+				//bevies.create(newBevy, {
+				//});
+
+				this.trigger(BEVY.CHANGE_ALL);
+
 				break;
 
 			case BEVY.SWITCH:

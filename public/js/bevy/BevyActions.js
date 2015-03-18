@@ -15,9 +15,10 @@ var BEVY = require('./../constants').BEVY;
 
 var PostActions = {
 
-	create: function(name) {
+	create: function(name, members) {
 		dispatch(BEVY.CREATE, {
-			name: (name == undefined) ? '' : name
+			  name: (name == undefined) ? '' : name
+			, members: (members == undefined) ? [] : members
 		});
 	},
 

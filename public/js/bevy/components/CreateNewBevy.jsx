@@ -66,7 +66,16 @@ var CreateNewBevy = React.createClass({
 			return;
 		}
 
-		BevyActions.create(name);
+		var members = this.state.members;
+
+		/*if(_.isEmpty(members)) {
+			this.refs.addMember.setErrorText('Please add a member to this bevy');
+			return;
+		}*/
+
+
+
+		BevyActions.create(name, members);
 
 		// after, close the window
 		this.props.onRequestHide();
