@@ -33,7 +33,7 @@ function collectBevyParams(req) {
 // GET /bevies
 exports.index = function(req, res, next) {
 	var promise = Bevy.find()
-		.populate('members')
+		//.populate('members')
 		.exec();
 	promise.then(function(bevies) {
 		res.json(bevies);
@@ -61,7 +61,7 @@ exports.show = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOne(query)
-		.populate('members')
+		//.populate('members')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -82,7 +82,7 @@ exports.update = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update)
-		.populate('members')
+		//.populate('members')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -100,7 +100,7 @@ exports.destroy = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndRemove(query)
-		.populate('members')
+		//.populate('members')
 		.exec();
 	promise.then(function(bevy) {
 		res.json(bevy);
