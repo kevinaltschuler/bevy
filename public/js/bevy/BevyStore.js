@@ -51,6 +51,12 @@ _.extend(BevyStore, {
 	// these are created from BevyActions.js
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
+
+			case BEVY.CREATE:
+				var name = payload.name;
+				console.log(name);
+				break;
+
 			case BEVY.SWITCH:
 				var id = payload.id;
 				bevies._meta.active = id;

@@ -15,6 +15,12 @@ var BEVY = require('./../constants').BEVY;
 
 var PostActions = {
 
+	create: function(name) {
+		dispatch(BEVY.CREATE, {
+			name: (name == undefined) ? '' : name
+		});
+	},
+
 	/**
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to
