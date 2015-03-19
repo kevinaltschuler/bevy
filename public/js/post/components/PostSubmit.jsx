@@ -10,7 +10,7 @@
 
 // imports
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
+
 
 var OverlayTrigger = require('react-bootstrap').OverlayTrigger;
 var Tooltip = require('react-bootstrap').Tooltip;
@@ -23,14 +23,8 @@ var PostSubmitButtons = require('./PostSubmitButtons.jsx');
 var PostSubmit = React.createClass({
 
 	propTypes: {
-		activeBevy: ReactPropTypes.object.isRequired
-	},
-
-	// trigger the create action
-	// TODO: pass in the rest of the state attributes needed
-	submit: function() {
-		PostActions.create(this.state.title, null,
-			null, null, this.props.activeBevy.toJSON());
+		  activeBevy: React.PropTypes.object.isRequired
+		, activeAlias: React.PropTypes.object.isRequired
 	},
 
 	// start with an empty title
@@ -39,6 +33,17 @@ var PostSubmit = React.createClass({
 		return {
 			title: ''
 		};
+	},
+
+	// trigger the create action
+	// TODO: pass in the rest of the state attributes needed
+	submit: function() {
+		PostActions.create(
+			this.state.title, // title
+			null, // body
+			null, // image_url
+			this.props.activeAlias.toJSON(), // author
+			this.props.activeBevy.toJSON()); // bevy
 	},
 
 	// used to trigger the create action (enter key)

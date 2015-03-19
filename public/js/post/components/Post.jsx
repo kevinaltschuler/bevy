@@ -133,7 +133,10 @@ var Post = React.createClass({
 
 		var author;
 		author = 'placeholder-author';
-		if(this.state.author) author = this.state.author;
+		if(this.state.author) {
+			//console.log(this.state.author);
+			author = this.state.author.name;
+		}
 
 		// generate panel
 		var panelHeading;

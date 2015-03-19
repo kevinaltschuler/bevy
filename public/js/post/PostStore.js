@@ -38,36 +38,33 @@ _.extend(PostStore, {
 	// handle calls from the dispatcher
 	// these are created from PostActions.js
 	handleDispatch: function(payload) {
-		// helper vars
-		var
-		  title
-		, body
-		, image_url
-		, author
-		, bevy;
-
 		switch(payload.actionType) {
 
 			case POST.CREATE: // create a post
 
 				// collect payload vars
-				title = payload.title;
-				body = payload.body;
-				image_url = payload.image_url;
-				author = payload.author;
-				bevy = payload.bevy;
+				var title = payload.title;
+				var body = payload.body;
+				var image_url = payload.image_url;
+				var author = payload.author;
+				var bevy = payload.bevy;
 
-				// create model and save
-				create({
+				var newPost = {
 					  title: title
 					, body: body
 					, image_url: image_url
-					, author: author
-					, bevy: bevy
+					, author: author._id
+					, bevy: bevy._id
+				};
+
+				posts.create(newPost, {
+					wait: true
 				});
+				console.log(posts);
 
 				// this requires a visual update
 				this.trigger(POST.CHANGE_ALL);
+
 				break;
 
 			case POST.UPVOTE:
@@ -158,31 +155,6 @@ posts.on('sync', function() {
 	PostStore.trigger(POST.CHANGE_ALL);
 });
 
-// create a post
-// and save to db (not implemented yet)
-function create(options) {
-	var newPost = {
-		  title: options.title
-		, body: options.body
-		, image_url: options.image_url
-		, author: options.author
-		, bevy: options.bevy
-		, points: []
-		, comments: []
-	};
-
-	// PUT to db
-	//newPost.save();
-	// generate fake ID for now
-	//newPost._id = new Date().toString();
-
-	// add to collection
-	//posts.add(newPost);
-	posts.create(newPost, {
-		wait: true
-	});
-	console.log(posts);
-}
 
 function vote(post_id, author, value) {
 	var voted_post = posts.get(post_id);

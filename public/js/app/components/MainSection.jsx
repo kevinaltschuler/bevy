@@ -104,7 +104,9 @@ var MainSection = React.createClass({
 							activeAlias={ this.state.activeAlias } />
 						<div className='main-section'>
 							<div className='row'>
-								<PostSubmit activeBevy={ this.state.activeBevy }/>
+								<PostSubmit
+									activeBevy={ this.state.activeBevy }
+									activeAlias={ this.state.activeAlias } />
 							</div>
 							<div className='row'>
 								<PostSort />
