@@ -34,6 +34,9 @@ var AddAliasModal = React.createClass({
 		}
 
 		AliasActions.create(name);
+
+		// hide after creation
+		this.props.onRequestHide();
 	},
 
 	render: function() {
