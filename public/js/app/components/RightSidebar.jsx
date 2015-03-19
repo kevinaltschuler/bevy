@@ -27,6 +27,12 @@ var RightSidebar = React.createClass({
 
 	leave: function(ev) {
 		ev.preventDefault();
+
+		if(!this.props.activeBevy) return;
+
+		var id = this.props.activeBevy.id;
+
+		BevyActions.leave(id);
 	},
 
 	destroy: function(ev) {

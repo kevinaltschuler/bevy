@@ -101,6 +101,11 @@ _.extend(BevyStore, {
 
 				break;
 
+			case BEVY.LEAVE:
+				var id = payload.id;
+				console.log('leave', id);
+				break;
+
 			case BEVY.SWITCH:
 				var id = payload.id;
 				bevies._meta.active = id;
