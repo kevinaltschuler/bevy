@@ -37,7 +37,7 @@ aliases.fetch({
 });
 
 aliases.on('sync', function() {
-	console.log('sync');
+	//console.log('sync');
 	AliasStore.trigger(ALIAS.CHANGE_ALL);
 });
 

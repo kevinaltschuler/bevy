@@ -82,19 +82,18 @@ _.extend(BevyStore, {
 				var bevy = bevies.get(id);
 				bevy.destroy({
 					success: function(model, response) {
-						console.log(model);
-					}
+						//console.log(model);
+						// switch the active bevy
+						var newBevy = bevies.models[0];
+						if(!newBevy) {
+							// no more bevies.
+							// what to do here?
+						}
+						bevies._meta.active = newBevy.id;
+
+						this.trigger(BEVY.CHANGE_ALL);
+					}.bind(this)
 				});
-
-				// switch the active bevy
-				var newBevy = bevies.models[0];
-				if(!newBevy) {
-					// no more bevies.
-					// what to do here?
-				}
-				bevies._meta.active = newBevy.id;
-
-				this.trigger(BEVY.CHANGE_ALL);
 
 				break;
 
