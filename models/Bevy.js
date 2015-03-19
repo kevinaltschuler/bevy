@@ -15,7 +15,7 @@ module.exports = new Schema({
 	  name: String
 	, color: String
 	, imageURL: String
-	, members: [{
+	, members: [Schema({
 	  	  email: {
 	  	  	type: String
 	  	}
@@ -23,7 +23,9 @@ module.exports = new Schema({
 	  		  type: Schema.Types.ObjectId
 	  		, ref: 'Alias'
 	  	}
-	  }]
+	  }, {
+	  	_id: false
+	  })]
 	, settings: {
 		visibility: String
 	}
