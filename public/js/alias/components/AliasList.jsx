@@ -44,9 +44,9 @@ var AliasList = React.createClass({
 
 		return	<div>
 						aliases:
-						<ButtonGroup vertical>
+						<div>
 							{ aliases }
-						</ButtonGroup>
+						</div>
 					</div>
 	}
 });

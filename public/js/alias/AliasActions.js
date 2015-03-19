@@ -27,9 +27,9 @@ var AliasActions = {
 		});
 	},
 
-	destroy: function() {
+	destroy: function(id) {
 		dispatch(ALIAS.DESTROY, {
-
+			id: (id == undefined) ? '0' : id
 		});
 	}
 };

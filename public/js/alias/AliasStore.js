@@ -36,9 +36,12 @@ aliases.fetch({
 	}
 });
 
+aliases.on('sync', function() {
+	console.log('sync');
+	AliasStore.trigger(ALIAS.CHANGE_ALL);
+});
+
 // inherit event class first
-// VERY IMPORTANT, as the PostContainer view binds functions
-// to this store's events
 var AliasStore = _.extend({}, Backbone.Events);
 // now add some custom functions
 _.extend(AliasStore, {
@@ -64,6 +67,20 @@ _.extend(AliasStore, {
 				}
 
 				this.trigger(ALIAS.CHANGE_ALL);
+
+				break;
+
+			case ALIAS.DESTROY:
+				var id = payload.id;
+				//console.log('destroy', id);
+				var alias = aliases.get(id);
+
+
+				alias.destroy({
+					success: function(model, response) {
+						this.trigger(ALIAS.CHANGE_ALL);
+					}.bind(this)
+				});
 
 				break;
 
