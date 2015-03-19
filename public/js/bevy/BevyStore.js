@@ -69,8 +69,9 @@ _.extend(BevyStore, {
 					, members: members
 				};
 
-				//bevies.create(newBevy, {
-				//});
+				bevies.create(newBevy, {
+					wait: true
+				});
 
 				this.trigger(BEVY.CHANGE_ALL);
 
