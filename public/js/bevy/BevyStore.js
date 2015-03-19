@@ -40,6 +40,10 @@ bevies.fetch({
 	}
 });
 
+bevies.on('sync', function() {
+	BevyStore.trigger(BEVY.CHANGE_ALL);
+});
+
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
 // to this store's events
