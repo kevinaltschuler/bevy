@@ -27,6 +27,25 @@ var user = window.bootstrap.user;
 aliases._meta.userid = user._id;
 aliases.fetch({
 	success: function(collection, response, options) {
+		if(collection.models.length < 1) {
+			// no aliases yet...
+			// lets create one automatically
+			var name;
+			if(!_.isEmpty(user.google.name)) {
+				name = user.google.name.givenName.toLowerCase();
+			} else {
+				// TODO: regex to strip just the
+				// first part of the email address
+				name = user.email;
+			}
+			collection.create({
+				name: name
+			}, {
+				wait: true
+			});
+
+		}
+
 		// set the first found alias to the active one
 		var first = collection.models[0];
 		if(!_.isEmpty(first)) aliases._meta.active = first.id;
