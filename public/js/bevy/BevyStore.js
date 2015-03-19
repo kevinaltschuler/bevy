@@ -77,6 +77,30 @@ _.extend(BevyStore, {
 
 				break;
 
+			case BEVY.DESTROY:
+				var id = payload.id;
+				//console.log('destroy', id);
+
+				//bevies.remove(bevies.get(id));
+				var bevy = bevies.get(id);
+				bevy.destroy({
+					success: function(model, response) {
+						console.log(model);
+					}
+				});
+
+				// switch the active bevy
+				var newBevy = bevies.models[0];
+				if(!newBevy) {
+					// no more bevies.
+					// what to do here?
+				}
+				bevies._meta.active = newBevy.id;
+
+				this.trigger(BEVY.CHANGE_ALL);
+
+				break;
+
 			case BEVY.SWITCH:
 				var id = payload.id;
 				bevies._meta.active = id;

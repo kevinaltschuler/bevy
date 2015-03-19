@@ -22,6 +22,12 @@ var PostActions = {
 		});
 	},
 
+	destroy: function(id) {
+		dispatch(BEVY.DESTROY, {
+			id: (id == undefined) ? '0' : id
+		});
+	},
+
 	/**
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to

@@ -15,12 +15,28 @@ var Button = rbs.Button;
 var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
 
+var BevyActions = require('./../../bevy/BevyActions');
+
 var NotificationHeader;
 
 var RightSidebar = React.createClass({
 
 	propTypes: {
 		activeBevy: ReactPropTypes.object
+	},
+
+	leave: function(ev) {
+		ev.preventDefault();
+	},
+
+	destroy: function(ev) {
+		ev.preventDefault();
+
+		if(!this.props.activeBevy) return;
+
+		var id = this.props.activeBevy.id;
+
+		BevyActions.destroy(id);
 	},
 
 	render: function() {
@@ -71,14 +87,16 @@ var RightSidebar = React.createClass({
 
 						<div className='row'>
 							<div className='col-xs-12'>
-								<Button>
+								<Button
+									onClick={ this.leave }>
 									Leave Bevy
 								</Button>
 							</div>
 						</div>
 						<div className='row'>
 							<div className='col-xs-12'>
-								<Button>
+								<Button
+									onClick={ this.destroy }>
 									Delete Bevy
 								</Button>
 							</div>
