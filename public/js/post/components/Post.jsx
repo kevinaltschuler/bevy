@@ -142,25 +142,25 @@ var Post = React.createClass({
 		var panelHeading;
 		if(_.isEmpty(this.state.image_url)) {
 			panelHeading = <div className='panel-header'>
-								{ this.state.title }
-								&nbsp; <span className="glyphicon glyphicon-triangle-right"/> &nbsp;
-								<a className="details" href='/'>{ this.state.bevy.name }</a>
-								<span className="dot">&nbsp; • &nbsp;</span>
-								<a className="details" href='/'>{ author } </a>
-								<span className="dot">&nbsp; • &nbsp;</span>
-								<a className="detail-time">{ this.timeAgo() }</a>
-							</div>;
+									{ this.state.title }
+									&nbsp; <span className="glyphicon glyphicon-triangle-right"/> &nbsp;
+									<a className="details" href='/'>{ this.state.bevy.name }</a>
+									<span className="dot">&nbsp; • &nbsp;</span>
+									<a className="details" href='/'>{ author } </a>
+									<span className="dot">&nbsp; • &nbsp;</span>
+									<a className="detail-time">{ this.timeAgo() }</a>
+								</div>;
 		} else {
 			panelHeading = <div className='panel-header'>
-								<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
-								&nbsp;
-								<span className="glyphicon glyphicon-triangle-right"/>
-								<a className="details" href='/'>{ this.state.bevy.name }</a>
-								&nbsp;•&nbsp;
-								<a className="details" href='/'>{ this.state.author }</a>
-								&nbsp;•&nbsp;
-								<a className="detail-time">{ this.timeAgo() }</a>
-							</div>;
+									<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
+									&nbsp;
+									<span className="glyphicon glyphicon-triangle-right"/>
+									<a className="details" href='/'>{ this.state.bevy.name }</a>
+									&nbsp;•&nbsp;
+									<a className="details" href='/'>{ this.state.author }</a>
+									&nbsp;•&nbsp;
+									<a className="detail-time">{ this.timeAgo() }</a>
+								</div>;
 		}
 
 		var panelBody;
