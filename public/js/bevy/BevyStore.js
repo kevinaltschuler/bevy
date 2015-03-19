@@ -58,33 +58,26 @@ _.extend(BevyStore, {
 
 			case BEVY.CREATE:
 				var name = payload.name;
-				//var members = payload.members;
 				var members = [];
 				payload.members.forEach(function(email) {
 					members.push({
 						email: email
 					});
 				});
-
-				console.log(name, members);
-
+				//console.log(name, members);
 				var newBevy = {
 					  name: name
 					, members: members
 				};
-
 				bevies.create(newBevy, {
 					wait: true
 				});
-
-				this.trigger(BEVY.CHANGE_ALL);
 
 				break;
 
 			case BEVY.DESTROY:
 				var id = payload.id;
 				//console.log('destroy', id);
-
 				//bevies.remove(bevies.get(id));
 				var bevy = bevies.get(id);
 				bevy.destroy({
