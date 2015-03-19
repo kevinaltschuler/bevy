@@ -36,8 +36,7 @@ exports.index = function(req, res, next) {
 
 	var query = { bevy: bevy_id };
 	var promise = Post.find(query)
-		.populate('bevy')
-		.populate('comments')
+		.populate('bevy comments author')
 		.exec();
 	promise.then(function(posts) {
 		res.json(posts);
@@ -70,8 +69,7 @@ exports.show = function(req, res, next) {
 	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
 	var promise = Post.findOne(query)
-		.populate('bevy')
-		.populate('comments')
+		.populate('bevy comments author')
 		.exec();
 	promise.then(function(post) {
 		if(!post) throw error.gen('post not found');
@@ -93,8 +91,7 @@ exports.update = function(req, res, next) {
 	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
 	var promise = Post.findOneAndUpdate(query, update)
-		.populate('bevy')
-		.populate('comments')
+		.populate('bevy comments author')
 		.exec();
 	promise.then(function(post) {
 		if(!post) throw error.gen('post not found');
@@ -114,8 +111,7 @@ exports.destroy = function(req, res, next) {
 	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
 	var promise = Post.findOneAndRemove(query)
-		.populate('bevy')
-		.populate('comments')
+		.populate('bevy comments author')
 		.exec();
 	promise.then(function(post) {
 		if(!post) throw error.gen('post not found');
