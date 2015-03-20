@@ -59,7 +59,6 @@ var ProfileDropdown = React.createClass({
 									<span className='profile-points'>123 points</span>
 								</div>
 							</div>
-
 							<div className='row profile-links'>
 								<ButtonGroup className="col-xs-12" role="group">
 									<Button type='button' className="profile-link">
@@ -77,11 +76,9 @@ var ProfileDropdown = React.createClass({
 							</div>
 
 							<hr />
-
 							<AliasList
 								allAliases={ this.props.allAliases }
 								activeAlias={ this.props.activeAlias } />
-
 							<hr />
 
 							<div className="profile-buttons">
