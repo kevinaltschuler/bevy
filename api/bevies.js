@@ -32,7 +32,17 @@ function collectBevyParams(req) {
 // INDEX
 // GET /bevies
 exports.index = function(req, res, next) {
-	var promise = Bevy.find()
+	var aliasid = req.params.aliasid;
+	var userid = req.params.userid;
+	var query = {};
+	if(aliasid) {
+		query = { members: { $elemMatch: { aliasid: aliasid } } };
+	} else if (userid) {
+		// todo: fetch user email
+		query = { members: { $elemMatch: { email: '' } } };
+	}
+
+	var promise = Bevy.find(query)
 		//.populate('members')
 		.exec();
 	promise.then(function(bevies) {

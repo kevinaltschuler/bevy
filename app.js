@@ -26,6 +26,7 @@ var multer = require('multer');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var csrf = require('csurf');
 var passport = require('passport');
 
@@ -65,7 +66,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // sessions
 app.use(session({
-	  secret: 'keyboard cat'
+	  store: new MongoStore({ mongooseConnection: mongoose.connection })
+	, secret: 'keyboard cat'
 	, cookie: {
 		  secret: true
 		, expires: false
