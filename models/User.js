@@ -46,6 +46,12 @@ module.exports = new Schema({
 		  type: Schema.Types.ObjectId
 		, ref: 'Alias'
 	  }]
+	, notifications: [Schema({
+		  event: String
+	  	, data: {}
+	  }, {
+	  	_id: false
+	  })]
 	, created: {
 		  type: Date
 		, default: Date.now }
