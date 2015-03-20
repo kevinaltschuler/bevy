@@ -20,6 +20,7 @@ var Navbar = require('./Navbar.jsx');
 var PostSubmit = require('./../../post/components/PostSubmit.jsx');
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
+var NewPostPanel = require('./../../post/components/NewPostPanel.jsx')
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -104,7 +105,7 @@ var MainSection = React.createClass({
 							activeAlias={ this.state.activeAlias } />
 						<div className='main-section'>
 							<div className='row'>
-								<PostSubmit
+								<NewPostPanel
 									activeBevy={ this.state.activeBevy }
 									activeAlias={ this.state.activeAlias } />
 							</div>

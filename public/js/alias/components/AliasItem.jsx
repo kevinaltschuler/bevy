@@ -10,6 +10,7 @@ var $ = require('jquery');
 var rbs = require('react-bootstrap');
 var ButtonGroup = rbs.ButtonGroup;
 var Button = rbs.Button;
+var user = window.bootstrap.user;
 
 var AliasActions = require('./../AliasActions');
 
@@ -46,27 +47,31 @@ var AliasItem = React.createClass({
 			return <div></div>;
 		}
 
-		return	<div>
-						<ButtonGroup>
-							<Button
+		var defaultAliasImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var aliasImage = (user.google.photos)
+		 ? defaultAliasImage
+		 : user.google.photos[0].value;
+
+		return	<div className="row alias-item">
+							<Button className='alias-btn'
 								{ ...this.props}
 								ref='alias'
 								onClick={ this.switch } >
+								<div className="alias-img">
+									<img src={ defaultAliasImage }/>
+								</div>
 								{ alias.name }
 							</Button>
-							<Button
-								ref='edit'
-								onClick={ this.edit } >
-								Edit
-							</Button>
-							<Button
+							<div className="alias-name">
+								Kevin Altschuler
+							</div>
+							<Button className="delete-alias"
 								ref='delete'
 								onClick={ this.destroy } >
-								Delete
+								<span className="glyphicon glyphicon-remove" />
 							</Button>
-						</ButtonGroup>
 						<br />
-					</div>
+				</div>
 	}
 });
 module.exports = AliasItem;

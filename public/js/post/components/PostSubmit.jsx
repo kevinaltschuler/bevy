@@ -11,10 +11,11 @@
 // imports
 var React = require('react');
 
-
-var OverlayTrigger = require('react-bootstrap').OverlayTrigger;
-var Tooltip = require('react-bootstrap').Tooltip;
-var Input = require('react-bootstrap').Input;
+var rbs = require('react-bootstrap');
+var OverlayTrigger = rbs.OverlayTrigger;
+var Tooltip = rbs.Tooltip;
+var Input = rbs.Input;
+var Panel = rbs.Panel;
 
 var PostActions = require('./../PostActions');
 var PostSubmitButtons = require('./PostSubmitButtons.jsx');
