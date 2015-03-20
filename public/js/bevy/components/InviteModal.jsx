@@ -74,6 +74,9 @@ var InviteModal = React.createClass({
 		if(members.length < 1) return;
 
 		BevyActions.invite(bevy, alias, members);
+
+		// hide modal
+		this.props.onRequestHide();
 	},
 
 	render: function() {
