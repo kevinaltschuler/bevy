@@ -91,6 +91,9 @@ _.extend(BevyStore, {
 						}
 						bevies._meta.active = newBevy.id;
 
+						// update posts
+						BevyActions.switchBevy(newBevy.id);
+
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
 				});
