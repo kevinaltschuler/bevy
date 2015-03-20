@@ -11,6 +11,7 @@
 
 // imports
 var Backbone = require('backbone');
+var $ = require('jquery');
 var _ = require('underscore');
 
 var Dispatcher = require('./../shared/dispatcher');
@@ -18,6 +19,7 @@ var Dispatcher = require('./../shared/dispatcher');
 var Bevy = require('./BevyModel');
 var Bevies = require('./BevyCollection');
 
+var constants = require('./../constants');
 var BEVY = require('./../constants').BEVY;
 var POST = require('./../constants').POST;
 
@@ -109,6 +111,33 @@ _.extend(BevyStore, {
 				var id = payload.id;
 				bevies._meta.active = id;
 				this.trigger(BEVY.CHANGE_ALL);
+				break;
+
+			case BEVY.INVITE:
+				var bevy = payload.bevy;
+				var alias = payload.alias;
+				var members = payload.members;
+
+				console.log(bevy, members);
+
+				// create notification
+				// which sends email
+				$.post(
+					constants.apiurl + '/notifications',
+					{
+						  event: 'invite:email'
+						, email: members[0]
+						, bevy: bevy
+						, alias: alias
+					},
+					function(data) {
+						console.log(data);
+					}
+				).fail(function(jqXHR) {
+					var response = jqXHR.responseJSON;
+					console.log(response);
+				}.bind(this));
+
 				break;
 		}
 	},

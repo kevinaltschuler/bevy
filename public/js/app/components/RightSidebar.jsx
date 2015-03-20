@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
 var _ = require('underscore');
 
 var rbs = require('react-bootstrap');
@@ -11,9 +10,12 @@ var MenuItem = rbs.MenuItem;
 var Accordion = rbs.Accordion;
 var Panel = rbs.Panel;
 var Button = rbs.Button;
+var ModalTrigger = rbs.ModalTrigger;
 
 var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
+
+var InviteModal = require('./../../bevy/components/InviteModal');
 
 var BevyActions = require('./../../bevy/BevyActions');
 
@@ -22,7 +24,8 @@ var NotificationHeader;
 var RightSidebar = React.createClass({
 
 	propTypes: {
-		activeBevy: ReactPropTypes.object
+		  activeBevy: React.PropTypes.object
+		, activeAlias: React.PropTypes.object
 	},
 
 	leave: function(ev) {
@@ -72,9 +75,15 @@ var RightSidebar = React.createClass({
 
 						<div className='row sidebar-links'>
 							<ButtonGroup className="col-xs-12" role="group">
-								<Button type='button' className="sidebar-link">
-									Invite People
-								</Button>
+								<ModalTrigger modal={
+									<InviteModal
+										activeBevy={ this.props.activeBevy }
+										activeAlias={ this.props.activeAlias }/>
+								}>
+									<Button type='button' className="sidebar-link">
+										Invite People
+									</Button>
+								</ModalTrigger>
 								•
 								<Button type='button' className="sidebar-link">
 									21 Members

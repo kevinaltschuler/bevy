@@ -40,6 +40,7 @@ exports.BEVY = {
 	, DESTROY: 'bevy_destroy'
 	, LEAVE: 'bevy_leave'
 	, SWITCH: 'bevy_switch'
+	, INVITE: 'bevy_invite'
 
 	, CHANGE_ALL: 'bevy_change_all'
 	, CHANGE_ONE: 'bevy_change_one'

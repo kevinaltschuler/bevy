@@ -34,6 +34,14 @@ var PostActions = {
 		});
 	},
 
+	invite: function(bevy, alias, members) {
+		dispatch(BEVY.INVITE, {
+			  bevy: (bevy == undefined) ? {} : bevy
+			, alias: (alias == undefined) ? {} : alias
+			, members: (members == undefined) ? [] : members
+		});
+	},
+
 	/**
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to
