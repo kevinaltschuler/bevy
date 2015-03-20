@@ -14,7 +14,7 @@ var client = require('./../mubsub').client();
 //var channel = require('./../mubsub').notification_channel;
 var channel = client.channel('notifications');
 
-var paramNames = 'event message email bevy alias';
+var paramNames = 'event message email bevy alias members';
 
 function collectParams(req) {
 	var params = {};

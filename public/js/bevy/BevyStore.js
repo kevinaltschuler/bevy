@@ -126,7 +126,7 @@ _.extend(BevyStore, {
 					constants.apiurl + '/notifications',
 					{
 						  event: 'invite:email'
-						, email: members[0]
+						, members: members
 						, bevy: bevy
 						, alias: alias
 					},
