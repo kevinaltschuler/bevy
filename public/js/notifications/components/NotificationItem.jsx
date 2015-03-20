@@ -30,9 +30,9 @@ var NotificationItem = React.createClass({
 
 		var defaultNotificationImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 
-		return	<Panel className="row notification-item">
-				sdfhsdihfuhiusdfuihbsd
-				</Panel>
+		return <Panel className="row notification-item">
+				 	sdfhsdihfuhiusdfuihbsd
+				 </Panel>
 	}
 });
 module.exports = NotificationItem;

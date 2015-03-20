@@ -13,13 +13,16 @@ var ButtonGroup = rbs.ButtonGroup;
 
 var NotificationItem = require('./NotificationItem.jsx');
 
+var user = window.bootstrap.user;
+console.log(user);
+
 var NotificationList = React.createClass({
 
 	render: function() {
 
-		return  <div>
-					<NotificationItem />
-				</div>
+		return <div>
+				 	<NotificationItem />
+				 </div>
 	}
 });
 module.exports = NotificationList;

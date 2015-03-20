@@ -35,17 +35,17 @@ var ProfileDropdown = React.createClass({
 
 	render: function() {
 
-		return	<OverlayTrigger trigger="click" placement="bottom" overlay={
-						<Popover className="notification-dropdown">
-							<div className="title">
-								Notifications
-							</div>
-							<NotificationList />
-						</Popover>}>
-					<Button className="notification-dropdown-btn">
-						<img src="./../../img/notification-icon.png"/>
-					</Button>
-				</OverlayTrigger>;
+		return <OverlayTrigger trigger="click" placement="bottom" overlay={
+				 	<Popover className="notification-dropdown">
+				 		<div className="title">
+				 			Notifications
+				 		</div>
+						<NotificationList />
+					</Popover>}>
+				 	<Button className="notification-dropdown-btn">
+					 	<img src="./../../img/notification-icon.png"/>
+				 	</Button>
+				 </OverlayTrigger>;
 	}
 });
 module.exports = ProfileDropdown;
