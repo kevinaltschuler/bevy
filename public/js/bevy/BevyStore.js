@@ -25,6 +25,8 @@ var POST = require('./../constants').POST;
 
 var BevyActions = require('./BevyActions');
 
+var user = window.bootstrap.user;
+
 // create collection
 var bevies = new Bevies;
 bevies.fetch({
@@ -66,6 +68,13 @@ _.extend(BevyStore, {
 						email: email
 					});
 				});
+
+				// add yerself
+				members.push({
+					  email: user.email
+					//, aliasid: '' // TODO: add this when aliases are integrated
+				});
+
 				//console.log(name, members);
 				var newBevy = {
 					  name: name

@@ -64,9 +64,9 @@ exports.create = function(req, res, next) {
 		if(err) throw err;
 
 		// invite users
-		if(!_.isEmpty(bevy.members)) {
+		if(bevy.members.length > 1) {
 			//TODO: grab alias
-			//TODO: when author is added as the first member, ignore him/her
+			//TODO: ignore bevy creator
 			channel.publish('invite:email', {
 				  members: bevy.members.toObject()
 				, bevy: bevy
