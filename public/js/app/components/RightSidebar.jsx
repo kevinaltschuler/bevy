@@ -90,20 +90,18 @@ var RightSidebar = React.createClass({
 						</div>
 						<div className='row sidebar-action'>
 							<div className="sidebar-action-title col-xs-12"> Notifications </div>
-							<DropDownMenu menuItems={notificationMenuItems} />
+							<DropDownMenu className='sidebar-action-dropdown' menuItems={notificationMenuItems} />
 						</div>
 
-						<div className='row'>
-							<div className='col-xs-12'>
-								<Button
+						<div className='row sidebar-bottom'>
+							<div className='col-xs-6'>
+								<Button className="sidebar-action-link-bottom"
 									onClick={ this.leave }>
 									Leave Bevy
 								</Button>
 							</div>
-						</div>
-						<div className='row'>
-							<div className='col-xs-12'>
-								<Button
+							<div className='col-xs-6'>
+								<Button className="sidebar-action-link-bottom"
 									onClick={ this.destroy }>
 									Delete Bevy
 								</Button>
