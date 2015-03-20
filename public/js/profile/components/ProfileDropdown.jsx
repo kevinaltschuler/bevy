@@ -76,9 +76,11 @@ var ProfileDropdown = React.createClass({
 							</div>
 
 							<hr />
+
 							<AliasList
 								allAliases={ this.props.allAliases }
 								activeAlias={ this.props.activeAlias } />
+
 							<hr />
 
 							<div className="profile-buttons">

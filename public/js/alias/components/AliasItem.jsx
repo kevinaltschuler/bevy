@@ -52,26 +52,27 @@ var AliasItem = React.createClass({
 		 ? defaultAliasImage
 		 : user.google.photos[0].value;
 
-		return	<div className="row alias-item">
-							<Button className='alias-btn'
-								{ ...this.props}
-								ref='alias'
-								onClick={ this.switch } >
-								<div className="alias-img">
-									<img src={ defaultAliasImage }/>
-								</div>
-								{ alias.name }
-							</Button>
-							<div className="alias-name">
-								Kevin Altschuler
-							</div>
-							<Button className="delete-alias"
-								ref='delete'
-								onClick={ this.destroy } >
-								<span className="glyphicon glyphicon-remove" />
-							</Button>
-						<br />
-				</div>
+		var aliasButtonStyle = {
+			backgroundImage: 'url(' + aliasImage + ')'
+		};
+
+		return <div className="row alias-item">
+					<Button
+						{ ...this.props}
+						className='alias-btn'
+						style={ aliasButtonStyle }
+						ref='alias'
+						onClick={ this.switch } >
+					</Button>
+					<div className="alias-name">
+						{ alias.name }
+					</div>
+					<Button className="delete-alias"
+						ref='delete'
+						onClick={ this.destroy } >
+						<span className="glyphicon glyphicon-remove" />
+					</Button>
+				 </div>
 	}
 });
 module.exports = AliasItem;

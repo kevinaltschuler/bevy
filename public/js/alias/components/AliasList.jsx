@@ -42,10 +42,8 @@ var AliasList = React.createClass({
 
 		//console.log(this.props.activeAlias);
 
-		return	<div>
-						<div>
-							{ aliases }
-						</div>
+		return	<div className='alias-list'>
+						{ aliases }
 					</div>
 	}
 });
