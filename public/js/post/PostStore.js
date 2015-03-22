@@ -60,10 +60,24 @@ _.extend(PostStore, {
 				posts.create(newPost, {
 					wait: true
 				});
-				console.log(posts);
+				//console.log(posts);
 
 				// this requires a visual update
 				this.trigger(POST.CHANGE_ALL);
+
+				break;
+
+			case POST.DESTROY:
+				var post_id = payload.post_id;
+				var post = posts.get(post_id);
+
+				console.log('destroy', post_id);
+
+				post.destroy({
+					success: function(model, response) {
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
+				});
 
 				break;
 

@@ -27,6 +27,7 @@ exports.api_version = api_version;
 
 exports.POST = {
 	  CREATE: 'post_create'
+	, DESTROY: 'post_destroy'
 	, UPVOTE: 'post_upvote'
 	, DOWNVOTE: 'post_downvote'
 	, SORT: 'post_sort'

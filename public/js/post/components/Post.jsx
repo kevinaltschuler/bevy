@@ -16,6 +16,10 @@ var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 
+var rbs = require('react-bootstrap');
+var DropdownButton = rbs.DropdownButton;
+var MenuItem = rbs.MenuItem;
+
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 
@@ -66,6 +70,11 @@ var Post = React.createClass({
 	downvote: function(ev) {
 		ev.preventDefault();
 		PostActions.downvote(this.state._id, this.state.author);
+	},
+
+	destroy: function(ev) {
+		ev.preventDefault();
+		PostActions.destroy(this.state._id);
 	},
 
 	/**
@@ -208,7 +217,15 @@ var Post = React.createClass({
 								<IconButton tooltip='downvote' onClick={ this.downvote }>
 									<span className="glyphicon glyphicon-menu-down btn"></span>
 								</IconButton>
-								<span className="glyphicon glyphicon-option-vertical btn"></span>
+								<DropdownButton
+									noCaret
+									pullRight
+									title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+									<MenuItem
+										onClick={ this.destroy }
+										>Delete Post</MenuItem>
+								</DropdownButton>
+
 							</div>
 						</div>
 					</div>;

@@ -38,6 +38,12 @@ var PostActions = {
 		});
 	},
 
+	destroy: function(post_id) {
+		dispatch(POST.DESTROY, {
+			post_id: (post_id == undefined) ? '0' : post_id
+		});
+	},
+
 	/**
 	 * upvote a post
 	 * @param  {string} post_id
