@@ -8,11 +8,14 @@
 
 'use strict';
 
+var mongoose = require('mongoose');
 var _ = require('underscore');
 var error = require('./../error');
 var client = require('./../mubsub').client();
 //var channel = require('./../mubsub').notification_channel;
 var channel = client.channel('notifications');
+
+var User = mongoose.model('User');
 
 var paramNames = 'event message email bevy alias members';
 
@@ -38,4 +41,17 @@ exports.create = function(req, res, next) {
 	channel.publish(params.event, params);
 
 	return res.json(params);
+}
+
+// GET /users/:userid/notifications
+exports.show = function(req, res, next) {
+	var userid = req.params.userid;
+	var query = { _id: userid };
+	var promise = User.findOne(query).exec();
+	promise.then(function(user) {
+		var notifications = user.notifications.toObject();
+		res.json(notifications);
+	}, function(err) {
+		return next(err);
+	});
 }

@@ -38,4 +38,7 @@ module.exports = function(router) {
 	// CREATE
 	router.get('/notifications/create', api.notifications.create);
 	router.post('/notifications', api.notifications.create);
+
+	// SHOW
+	router.get('/users/:userid/notifications', api.notifications.show);
 }
