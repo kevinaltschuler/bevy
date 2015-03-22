@@ -49,8 +49,6 @@ module.exports = new Schema({
 	, notifications: [Schema({
 		  event: String
 	  	, data: {}
-	  }, {
-	  	_id: false
 	  })]
 	, created: {
 		  type: Date
