@@ -44,13 +44,45 @@ exports.create = function(req, res, next) {
 }
 
 // GET /users/:userid/notifications
-exports.show = function(req, res, next) {
+exports.index = function(req, res, next) {
 	var userid = req.params.userid;
 	var query = { _id: userid };
 	var promise = User.findOne(query).exec();
 	promise.then(function(user) {
 		var notifications = user.notifications.toObject();
-		res.json(notifications);
+		return res.json(notifications);
+	}, function(err) {
+		return next(err);
+	});
+}
+
+// GET /users/:userid/notifications/:id
+exports.show = function(req, res, next) {
+	var userid = req.params.userid;
+	var query = { _id: userid };
+	var promise = User.findOne(query).exec();
+	promise.then(function(user) {
+		var id = req.params.id;
+		var notification = user.notifications.id(id);
+		return res.json(notification);
+	}, function(err) {
+		return next(err);
+	});
+}
+
+// GET /users/:userid/notifications/:id/destroy
+// DELETE /users/:userid/notifications
+exports.destroy = function(req, res, next) {
+	var userid = req.params.userid;
+	var query = { _id: userid };
+	var promise = User.findOne(query).exec();
+	promise.then(function(user) {
+		var id = req.params.id;
+		user.notifications.remove(id);
+		user.save(function(err) {
+			if(err) return next(err);
+			return res.json(user.notifications.toObject());
+		});
 	}, function(err) {
 		return next(err);
 	});

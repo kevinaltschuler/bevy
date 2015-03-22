@@ -25,10 +25,12 @@ var NewPostPanel = require('./../../post/components/NewPostPanel.jsx')
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var AliasStore = require('./../../alias/AliasStore');
+var NotificationStore = require('./../../notification/NotificationStore');
 
 var POST = require('./../../constants').POST;
 var BEVY = require('./../../constants').BEVY;
 var ALIAS = require('./../../constants').ALIAS;
+var NOTIFICATION = require('./../../constants').NOTIFICATION;
 
 
 /**
@@ -55,13 +57,20 @@ function getAliasState() {
 		, activeAlias: AliasStore.getActive()
 	}
 }
+function getNotificationState() {
+	return {
+		allNotifications: NotificationStore.getAll()
+	};
+}
 
 function collectState() {
 	var state = {};
 	_.extend(state
 		, getPostState()
 		, getBevyState()
-		, getAliasState());
+		, getAliasState()
+		, getNotificationState()
+	);
 	return state;
 }
 
@@ -77,6 +86,7 @@ var MainSection = React.createClass({
 		PostStore.on(POST.CHANGE_ALL, this._onPostChange);
 		BevyStore.on(BEVY.CHANGE_ALL, this._onBevyChange);
 		AliasStore.on(ALIAS.CHANGE_ALL, this._onAliasChange);
+		NotificationStore.on(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
 	},
 
 	// unmount event listeners
@@ -84,6 +94,7 @@ var MainSection = React.createClass({
 		PostStore.off(POST.CHANGE_ALL, this._onPostChange);
 		BevyStore.off(BEVY.CHANGE_ALL, this._onBevyChange);
 		AliasStore.off(ALIAS.CHANGE_ALL, this._onAliasChange);
+		NotificationStore.off(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
 	},
 
 	// event listener callbacks
@@ -96,13 +107,17 @@ var MainSection = React.createClass({
 	_onAliasChange: function() {
 		this.setState(_.extend(this.state, getAliasState()));
 	},
+	_onNotificationChange: function() {
+		this.setState(_.extend(this.state, getNotificationState()));
+	},
 
 	render: function(){
 		return	<div>
 						<Navbar
 							activeBevy={ this.state.activeBevy }
 							allAliases={ this.state.allAliases }
-							activeAlias={ this.state.activeAlias } />
+							activeAlias={ this.state.activeAlias }
+							allNotifications={ this.state.allNotifications }/>
 						<div className='main-section'>
 							<div className='row'>
 								<NewPostPanel

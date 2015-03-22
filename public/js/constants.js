@@ -55,3 +55,9 @@ exports.ALIAS = {
 	, SETUSER: 'alias_set_user'
 	, CHANGE_ALL: 'alias_change_all'
 };
+
+exports.NOTIFICATION = {
+	    DISMISS: 'notification_dismiss'
+
+	  , CHANGE_ALL: 'notification_change_all'
+};

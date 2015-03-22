@@ -33,7 +33,7 @@ var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
-var NotificationDropdown = require('./../../notifications/components/NotificationDropdown.jsx');
+var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 
 var user = window.bootstrap.user;
 
@@ -44,6 +44,7 @@ var Navbar = React.createClass({
 		  activeBevy: React.PropTypes.object
 		, allAliases: React.PropTypes.array
 		, activeAlias: React.PropTypes.object
+		, allNotifications: React.PropTypes.array
 	},
 
 	render: function() {
@@ -64,7 +65,7 @@ var Navbar = React.createClass({
 						<div className='col-xs-3'>
 							<div className="navbar-header pull-left">
 								<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
-								<NotificationDropdown />
+								<NotificationDropdown allNotifications={ this.props.allNotifications } />
 								<span className="navbar-brand navbar-brand-text">{ name }</span>
 							</div>
 						</div>

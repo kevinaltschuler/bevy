@@ -39,6 +39,13 @@ module.exports = function(router) {
 	router.get('/notifications/create', api.notifications.create);
 	router.post('/notifications', api.notifications.create);
 
+	// INDEX
+	router.get('/users/:userid/notifications', api.notifications.index);
+
 	// SHOW
-	router.get('/users/:userid/notifications', api.notifications.show);
+	router.get('/users/:userid/notifications/:id', api.notifications.show);
+
+	// DESTROY
+	router.get('/users/:userid/notifications/:id', api.notifications.destroy);
+	router.delete('/users/:userid/notifications/:id', api.notifications.destroy);
 }
