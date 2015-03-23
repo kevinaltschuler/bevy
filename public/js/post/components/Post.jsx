@@ -220,6 +220,7 @@ var Post = React.createClass({
 								<DropdownButton
 									noCaret
 									pullRight
+									className="post-settings"
 									title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
 									<MenuItem
 										onClick={ this.destroy }
