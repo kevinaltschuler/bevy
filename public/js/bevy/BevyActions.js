@@ -42,6 +42,14 @@ var PostActions = {
 		});
 	},
 
+	addUser: function(bevy_id, alias_id, email) {
+		dispatch(BEVY.ADD_USER, {
+			  bevy_id: (bevy_id == undefined) ? '0' : bevy_id
+			, alias_id: (alias_id == undefined) ? '0' : alias_id
+			, email: (email == undefined) ? '' : email
+		});
+	},
+
 	/**
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to

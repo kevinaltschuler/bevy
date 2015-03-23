@@ -93,6 +93,12 @@ var NewPostPanel = React.createClass({
 				, text: bevy.name
 			});
 		}
+		if(bevies.length < 1) {
+			bevies.push({
+				  payload: '1'
+				, text: ''
+			});
+		}
 
 		return	<Panel className="panel new-post-panel" postId={ this.state.id }>
 					<div className="row new-post-title">

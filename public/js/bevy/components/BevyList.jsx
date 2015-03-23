@@ -10,7 +10,6 @@
 
 // imports
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
 
 var rbs = require('react-bootstrap');
 var Badge = rbs.Badge;
@@ -29,8 +28,8 @@ var BevyActions = require('./../BevyActions');
 var BevyList = React.createClass({
 
 	propTypes: {
-		  allBevies: ReactPropTypes.array.isRequired
-		, activeBevy: ReactPropTypes.object.isRequired
+		  allBevies: React.PropTypes.array.isRequired
+		, activeBevy: React.PropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -58,7 +57,7 @@ var BevyList = React.createClass({
 				onClick={ this.switchBevy }>{ bevy.name }</Button>);
 		}
 
-		return	<div>
+		return <div>
 					<div className='panel-header'>
 						<p>Bevies</p>
 					</div>
@@ -73,7 +72,7 @@ var BevyList = React.createClass({
 							</ModalTrigger>
 						</text>
 					</ButtonGroup>
-				</div>;
+				 </div>;
 	}
 
 });

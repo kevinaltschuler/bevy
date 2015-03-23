@@ -148,6 +148,29 @@ _.extend(BevyStore, {
 				}.bind(this));
 
 				break;
+
+			case BEVY.ADD_USER:
+				var bevy_id = payload.bevy_id;
+				var alias_id = payload.alias_id;
+				var email = payload.email;
+
+				var bevy = bevies.get(bevy_id);
+				var members = bevy.get('members');
+				members.push({
+					  email: email
+					, aliasid: alias_id
+				});
+
+				bevy.save({
+					success: function(model, response) {
+
+					}
+				});
+
+				//this.trigger(BEVY.CHANGE_ALL);
+				//console.log(bevy.toJSON());
+
+				break;
 		}
 	},
 

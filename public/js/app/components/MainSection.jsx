@@ -129,7 +129,9 @@ var MainSection = React.createClass({
 								<PostSort />
 							</div>
 							<div className='row'>
-								<LeftSidebar allBevies={ this.state.allBevies } activeBevy={ this.state.activeBevy }/>
+								<LeftSidebar
+									allBevies={ this.state.allBevies }
+									activeBevy={ this.state.activeBevy }/>
 								<PostContainer allPosts={ this.state.allPosts } activeBevy={ this.state.activeBevy }/>
 								<RightSidebar
 									activeAlias={ this.state.activeAlias }

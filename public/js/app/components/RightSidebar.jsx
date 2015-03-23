@@ -21,11 +21,18 @@ var BevyActions = require('./../../bevy/BevyActions');
 
 var NotificationHeader;
 
+var user = window.bootstrap.user;
+
 var RightSidebar = React.createClass({
 
 	propTypes: {
 		  activeBevy: React.PropTypes.object
 		, activeAlias: React.PropTypes.object
+	},
+
+	getInitialState: function() {
+		return <div>
+				 </div>
 	},
 
 	leave: function(ev) {
@@ -50,9 +57,13 @@ var RightSidebar = React.createClass({
 		BevyActions.destroy(id);
 	},
 
+	addUser: function() {
+
+	},
+
 	render: function() {
 
-		var defaultBevyImage = './../../../img/logo_100.png';
+		var defaultBevyImage = '/img/logo_100.png';
 		var bevyImage = "/"
 		var bevyName = (_.isEmpty(this.props.activeBevy)) ? 'not in a bevy' : this.props.activeBevy.get('name');
 		var notificationMenuItems = [
@@ -60,6 +71,29 @@ var RightSidebar = React.createClass({
 		   { payload: '2', text: 'My Posts' },
 		   { payload: '3', text: 'Never' },
 		];
+
+		var bevy = this.props.activeBevy;
+		//console.log(bevy);
+		var members = (_.isEmpty(bevy)) ? [] : bevy.get('members');
+		//var members = [];
+
+		// check if current alias is member of bevy
+		// if not, then add them to the member list
+		//console.log(this.props.activeAlias);
+		var isMember = false;
+		for(var key in members) {
+			var member = members[key];
+			if(member.aliasid == this.props.activeAlias.id) {
+				isMember = true;
+			}
+		}
+		if(!isMember
+			&& !_.isEmpty(this.props.activeBevy)
+			&& !_.isEmpty(this.props.activeAlias)) {
+
+			// add member
+			BevyActions.addUser(this.props.activeBevy.id, this.props.activeAlias.id, user.email);
+		}
 
 
 		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
@@ -86,7 +120,7 @@ var RightSidebar = React.createClass({
 								</ModalTrigger>
 								•
 								<Button type='button' className="sidebar-link">
-									21 Members
+									{ members.length + ' Members' }
 								</Button>
 							</ButtonGroup>
 						</div>
