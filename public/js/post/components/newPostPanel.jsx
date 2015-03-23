@@ -33,6 +33,7 @@ var NewPostPanel = React.createClass({
 
 	propTypes: {
 		  activeBevy: React.PropTypes.object.isRequired
+		, allBevies: React.PropTypes.array.isRequired
 		, activeAlias: React.PropTypes.object.isRequired
 	},
 
@@ -76,13 +77,22 @@ var NewPostPanel = React.createClass({
 			title: this.refs.input.getValue()
 		})
 	},
-	
+
 	render: function() {
 
-		var bevies = [
-			{ payload: '1', text: 'The Burlap' },
-			{ payload: '2', text: 'Monsta Island Czars' },
-		];
+		//var bevies = [
+		//	{ payload: '1', text: 'The Burlap' },
+		//	{ payload: '2', text: 'Monsta Island Czars' },
+		//];
+		var bevies = [];
+		var allBevies = this.props.allBevies;
+		for(var key in allBevies) {
+			var bevy = allBevies[key];
+			bevies.push({
+				  payload: key
+				, text: bevy.name
+			});
+		}
 
 		return	<Panel className="panel new-post-panel" postId={ this.state.id }>
 					<div className="row new-post-title">

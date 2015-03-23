@@ -122,6 +122,7 @@ var MainSection = React.createClass({
 							<div className='row'>
 								<NewPostPanel
 									activeBevy={ this.state.activeBevy }
+									allBevies={ this.state.allBevies }
 									activeAlias={ this.state.activeAlias } />
 							</div>
 							<div className='row'>
