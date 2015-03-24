@@ -15,12 +15,17 @@ var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
 var Popover = rbs.Popover;
 var ButtonGroup = rbs.ButtonGroup;
+var DropdownButton = rbs.DropdownButton;
+var MenuItem = rbs.MenuItem;
 
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 
 var AliasList = require('./../../alias/components/AliasList.jsx');
 var AddAliasModal = require('./../../alias/components/AddAliasModal.jsx');
+
+var SavedPostsModal = require('./../../profile/components/SavedPostsModal.jsx');
+var ContactsModal = require('./../../profile/components/ContactsModal.jsx');
 
 var user = window.bootstrap.user;
 var email = user.email;
@@ -53,25 +58,36 @@ var ProfileDropdown = React.createClass({
 								<div className="col-xs-3 profile-picture">
 									<img src={ profileImage }/>
 								</div>
-								<div className="col-xs-9 profile-details">
+								<div className="col-xs-6 profile-details">
 									<span className='profile-name'>{ name }</span>
 									<span className='profile-email'>{ email }</span>
 									<span className='profile-points'>123 points</span>
 								</div>
+								<div className="col-xs-3">
+									<DropdownButton
+										noCaret
+										pullRight
+										className="profile-settings"
+										title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+										<MenuItem>
+											A Setting
+										</MenuItem>
+									</DropdownButton>
+								</div>
 							</div>
 							<div className='row profile-links'>
 								<ButtonGroup className="col-xs-12" role="group">
-									<Button type='button' className="profile-link">
-										Saved Posts
-									</Button>
+									<ModalTrigger modal = { <SavedPostsModal /> } >
+										<Button type='button' className="profile-link">
+											Saved Posts
+										</Button>
+									</ModalTrigger>
 									•
-									<Button type='button' className="profile-link">
-										Contacts
-									</Button>
-									•
-									<Button type='button' className="profile-link">
-										Settings
-									</Button>
+									<ModalTrigger modal = { <ContactsModal /> } >
+										<Button type='button' className="profile-link">
+											Contacts
+										</Button>
+									</ModalTrigger>
 								</ButtonGroup>
 							</div>
 

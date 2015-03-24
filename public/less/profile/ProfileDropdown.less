@@ -48,6 +48,25 @@
 					color: #4c4c4c;
 				}
 			}
+			.profile-settings {
+				float: right;
+				.btn {
+					padding-top: 15px;
+					background-color: rgba(0,0,0,0);
+					color: @light-font;
+					font-size: 1.1em;
+					transition: all 0.15s linear;
+					border: none;
+					&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+						outline: none;
+						box-shadow: none;
+						background-color: rgba(0,0,0,0);
+					}
+					&:active, &.active, .btn.active, .btn:active {
+						color: black;
+					}
+				}
+			}
 		}
 
 		hr {
@@ -74,12 +93,12 @@
 				text-decoration: underline;
 				&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
 					outline: none;
-					color: black;
 					box-shadow: none;
 					background-color: rgba(0,0,0,0);
 				}
-				&:hover {
-					background-color: rgba(0,0,0,0);
+				&:active, &.active, .btn.active, .btn:active {
+					color: black;
+					text-decoration: underline;
 				}
 			}
 		}
