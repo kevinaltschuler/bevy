@@ -1,8 +1,6 @@
 /**
- * Post.jsx
- * React class for an individual post
- * Created en masse by PostContainer.jsx
- * @author albert
+ * savedpostsitem.jsx
+ * @author Kevin
  */
 
 'use strict';
@@ -20,22 +18,20 @@ var rbs = require('react-bootstrap');
 var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
 
-var PostActions = require('./../PostActions');
-var PostStore = require('./../PostStore');
-
-var POST = require('./../../constants').POST;
+var PostActions = require('./../../post/PostActions');
+var PostStore = require('./../../post/PostStore');
 
 var $ = require('jquery');
 
 var user = window.bootstrap.user;
 var email = user.email;
 
-function getPostState(id) {
-	return PostStore.getPost(id);
-}
+//function getPostState(id) {
+//	return PostStore.getPost(id);
+//}
 
 // React class
-var Post = React.createClass({
+var SavedPostsItem = React.createClass({
 
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
@@ -47,34 +43,19 @@ var Post = React.createClass({
 		// by PostActions.js
 	},
 
-	getInitialState: function() {
-		return getPostState(this.props.id);
-	},
-
-	componentDidMount:function() {
-		PostStore.on(POST.CHANGE_ONE, this._onPostChange);
-	},
-	componentWillUnmount: function() {
-		PostStore.off(POST.CHANGE_ONE, this._onPostChange);
-	},
-
-	_onPostChange: function() {
-		this.setState(getPostState(this.props.id));
-	},
-
 	upvote: function(ev) {
 		ev.preventDefault();
-		PostActions.upvote(this.state._id, this.state.author);
+		//PostActions.upvote(this.state._id, this.state.author);
 	},
 
 	downvote: function(ev) {
 		ev.preventDefault();
-		PostActions.downvote(this.state._id, this.state.author);
+		//PostActions.downvote(this.state._id, this.state.author);
 	},
 
 	destroy: function(ev) {
 		ev.preventDefault();
-		PostActions.destroy(this.state._id);
+		//PostActions.destroy(this.state._id);
 	},
 
 	/**
@@ -95,8 +76,7 @@ var Post = React.createClass({
 	 * this post was posted
 	 * @return {string}
 	 */
-	timeAgo: function() {
-		var created = Date.parse(this.state.created);
+	/*timeAgo: function() {
 		var now = Date.now();
 		var elapsed = now - created;
 
@@ -132,6 +112,7 @@ var Post = React.createClass({
 			return elapsed;
 		}
 	},
+	*/
 
 	render: function() {
 
@@ -140,50 +121,33 @@ var Post = React.createClass({
 		 ? defaultProfileImage
 		 : user.google.photos[0].value;
 
+		var placeholderImage = "http://i.imgur.com/V9gzxMw.jpg"
+
 		var author;
 		author = 'placeholder-author';
-		if(this.state.author) {
+		//if(this.state.author) {
 			//console.log(this.state.author);
-			author = this.state.author.name;
-		}
+		//	author = this.state.author.name;
+		//}
 
 		// generate panel
 		var panelHeading;
-		if(_.isEmpty(this.state.image_url)) {
 			panelHeading = <div className='panel-header'>
-									{ this.state.title }
-									&nbsp; <span className="glyphicon glyphicon-triangle-right"/> &nbsp;
-									<a className="details" href='/'>{ this.state.bevy.name }</a>
-									<span className="dot">&nbsp; • &nbsp;</span>
-									<a className="details" href='/'>{ author } </a>
-									<span className="dot">&nbsp; • &nbsp;</span>
-									<a className="detail-time">{ this.timeAgo() }</a>
-								</div>;
-		} else {
-			panelHeading = <div className='panel-header'>
-									<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
+									<a href={ placeholderImage } title="{ this.state.title }">title</a>
 									&nbsp;
 									<span className="glyphicon glyphicon-triangle-right"/>
-									<a className="details" href='/'>{ this.state.bevy.name }</a>
+									<a className="details" href='/'>placeholder bevy</a>
 									&nbsp;•&nbsp;
-									<a className="details" href='/'>{ this.state.author }</a>
-									&nbsp;•&nbsp;
-									<a className="detail-time">{ this.timeAgo() }</a>
+									<a className="details" href='/'>{ author }</a>
 								</div>;
-		}
 
 		var panelBody;
-		if(_.isEmpty(this.state.image_url)) {
-			panelBody = <div className="panel-body panel-body-text" tabIndex="0" >whatever you wrote
-							</div>;
-
-		} else {
 			panelBody = <div className="panel-body" tabIndex="0">
-								<img className="panel-media" src={ this.state.image_url }/>
+								<img className="panel-media" src={ placeholderImage }/>
 							</div>;
-		}
 
-		return	<div className="post panel" postId={ this.state._id }>
+
+		return	<div className="post panel">
 						{ panelHeading }
 						{ panelBody }
 						<div className="panel-comments">
@@ -193,7 +157,7 @@ var Post = React.createClass({
 								<div className="comment-text">
 									<div className="comment-title">
 										<a className="comment-name">Lisa Ding </a>
-										<text className="detail-time">{ this.timeAgo() }</text>
+										<text className="detail-time">12 hours</text>
 									</div>
 									<div className="comment-body">Yo bro this is so sick!</div>
 									<a className="reply-link">reply</a>
@@ -202,7 +166,7 @@ var Post = React.createClass({
 						</div>
 						<div className="panel-bottom">
 							<div className="panel-controls-left">
-								{ this.countVotes() } points<br/>{ this.state.comments.length } comments
+								ph points<br/>ph comments
 								<div className="profile-btn"/>
 							</div>
 							<div className="panel-comment-input">
@@ -226,11 +190,10 @@ var Post = React.createClass({
 										onClick={ this.destroy }
 										>Delete Post</MenuItem>
 								</DropdownButton>
-
 							</div>
 						</div>
 					</div>;
 	}
 });
 
-module.exports = Post;
+module.exports = SavedPostsItem;

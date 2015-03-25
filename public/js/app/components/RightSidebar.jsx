@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
 
 var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
 

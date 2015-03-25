@@ -151,18 +151,28 @@
 			float: right;
 			display: inline-block;
 			font-size: 1.2em;
-
 			.mui-icon-button {
 				padding: 0px;
 				height: 40px;
 				width: 40px;
 			}
-
+			.post-settings {
+				.btn {
+					border: none;	
+				}
+				&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open{
+					outline: none;
+					box-shadow: none;
+					background-color: rgba(0,0,0,0);
+				}
+				&:active, &.active, .btn.active, .btn:active {
+					color: black;
+				}
+			}
 			.mui-tooltip {
 				// override material-ui roboto
 				font-family: Lucida Sans Unicode !important;
 			}
-
 			.btn {
 				background-color: @clear;
 				color: @light-font;

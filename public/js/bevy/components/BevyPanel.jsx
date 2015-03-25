@@ -23,7 +23,8 @@ var ModalTrigger = rbs.ModalTrigger;
 var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
 
-var InviteModal = require('./InviteModal');
+var InviteModal = require('./InviteModal.jsx');
+var MembersModal = require('./MembersModal.jsx');
 
 var BevyActions = require('./../BevyActions');
 
@@ -63,10 +64,6 @@ var BevyPanel = React.createClass({
 		var id = this.props.activeBevy.id;
 
 		BevyActions.destroy(id);
-	},
-
-	addUser: function() {
-
 	},
 
 	render: function() {
@@ -127,9 +124,14 @@ var BevyPanel = React.createClass({
 									</Button>
 								</ModalTrigger>
 								•
+								<ModalTrigger modal={
+									<MembersModal
+										activeBevy={ this.props.activeBevy } />
+								}>
 								<Button type='button' className="sidebar-link">
 									{ members.length + ' Members' }
 								</Button>
+								</ModalTrigger>
 							</ButtonGroup>
 						</div>
 
