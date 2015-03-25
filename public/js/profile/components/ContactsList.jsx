@@ -20,9 +20,9 @@ var ContactsList = React.createClass({
 
 	render: function() {
 
-		return <div>
+		return  <div>
 				 	<ContactsItem />
-				 </div>
+				</div>
 	}
 });
 module.exports = ContactsList;

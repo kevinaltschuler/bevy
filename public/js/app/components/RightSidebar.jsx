@@ -16,6 +16,7 @@ var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
 
 var InviteModal = require('./../../bevy/components/InviteModal');
+var ContactsModal = require('./../../profile/components/ContactsModal.jsx');
 
 var BevyActions = require('./../../bevy/BevyActions');
 
@@ -85,9 +86,11 @@ var RightSidebar = React.createClass({
 									</Button>
 								</ModalTrigger>
 								•
-								<Button type='button' className="sidebar-link">
-									21 Members
-								</Button>
+								<ModalTrigger modal={<ContactsModal title={"Members of " + bevyName} />}>
+									<Button type='button' className="sidebar-link">
+										21 Members
+									</Button>
+								</ModalTrigger>
 							</ButtonGroup>
 						</div>
 

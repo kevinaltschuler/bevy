@@ -83,7 +83,7 @@ var ProfileDropdown = React.createClass({
 										</Button>
 									</ModalTrigger>
 									•
-									<ModalTrigger modal = { <ContactsModal /> } >
+									<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
 										<Button type='button' className="profile-link">
 											Contacts
 										</Button>
