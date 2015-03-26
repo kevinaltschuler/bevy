@@ -18,11 +18,30 @@ var user = window.bootstrap.user;
 
 var ContactsList = React.createClass({
 
+	propTypes: {
+		contacts: React.PropTypes.array
+	},
+
 	render: function() {
 
-		return  <div>
-				 	<ContactsItem />
-				</div>
+		var contacts = [];
+		var allContacts = this.props.contacts;
+		for(var key in allContacts) {
+			var contact = allContacts[key];
+			var email = contact.email || '';
+			var aliasid = contact.aliasid || '';
+			contacts.push(
+				<ContactsItem
+					key={ key }
+					email={ email }
+					aliasid={ aliasid }
+				/>
+			);
+		}
+
+		return <div>
+				 	{ contacts }
+				 </div>
 	}
 });
 module.exports = ContactsList;

@@ -6,6 +6,7 @@
  */
 
 var React = require('react');
+var _ = require('underscore');
 var $ = require('jquery');
 
 var rbs = require('react-bootstrap');
@@ -15,6 +16,11 @@ var Panel = rbs.Panel;
 
 var ContactsItem = React.createClass({
 
+	propTypes: {
+		  email: React.PropTypes.string
+		, aliasid: React.PropTypes.string
+	},
+
 	render: function() {
 
 		var defaultContactImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
@@ -23,18 +29,24 @@ var ContactsItem = React.createClass({
 			backgroundImage: 'url(' + defaultContactImage + ')'
 		};
 
-		var contactName = "Placeholder Contact";
+		var contactName = this.props.email || "Placeholder Contact";
+		var joined = (_.isEmpty(this.props.aliasid)) ? false : true;
+
+		var contactStatus = '';
+		if(!joined) contactStatus = 'invited';
+		else contactStatus = this.props.aliasid;
 
 		return <div className="row alias-item">
 					<Button
 						{ ...this.props}
 						className='alias-btn'
 						style={ contactButtonStyle }
-						ref='alias'
-						onClick={ this.switch } >
-					</Button>
+					/>
 					<div className="alias-name">
 						{ contactName }
+					</div>
+					<div className='alias-status'>
+						{ contactStatus }
 					</div>
 				 </div>
 	}

@@ -127,6 +127,7 @@ var BevyPanel = React.createClass({
 								<ModalTrigger modal={
 									<ContactsModal
 										activeBevy={ this.props.activeBevy }
+										contacts={ members }
 										title={ "Members of " + bevyName } />
 								}>
 								<Button type='button' className="sidebar-link">

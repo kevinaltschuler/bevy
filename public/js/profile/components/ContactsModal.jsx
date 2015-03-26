@@ -7,7 +7,6 @@
 'use strict';
 
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
 var _ = require('underscore');
 
 var rbs = require('react-bootstrap');
@@ -23,14 +22,16 @@ var ContactsList = require('./ContactsList.jsx');
 var ContactsModal = React.createClass({
 
 	propTypes: {
-		  title: ReactPropTypes.string
+		  title: React.PropTypes.string
+		, contacts: React.PropTypes.array
 	},
 
 	render: function() {
 
-		return	<Modal className="saved-posts-modal" {...this.props} title={this.props.title}>
-					<ContactsList />
-				</Modal>
+		return <Modal className="saved-posts-modal" {...this.props} title={this.props.title}>
+					<ContactsList
+						contacts={ this.props.contacts } />
+				 </Modal>
 	}
 });
 
