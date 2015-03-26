@@ -25,6 +25,7 @@ var DropDownMenu = mui.DropDownMenu;
 
 var InviteModal = require('./InviteModal.jsx');
 var MembersModal = require('./MembersModal.jsx');
+var ContactsModal = require('./../../profile/components/ContactsModal');
 
 var BevyActions = require('./../BevyActions');
 
@@ -125,8 +126,9 @@ var BevyPanel = React.createClass({
 								</ModalTrigger>
 								•
 								<ModalTrigger modal={
-									<MembersModal
-										activeBevy={ this.props.activeBevy } />
+									<ContactsModal
+										activeBevy={ this.props.activeBevy }
+										title={ "Members of " + bevyName } />
 								}>
 								<Button type='button' className="sidebar-link">
 									{ members.length + ' Members' }
