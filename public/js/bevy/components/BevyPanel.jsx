@@ -24,7 +24,6 @@ var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
 
 var InviteModal = require('./InviteModal.jsx');
-var MembersModal = require('./MembersModal.jsx');
 var ContactsModal = require('./../../profile/components/ContactsModal');
 
 var BevyActions = require('./../BevyActions');
