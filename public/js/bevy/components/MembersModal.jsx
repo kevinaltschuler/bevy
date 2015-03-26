@@ -23,7 +23,7 @@ var TextField = mui.TextField;
 var MembersModal = React.createClass({
 
 	propTypes: {
-		activeBevy: React.PropTypes.object.isRequiredm
+		activeBevy: React.PropTypes.object.isRequired
 	},
 
 	render: function() {
