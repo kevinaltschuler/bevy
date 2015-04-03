@@ -54,7 +54,7 @@ exports.create = function(req, res, next) {
 	Post.create(update, function(err, post) {
 		if(err) throw err;
 		// populate bevy
-		Post.populate(post, { path: 'bevy' }, function(err, pop_post) {
+		Post.populate(post, { path: 'bevy author' }, function(err, pop_post) {
 			res.json(pop_post);
 		});
 	});

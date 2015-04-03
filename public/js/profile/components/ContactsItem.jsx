@@ -46,7 +46,7 @@ var ContactsItem = React.createClass({
 						{ contactName }
 					</div>
 					<div className='alias-status'>
-						{ contactStatus }
+						{ contactStatus.name }
 					</div>
 				 </div>
 	}

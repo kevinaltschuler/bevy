@@ -143,7 +143,7 @@ var Post = React.createClass({
 		var author;
 		author = 'placeholder-author';
 		if(this.state.author) {
-			//console.log(this.state.author);
+			//console.log(this.state.title, this.state.author);
 			author = this.state.author.name;
 		}
 
@@ -166,7 +166,7 @@ var Post = React.createClass({
 									<span className="glyphicon glyphicon-triangle-right"/>
 									<a className="details" href='/'>{ this.state.bevy.name }</a>
 									&nbsp;•&nbsp;
-									<a className="details" href='/'>{ this.state.author }</a>
+									<a className="details" href='/'>{ author }</a>
 									&nbsp;•&nbsp;
 									<a className="detail-time">{ this.timeAgo() }</a>
 								</div>;

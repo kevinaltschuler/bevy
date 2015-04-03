@@ -74,8 +74,8 @@ var NewPostPanel = React.createClass({
 	// updates the state
 	handleChange: function() {
 		this.setState({
-			title: this.refs.input.getValue()
-		})
+			title: this.refs.title.getValue()
+		});
 	},
 
 	render: function() {
@@ -102,7 +102,11 @@ var NewPostPanel = React.createClass({
 
 		return	<Panel className="panel new-post-panel" postId={ this.state.id }>
 					<div className="row new-post-title">
-						<TextField className="title-field" hintText="Title" />
+						<TextField
+							onChange={ this.handleChange }
+							ref='title'
+							className="title-field"
+							hintText="Title" />
 					</div>
 					<div className="row media">
 						<div className="media-content">

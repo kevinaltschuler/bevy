@@ -23,7 +23,7 @@ var Dispatcher = require('./../shared/dispatcher');
 
 //var Post = require('./PostModel');
 var PostCollection = require('./PostCollection');
-var Post = PostCollection.model;
+//var Post = PostCollection.model;
 
 // create collection
 var posts = new PostCollection;
@@ -49,18 +49,33 @@ _.extend(PostStore, {
 				var author = payload.author;
 				var bevy = payload.bevy;
 
-				var newPost = {
+				console.log('author', author);
+
+				var newPost = posts.add({
 					  title: title
 					, body: body
 					, image_url: image_url
 					, author: author._id
 					, bevy: bevy._id
-				};
-
-				posts.create(newPost, {
-					wait: true
 				});
-				//console.log(posts);
+
+				// save to server
+				newPost.save({
+					success: function() {
+						// success
+					}
+				});
+
+				// simulate server population
+				newPost.set('_id', String(Date.now()));
+				newPost.set('author', author);
+				newPost.set('bevy', bevy);
+
+				//posts.create(newPost, {
+				//	wait: true
+				//});
+
+				console.log(posts.models[posts.models.length - 1]);
 
 				// this requires a visual update
 				this.trigger(POST.CHANGE_ALL);
