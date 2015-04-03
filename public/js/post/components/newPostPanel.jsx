@@ -41,7 +41,8 @@ var NewPostPanel = React.createClass({
 	// TODO: when the dialog is expanded, add the default options here
 	getInitialState: function() {
 		return {
-			title: ''
+			  title: ''
+			, body: ''
 		};
 	},
 
@@ -50,7 +51,7 @@ var NewPostPanel = React.createClass({
 	submit: function() {
 		PostActions.create(
 			this.state.title, // title
-			null, // body
+			this.state.body, // body
 			null, // image_url
 			this.props.activeAlias.toJSON(), // author
 			this.props.activeBevy.toJSON()); // bevy
@@ -74,7 +75,8 @@ var NewPostPanel = React.createClass({
 	// updates the state
 	handleChange: function() {
 		this.setState({
-			title: this.refs.title.getValue()
+			  title: this.refs.title.getValue()
+			, body: this.refs.body.getValue()
 		});
 	},
 
@@ -103,17 +105,24 @@ var NewPostPanel = React.createClass({
 		return	<Panel className="panel new-post-panel" postId={ this.state.id }>
 					<div className="row new-post-title">
 						<TextField
-							onChange={ this.handleChange }
-							ref='title'
 							className="title-field"
-							hintText="Title" />
+							hintText="Title"
+							ref='title'
+							onChange={ this.handleChange }
+						/>
 					</div>
 					<div className="row media">
 						<div className="media-content">
 								<FloatingActionButton className="attach-btn" iconClassName="glyphicon glyphicon-paperclip" tooltip="attach media" mini={true}/>
 						</div>
 					</div>
-					<Input className="post-body-text" type="textarea" placeholder="Body"/>
+					<Input
+						className="post-body-text"
+						type="textarea"
+						placeholder="Body"
+						ref='body'
+						onChange={ this.handleChange }
+					/>
 					<div className="panel-bottom">
 						<div className="panel-controls-right">
 							<FlatButton label="cancel" />

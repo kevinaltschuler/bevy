@@ -147,6 +147,9 @@ var Post = React.createClass({
 			author = this.state.author.name;
 		}
 
+		var body = 'no body text';
+		if(this.state.body) body = this.state.body;
+
 		// generate panel
 		var panelHeading;
 		if(_.isEmpty(this.state.image_url)) {
@@ -174,7 +177,8 @@ var Post = React.createClass({
 
 		var panelBody;
 		if(_.isEmpty(this.state.image_url)) {
-			panelBody = <div className="panel-body panel-body-text" tabIndex="0" >whatever you wrote
+			panelBody = <div className="panel-body panel-body-text" tabIndex="0" >
+								{ body }
 							</div>;
 
 		} else {
