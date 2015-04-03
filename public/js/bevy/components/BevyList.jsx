@@ -10,7 +10,6 @@
 
 // imports
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
 
 var rbs = require('react-bootstrap');
 var Badge = rbs.Badge;
@@ -19,17 +18,18 @@ var ButtonGroup = rbs.ButtonGroup;
 var ModalTrigger = rbs.ModalTrigger;
 
 var mui = require('material-ui');
-var IconButton = mui.IconButton;
+var FontIcon = mui.FontIcon;
+var FlatButton = mui.FlatButton;
 
-var CreateNewBevy = require('./../../modals/components/CreateNewBevy.jsx');
+var CreateNewBevy = require('./CreateNewBevy.jsx');
 
 var BevyActions = require('./../BevyActions');
 
 var BevyList = React.createClass({
 
 	propTypes: {
-		  allBevies: ReactPropTypes.array.isRequired
-		, activeBevy: ReactPropTypes.object.isRequired
+		  allBevies: React.PropTypes.array.isRequired
+		, activeBevy: React.PropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -57,19 +57,22 @@ var BevyList = React.createClass({
 				onClick={ this.switchBevy }>{ bevy.name }</Button>);
 		}
 
-		return	<div>
-						<div className='panel-header'>
-							<p>Bevies</p>
-						</div>
-						<ButtonGroup className='bevy-list' role="group">
-							<text>
-								{bevies}
-								<ModalTrigger modal={<CreateNewBevy />}>
-									<IconButton iconClassName="glyphicon glyphicon-plus" tooltip="Create new bevy"/>
-								</ModalTrigger>
-							</text>
-						</ButtonGroup>
-					</div>;
+		return <div>
+					<div className='panel-header'>
+						<p>Bevies</p>
+					</div>
+					<ButtonGroup className='bevy-list' role="group">
+						<text>
+							{bevies}
+							<ModalTrigger modal={<CreateNewBevy />}>
+								<button className='bevy-btn new-bevy-btn'>
+									<FontIcon className="glyphicon glyphicon-plus"/> &nbsp;
+									<span className="mui-flat-button-label">Create New Bevy</span>
+								</button>
+							</ModalTrigger>
+						</text>
+					</ButtonGroup>
+				 </div>;
 	}
 
 });

@@ -1,3 +1,11 @@
+/**
+ * User.js
+ *
+ * Mongoose models for bevy users
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
@@ -10,14 +18,38 @@ module.exports = new Schema({
 		  type: String
 		, unique: true
 	}
-	, openid: {
-		  type: String
+	, google: {
+		  provider: String
+		, id: String
+		, name: {
+			  familyName: String
+			, givenName: String
+			, middleName:String
+		}
+		, displayName: String
+		, token: String
+		, emails: [Schema({
+			  value: String
+			, type: {
+				type: String
+			}
+		}, {
+			_id: false
+		})]
+		, photos: [Schema({
+			value: String
+		}, {
+			_id: false
+		})]
 	}
-	, provider: String
 	, aliases: [{
 		  type: Schema.Types.ObjectId
 		, ref: 'Alias'
 	  }]
+	, notifications: [Schema({
+		  event: String
+	  	, data: {}
+	  })]
 	, created: {
 		  type: Date
 		, default: Date.now }

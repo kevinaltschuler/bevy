@@ -27,6 +27,7 @@ exports.api_version = api_version;
 
 exports.POST = {
 	  CREATE: 'post_create'
+	, DESTROY: 'post_destroy'
 	, UPVOTE: 'post_upvote'
 	, DOWNVOTE: 'post_downvote'
 	, SORT: 'post_sort'
@@ -36,8 +37,28 @@ exports.POST = {
 };
 
 exports.BEVY = {
-	  SWITCH: 'bevy_switch'
+	  CREATE: 'bevy_create'
+	, DESTROY: 'bevy_destroy'
+	, LEAVE: 'bevy_leave'
+	, SWITCH: 'bevy_switch'
+	, INVITE: 'bevy_invite'
+	, ADD_USER: 'bevy_add_user'
 
 	, CHANGE_ALL: 'bevy_change_all'
 	, CHANGE_ONE: 'bevy_change_one'
+};
+
+exports.ALIAS = {
+	  CREATE: 'alias_create'
+	, DESTROY: 'alias_destroy'
+	, SWITCH: 'alias_switch'
+
+	, SETUSER: 'alias_set_user'
+	, CHANGE_ALL: 'alias_change_all'
+};
+
+exports.NOTIFICATION = {
+	    DISMISS: 'notification_dismiss'
+
+	  , CHANGE_ALL: 'notification_change_all'
 };

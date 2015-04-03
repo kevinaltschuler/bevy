@@ -17,7 +17,7 @@ var _ = require('underscore');
 var constants = require('./../constants');
 
 // backbone model
-module.exports = Backbone.Model.extend({
+var Post = Backbone.Model.extend({
 	defaults: {
 		  _id: null
 		, title: null
@@ -31,6 +31,10 @@ module.exports = Backbone.Model.extend({
 		, updated: new Date()
 	},
 
+	initialize: function() {
+
+	},
+
 	idAttribute: '_id',
 
 	countVotes: function() {
@@ -41,3 +45,4 @@ module.exports = Backbone.Model.extend({
 		return sum;
 	}
 });
+module.exports = Post;

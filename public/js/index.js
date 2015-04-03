@@ -31,8 +31,10 @@ var Navbar = require('./app/components/Navbar.jsx');
 var MainSection = require('./app/components/MainSection.jsx');
 
 var ProfilePage = require('./profile/components/ProfilePage.jsx');
-var LoginPage = require('./login/components/LoginPage.jsx');
-var RegisterPage = require('./register/components/RegisterPage.jsx');
+var LoginPage = require('./auth/components/LoginPage.jsx');
+var RegisterPage = require('./auth/components/RegisterPage.jsx');
+var ForgotPage = require('./auth/components/ForgotPage.jsx');
+var ResetPage = require('./auth/components/ResetPage.jsx');
 
 // load react-router
 var Router = require('react-router');
@@ -61,11 +63,13 @@ var App = React.createClass({
 
 // route configuration
 var routes = (
-	<Route name='app' path='/' handler={App}>
-		<Route name='profile' handler={ProfilePage} />
-		<Route name='login' handler={LoginPage} />
-		<Route name='register' handler={RegisterPage} />
-		<DefaultRoute handler={MainSection} />
+	<Route name='app' path='/' handler={ App }>
+		<Route name='profile' handler={ ProfilePage } />
+		<Route name='login' handler={ LoginPage } />
+		<Route name='register' handler={ RegisterPage } />
+		<Route name='forgot' handler={ ForgotPage } />
+		<Route name='reset' path='reset/:token' handler={ ResetPage } />
+		<DefaultRoute handler={ MainSection } />
 	</Route>
 );
 

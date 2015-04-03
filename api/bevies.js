@@ -13,6 +13,9 @@ var mongoose = require('mongoose');
 var error = require('./../error');
 var _ = require('underscore');
 
+var client = require('./../mubsub').client();
+var channel = client.channel('notifications');
+
 var Bevy = mongoose.model('Bevy');
 
 function collectBevyParams(req) {
@@ -32,8 +35,18 @@ function collectBevyParams(req) {
 // INDEX
 // GET /bevies
 exports.index = function(req, res, next) {
-	var promise = Bevy.find()
-		.populate('members')
+	var aliasid = req.params.aliasid;
+	var userid = req.params.userid;
+	var query = {};
+	if(aliasid) {
+		query = { members: { $elemMatch: { aliasid: aliasid } } };
+	} else if (userid) {
+		// todo: fetch user email
+		query = { members: { $elemMatch: { email: '' } } };
+	}
+
+	var promise = Bevy.find(query)
+		.populate('members.aliasid')
 		.exec();
 	promise.then(function(bevies) {
 		res.json(bevies);
@@ -50,6 +63,19 @@ exports.create = function(req, res, next) {
 	Bevy.create(update, function(err, bevy) {
 		if(err) throw err;
 
+		// invite users
+		if(bevy.members.length > 1) {
+			//TODO: grab alias
+			//TODO: ignore bevy creator
+			channel.publish('invite:email', {
+				  members: bevy.members.toObject()
+				, bevy: bevy
+				, alias: {
+					name: 'placeholder-creator'
+				}
+			});
+		}
+
 		res.json(bevy);
 	});
 }
@@ -61,7 +87,7 @@ exports.show = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOne(query)
-		.populate('members')
+		.populate('members.aliasid')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -82,7 +108,7 @@ exports.update = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update)
-		.populate('members')
+		.populate('members.aliasid')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -100,7 +126,7 @@ exports.destroy = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndRemove(query)
-		.populate('members')
+		.populate('members.aliasid')
 		.exec();
 	promise.then(function(bevy) {
 		res.json(bevy);

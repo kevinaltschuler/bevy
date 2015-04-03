@@ -17,21 +17,11 @@ module.exports = function(app) {
 		});
 	});
 
-	app.get('/login', function(req, res, next) {
-		res.render('app', {
-			env: process.env.NODE_ENV
-		});
-	});
-	app.get('/register', function(req, res, next) {
-		res.render('app', {
-			env: process.env.NODE_ENV
-		});
-	});
-
 	// for everything else - pass it off to the react router
 	// on the front end
 	// this should be the last route ever checked
 	// TODO: do this smartly with a regex
+	// TODO: support for hashes and non-pushstates
 	app.get('/**', require_user, function(req, res, next) {
 		res.render('app', {
 			  env: process.env.NODE_ENV

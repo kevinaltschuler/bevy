@@ -69,8 +69,10 @@ gulp.task('less:watch', function() {
 
 gulp.task('webpack:watch', function() {
 	gulp.watch(['public/js/*.js', 'public/js/**/*.js', 'public/js/*.jsx', 'public/js/**/*.jsx'], function(event) {
-	  //Run webpack.
 	  webpack(webpackProductionConfig, function(err, stats) {
+			if(err) throw new gutil.PluginError('webpack:build', err);
+			gutil.log('[webpack:build]', stats.toString({ colors: true }));
+			return;
 		});
 	});
 });

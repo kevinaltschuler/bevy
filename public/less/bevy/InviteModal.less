@@ -1,0 +1,38 @@
+.modal-content {
+	border-radius: 4px !important;
+}
+.invite-modal {
+	.title {
+		font-size: 1.25em;
+
+	}
+	.row.member-list {
+		margin-top: 20px;
+		.member-item {}
+		.member-remove-btn {
+			background-color: rgba(0,0,0,0);
+			color: @light-font;
+			font-size: .9em;
+			transition: all 0.15s linear;
+			border: none;
+			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+				outline: none;
+				box-shadow: none;
+				background-color: rgba(0,0,0,0);
+			}
+			&:active, &.active, .btn.active, .btn:active {
+				color: black;
+			}
+		}
+	}
+	.row {
+		.col-xs-4 {
+			.glyphicon {
+				color: @light-font;
+				&:active, &.active, .btn.active, .btn:active {
+					color: black;
+				}
+			}
+		}
+	}
+}

@@ -86,7 +86,7 @@ exports.create = function(req, res, next) {
 			if(err) throw err;
 
 			// send a welcome email
-			if(req.query['email'] == true || req.body['email'] == true) {
+			if(req.query['send_email'] == true || req.body['send_email'] == true) {
 				mailgun.messages().send({
 					  from: 'Bevy Team <contact@bvy.io>'
 					, to: user.email

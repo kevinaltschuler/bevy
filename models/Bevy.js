@@ -15,10 +15,17 @@ module.exports = new Schema({
 	  name: String
 	, color: String
 	, imageURL: String
-	, members: [{
-	  	  type: Schema.Types.ObjectId
-	  	, ref: 'Alias'
-	  }]
+	, members: [Schema({
+	  	  email: {
+	  	  	type: String
+	  	}
+	  	, aliasid: {
+	  		  type: Schema.Types.ObjectId
+	  		, ref: 'Alias'
+	  	}
+	  }, {
+	  	_id: false
+	  })]
 	, settings: {
 		visibility: String
 	}

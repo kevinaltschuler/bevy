@@ -2,14 +2,19 @@
 
 var error = require('./../error');
 var config = require('./../config');
+var _ = require('underscore');
 
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 
 var bcrypt = require('bcryptjs');
+
+var GOOGLE_CLIENT_ID = "540892787949-cmbd34cttgcd4mde0jkqb3snac67tcdq.apps.googleusercontent.com";
+var GOOGLE_CLIENT_SECRET = "TETz_3VIhSBbuQeTtIQFL3d-";
 
 module.exports = function(app) {
 
@@ -39,17 +44,70 @@ module.exports = function(app) {
 		}
 	));
 
+	passport.use(new GoogleStrategy({
+			  clientID: GOOGLE_CLIENT_ID
+			, clientSecret: GOOGLE_CLIENT_SECRET
+			, callbackURL: config.app.server.hostname + '/auth/google/callback'
+			, realm: config.app.server.hostname
+		},
+		function(accessToken, refreshToken, profile, done) {
+			console.log('Authenticating user: ', profile.emails[0]);
+			var emails = _.pluck(profile.emails, 'value');
+
+			var id_query = { 'google.id': profile.id };
+			// match emails as well as id so we can prevent users from
+			// having both an email account and a google account (confusing!)
+			var email_query = { email: { $in: emails } };
+
+			User.findOne({ $or: [ id_query, email_query ] }, function (err, user) {
+				if(err) return done(err);
+				if(user) {
+					// user found
+					console.log('User', emails[0], 'already exists! Logging in...');
+					if(_.isEmpty(user.google.emails)) {
+						// google profile has not yet been set
+						console.log('setting users google profile');
+						user.google = profile;
+						user.save(function(err) {
+							if(err) return done(err);
+							return done(err, user);
+						});
+					} else return done(err, user);
+				} else {
+					// user not found. let's create an account
+					console.log('User', emails[0], 'doesnt exist. Creating new user...');
+					User.create({
+						  token: accessToken
+						, email: emails[0] // use the first email as default.
+												 // let the user change this later
+						, google: profile // load the entire profile object into the 'google' object
+					}, function(err, new_user) {
+						if(err) return done(err);
+
+						return done(new_user);
+					});
+				}
+			});
+		}
+	));
+
 
 	passport.serializeUser(function(user, done) {
-		console.log('Serializing: ', user);
-		done(null, user._id);
+		if(!user) {
+			console.log('no user passed to serialize func');
+			//done('woops', null);
+		} else {
+			console.log('Serializing: ', user);
+			done(null, user._id);
+		}
 	});
 
 	passport.deserializeUser(function(id, done) {
 		console.log('Deserializing: ', id);
 		var query = { _id: id };
 		User.findOne(query).exec(function(err, user) {
-			done(err, user);
+			if(err) done(err, null);
+			else done(null, user);
 		});
 	});
 }

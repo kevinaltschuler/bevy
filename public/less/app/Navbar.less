@@ -1,89 +1,107 @@
 @import '../variables.less';
 
 .navbar {
-	z-index: 2;
+	z-index: 5;
 	background-color: @bevy-green;
 	border-color: rgba(0,0,0,0);
 	border-radius: 0px;
 	height: 68px;
 	box-shadow: 0px 1px 4px rgba(0,0,0,.3);
-	&:focus, .navbar-brand:hover {
-		color: #e6e6e6;
+
+	.navbar-header.pull-left{
+		margin-left: 10px;
+		margin-right: 5px;
+		.profile-btn{
+			float: left;
+			margin: 14px 10px;
+			border-radius: 50px;
+			width: 40px;
+			height: 40px;
+			background-size: 40px 40px;
+		}
+		.navbar-brand.navbar-brand-text {
+			float: left;
+			font-size: 1.2em;
+			padding: 0px;
+			margin: 24px 10px;
+			height: 20px;
+			color: #FFF;
+			background-color: rgba(0,0,0,0);
+			border: none;
+
+			&:focus {
+				color: #e6e6e6;
+			}
+
+			&:active {
+				color: rgba(255,255,255,.7);
+				box-shadow: none;
+			}
+		}
 	}
-	.navbar-header {
-		.navbar-brand {
-			padding: 15% 15px;
-			.mui-icon-button {
-				border-radius: 3px;
-				height: 42px;
-				&:hover {
-					background-color: rgba(0,0,0,.2);
+
+	.nav-center {
+		margin: 0;
+		float: none;
+		text-align: center;
+		color: white;
+		padding-top: 22px;
+		font-size: 1.2em;
+		display: inline-block;
+		width: 100%;
+  		//position: absolute;
+  		//left:0;
+	}
+
+	.navbar-header.pull-right {
+		position: relative;
+		display: inline-block;
+		width: 100%;
+
+		form.navbar-form {
+			width: 100%;
+			padding-top: 0px;
+			padding-right: 30px;
+			border-top: none;
+			border-bottom: none;
+			box-shadow: none;
+
+
+			//SEARCH
+			.search-input.mui-text-field {
+				width: 80%;
+				background-color: rgba(0,0,0,0);
+				border-bottom: none;
+				border-left: 0px;
+				border-top: 0px;
+				border-right: 0px;
+				box-shadow: none;
+				border-radius: 0px;
+				color: #fff;
+				padding-left: 4px;
+				padding-bottom: 2px;
+
+				hr.mui-text-field-focus-underline {
+					border-color: white;
+				}
+				hr.mui-text-field-underline {
+					border-top: 1px solid rgba(255,255,255,.2);
+				}
+				.mui-text-field-input, .mui-text-field-textarea {
+					box-shadow: none !important;
+					color: white;
 				}
 			}
-			.glyphicon {
-				color: #FFF;
-				font-size: .9em;
+
+			.mui-icon-button {
+				width: 20%;
+				padding: 5px;
+
+				.glyphicon-search {
+					color: white;
+					font-size: 1em;
+				}
 			}
-		}
-	}
-	.navbar-brand-text {
-		font-size: 1.2em;
-		padding: 0px;
-		margin-top: 8px;
-		color: #FFF;
-		background-color: rgba(0,0,0,0);
-		border: none;
-
-		&:active {
-			color: rgba(255,255,255,.7);
-			box-shadow: none;
-		}
-	}
-	.navbar-form {
-		padding-top: 0px;
-		padding-right: 30px;
-		border-top: none;
-		border-bottom: none;
-		box-shadow: none;
-
-		.form-group {
-			display: inline-block;
-		}
-		//SEARCH
-		.search-input{
-			background-color: rgba(0,0,0,0);
-			border-bottom: none;
-			border-left: 0px;
-			border-top: 0px;
-			border-right: 0px;
-			box-shadow: none;
-			border-radius: 0px;
-			color: #fff;
-			padding-left: 4px;
-			padding-bottom: 2px;
-		}
-		.search-icon {
-			position:relative;
-			color: #fff;
-			right: 30px;
-			top: 2px;
-		}
-		.glyphicon-search {
-			color: white;
-			font-size: 1em;
-		}
-		.mui-icon-button {
-			padding: 5px;
-		}
-		.mui-text-field .mui-text-field-focus-underline {
-			border-color: white;
-		}
-		.mui-text-field .mui-text-field-underline {
-			border-top: 1px solid rgba(255,255,255,.2);
-		}
-		.mui-text-field .mui-text-field-input, .mui-text-field .mui-text-field-textarea {
-			box-shadow: none!important;
-			color: white;
 		}
 	}
 }

@@ -14,6 +14,11 @@ var _ = require('underscore');
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
+var TextField = mui.TextField;
+
+var rbs = require('react-bootstrap');
+var DropdownButton = rbs.DropdownButton;
+var MenuItem = rbs.MenuItem;
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
@@ -21,6 +26,9 @@ var PostStore = require('./../PostStore');
 var POST = require('./../../constants').POST;
 
 var $ = require('jquery');
+
+var user = window.bootstrap.user;
+var email = user.email;
 
 function getPostState(id) {
 	return PostStore.getPost(id);
@@ -62,6 +70,11 @@ var Post = React.createClass({
 	downvote: function(ev) {
 		ev.preventDefault();
 		PostActions.downvote(this.state._id, this.state.author);
+	},
+
+	destroy: function(ev) {
+		ev.preventDefault();
+		PostActions.destroy(this.state._id);
 	},
 
 	/**
@@ -121,19 +134,51 @@ var Post = React.createClass({
 	},
 
 	render: function() {
+
+		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var profileImage = (_.isEmpty(user.google.photos))
+		 ? defaultProfileImage
+		 : user.google.photos[0].value;
+
+		var author;
+		author = 'placeholder-author';
+		if(this.state.author) {
+			//console.log(this.state.title, this.state.author);
+			author = this.state.author.name;
+		}
+
+		var body = 'no body text';
+		if(this.state.body) body = this.state.body;
+
 		// generate panel
 		var panelHeading;
 		if(_.isEmpty(this.state.image_url)) {
-			panelHeading = <div className='panel-header'><p>{ this.state.title }</p></div>;
+			panelHeading = <div className='panel-header'>
+									{ this.state.title }
+									&nbsp; <span className="glyphicon glyphicon-triangle-right"/> &nbsp;
+									<a className="details" href='/'>{ this.state.bevy.name }</a>
+									<span className="dot">&nbsp; • &nbsp;</span>
+									<a className="details" href='/'>{ author } </a>
+									<span className="dot">&nbsp; • &nbsp;</span>
+									<a className="detail-time">{ this.timeAgo() }</a>
+								</div>;
 		} else {
 			panelHeading = <div className='panel-header'>
-				<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
-			</div>;
+									<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
+									&nbsp;
+									<span className="glyphicon glyphicon-triangle-right"/>
+									<a className="details" href='/'>{ this.state.bevy.name }</a>
+									&nbsp;•&nbsp;
+									<a className="details" href='/'>{ author }</a>
+									&nbsp;•&nbsp;
+									<a className="detail-time">{ this.timeAgo() }</a>
+								</div>;
 		}
 
 		var panelBody;
 		if(_.isEmpty(this.state.image_url)) {
-			panelBody = <div className="panel-body panel-body-text" tabIndex="0" >whatever you wrote
+			panelBody = <div className="panel-body panel-body-text" tabIndex="0" >
+								{ body }
 							</div>;
 
 		} else {
@@ -144,12 +189,30 @@ var Post = React.createClass({
 
 		return	<div className="post panel" postId={ this.state._id }>
 						{ panelHeading }
-						<div className="panel-details">{ this.state.author } • { this.state.bevy.name } • { this.timeAgo() }</div>
 						{ panelBody }
-						<div className="panel-commments"></div>
+						<div className="panel-comments">
+							<div className="comment-count">3 Comments</div>
+							<div className="row comment">
+								<img className="profile-img" src={ profileImage }/>
+								<div className="comment-text">
+									<div className="comment-title">
+										<a className="comment-name">Lisa Ding </a>
+										<text className="detail-time">{ this.timeAgo() }</text>
+									</div>
+									<div className="comment-body">Yo bro this is so sick!</div>
+									<a className="reply-link">reply</a>
+								</div>
+							</div>
+						</div>
 						<div className="panel-bottom">
 							<div className="panel-controls-left">
 								{ this.countVotes() } points<br/>{ this.state.comments.length } comments
+								<div className="profile-btn"/>
+							</div>
+							<div className="panel-comment-input">
+								<div className="profile-overlay"/>
+								<img className="profile-img" src={ profileImage }/>
+								<TextField className="panel-comment-textfield" hintText="Write a Comment"/>
 							</div>
 							<div className="panel-controls-right">
 								<IconButton tooltip='upvote' onClick={ this.upvote }>
@@ -158,7 +221,16 @@ var Post = React.createClass({
 								<IconButton tooltip='downvote' onClick={ this.downvote }>
 									<span className="glyphicon glyphicon-menu-down btn"></span>
 								</IconButton>
-								<span className="glyphicon glyphicon-option-vertical btn"></span>
+								<DropdownButton
+									noCaret
+									pullRight
+									className="post-settings"
+									title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+									<MenuItem
+										onClick={ this.destroy }
+										>Delete Post</MenuItem>
+								</DropdownButton>
+
 							</div>
 						</div>
 					</div>;

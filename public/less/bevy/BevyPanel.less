@@ -1,0 +1,185 @@
+@import '../variables.less';
+
+.right-sidebar {
+  float: right;
+  display: inline-block;
+
+	.dropdown-button {
+		.panel {
+			word-wrap: normal;
+			background-color: rgba(0,0,0,0);
+			border: 0px;
+			-webkit-box-shadow: none;
+			.panel-heading {
+				background-color: rgba(0,0,0,0);
+				.panel-title {
+					padding-top: 3px;
+					font-size: .8em;
+				}
+			}
+			.panel-collapse {
+				width: 110%;
+				border: none;
+				padding-left: 12px;
+				font-size: .9em;
+				.panel-body {
+					border: none;
+				}
+			}
+		}
+	}
+	.row.sidebar-top {
+		margin-top: 20px;
+		.sidebar-picture {
+			img {
+				display: inline-block;
+				margin-left: 5px;
+				border-radius: 50px;
+				width: 100%;
+				height: 100%;
+			}
+		}
+		.sidebar-title {
+			display: inline-block;
+			font-size: 1.3em;
+			padding-left: 5px;
+			color: black;
+			span{
+				display: block;
+				margin: 0 auto;
+			}
+			span.sidebar-title-name {
+
+			}
+			span.sidebar-title-description {
+				font-size: 0.7em;
+				color: #4c4c4c;
+			}
+		}
+	}
+
+	.row.sidebar-links {
+		color: @light-font;
+		font-size: .9em;
+		margin-top: 15px;
+		padding-left: 60px;
+		span {
+			float: left;
+			padding: 0 5px;
+		}
+		button.sidebar-link {
+			float: left;
+			padding: 0 5px;
+			background-color: rgba(0,0,0,0);
+			color: @light-font;
+			font-size: inherit;
+			transition: all 0.15s linear;
+			border: none;
+			text-decoration: underline;
+			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus {
+				outline: none;
+				color: black;
+				box-shadow: none;
+				background-color: rgba(0,0,0,0);
+			}
+			&:hover {
+				background-color: rgba(0,0,0,0);
+			}
+		}
+	}
+
+	.row.sidebar-action {
+		margin-top: 20px;
+		.sidebar-action-title {
+			margin-left: 10px;
+			color: black;
+			font-size: 1.1em;
+		}
+		button.sidebar-action-link {
+			margin-left: 60px;
+			margin-top: 10px;
+			float: left;
+			padding: 0 5px;
+			background-color: rgba(0,0,0,0);
+			color: @light-font;
+			font-size: inherit;
+			transition: all 0.15s linear;
+			border: none;
+			text-decoration: underline;
+			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus {
+				outline: none;
+				color: black;
+				box-shadow: none;
+				background-color: rgba(0,0,0,0);
+			}
+			&:hover {
+				background-color: rgba(0,0,0,0);
+			}
+		}
+		.sidebar-action-dropdown {
+			margin-left: 40px;
+			margin-top: 5px;
+		}
+	}
+	.row.sidebar-bottom {
+		text-align: center;
+		.sidebar-action-link-bottom {
+			margin-top: 20px;
+			margin-bottom: 15px;
+			margin-left: auto;
+			margin-right: auto;
+			padding: 0 5px;
+			background-color: rgba(0,0,0,0);
+			color: @light-font;
+			font-size: .9em;
+			transition: all 0.15s linear;
+			border: none;
+			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus {
+				outline: none;
+				color: black;
+				box-shadow: none;
+				background-color: rgba(0,0,0,0);
+				text-decoration: underline;
+			}
+			&:hover {
+				background-color: rgba(0,0,0,0);
+				text-decoration: underline;
+			}
+		}
+	}
+}
+
+//dropdown buttons
+.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
+.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle,
+.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child{
+	background: rgba(0,0,0,0);
+	border: 0px;
+	-webkit-box-shadow: none;
+	box-shadow: none;
+	color: @light-font;
+	font-size: inherit;
+	&.open {
+	}
+	&:active{
+		color: black;
+	}
+	&:focus {
+		text-decoration: underline;
+		color: black;
+	}
+	&:hover{
+		color: black;
+	}
+}
+//open dropdown menu
+.btn-group > .btn-group {
+	float: none;
+}
+
+@media(max-width: 991px) {
+  .right-sidebar {
+    display: inline-block;
+    float: right;
+  }
+}

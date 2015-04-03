@@ -7,59 +7,113 @@
 'use strict';
 
 var React = require('react');
+var _ = require('underscore');
 
 var rbs = require('react-bootstrap');
 var OverlayTrigger = rbs.OverlayTrigger;
+var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
 var Popover = rbs.Popover;
 var ButtonGroup = rbs.ButtonGroup;
+var DropdownButton = rbs.DropdownButton;
+var MenuItem = rbs.MenuItem;
 
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
+
+var AliasList = require('./../../alias/components/AliasList.jsx');
+var AddAliasModal = require('./../../alias/components/AddAliasModal.jsx');
+
+var SavedPostsModal = require('./../../profile/components/SavedPostsModal.jsx');
+var ContactsModal = require('./../../profile/components/ContactsModal.jsx');
 
 var user = window.bootstrap.user;
 var email = user.email;
 
 var ProfileDropdown = React.createClass({
 
+	propTypes: {
+		  allAliases: React.PropTypes.array
+		, activeAlias: React.PropTypes.object
+	},
+
 	render: function() {
 
+		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var profileImage = (_.isEmpty(user.google.photos))
+		 ? defaultProfileImage
+		 : user.google.photos[0].value;
+
+		var defaultName = 'Default Name';
+		var name = user.google.displayName || defaultName;
+
+		var buttonStyle = {
+			backgroundImage: 'url(' + profileImage + ')'
+		};
+
 		return	<OverlayTrigger trigger="click" placement="bottom" overlay={
-						<Popover title="Profile">
+						<Popover>
+
 							<div className="row profile-top">
-								<div className="col-xs-4">
-									<img src=""/>
+								<div className="col-xs-3 profile-picture">
+									<img src={ profileImage }/>
 								</div>
-								<div className="col-xs-8 profile-details">
-									Kevin Altschuler
-									<br/>{email}
-									<br/>123 points
-										<ButtonGroup className="col-xs-12" role="group">
-											<Button type='button' className="btn sort-btn">
-												Saved Posts
-											</Button>
-											•
-											<Button type='button' className="btn sort-btn">
-												Contacts
-											</Button>
-											•
-											<Button type='button' className="btn sort-btn">
-												Settings
-											</Button>
-										</ButtonGroup> 
+								<div className="col-xs-6 profile-details">
+									<span className='profile-name'>{ name }</span>
+									<span className='profile-email'>{ email }</span>
+									<span className='profile-points'>123 points</span>
+								</div>
+								<div className="col-xs-3">
+									<DropdownButton
+										noCaret
+										pullRight
+										className="profile-settings"
+										title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+										<MenuItem>
+											A Setting
+										</MenuItem>
+									</DropdownButton>
 								</div>
 							</div>
+							<div className='row profile-links'>
+								<ButtonGroup className="col-xs-12" role="group">
+									<ModalTrigger modal = { <SavedPostsModal /> } >
+										<Button type='button' className="profile-link">
+											Saved Posts
+										</Button>
+									</ModalTrigger>
+									•
+									<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
+										<Button type='button' className="profile-link">
+											Contacts
+										</Button>
+									</ModalTrigger>
+								</ButtonGroup>
+							</div>
+
+							<hr />
+
+							<AliasList
+								allAliases={ this.props.allAliases }
+								activeAlias={ this.props.activeAlias } />
+
+							<hr />
 
 							<div className="profile-buttons">
-								<div className="profile-btn-left">
-									<FlatButton label="Add Account"/>
+								<div className="profile-btn-left add-alias-modal-container">
+									<ModalTrigger modal={ <AddAliasModal /> }>
+										<FlatButton label="Add Alias"/>
+									</ModalTrigger>
 								</div>
 								<div className="profile-btn-right">
-									<FlatButton label="Logout"/>
+									<FlatButton
+										label="Logout"
+										linkButton={ true }
+										href='/logout' />
 								</div>
 							</div>
 						</Popover>}>
-					<Button className="profile-btn" bsStyle="default"/>
+					<Button className="profile-btn" style={ buttonStyle } />
 				</OverlayTrigger>;
 	}
 });

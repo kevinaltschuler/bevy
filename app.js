@@ -12,6 +12,8 @@ var config = require('./config');
 var _ = require('underscore');
 var path = require('path');
 var fs = require('fs');
+var http = require('http');
+var https = require('https');
 var express = require('express');
 var mongoose = require('mongoose');
 
@@ -24,6 +26,7 @@ var multer = require('multer');
 var methodOverride = require('method-override');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
+var MongoStore = require('connect-mongo')(session);
 var csrf = require('csurf');
 var passport = require('passport');
 
@@ -63,7 +66,8 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // sessions
 app.use(session({
-	  secret: 'keyboard cat'
+	  store: new MongoStore({ mongooseConnection: mongoose.connection })
+	, secret: 'keyboard cat'
 	, cookie: {
 		  secret: true
 		, expires: false
@@ -109,11 +113,7 @@ app.use(error.client_error_handler);
 app.use(error.error_handler);
 
 
-// start server
-var server = app.listen(config.app.server.port, function() {
-	var name = config.app.name;
-	var host = server.address().address;
-	var port = server.address().port;
-	var env = config.app.env;
-	console.log('%s listening at http://%s:%s in %O mode', name, host, port, env);
-});
+http.createServer(app).listen(config.app.server.port);
+console.log('http server listening on port', config.app.server.port);
+//https.createServer(config.app.ssl_opts, app).listen(443);
+//console.log('https server listening on port', 443);

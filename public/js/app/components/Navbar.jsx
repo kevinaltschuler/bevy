@@ -18,6 +18,7 @@
 
 // imports
 var React = require('react');
+var _ = require('underscore');
 
 var ProfileModal = require('./../../modals/components/ProfileModal.jsx');
 
@@ -32,30 +33,59 @@ var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
+var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
+
+var user = window.bootstrap.user;
 
 // react component
 var Navbar = React.createClass({
 
+	propTypes: {
+		  activeBevy: React.PropTypes.object
+		, allAliases: React.PropTypes.array
+		, activeAlias: React.PropTypes.object
+		, allNotifications: React.PropTypes.array
+	},
+
 	render: function() {
 
-		return	<div className="navbar navbar-fixed-top">
+		var name;
+		//if(!_.isEmpty(user.google.name))
+		//	name = user.google.name.givenName + ' ' + user.google.name.familyName;
+		if(!_.isEmpty(this.props.activeAlias))
+			//console.log(this.props.activeAlias);
+			name = this.props.activeAlias.get('name');
 
-						<div className="navbar-header pull-left">
-							<ProfileDropdown />
+		var bevyName;
+		if(!_.isEmpty(this.props.activeBevy)) {
+			bevyName = this.props.activeBevy.get('name');
+		}
+
+		return	<div className="navbar navbar-fixed-top row">
+						<div className='col-xs-3'>
+							<div className="navbar-header pull-left">
+								<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
+								<NotificationDropdown allNotifications={ this.props.allNotifications } />
+								<span className="navbar-brand navbar-brand-text">{ name }</span>
+							</div>
 						</div>
 
-						<ModalTrigger modal={<ProfileModal />}>
-							<Button className="navbar-brand navbar-brand-text">Bevy</Button>
-						</ModalTrigger>
+						<div className='col-xs-6'>
+							<div className="nav navbar-brand-text nav-center">
+								{ bevyName }
+							</div>
+						</div>
 
-
-						<div className="navbar-header pull-right">
-							<form className="navbar-form navbar-right" role="search">
-								<div className="form-group">
+						<div className='col-xs-3'>
+							<div className="navbar-header pull-right">
+								<form className="navbar-form navbar-right" role="search">
 									<TextField type="text" className="search-input" placeholder=" "/>
-								</div>
-								<IconButton iconClassName="glyphicon glyphicon-search" href="#"/>
-							</form>
+									<IconButton
+										iconClassName="glyphicon glyphicon-search"
+										href="#"
+										disabled />
+								</form>
+							</div>
 						</div>
 					</div>;
 	}

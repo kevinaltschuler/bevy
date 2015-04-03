@@ -7,12 +7,10 @@ block scripts
 block content
 	#app.container
 
-	- if(user == undefined) { var user = {}; }
-
 	script(type='text/javascript').
 		// jenk global variable bootstrapping
 		window.bootstrap = {};
-		window.bootstrap.user = !{JSON.stringify(user)};
+		window.bootstrap.user = !{JSON.stringify(user || {})};
 
 
 	if env == 'development'

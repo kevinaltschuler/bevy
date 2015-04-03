@@ -1,42 +1,22 @@
 'use strict';
 
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
-var _ = require('underscore');
 
-var rbs = require('react-bootstrap');
-var Badge = rbs.Badge;
-var ButtonGroup = rbs.ButtonGroup;
-var MenuItem = rbs.MenuItem;
-var Accordion = rbs.Accordion;
-var Panel = rbs.Panel;
+var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
 
-var NotificationHeader;
-
-module.exports = React.createClass({
+var RightSidebar = React.createClass({
 
 	propTypes: {
-		activeBevy: ReactPropTypes.object
+		  activeBevy: React.PropTypes.object
+		, activeAlias: React.PropTypes.object
 	},
 
 	render: function() {
-
-		var bevyName = (_.isEmpty(this.props.activeBevy)) ? 'not in a bevy' : this.props.activeBevy.get('name');
-
-		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
-					<p>current bevy: { bevyName }</p>
-					<Accordion className="dropdown-button" title='Notifications'>
-						<Panel header="Notifications" eventKey='1'>
-							• 'Josh Guererro commented on your post "Owl Spreading its wings'
-							<br/>
-
-						</Panel>
-					</Accordion>
-					<Accordion className="dropdown-button" title='Invites'>
-						<Panel header="Invites" eventKey='1'>
-
-						</Panel>
-					</Accordion>
-				</ButtonGroup>;
+		return <div>
+					<BevyPanel
+						activeBevy={ this.props.activeBevy }
+						activeAlias={ this.props.activeAlias } />
+				 </div>
 	}
 });
+module.exports = RightSidebar;

@@ -23,7 +23,13 @@ connection.on('error', console.error.bind(
 ));
 connection.once('open', function() {
 	console.info('connected to database');
+	seed();
+});
 
+var mubsub = require('./mubsub');
+mubsub.connect(config.database.URL);
+
+function seed() {
 	// seed some stuff if not already
 	var User = mongoose.model('User');
 
@@ -96,6 +102,4 @@ connection.once('open', function() {
 			});
 		}
 	});
-});
-
-
+}
