@@ -88,8 +88,10 @@ var BevyPanel = React.createClass({
 		var isMember = false;
 		for(var key in members) {
 			var member = members[key];
-			if(member.aliasid._id == this.props.activeAlias.id) {
-				isMember = true;
+			if(member.aliasid) {
+				if(member.aliasid._id == this.props.activeAlias.id) {
+					isMember = true;
+				}
 			}
 		}
 		if(!isMember
