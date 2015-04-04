@@ -99,7 +99,7 @@ var BevyPanel = React.createClass({
 			&& !_.isEmpty(this.props.activeAlias)) {
 
 			// add member
-			BevyActions.addUser(this.props.activeBevy.id, this.props.activeAlias.id, user.email);
+			BevyActions.addUser(this.props.activeBevy.id, this.props.activeAlias.toJSON(), user.email);
 		}
 
 

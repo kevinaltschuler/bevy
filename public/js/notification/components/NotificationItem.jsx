@@ -14,6 +14,9 @@ var Button = rbs.Button;
 var Panel = rbs.Panel;
 
 var NotificationActions = require('./../NotificationActions');
+var BevyActions = require('./../../bevy/BevyActions');
+
+var user = window.bootstrap.user;
 
 var NotificationItem = React.createClass({
 
@@ -26,6 +29,18 @@ var NotificationItem = React.createClass({
 	dismiss: function(ev) {
 		ev.preventDefault();
 		NotificationActions.dismiss(this.props.id);
+	},
+
+	join: function(ev) {
+		ev.preventDefault();
+
+		var data = this.props.data;
+		var bevy_id = data.bevy._id;
+		//var alias_id = data.from_alias._id;
+		var alias = data.from_alias;
+		var email = user.email;
+
+		BevyActions.addUser(bevy_id, alias, email);
 	},
 
 	render: function() {
@@ -43,6 +58,12 @@ var NotificationItem = React.createClass({
 
 				body = <div>
 						 	Invite to { bevy.name } from { from_alias.name }
+						 	<br />
+						 	<Button
+						 		onClick={ this.join }
+						 	>
+						 		Join
+						 	</Button>
 						 </div>
 
 				break;
@@ -51,7 +72,7 @@ var NotificationItem = React.createClass({
 		return <Panel className="notification-item">
 					<div className='row'>
 						<div className='col-xs-8'>
-							{ this.props.id }
+
 						</div>
 						<div className='col-xs-4'>
 							<Button

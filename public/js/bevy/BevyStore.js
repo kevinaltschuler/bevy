@@ -151,24 +151,46 @@ _.extend(BevyStore, {
 
 			case BEVY.ADD_USER:
 				var bevy_id = payload.bevy_id;
-				var alias_id = payload.alias_id;
+				var alias = payload.alias;
 				var email = payload.email;
 
 				var bevy = bevies.get(bevy_id);
 				var members = bevy.get('members');
-				members.push({
-					  email: email
-					, aliasid: alias_id
+
+				var invited_user = _.find(members, function(member) {
+					return member.email == email;
 				});
 
-				bevy.save({
-					success: function(model, response) {
+				if(invited_user) {
+					// user was already invited and is joining, just add alias id
+					// save the index
+					var index = members.indexOf(invited_user);
+					invited_user.aliasid = alias._id;
+					members[index] = invited_user;
 
+				} else {
+					// user is being invited, add email
+					// add aliasid if it exists, to auto-join
+					invited_user = {
+						  email: email
+						, aliasid: alias._id
 					}
-				});
+					members.push(invited_user);
+				}
+
+				// save changes
+				//bevy.save({
+				//	success: function(model, response) {
+
+				//	}
+				//});
+
+				// simulate population
+				members[members.indexOf(invited_user)].aliasid = alias;
+
 
 				//this.trigger(BEVY.CHANGE_ALL);
-				//console.log(bevy.toJSON());
+				console.log(bevy.toJSON());
 
 				break;
 		}

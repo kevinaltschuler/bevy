@@ -42,10 +42,10 @@ var PostActions = {
 		});
 	},
 
-	addUser: function(bevy_id, alias_id, email) {
+	addUser: function(bevy_id, alias, email) {
 		dispatch(BEVY.ADD_USER, {
 			  bevy_id: (bevy_id == undefined) ? '0' : bevy_id
-			, alias_id: (alias_id == undefined) ? '0' : alias_id
+			, alias: (alias == undefined) ? {} : alias
 			, email: (email == undefined) ? '' : email
 		});
 	},
