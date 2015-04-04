@@ -48,4 +48,7 @@ module.exports = function(router) {
 	// DESTROY
 	router.get('/users/:userid/notifications/:id', api.notifications.destroy);
 	router.delete('/users/:userid/notifications/:id', api.notifications.destroy);
+
+	// LONG POLL
+	router.get('/users/:userid/notifications/poll', api.notifications.poll);
 }

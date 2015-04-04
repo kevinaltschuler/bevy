@@ -35,7 +35,7 @@ var NotificationList = React.createClass({
 		var notifications = [];
 		for(var key in allNotifications) {
 			var notification = allNotifications[key];
-			var id = notification._id;
+			var id = notification._id || Date.now();
 			var event = notification.event;
 			var data = notification.data;
 

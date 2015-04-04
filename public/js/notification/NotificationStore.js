@@ -59,5 +59,21 @@ _.extend(NotificationStore, {
 
 });
 
+setInterval(
+	function() {
+		$.ajax({
+			method: 'GET',
+			url: constants.apiurl + '/users/' + user._id + '/notifications/',
+			success: function(data){
+				user.notifications = data;
+				NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
+			},
+			dataType: 'json'
+		});
+	},
+	30000
+);
+
+
 Dispatcher.register(NotificationStore.handleDispatch.bind(NotificationStore));
 module.exports = NotificationStore;

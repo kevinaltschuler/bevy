@@ -8,12 +8,16 @@
 
 'use strict';
 
+var EventEmitter = require('events').EventEmitter;
+var messageBus = new EventEmitter();
+
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var error = require('./../error');
 var client = require('./../mubsub').client();
 //var channel = require('./../mubsub').notification_channel;
 var channel = client.channel('notifications');
+
 
 var User = mongoose.model('User');
 
@@ -86,4 +90,16 @@ exports.destroy = function(req, res, next) {
 	}, function(err) {
 		return next(err);
 	});
+}
+
+exports.poll = function(req, res, next) {
+	/*setInterval(
+		channel.subscribe('invite:email', function(data) {
+			res.json({
+				  event: 'invite:email'
+				, data: data
+			});
+		}),
+		5000
+	);*/
 }
