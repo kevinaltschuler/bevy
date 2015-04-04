@@ -65,7 +65,7 @@ setInterval(
 			method: 'GET',
 			url: constants.apiurl + '/users/' + user._id + '/notifications/',
 			success: function(data){
-				user.notifications = data;
+				notifications = data;
 				NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
 			},
 			dataType: 'json'
