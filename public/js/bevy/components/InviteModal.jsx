@@ -32,8 +32,8 @@ function validateEmail(email) {
 var InviteModal = React.createClass({
 
 	propTypes: {
-		  activeBevy: React.PropTypes.object
-		, activeAlias: React.PropTypes.object
+		activeBevy: React.PropTypes.object,
+		activeAlias: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -115,44 +115,44 @@ var InviteModal = React.createClass({
 						</div>);
 		}
 
-		return	<Modal className="invite-modal" { ...this.props }>
-						<span className="title">Invite Yo Friends</span>
+		return <Modal className="invite-modal" { ...this.props }>
+					<span className="title">Invite Yo Friends</span>
 
-						<div className='row member-list'>
-							<div className='col-xs-12'>
-								{ members }
+					<div className='row member-list'>
+						<div className='col-xs-12'>
+							{ members }
+						</div>
+					</div>
+
+					<div className="row">
+						<div className='col-xs-6'>
+							<TextField
+								type='text'
+								ref='addMember'
+								placeholder='Add Members...' />
+						</div>
+						<div className='col-xs-4'>
+							<IconButton
+								iconClassName="glyphicon glyphicon-plus"
+								onClick={ this.addMember }
+								label='Add Member'/>
+						</div>
+					</div>
+
+					<div className='row'>
+						<div className='col-xs-12'>
+							<div className="panel-bottom">
+								<RaisedButton
+									onClick={ this.invite }
+									label="Invite"/>
+								<FlatButton
+									onClick={ this.props.onRequestHide }
+									label="Cancel"/>
 							</div>
 						</div>
+					</div>
 
-						<div className="row">
-							<div className='col-xs-6'>
-								<TextField
-									type='text'
-									ref='addMember'
-									placeholder='Add Members...' />
-							</div>
-							<div className='col-xs-4'>
-								<IconButton
-									iconClassName="glyphicon glyphicon-plus"
-									onClick={ this.addMember }
-									label='Add Member'/>
-							</div>
-						</div>
-
-						<div className='row'>
-							<div className='col-xs-12'>
-								<div className="panel-bottom">
-									<RaisedButton
-										onClick={ this.invite }
-										label="Invite"/>
-									<FlatButton
-										onClick={ this.props.onRequestHide }
-										label="Cancel"/>
-								</div>
-							</div>
-						</div>
-
-					</Modal>
+				</Modal>
 	}
 });
 

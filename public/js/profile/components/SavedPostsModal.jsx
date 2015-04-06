@@ -26,9 +26,9 @@ var SavedPostsModal = React.createClass({
 
 	render: function() {
 
-		return	<Modal className="saved-posts-modal" {...this.props} title="Your Saved Posts">
+		return <Modal className="saved-posts-modal" {...this.props} title="Your Saved Posts">
 					<SavedPostsList />
-				</Modal>
+				 </Modal>
 	}
 });
 

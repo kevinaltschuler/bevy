@@ -22,8 +22,8 @@ var ContactsList = require('./ContactsList.jsx');
 var ContactsModal = React.createClass({
 
 	propTypes: {
-		  title: React.PropTypes.string
-		, contacts: React.PropTypes.array
+		title: React.PropTypes.string,
+		contacts: React.PropTypes.array
 	},
 
 	render: function() {

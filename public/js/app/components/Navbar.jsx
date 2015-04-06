@@ -41,10 +41,10 @@ var user = window.bootstrap.user;
 var Navbar = React.createClass({
 
 	propTypes: {
-		  activeBevy: React.PropTypes.object
-		, allAliases: React.PropTypes.array
-		, activeAlias: React.PropTypes.object
-		, allNotifications: React.PropTypes.array
+		activeBevy: React.PropTypes.object,
+		allAliases: React.PropTypes.array,
+		activeAlias: React.PropTypes.object,
+		allNotifications: React.PropTypes.array
 	},
 
 	render: function() {
@@ -61,33 +61,35 @@ var Navbar = React.createClass({
 			bevyName = this.props.activeBevy.get('name');
 		}
 
-		return	<div className="navbar navbar-fixed-top row">
-						<div className='col-xs-3'>
-							<div className="navbar-header pull-left">
-								<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
-								<NotificationDropdown allNotifications={ this.props.allNotifications } />
-								<span className="navbar-brand navbar-brand-text">{ name }</span>
-							</div>
-						</div>
+		return <div className="navbar navbar-fixed-top row">
 
-						<div className='col-xs-6'>
-							<div className="nav navbar-brand-text nav-center">
-								{ bevyName }
-							</div>
+					<div className='col-xs-3'>
+						<div className="navbar-header pull-left">
+							<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
+							<NotificationDropdown allNotifications={ this.props.allNotifications } />
+							<span className="navbar-brand navbar-brand-text">{ name }</span>
 						</div>
+					</div>
 
-						<div className='col-xs-3'>
-							<div className="navbar-header pull-right">
-								<form className="navbar-form navbar-right" role="search">
-									<TextField type="text" className="search-input" placeholder=" "/>
-									<IconButton
-										iconClassName="glyphicon glyphicon-search"
-										href="#"
-										disabled />
-								</form>
-							</div>
+					<div className='col-xs-6'>
+						<div className="nav navbar-brand-text nav-center">
+							{ bevyName }
 						</div>
-					</div>;
+					</div>
+
+					<div className='col-xs-3'>
+						<div className="navbar-header pull-right">
+							<form className="navbar-form navbar-right" role="search">
+								<TextField type="text" className="search-input" placeholder=" "/>
+								<IconButton
+									iconClassName="glyphicon glyphicon-search"
+									href="#"
+									disabled />
+							</form>
+						</div>
+					</div>
+
+				</div>;
 	}
 });
 

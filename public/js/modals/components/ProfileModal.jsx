@@ -17,14 +17,25 @@ var bevys = '12';
 
 var ProfileModal = React.createClass({
 	render: function() {
-		return	<Modal className="profile-page" {...this.props} >
+		return <Modal className="profile-page" {...this.props} >
+
 					<div className='row pro-pic'>
 						<Button className="glyphicon glyphicon-camera"/>
 					</div>
-					<div className='row'> <TextField type="text" defaultValue={name} /></div>
-					<div className='row'><h2>{points} Points | {bevys} Bevys</h2></div>
-										<div className='row'><h3>{email}</h3></div>
-				</Modal>
+
+					<div className='row'>
+						<TextField type="text" defaultValue={name} />
+					</div>
+
+					<div className='row'>
+						<h2>{points} Points | {bevys} Bevys</h2>
+					</div>
+
+					<div className='row'>
+						<h3>{email}</h3>
+					</div>
+
+				 </Modal>
 	}
 });
 

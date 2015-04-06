@@ -35,7 +35,7 @@ var SavedPostsItem = React.createClass({
 
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
-		  id: ReactPropTypes.string.isRequired
+		id: ReactPropTypes.string.isRequired
 	},
 
 	defaults: {

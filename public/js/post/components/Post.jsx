@@ -39,7 +39,7 @@ var Post = React.createClass({
 
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
-		  id: ReactPropTypes.string.isRequired
+		id: ReactPropTypes.string.isRequired
 	},
 
 	defaults: {
@@ -187,53 +187,53 @@ var Post = React.createClass({
 							</div>;
 		}
 
-		return	<div className="post panel" postId={ this.state._id }>
-						{ panelHeading }
-						{ panelBody }
-						<div className="panel-comments">
-							<div className="comment-count">
-								{ this.state.comments.length } Comments
-								•&nbsp;
-								{ this.countVotes() } points
-							</div>
-							<div className="row comment">
-								<img className="profile-img" src={ profileImage }/>
-								<div className="comment-text">
-									<div className="comment-title">
-										<a className="comment-name">Lisa Ding </a>
-										<text className="detail-time">{ this.timeAgo() }</text>
-									</div>
-									<div className="comment-body">Yo bro this is so sick!</div>
-									<a className="reply-link">reply</a>
+		return <div className="post panel" postId={ this.state._id }>
+					{ panelHeading }
+					{ panelBody }
+					<div className="panel-comments">
+						<div className="comment-count">
+							{ this.state.comments.length } Comments
+							•&nbsp;
+							{ this.countVotes() } points
+						</div>
+						<div className="row comment">
+							<img className="profile-img" src={ profileImage }/>
+							<div className="comment-text">
+								<div className="comment-title">
+									<a className="comment-name">Lisa Ding </a>
+									<text className="detail-time">{ this.timeAgo() }</text>
 								</div>
+								<div className="comment-body">Yo bro this is so sick!</div>
+								<a className="reply-link">reply</a>
 							</div>
 						</div>
-						<div className="panel-bottom">
-							<div className="panel-comment-input">
-								<div className="profile-overlay"/>
-								<img className="profile-img" src={ profileImage }/>
-								<TextField className="panel-comment-textfield" hintText="Write a Comment"/>
-							</div>
-							<div className="panel-controls-right">
-								<IconButton tooltip='upvote' onClick={ this.upvote }>
-									<span className="glyphicon glyphicon-menu-up btn"></span>
-								</IconButton>
-								<IconButton tooltip='downvote' onClick={ this.downvote }>
-									<span className="glyphicon glyphicon-menu-down btn"></span>
-								</IconButton>
-								<DropdownButton
-									noCaret
-									pullRight
-									className="post-settings"
-									title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-									<MenuItem
-										onClick={ this.destroy }
-										>Delete Post</MenuItem>
-								</DropdownButton>
+					</div>
+					<div className="panel-bottom">
+						<div className="panel-comment-input">
+							<div className="profile-overlay"/>
+							<img className="profile-img" src={ profileImage }/>
+							<TextField className="panel-comment-textfield" hintText="Write a Comment"/>
+						</div>
+						<div className="panel-controls-right">
+							<IconButton tooltip='upvote' onClick={ this.upvote }>
+								<span className="glyphicon glyphicon-menu-up btn"></span>
+							</IconButton>
+							<IconButton tooltip='downvote' onClick={ this.downvote }>
+								<span className="glyphicon glyphicon-menu-down btn"></span>
+							</IconButton>
+							<DropdownButton
+								noCaret
+								pullRight
+								className="post-settings"
+								title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+								<MenuItem
+									onClick={ this.destroy }
+									>Delete Post</MenuItem>
+							</DropdownButton>
 
-							</div>
 						</div>
-					</div>;
+					</div>
+				</div>;
 	}
 });
 

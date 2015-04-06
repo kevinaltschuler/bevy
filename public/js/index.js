@@ -55,9 +55,9 @@ injectTapEventPlugin();
 // App bootstrap
 var App = React.createClass({
 	render: function() {
-		return	<div>
-						<RouteHandler/>
-					</div>
+		return <div>
+					<RouteHandler/>
+				</div>
 	}
 });
 

@@ -46,15 +46,15 @@ function getPostState() {
 
 function getBevyState() {
 	return {
-			// later, load this from session/cookies
-		  activeBevy: BevyStore.getActive()
-		, allBevies: BevyStore.getAll()
+		// later, load this from session/cookies
+		activeBevy: BevyStore.getActive(),
+		allBevies: BevyStore.getAll()
 	}
 }
 function getAliasState() {
 	return {
-		  allAliases: AliasStore.getAll()
-		, activeAlias: AliasStore.getActive()
+		allAliases: AliasStore.getAll(),
+		activeAlias: AliasStore.getActive()
 	}
 }
 function getNotificationState() {
@@ -65,11 +65,11 @@ function getNotificationState() {
 
 function collectState() {
 	var state = {};
-	_.extend(state
-		, getPostState()
-		, getBevyState()
-		, getAliasState()
-		, getNotificationState()
+	_.extend(state,
+		getPostState(),
+		getBevyState(),
+		getAliasState(),
+		getNotificationState()
 	);
 	return state;
 }
@@ -117,13 +117,15 @@ var MainSection = React.createClass({
 							activeBevy={ this.state.activeBevy }
 							allAliases={ this.state.allAliases }
 							activeAlias={ this.state.activeAlias }
-							allNotifications={ this.state.allNotifications }/>
+							allNotifications={ this.state.allNotifications }
+						/>
 						<div className='main-section'>
 							<div className='row'>
 								<NewPostPanel
 									activeBevy={ this.state.activeBevy }
 									allBevies={ this.state.allBevies }
-									activeAlias={ this.state.activeAlias } />
+									activeAlias={ this.state.activeAlias }
+								/>
 							</div>
 							<div className='row'>
 								<PostSort />
@@ -132,11 +134,16 @@ var MainSection = React.createClass({
 								<LeftSidebar
 									allBevies={ this.state.allBevies }
 									activeAlias={ this.state.activeAlias }
-									activeBevy={ this.state.activeBevy }/>
-								<PostContainer allPosts={ this.state.allPosts } activeBevy={ this.state.activeBevy }/>
+									activeBevy={ this.state.activeBevy }
+								/>
+								<PostContainer
+									allPosts={ this.state.allPosts }
+									activeBevy={ this.state.activeBevy }
+								/>
 								<RightSidebar
 									activeAlias={ this.state.activeAlias }
-									activeBevy={ this.state.activeBevy }/>
+									activeBevy={ this.state.activeBevy }
+								/>
 							</div>
 						</div>
 					</div>;

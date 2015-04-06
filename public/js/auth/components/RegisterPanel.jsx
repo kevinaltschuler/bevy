@@ -32,12 +32,12 @@ var RegisterPanel = React.createClass({
 
 	getInitialState: function() {
 		return {
-			  emailBsStyle: ''
-			, confirmEmailBsStyle: ''
-			, passwordBsStyle: ''
-			, validInput: false
-			, errorText: ''
-			, showError: false
+			emailBsStyle: '',
+			confirmEmailBsStyle: '',
+			passwordBsStyle: '',
+			validInput: false,
+			errorText: '',
+			showError: false
 		};
 	},
 
@@ -57,15 +57,15 @@ var RegisterPanel = React.createClass({
 		if(!validateEmail(emailVal)) {
 			// invalid email
 			this.setState({
-				  emailBsStyle: 'error'
-				, errorText: 'Please enter a valid email address'
-				, confirmEmailBsStyle: ''
-				, validInput: false
+				emailBsStyle: 'error',
+				errorText: 'Please enter a valid email address',
+				confirmEmailBsStyle: '',
+				validInput: false
 			});
 		} else {
 			// valid email
 			this.setState({
-				  emailBsStyle: 'success'
+				emailBsStyle: 'success'
 			});
 
 			// then lets see if confirm email matches the email field
@@ -81,24 +81,24 @@ var RegisterPanel = React.createClass({
 				if(!_.isEmpty(passwordVal)) {
 					// valid password
 					this.setState({
-						  passwordBsStyle: 'success'
-						, validInput: true
+						passwordBsStyle: 'success',
+						validInput: true
 					});
 				} else {
 					// invalid/nonexistent password
 					this.setState({
-						  passwordBsStyle: 'error'
-						, errorText: 'Please enter a valid password'
-						, validInput: false
+						passwordBsStyle: 'error',
+						errorText: 'Please enter a valid password',
+						validInput: false
 					})
 				}
 
 			} else {
 				// email and confirm email dont match
 				this.setState({
-					  confirmEmailBsStyle: 'error'
-					, errorText: 'Please ensure that the given emails match'
-					, validInput: false
+					confirmEmailBsStyle: 'error',
+					errorText: 'Please ensure that the given emails match',
+					validInput: false
 				});
 			}
 		}
@@ -116,9 +116,9 @@ var RegisterPanel = React.createClass({
 			$.post(
 				constants.apiurl + '/users/',
 				{
-					  email: email
-					, password: password
-					, send_email: true
+					email: email,
+					password: password,
+					send_email: true
 				},
 				function(data, textStatus, jqXHR) {
 					//success
@@ -126,8 +126,8 @@ var RegisterPanel = React.createClass({
 					$.post(
 						constants.siteurl + '/login',
 						{
-							  email: email
-							, password: password
+							email: email,
+							password: password
 						},
 						function(response) {
 							// assume the login ajax worked
@@ -142,8 +142,8 @@ var RegisterPanel = React.createClass({
 				// set error message to the one that
 				// was returned from the server
 				this.setState({
-					  errorText: response.message
-					, showError: true
+					errorText: response.message,
+					showError: true
 				});
 			}.bind(this));
 
@@ -164,40 +164,40 @@ var RegisterPanel = React.createClass({
 						</div>;
 		}
 
-		return	<Panel className="register-panel">
-						<img className="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Avatar"/>
-						{ error }
-						<form method='post' action='/register'>
-							<Input
-								type="text"
-								name='email'
-								placeholder="Email"
-								ref='email'
-								hasFeedback
-								bsStyle={ this.state.emailBsStyle }
-								onChange={ this.onChange } />
-		  					<Input
-		  						type="text"
-		  						placeholder="Confirm Email"
-		  						ref='confirmEmail'
-		  						hasFeedback
-		  						bsStyle={ this.state.confirmEmailBsStyle }
-		  						onChange={ this.onChange } />
-		  					<Input
-		  						type="password"
-		  						name='password'
-		  						ref='password'
-		  						hasFeedback
-		  						placeholder="New Password"
-		  						bsStyle={ this.state.passwordBsStyle }
-		  						onChange={ this.onChange }/>
-							<RaisedButton
-								className='register-submit'
-								label="Register"
-								ref='submit'
-								onClick={ this.submit }/>
-						</form>
-					</Panel>;
+		return <Panel className="register-panel">
+					<img className="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Avatar"/>
+					{ error }
+					<form method='post' action='/register'>
+						<Input
+							type="text"
+							name='email'
+							placeholder="Email"
+							ref='email'
+							hasFeedback
+							bsStyle={ this.state.emailBsStyle }
+							onChange={ this.onChange } />
+	  					<Input
+	  						type="text"
+	  						placeholder="Confirm Email"
+	  						ref='confirmEmail'
+	  						hasFeedback
+	  						bsStyle={ this.state.confirmEmailBsStyle }
+	  						onChange={ this.onChange } />
+	  					<Input
+	  						type="password"
+	  						name='password'
+	  						ref='password'
+	  						hasFeedback
+	  						placeholder="New Password"
+	  						bsStyle={ this.state.passwordBsStyle }
+	  						onChange={ this.onChange }/>
+						<RaisedButton
+							className='register-submit'
+							label="Register"
+							ref='submit'
+							onClick={ this.submit }/>
+					</form>
+				 </Panel>;
 	}
 });
 module.exports = RegisterPanel;

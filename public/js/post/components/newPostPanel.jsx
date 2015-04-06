@@ -32,17 +32,17 @@ var PostSubmitButtons = require('./PostSubmitButtons.jsx');
 var NewPostPanel = React.createClass({
 
 	propTypes: {
-		  activeBevy: React.PropTypes.object.isRequired
-		, allBevies: React.PropTypes.array.isRequired
-		, activeAlias: React.PropTypes.object.isRequired
+		activeBevy: React.PropTypes.object.isRequired,
+		allBevies: React.PropTypes.array.isRequired,
+		activeAlias: React.PropTypes.object.isRequired
 	},
 
 	// start with an empty title
 	// TODO: when the dialog is expanded, add the default options here
 	getInitialState: function() {
 		return {
-			  title: ''
-			, body: ''
+			title: '',
+			body: ''
 		};
 	},
 
@@ -75,8 +75,8 @@ var NewPostPanel = React.createClass({
 	// updates the state
 	handleChange: function() {
 		this.setState({
-			  title: this.refs.title.getValue()
-			, body: this.refs.body.getValue()
+			title: this.refs.title.getValue(),
+			body: this.refs.body.getValue()
 		});
 	},
 
@@ -91,18 +91,19 @@ var NewPostPanel = React.createClass({
 		for(var key in allBevies) {
 			var bevy = allBevies[key];
 			bevies.push({
-				  payload: key
-				, text: bevy.name
+				payload: key,
+				text: bevy.name
 			});
 		}
 		if(bevies.length < 1) {
 			bevies.push({
-				  payload: '1'
-				, text: ''
+				payload: '1',
+				text: ''
 			});
 		}
 
-		return	<Panel className="panel new-post-panel" postId={ this.state.id }>
+		return <Panel className="panel new-post-panel" postId={ this.state.id }>
+
 					<div className="row new-post-title">
 						<TextField
 							className="title-field"
@@ -111,11 +112,13 @@ var NewPostPanel = React.createClass({
 							onChange={ this.handleChange }
 						/>
 					</div>
+
 					<div className="row media">
 						<div className="media-content">
 								<FloatingActionButton className="attach-btn" iconClassName="glyphicon glyphicon-paperclip" tooltip="attach media" mini={true}/>
 						</div>
 					</div>
+
 					<Input
 						className="post-body-text"
 						type="textarea"
@@ -123,6 +126,7 @@ var NewPostPanel = React.createClass({
 						ref='body'
 						onChange={ this.handleChange }
 					/>
+
 					<div className="panel-bottom">
 						<div className="panel-controls-right">
 							<FlatButton label="cancel" />
@@ -132,6 +136,7 @@ var NewPostPanel = React.createClass({
 							<DropDownMenu className="bevies-dropdown" menuItems={bevies} />
 						</div>
 					</div>
+
 				</Panel>
 			}
 		});

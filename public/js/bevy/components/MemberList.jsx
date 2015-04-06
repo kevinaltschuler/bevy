@@ -19,8 +19,8 @@ var user = window.bootstrap.user;
 var MemberList = React.createClass({
 
 	propTypes: {
-		  activeBevy: React.PropTypes.object
-		, contacts: React.PropTypes.array
+		activeBevy: React.PropTypes.object,
+		contacts: React.PropTypes.array
 	},
 
 	render: function() {

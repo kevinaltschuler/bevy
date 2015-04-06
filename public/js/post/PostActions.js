@@ -30,11 +30,11 @@ var PostActions = {
 	 */
 	create: function(title, body, image_url, author, bevy) {
 		dispatch(POST.CREATE, {
-			  title: (title == undefined) ? 'untitled' : title
-			, body: (body == undefined) ? null : body
-			, image_url: (image_url == undefined) ? null : image_url
-			, author: (author == undefined) ? null : author // grab the current, logged in user?
-			, bevy: (bevy == undefined) ? null : bevy // grab the current, active bevy
+			title: (title == undefined) ? 'untitled' : title,
+			body: (body == undefined) ? null : body,
+			image_url: (image_url == undefined) ? null : image_url,
+			author: (author == undefined) ? null : author, // grab the current, logged in user?
+			bevy: (bevy == undefined) ? null : bevy // grab the current, active bevy
 		});
 	},
 
@@ -51,8 +51,8 @@ var PostActions = {
 	 */
 	upvote: function(post_id, author) {
 		dispatch(POST.UPVOTE, {
-			  post_id: (post_id == undefined) ? 'default' : post_id
-			, author: (author == undefined) ? 'current author' : author
+			post_id: (post_id == undefined) ? 'default' : post_id,
+			author: (author == undefined) ? 'current author' : author
 		});
 	},
 
@@ -63,8 +63,8 @@ var PostActions = {
 	 */
 	downvote: function(post_id, author) {
 		dispatch(POST.DOWNVOTE, {
-			  post_id: (post_id == undefined) ? 'default' : post_id
-			, author: (author == undefined) ? 'current author' : author
+			post_id: (post_id == undefined) ? 'default' : post_id,
+			author: (author == undefined) ? 'current author' : author
 		});
 	},
 
@@ -75,8 +75,8 @@ var PostActions = {
 	 */
 	sort: function(by, direction) {
 		dispatch(POST.SORT, {
-			  by: (by == undefined) ? 'new' : by
-			, direction: (direction == undefined) ? 'asc' : direction
+			by: (by == undefined) ? 'new' : by,
+			direction: (direction == undefined) ? 'asc' : direction
 		});
 	}
 };

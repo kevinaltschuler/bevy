@@ -36,8 +36,8 @@ var user = window.bootstrap.user;
 var BevyPanel = React.createClass({
 
 	propTypes: {
-		  activeBevy: React.PropTypes.object
-		, activeAlias: React.PropTypes.object
+		activeBevy: React.PropTypes.object,
+		activeAlias: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -185,57 +185,56 @@ var BevyPanel = React.createClass({
 		}
 
 
-		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
+		return <ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
 
-						{ header }
+					{ header }
 
-						<div className='row sidebar-links'>
-							<ButtonGroup className="col-xs-12" role="group">
-								<ModalTrigger modal={
-									<InviteModal
-										activeBevy={ this.props.activeBevy }
-										activeAlias={ this.props.activeAlias }/>
-								}>
-									<Button type='button' className="sidebar-link">
-										Invite People
-									</Button>
-								</ModalTrigger>
-								•
-								<ModalTrigger modal={
-									<MemberModal
-										activeBevy={ this.props.activeBevy }
-										contacts={ members }
-										title={ "Members of " + name } />
-								}>
+					<div className='row sidebar-links'>
+						<ButtonGroup className="col-xs-12" role="group">
+							<ModalTrigger modal={
+								<InviteModal
+									activeBevy={ this.props.activeBevy }
+									activeAlias={ this.props.activeAlias }/>
+							}>
 								<Button type='button' className="sidebar-link">
-									{ members.length + ' Members' }
+									Invite People
 								</Button>
-								</ModalTrigger>
-							</ButtonGroup>
+							</ModalTrigger>
+							•
+							<ModalTrigger modal={
+								<MemberModal
+									activeBevy={ this.props.activeBevy }
+									contacts={ members }
+									title={ "Members of " + name } />
+							}>
+							<Button type='button' className="sidebar-link">
+								{ members.length + ' Members' }
+							</Button>
+							</ModalTrigger>
+						</ButtonGroup>
+					</div>
+
+					<div className='row sidebar-action'>
+						<div className="sidebar-action-title col-xs-12"> Notifications </div>
+						<DropDownMenu className='sidebar-action-dropdown' menuItems={notificationMenuItems} />
+					</div>
+
+					<div className='row sidebar-bottom'>
+						<div className='col-xs-6'>
+							<Button className="sidebar-action-link-bottom"
+								onClick={ this.leave }>
+								Leave Bevy
+							</Button>
 						</div>
-
-						<div className='row sidebar-action'>
-							<div className="sidebar-action-title col-xs-12"> Notifications </div>
-							<DropDownMenu className='sidebar-action-dropdown' menuItems={notificationMenuItems} />
+						<div className='col-xs-6'>
+							<Button className="sidebar-action-link-bottom"
+								onClick={ this.destroy }>
+								Delete Bevy
+							</Button>
 						</div>
+					</div>
 
-						<div className='row sidebar-bottom'>
-							<div className='col-xs-6'>
-								<Button className="sidebar-action-link-bottom"
-									onClick={ this.leave }>
-									Leave Bevy
-								</Button>
-							</div>
-							<div className='col-xs-6'>
-								<Button className="sidebar-action-link-bottom"
-									onClick={ this.destroy }>
-									Delete Bevy
-								</Button>
-							</div>
-						</div>
-
-
-					</ButtonGroup>
+				 </ButtonGroup>
 	}
 });
 module.exports = BevyPanel;

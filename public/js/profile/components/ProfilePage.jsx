@@ -9,7 +9,7 @@ var Panel = rbs.Paper;
 
 var ProfilePage = React.createClass({
 	render: function() {
-		return	<div>
+		return <div>
 					<Navbar />
 					<div className="profile-page">
 						<div className="col-xs-12">
@@ -20,7 +20,7 @@ var ProfilePage = React.createClass({
 							</div>
 						</div>
 					</div>
-				</div>
+				 </div>
 	}
 });
 

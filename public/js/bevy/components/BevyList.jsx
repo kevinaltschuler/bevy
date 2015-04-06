@@ -28,9 +28,9 @@ var BevyActions = require('./../BevyActions');
 var BevyList = React.createClass({
 
 	propTypes: {
-		  allBevies: React.PropTypes.array.isRequired
-		, activeAlias: React.PropTypes.object.isRequired
-		, activeBevy: React.PropTypes.object.isRequired
+		allBevies: React.PropTypes.array.isRequired,
+		activeAlias: React.PropTypes.object.isRequired,
+		activeBevy: React.PropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -54,8 +54,17 @@ var BevyList = React.createClass({
 			var className = 'bevy-btn';
 			if(bevy._id == this.props.activeBevy.id) className += ' active';
 
-			bevies.push(<Button key={ bevy._id } id={ bevy._id } type="button" className={ className }
-				onClick={ this.switchBevy }>{ bevy.name }</Button>);
+			bevies.push(
+				<Button
+					key={ bevy._id }
+					id={ bevy._id }
+					type="button"
+					className={ className }
+					onClick={ this.switchBevy }
+				>
+					{ bevy.name }
+				</Button>
+			);
 		}
 
 		return <div>

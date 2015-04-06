@@ -16,14 +16,14 @@ var constants = require('./../constants');
 // backbone model
 module.exports = Backbone.Model.extend({
 	defaults: {
-		  name: null
-		, description: null
-		, color: null
-		, imageUrl: null
-		, members: []
-		, settings: {}
-		, created: 0
-		, updated: 0
+		name: null,
+		description: null,
+		color: null,
+		imageUrl: null,
+		members: [],
+		settings: {},
+		created: 0,
+		updated: 0
 	},
 
 	idAttribute: '_id'

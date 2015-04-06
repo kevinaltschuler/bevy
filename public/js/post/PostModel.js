@@ -19,16 +19,16 @@ var constants = require('./../constants');
 // backbone model
 var Post = Backbone.Model.extend({
 	defaults: {
-		  _id: null
-		, title: null
-		, body: null
-		, image_url: null
-		, author: null
-		, bevy: null
-		, comments: []
-		, points: []
-		, created: new Date()
-		, updated: new Date()
+		_id: null,
+		title: null,
+		body: null,
+		image_url: null,
+		author: null,
+		bevy: null,
+		comments: [],
+		points: [],
+		created: new Date(),
+		updated: new Date()
 	},
 
 	initialize: function() {

@@ -21,9 +21,9 @@ var user = window.bootstrap.user;
 var NotificationItem = React.createClass({
 
 	propTypes: {
-		  id: React.PropTypes.string
-		, event: React.PropTypes.string
-		, data: React.PropTypes.object
+		id: React.PropTypes.string,
+		event: React.PropTypes.string,
+		data: React.PropTypes.object
 	},
 
 	dismiss: function(ev) {

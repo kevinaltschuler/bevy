@@ -52,8 +52,8 @@ var PostSort = React.createClass({
 		// update the state immediately
 		// should trigger a rerender
 		this.setState({
-			  by: by
-			, direction: 'asc'
+			by: by,
+			direction: 'asc'
 		});
 
 		// now call action
@@ -83,17 +83,24 @@ var PostSort = React.createClass({
 			// don't generate for the last one
 			var dot = (key == (sort_types.length-1)) ? '' : '•';
 
-			sorts.push( <Button type='button' className={ className }
-							key={ id } id={ id } onClick={ this.sort }>{ type }
-							</Button>);
+			sorts.push(
+				<Button
+					type='button'
+					className={ className }
+					key={ id }
+					id={ id }
+					onClick={ this.sort }
+				> { type }
+				</Button>
+			);
 			sorts.push(dot);
 		}
 
-		return	<Well className="sort-well col-xs-12">
+		return <Well className="sort-well col-xs-12">
 					<ButtonGroup role="group">
 							{ sorts }
 					</ButtonGroup>
-				</Well>;
+				 </Well>;
 	}
 });
 

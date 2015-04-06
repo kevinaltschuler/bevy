@@ -24,8 +24,8 @@ var PostSubmitButtons = require('./PostSubmitButtons.jsx');
 var PostSubmit = React.createClass({
 
 	propTypes: {
-		  activeBevy: React.PropTypes.object.isRequired
-		, activeAlias: React.PropTypes.object.isRequired
+		activeBevy: React.PropTypes.object.isRequired,
+		activeAlias: React.PropTypes.object.isRequired
 	},
 
 	// start with an empty title
@@ -70,19 +70,19 @@ var PostSubmit = React.createClass({
 	},
 
 	render: function() {
-			return	<div className='col-xs-12' >
-							<Input
-								type="text"
-								value={ this.state.title }
-								placeholder="New Post"
-								hasFeedback
-								ref="input"
-								groupClassName='post-submit-group'
-								wrapperClassName='post-submit-wrapper'
-								labelClassName='post-submit-label'
-								onChange={ this.handleChange }
-								onKeyUp={ this.onKeyUp } />
-						</div>
+			return <div className='col-xs-12' >
+						<Input
+							type="text"
+							value={ this.state.title }
+							placeholder="New Post"
+							hasFeedback
+							ref="input"
+							groupClassName='post-submit-group'
+							wrapperClassName='post-submit-wrapper'
+							labelClassName='post-submit-label'
+							onChange={ this.handleChange }
+							onKeyUp={ this.onKeyUp } />
+					</div>
 	}
 });
 

@@ -22,9 +22,9 @@ var MemberList = require('./MemberList.jsx');
 var MemberModal = React.createClass({
 
 	propTypes: {
-		  title: React.PropTypes.string
-		, contacts: React.PropTypes.array
-		, activeBevy: React.PropTypes.object
+		title: React.PropTypes.string,
+		contacts: React.PropTypes.array,
+		activeBevy: React.PropTypes.object
 	},
 
 	render: function() {
@@ -32,7 +32,8 @@ var MemberModal = React.createClass({
 		return <Modal className="saved-posts-modal" {...this.props} title={this.props.title}>
 					<MemberList
 						activeBevy={ this.props.activeBevy }
-						contacts={ this.props.contacts } />
+						contacts={ this.props.contacts }
+					/>
 				 </Modal>
 	}
 });

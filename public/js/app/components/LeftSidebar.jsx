@@ -7,9 +7,9 @@ var BevyList = require('./../../bevy/components/BevyList.jsx');
 module.exports = React.createClass({
 
 	propTypes: {
-		  allBevies: React.PropTypes.array.isRequired
-		, activeAlias: React.PropTypes.object.isRequired
-		, activeBevy: React.PropTypes.object.isRequired
+		allBevies: React.PropTypes.array.isRequired,
+		activeAlias: React.PropTypes.object.isRequired,
+		activeBevy: React.PropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -21,7 +21,8 @@ module.exports = React.createClass({
 						<BevyList
 							allBevies={ this.props.allBevies }
 							activeAlias={ this.props.activeAlias }
-							activeBevy={ this.props.activeBevy }/>
+							activeBevy={ this.props.activeBevy }
+						/>
 					</div>;
 	}
 });

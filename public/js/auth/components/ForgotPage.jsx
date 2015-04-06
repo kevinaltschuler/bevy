@@ -28,8 +28,8 @@ var ForgotPage = React.createClass({
 
 	getInitialState: function() {
 		return {
-			  emailBsStyle: ''
-			, statusText: ''
+			emailBsStyle: '',
+			statusText: ''
 		};
 	},
 
@@ -94,7 +94,7 @@ var ForgotPage = React.createClass({
 								</div>
 		}
 
-		return	<div className='forgot-container'>
+		return <div className='forgot-container'>
 					<div className='forgot-header'>
 						<a href='/'>
 							<img src='/img/logo_100.png' height="60" width="60"/>
@@ -120,7 +120,7 @@ var ForgotPage = React.createClass({
 						</form>
 					</Panel>
 					<a href='/login'>Back to Login</a>
-				</div>
+				 </div>
 	}
 });
 module.exports = ForgotPage;

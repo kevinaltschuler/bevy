@@ -52,11 +52,11 @@ _.extend(PostStore, {
 				console.log('author', author);
 
 				var newPost = posts.add({
-					  title: title
-					, body: body
-					, image_url: image_url
-					, author: author._id
-					, bevy: bevy._id
+					title: title,
+					body: body,
+					image_url: image_url,
+					author: author._id,
+					bevy: bevy._id
 				});
 
 				// save to server
@@ -171,8 +171,8 @@ _.extend(PostStore, {
 	 */
 	getSort: function() {
 		return {
-			  by: posts._meta.sort.by
-			, direction: posts._meta.sort.direction
+			by: posts._meta.sort.by,
+			direction: posts._meta.sort.direction
 		};
 	}
 });

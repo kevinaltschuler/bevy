@@ -99,65 +99,65 @@ var CreateNewBevy = React.createClass({
 		}
 
 
-		return	<Modal className="create-bevy" {...this.props} title="Create a New Bevy">
+		return <Modal className="create-bevy" {...this.props} title="Create a New Bevy">
 
-						<div className="row">
-							<div className='col-xs-12'>
-								<TextField
-									type='text'
-									ref='name'
-									placeholder='Group Name'
-								/>
-							</div>
+					<div className="row">
+						<div className='col-xs-12'>
+							<TextField
+								type='text'
+								ref='name'
+								placeholder='Group Name'
+							/>
 						</div>
+					</div>
 
-						<div className='row'>
-							<div className='col-xs-12'>
-								<TextField
-									type='text'
-									ref='description'
-									placeholder='Group Description'
-								/>
-							</div>
+					<div className='row'>
+						<div className='col-xs-12'>
+							<TextField
+								type='text'
+								ref='description'
+								placeholder='Group Description'
+							/>
 						</div>
+					</div>
 
-						<div className="row">
-							<div className='col-xs-8'>
-								<TextField
-									type='text'
-									ref='addMember'
-									placeholder='Add Members...'
-								/>
-							</div>
-							<div className='col-xs-4'>
+					<div className="row">
+						<div className='col-xs-8'>
+							<TextField
+								type='text'
+								ref='addMember'
+								placeholder='Add Members...'
+							/>
+						</div>
+						<div className='col-xs-4'>
+							<RaisedButton
+								onClick={ this.addMember }
+								label='Add Member'
+							/>
+						</div>
+					</div>
+
+					<div className='row'>
+						<div className='col-xs-12'>
+							{ members }
+						</div>
+					</div>
+
+					<div className='row'>
+						<div className='col-xs-12'>
+							<div className="panel-bottom">
 								<RaisedButton
-									onClick={ this.addMember }
-									label='Add Member'
+									onClick={ this.create }
+									label="Create"
+								/>
+								<FlatButton
+									onClick={ this.props.onRequestHide }
+									label="Cancel"
 								/>
 							</div>
 						</div>
-
-						<div className='row'>
-							<div className='col-xs-12'>
-								{ members }
-							</div>
-						</div>
-
-						<div className='row'>
-							<div className='col-xs-12'>
-								<div className="panel-bottom">
-									<RaisedButton
-										onClick={ this.create }
-										label="Create"
-									/>
-									<FlatButton
-										onClick={ this.props.onRequestHide }
-										label="Cancel"
-									/>
-								</div>
-							</div>
-						</div>
-					</Modal>
+					</div>
+				 </Modal>
 	}
 });
 

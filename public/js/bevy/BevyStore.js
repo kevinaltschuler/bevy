@@ -74,15 +74,15 @@ _.extend(BevyStore, {
 
 				// add yerself
 				members.push({
-					  email: user.email
-					, aliasid: alias_id
+					email: user.email,
+					aliasid: alias_id
 				});
 
 				//console.log(name, members);
 				var newBevy = {
-					  name: name
-					, description: description
-					, members: members
+					name: name,
+					description: description,
+					members: members
 				};
 				bevies.create(newBevy, {
 					wait: true
@@ -126,8 +126,8 @@ _.extend(BevyStore, {
 				if(!_.isEmpty(description)) bevy.set('description', description);
 
 				bevy.save({
-					  name: name
-					, description: description
+					name: name,
+					description: description
 				}, {
 					patch: true
 				});
@@ -186,10 +186,10 @@ _.extend(BevyStore, {
 				$.post(
 					constants.apiurl + '/notifications',
 					{
-						  event: 'invite:email'
-						, members: members
-						, bevy: bevy
-						, alias: alias
+						event: 'invite:email',
+						members: members,
+						bevy: bevy,
+						alias: alias
 					},
 					function(data) {
 						//console.log(data);

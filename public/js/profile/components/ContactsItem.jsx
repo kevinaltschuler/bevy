@@ -17,8 +17,8 @@ var Panel = rbs.Panel;
 var ContactsItem = React.createClass({
 
 	propTypes: {
-		  email: React.PropTypes.string
-		, aliasid: React.PropTypes.object
+		email: React.PropTypes.string,
+		aliasid: React.PropTypes.object
 	},
 
 	render: function() {

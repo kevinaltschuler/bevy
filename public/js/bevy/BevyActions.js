@@ -17,10 +17,10 @@ var PostActions = {
 
 	create: function(name, description, members, alias_id) {
 		dispatch(BEVY.CREATE, {
-			  name: (name == undefined) ? '' : name
-			, description: (description == undefined) ? '' : description
-			, members: (members == undefined) ? [] : members
-			, alias_id: (alias_id == undefined) ? '' : alias_id
+			name: (name == undefined) ? '' : name,
+			description: (description == undefined) ? '' : description,
+			members: (members == undefined) ? [] : members,
+			alias_id: (alias_id == undefined) ? '' : alias_id
 		});
 	},
 
@@ -32,33 +32,33 @@ var PostActions = {
 
 	update: function(bevy_id, name, description) {
 		dispatch(BEVY.UPDATE, {
-			  bevy_id: (bevy_id == undefined) ? '' : bevy_id
-			, name: (name == undefined) ? '' : name
-			, description: (description == undefined) ? '' : description
+			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
+			name: (name == undefined) ? '' : name,
+			description: (description == undefined) ? '' : description
 		});
 	},
 
 	leave: function(bevy_id, email, alias_id) {
 		dispatch(BEVY.LEAVE, {
-			  bevy_id: (bevy_id == undefined) ? '' : bevy_id
-			, email: (email == undefined) ? '' : email
-			, alias_id: (alias_id == undefined) ? '' : alias_id
+			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
+			email: (email == undefined) ? '' : email,
+			alias_id: (alias_id == undefined) ? '' : alias_id
 		});
 	},
 
 	invite: function(bevy, alias, members) {
 		dispatch(BEVY.INVITE, {
-			  bevy: (bevy == undefined) ? {} : bevy
-			, alias: (alias == undefined) ? {} : alias
-			, members: (members == undefined) ? [] : members
+			bevy: (bevy == undefined) ? {} : bevy,
+			alias: (alias == undefined) ? {} : alias,
+			members: (members == undefined) ? [] : members
 		});
 	},
 
 	addUser: function(bevy_id, alias, email) {
 		dispatch(BEVY.ADD_USER, {
-			  bevy_id: (bevy_id == undefined) ? '0' : bevy_id
-			, alias: (alias == undefined) ? {} : alias
-			, email: (email == undefined) ? '' : email
+			bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
+			alias: (alias == undefined) ? {} : alias,
+			email: (email == undefined) ? '' : email
 		});
 	},
 

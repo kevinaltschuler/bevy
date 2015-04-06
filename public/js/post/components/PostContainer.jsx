@@ -21,8 +21,8 @@ var PostContainer = React.createClass({
 	// expects App.jsx to pass in Posts collection
 	// see App.jsx and PostStore.js for more details
 	propTypes: {
-		  allPosts: ReactPropTypes.array.isRequired
-		, activeBevy: ReactPropTypes.object.isRequired
+		allPosts: ReactPropTypes.array.isRequired,
+		activeBevy: ReactPropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -47,7 +47,12 @@ var PostContainer = React.createClass({
 		for(var key in allPosts) {
 			var post = allPosts[key];
 			// load post into array
-			posts.push(<Post id={ post._id } key={ post._id }/>);
+			posts.push(
+				<Post
+					id={ post._id }
+					key={ post._id }
+				/>
+			);
 		}
 
 		return	<div className="col-xs-6 post-container">

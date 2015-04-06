@@ -19,9 +19,9 @@ var BevyActions = require('./../BevyActions');
 var MemberItem = React.createClass({
 
 	propTypes: {
-		  email: React.PropTypes.string
-		, aliasid: React.PropTypes.object
-		, activeBevy: React.PropTypes.object
+		email: React.PropTypes.string,
+		aliasid: React.PropTypes.object,
+		activeBevy: React.PropTypes.object
 	},
 
 	remove: function(ev) {
