@@ -47,11 +47,15 @@ var BevyPanel = React.createClass({
 	leave: function(ev) {
 		ev.preventDefault();
 
+		if(!window.confirm('Are you sure?')) return;
+
 		if(!this.props.activeBevy) return;
 
-		var id = this.props.activeBevy.id;
+		var bevy_id = this.props.activeBevy.id;
+		var email = user.email;
+		var alias_id = this.props.activeAlias.id;
 
-		BevyActions.leave(id);
+		BevyActions.leave(bevy_id, email, alias_id);
 	},
 
 	destroy: function(ev) {
