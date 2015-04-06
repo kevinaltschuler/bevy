@@ -37,17 +37,30 @@ var MemberItem = React.createClass({
 		else contactStatus = this.props.aliasid;
 
 		return <div className="row alias-item">
-					<Button
-						{ ...this.props}
-						className='alias-btn'
-						style={ contactButtonStyle }
-					/>
-					<div className="alias-name">
-						{ contactName }
+
+					<div className='col-xs-3'>
+						<Button
+							{ ...this.props}
+							className='alias-btn'
+							style={ contactButtonStyle }
+						/>
 					</div>
-					<div className='alias-status'>
-						{ contactStatus.name }
+
+					<div className='col-xs-6'>
+						<div className="alias-name">
+							{ contactName }
+						</div>
+						<div className='alias-status'>
+							{ contactStatus.name }
+						</div>
 					</div>
+
+					<div className='col-xs-3'>
+						<Button>
+						Remove
+						</Button>
+					</div>
+
 				 </div>
 	}
 });
