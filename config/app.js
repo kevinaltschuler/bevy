@@ -15,10 +15,10 @@ var keys_dir = './';
 exports.name = "bevy";
 
 exports.env = {
-	  production: false
-	, staging: false
-	, test: false
-	, development: false
+	production: false,
+	staging: false,
+	test: false,
+	development: false
 };
 
 exports.env[current_env] = true;
@@ -29,17 +29,17 @@ exports.log = {
 
 if(current_env == 'development') {
 	exports.server = {
-		  port: 80
-		  // In staging and production, listen loopback. nginx listens on the network.
-		, ip: '127.0.0.1'
-		, hostname: 'http://bevy.dev'
+		port: 80,
+		// In staging and production, listen loopback. nginx listens on the network.
+		ip: '127.0.0.1',
+		hostname: 'http://bevy.dev'
 	};
 } else {
 	exports.server = {
-		  port: 80
-		  // In staging and production, listen loopback. nginx listens on the network.
-		, ip: '127.0.0.1'
-		, hostname: 'http://bvy.io'
+		port: 80,
+		// In staging and production, listen loopback. nginx listens on the network.
+		ip: '127.0.0.1',
+		hostname: 'http://bvy.io'
 	};
 }
 

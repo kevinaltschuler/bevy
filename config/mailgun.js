@@ -16,8 +16,8 @@ var domain = 'mg.bvy.io';
 
 module.exports = function() {
 	return require('mailgun-js')({
-		  apiKey: api_key
-		, domain: domain
+		apiKey: api_key,
+		domain: domain
 	});
 }
 

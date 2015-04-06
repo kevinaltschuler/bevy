@@ -21,8 +21,8 @@ module.exports = function(app) {
 	var User = mongoose.model('User');
 
 	passport.use(new LocalStrategy({
-			  usernameField: 'email'
-			, passwordField: 'password'
+			usernameField: 'email',
+			passwordField: 'password'
 		},
 		function(email, password, done) {
 			console.log('Authenticating user: ', email, password);
@@ -45,10 +45,10 @@ module.exports = function(app) {
 	));
 
 	passport.use(new GoogleStrategy({
-			  clientID: GOOGLE_CLIENT_ID
-			, clientSecret: GOOGLE_CLIENT_SECRET
-			, callbackURL: config.app.server.hostname + '/auth/google/callback'
-			, realm: config.app.server.hostname
+			clientID: GOOGLE_CLIENT_ID,
+			clientSecret: GOOGLE_CLIENT_SECRET,
+			callbackURL: config.app.server.hostname + '/auth/google/callback',
+			realm: config.app.server.hostname
 		},
 		function(accessToken, refreshToken, profile, done) {
 			console.log('Authenticating user: ', profile.emails[0]);
@@ -77,10 +77,10 @@ module.exports = function(app) {
 					// user not found. let's create an account
 					console.log('User', emails[0], 'doesnt exist. Creating new user...');
 					User.create({
-						  token: accessToken
-						, email: emails[0] // use the first email as default.
+						token: accessToken,
+						email: emails[0], // use the first email as default.
 												 // let the user change this later
-						, google: profile // load the entire profile object into the 'google' object
+						google: profile // load the entire profile object into the 'google' object
 					}, function(err, new_user) {
 						if(err) return done(err);
 
