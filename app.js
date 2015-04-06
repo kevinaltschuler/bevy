@@ -66,14 +66,14 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // sessions
 app.use(session({
-	  store: new MongoStore({ mongooseConnection: mongoose.connection })
-	, secret: 'keyboard cat'
-	, cookie: {
-		  secret: true
-		, expires: false
-	}
-	, resave: true
-	, saveUninitialized: true
+	store: new MongoStore({ mongooseConnection: mongoose.connection }),
+	secret: 'keyboard cat',
+	cookie: {
+		secret: true,
+		expires: false
+	},
+	resave: true,
+	saveUninitialized: true
 }));
 
 // passport

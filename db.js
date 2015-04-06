@@ -40,11 +40,11 @@ function seed() {
 			console.log('seeding users...');
 
 			User.create({
-				  token: ''
-				, password: bcrypt.hashSync('foobar', 8)
-				, email: 'foobar@example.com'
-				, created: new Date()
-				, updated: new Date()
+				token: '',
+				password: bcrypt.hashSync('foobar', 8),
+				email: 'foobar@example.com',
+				created: new Date(),
+				updated: new Date()
 			});
 		} else {
 			//console.log(users);
@@ -63,15 +63,15 @@ function seed() {
 			console.log('seeding bevys...');
 
 			Bevy.create({
-				  name: 'Monsta Island Czars'
-				, color: 'FF0000'
+				name: 'Monsta Island Czars',
+				color: 'FF0000'
 			}, function(err, bevy) {
 				bevy_id = bevy._id; // save bevy id for future refs
 			});
 
 			Bevy.create({
-				  name: 'The Burlap'
-				, color: '0000FF'
+				name: 'The Burlap',
+				color: '0000FF'
 			}, function(err, bevy) {
 				bevy_id_2 = bevy._id; // save bevy id for future refs
 			});
@@ -87,18 +87,18 @@ function seed() {
 			console.log('seeding posts...');
 
 			Post.create({
-				  bevy: bevy_id
-				, title: 'Who Is Mr. Fantastik?'
+				bevy: bevy_id,
+				title: 'Who Is Mr. Fantastik?'
 			});
 
 			Post.create({
-				  bevy: bevy_id
-				, title: 'Viktor Vaughn: Lickupon'
+				bevy: bevy_id,
+				title: 'Viktor Vaughn: Lickupon'
 			});
 
 			Post.create({
-				  bevy: bevy_id_2
-				, title: 'Smith Hall Smells'
+				bevy: bevy_id_2,
+				title: 'Smith Hall Smells'
 			});
 		}
 	});

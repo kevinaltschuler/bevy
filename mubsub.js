@@ -46,10 +46,10 @@ exports.connect = function(db) {
 					var promise = User.findOne(query).exec();
 					promise.then(function(user) {
 						user.notifications.push({
-						 	  event: 'invite'
-							, data: {
-								  bevy: bevy
-								, from_alias: alias
+						 	event: 'invite',
+							data: {
+								bevy: bevy,
+								from_alias: alias
 							}
 						});
 						user.save(function(err) {
@@ -64,10 +64,10 @@ exports.connect = function(db) {
 				function(done) {
 					// then send the invite email
 					mailgun.messages().send({
-						  from: 'Bevy Team <contact@bvy.io>'
-						, to: email
-						, subject: 'Invite'
-						, text: 'Invite to ' + bevy.name + ' from ' + alias.name
+						from: 'Bevy Team <contact@bvy.io>',
+						to: email,
+						subject: 'Invite',
+						text: 'Invite to ' + bevy.name + ' from ' + alias.name
 					}, function(err, body) {
 						if(err) {
 							return done(err);

@@ -35,21 +35,21 @@ exports.gen = function(message, req, type, code) {
 	else obj.message = 'default error';
 	if(!_.isEmpty(req)) {
 		obj.request = {
-			  baseUrl: req.baseUrl
-			, vars: req.body
-			, cookies: req.cookies
-			, fresh: req.fresh
-			, hostname: req.hostname
-			, remote_ip: req.ip
-			, original_url: req.originalUrl
-			, params: req.params
-			, path: req.path
-			, protocol: req.protocol
-			, query: req.query
-			, route: req.route
-			, secure: req.secure
-			, subdomains: req.subdomains
-			, xhr: req.xhr
+			baseUrl: req.baseUrl,
+			vars: req.body,
+			cookies: req.cookies,
+			fresh: req.fresh,
+			hostname: req.hostname,
+			remote_ip: req.ip,
+			original_url: req.originalUrl,
+			params: req.params,
+			path: req.path,
+			protocol: req.protocol,
+			query: req.query,
+			route: req.route,
+			secure: req.secure,
+			subdomains: req.subdomains,
+			xhr: req.xhr
 		}
 	}
 	if(!_.isEmpty(type)) obj.type = type;
