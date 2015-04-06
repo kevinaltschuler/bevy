@@ -18,6 +18,7 @@ var MenuItem = rbs.MenuItem;
 var Accordion = rbs.Accordion;
 var Panel = rbs.Panel;
 var Button = rbs.Button;
+var Input = rbs.Input;
 var ModalTrigger = rbs.ModalTrigger;
 
 var mui = require('material-ui');
@@ -43,6 +44,25 @@ var BevyPanel = React.createClass({
 		return {
 			isEditing: false
 		};
+	},
+
+	startEditing: function(ev) {
+		//console.log('start editing');
+		this.setState({
+			isEditing: true
+		});
+	},
+
+	stopEditing: function(ev) {
+		var bevy_id = this.props.activeBevy.id;
+		var name = this.refs.name.getValue();
+		var description = this.refs.description.getValue();
+
+		BevyActions.update(bevy_id, name, description);
+
+		this.setState({
+			isEditing: false
+		});
 	},
 
 	leave: function(ev) {
@@ -92,7 +112,6 @@ var BevyPanel = React.createClass({
 
 		// check if current alias is member of bevy
 		// if not, then add them to the member list
-		//console.log(this.props.activeAlias);
 		var isMember = false;
 		for(var key in members) {
 			var member = members[key];
@@ -110,17 +129,65 @@ var BevyPanel = React.createClass({
 			BevyActions.addUser(bevy.id, alias.toJSON(), user.email);
 		}
 
+		var header;
+		if(this.state.isEditing) {
+			header = <div>
+							<div className="row sidebar-top">
+								<div className="col-xs-3 sidebar-picture">
+									<img src={ defaultBevyImage }/>
+								</div>
+								<div className="col-xs-9 sidebar-title">
+									<Input
+										type='text'
+										ref='name'
+										defaultValue={ bevy.get('name') }
+										placeholder='Group Name'
+									/>
+									<Input
+										type='text'
+										ref='description'
+										defaultValue={ bevy.get('description') }
+										placeholder='Group Description'
+									/>
+								</div>
+							</div>
+							<div className='row'>
+								<div className='col-xs-12'>
+									<Button
+										onClick={ this.stopEditing }
+									>
+										Save
+									</Button>
+								</div>
+							</div>
+						</div>;
 
-		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
-						<div className="row sidebar-top">
+		} else {
+			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
 								<img src={ defaultBevyImage }/>
 							</div>
 							<div className="col-xs-9 sidebar-title">
-								<span className='sidebar-title-name'>{ name }</span>
-								<span className='sidebar-title-description'>{ description }</span>
+								<span
+									className='sidebar-title-name'
+									onDoubleClick={ this.startEditing }
+								>
+									{ name }
+								</span>
+								<span
+									className='sidebar-title-description'
+									onDoubleClick={ this.startEditing }
+								>
+									{ description }
+								</span>
 							</div>
-						</div>
+						</div>;
+		}
+
+
+		return	<ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
+
+						{ header }
 
 						<div className='row sidebar-links'>
 							<ButtonGroup className="col-xs-12" role="group">

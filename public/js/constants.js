@@ -39,6 +39,7 @@ exports.POST = {
 exports.BEVY = {
 	  CREATE: 'bevy_create'
 	, DESTROY: 'bevy_destroy'
+	, UPDATE: 'bevy_update'
 	, LEAVE: 'bevy_leave'
 	, SWITCH: 'bevy_switch'
 	, INVITE: 'bevy_invite'

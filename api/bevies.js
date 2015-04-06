@@ -107,7 +107,7 @@ exports.update = function(req, res, next) {
 	var update = collectBevyParams(req);
 
 	var query = { _id: id };
-	var promise = Bevy.findOneAndUpdate(query, update)
+	var promise = Bevy.findOneAndUpdate(query, update, { upsert: true })
 		.populate('members.aliasid')
 		.exec();
 	promise.then(function(bevy) {

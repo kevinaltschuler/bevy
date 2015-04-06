@@ -30,6 +30,14 @@ var PostActions = {
 		});
 	},
 
+	update: function(bevy_id, name, description) {
+		dispatch(BEVY.UPDATE, {
+			  bevy_id: (bevy_id == undefined) ? '' : bevy_id
+			, name: (name == undefined) ? '' : name
+			, description: (description == undefined) ? '' : description
+		});
+	},
+
 	leave: function(bevy_id, email, alias_id) {
 		dispatch(BEVY.LEAVE, {
 			  bevy_id: (bevy_id == undefined) ? '' : bevy_id

@@ -115,6 +115,33 @@ _.extend(BevyStore, {
 
 				break;
 
+			case BEVY.UPDATE:
+				var bevy_id = payload.bevy_id;
+				var name = payload.name;
+				var description = payload.description;
+
+				var bevy = bevies.get(bevy_id);
+
+				if(!_.isEmpty(name)) bevy.set('name', name);
+				if(!_.isEmpty(description)) bevy.set('description', description);
+
+				console.log(bevy.changedAttributes());
+
+				//bevy.save(['name', 'description'], {
+				//	patch: true
+				//});
+				//bevy.save({
+				//	patch: true
+				//});
+				bevy.save({
+					  name: name
+					, description: description
+				}, {
+					patch: true
+				});
+
+				break;
+
 			case BEVY.LEAVE:
 				var bevy_id = payload.bevy_id;
 				var email = payload.email || '';
