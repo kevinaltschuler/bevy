@@ -14,11 +14,22 @@ var ButtonGroup = rbs.ButtonGroup;
 var Button = rbs.Button;
 var Panel = rbs.Panel;
 
+var BevyActions = require('./../BevyActions');
+
 var MemberItem = React.createClass({
 
 	propTypes: {
 		  email: React.PropTypes.string
 		, aliasid: React.PropTypes.object
+		, activeBevy: React.PropTypes.object
+	},
+
+	remove: function(ev) {
+		ev.preventDefault();
+
+		var bevy_id = this.props.activeBevy.id;
+
+		BevyActions.leave(bevy_id, this.props.email, this.props.aliasid);
 	},
 
 	render: function() {
@@ -56,7 +67,9 @@ var MemberItem = React.createClass({
 					</div>
 
 					<div className='col-xs-3'>
-						<Button>
+						<Button
+							onClick={ this.remove }
+						>
 						Remove
 						</Button>
 					</div>

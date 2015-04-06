@@ -112,8 +112,37 @@ _.extend(BevyStore, {
 				break;
 
 			case BEVY.LEAVE:
-				var id = payload.id;
-				console.log('leave', id);
+				var bevy_id = payload.bevy_id;
+				var email = payload.email || '';
+				var alias_id = payload.alias_id || '';
+
+				var bevy = bevies.get(bevy_id);
+				var members = bevy.get('members');
+
+				if(_.isEmpty(alias_id)) {
+					// member is invited but has not joined
+					// just cancel the invite
+					members = _.reject(members, function(member) {
+						return member.email == email;
+					});
+				} else {
+					// remove the specific user
+					members = _.reject(members, function(member) {
+						return member.aliasid == alias_id;
+					});
+				}
+
+				bevy.set('members', members);
+
+				// save to server
+				bevy.save({
+					success: function(model, response) {
+					}
+				});
+
+				this.trigger(BEVY.CHANGE_ALL);
+
+				console.log('leave', bevy_id);
 				break;
 
 			case BEVY.SWITCH:
@@ -163,7 +192,6 @@ _.extend(BevyStore, {
 
 				if(invited_user) {
 					// user was already invited and is joining, just add alias id
-					// save the index
 					var index = members.indexOf(invited_user);
 					invited_user.aliasid = alias._id;
 					members[index] = invited_user;
@@ -178,16 +206,17 @@ _.extend(BevyStore, {
 					members.push(invited_user);
 				}
 
-				// save changes
-				//bevy.save({
-				//	success: function(model, response) {
+				bevy.set('members', members);
 
-				//	}
-				//});
+				// save changes
+				bevy.save({
+					success: function(model, response) {
+					}
+				});
 
 				// simulate population
 				members[members.indexOf(invited_user)].aliasid = alias;
-
+				bevy.set('members', members);
 
 				//this.trigger(BEVY.CHANGE_ALL);
 				console.log(bevy.toJSON());

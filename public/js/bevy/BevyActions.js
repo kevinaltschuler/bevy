@@ -28,9 +28,11 @@ var PostActions = {
 		});
 	},
 
-	leave: function(id) {
+	leave: function(bevy_id, email, alias_id) {
 		dispatch(BEVY.LEAVE, {
-			id: (id == undefined) ? '0' : id
+			  bevy_id: (bevy_id == undefined) ? '' : bevy_id
+			, email: (email == undefined) ? '' : email
+			, alias_id: (alias_id == undefined) ? '' : alias_id
 		});
 	},
 

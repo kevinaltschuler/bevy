@@ -19,7 +19,8 @@ var user = window.bootstrap.user;
 var MemberList = React.createClass({
 
 	propTypes: {
-		contacts: React.PropTypes.array
+		  activeBevy: React.PropTypes.object
+		, contacts: React.PropTypes.array
 	},
 
 	render: function() {
@@ -35,6 +36,7 @@ var MemberList = React.createClass({
 					key={ key }
 					email={ email }
 					aliasid={ aliasid }
+					activeBevy={ this.props.activeBevy }
 				/>
 			);
 		}
