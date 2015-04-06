@@ -215,12 +215,6 @@ var BevyPanel = React.createClass({
 						</div>
 
 						<div className='row sidebar-action'>
-							<div className="sidebar-action-title col-xs-12"> Currently Viewing </div>
-							<Button type='button' className="sidebar-action-link">
-								Nobody
-							</Button>
-						</div>
-						<div className='row sidebar-action'>
 							<div className="sidebar-action-title col-xs-12"> Notifications </div>
 							<DropDownMenu className='sidebar-action-dropdown' menuItems={notificationMenuItems} />
 						</div>
