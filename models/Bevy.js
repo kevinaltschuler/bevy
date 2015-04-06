@@ -13,6 +13,7 @@ var Schema = mongoose.Schema;
 
 module.exports = new Schema({
 	  name: String
+	, description: String
 	, color: String
 	, imageURL: String
 	, members: [Schema({

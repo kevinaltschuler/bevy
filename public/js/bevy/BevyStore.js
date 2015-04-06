@@ -62,7 +62,9 @@ _.extend(BevyStore, {
 
 			case BEVY.CREATE:
 				var name = payload.name;
+				var description = payload.description;
 				var alias_id = payload.alias_id;
+
 				var members = [];
 				payload.members.forEach(function(email) {
 					members.push({
@@ -79,6 +81,7 @@ _.extend(BevyStore, {
 				//console.log(name, members);
 				var newBevy = {
 					  name: name
+					, description: description
 					, members: members
 				};
 				bevies.create(newBevy, {

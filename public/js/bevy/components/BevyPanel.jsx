@@ -40,7 +40,9 @@ var BevyPanel = React.createClass({
 	},
 
 	getInitialState: function() {
-		return {};
+		return {
+			isEditing: false
+		};
 	},
 
 	leave: function(ev) {
@@ -71,19 +73,22 @@ var BevyPanel = React.createClass({
 
 	render: function() {
 
+		var bevy = this.props.activeBevy;
+		var alias = this.props.activeAlias;
+
 		var defaultBevyImage = '/img/logo_100.png';
 		var bevyImage = "/"
-		var bevyName = (_.isEmpty(this.props.activeBevy)) ? 'not in a bevy' : this.props.activeBevy.get('name');
+		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : bevy.get('name');
+		var description = (_.isEmpty(bevy)) ? 'no description' : bevy.get('description');
+		if(_.isEmpty(description)) description = 'no description';
+
 		var notificationMenuItems = [
 		   { payload: '1', text: 'All Posts' },
 		   { payload: '2', text: 'My Posts' },
 		   { payload: '3', text: 'Never' },
 		];
 
-		var bevy = this.props.activeBevy;
-		//console.log(bevy);
 		var members = (_.isEmpty(bevy)) ? [] : bevy.get('members');
-		//var members = [];
 
 		// check if current alias is member of bevy
 		// if not, then add them to the member list
@@ -92,17 +97,17 @@ var BevyPanel = React.createClass({
 		for(var key in members) {
 			var member = members[key];
 			if(member.aliasid) {
-				if(member.aliasid._id == this.props.activeAlias.id) {
+				if(member.aliasid._id == alias.id) {
 					isMember = true;
 				}
 			}
 		}
 		if(!isMember
-			&& !_.isEmpty(this.props.activeBevy)
-			&& !_.isEmpty(this.props.activeAlias)) {
+			&& !_.isEmpty(bevy)
+			&& !_.isEmpty(alias)) {
 
 			// add member
-			BevyActions.addUser(this.props.activeBevy.id, this.props.activeAlias.toJSON(), user.email);
+			BevyActions.addUser(bevy.id, alias.toJSON(), user.email);
 		}
 
 
@@ -112,8 +117,8 @@ var BevyPanel = React.createClass({
 								<img src={ defaultBevyImage }/>
 							</div>
 							<div className="col-xs-9 sidebar-title">
-								<span className='sidebar-title-name'>{ bevyName }</span>
-								<span className='sidebar-title-description'>The Frontpage</span>
+								<span className='sidebar-title-name'>{ name }</span>
+								<span className='sidebar-title-description'>{ description }</span>
 							</div>
 						</div>
 
@@ -133,7 +138,7 @@ var BevyPanel = React.createClass({
 									<MemberModal
 										activeBevy={ this.props.activeBevy }
 										contacts={ members }
-										title={ "Members of " + bevyName } />
+										title={ "Members of " + name } />
 								}>
 								<Button type='button' className="sidebar-link">
 									{ members.length + ' Members' }

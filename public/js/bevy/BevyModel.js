@@ -17,6 +17,7 @@ var constants = require('./../constants');
 module.exports = Backbone.Model.extend({
 	defaults: {
 		  name: null
+		, description: null
 		, color: null
 		, imageUrl: null
 		, members: []

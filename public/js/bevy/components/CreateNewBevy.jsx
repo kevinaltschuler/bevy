@@ -64,6 +64,7 @@ var CreateNewBevy = React.createClass({
 		ev.preventDefault();
 
 		var name = this.refs.name.getValue();
+		var description = this.refs.description.getValue();
 
 		if(_.isEmpty(name)) {
 			this.refs.name.setErrorText('Please enter a name for your bevy');
@@ -77,9 +78,7 @@ var CreateNewBevy = React.createClass({
 			return;
 		}*/
 
-
-
-		BevyActions.create(name, members, this.props.activeAlias.id);
+		BevyActions.create(name, description, members, this.props.activeAlias.id);
 
 		// after, close the window
 		this.props.onRequestHide();
@@ -107,7 +106,18 @@ var CreateNewBevy = React.createClass({
 								<TextField
 									type='text'
 									ref='name'
-									placeholder='Group Name' />
+									placeholder='Group Name'
+								/>
+							</div>
+						</div>
+
+						<div className='row'>
+							<div className='col-xs-12'>
+								<TextField
+									type='text'
+									ref='description'
+									placeholder='Group Description'
+								/>
 							</div>
 						</div>
 
@@ -116,12 +126,14 @@ var CreateNewBevy = React.createClass({
 								<TextField
 									type='text'
 									ref='addMember'
-									placeholder='Add Members...' />
+									placeholder='Add Members...'
+								/>
 							</div>
 							<div className='col-xs-4'>
 								<RaisedButton
 									onClick={ this.addMember }
-									label='Add Member'/>
+									label='Add Member'
+								/>
 							</div>
 						</div>
 
@@ -136,10 +148,12 @@ var CreateNewBevy = React.createClass({
 								<div className="panel-bottom">
 									<RaisedButton
 										onClick={ this.create }
-										label="Create"/>
+										label="Create"
+									/>
 									<FlatButton
 										onClick={ this.props.onRequestHide }
-										label="Cancel"/>
+										label="Cancel"
+									/>
 								</div>
 							</div>
 						</div>
