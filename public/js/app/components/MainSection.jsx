@@ -131,6 +131,7 @@ var MainSection = React.createClass({
 							<div className='row'>
 								<LeftSidebar
 									allBevies={ this.state.allBevies }
+									activeAlias={ this.state.activeAlias }
 									activeBevy={ this.state.activeBevy }/>
 								<PostContainer allPosts={ this.state.allPosts } activeBevy={ this.state.activeBevy }/>
 								<RightSidebar

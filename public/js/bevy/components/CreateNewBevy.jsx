@@ -31,6 +31,10 @@ function validateEmail(email) {
 
 var CreateNewBevy = React.createClass({
 
+	propTypes: {
+		activeAlias: React.PropTypes.object
+	},
+
 	getInitialState: function() {
 		return {
 			members: []
@@ -75,7 +79,7 @@ var CreateNewBevy = React.createClass({
 
 
 
-		BevyActions.create(name, members);
+		BevyActions.create(name, members, this.props.activeAlias.id);
 
 		// after, close the window
 		this.props.onRequestHide();
