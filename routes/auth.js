@@ -50,8 +50,8 @@ module.exports = function(app) {
 
 	app.get('/auth/google/callback',
 		passport.authenticate('google', {
-			  failureRedirect: '/login'
-			, successRedirect: '/'
+			failureRedirect: '/login',
+			successRedirect: '/'
 		}
 	));
 
@@ -111,10 +111,10 @@ module.exports = function(app) {
 			function(resetToken, user, done) {
 				// send email
 				mailgun.messages().send({
-					  from: 'Bevy Team <contact@bvy.io>'
-					, to: email
-					, subject: 'Reset Password'
-					, text: 'Heres your link: ' + config.app.server.hostname + '/reset/' + resetToken.token
+					from: 'Bevy Team <contact@bvy.io>',
+					to: email,
+					subject: 'Reset Password',
+					text: 'Heres your link: ' + config.app.server.hostname + '/reset/' + resetToken.token
 				}, function(err, body) {
 					if(err) return next(err);
 					//console.log(body);

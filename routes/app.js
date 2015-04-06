@@ -8,10 +8,10 @@ module.exports = function(app) {
 	//test email
 	app.get('/emailtest', function(req, res, next) {
 		mailgun.messages().send({
-			  from: 'Bevy Team <contact@bvy.io>'
-			, to: 'blahoink@gmail.com'
-			, subject: 'Test Subject'
-			, text: 'Test Body'
+			from: 'Bevy Team <contact@bvy.io>',
+			to: 'blahoink@gmail.com',
+			subject: 'Test Subject',
+			text: 'Test Body'
 		}, function(error, body) {
 			res.json(body);
 		});
@@ -24,8 +24,8 @@ module.exports = function(app) {
 	// TODO: support for hashes and non-pushstates
 	app.get('/**', require_user, function(req, res, next) {
 		res.render('app', {
-			  env: process.env.NODE_ENV
-			, user: req.user
+			env: process.env.NODE_ENV,
+			user: req.user
 		});
 	});
 }
