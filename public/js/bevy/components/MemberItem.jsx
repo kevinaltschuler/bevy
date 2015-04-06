@@ -44,8 +44,8 @@ var MemberItem = React.createClass({
 		var joined = (_.isEmpty(this.props.aliasid)) ? false : true;
 
 		var contactStatus = '';
-		if(!joined) contactStatus = 'invited';
-		else contactStatus = this.props.aliasid;
+		if(!joined) contactStatus = '[invited]';
+		else contactStatus = this.props.aliasid.name;
 
 		return <div className="row alias-item">
 
@@ -62,7 +62,7 @@ var MemberItem = React.createClass({
 							{ contactName }
 						</div>
 						<div className='alias-status'>
-							{ contactStatus.name }
+							{ contactStatus }
 						</div>
 					</div>
 
