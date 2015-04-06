@@ -125,14 +125,6 @@ _.extend(BevyStore, {
 				if(!_.isEmpty(name)) bevy.set('name', name);
 				if(!_.isEmpty(description)) bevy.set('description', description);
 
-				console.log(bevy.changedAttributes());
-
-				//bevy.save(['name', 'description'], {
-				//	patch: true
-				//});
-				//bevy.save({
-				//	patch: true
-				//});
 				bevy.save({
 					  name: name
 					, description: description
@@ -187,7 +179,7 @@ _.extend(BevyStore, {
 				var alias = payload.alias;
 				var members = payload.members;
 
-				console.log(bevy, members);
+				//console.log(bevy, members);
 
 				// create notification
 				// which sends email
@@ -200,11 +192,11 @@ _.extend(BevyStore, {
 						, alias: alias
 					},
 					function(data) {
-						console.log(data);
+						//console.log(data);
 					}
 				).fail(function(jqXHR) {
 					var response = jqXHR.responseJSON;
-					console.log(response);
+					//console.log(response);
 				}.bind(this));
 
 				break;
@@ -229,20 +221,25 @@ _.extend(BevyStore, {
 
 				} else {
 					// user is being invited, add email
-					// add aliasid if it exists, to auto-join
 					invited_user = {
-						  email: email
-						, aliasid: alias._id
+						email: email
 					}
 					members.push(invited_user);
 				}
 
-				bevy.set('members', members);
+				var unpopulated_members = _.map(members, function(member, key) {
+					if(_.isObject(member.aliasid))
+						member.aliasid = member.aliasid._id;
+					return member;
+				});
+
+				console.log(unpopulated_members);
 
 				// save changes
 				bevy.save({
-					success: function(model, response) {
-					}
+					members: unpopulated_members
+				}, {
+					patch: true
 				});
 
 				// simulate population

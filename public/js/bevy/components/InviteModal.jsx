@@ -66,7 +66,6 @@ var InviteModal = React.createClass({
 
 		// TODO: idiot proofing
 
-		//var id = this.props.activeBevy.id;
 		var bevy = this.props.activeBevy.toJSON();
 		var alias = this.props.activeAlias.toJSON();
 		//console.log(bevy);
@@ -74,7 +73,13 @@ var InviteModal = React.createClass({
 		var members = this.state.members;
 		if(members.length < 1) return;
 
+		// send the invite
 		BevyActions.invite(bevy, alias, members);
+		// then add the invited user
+		for(var key in members) {
+			var member = members[key];
+			BevyActions.addUser(bevy._id, null, member);
+		}
 
 		// hide modal
 		this.props.onRequestHide();
