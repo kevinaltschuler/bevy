@@ -191,7 +191,11 @@ var Post = React.createClass({
 						{ panelHeading }
 						{ panelBody }
 						<div className="panel-comments">
-							<div className="comment-count">3 Comments • 12 points</div>
+							<div className="comment-count">
+								{ this.state.comments.length } Comments
+								•&nbsp;
+								{ this.countVotes() } points
+							</div>
 							<div className="row comment">
 								<img className="profile-img" src={ profileImage }/>
 								<div className="comment-text">
