@@ -40,8 +40,7 @@ var BevyPanel = React.createClass({
 	},
 
 	getInitialState: function() {
-		return <div>
-				 </div>
+		return {};
 	},
 
 	leave: function(ev) {
