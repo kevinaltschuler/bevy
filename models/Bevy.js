@@ -26,6 +26,7 @@ module.exports = new Schema({
 	  	},
 	  	notificationLevel: {
 	  		type: String,
+	  		default: 'all'
 	  	}
 	}, { _id: false }) ],
 	settings: {
