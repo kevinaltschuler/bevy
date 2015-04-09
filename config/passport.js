@@ -59,8 +59,7 @@ module.exports = function(app) {
 			// having both an email account and a google account (confusing!)
 			var email_query = { email: { $in: emails } };
 
-			User.findOne({ $or: [ id_query, email_query ] }, function (err, user) {
-				if(err) return done(err);
+			User.findOne({ $or: [ id_query, email_query ] }, function (user) {
 				if(user) {
 					// user found
 					console.log('User', emails[0], 'already exists! Logging in...');
@@ -70,9 +69,9 @@ module.exports = function(app) {
 						user.google = profile;
 						user.save(function(err) {
 							if(err) return done(err);
-							return done(err, user);
+							return done(null, user);
 						});
-					} else return done(err, user);
+					} else return done(null, user);
 				} else {
 					// user not found. let's create an account
 					console.log('User', emails[0], 'doesnt exist. Creating new user...');
@@ -84,7 +83,7 @@ module.exports = function(app) {
 					}, function(err, new_user) {
 						if(err) return done(err);
 
-						return done(new_user);
+						return done(null, new_user);
 					});
 				}
 			});
