@@ -42,8 +42,27 @@ var BevyPanel = React.createClass({
 
 	getInitialState: function() {
 		return {
+			activeMember: null,
 			isEditing: false
 		};
+	},
+
+	componentWillReceiveProps: function(nextProps) {
+		var bevy = nextProps.activeBevy;
+		var alias = nextProps.activeAlias;
+		if(!_.isEmpty(bevy) && !_.isEmpty(alias)) {
+			var members = bevy.get('members');
+			var member = _.find(members, function(m) {
+				return m.aliasid._id == alias.id;
+			});
+			if(member) {
+				this.setState({
+					activeMember: member
+				});
+			} else {
+				// add member
+			}
+		}
 	},
 
 	startEditing: function(ev) {
@@ -113,16 +132,16 @@ var BevyPanel = React.createClass({
 		if(_.isEmpty(description)) description = 'no description';
 
 		var notificationMenuItems = [
-		   { payload: 'all', text: 'All Posts' },
-		   { payload: 'my', text: 'My Posts' },
-		   { payload: 'never', text: 'Never' },
+		   { payload: 'all', text: 'All Posts', defaultIndex: 0 },
+		   { payload: 'my', text: 'My Posts', defaultIndex: 1 },
+		   { payload: 'never', text: 'Never', defaultIndex: 2 },
 		];
 
 		var members = (_.isEmpty(bevy)) ? [] : bevy.get('members');
 
 		// check if current alias is member of bevy
 		// if not, then add them to the member list
-		var isMember = false;
+		/*var isMember = false;
 		for(var key in members) {
 			var member = members[key];
 			if(member.aliasid) {
@@ -137,7 +156,24 @@ var BevyPanel = React.createClass({
 
 			// add member
 			BevyActions.addUser(bevy.id, alias.toJSON(), user.email);
+		}*/
+
+		var member = this.state.activeMember
+		if(!_.isEmpty(member)) {
+			var level = member.notificationLevel;
+
+			// swap so the level from the db is the selected one
+			var temp = _.findWhere(notificationMenuItems, { payload: level });
+			var first = notificationMenuItems[0];
+
+			notificationMenuItems[temp.defaultIndex] = first;
+			notificationMenuItems[0] = temp;
+
+		} else {
+
 		}
+
+
 
 		var header;
 		if(this.state.isEditing) {
