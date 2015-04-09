@@ -59,7 +59,8 @@ module.exports = function(app) {
 			// having both an email account and a google account (confusing!)
 			var email_query = { email: { $in: emails } };
 
-			User.findOne({ $or: [ id_query, email_query ] }, function (user) {
+			User.findOne({ $or: [ id_query, email_query ] }, function (err, user) {
+				if(err) return done(err);
 				if(user) {
 					// user found
 					console.log('User', emails[0], 'already exists! Logging in...');
