@@ -53,9 +53,9 @@ exports.BEVY = {
 exports.ALIAS = {
 	CREATE: 'alias_create',
 	DESTROY: 'alias_destroy',
+	UPDATE: 'alias_update',
 	SWITCH: 'alias_switch',
 
-	SETUSER: 'alias_set_user',
 	CHANGE_ALL: 'alias_change_all'
 };
 

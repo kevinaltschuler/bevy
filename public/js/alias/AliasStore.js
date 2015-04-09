@@ -102,14 +102,29 @@ _.extend(AliasStore, {
 
 				break;
 
+			case ALIAS.UPDATE:
+				var alias_id = payload.alias_id;
+				var name = payload.name;
+
+				var alias = aliases.get(alias_id);
+
+				alias.save({
+					name: name
+				}, {
+					patch: true
+				});
+
+				alias.set('name', name);
+
+				this.trigger(ALIAS.CHANGE_ALL);
+
+				break;
+
 			case ALIAS.SWITCH:
 				var alias_id = payload.id;
 				aliases._meta.active = alias_id;
 
 				this.trigger(ALIAS.CHANGE_ALL);
-				break;
-
-			case ALIAS.SETUSER:
 				break;
 		}
 	},

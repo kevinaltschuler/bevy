@@ -31,6 +31,13 @@ var AliasActions = {
 		dispatch(ALIAS.DESTROY, {
 			id: (id == undefined) ? '0' : id
 		});
+	},
+
+	update: function(alias_id, name) {
+		dispatch(ALIAS.UPDATE, {
+			alias_id: (alias_id == undefined) ? '' : alias_id,
+			name: (name == undefined) ? 'noname' : name
+		});
 	}
 };
 module.exports = AliasActions;
