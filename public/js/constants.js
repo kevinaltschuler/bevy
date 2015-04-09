@@ -40,6 +40,7 @@ exports.BEVY = {
 	CREATE: 'bevy_create',
 	DESTROY: 'bevy_destroy',
 	UPDATE: 'bevy_update',
+	SET_NOTIFICATION_LEVEL: 'bevy_set_notification_level',
 	LEAVE: 'bevy_leave',
 	SWITCH: 'bevy_switch',
 	INVITE: 'bevy_invite',

@@ -38,6 +38,14 @@ var PostActions = {
 		});
 	},
 
+	setNotificationLevel: function(bevy_id, alias_id, level) {
+		dispatch(BEVY.SET_NOTIFICATION_LEVEL, {
+			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
+			alias_id: (alias_id == undefined) ? '' : alias_id,
+			level: (level == undefined) ? 'never' : level
+		});
+	},
+
 	leave: function(bevy_id, email, alias_id) {
 		dispatch(BEVY.LEAVE, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id,

@@ -134,6 +134,45 @@ _.extend(BevyStore, {
 
 				break;
 
+			case BEVY.SET_NOTIFICATION_LEVEL:
+
+				var bevy_id = payload.bevy_id;
+				var alias_id = payload.alias_id;
+				var level = payload.level;
+
+				//console.log(bevy_id, alias_id, level);
+
+				var bevy = bevies.get(bevy_id);
+				var members = bevy.get('members');
+
+				// set level
+				members = _.map(members, function(member) {
+					if(member.aliasid._id == alias_id) {
+						member.notificationLevel = level;
+						return member;
+					} else return member;
+				});
+
+				//console.log(members);
+
+				// unpopulate member aliasid
+				var unpopulated_members = _.map(members, function(member, key) {
+					if(_.isObject(member.aliasid))
+						member.aliasid = member.aliasid._id;
+					return member;
+				});
+
+				// save to server
+				bevy.save({
+					members: unpopulated_members
+				}, {
+					patch: true
+				});
+
+				bevy.set('members', members);
+
+				break;
+
 			case BEVY.LEAVE:
 				var bevy_id = payload.bevy_id;
 				var email = payload.email || '';
@@ -155,17 +194,24 @@ _.extend(BevyStore, {
 					});
 				}
 
-				bevy.set('members', members);
+				var unpopulated_members = _.map(members, function(member, key) {
+					if(_.isObject(member.aliasid))
+						member.aliasid = member.aliasid._id;
+					return member;
+				});
 
 				// save to server
 				bevy.save({
-					success: function(model, response) {
-					}
+					members: unpopulated_members
+				}, {
+					patch: true
 				});
+
+				bevy.set('members', members);
 
 				this.trigger(BEVY.CHANGE_ALL);
 
-				console.log('leave', bevy_id);
+				//console.log('leave', bevy_id);
 				break;
 
 			case BEVY.SWITCH:

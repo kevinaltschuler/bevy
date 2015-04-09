@@ -65,6 +65,16 @@ var BevyPanel = React.createClass({
 		});
 	},
 
+	setNotificationLevel: function(ev, selectedIndex, menuItem) {
+		ev.preventDefault();
+
+		var bevy_id = this.props.activeBevy.id;
+		var alias_id = this.props.activeAlias.id;
+		var level = menuItem.payload;
+
+		BevyActions.setNotificationLevel(bevy_id, alias_id, level);
+	},
+
 	leave: function(ev) {
 		ev.preventDefault();
 
@@ -103,9 +113,9 @@ var BevyPanel = React.createClass({
 		if(_.isEmpty(description)) description = 'no description';
 
 		var notificationMenuItems = [
-		   { payload: '1', text: 'All Posts' },
-		   { payload: '2', text: 'My Posts' },
-		   { payload: '3', text: 'Never' },
+		   { payload: 'all', text: 'All Posts' },
+		   { payload: 'my', text: 'My Posts' },
+		   { payload: 'never', text: 'Never' },
 		];
 
 		var members = (_.isEmpty(bevy)) ? [] : bevy.get('members');
@@ -216,7 +226,11 @@ var BevyPanel = React.createClass({
 
 					<div className='row sidebar-action'>
 						<div className="sidebar-action-title col-xs-12"> Notifications </div>
-						<DropDownMenu className='sidebar-action-dropdown' menuItems={notificationMenuItems} />
+						<DropDownMenu
+							className='sidebar-action-dropdown'
+							menuItems={ notificationMenuItems }
+							onChange={ this.setNotificationLevel }
+						/>
 					</div>
 
 					<div className='row sidebar-bottom'>

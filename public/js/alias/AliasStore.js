@@ -43,7 +43,6 @@ aliases.fetch({
 			}, {
 				wait: true
 			});
-
 		}
 
 		// set the first found alias to the active one
