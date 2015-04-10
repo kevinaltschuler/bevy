@@ -15,6 +15,12 @@ var BEVY = require('./../constants').BEVY;
 
 var PostActions = {
 
+	fetch: function(alias) {
+		dispatch(BEVY.FETCH, {
+			alias: (alias == undefined) ? {} : alias
+		});
+	},
+
 	create: function(name, description, members, alias_id) {
 		dispatch(BEVY.CREATE, {
 			name: (name == undefined) ? '' : name,

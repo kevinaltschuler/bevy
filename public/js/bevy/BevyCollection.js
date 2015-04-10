@@ -10,14 +10,23 @@
 
 // imports
 var Backbone = require('backbone');
+var _ = require('underscore');
+
 var Bevy = require('./BevyModel');
 var constants = require('./../constants');
 
 // backbone collection
 module.exports = Backbone.Collection.extend({
 	model: Bevy,
-	url: constants.apiurl + '/bevies',
+	//url: constants.apiurl + '/bevies',
+	url: function() {
+		return (_.isEmpty(this._meta.active))
+		? constants.apiurl + '/bevies'
+		: constants.apiurl + '/aliases/' + this._meta.alias.id + '/bevies'
+	},
+
 	_meta: {
-		active: null
+		active: null,
+		alias: null
 	}
 });

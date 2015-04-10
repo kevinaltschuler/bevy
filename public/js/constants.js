@@ -46,6 +46,8 @@ exports.BEVY = {
 	INVITE: 'bevy_invite',
 	ADD_USER: 'bevy_add_user',
 
+	FETCH: 'bevy_fetch',
+
 	CHANGE_ALL: 'bevy_change_all',
 	CHANGE_ONE: 'bevy_change_one'
 };

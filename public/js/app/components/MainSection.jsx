@@ -27,6 +27,8 @@ var BevyStore = require('./../../bevy/BevyStore');
 var AliasStore = require('./../../alias/AliasStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 
+var BevyActions = require('./../../bevy/BevyActions');
+
 var POST = require('./../../constants').POST;
 var BEVY = require('./../../constants').BEVY;
 var ALIAS = require('./../../constants').ALIAS;
@@ -52,9 +54,17 @@ function getBevyState() {
 	}
 }
 function getAliasState() {
+
+	var all = AliasStore.getAll();
+	var active = AliasStore.getActive();
+
+	//console.log(active);
+
+	BevyActions.fetch(active);
+
 	return {
-		allAliases: AliasStore.getAll(),
-		activeAlias: AliasStore.getActive()
+		allAliases: all,
+		activeAlias: active
 	}
 }
 function getNotificationState() {

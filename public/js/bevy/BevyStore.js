@@ -29,7 +29,7 @@ var user = window.bootstrap.user;
 
 // create collection
 var bevies = new Bevies;
-bevies.fetch({
+/*bevies.fetch({
 	success: function(collection, response, options) {
 		// set the first found bevy to the active one
 		var first = collection.models[0];
@@ -42,7 +42,7 @@ bevies.fetch({
 		// but whatever. will figure out a better way later
 		BevyActions.switchBevy(collection.get('c1').id);
 	}
-});
+});*/
 
 bevies.on('sync', function() {
 	BevyStore.trigger(BEVY.CHANGE_ALL);
@@ -59,6 +59,28 @@ _.extend(BevyStore, {
 	// these are created from BevyActions.js
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
+
+			case BEVY.FETCH:
+				var alias = payload.alias;
+
+				bevies._meta.alias = alias;
+
+				bevies.fetch({
+					success: function(collection, response, options) {
+						// set the first found bevy to the active one
+						var first = collection.models[0];
+						if(!_.isEmpty(first)) bevies._meta.active = first.id;
+
+						// propagate change
+						this.trigger(BEVY.CHANGE_ALL);
+						// also update posts
+						// unorthodox and breaks flux flow...
+						// but whatever. will figure out a better way later
+						BevyActions.switchBevy(collection.models[0].id);
+					}.bind(this)
+				});
+
+				break;
 
 			case BEVY.CREATE:
 				var name = payload.name;
@@ -304,7 +326,9 @@ _.extend(BevyStore, {
 	},
 
 	getActive: function() {
-		return (bevies._meta.active == null) ? {} : bevies.get(bevies._meta.active);
+		return (bevies._meta.active == null)
+		? {}
+		: bevies.get(bevies._meta.active);
 	}
 });
 Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
