@@ -80,9 +80,9 @@ var PostActions = {
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to
 	 */
-	switchBevy: function(id) {
+	switchBevy: function(bevy_id) {
 		dispatch(BEVY.SWITCH, {
-			id: (id == undefined) ? '0' : id
+			bevy_id: (bevy_id == undefined) ? null : bevy_id
 		});
 	}
 };

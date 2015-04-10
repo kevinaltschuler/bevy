@@ -242,8 +242,22 @@ _.extend(BevyStore, {
 				break;
 
 			case BEVY.SWITCH:
-				var id = payload.id;
-				bevies._meta.active = id;
+				var bevy_id = payload.bevy_id;
+
+				if(bevy_id) {
+					if(bevies.models.length < 1) {
+						// no more bevies
+						bevies._meta.active = null;
+					} else {
+						// set to the first one
+						var first_id = bevies.models[0].id;
+						bevies._meta.active = first_id;
+					}
+				} else {
+					bevies._meta.active = bevy_id;
+				}
+
+
 				this.trigger(BEVY.CHANGE_ALL);
 				break;
 

@@ -106,6 +106,8 @@ var BevyPanel = React.createClass({
 		var alias_id = this.props.activeAlias.id;
 
 		BevyActions.leave(bevy_id, email, alias_id);
+		// then switch to another bevy
+		BevyActions.switch();
 	},
 
 	destroy: function(ev) {
