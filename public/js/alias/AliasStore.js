@@ -23,7 +23,6 @@ var AliasCollection = require('./AliasCollection');
 
 var AliasActions = require('./AliasActions');
 
-
 // inherit event class first
 var AliasStore = _.extend({}, Backbone.Events);
 // now add some custom functions
@@ -73,15 +72,11 @@ _.extend(AliasStore, {
 
 			case ALIAS.CREATE:
 				var name = payload.name;
-				//console.log(name);
 
 				var newAlias = {
 					name: name
 				};
-
-				this.aliases.create(newAlias, {
-					//wait: true
-				});
+				this.aliases.create(newAlias);
 
 				// if this is the only alias, switch to it
 				if(this.aliases.models.length === 1) {
@@ -94,9 +89,7 @@ _.extend(AliasStore, {
 
 			case ALIAS.DESTROY:
 				var id = payload.id;
-				//console.log('destroy', id);
 				var alias = this.aliases.get(id);
-
 
 				alias.destroy({
 					success: function(model, response) {
@@ -119,8 +112,6 @@ _.extend(AliasStore, {
 				});
 
 				alias.set('name', name);
-
-				//this.trigger(ALIAS.CHANGE_ALL);
 
 				break;
 

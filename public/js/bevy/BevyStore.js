@@ -31,7 +31,6 @@ var BevyActions = require('./BevyActions');
 
 var user = window.bootstrap.user;
 
-
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
 // to this store's events
@@ -128,17 +127,12 @@ _.extend(BevyStore, {
 
 			case BEVY.DESTROY:
 				var id = payload.id;
-				//console.log('destroy', id);
-				//bevies.remove(bevies.get(id));
 				var bevy = this.bevies.get(id);
 				bevy.destroy({
 					success: function(model, response) {
-						//console.log(model);
 						// switch the active bevy
 						var newBevy = this.bevies.models[0];
 						if(!newBevy) {
-							// no more bevies.
-							// what to do here?
 							this.bevies._meta.active = null;
 						}
 						this.bevies._meta.active = newBevy.id;
@@ -177,8 +171,6 @@ _.extend(BevyStore, {
 				var alias_id = payload.alias_id;
 				var level = payload.level;
 
-				//console.log(bevy_id, alias_id, level);
-
 				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
 
@@ -189,8 +181,6 @@ _.extend(BevyStore, {
 						return member;
 					} else return member;
 				});
-
-				//console.log(members);
 
 				// unpopulate member aliasid
 				var unpopulated_members = _.map(members, function(member, key) {
@@ -252,7 +242,6 @@ _.extend(BevyStore, {
 
 				this.trigger(BEVY.CHANGE_ALL);
 
-				//console.log('leave', members);
 				break;
 
 			case BEVY.SWITCH:
@@ -280,8 +269,6 @@ _.extend(BevyStore, {
 				var alias = payload.alias;
 				var members = payload.members;
 
-				//console.log(bevy, members);
-
 				// create notification
 				// which sends email
 				$.post(
@@ -293,11 +280,9 @@ _.extend(BevyStore, {
 						alias: alias
 					},
 					function(data) {
-						//console.log(data);
 					}
 				).fail(function(jqXHR) {
 					var response = jqXHR.responseJSON;
-					//console.log(response);
 				}.bind(this));
 
 				break;
@@ -334,8 +319,6 @@ _.extend(BevyStore, {
 					return member;
 				});
 
-				console.log(unpopulated_members);
-
 				// save changes
 				bevy.save({
 					members: unpopulated_members
@@ -346,9 +329,6 @@ _.extend(BevyStore, {
 				// simulate population
 				members[members.indexOf(invited_user)].aliasid = alias;
 				bevy.set('members', members);
-
-				//this.trigger(BEVY.CHANGE_ALL);
-				//console.log(bevy.toJSON());
 
 				break;
 		}

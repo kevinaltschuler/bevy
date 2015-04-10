@@ -105,26 +105,6 @@ _.extend(PostStore, {
 
 				break;
 
-			/*case POST.FETCH:
-				var bevy = payload.bevy;
-				// no bevy, no posts
-				if(!bevy) break;
-				// prevent redundant fetching
-				if(!_.isEmpty(posts._meta.bevy) &&
-					bevy.id == posts._meta.bevy.id) break;
-
-				//console.log(bevy);
-
-				posts._meta.bevy = bevy;
-
-				posts.fetch({
-					success: function(collection, response, options) {
-						this.trigger(POST.CHANGE_ALL);
-					}.bind(this)
-				});
-
-				break;*/
-
 			case POST.CREATE: // create a post
 
 				// collect payload vars
@@ -133,8 +113,6 @@ _.extend(PostStore, {
 				var image_url = payload.image_url;
 				var author = payload.author;
 				var bevy = payload.bevy;
-
-				//console.log('author', author);
 
 				var newPost = this.posts.add({
 					title: title,
@@ -156,12 +134,6 @@ _.extend(PostStore, {
 				newPost.set('author', author);
 				newPost.set('bevy', bevy);
 
-				//posts.create(newPost, {
-				//	wait: true
-				//});
-
-				//console.log(posts.models[posts.models.length - 1]);
-
 				// this requires a visual update
 				this.trigger(POST.CHANGE_ALL);
 
@@ -170,8 +142,6 @@ _.extend(PostStore, {
 			case POST.DESTROY:
 				var post_id = payload.post_id;
 				var post = this.posts.get(post_id);
-
-				//console.log('destroy', post_id);
 
 				post.destroy({
 					success: function(model, response) {
@@ -182,7 +152,6 @@ _.extend(PostStore, {
 				break;
 
 			case POST.UPVOTE:
-				//console.log('upvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
@@ -192,7 +161,6 @@ _.extend(PostStore, {
 				break;
 
 			case POST.DOWNVOTE:
-				//console.log('downvote');
 				var post_id = payload.post_id;
 				var author = payload.author;
 
@@ -202,7 +170,6 @@ _.extend(PostStore, {
 				break;
 
 			case POST.SORT:
-				//console.log('sort', payload.by, payload.direction);
 				var by = payload.by;
 				var direction = payload.direction;
 
@@ -215,7 +182,6 @@ _.extend(PostStore, {
 						break;
 				}
 				this.posts.sort();
-				//console.log(posts.pluck('title'));
 
 				this.trigger(POST.CHANGE_ALL);
 				break;
@@ -273,7 +239,6 @@ _.extend(PostStore, {
 		}
 
 		points.push({ author: author, value: value });
-		//voted_post.set('points', points);
 
 		// TODO: save post
 		voted_post.save({
