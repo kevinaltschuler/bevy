@@ -25,12 +25,18 @@ exports.protocol = protocol;
 exports.api_subdomain = api_subdomain;
 exports.api_version = api_version;
 
+exports.APP = {
+	LOAD: 'app_load'
+};
+
 exports.POST = {
 	CREATE: 'post_create',
 	DESTROY: 'post_destroy',
 	UPVOTE: 'post_upvote',
 	DOWNVOTE: 'post_downvote',
 	SORT: 'post_sort',
+
+	FETCH: 'post_fetch',
 
 	CHANGE_ALL: 'post_change_all',
 	CHANGE_ONE: 'post_change_one'

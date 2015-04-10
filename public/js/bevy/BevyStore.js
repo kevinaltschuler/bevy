@@ -20,33 +20,17 @@ var Bevy = require('./BevyModel');
 var Bevies = require('./BevyCollection');
 
 var constants = require('./../constants');
-var BEVY = require('./../constants').BEVY;
-var POST = require('./../constants').POST;
+var ALIAS = constants.ALIAS;
+var BEVY = constants.BEVY;
+var POST = constants.POST;
+var APP = constants.APP;
+
+var AliasStore = require('./../alias/AliasStore');
 
 var BevyActions = require('./BevyActions');
 
 var user = window.bootstrap.user;
 
-// create collection
-var bevies = new Bevies;
-/*bevies.fetch({
-	success: function(collection, response, options) {
-		// set the first found bevy to the active one
-		var first = collection.models[0];
-		if(!_.isEmpty(first)) bevies._meta.active = first.id;
-
-		// propagate change
-		BevyStore.trigger(BEVY.CHANGE_ALL);
-		// also update posts
-		// unorthodox and breaks flux flow...
-		// but whatever. will figure out a better way later
-		BevyActions.switchBevy(collection.get('c1').id);
-	}
-});*/
-
-bevies.on('sync', function() {
-	BevyStore.trigger(BEVY.CHANGE_ALL);
-});
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
@@ -55,31 +39,60 @@ var BevyStore = _.extend({}, Backbone.Events);
 
 // now add some custom functions
 _.extend(BevyStore, {
+
+	bevies: new Bevies,
+
 	// handle calls from the dispatcher
 	// these are created from BevyActions.js
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
 
-			case BEVY.FETCH:
-				var alias = payload.alias;
-				if(_.isEmpty(alias)) break;
+			case APP.LOAD:
+				// populate aliases first
+				Dispatcher.waitFor([AliasStore.dispatchToken]);
 
-				bevies._meta.alias = alias;
+				var alias = AliasStore.getActive();
+				this.bevies._meta.alias = alias;
 
-				bevies.fetch({
+				this.bevies.fetch({
+					async: false,
 					success: function(collection, response, options) {
 						// set the first found bevy to the active one
 						var first = collection.models[0];
-						if(!_.isEmpty(first)) bevies._meta.active = first.id;
+						if(!_.isEmpty(first)) this.bevies._meta.active = first.id;
 
 						// propagate change
 						this.trigger(BEVY.CHANGE_ALL);
-						// also update posts
-						// unorthodox and breaks flux flow...
-						// but whatever. will figure out a better way later
-						BevyActions.switchBevy(collection.models[0].id);
 					}.bind(this)
 				});
+
+				break;
+
+			case ALIAS.SWITCH:
+
+				// wait for alias switch
+				Dispatcher.waitFor([AliasStore.dispatchToken]);
+
+				var alias = AliasStore.getActive();
+				this.bevies._meta.alias = alias;
+
+				if(_.isEmpty(alias)) {
+					this.bevies.reset();
+					this.trigger(BEVY.CHANGE_ALL);
+				} else {
+					this.bevies.fetch({
+						reset: true,
+						async: false,
+						success: function(collection, response, options) {
+							// set the first found bevy to the active one
+							var first = collection.models[0];
+							if(!_.isEmpty(first)) this.bevies._meta.active = first.id;
+
+							// propagate change
+							this.trigger(BEVY.CHANGE_ALL);
+						}.bind(this)
+					});
+				}
 
 				break;
 
@@ -107,7 +120,7 @@ _.extend(BevyStore, {
 					description: description,
 					members: members
 				};
-				bevies.create(newBevy, {
+				this.bevies.create(newBevy, {
 					wait: true
 				});
 
@@ -117,17 +130,18 @@ _.extend(BevyStore, {
 				var id = payload.id;
 				//console.log('destroy', id);
 				//bevies.remove(bevies.get(id));
-				var bevy = bevies.get(id);
+				var bevy = this.bevies.get(id);
 				bevy.destroy({
 					success: function(model, response) {
 						//console.log(model);
 						// switch the active bevy
-						var newBevy = bevies.models[0];
+						var newBevy = this.bevies.models[0];
 						if(!newBevy) {
 							// no more bevies.
 							// what to do here?
+							this.bevies._meta.active = null;
 						}
-						bevies._meta.active = newBevy.id;
+						this.bevies._meta.active = newBevy.id;
 
 						// update posts
 						BevyActions.switchBevy(newBevy.id);
@@ -143,7 +157,7 @@ _.extend(BevyStore, {
 				var name = payload.name;
 				var description = payload.description;
 
-				var bevy = bevies.get(bevy_id);
+				var bevy = this.bevies.get(bevy_id);
 
 				if(!_.isEmpty(name)) bevy.set('name', name);
 				if(!_.isEmpty(description)) bevy.set('description', description);
@@ -165,7 +179,7 @@ _.extend(BevyStore, {
 
 				//console.log(bevy_id, alias_id, level);
 
-				var bevy = bevies.get(bevy_id);
+				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
 
 				// set level
@@ -201,7 +215,7 @@ _.extend(BevyStore, {
 				var email = payload.email || '';
 				var alias_id = payload.alias_id || '';
 
-				var bevy = bevies.get(bevy_id);
+				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
 
 				if(_.isEmpty(alias_id)) {
@@ -244,21 +258,21 @@ _.extend(BevyStore, {
 			case BEVY.SWITCH:
 				var bevy_id = payload.bevy_id;
 
-				if(bevy_id) {
-					if(bevies.models.length < 1) {
+				if(!bevy_id) {
+					if(this.bevies.models.length < 1) {
 						// no more bevies
-						bevies._meta.active = null;
+						this.bevies._meta.active = null;
 					} else {
 						// set to the first one
-						var first_id = bevies.models[0].id;
-						bevies._meta.active = first_id;
+						var first_id = this.bevies.models[0].id;
+						this.bevies._meta.active = first_id;
 					}
 				} else {
-					bevies._meta.active = bevy_id;
+					this.bevies._meta.active = bevy_id;
 				}
 
-
 				this.trigger(BEVY.CHANGE_ALL);
+
 				break;
 
 			case BEVY.INVITE:
@@ -293,7 +307,7 @@ _.extend(BevyStore, {
 				var alias = payload.alias;
 				var email = payload.email;
 
-				var bevy = bevies.get(bevy_id);
+				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
 
 				var invited_user = _.find(members, function(member) {
@@ -334,21 +348,24 @@ _.extend(BevyStore, {
 				bevy.set('members', members);
 
 				//this.trigger(BEVY.CHANGE_ALL);
-				console.log(bevy.toJSON());
+				//console.log(bevy.toJSON());
 
 				break;
 		}
 	},
 
 	getAll: function() {
-		return bevies.toJSON();
+		return this.bevies.toJSON();
 	},
 
 	getActive: function() {
-		return (bevies._meta.active == null)
+		return (this.bevies._meta.active == null)
 		? {}
-		: bevies.get(bevies._meta.active);
+		: this.bevies.get(this.bevies._meta.active);
 	}
 });
-Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
+
+var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
+BevyStore.dispatchToken = dispatchToken;
+
 module.exports = BevyStore;

@@ -19,12 +19,15 @@ var constants = require('./../constants');
 // backbone collection
 module.exports = Backbone.Collection.extend({
 	model: Post,
+
 	url: function() {
-		return (_.isEmpty(this._meta.bevyid)) ? constants.apiurl + '/posts'
-		: constants.apiurl + '/bevies/' + this._meta.bevyid + '/posts'
+		return (_.isEmpty(this._meta.bevy))
+		? constants.apiurl + '/posts'
+		: constants.apiurl + '/bevies/' + this._meta.bevy.id + '/posts'
 	},
+
 	_meta: {
-		bevyid: null,
+		bevy: null,
 		sort: {
 			by: 'top',
 			direction: 'asc'

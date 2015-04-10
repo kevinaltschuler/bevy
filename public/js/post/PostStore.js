@@ -17,17 +17,19 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 
-var POST = require('./../constants').POST;
-var BEVY = require('./../constants').BEVY;
+var constants = require('./../constants');
+var POST = constants.POST;
+var ALIAS = constants.ALIAS;
+var BEVY = constants.BEVY;
+var APP = constants.APP;
+
+var AliasStore = require('./../alias/AliasStore');
+var BevyStore = require('./../bevy/BevyStore');
+
 var Dispatcher = require('./../shared/dispatcher');
 
-//var Post = require('./PostModel');
 var PostCollection = require('./PostCollection');
-//var Post = PostCollection.model;
 
-// create collection
-var posts = new PostCollection;
-posts.comparator = sortByTop;
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
@@ -35,10 +37,93 @@ posts.comparator = sortByTop;
 var PostStore = _.extend({}, Backbone.Events);
 // now add some custom functions
 _.extend(PostStore, {
+
+	posts: new PostCollection,
+
 	// handle calls from the dispatcher
 	// these are created from PostActions.js
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
+
+			case APP.LOAD:
+
+				// wait for aliases and bevies
+				Dispatcher.waitFor([AliasStore.dispatchToken, BevyStore.dispatchToken]);
+
+				var bevy = BevyStore.getActive();
+				this.posts._meta.bevy = bevy;
+				this.posts.comparator = this.sortByTop;
+
+				this.posts.fetch({
+					success: function(collection, response, options) {
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
+				});
+
+				this.trigger(POST.CHANGE_ALL);
+
+				break;
+
+			case ALIAS.SWITCH:
+
+				// wait for alias and bevy switch
+				Dispatcher.waitFor([AliasStore.dispatchToken, BevyStore.dispatchToken]);
+
+				var bevy = BevyStore.getActive();
+				this.posts._meta.bevy = bevy;
+
+				if(_.isEmpty(bevy)) {
+					this.posts.reset();
+					this.trigger(POST.CHANGE_ALL);
+				} else {
+					this.posts.fetch({
+						reset: true,
+						success: function(collection, response, options) {
+							this.trigger(POST.CHANGE_ALL);
+						}.bind(this)
+					});
+				}
+
+				break;
+
+			case BEVY.SWITCH:
+
+				// wait for bevy switch
+				Dispatcher.waitFor([BevyStore.dispatchToken]);
+
+				var bevy = BevyStore.getActive();
+				this.posts._meta.bevy = bevy;
+
+				this.posts.fetch({
+					reset: true,
+					success: function(collection, response, options) {
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
+				});
+
+				this.trigger(POST.CHANGE_ALL);
+
+				break;
+
+			/*case POST.FETCH:
+				var bevy = payload.bevy;
+				// no bevy, no posts
+				if(!bevy) break;
+				// prevent redundant fetching
+				if(!_.isEmpty(posts._meta.bevy) &&
+					bevy.id == posts._meta.bevy.id) break;
+
+				//console.log(bevy);
+
+				posts._meta.bevy = bevy;
+
+				posts.fetch({
+					success: function(collection, response, options) {
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
+				});
+
+				break;*/
 
 			case POST.CREATE: // create a post
 
@@ -49,9 +134,9 @@ _.extend(PostStore, {
 				var author = payload.author;
 				var bevy = payload.bevy;
 
-				console.log('author', author);
+				//console.log('author', author);
 
-				var newPost = posts.add({
+				var newPost = this.posts.add({
 					title: title,
 					body: body,
 					image_url: image_url,
@@ -75,7 +160,7 @@ _.extend(PostStore, {
 				//	wait: true
 				//});
 
-				console.log(posts.models[posts.models.length - 1]);
+				//console.log(posts.models[posts.models.length - 1]);
 
 				// this requires a visual update
 				this.trigger(POST.CHANGE_ALL);
@@ -84,9 +169,9 @@ _.extend(PostStore, {
 
 			case POST.DESTROY:
 				var post_id = payload.post_id;
-				var post = posts.get(post_id);
+				var post = this.posts.get(post_id);
 
-				console.log('destroy', post_id);
+				//console.log('destroy', post_id);
 
 				post.destroy({
 					success: function(model, response) {
@@ -101,7 +186,7 @@ _.extend(PostStore, {
 				var post_id = payload.post_id;
 				var author = payload.author;
 
-				vote(post_id, author, 1);
+				this.vote(post_id, author, 1);
 
 				this.trigger(POST.CHANGE_ONE);
 				break;
@@ -111,7 +196,7 @@ _.extend(PostStore, {
 				var post_id = payload.post_id;
 				var author = payload.author;
 
-				vote(post_id, author, -1);
+				this.vote(post_id, author, -1);
 
 				this.trigger(POST.CHANGE_ONE);
 				break;
@@ -123,29 +208,16 @@ _.extend(PostStore, {
 
 				switch(by) {
 					case 'new':
-						posts.comparator = sortByNew;
+						this.posts.comparator = sortByNew;
 						break;
 					case 'top':
-						posts.comparator = sortByTop;
+						this.posts.comparator = sortByTop;
 						break;
 				}
-				posts.sort();
+				this.posts.sort();
 				//console.log(posts.pluck('title'));
 
 				this.trigger(POST.CHANGE_ALL);
-				break;
-
-			case BEVY.SWITCH:
-				var id = payload.id;
-				posts._meta.bevyid = id;
-
-				posts.fetch({
-					success: function(collection, response, options) {
-						// for some reason this.trigger(POST.CHANGE_ALL)
-						// doesn't work at all
-						PostStore.trigger(POST.CHANGE_ALL);
-					}
-				});
 				break;
 		}
 	},
@@ -153,7 +225,7 @@ _.extend(PostStore, {
 	// send all posts to the App.jsx in JSON form
 	getAll: function() {
 		// TODO: plug sorting (new/top) into here?
-		return posts.toJSON();
+		return this.posts.toJSON();
 	},
 
 	/**
@@ -162,7 +234,7 @@ _.extend(PostStore, {
 	 * @return {[type]}
 	 */
 	getPost: function(id) {
-		return posts.get(id).toJSON();
+		return this.posts.get(id).toJSON();
 	},
 
 	/**
@@ -171,59 +243,62 @@ _.extend(PostStore, {
 	 */
 	getSort: function() {
 		return {
-			by: posts._meta.sort.by,
-			direction: posts._meta.sort.direction
+			by: this.posts._meta.sort.by,
+			direction: this.posts._meta.sort.direction
 		};
+	},
+
+	vote: function(post_id, author, value) {
+		var voted_post = this.posts.get(post_id);
+
+		if(!voted_post) {
+			// post not found
+			// TODO: return a snackbar message or something
+			return;
+		}
+
+		// create a shallow copy so we don't descend
+		// into reference hell
+		var points = voted_post.get('points').slice();
+
+		// check for already voted
+		var maxVotes = 3;
+		var votes = value; //take into account the current vote
+		points.forEach(function(vote) {
+			if(vote.author === author) votes += vote.value;
+		});
+		if(votes > maxVotes || votes < (0 - maxVotes)) {
+			// over the limit son
+			return;
+		}
+
+		points.push({ author: author, value: value });
+		//voted_post.set('points', points);
+
+		// TODO: save post
+		voted_post.save({
+			points: points
+		}, {
+			patch: true
+		});
+	},
+
+	sortByTop: function(post) {
+		return -post.countVotes();
+	},
+
+	sortByNew: function(post) {
+		return -Date.parse(post.get('created'));
 	}
 });
-Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
+
+var dispatchToken = Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
+PostStore.dispatchToken = dispatchToken;
+
 module.exports = PostStore;
 
-posts.on('sync', function() {
-	//console.log('synced');
-	PostStore.trigger(POST.CHANGE_ALL);
-});
 
 
-function vote(post_id, author, value) {
-	var voted_post = posts.get(post_id);
 
-	if(!voted_post) {
-		// post not found
-		// TODO: return a snackbar message or something
-		return;
-	}
 
-	// create a shallow copy so we don't descend
-	// into reference hell
-	var points = voted_post.get('points').slice();
 
-	// check for already voted
-	var maxVotes = 3;
-	var votes = value; //take into account the current vote
-	points.forEach(function(vote) {
-		if(vote.author === author) votes += vote.value;
-	});
-	if(votes > maxVotes || votes < (0 - maxVotes)) {
-		// over the limit son
-		return;
-	}
-
-	points.push({ author: author, value: value });
-	//voted_post.set('points', points);
-
-	// TODO: save post
-	voted_post.save({
-		points: points
-	}, {
-		patch: true
-	});
-}
-
-function sortByTop(post) {
-	return -post.countVotes();
-};
-
-function sortByNew(post) {
-	return -Date.parse(post.get('created'));
-}

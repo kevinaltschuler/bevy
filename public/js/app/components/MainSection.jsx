@@ -27,7 +27,9 @@ var BevyStore = require('./../../bevy/BevyStore');
 var AliasStore = require('./../../alias/AliasStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 
+var AppActions = require('./../../app/AppActions');
 var BevyActions = require('./../../bevy/BevyActions');
+var PostActions = require('./../../post/PostActions');
 
 var POST = require('./../../constants').POST;
 var BEVY = require('./../../constants').BEVY;
@@ -47,20 +49,20 @@ function getPostState() {
 }
 
 function getBevyState() {
+
+	var all = BevyStore.getAll();
+	var active = BevyStore.getActive();
+
 	return {
 		// later, load this from session/cookies
-		activeBevy: BevyStore.getActive(),
-		allBevies: BevyStore.getAll()
+		allBevies: all,
+		activeBevy: active
 	}
 }
 function getAliasState() {
 
 	var all = AliasStore.getAll();
 	var active = AliasStore.getActive();
-
-	//console.log(active);
-
-	BevyActions.fetch(active);
 
 	return {
 		allAliases: all,
@@ -88,6 +90,9 @@ function collectState() {
 var MainSection = React.createClass({
 	// called directly after mounting
 	getInitialState: function() {
+
+		AppActions.load();
+
 		return collectState();
 	},
 

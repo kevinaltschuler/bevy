@@ -12,7 +12,9 @@
 // imports
 var Backbone = require('backbone');
 var _ = require('underscore');
+
 var ALIAS = require('./../constants').ALIAS;
+var APP = require('./../constants').APP;
 
 var Dispatcher = require('./../shared/dispatcher');
 
@@ -21,51 +23,53 @@ var AliasCollection = require('./AliasCollection');
 
 var AliasActions = require('./AliasActions');
 
-// create collection
-var aliases = new AliasCollection;
-var user = window.bootstrap.user;
-aliases._meta.userid = user._id;
-aliases.fetch({
-	success: function(collection, response, options) {
-		if(collection.models.length < 1) {
-			// no aliases yet...
-			// lets create one automatically
-			var name;
-			if(!_.isEmpty(user.google.name)) {
-				name = user.google.name.givenName.toLowerCase();
-			} else {
-				// TODO: regex to strip just the
-				// first part of the email address
-				name = user.email;
-			}
-			collection.create({
-				name: name
-			}, {
-				wait: true
-			});
-		}
-
-		// set the first found alias to the active one
-		var first = collection.models[0];
-		if(!_.isEmpty(first)) aliases._meta.active = first.id;
-
-		//console.log(aliases);
-		AliasStore.trigger(ALIAS.CHANGE_ALL);
-	}
-});
-
-aliases.on('sync', function() {
-	//console.log('sync');
-	AliasStore.trigger(ALIAS.CHANGE_ALL);
-});
 
 // inherit event class first
 var AliasStore = _.extend({}, Backbone.Events);
 // now add some custom functions
 _.extend(AliasStore, {
 
+	aliases: new AliasCollection,
+
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
+
+			case APP.LOAD:
+
+				var user = window.bootstrap.user;
+				this.aliases._meta.userid = user._id;
+
+				this.aliases.fetch({
+					async: false,
+					success: function(collection, response, options) {
+						if(collection.models.length < 1) {
+							// no aliases yet...
+							// lets create one automatically
+							var name;
+							if(!_.isEmpty(user.google.name)) {
+								name = user.google.name.givenName.toLowerCase();
+							} else {
+								// TODO: regex to strip just the
+								// first part of the email address
+								name = user.email;
+							}
+							collection.create({
+								name: name
+							}, {
+								wait: true
+							});
+						}
+
+						// set the first found alias to the active one
+						var first = collection.models[0];
+						if(!_.isEmpty(first)) this.aliases._meta.active = first.id;
+
+						//console.log(this.aliases);
+						this.trigger(ALIAS.CHANGE_ALL);
+					}.bind(this)
+				});
+
+				break;
 
 			case ALIAS.CREATE:
 				var name = payload.name;
@@ -75,13 +79,13 @@ _.extend(AliasStore, {
 					name: name
 				};
 
-				aliases.create(newAlias, {
+				this.aliases.create(newAlias, {
 					//wait: true
 				});
 
 				// if this is the only alias, switch to it
-				if(aliases.models.length === 1) {
-					aliases._meta.active = aliases.models[0].id;
+				if(this.aliases.models.length === 1) {
+					this.aliases._meta.active = this.aliases.models[0].id;
 				}
 
 				this.trigger(ALIAS.CHANGE_ALL);
@@ -91,7 +95,7 @@ _.extend(AliasStore, {
 			case ALIAS.DESTROY:
 				var id = payload.id;
 				//console.log('destroy', id);
-				var alias = aliases.get(id);
+				var alias = this.aliases.get(id);
 
 
 				alias.destroy({
@@ -106,7 +110,7 @@ _.extend(AliasStore, {
 				var alias_id = payload.alias_id;
 				var name = payload.name;
 
-				var alias = aliases.get(alias_id);
+				var alias = this.aliases.get(alias_id);
 
 				alias.save({
 					name: name
@@ -116,27 +120,33 @@ _.extend(AliasStore, {
 
 				alias.set('name', name);
 
-				this.trigger(ALIAS.CHANGE_ALL);
+				//this.trigger(ALIAS.CHANGE_ALL);
 
 				break;
 
 			case ALIAS.SWITCH:
 				var alias_id = payload.id;
-				aliases._meta.active = alias_id;
+				this.aliases._meta.active = alias_id;
 
 				this.trigger(ALIAS.CHANGE_ALL);
+
 				break;
 		}
 	},
 
 	getAll: function() {
-		return aliases.toJSON();
+		return this.aliases.toJSON();
 	},
 
 	getActive: function() {
-		return (aliases._meta.active == null) ? {} : aliases.get(aliases._meta.active);
+		return (this.aliases._meta.active == null)
+		? {}
+		: this.aliases.get(this.aliases._meta.active);
 	}
 
 });
-Dispatcher.register(AliasStore.handleDispatch.bind(AliasStore));
+
+var dispatchToken = Dispatcher.register(AliasStore.handleDispatch.bind(AliasStore));
+AliasStore.dispatchToken = dispatchToken;
+
 module.exports = AliasStore;
