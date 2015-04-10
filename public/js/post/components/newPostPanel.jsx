@@ -12,7 +12,7 @@
 var React = require('react');
 
 var rbs = require('react-bootstrap');
-var OverlayTrigger = rbs.OverlayTrigger;
+var CollapsableMixin = rbs.CollapsableMixin;
 var Tooltip = rbs.Tooltip;
 var Input = rbs.Input;
 var Panel = rbs.Panel;
@@ -26,10 +26,11 @@ var DropDownMenu = mui.DropDownMenu;
 var FloatingActionButton = mui.FloatingActionButton;
 
 var PostActions = require('./../PostActions');
-var PostSubmitButtons = require('./PostSubmitButtons.jsx');
 
 // React class
 var NewPostPanel = React.createClass({
+
+	mixins: [CollapsableMixin],
 
 	propTypes: {
 		activeBevy: React.PropTypes.object.isRequired,
@@ -45,6 +46,27 @@ var NewPostPanel = React.createClass({
 			body: ''
 		};
 	},
+
+	getCollapsableDOMNode: function(){
+		return this.refs.collapse.getDOMNode();
+	},
+
+	getCollapsableDimensionValue: function(){
+		return this.refs.collapse.getDOMNode().scrollHeight;
+	},
+
+	open: function() {
+		this.setState({
+			expanded: true
+		});
+	},
+
+	close: function() {
+		this.setState({
+			expanded: false
+		});
+	},
+
 
 	// trigger the create action
 	// TODO: pass in the rest of the state attributes needed
@@ -82,10 +104,7 @@ var NewPostPanel = React.createClass({
 
 	render: function() {
 
-		//var bevies = [
-		//	{ payload: '1', text: 'The Burlap' },
-		//	{ payload: '2', text: 'Monsta Island Czars' },
-		//];
+		// load bevies
 		var bevies = [];
 		var allBevies = this.props.allBevies;
 		for(var key in allBevies) {
@@ -102,6 +121,10 @@ var NewPostPanel = React.createClass({
 			});
 		}
 
+		var styles = this.getCollapsableClassSet();
+		var classSet = React.addons.classSet;
+		//console.log(styles);
+
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
 
 					<div className="row new-post-title">
@@ -110,30 +133,41 @@ var NewPostPanel = React.createClass({
 							hintText="Title"
 							ref='title'
 							onChange={ this.handleChange }
+							onFocus={ this.open }
 						/>
 					</div>
 
-					<div className="row media">
-						<div className="media-content">
-								<FloatingActionButton className="attach-btn" iconClassName="glyphicon glyphicon-paperclip" tooltip="attach media" mini={true}/>
+					<div ref='collapse' className={ classSet(styles) }>
+						<div className="row media">
+							<div className="media-content">
+									<FloatingActionButton
+										className="attach-btn"
+										iconClassName="glyphicon glyphicon-paperclip"
+										tooltip="attach media"
+										mini={true}
+									/>
+							</div>
 						</div>
-					</div>
 
-					<Input
-						className="post-body-text"
-						type="textarea"
-						placeholder="Body"
-						ref='body'
-						onChange={ this.handleChange }
-					/>
+						<Input
+							className="post-body-text"
+							type="textarea"
+							placeholder="Body"
+							ref='body'
+							onChange={ this.handleChange }
+						/>
 
-					<div className="panel-bottom">
-						<div className="panel-controls-right">
-							<FlatButton label="cancel" />
-							<RaisedButton label="submit" onClick={this.submit} />
-						</div>
-						<div className="panel-controls-left">
-							<DropDownMenu className="bevies-dropdown" menuItems={bevies} />
+						<div className="panel-bottom">
+							<div className="panel-controls-right">
+								<FlatButton
+									label='cancel'
+									onClick={ this.close }
+								/>
+								<RaisedButton label="submit" onClick={this.submit} />
+							</div>
+							<div className="panel-controls-left">
+								<DropDownMenu className="bevies-dropdown" menuItems={bevies} />
+							</div>
 						</div>
 					</div>
 

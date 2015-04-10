@@ -17,7 +17,6 @@ var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx');
 
 var Navbar = require('./Navbar.jsx');
-var PostSubmit = require('./../../post/components/PostSubmit.jsx');
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx')
@@ -42,7 +41,6 @@ var NOTIFICATION = require('./../../constants').NOTIFICATION;
  * @return [post_obj] collection of post models - refer to PostStore.js for more details
  */
 function getPostState() {
-	//console.log(PostStore.getAll());
 	return {
 		allPosts: PostStore.getAll()
 	}
