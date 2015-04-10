@@ -20,7 +20,7 @@ module.exports = Backbone.Collection.extend({
 	model: Bevy,
 	//url: constants.apiurl + '/bevies',
 	url: function() {
-		return (_.isEmpty(this._meta.active))
+		return (_.isEmpty(this._meta.alias))
 		? constants.apiurl + '/bevies'
 		: constants.apiurl + '/aliases/' + this._meta.alias.id + '/bevies'
 	},

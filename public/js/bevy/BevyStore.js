@@ -62,6 +62,7 @@ _.extend(BevyStore, {
 
 			case BEVY.FETCH:
 				var alias = payload.alias;
+				if(_.isEmpty(alias)) break;
 
 				bevies._meta.alias = alias;
 
@@ -212,7 +213,11 @@ _.extend(BevyStore, {
 				} else {
 					// remove the specific user
 					members = _.reject(members, function(member) {
-						return member.aliasid == alias_id;
+						if(_.isObject(member.aliasid)) {
+							return member.aliasid._id == alias_id;
+						} else {
+							return member.aliasid == alias_id;
+						}
 					});
 				}
 
@@ -233,7 +238,7 @@ _.extend(BevyStore, {
 
 				this.trigger(BEVY.CHANGE_ALL);
 
-				//console.log('leave', bevy_id);
+				//console.log('leave', members);
 				break;
 
 			case BEVY.SWITCH:
