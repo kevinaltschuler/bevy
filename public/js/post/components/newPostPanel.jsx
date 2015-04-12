@@ -11,6 +11,8 @@
 // imports
 var React = require('react');
 
+var constants = require('./../../constants');
+
 var rbs = require('react-bootstrap');
 var CollapsableMixin = rbs.CollapsableMixin;
 var Tooltip = rbs.Tooltip;
@@ -45,7 +47,8 @@ var NewPostPanel = React.createClass({
 	getInitialState: function() {
 		return {
 			title: '',
-			body: ''
+			body: '',
+			image_url: ''
 		};
 	},
 
@@ -70,7 +73,12 @@ var NewPostPanel = React.createClass({
 	},
 
 	onUploadComplete: function(file) {
-
+		console.log(file);
+		var filename = file.filename;
+		var image_url = constants.apiurl + '/files/' + filename;
+		this.setState({
+			image_url: image_url
+		});
 	},
 
 
@@ -80,7 +88,7 @@ var NewPostPanel = React.createClass({
 		PostActions.create(
 			this.state.title, // title
 			this.state.body, // body
-			null, // image_url
+			this.state.image_url, // image_url
 			this.props.activeAlias.toJSON(), // author
 			this.props.activeBevy.toJSON()); // bevy
 	},

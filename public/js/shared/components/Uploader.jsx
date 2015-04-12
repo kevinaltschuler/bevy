@@ -33,9 +33,9 @@ var Uploader = React.createClass({
 		});
 
 		this.dropzone.on('success', function(file, response) {
-			//this.props.onUploadComplete(file);
-			console.log(response);
-		});
+			this.props.onUploadComplete(response);
+			//console.log(response);
+		}.bind(this));
 	},
 
 	componentWillUnmount: function() {
