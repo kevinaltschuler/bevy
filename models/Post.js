@@ -27,7 +27,7 @@ module.exports = new Schema({
 	title: String,
 	body: String,
 	link: String,
-	imageURL: String,
+	image_url: String,
 	points: [{
 		author: String,
 		value: Number
