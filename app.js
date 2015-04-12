@@ -38,6 +38,9 @@ var middleware = require('./middleware');
 // load express
 var app = express();
 
+// set up gridfs
+require('./gridfs');
+
 // connect to db
 require('./db');
 

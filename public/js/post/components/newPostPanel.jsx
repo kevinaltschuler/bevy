@@ -25,6 +25,8 @@ var TextField = mui.TextField;
 var DropDownMenu = mui.DropDownMenu;
 var FloatingActionButton = mui.FloatingActionButton;
 
+var Uploader = require('./../../shared/components/Uploader.jsx');
+
 var PostActions = require('./../PostActions');
 
 // React class
@@ -65,6 +67,10 @@ var NewPostPanel = React.createClass({
 		this.setState({
 			expanded: false
 		});
+	},
+
+	onUploadComplete: function(file) {
+
 	},
 
 
@@ -138,16 +144,11 @@ var NewPostPanel = React.createClass({
 					</div>
 
 					<div ref='collapse' className={ classSet(styles) }>
-						<div className="row media">
-							<div className="media-content">
-									<FloatingActionButton
-										className="attach-btn"
-										iconClassName="glyphicon glyphicon-paperclip"
-										tooltip="attach media"
-										mini={true}
-									/>
-							</div>
-						</div>
+
+
+						<Uploader
+							onUploadComplete={ this.onUploadComplete }
+						/>
 
 						<Input
 							className="post-body-text"
