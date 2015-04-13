@@ -147,9 +147,6 @@ var Post = React.createClass({
 			author = this.state.author.name;
 		}
 
-		var body = 'no body text';
-		if(this.state.body) body = this.state.body;
-
 		var postTitle = (_.isEmpty(this.state.image_url))
 		? (<span>{ this.state.title } &nbsp; </span>)
 		: (<a
@@ -159,19 +156,21 @@ var Post = React.createClass({
 				{ this.state.title } &nbsp;
 			</a>)
 
+		var bodyText = (_.isEmpty(this.state.body))
+		? (<div />)
+		: (<div className='panel-body-text'>
+				{ this.state.body }
+			</div>)
+
 		var panelBody = (_.isEmpty(this.state.image_url))
 		? (<div className='panel-body'>
-				<div className='panel-body-text'>
-					{ body }
-				</div>
+				{ bodyText }
 			</div>)
 		: (<div className='panel-body'>
 				<div className='panel-body-image'>
 					<img className="panel-media" src={ this.state.image_url }/>
 				</div>
-				<div className='panel-body-text'>
-					{ body }
-				</div>
+				{ bodyText }
 			</div>)
 
 		return <div className="post panel" postId={ this.state._id }>
