@@ -133,6 +133,14 @@ var Post = React.createClass({
 		}
 	},
 
+	expand: function(ev) {
+		ev.preventDefault();
+
+		var parent = $(ev.target).parent();
+		if(parent.hasClass('focus')) parent.removeClass('focus');
+		else parent.addClass('focus');
+	},
+
 	render: function() {
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
@@ -167,7 +175,7 @@ var Post = React.createClass({
 				{ bodyText }
 			</div>)
 		: (<div className='panel-body'>
-				<div className='panel-body-image'>
+				<div className='panel-body-image' onClick={ this.expand }>
 					<img className="panel-media" src={ this.state.image_url }/>
 				</div>
 				{ bodyText }
