@@ -152,16 +152,21 @@ var Post = React.createClass({
 
 		var postTitle = (_.isEmpty(this.state.image_url))
 		? (<span>{ this.state.title } &nbsp; </span>)
-		: <a href={ this.state.image_url } title={ this.state.title }>{ this.state.title } &nbsp; </a>
+		: (<a
+				href={ this.state.image_url }
+				title={ this.state.title }
+				target='_blank' >
+				{ this.state.title } &nbsp;
+			</a>)
 
 		var panelBody = (_.isEmpty(this.state.image_url))
-		? (<div className='panel-body' tabIndex="0" >
+		? (<div className='panel-body'>
 				<div className='panel-body-text'>
 					{ body }
 				</div>
 			</div>)
 		: (<div className='panel-body'>
-				<div className='panel-body-image' tabIndex="0">
+				<div className='panel-body-image'>
 					<img className="panel-media" src={ this.state.image_url }/>
 				</div>
 				<div className='panel-body-text'>
