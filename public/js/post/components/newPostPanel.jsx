@@ -85,12 +85,20 @@ var NewPostPanel = React.createClass({
 	// trigger the create action
 	// TODO: pass in the rest of the state attributes needed
 	submit: function() {
+
+		// close the post panel
+		this.close();
+
+		// send the create action
 		PostActions.create(
 			this.state.title, // title
 			this.state.body, // body
 			this.state.image_url, // image_url
 			this.props.activeAlias.toJSON(), // author
 			this.props.activeBevy.toJSON()); // bevy
+
+		// reset fields
+		this.setState(this.getInitialState());
 	},
 
 	// used to trigger the create action (enter key)

@@ -8,6 +8,14 @@
 		font-size: 1.6em;
 		padding-top: 10px;
 		padding-bottom: 0px;
+
+		//border-bottom: 1px solid #c6c6c6;
+		margin-bottom: 2%;
+
+		span, a{
+			//font-size: 1.6em;
+		}
+
 		.details, .detail-time, .dot {
 			font-size: .5em;
 			color: @light-font;
@@ -25,37 +33,33 @@
 	}
 	.panel-body {
 		padding: 0px;
-		overflow: hidden;
-
-		transition: 0.5s all ease-in-out;
-		max-height: 50px;
-		&:focus{
-			max-height: 300px;
-			appearance:none;
-			outline:0px;
-		}
-		img{
-			width: 100%;
-		}
-	}
-	.panel-body-text {
-		box-shadow: none;
-		margin-top: 2%;
-		padding-top: 2%;
-		padding-bottom: 2%;
-		width: 93%;
-		margin-left: auto;
-		margin-right: auto;
-		color: @light-font;
-		font-size: .85em;
 		border-top: 1px solid #c6c6c6;
 
-	}
-	.panel-body-image {
-		img {
-			width: 100%;
+		.panel-body-text {
+			box-shadow: none;
+			padding-top: 2%;
+			padding-bottom: 2%;
+			width: 93%;
+			margin-left: auto;
+			margin-right: auto;
+			color: @light-font;
+			font-size: .85em;
+		}
+		.panel-body-image {
+			overflow: hidden;
+			transition: 0.5s all ease-in-out;
+			max-height: 50px;
+			&:focus{
+				max-height: 300px;
+				appearance:none;
+				outline:0px;
+			}
+			img {
+				width: 100%;
+			}
 		}
 	}
+
 	.panel-comments {
 		width: 93%;
 		margin-left: auto;
@@ -158,7 +162,7 @@
 			}
 			.post-settings {
 				.btn {
-					border: none;	
+					border: none;
 				}
 				&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open{
 					outline: none;

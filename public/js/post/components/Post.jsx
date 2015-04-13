@@ -150,46 +150,38 @@ var Post = React.createClass({
 		var body = 'no body text';
 		if(this.state.body) body = this.state.body;
 
-		// generate panel
-		var panelHeading;
-		if(_.isEmpty(this.state.image_url)) {
-			panelHeading = <div className='panel-header'>
-									{ this.state.title }
-									&nbsp; <span className="glyphicon glyphicon-triangle-right"/> &nbsp;
-									<a className="details" href='/'>{ this.state.bevy.name }</a>
-									<span className="dot">&nbsp; • &nbsp;</span>
-									<a className="details" href='/'>{ author } </a>
-									<span className="dot">&nbsp; • &nbsp;</span>
-									<a className="detail-time">{ this.timeAgo() }</a>
-								</div>;
-		} else {
-			panelHeading = <div className='panel-header'>
-									<a href={ this.state.image_url } title={ this.state.title }>{ this.state.title }</a>
-									&nbsp;
-									<span className="glyphicon glyphicon-triangle-right"/>
-									<a className="details" href='/'>{ this.state.bevy.name }</a>
-									&nbsp;•&nbsp;
-									<a className="details" href='/'>{ author }</a>
-									&nbsp;•&nbsp;
-									<a className="detail-time">{ this.timeAgo() }</a>
-								</div>;
-		}
+		var postTitle = (_.isEmpty(this.state.image_url))
+		? (<span>{ this.state.title } &nbsp; </span>)
+		: <a href={ this.state.image_url } title={ this.state.title }>{ this.state.title } &nbsp; </a>
 
-		var panelBody;
-		if(_.isEmpty(this.state.image_url)) {
-			panelBody = <div className="panel-body panel-body-text" tabIndex="0" >
-								{ body }
-							</div>;
-
-		} else {
-			panelBody = <div className="panel-body" tabIndex="0">
-								<img className="panel-media" src={ this.state.image_url }/>
-							</div>;
-		}
+		var panelBody = (_.isEmpty(this.state.image_url))
+		? (<div className='panel-body' tabIndex="0" >
+				<div className='panel-body-text'>
+					{ body }
+				</div>
+			</div>)
+		: (<div className='panel-body'>
+				<div className='panel-body-image' tabIndex="0">
+					<img className="panel-media" src={ this.state.image_url }/>
+				</div>
+				<div className='panel-body-text'>
+					{ body }
+				</div>
+			</div>)
 
 		return <div className="post panel" postId={ this.state._id }>
-					{ panelHeading }
+					<div className='panel-header'>
+						{ postTitle }
+						<span className="glyphicon glyphicon-triangle-right"/> &nbsp;
+						<a className="details" href='/'>{ this.state.bevy.name }</a>
+						<span className="dot">&nbsp; • &nbsp;</span>
+						<a className="details" href='/'>{ author } </a>
+						<span className="dot">&nbsp; • &nbsp;</span>
+						<a className="detail-time">{ this.timeAgo() }</a>
+					</div>
+
 					{ panelBody }
+
 					<div className="panel-comments">
 						<div className="comment-count">
 							{ this.state.comments.length } Comments
