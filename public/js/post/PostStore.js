@@ -32,7 +32,6 @@ var Dispatcher = require('./../shared/dispatcher');
 var PostCollection = require('./PostCollection');
 var CommentCollection = require('./CommentCollection');
 
-
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
 // to this store's events
@@ -61,12 +60,11 @@ _.extend(PostStore, {
 
 						// set comment collection from the passed in array
 						collection.forEach(function(post) {
-							post.comments = new CommentCollection(post.comments);
+							var comments = new CommentCollection(post.get('comments'));
 							// set url
-							post.comments.url = '/bevies/' + bevy.id + '/posts/' + post.id + '/comments';
-							//console.log(post.comments.url);
+							comments.url = constants.apiurl + '/bevies/' + bevy.id + '/posts/' + post.id + '/comments';
+							post.set('comments', comments);
 						});
-
 
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
@@ -199,21 +197,45 @@ _.extend(PostStore, {
 				break;
 
 			case COMMENT.CREATE:
+				var post_id = payload.post_id;
 				var author = payload.author;
 				var body = payload.body;
 
-				console.log('comment create', author, body);
+				var post = this.posts.get(post_id);
+				var comments = post.get('comments');
+
+				var comment = comments.add({
+					author: author._id,
+					body: body
+				});
+
+				// save comment to server
+				// API will add comment to post's comment array
+				comment.save();
+
+				// simulate population
+				comment.set('_id', String(Date.now()));
+				comment.set('author', author);
 
 
+				//console.log(comments.toJSON());
+				//console.log(this.getAll());
 
-
+				this.trigger(POST.CHANGE_ALL);
 				break;
 		}
 	},
 
 	// send all posts to the App.jsx in JSON form
 	getAll: function() {
-		// TODO: plug sorting (new/top) into here?
+		//return JSON.parse(JSON.stringify(this.posts.attributes));
+		//var posts = [];
+		//this.posts.forEach(function(post) {
+			//console.log(post, post.toJSON());
+			//posts.push(post.toJSON());
+		//});
+		//console.log(posts);
+		//return posts;
 		return this.posts.toJSON();
 	},
 

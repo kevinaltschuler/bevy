@@ -22,15 +22,17 @@ var CommentActions = require('./../CommentActions');
 var CommentSubmit = React.createClass({
 
 	propTypes: {
+		postId: React.PropTypes.string,
 		author: React.PropTypes.object,
 		profileImage: React.PropTypes.string
 	},
 
 	submit: function() {
+		var post_id = this.props.postId;
 		var author = this.props.author;
 		var body = this.refs.body.getValue();
 
-		CommentActions.create(author, body);
+		CommentActions.create(post_id, author, body);
 	},
 
 	onKeyPress: function(ev) {

@@ -53,7 +53,7 @@ var Post = React.createClass({
 	},
 
 	getInitialState: function() {
-		return getPostState(this.props.id);
+		return {};
 	},
 
 	componentDidMount:function() {
@@ -104,6 +104,8 @@ var Post = React.createClass({
 	},
 
 	render: function() {
+
+		//console.log(this.props.post.comments);
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (_.isEmpty(user.google.photos))

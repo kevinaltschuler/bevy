@@ -13,8 +13,9 @@ var COMMENT = require('./../constants').COMMENT;
 
 var CommentActions = {
 
-	create: function(author, body) {
+	create: function(post_id, author, body) {
 		dispatch(COMMENT.CREATE, {
+			post_id: (post_id == undefined) ? null : post_id,
 			author: (author == undefined) ? null : author,
 			body: (body == undefined) ? null : body
 		});
