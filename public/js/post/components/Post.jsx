@@ -20,10 +20,14 @@ var rbs = require('react-bootstrap');
 var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
 
+var CommentList = require('./CommentList.jsx');
+
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 
 var POST = require('./../../constants').POST;
+
+var timeAgo = require('./../../shared/helpers/timeAgo');
 
 var $ = require('jquery');
 
@@ -90,49 +94,6 @@ var Post = React.createClass({
 		return sum;
 	},
 
-	/**
-	 * calculates how long ago
-	 * this post was posted
-	 * @return {string}
-	 */
-	timeAgo: function() {
-		var created = Date.parse(this.state.created);
-		var now = Date.now();
-		var elapsed = now - created;
-
-		if(elapsed <= 1000*10) {
-			return 'just now';
-
-		} else if (elapsed <= 1000*60) {
-			var seconds = Math.floor(elapsed / 1000);
-			//return (seconds > 1) ? seconds + ' seconds ago' : seconds + ' second ago';
-			return 'a few seconds ago';
-
-		} else if (elapsed <= 1000*60*60) {
-			var minutes = Math.floor(elapsed / (1000*60));
-			return (minutes > 1) ? minutes + ' minutes ago' : minutes + ' minute ago';
-
-		} else if (elapsed <= 1000*60*60*24) {
-			var hours = Math.floor(elapsed / (1000*60*60));
-			return (hours > 1) ? hours + ' hours ago' : hours + ' hour ago';
-
-		} else if (elapsed <= 1000*60*60*24*30) {
-			var days = Math.floor(elapsed / (1000*60*60*24));
-			return (days > 1) ? days + ' days ago' : days + ' day ago';
-
-		} else if (elapsed <= 1000*60*60*24*365) {
-			var months = Math.floor(elapsed / (1000*60*60*24*30));
-			return (months > 1) ? months + ' months ago' : months + ' month ago';
-
-		} else if (elapsed > 1000*60*60*24*365) {
-			var years = Math.floor(elapsed / (1000*60*60*24*365));
-			return (years > 1) ? years + ' years ago' : years + ' year ago';
-
-		} else {
-			return elapsed;
-		}
-	},
-
 	expand: function(ev) {
 		ev.preventDefault();
 
@@ -189,7 +150,7 @@ var Post = React.createClass({
 						<span className="dot">&nbsp; • &nbsp;</span>
 						<a className="details" href='/'>{ author } </a>
 						<span className="dot">&nbsp; • &nbsp;</span>
-						<a className="detail-time">{ this.timeAgo() }</a>
+						<a className="detail-time">{ timeAgo(Date.parse(this.state.created)) }</a>
 					</div>
 
 					{ panelBody }
@@ -200,17 +161,11 @@ var Post = React.createClass({
 							•&nbsp;
 							{ this.countVotes() } points
 						</div>
-						<div className="row comment">
-							<img className="profile-img" src={ profileImage }/>
-							<div className="comment-text">
-								<div className="comment-title">
-									<a className="comment-name">Lisa Ding </a>
-									<text className="detail-time">{ this.timeAgo() }</text>
-								</div>
-								<div className="comment-body">Yo bro this is so sick!</div>
-								<a className="reply-link">reply</a>
-							</div>
-						</div>
+
+						<CommentList
+							comments={ this.state.comments }
+						/>
+
 					</div>
 					<div className="panel-bottom">
 						<div className="panel-comment-input">

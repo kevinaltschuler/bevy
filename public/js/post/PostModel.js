@@ -32,7 +32,6 @@ var Post = Backbone.Model.extend({
 	},
 
 	initialize: function() {
-
 	},
 
 	idAttribute: '_id',

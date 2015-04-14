@@ -12,7 +12,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-module.exports = new Schema({
+var Comment = new Schema({
 	author: {
 		type: Schema.Types.ObjectId,
 		ref: 'Alias'
@@ -20,7 +20,7 @@ module.exports = new Schema({
 	title: String,
 	body: String,
 	link: String,
-	imageURL: String,
+	image_url: String,
 	settings: {
 		visibility: String
 	},
@@ -33,3 +33,5 @@ module.exports = new Schema({
 		default: Date.now
 	}
 });
+
+module.exports = Comment;
