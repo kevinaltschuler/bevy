@@ -42,6 +42,12 @@ exports.POST = {
 	CHANGE_ONE: 'post_change_one'
 };
 
+exports.COMMENT = {
+	CREATE: 'comment_create',
+	DESTROY: 'comment_destroy',
+	VOTE: 'comment_vote'
+}
+
 exports.BEVY = {
 	CREATE: 'bevy_create',
 	DESTROY: 'bevy_destroy',

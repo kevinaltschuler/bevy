@@ -171,6 +171,7 @@ var Post = React.createClass({
 					<div className="panel-bottom">
 
 						<CommentSubmit
+							author={ this.state.author }
 							profileImage={ profileImage }
 						/>
 

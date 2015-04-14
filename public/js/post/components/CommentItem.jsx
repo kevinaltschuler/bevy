@@ -21,7 +21,7 @@ var CommentItem = React.createClass({
 	render: function() {
 
 		var comment = this.props.comment;
-		console.log(comment);
+		//console.log(comment);
 
 		var author;
 

@@ -22,6 +22,7 @@ var POST = constants.POST;
 var ALIAS = constants.ALIAS;
 var BEVY = constants.BEVY;
 var APP = constants.APP;
+var COMMENT = constants.COMMENT;
 
 var AliasStore = require('./../alias/AliasStore');
 var BevyStore = require('./../bevy/BevyStore');
@@ -184,6 +185,17 @@ _.extend(PostStore, {
 				this.posts.sort();
 
 				this.trigger(POST.CHANGE_ALL);
+				break;
+
+			case COMMENT.CREATE:
+				var author = payload.author;
+				var body = payload.body;
+
+				console.log('comment create', author, body);
+
+
+
+
 				break;
 		}
 	},
