@@ -9,7 +9,6 @@
 
 // imports
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
 var _ = require('underscore');
 
 var mui = require('material-ui');
@@ -44,7 +43,8 @@ var Post = React.createClass({
 
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
-		id: ReactPropTypes.string.isRequired
+		id: React.PropTypes.string.isRequired,
+		post: React.PropTypes.object
 	},
 
 	defaults: {
@@ -69,17 +69,17 @@ var Post = React.createClass({
 
 	upvote: function(ev) {
 		ev.preventDefault();
-		PostActions.upvote(this.state._id, this.state.author);
+		PostActions.upvote(this.props.post._id, this.props.post.author);
 	},
 
 	downvote: function(ev) {
 		ev.preventDefault();
-		PostActions.downvote(this.state._id, this.state.author);
+		PostActions.downvote(this.props.post._id, this.props.post.author);
 	},
 
 	destroy: function(ev) {
 		ev.preventDefault();
-		PostActions.destroy(this.state._id);
+		PostActions.destroy(this.props.post._id);
 	},
 
 	/**
@@ -89,7 +89,7 @@ var Post = React.createClass({
 	 */
 	countVotes: function() {
 		var sum = 0;
-		this.state.points.forEach(function(vote) {
+		this.props.post.points.forEach(function(vote) {
 			sum += vote.value;
 		});
 		return sum;
@@ -112,66 +112,67 @@ var Post = React.createClass({
 
 		var author;
 		author = 'placeholder-author';
-		if(this.state.author) {
-			//console.log(this.state.title, this.state.author);
-			author = this.state.author.name;
+		if(this.props.post.author) {
+			//console.log(this.props.post.title, this.props.post.author);
+			author = this.props.post.author.name;
 		}
 
-		var postTitle = (_.isEmpty(this.state.image_url))
-		? (<span>{ this.state.title } &nbsp; </span>)
+		var postTitle = (_.isEmpty(this.props.post.image_url))
+		? (<span>{ this.props.post.title } &nbsp; </span>)
 		: (<a
-				href={ this.state.image_url }
-				title={ this.state.title }
+				href={ this.props.post.image_url }
+				title={ this.props.post.title }
 				target='_blank' >
-				{ this.state.title } &nbsp;
+				{ this.props.post.title } &nbsp;
 			</a>)
 
-		var bodyText = (_.isEmpty(this.state.body))
+		var bodyText = (_.isEmpty(this.props.post.body))
 		? (<div />)
 		: (<div className='panel-body-text'>
-				{ this.state.body }
+				{ this.props.post.body }
 			</div>)
 
-		var panelBody = (_.isEmpty(this.state.image_url))
+		var panelBody = (_.isEmpty(this.props.post.image_url))
 		? (<div className='panel-body'>
 				{ bodyText }
 			</div>)
 		: (<div className='panel-body'>
 				<div className='panel-body-image' onClick={ this.expand }>
-					<img className="panel-media" src={ this.state.image_url }/>
+					<img className="panel-media" src={ this.props.post.image_url }/>
 				</div>
 				{ bodyText }
 			</div>)
 
-		return <div className="post panel" postId={ this.state._id }>
+		return <div className="post panel" postId={ this.props.post._id }>
 					<div className='panel-header'>
 						{ postTitle }
 						<span className="glyphicon glyphicon-triangle-right"/> &nbsp;
-						<span className="details">{ this.state.bevy.name }</span>
+						<span className="details">{ this.props.post.bevy.name }</span>
 						<span className="dot">&nbsp; • &nbsp;</span>
 						<span className="details">{ author } </span>
 						<span className="dot">&nbsp; • &nbsp;</span>
-						<span className="detail-time">{ timeAgo(Date.parse(this.state.created)) }</span>
+						<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
 					</div>
 
 					{ panelBody }
 
 					<div className="panel-comments">
 						<div className="comment-count">
-							{ this.state.comments.length } Comments
+							{ this.props.post.comments.length } Comments
 							•&nbsp;
 							{ this.countVotes() } points
 						</div>
 
 						<CommentList
-							comments={ this.state.comments }
+							comments={ this.props.post.comments }
 						/>
 
 					</div>
 					<div className="panel-bottom">
 
 						<CommentSubmit
-							author={ this.state.author }
+							postId={ this.props.id }
+							author={ this.props.post.author }
 							profileImage={ profileImage }
 						/>
 

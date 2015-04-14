@@ -51,6 +51,7 @@ var PostContainer = React.createClass({
 				<Post
 					id={ post._id }
 					key={ post._id }
+					post={ post }
 				/>
 			);
 		}
