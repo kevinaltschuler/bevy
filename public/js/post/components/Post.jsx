@@ -147,11 +147,11 @@ var Post = React.createClass({
 					<div className='panel-header'>
 						{ postTitle }
 						<span className="glyphicon glyphicon-triangle-right"/> &nbsp;
-						<a className="details" href='/'>{ this.state.bevy.name }</a>
+						<span className="details">{ this.state.bevy.name }</span>
 						<span className="dot">&nbsp; • &nbsp;</span>
-						<a className="details" href='/'>{ author } </a>
+						<span className="details">{ author } </span>
 						<span className="dot">&nbsp; • &nbsp;</span>
-						<a className="detail-time">{ timeAgo(Date.parse(this.state.created)) }</a>
+						<span className="detail-time">{ timeAgo(Date.parse(this.state.created)) }</span>
 					</div>
 
 					{ panelBody }
