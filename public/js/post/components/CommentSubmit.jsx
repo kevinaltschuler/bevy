@@ -27,12 +27,23 @@ var CommentSubmit = React.createClass({
 		profileImage: React.PropTypes.string
 	},
 
+	getInitialState: function() {
+		return {
+			body: ''
+		};
+	},
+
 	submit: function() {
 		var post_id = this.props.postId;
 		var author = this.props.author;
 		var body = this.refs.body.getValue();
 
 		CommentActions.create(post_id, author, body);
+
+		// clear text field
+		this.setState({
+			body: ''
+		});
 	},
 
 	onKeyPress: function(ev) {
@@ -40,6 +51,13 @@ var CommentSubmit = React.createClass({
 			//console.log('submit');
 			this.submit();
 		}
+	},
+
+	onChange: function() {
+		var body = this.refs.body.getValue();
+		this.setState({
+			body: body
+		});
 	},
 
 	render: function() {
@@ -50,7 +68,9 @@ var CommentSubmit = React.createClass({
 							className="panel-comment-textfield"
 							hintText="Write a Comment"
 							ref='body'
+							value={ this.state.body }
 							onKeyPress={ this.onKeyPress }
+							onChange={ this.onChange }
 						/>
 						<Button
 							onClick={ this.submit } >
