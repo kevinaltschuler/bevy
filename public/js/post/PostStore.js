@@ -30,6 +30,7 @@ var BevyStore = require('./../bevy/BevyStore');
 var Dispatcher = require('./../shared/dispatcher');
 
 var PostCollection = require('./PostCollection');
+var CommentCollection = require('./CommentCollection');
 
 
 // inherit event class first
@@ -57,6 +58,16 @@ _.extend(PostStore, {
 
 				this.posts.fetch({
 					success: function(collection, response, options) {
+
+						// set comment collection from the passed in array
+						collection.forEach(function(post) {
+							post.comments = new CommentCollection(post.comments);
+							// set url
+							post.comments.url = '/bevies/' + bevy.id + '/posts/' + post.id + '/comments';
+							//console.log(post.comments.url);
+						});
+
+
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
