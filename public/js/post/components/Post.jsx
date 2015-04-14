@@ -21,6 +21,7 @@ var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
 
 var CommentList = require('./CommentList.jsx');
+var CommentSubmit = require('./CommentSubmit.jsx');
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
@@ -168,11 +169,11 @@ var Post = React.createClass({
 
 					</div>
 					<div className="panel-bottom">
-						<div className="panel-comment-input">
-							<div className="profile-overlay"/>
-							<img className="profile-img" src={ profileImage }/>
-							<TextField className="panel-comment-textfield" hintText="Write a Comment"/>
-						</div>
+
+						<CommentSubmit
+							profileImage={ profileImage }
+						/>
+
 						<div className="panel-controls-right">
 							<IconButton tooltip='upvote' onClick={ this.upvote }>
 								<span className="glyphicon glyphicon-menu-up btn"></span>
