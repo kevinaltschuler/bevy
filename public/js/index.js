@@ -17,10 +17,26 @@
 // TODO: es6 support
 require('./shared/polyfills/Object.assign.js');
 
+var _ = require('underscore');
+
 // load globals
 var Backbone = require('backbone');
 global.jQuery = require('jquery');
 Backbone.$ = require('jquery');
+
+// patch toJSON function to support nested stuff
+Backbone.Model.prototype.toJSON = function() {
+    if (this._isSerializing) {
+        return this.id || this.cid;
+    }
+    this._isSerializing = true;
+    var json = _.clone(this.attributes);
+    _.each(json, function(value, name) {
+        _.isFunction((value || "").toJSON) && (json[name] = value.toJSON());
+    });
+    this._isSerializing = false;
+    return json;
+}
 
 require('bootstrap');
 
