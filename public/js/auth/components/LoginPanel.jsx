@@ -25,8 +25,8 @@ var LoginPanel = React.createClass({
 
 	getInitialState: function() {
 		return {
-			errorText: '',
-			showError: false
+			  errorText: ''
+			, showError: false
 		};
 	},
 
@@ -36,8 +36,8 @@ var LoginPanel = React.createClass({
 
 		if(_.isEmpty(this.refs.email.getValue())) {
 			this.setState({
-				errorText: 'Please enter your email address',
-				showError: true
+				  errorText: 'Please enter your email address'
+				, showError: true
 			});
 			return;
 		}
@@ -45,8 +45,8 @@ var LoginPanel = React.createClass({
 		// used the register form it should be valid anyways
 		if(_.isEmpty(this.refs.password.getValue())) {
 			this.setState({
-				errorText: 'Please enter your password',
-				showError: true
+				  errorText: 'Please enter your password'
+				, showError: true
 			});
 			return;
 		}
@@ -54,8 +54,8 @@ var LoginPanel = React.createClass({
 		$.post(
 			constants.siteurl + '/login',
 			{
-				email: this.refs.email.getValue(),
-				password: this.refs.password.getValue()
+				  email: this.refs.email.getValue()
+				, password: this.refs.password.getValue()
 			},
 			function(data) {
 				console.log(data);
@@ -69,8 +69,8 @@ var LoginPanel = React.createClass({
 			var response = jqXHR.responseJSON;
 			// show error
 			this.setState({
-				errorText: response.message,
-				showError: true
+				  errorText: response.message
+				, showError: true
 			});
 		}.bind(this));
 	},
@@ -84,7 +84,7 @@ var LoginPanel = React.createClass({
 						</div>;
 		}
 
-		return <Panel className="login-panel">
+		return	<Panel className="login-panel">
 					<img className="profile-img" src="/img/user-profile-icon.png" alt="Avatar"/>
 					{ error }
 					<form method='post' action='/login'>
@@ -113,7 +113,7 @@ var LoginPanel = React.createClass({
 						label='Create an Account'
 						linkButton={true}
 						href={ constants.siteurl + '/register'} />
-				 </Panel>;
+				</Panel>;
 	}
 });
 module.exports = LoginPanel;
