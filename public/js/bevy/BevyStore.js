@@ -342,6 +342,9 @@ _.extend(BevyStore, {
 					console.log(response);
 				});
 
+				// temp fix
+				window.location.reload();
+
 				break;
 		}
 	},
