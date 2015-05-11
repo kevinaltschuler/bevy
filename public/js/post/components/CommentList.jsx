@@ -14,7 +14,11 @@ var CommentItem = require('./CommentItem.jsx');
 var CommentList = React.createClass({
 
 	propTypes: {
-		comments: React.PropTypes.array
+		comments: React.PropTypes.array,
+
+		postId: React.PropTypes.string,
+		author: React.PropTypes.object,
+		profileImage: React.PropTypes.string
 	},
 
 	getInitialState: function() {
@@ -32,6 +36,10 @@ var CommentList = React.createClass({
 					key={ comment._id }
 					index={ key }
 					comment={ comment }
+
+					postId={ this.props.postId }
+					author={ this.props.author }
+					profileImage={ this.props.profileImage }
 				/>
 			);
 		}

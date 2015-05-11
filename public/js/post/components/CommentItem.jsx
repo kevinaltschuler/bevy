@@ -11,11 +11,31 @@ var _ = require('underscore');
 
 var timeAgo = require('./../../shared/helpers/timeAgo');
 
+var CommentSubmit = require('./CommentSubmit.jsx');
+
 var CommentItem = React.createClass({
 
 	propTypes: {
 		index: React.PropTypes.string,
-		comment: React.PropTypes.object
+		comment: React.PropTypes.object,
+
+		postId: React.PropTypes.string,
+		author: React.PropTypes.object,
+		profileImage: React.PropTypes.string
+	},
+
+	getInitialState: function() {
+		return {
+			isReplying: false
+		};
+	},
+
+	onReply: function(ev) {
+		ev.preventDefault();
+
+		this.setState({
+			isReplying: !this.state.isReplying
+		});
 	},
 
 	render: function() {
@@ -24,6 +44,18 @@ var CommentItem = React.createClass({
 
 		var comment = this.props.comment;
 		var author = comment.author;
+
+		var replyText = (this.state.isReplying)
+		? 'close'
+		: 'reply';
+
+		var submit = (this.state.isReplying)
+		? (<CommentSubmit
+				postId={ this.props.postId }
+				author={ this.props.author }
+				profileImage={ this.props.profileImage }
+			/>)
+		: <div />;
 
 		return (<div className="row comment">
 					<div className='col-xs-12'>
@@ -35,9 +67,10 @@ var CommentItem = React.createClass({
 								<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
 							</div>
 							<div className="comment-body">{ comment.body }</div>
-							<a className="reply-link">reply</a>
+							<a className="reply-link" onClick={ this.onReply }>{ replyText }</a>
 						</div>
 					</div>
+					{ submit }
 				 </div>)
 	}
 
