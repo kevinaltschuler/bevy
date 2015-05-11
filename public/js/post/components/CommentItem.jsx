@@ -33,7 +33,7 @@ var CommentItem = React.createClass({
 						<img className="profile-img" src={ defaultAliasImage }/>
 						<div className="comment-text">
 							<div className="comment-title">
-								<a className="comment-name">{ author.name }</a>
+								<a className="comment-name">{ author.name + ' '}</a>
 								<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
 							</div>
 							<div className="comment-body">{ comment.body }</div>
