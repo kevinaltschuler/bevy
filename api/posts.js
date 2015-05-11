@@ -41,22 +41,14 @@ exports.index = function(req, res, next) {
 		.exec();
 	promise.then(function(posts) {
 
-		async.waterfall([
-			function(done) {
-				var popped_posts = [];
+	var popped_posts = [];
 
-				posts.forEach(function(post) {
-					Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
-						popped_posts.push(post);
-						if(popped_posts.length >= posts.length) done(null, popped_posts);
-					});
-				});
-
-			},
-			function(popped_posts, done) {
-				res.json(popped_posts);
-			}
-		]);
+		posts.forEach(function(post) {
+			Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
+				popped_posts.push(post);
+				if(popped_posts.length >= posts.length) res.json(popped_posts);
+			});
+		});
 
 	}, function(err) { next(err); });
 }
