@@ -29,7 +29,8 @@ var email = user.email;
 var ProfileDropdown = React.createClass({
 
 	propTypes: {
-		allNotifications: React.PropTypes.array
+		allNotifications: React.PropTypes.array,
+		activeAlias: React.PropTypes.object
 	},
 
 	render: function() {
@@ -39,7 +40,10 @@ var ProfileDropdown = React.createClass({
 				 		<div className="title">
 				 			Notifications
 				 		</div>
-						<NotificationList allNotifications={ this.props.allNotifications } />
+						<NotificationList
+							allNotifications={ this.props.allNotifications }
+							activeAlias={ this.props.activeAlias }
+						/>
 					</Popover>}>
 				 	<Button className="notification-dropdown-btn">
 					 	<img src="./../../img/notification-icon.png"/>

@@ -23,7 +23,8 @@ var NotificationItem = React.createClass({
 	propTypes: {
 		id: React.PropTypes.string,
 		event: React.PropTypes.string,
-		data: React.PropTypes.object
+		data: React.PropTypes.object,
+		activeAlias: React.PropTypes.object
 	},
 
 	dismiss: function(ev) {
@@ -40,7 +41,7 @@ var NotificationItem = React.createClass({
 		var alias = data.from_alias;
 		var email = user.email;
 
-		BevyActions.addUser(bevy_id, alias, email);
+		BevyActions.join(bevy_id, this.props.activeAlias, email);
 	},
 
 	render: function() {

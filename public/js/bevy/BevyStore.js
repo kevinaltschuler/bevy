@@ -225,6 +225,8 @@ _.extend(BevyStore, {
 					});
 				}
 
+				// need to create a deep clone
+
 				var unpopulated_members = _.map(members, function(member, key) {
 					if(_.isObject(member.aliasid))
 						member.aliasid = member.aliasid._id;
@@ -293,25 +295,14 @@ _.extend(BevyStore, {
 				var email = payload.email;
 
 				var bevy = this.bevies.get(bevy_id);
+
+				//console.log(bevy_id, bevy);
 				var members = bevy.get('members');
-
-				var invited_user = _.find(members, function(member) {
-					return member.email == email;
-				});
-
-				if(invited_user) {
-					// user was already invited and is joining, just add alias id
-					var index = members.indexOf(invited_user);
-					invited_user.aliasid = alias._id;
-					members[index] = invited_user;
-
-				} else {
-					// user is being invited, add email
-					invited_user = {
-						email: email
-					}
-					members.push(invited_user);
+				// user is being invited, add email
+				invited_user = {
+					email: email
 				}
+				members.push(invited_user);
 
 				var unpopulated_members = _.map(members, function(member, key) {
 					if(_.isObject(member.aliasid))
@@ -329,6 +320,27 @@ _.extend(BevyStore, {
 				// simulate population
 				members[members.indexOf(invited_user)].aliasid = alias;
 				bevy.set('members', members);
+
+				break;
+
+			case BEVY.JOIN:
+				var bevy_id = payload.bevy_id;
+				var alias = payload.alias;
+				var email = payload.email;
+
+				$.post(
+					constants.apiurl + '/bevies/' + bevy_id + '/members/',
+					{
+						email: email,
+						aliasid: alias.id
+					},
+					function(data) {
+						console.log(data);
+					}
+				).fail(function(jqXHR) {
+					var response = jqXHR.responseJSON;
+					console.log(response);
+				});
 
 				break;
 		}

@@ -66,7 +66,10 @@ var Navbar = React.createClass({
 					<div className='col-xs-3'>
 						<div className="navbar-header pull-left">
 							<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
-							<NotificationDropdown allNotifications={ this.props.allNotifications } />
+							<NotificationDropdown
+								allNotifications={ this.props.allNotifications }
+								activeAlias={ this.props.activeAlias }
+							/>
 							<span className="navbar-brand navbar-brand-text">{ name }</span>
 						</div>
 					</div>

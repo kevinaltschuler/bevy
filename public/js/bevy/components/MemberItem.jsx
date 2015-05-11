@@ -29,7 +29,7 @@ var MemberItem = React.createClass({
 
 		var bevy_id = this.props.activeBevy.id;
 
-		BevyActions.leave(bevy_id, this.props.email, this.props.aliasid);
+		BevyActions.leave(bevy_id, this.props.email, this.props.aliasid._id);
 	},
 
 	render: function() {

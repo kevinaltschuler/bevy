@@ -132,3 +132,91 @@ exports.destroy = function(req, res, next) {
 		res.json(bevy);
 	}, function(err) { next(err); })
 }
+
+
+// MEMBER LIST
+// GET /bevies/:id/members
+exports.memberList = function(req, res, next) {
+	var id = req.params.id;
+
+	var query = { _id: id };
+	var promise = Bevy.findOne(query)
+		.populate('members.aliasid')
+		.exec();
+	promise.then(function(bevy) {
+		if(!bevy) throw error.gen('bevy not found', req);
+		return bevy;
+	}).then(function(bevy) {
+		res.json(bevy.members);
+	}, function(err) { next(err);	});
+}
+
+// MEMBER ADD
+// GET /bevies/:id/members/add
+// POST /bevies/:id/members
+exports.memberAdd = function(req, res, next) {
+	var id = req.params.id;
+
+	// collect params
+	var update = {};
+	var fields = 'email aliasid notificationLevel';
+	fields.split(' ').forEach(function(field) {
+		var val = null;
+		if(req.body != undefined) val = req.body[field];
+		if(!val && !_.isEmpty(req.query)) val = req.query[field];
+		if(!val) return;
+		update[field] = val;
+	});
+
+	var query = { _id: id };
+	var promise = Bevy.findOne(query)
+		.exec();
+	promise.then(function(bevy) {
+		if(!bevy) throw error.gen('bevy not found', req);
+		return bevy;
+	}).then(function(bevy) {
+		if(!_.isEmpty(update) && update.email) {
+			bevy.members.addToSet(update);
+			bevy.save(function(err) {
+				if(err) return next(err);
+				return res.json(bevy.members);
+			});
+		} else res.json(bevy.members);
+	}, function(err) { next(err); });
+}
+
+// MEMBER SHOW
+// GET /bevies/:id/members/:email
+exports.memberShow = function(req, res, next) {
+	var id = req.params.id;
+	var email = req.params.email;
+
+	var query = { _id: id };
+	var promise = Bevy.findOne(query).exec();
+	promise.then(function(bevy) {
+		if(!bevy) throw error.gen('bevy not found', req);
+		return bevy;
+	}).then(function(bevy) {
+		var member = bevy.members[ bevy.members.indexOf({ email: email }) ];
+		return res.json(member);
+	}, function(err) { return next(err); });
+}
+
+// MEMBER REMOVE
+// GET /bevies/:id/members/remove
+exports.memberRemove = function(req, res, next) {
+	var id = req.params.id;
+
+
+
+	var query = { _id: id };
+	var promise = Bevy.findOne(query)
+		.exec();
+	promise.then(function(bevy) {
+		if(!bevy) throw error.gen('bevy not found', req);
+		return bevy;
+	}).then(function(bevy) {
+
+	}, function(err) { return next(err); });
+
+}
