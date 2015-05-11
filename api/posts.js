@@ -41,7 +41,7 @@ exports.index = function(req, res, next) {
 		.exec();
 	promise.then(function(posts) {
 
-	var popped_posts = [];
+		var popped_posts = [];
 
 		posts.forEach(function(post) {
 			Comment.populate(post.comments, { path: 'author' }, function(err, comments) {

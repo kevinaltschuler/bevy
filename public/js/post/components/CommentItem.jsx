@@ -20,17 +20,20 @@ var CommentItem = React.createClass({
 
 	render: function() {
 
+		var defaultAliasImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+
 		var comment = this.props.comment;
 		//console.log(comment);
 
-		var author;
+		var author = comment.author;
+		//console.log(author);
 
 		return (<div className="row comment">
 					<div className='col-xs-12'>
-						<img className="profile-img"/>
+						<img className="profile-img" src={ defaultAliasImage }/>
 						<div className="comment-text">
 							<div className="comment-title">
-								<a className="comment-name">Lisa Ding </a>
+								<a className="comment-name">{ author.name }</a>
 								<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
 							</div>
 							<div className="comment-body">{ comment.body }</div>
