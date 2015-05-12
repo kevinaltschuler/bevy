@@ -23,6 +23,7 @@ var ModalTrigger = rbs.ModalTrigger;
 
 var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
+var IconButton = mui.IconButton;
 
 var InviteModal = require('./InviteModal.jsx');
 var MemberModal = require('./MemberModal.jsx');
@@ -82,6 +83,12 @@ var BevyPanel = React.createClass({
 		this.setState({
 			isEditing: false
 		});
+	},
+
+	onKeyUp: function(ev) {
+		if(ev.which === 13) {
+			this.stopEditing(ev);
+		}
 	},
 
 	setNotificationLevel: function(ev, selectedIndex, menuItem) {
@@ -190,22 +197,15 @@ var BevyPanel = React.createClass({
 										ref='name'
 										defaultValue={ bevy.get('name') }
 										placeholder='Group Name'
+										onKeyUp={ this.onKeyUp }
 									/>
 									<Input
 										type='text'
 										ref='description'
 										defaultValue={ bevy.get('description') }
 										placeholder='Group Description'
+										onKeyUp={ this.onKeyUp }
 									/>
-								</div>
-							</div>
-							<div className='row'>
-								<div className='col-xs-12'>
-									<Button
-										onClick={ this.stopEditing }
-									>
-										Save
-									</Button>
 								</div>
 							</div>
 						</div>;
@@ -221,7 +221,10 @@ var BevyPanel = React.createClass({
 									onDoubleClick={ this.startEditing }
 								>
 									{ name }
-								</span>
+								</span> 
+								<IconButton className="edit-button" tooltip='edit name' onClick={ this.startEditing }>
+									<span className="glyphicon glyphicon-pencil btn"></span>
+								</IconButton>
 								<span
 									className='sidebar-title-description'
 									onDoubleClick={ this.startEditing }

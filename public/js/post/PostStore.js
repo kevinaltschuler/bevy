@@ -119,14 +119,12 @@ _.extend(PostStore, {
 
 				// collect payload vars
 				var title = payload.title;
-				var body = payload.body;
 				var image_url = payload.image_url;
 				var author = payload.author;
 				var bevy = payload.bevy;
 
 				var newPost = this.posts.add({
 					title: title,
-					body: body,
 					image_url: image_url,
 					author: author._id,
 					bevy: bevy._id

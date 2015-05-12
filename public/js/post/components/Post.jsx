@@ -105,7 +105,7 @@ var Post = React.createClass({
 
 	render: function() {
 
-		//console.log(this.props.post.comments);
+		console.log(this.props.post);
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (_.isEmpty(user.google.photos))
@@ -119,30 +119,17 @@ var Post = React.createClass({
 			author = this.props.post.author.name;
 		}
 
-		var postTitle = (_.isEmpty(this.props.post.image_url))
-		? (<span>{ this.props.post.title } &nbsp; </span>)
-		: (<a
-				href={ this.props.post.image_url }
-				title={ this.props.post.title }
-				target='_blank' >
-				{ this.props.post.title } &nbsp;
-			</a>)
-
-		var bodyText = (_.isEmpty(this.props.post.body))
-		? (<div />)
-		: (<div className='panel-body-text'>
-				{ this.props.post.body }
-			</div>)
+		var postTitle = (<span>{ this.props.post.title } &nbsp; </span>)
 
 		var panelBody = (_.isEmpty(this.props.post.image_url))
 		? (<div className='panel-body'>
-				{ bodyText }
+				{ postTitle }
 			</div>)
 		: (<div className='panel-body'>
+				{ postTitle }
 				<div className='panel-body-image' onClick={ this.expand }>
 					<img className="panel-media" src={ this.props.post.image_url }/>
 				</div>
-				{ bodyText }
 			</div>)
 
 		return <div className="post panel" postId={ this.props.post._id }>

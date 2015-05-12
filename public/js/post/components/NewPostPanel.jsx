@@ -92,7 +92,6 @@ var NewPostPanel = React.createClass({
 		// send the create action
 		PostActions.create(
 			this.state.title, // title
-			this.state.body, // body
 			this.state.image_url, // image_url
 			this.props.activeAlias.toJSON(), // author
 			this.props.activeBevy.toJSON()); // bevy
@@ -101,26 +100,11 @@ var NewPostPanel = React.createClass({
 		this.setState(this.getInitialState());
 	},
 
-	// used to trigger the create action (enter key)
-	// later, we can use this to listen for ctrl+v and other media shortcuts
-	onKeyUp: function(ev) {
-		//if the user hits enter, submit a new post
-		if(ev.which === 13) {
-			this.submit();
-			// empty the current title attribute
-			// in case the user wants to enter another right quick
-			this.setState({
-				title: ''
-			});
-		}
-	},
-
 	// triggered every time a key is pressed
 	// updates the state
 	handleChange: function() {
 		this.setState({
-			title: this.refs.title.getValue(),
-			body: this.refs.body.getValue()
+			title: this.refs.title.getValue()
 		});
 	},
 
@@ -152,7 +136,7 @@ var NewPostPanel = React.createClass({
 					<div className="row new-post-title">
 						<TextField
 							className="title-field"
-							hintText="Title"
+							hintText="Text"
 							ref='title'
 							onChange={ this.handleChange }
 							onFocus={ this.open }
@@ -161,17 +145,8 @@ var NewPostPanel = React.createClass({
 
 					<div ref='collapse' className={ classSet(styles) }>
 
-
 						<Uploader
 							onUploadComplete={ this.onUploadComplete }
-						/>
-
-						<Input
-							className="post-body-text"
-							type="textarea"
-							placeholder="Body"
-							ref='body'
-							onChange={ this.handleChange }
 						/>
 
 						<div className="panel-bottom">
@@ -183,7 +158,7 @@ var NewPostPanel = React.createClass({
 								<RaisedButton label="submit" onClick={this.submit} />
 							</div>
 							<div className="panel-controls-left">
-								<DropDownMenu className="bevies-dropdown" menuItems={bevies} />
+								{/* left side of the bottom of the panel */}
 							</div>
 						</div>
 					</div>
