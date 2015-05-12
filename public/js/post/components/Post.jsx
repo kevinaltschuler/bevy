@@ -165,6 +165,10 @@ var Post = React.createClass({
 
 						<CommentList
 							comments={ this.props.post.comments }
+
+							postId={ this.props.id }
+							author={ this.props.post.author }
+							profileImage={ profileImage }
 						/>
 
 					</div>

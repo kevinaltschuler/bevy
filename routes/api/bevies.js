@@ -51,28 +51,33 @@ module.exports = function(router) {
 	router.get('/aliases/:aliasid/bevies/:id/destroy', api.bevies.destroy);
 	router.delete('/aliases/:aliasid/bevies/:id', api.bevies.destroy);
 
-	// relative to user
 
-	// INDEX
-	router.get('/users/:userid/bevies', api.bevies.index);
+	// members
 
-	// CREATE
-	router.get('/users/:userid/bevies/create', api.bevies.create);
-	router.post('/users/:userid/bevies', api.bevies.create);
+	router.get('/bevies/:id/members', api.bevies.memberList);
 
-	// SHOW
-	router.get('/users/:userid/bevies/:id', api.bevies.show);
+	router.post('/bevies/:id/members', api.bevies.memberAdd);
+	router.get('/bevies/:id/members/add', api.bevies.memberAdd);
 
-	// EDIT
-	router.get('/users/:userid/bevies/:id/edit', api.bevies.update);
 
-	// UPDATE
-	router.get('/users/:userid/bevies/:id/update', api.bevies.update);
-	router.put('/users/:userid/bevies/:id', api.bevies.update);
-	router.patch('/users/:userid/bevies/:id', api.bevies.update);
 
-	// DESTROY
-	router.get('/users/:userid/bevies/:id/destroy', api.bevies.destroy);
-	router.delete('/users/:userid/bevies/:id', api.bevies.destroy);
+	router.get('/bevies/:id/members/remove', api.bevies.memberRemove);
+
+	router.get('/bevies/:id/members/:email', api.bevies.memberShow);
+
+	// alias dependent
+
+	router.get('/aliases/:aliasid/bevies/:id/members', api.bevies.memberList);
+
+	router.post('/aliases/:aliasid/bevies/:id/members', api.bevies.memberAdd);
+	router.get('/aliases/:aliasid/bevies/:id/members/add', api.bevies.memberAdd);
+
+
+
+	router.get('/aliases/:aliasid/bevies/:id/members/remove', api.bevies.memberRemove);
+
+	router.get('/aliases/:aliasid/bevies/:id/members/:email', api.bevies.memberShow);
+
+
 
 };

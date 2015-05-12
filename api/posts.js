@@ -11,9 +11,10 @@
 var mongoose = require('mongoose');
 var error = require('./../error');
 var _ = require('underscore');
+var async = require('async');
 
 var Post = mongoose.model('Post');
-
+var Comment = mongoose.model('Comment');
 
 function collectPostParams(req) {
 	var update = {};
@@ -39,7 +40,16 @@ exports.index = function(req, res, next) {
 		.populate('bevy comments author')
 		.exec();
 	promise.then(function(posts) {
-		res.json(posts);
+
+		var popped_posts = [];
+
+		posts.forEach(function(post) {
+			Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
+				popped_posts.push(post);
+				if(popped_posts.length >= posts.length) res.json(popped_posts);
+			});
+		});
+
 	}, function(err) { next(err); });
 }
 
@@ -75,7 +85,10 @@ exports.show = function(req, res, next) {
 		if(!post) throw error.gen('post not found');
 		return post;
 	}).then(function(post) {
-		res.json(post);
+
+		Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
+			res.json(post);
+		});
 	}, function(err) { next(err); });
 }
 

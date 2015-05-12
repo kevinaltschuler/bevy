@@ -19,7 +19,8 @@ var user = window.bootstrap.user;
 var NotificationList = React.createClass({
 
 	propTypes: {
-		allNotifications: React.PropTypes.array
+		allNotifications: React.PropTypes.array,
+		activeAlias: React.PropTypes.object
 	},
 
 	render: function() {
@@ -44,8 +45,9 @@ var NotificationList = React.createClass({
 					key={ id }
 					id={ id }
 					event={ event }
-					data={ data } >
-				</NotificationItem>
+					data={ data }
+					activeAlias={ this.props.activeAlias }
+				/>
 			);
 		}
 

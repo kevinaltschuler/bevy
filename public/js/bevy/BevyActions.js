@@ -76,6 +76,14 @@ var PostActions = {
 		});
 	},
 
+	join: function(bevy_id, alias, email) {
+		dispatch(BEVY.JOIN, {
+			bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
+			alias: (alias == undefined) ? {} : alias,
+			email: (email == undefined) ? '' : email
+		});
+	},
+
 	/**
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to
