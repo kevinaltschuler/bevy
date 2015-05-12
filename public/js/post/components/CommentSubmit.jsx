@@ -72,11 +72,6 @@ var CommentSubmit = React.createClass({
 							onKeyPress={ this.onKeyPress }
 							onChange={ this.onChange }
 						/>
-						<Button
-							onClick={ this.submit } >
-							Submit
-						</Button>
-
 					</div>);
 	}
 
