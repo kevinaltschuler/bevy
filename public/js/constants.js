@@ -65,15 +65,6 @@ exports.BEVY = {
 	CHANGE_ONE: 'bevy_change_one'
 };
 
-exports.ALIAS = {
-	CREATE: 'alias_create',
-	DESTROY: 'alias_destroy',
-	UPDATE: 'alias_update',
-	SWITCH: 'alias_switch',
-
-	CHANGE_ALL: 'alias_change_all'
-};
-
 exports.NOTIFICATION = {
 	  DISMISS: 'notification_dismiss',
 

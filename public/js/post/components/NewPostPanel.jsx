@@ -39,7 +39,6 @@ var NewPostPanel = React.createClass({
 	propTypes: {
 		activeBevy: React.PropTypes.object.isRequired,
 		allBevies: React.PropTypes.array.isRequired,
-		activeAlias: React.PropTypes.object.isRequired
 	},
 
 	// start with an empty title
@@ -94,7 +93,7 @@ var NewPostPanel = React.createClass({
 			this.state.title, // title
 			this.state.body, // body
 			this.state.image_url, // image_url
-			this.props.activeAlias.toJSON(), // author
+			window.bootstrap.user, // author
 			this.props.activeBevy.toJSON()); // bevy
 
 		// reset fields

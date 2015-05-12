@@ -21,7 +21,7 @@ var channel = client.channel('notifications');
 
 var User = mongoose.model('User');
 
-var paramNames = 'event message email bevy alias members';
+var paramNames = 'event message email bevy user members';
 
 function collectParams(req) {
 	var params = {};

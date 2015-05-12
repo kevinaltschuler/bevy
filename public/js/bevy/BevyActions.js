@@ -21,12 +21,11 @@ var PostActions = {
 		});
 	},
 
-	create: function(name, description, members, alias_id) {
+	create: function(name, description, members) {
 		dispatch(BEVY.CREATE, {
 			name: (name == undefined) ? '' : name,
 			description: (description == undefined) ? '' : description,
-			members: (members == undefined) ? [] : members,
-			alias_id: (alias_id == undefined) ? '' : alias_id
+			members: (members == undefined) ? [] : members
 		});
 	},
 
@@ -44,42 +43,42 @@ var PostActions = {
 		});
 	},
 
-	setNotificationLevel: function(bevy_id, alias_id, level) {
+	setNotificationLevel: function(bevy_id, user_id, level) {
 		dispatch(BEVY.SET_NOTIFICATION_LEVEL, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
-			alias_id: (alias_id == undefined) ? '' : alias_id,
+			user_id: (user_id == undefined) ? '' : user_id,
 			level: (level == undefined) ? 'never' : level
 		});
 	},
 
-	leave: function(bevy_id, email, alias_id) {
+	leave: function(bevy_id, email, user_id) {
 		dispatch(BEVY.LEAVE, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
 			email: (email == undefined) ? '' : email,
-			alias_id: (alias_id == undefined) ? '' : alias_id
+			user_id: (user_id == undefined) ? '' : user_id
 		});
 	},
 
-	invite: function(bevy, alias, members) {
+	invite: function(bevy, user, members) {
 		dispatch(BEVY.INVITE, {
 			bevy: (bevy == undefined) ? {} : bevy,
-			alias: (alias == undefined) ? {} : alias,
+			user: (user == undefined) ? {} : user,
 			members: (members == undefined) ? [] : members
 		});
 	},
 
-	addUser: function(bevy_id, alias, email) {
+	addUser: function(bevy_id, user, email) {
 		dispatch(BEVY.ADD_USER, {
 			bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
-			alias: (alias == undefined) ? {} : alias,
+			user: (user == undefined) ? {} : user,
 			email: (email == undefined) ? '' : email
 		});
 	},
 
-	join: function(bevy_id, alias, email) {
+	join: function(bevy_id, user, email) {
 		dispatch(BEVY.JOIN, {
 			bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
-			alias: (alias == undefined) ? {} : alias,
+			user: (alias == undefined) ? {} : user,
 			email: (email == undefined) ? '' : email
 		});
 	},

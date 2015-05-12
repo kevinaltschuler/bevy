@@ -36,7 +36,7 @@ exports.connect = function(db) {
 		//var email = options.email;
 		var members = options.members;
 		var bevy = options.bevy;
-		var alias = options.alias;
+		var inviter = options.user;
 
 		members.forEach(function(email) {
 			async.waterfall([
@@ -49,7 +49,7 @@ exports.connect = function(db) {
 						 	event: 'invite',
 							data: {
 								bevy: bevy,
-								from_alias: alias
+								from_user: inviter
 							}
 						});
 						user.save(function(err) {
@@ -67,7 +67,7 @@ exports.connect = function(db) {
 						from: 'Bevy Team <contact@bvy.io>',
 						to: email,
 						subject: 'Invite',
-						text: 'Invite to ' + bevy.name + ' from ' + alias.name
+						text: 'Invite to ' + bevy.name + ' from ' + inviter.google.name.givenName + ' ' + inviter.google.name.familyName
 					}, function(err, body) {
 						if(err) {
 							return done(err);

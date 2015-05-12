@@ -24,7 +24,6 @@ var BEVY = constants.BEVY;
 var APP = constants.APP;
 var COMMENT = constants.COMMENT;
 
-var AliasStore = require('./../alias/AliasStore');
 var BevyStore = require('./../bevy/BevyStore');
 
 var Dispatcher = require('./../shared/dispatcher');
@@ -48,8 +47,8 @@ _.extend(PostStore, {
 
 			case APP.LOAD:
 
-				// wait for aliases and bevies
-				Dispatcher.waitFor([AliasStore.dispatchToken, BevyStore.dispatchToken]);
+				// wait for bevies
+				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
 				var bevy = BevyStore.getActive();
 				this.posts._meta.bevy = bevy;
@@ -71,28 +70,6 @@ _.extend(PostStore, {
 				});
 
 				this.trigger(POST.CHANGE_ALL);
-
-				break;
-
-			case ALIAS.SWITCH:
-
-				// wait for alias and bevy switch
-				Dispatcher.waitFor([AliasStore.dispatchToken, BevyStore.dispatchToken]);
-
-				var bevy = BevyStore.getActive();
-				this.posts._meta.bevy = bevy;
-
-				if(_.isEmpty(bevy)) {
-					this.posts.reset();
-					this.trigger(POST.CHANGE_ALL);
-				} else {
-					this.posts.fetch({
-						reset: true,
-						success: function(collection, response, options) {
-							this.trigger(POST.CHANGE_ALL);
-						}.bind(this)
-					});
-				}
 
 				break;
 

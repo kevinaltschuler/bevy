@@ -36,8 +36,7 @@ var user = window.bootstrap.user;
 var BevyPanel = React.createClass({
 
 	propTypes: {
-		activeBevy: React.PropTypes.object,
-		activeAlias: React.PropTypes.object
+		activeBevy: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -49,11 +48,11 @@ var BevyPanel = React.createClass({
 
 	componentWillReceiveProps: function(nextProps) {
 		var bevy = nextProps.activeBevy;
-		var alias = nextProps.activeAlias;
-		if(!_.isEmpty(bevy) && !_.isEmpty(alias)) {
+		if(!_.isEmpty(bevy)) {
 			var members = bevy.get('members');
 			var member = _.find(members, function(m) {
-				return m.aliasid._id == alias.id;
+				var user = window.bootstrap.user;
+				return m.userid._id == user._id;
 			});
 			if(member) {
 				this.setState({
@@ -88,10 +87,10 @@ var BevyPanel = React.createClass({
 		ev.preventDefault();
 
 		var bevy_id = this.props.activeBevy.id;
-		var alias_id = this.props.activeAlias.id;
+		var user = window.bootstrap.user;
 		var level = menuItem.payload;
 
-		BevyActions.setNotificationLevel(bevy_id, alias_id, level);
+		BevyActions.setNotificationLevel(bevy_id, user._id, level);
 	},
 
 	leave: function(ev) {
@@ -103,9 +102,9 @@ var BevyPanel = React.createClass({
 
 		var bevy_id = this.props.activeBevy.id;
 		var email = user.email;
-		var alias_id = this.props.activeAlias.id;
+		var user = window.bootstrap.user;
 
-		BevyActions.leave(bevy_id, email, alias_id);
+		BevyActions.leave(bevy_id, email, user._id);
 		// then switch to another bevy
 		BevyActions.switch();
 	},
@@ -125,7 +124,6 @@ var BevyPanel = React.createClass({
 	render: function() {
 
 		var bevy = this.props.activeBevy;
-		var alias = this.props.activeAlias;
 
 		var defaultBevyImage = '/img/logo_100.png';
 		var bevyImage = "/"
@@ -141,25 +139,6 @@ var BevyPanel = React.createClass({
 
 		var members = (_.isEmpty(bevy)) ? [] : bevy.get('members');
 
-		// check if current alias is member of bevy
-		// if not, then add them to the member list
-		/*var isMember = false;
-		for(var key in members) {
-			var member = members[key];
-			if(member.aliasid) {
-				if(member.aliasid._id == alias.id) {
-					isMember = true;
-				}
-			}
-		}
-		if(!isMember
-			&& !_.isEmpty(bevy)
-			&& !_.isEmpty(alias)) {
-
-			// add member
-			BevyActions.addUser(bevy.id, alias.toJSON(), user.email);
-		}*/
-
 		var member = this.state.activeMember
 		if(!_.isEmpty(member)) {
 			var level = member.notificationLevel;
@@ -174,8 +153,6 @@ var BevyPanel = React.createClass({
 		} else {
 
 		}
-
-
 
 		var header;
 		if(this.state.isEditing) {
@@ -242,7 +219,7 @@ var BevyPanel = React.createClass({
 							<ModalTrigger modal={
 								<InviteModal
 									activeBevy={ this.props.activeBevy }
-									activeAlias={ this.props.activeAlias }/>
+								/>
 							}>
 								<Button type='button' className="sidebar-link">
 									Invite People

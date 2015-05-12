@@ -19,8 +19,6 @@ var ButtonGroup = rbs.ButtonGroup;
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 
-var AliasList = require('./../../alias/components/AliasList.jsx');
-var AddAliasModal = require('./../../alias/components/AddAliasModal.jsx');
 var NotificationList = require('./NotificationList.jsx');
 
 var user = window.bootstrap.user;
@@ -30,7 +28,6 @@ var ProfileDropdown = React.createClass({
 
 	propTypes: {
 		allNotifications: React.PropTypes.array,
-		activeAlias: React.PropTypes.object
 	},
 
 	render: function() {
@@ -42,7 +39,6 @@ var ProfileDropdown = React.createClass({
 				 		</div>
 						<NotificationList
 							allNotifications={ this.props.allNotifications }
-							activeAlias={ this.props.activeAlias }
 						/>
 					</Popover>}>
 				 	<Button className="notification-dropdown-btn">

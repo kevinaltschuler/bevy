@@ -23,16 +23,12 @@ var NewPostPanel = require('./../../post/components/NewPostPanel.jsx')
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
-var AliasStore = require('./../../alias/AliasStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 
 var AppActions = require('./../../app/AppActions');
-var BevyActions = require('./../../bevy/BevyActions');
-var PostActions = require('./../../post/PostActions');
 
 var POST = require('./../../constants').POST;
 var BEVY = require('./../../constants').BEVY;
-var ALIAS = require('./../../constants').ALIAS;
 var NOTIFICATION = require('./../../constants').NOTIFICATION;
 
 
@@ -57,16 +53,6 @@ function getBevyState() {
 		activeBevy: active
 	}
 }
-function getAliasState() {
-
-	var all = AliasStore.getAll();
-	var active = AliasStore.getActive();
-
-	return {
-		allAliases: all,
-		activeAlias: active
-	}
-}
 function getNotificationState() {
 	return {
 		allNotifications: NotificationStore.getAll()
@@ -78,7 +64,6 @@ function collectState() {
 	_.extend(state,
 		getPostState(),
 		getBevyState(),
-		getAliasState(),
 		getNotificationState()
 	);
 	return state;
@@ -98,7 +83,6 @@ var MainSection = React.createClass({
 	componentDidMount: function() {
 		PostStore.on(POST.CHANGE_ALL, this._onPostChange);
 		BevyStore.on(BEVY.CHANGE_ALL, this._onBevyChange);
-		AliasStore.on(ALIAS.CHANGE_ALL, this._onAliasChange);
 		NotificationStore.on(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
 	},
 
@@ -106,7 +90,6 @@ var MainSection = React.createClass({
 	componentWillUnmount: function() {
 		PostStore.off(POST.CHANGE_ALL, this._onPostChange);
 		BevyStore.off(BEVY.CHANGE_ALL, this._onBevyChange);
-		AliasStore.off(ALIAS.CHANGE_ALL, this._onAliasChange);
 		NotificationStore.off(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
 	},
 
@@ -117,9 +100,6 @@ var MainSection = React.createClass({
 	_onBevyChange: function() {
 		this.setState(_.extend(this.state, getBevyState()));
 	},
-	_onAliasChange: function() {
-		this.setState(_.extend(this.state, getAliasState()));
-	},
 	_onNotificationChange: function() {
 		this.setState(_.extend(this.state, getNotificationState()));
 	},
@@ -128,8 +108,6 @@ var MainSection = React.createClass({
 		return	<div>
 						<Navbar
 							activeBevy={ this.state.activeBevy }
-							allAliases={ this.state.allAliases }
-							activeAlias={ this.state.activeAlias }
 							allNotifications={ this.state.allNotifications }
 						/>
 						<div className='main-section'>
@@ -137,7 +115,6 @@ var MainSection = React.createClass({
 								<NewPostPanel
 									activeBevy={ this.state.activeBevy }
 									allBevies={ this.state.allBevies }
-									activeAlias={ this.state.activeAlias }
 								/>
 							</div>
 							<div className='row'>
@@ -146,7 +123,6 @@ var MainSection = React.createClass({
 							<div className='row'>
 								<LeftSidebar
 									allBevies={ this.state.allBevies }
-									activeAlias={ this.state.activeAlias }
 									activeBevy={ this.state.activeBevy }
 								/>
 								<PostContainer
@@ -154,7 +130,6 @@ var MainSection = React.createClass({
 									activeBevy={ this.state.activeBevy }
 								/>
 								<RightSidebar
-									activeAlias={ this.state.activeAlias }
 									activeBevy={ this.state.activeBevy }
 								/>
 							</div>
