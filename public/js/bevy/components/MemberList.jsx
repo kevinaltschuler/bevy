@@ -30,12 +30,12 @@ var MemberList = React.createClass({
 		for(var key in allContacts) {
 			var contact = allContacts[key];
 			var email = contact.email || '';
-			var aliasid = contact.aliasid || '';
+			var userid = contact.userid || '';
 			contacts.push(
 				<MemberItem
 					key={ key }
 					email={ email }
-					aliasid={ aliasid }
+					userid={ userid }
 					activeBevy={ this.props.activeBevy }
 				/>
 			);

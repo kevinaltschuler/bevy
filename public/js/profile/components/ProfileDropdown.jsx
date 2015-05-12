@@ -21,9 +21,6 @@ var MenuItem = rbs.MenuItem;
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 
-var AliasList = require('./../../alias/components/AliasList.jsx');
-var AddAliasModal = require('./../../alias/components/AddAliasModal.jsx');
-
 var SavedPostsModal = require('./../../profile/components/SavedPostsModal.jsx');
 var ContactsModal = require('./../../profile/components/ContactsModal.jsx');
 
@@ -33,8 +30,7 @@ var email = user.email;
 var ProfileDropdown = React.createClass({
 
 	propTypes: {
-		allAliases: React.PropTypes.array,
-		activeAlias: React.PropTypes.object
+
 	},
 
 	render: function() {
@@ -93,17 +89,9 @@ var ProfileDropdown = React.createClass({
 
 						<hr />
 
-						<AliasList
-							allAliases={ this.props.allAliases }
-							activeAlias={ this.props.activeAlias } />
-
-						<hr />
-
 						<div className="profile-buttons">
-							<div className="profile-btn-left add-alias-modal-container">
-								<ModalTrigger modal={ <AddAliasModal /> }>
-									<FlatButton label="Add Alias"/>
-								</ModalTrigger>
+							<div className="profile-btn-left">
+
 							</div>
 							<div className="profile-btn-right">
 								<FlatButton

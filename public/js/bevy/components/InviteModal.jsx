@@ -33,7 +33,6 @@ var InviteModal = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object,
-		activeAlias: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -67,14 +66,15 @@ var InviteModal = React.createClass({
 		// TODO: idiot proofing
 
 		var bevy = this.props.activeBevy.toJSON();
-		var alias = this.props.activeAlias.toJSON();
+		//var alias = this.props.activeAlias.toJSON();
+		var user = window.bootstrap.user;
 		//console.log(bevy);
 		//console.log(id);
 		var members = this.state.members;
 		if(members.length < 1) return;
 
 		// send the invite
-		BevyActions.invite(bevy, alias, members);
+		BevyActions.invite(bevy, user, members);
 		// then add the invited user
 		for(var key in members) {
 			var member = members[key];

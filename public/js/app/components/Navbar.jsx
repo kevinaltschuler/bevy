@@ -42,19 +42,16 @@ var Navbar = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object,
-		allAliases: React.PropTypes.array,
-		activeAlias: React.PropTypes.object,
 		allNotifications: React.PropTypes.array
 	},
 
 	render: function() {
 
 		var name;
-		//if(!_.isEmpty(user.google.name))
-		//	name = user.google.name.givenName + ' ' + user.google.name.familyName;
-		if(!_.isEmpty(this.props.activeAlias))
-			//console.log(this.props.activeAlias);
-			name = this.props.activeAlias.get('name');
+		if(!_.isEmpty(user.google.name))
+			name = user.google.name.givenName + ' ' + user.google.name.familyName;
+		else
+			name = user.email;
 
 		var bevyName;
 		if(!_.isEmpty(this.props.activeBevy)) {
@@ -65,10 +62,9 @@ var Navbar = React.createClass({
 
 					<div className='col-xs-3'>
 						<div className="navbar-header pull-left">
-							<ProfileDropdown allAliases={ this.props.allAliases } activeAlias={ this.props.activeAlias } />
+							<ProfileDropdown />
 							<NotificationDropdown
 								allNotifications={ this.props.allNotifications }
-								activeAlias={ this.props.activeAlias }
 							/>
 							<span className="navbar-brand navbar-brand-text">{ name }</span>
 						</div>

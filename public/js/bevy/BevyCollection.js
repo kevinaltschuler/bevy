@@ -15,18 +15,15 @@ var _ = require('underscore');
 var Bevy = require('./BevyModel');
 var constants = require('./../constants');
 
+var user = window.bootstrap.user;
+
 // backbone collection
 module.exports = Backbone.Collection.extend({
 	model: Bevy,
-	//url: constants.apiurl + '/bevies',
 	url: function() {
-		return (_.isEmpty(this._meta.alias))
-		? constants.apiurl + '/bevies'
-		: constants.apiurl + '/aliases/' + this._meta.alias.id + '/bevies'
+		return constants.apiurl + '/users/' + user._id + '/bevies';
 	},
-
 	_meta: {
-		active: null,
-		alias: null
+		active: null
 	}
 });

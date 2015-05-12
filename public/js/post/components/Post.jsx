@@ -116,7 +116,8 @@ var Post = React.createClass({
 		author = 'placeholder-author';
 		if(this.props.post.author) {
 			//console.log(this.props.post.title, this.props.post.author);
-			author = this.props.post.author.name;
+			///author = this.props.post.author.name;
+			author = this.props.post.author.google.name.givenName + ' ' + this.props.post.author.google.name.familyName
 		}
 
 		var postTitle = (<span>{ this.props.post.title } &nbsp; </span>)

@@ -20,9 +20,9 @@ module.exports = new Schema({
 	  	email: {
 	  	  	type: String
 	  	},
-	   aliasid: {
+	  	userid: {
 	  		type: Schema.Types.ObjectId,
-	  		ref: 'Alias'
+	  		ref: 'User'
 	  	},
 	  	notificationLevel: {
 	  		type: String,

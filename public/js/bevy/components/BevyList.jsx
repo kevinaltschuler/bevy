@@ -29,7 +29,6 @@ var BevyList = React.createClass({
 
 	propTypes: {
 		allBevies: React.PropTypes.array.isRequired,
-		activeAlias: React.PropTypes.object.isRequired,
 		activeBevy: React.PropTypes.object.isRequired
 	},
 
@@ -75,9 +74,7 @@ var BevyList = React.createClass({
 						<text>
 							{bevies}
 							<ModalTrigger modal={
-								<CreateNewBevy
-									activeAlias={ this.props.activeAlias }
-								/>
+								<CreateNewBevy	/>
 							}>
 								<button className='bevy-btn new-bevy-btn'>
 									<FontIcon className="glyphicon glyphicon-plus"/> &nbsp;

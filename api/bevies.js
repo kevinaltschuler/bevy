@@ -35,18 +35,14 @@ function collectBevyParams(req) {
 // INDEX
 // GET /bevies
 exports.index = function(req, res, next) {
-	var aliasid = req.params.aliasid;
 	var userid = req.params.userid;
 	var query = {};
-	if(aliasid) {
-		query = { members: { $elemMatch: { aliasid: aliasid } } };
-	} else if (userid) {
-		// todo: fetch user email
-		query = { members: { $elemMatch: { email: '' } } };
+	if (userid) {
+		query = { members: { $elemMatch: { userid: userid } } };
 	}
 
 	var promise = Bevy.find(query)
-		.populate('members.aliasid')
+		.populate('members.userid')
 		.exec();
 	promise.then(function(bevies) {
 		res.json(bevies);
@@ -70,7 +66,7 @@ exports.create = function(req, res, next) {
 			channel.publish('invite:email', {
 				  members: bevy.members.toObject()
 				, bevy: bevy
-				, alias: {
+				, user: {
 					name: 'placeholder-creator'
 				}
 			});
@@ -87,7 +83,7 @@ exports.show = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOne(query)
-		.populate('members.aliasid')
+		.populate('members.userid')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -108,7 +104,7 @@ exports.update = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update, { upsert: true })
-		.populate('members.aliasid')
+		.populate('members.userid')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -126,7 +122,7 @@ exports.destroy = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndRemove(query)
-		.populate('members.aliasid')
+		.populate('members.userid')
 		.exec();
 	promise.then(function(bevy) {
 		res.json(bevy);
@@ -141,7 +137,7 @@ exports.memberList = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOne(query)
-		.populate('members.aliasid')
+		.populate('members.userid')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -159,7 +155,7 @@ exports.memberAdd = function(req, res, next) {
 
 	// collect params
 	var update = {};
-	var fields = 'email aliasid notificationLevel';
+	var fields = 'email userid notificationLevel';
 	fields.split(' ').forEach(function(field) {
 		var val = null;
 		if(req.body != undefined) val = req.body[field];
@@ -188,35 +184,11 @@ exports.memberAdd = function(req, res, next) {
 // MEMBER SHOW
 // GET /bevies/:id/members/:email
 exports.memberShow = function(req, res, next) {
-	var id = req.params.id;
-	var email = req.params.email;
 
-	var query = { _id: id };
-	var promise = Bevy.findOne(query).exec();
-	promise.then(function(bevy) {
-		if(!bevy) throw error.gen('bevy not found', req);
-		return bevy;
-	}).then(function(bevy) {
-		var member = bevy.members[ bevy.members.indexOf({ email: email }) ];
-		return res.json(member);
-	}, function(err) { return next(err); });
 }
 
 // MEMBER REMOVE
 // GET /bevies/:id/members/remove
 exports.memberRemove = function(req, res, next) {
-	var id = req.params.id;
-
-
-
-	var query = { _id: id };
-	var promise = Bevy.findOne(query)
-		.exec();
-	promise.then(function(bevy) {
-		if(!bevy) throw error.gen('bevy not found', req);
-		return bevy;
-	}).then(function(bevy) {
-
-	}, function(err) { return next(err); });
 
 }

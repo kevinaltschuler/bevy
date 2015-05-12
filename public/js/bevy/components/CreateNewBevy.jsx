@@ -23,6 +23,8 @@ var TextField = mui.TextField;
 
 var BevyActions = require('./../BevyActions');
 
+var user = window.bootstrap.user;
+
 // helper function to validate whether an email is valid
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -32,7 +34,7 @@ function validateEmail(email) {
 var CreateNewBevy = React.createClass({
 
 	propTypes: {
-		activeAlias: React.PropTypes.object
+
 	},
 
 	getInitialState: function() {
@@ -78,7 +80,7 @@ var CreateNewBevy = React.createClass({
 			return;
 		}*/
 
-		BevyActions.create(name, description, members, this.props.activeAlias.id);
+		BevyActions.create(name, description, members);
 
 		// after, close the window
 		this.props.onRequestHide();

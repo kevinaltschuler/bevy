@@ -20,7 +20,7 @@ var MemberItem = React.createClass({
 
 	propTypes: {
 		email: React.PropTypes.string,
-		aliasid: React.PropTypes.object,
+		userid: React.PropTypes.object,
 		activeBevy: React.PropTypes.object
 	},
 
@@ -29,7 +29,7 @@ var MemberItem = React.createClass({
 
 		var bevy_id = this.props.activeBevy.id;
 
-		BevyActions.leave(bevy_id, this.props.email, this.props.aliasid._id);
+		BevyActions.leave(bevy_id, this.props.email, this.props.userid._id);
 	},
 
 	render: function() {
@@ -41,11 +41,11 @@ var MemberItem = React.createClass({
 		};
 
 		var contactName = this.props.email || "Placeholder Contact";
-		var joined = (_.isEmpty(this.props.aliasid)) ? false : true;
+		var joined = (_.isEmpty(this.props.userid)) ? false : true;
 
 		var contactStatus = '';
 		if(!joined) contactStatus = '[invited]';
-		else contactStatus = this.props.aliasid.name;
+		else contactStatus = this.props.userid.google.name.givenName + ' ' + this.props.userid.google.name.familyName;
 
 		return <div className="row alias-item">
 

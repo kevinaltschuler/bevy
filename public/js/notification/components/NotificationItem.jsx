@@ -24,7 +24,6 @@ var NotificationItem = React.createClass({
 		id: React.PropTypes.string,
 		event: React.PropTypes.string,
 		data: React.PropTypes.object,
-		activeAlias: React.PropTypes.object
 	},
 
 	dismiss: function(ev) {
@@ -37,11 +36,10 @@ var NotificationItem = React.createClass({
 
 		var data = this.props.data;
 		var bevy_id = data.bevy._id;
-		//var alias_id = data.from_alias._id;
-		var alias = data.from_alias;
 		var email = user.email;
+		var user = window.bootstrap.user;
 
-		BevyActions.join(bevy_id, this.props.activeAlias, email);
+		BevyActions.join(bevy_id, user, email);
 	},
 
 	render: function() {
@@ -55,10 +53,10 @@ var NotificationItem = React.createClass({
 		switch(event) {
 			case 'invite':
 				var bevy = data.bevy;
-				var from_alias = data.from_alias;
+				var from_user = data.from_user;
 
 				body = <div>
-						 	Invite to { bevy.name } from { from_alias.name }
+						 	Invite to { bevy.name } from { from_user.google.name.givenName }
 						 	<br />
 						 	<Button
 						 		onClick={ this.join }

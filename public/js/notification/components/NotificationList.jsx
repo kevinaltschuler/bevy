@@ -20,7 +20,6 @@ var NotificationList = React.createClass({
 
 	propTypes: {
 		allNotifications: React.PropTypes.array,
-		activeAlias: React.PropTypes.object
 	},
 
 	render: function() {
@@ -46,7 +45,6 @@ var NotificationList = React.createClass({
 					id={ id }
 					event={ event }
 					data={ data }
-					activeAlias={ this.props.activeAlias }
 				/>
 			);
 		}
