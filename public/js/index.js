@@ -38,6 +38,13 @@ Backbone.Model.prototype.toJSON = function() {
     return json;
 }
 
+
+// do some work with bootstrapped objects loaded with server
+var user = window.bootstrap.user;
+user.displayName = (user.google)
+? user.email
+: user.google.name.givenName + ' ' + user.google.name.familyName;
+
 require('bootstrap');
 
 var React = require('react');
