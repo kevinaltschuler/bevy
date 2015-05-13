@@ -45,7 +45,9 @@ var MemberItem = React.createClass({
 
 		var contactStatus = '';
 		if(!joined) contactStatus = '[invited]';
-		else contactStatus = this.props.userid.google.name.givenName + ' ' + this.props.userid.google.name.familyName;
+		else contactStatus = (this.props.userid.google)
+		? this.props.userid.google.name.givenName + ' ' + this.props.userid.google.name.familyName
+		: this.props.userid.email;
 
 		return <div className="row alias-item">
 

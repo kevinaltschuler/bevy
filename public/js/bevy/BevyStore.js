@@ -264,7 +264,7 @@ _.extend(BevyStore, {
 				//console.log(bevy_id, bevy);
 				var members = bevy.get('members');
 				// user is being invited, add email
-				invited_user = {
+				var invited_user = {
 					email: email
 				}
 				members.push(invited_user);
