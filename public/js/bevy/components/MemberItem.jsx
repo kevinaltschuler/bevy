@@ -20,7 +20,7 @@ var MemberItem = React.createClass({
 
 	propTypes: {
 		email: React.PropTypes.string,
-		userid: React.PropTypes.object,
+		userid: React.PropTypes.any,
 		activeBevy: React.PropTypes.object
 	},
 
