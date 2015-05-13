@@ -22,10 +22,9 @@ module.exports = new Schema({
 	}],
 	author: {
 		type: Schema.Types.ObjectId,
-		ref: 'Alias'
+		ref: 'User'
 	},
 	title: String,
-	body: String,
 	link: String,
 	image_url: String,
 	points: [{
