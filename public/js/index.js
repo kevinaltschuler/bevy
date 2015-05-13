@@ -41,7 +41,7 @@ Backbone.Model.prototype.toJSON = function() {
 
 // do some work with bootstrapped objects loaded with server
 var user = window.bootstrap.user;
-user.displayName = (user.google)
+user.displayName = (user.google == undefined)
 ? user.email
 : user.google.name.givenName + ' ' + user.google.name.familyName;
 
