@@ -78,7 +78,7 @@ var PostActions = {
 	join: function(bevy_id, user, email) {
 		dispatch(BEVY.JOIN, {
 			bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
-			user: (alias == undefined) ? {} : user,
+			user: (user == undefined) ? {} : user,
 			email: (email == undefined) ? '' : email
 		});
 	},

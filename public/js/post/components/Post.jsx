@@ -105,8 +105,6 @@ var Post = React.createClass({
 
 	render: function() {
 
-		console.log(this.props.post);
-
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (_.isEmpty(user.google.photos))
 		 ? defaultProfileImage

@@ -37,9 +37,8 @@ var NotificationItem = React.createClass({
 		var data = this.props.data;
 		var bevy_id = data.bevy._id;
 		var email = user.email;
-		var user = window.bootstrap.user;
 
-		BevyActions.join(bevy_id, user, email);
+		BevyActions.join(bevy_id, window.bootstrap.user, email);
 	},
 
 	render: function() {

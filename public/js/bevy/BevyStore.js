@@ -149,7 +149,7 @@ _.extend(BevyStore, {
 
 				// unpopulate member aliasid
 				var unpopulated_members = _.map(members, function(member, key) {
-					if(_.isObject(member.aliasid))
+					if(_.isObject(member.userid))
 						member.userid = member.userid._id;
 					return member;
 				});
@@ -290,7 +290,7 @@ _.extend(BevyStore, {
 
 			case BEVY.JOIN:
 				var bevy_id = payload.bevy_id;
-				var user = payload.user;
+				var user = window.bootstrap.user;
 				var email = payload.email;
 
 				$.post(
@@ -308,7 +308,11 @@ _.extend(BevyStore, {
 				});
 
 				// temp fix
-				window.location.reload();
+				//window.location.reload();
+
+				this.bevies.fetch({ reset: true });
+
+				this.trigger(BEVY.CHANGE_ALL);
 
 				break;
 		}
@@ -327,5 +331,9 @@ _.extend(BevyStore, {
 
 var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
 BevyStore.dispatchToken = dispatchToken;
+
+BevyStore.bevies.on('sync', function() {
+	BevyStore.trigger(BEVY.CHANGE_ALL);
+});
 
 module.exports = BevyStore;

@@ -109,11 +109,10 @@ var BevyPanel = React.createClass({
 
 		var bevy_id = this.props.activeBevy.id;
 		var email = user.email;
-		var user = window.bootstrap.user;
 
-		BevyActions.leave(bevy_id, email, user._id);
+		BevyActions.leave(bevy_id, email, window.bootstrap.user._id);
 		// then switch to another bevy
-		BevyActions.switch();
+		//BevyActions.switch();
 	},
 
 	destroy: function(ev) {
@@ -198,7 +197,7 @@ var BevyPanel = React.createClass({
 									onDoubleClick={ this.startEditing }
 								>
 									{ name }
-								</span> 
+								</span>
 								<IconButton className="edit-button" tooltip='edit name' onClick={ this.startEditing }>
 									<span className="glyphicon glyphicon-pencil btn"></span>
 								</IconButton>
