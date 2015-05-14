@@ -44,9 +44,16 @@ exports.index = function(req, res, next) {
 		var popped_posts = [];
 
 		posts.forEach(function(post) {
+
+			if(post.comments.length <= 0) {
+				// no comments
+				popped_posts.push(post);
+				if(popped_posts.length >= posts.length) return res.json(popped_posts);
+			}
+
 			Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
 				popped_posts.push(post);
-				if(popped_posts.length >= posts.length) res.json(popped_posts);
+				if(popped_posts.length >= posts.length) return res.json(popped_posts);
 			});
 		});
 
