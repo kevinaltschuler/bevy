@@ -46,7 +46,6 @@ var NewPostPanel = React.createClass({
 	getInitialState: function() {
 		return {
 			title: '',
-			body: '',
 			image_url: ''
 		};
 	},
@@ -137,6 +136,7 @@ var NewPostPanel = React.createClass({
 							className="title-field"
 							hintText="Text"
 							ref='title'
+							value={ this.state.title }
 							onChange={ this.handleChange }
 							onFocus={ this.open }
 						/>
