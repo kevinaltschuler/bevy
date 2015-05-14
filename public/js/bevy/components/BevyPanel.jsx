@@ -49,11 +49,14 @@ var BevyPanel = React.createClass({
 
 	componentWillReceiveProps: function(nextProps) {
 		var bevy = nextProps.activeBevy;
+		//console.log(bevy);
 		if(!_.isEmpty(bevy)) {
 			var members = bevy.get('members');
 			var member = _.find(members, function(m) {
 				var user = window.bootstrap.user;
-				return m.userid._id == user._id;
+				return (m.userid)
+				? m.userid._id == user._id
+				: false;
 			});
 			if(member) {
 				this.setState({
