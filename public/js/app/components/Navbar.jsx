@@ -85,13 +85,13 @@ var Navbar = React.createClass({
 
 					<div className='col-xs-4'>
 						<div className="navbar-header pull-right">
-							<form className="navbar-form navbar-right" role="search">
+							{/* <form className="navbar-form navbar-right" role="search">
 								<TextField type="text" className="search-input" placeholder=" "/>
 								<IconButton
 									iconClassName="glyphicon glyphicon-search"
 									href="#"
 									disabled />
-							</form>
+							</form>*/}
 						</div>
 					</div>
 
