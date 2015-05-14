@@ -11,8 +11,8 @@ var React = require('react');
 
 var Footer = React.createClass({
 	render: function() {
-		<span>
-			butts
+		return <span className="footer">
+			English (US) · Bevy © 2015
 		</span>
 	}
 });

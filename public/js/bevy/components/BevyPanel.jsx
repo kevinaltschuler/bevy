@@ -49,14 +49,11 @@ var BevyPanel = React.createClass({
 
 	componentWillReceiveProps: function(nextProps) {
 		var bevy = nextProps.activeBevy;
-		//console.log(bevy);
 		if(!_.isEmpty(bevy)) {
 			var members = bevy.get('members');
 			var member = _.find(members, function(m) {
 				var user = window.bootstrap.user;
-				return (m.userid)
-				? m.userid._id == user._id
-				: false;
+				return m.userid._id == user._id;
 			});
 			if(member) {
 				this.setState({
@@ -111,12 +108,12 @@ var BevyPanel = React.createClass({
 		if(!this.props.activeBevy) return;
 
 		var bevy_id = this.props.activeBevy.id;
-		//var email = user.email;
+		var email = user.email;
+		var user = window.bootstrap.user;
 
-		//BevyActions.leave(bevy_id, email, window.bootstrap.user._id);
-		BevyActions.leave(bevy_id);
+		BevyActions.leave(bevy_id, email, user._id);
 		// then switch to another bevy
-		BevyActions.switchBevy();
+		BevyActions.switch();
 	},
 
 	destroy: function(ev) {
@@ -201,7 +198,7 @@ var BevyPanel = React.createClass({
 									onDoubleClick={ this.startEditing }
 								>
 									{ name }
-								</span>
+								</span> 
 								<IconButton className="edit-button" tooltip='edit name' onClick={ this.startEditing }>
 									<span className="glyphicon glyphicon-pencil btn"></span>
 								</IconButton>
@@ -216,7 +213,7 @@ var BevyPanel = React.createClass({
 		}
 
 
-		return <ButtonGroup className="col-sm-3 hidden-xs btn-group right-sidebar panel">
+		return <ButtonGroup className="btn-group right-sidebar panel">
 
 					{ header }
 
