@@ -27,6 +27,7 @@ var Input = rbs.Input;
 var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
 var DropdownButton = rbs.DropdownButton;
+var Badge = rbs.Badge;
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
@@ -47,6 +48,11 @@ var Navbar = React.createClass({
 
 	render: function() {
 
+		var notificationCount = user.notifications.length;
+		var counter = (notificationCount <= 0)
+		? ''
+		: <Badge className='notification-counter'>{ notificationCount }</Badge>
+
 		var name;
 		if(!_.isEmpty(user.google.name))
 			name = user.google.name.givenName + ' ' + user.google.name.familyName;
@@ -60,23 +66,24 @@ var Navbar = React.createClass({
 
 		return <div className="navbar navbar-fixed-top row">
 
-					<div className='col-xs-3'>
+					<div className='col-xs-4'>
 						<div className="navbar-header pull-left">
 							<ProfileDropdown />
 							<NotificationDropdown
 								allNotifications={ this.props.allNotifications }
 							/>
+							{ counter }
 							<span className="navbar-brand navbar-brand-text">{ name }</span>
 						</div>
 					</div>
 
-					<div className='col-xs-6'>
+					<div className='col-xs-4'>
 						<div className="nav navbar-brand-text nav-center">
 							{ bevyName }
 						</div>
 					</div>
 
-					<div className='col-xs-3'>
+					<div className='col-xs-4'>
 						<div className="navbar-header pull-right">
 							<form className="navbar-form navbar-right" role="search">
 								<TextField type="text" className="search-input" placeholder=" "/>
