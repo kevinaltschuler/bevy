@@ -33,3 +33,11 @@ add:
 127.0.0.1 bevy.dev
 127.0.0.1 api.bevy.dev
 ```
+
+known issues:
+-------------
+
+- our notification service, mubsub, sometimes needs a dummy document
+in the notification collection to run properly. if mubsub is yelling
+at you, then just insert anything into the collection and it should
+fix itself
