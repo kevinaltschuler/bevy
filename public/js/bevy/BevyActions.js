@@ -51,7 +51,13 @@ var PostActions = {
 		});
 	},
 
-	leave: function(bevy_id, email, user_id) {
+	leave: function(bevy_id) {
+		dispatch(BEVY.LEAVE, {
+			bevy_id: (bevy_id == undefined) ? '' : bevy_id
+		});
+	},
+
+	removeUser: function(bevy_id, email, user_id) {
 		dispatch(BEVY.LEAVE, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
 			email: (email == undefined) ? '' : email,

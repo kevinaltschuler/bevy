@@ -165,7 +165,7 @@ _.extend(BevyStore, {
 
 				break;
 
-			case BEVY.LEAVE:
+			case BEVY.REMOVE_USER:
 				var bevy_id = payload.bevy_id;
 				var email = payload.email || '';
 				var user_id = payload.user_id || '';
@@ -206,6 +206,52 @@ _.extend(BevyStore, {
 				});
 
 				bevy.set('members', members);
+
+				this.trigger(BEVY.CHANGE_ALL);
+
+				break;
+
+			case BEVY.LEAVE:
+				var bevy_id = payload.bevy_id;
+				var bevy = this.bevies.get(bevy_id);
+				var members = bevy.get('members');
+
+				var user = window.bootstrap.user;
+
+				// remove the specific user
+				members = _.reject(members, function(member) {
+					if(_.isObject(member.userid)) {
+						return member.userid._id == user._id;
+					} else {
+						return member.userid == user._id;
+					}
+				});
+
+				// need to create a deep clone
+				var unpopulated_members = _.map(members, function(member, key) {
+					if(_.isObject(member.userid))
+						member.userid = member.userid._id;
+					return member;
+				});
+
+				// save to server
+				bevy.save({
+					members: unpopulated_members
+				}, {
+					patch: true
+				});
+				// apply change
+				bevy.set('members', members);
+
+				// ok, now remove the bevy from the local list
+				this.bevies.remove(bevy);
+				if(this.bevies.models.length <= 0) {
+					// no more bevies
+					this.bevies._meta.active = null;
+				} else {
+					// switch to the first one
+					this.bevies._meta.active = this.bevies.models[0].id;
+				}
 
 				this.trigger(BEVY.CHANGE_ALL);
 
@@ -300,26 +346,32 @@ _.extend(BevyStore, {
 						userid: user._id
 					},
 					function(data) {
-						console.log(data);
-					}
+						//console.log(data);
+						this.bevies.fetch({
+							reset: true,
+							success: function(data) {
+								// switch to new bevy
+								this.bevies._meta.active = bevy_id;
+								this.trigger(BEVY.CHANGE_ALL);
+							}.bind(this)
+						});
+					}.bind(this)
 				).fail(function(jqXHR) {
 					var response = jqXHR.responseJSON;
 					console.log(response);
 				});
 
-				// temp fix
-				//window.location.reload();
-
-				this.bevies.fetch({ reset: true });
-
-				this.trigger(BEVY.CHANGE_ALL);
+				// be optimistic so post store can do its thing
+				this.bevies._meta.active = bevy_id;
 
 				break;
 		}
 	},
 
 	getAll: function() {
-		return this.bevies.toJSON();
+		return (this.bevies.models.length <= 0)
+		? []
+		: this.bevies.toJSON();
 	},
 
 	getActive: function() {
@@ -333,6 +385,8 @@ var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore)
 BevyStore.dispatchToken = dispatchToken;
 
 BevyStore.bevies.on('sync', function() {
+	//console.log('synced');
+
 	BevyStore.trigger(BEVY.CHANGE_ALL);
 });
 

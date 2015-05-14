@@ -74,6 +74,7 @@ _.extend(PostStore, {
 				break;
 
 			case BEVY.SWITCH:
+			case BEVY.JOIN:
 
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
@@ -203,15 +204,9 @@ _.extend(PostStore, {
 
 	// send all posts to the App.jsx in JSON form
 	getAll: function() {
-		//return JSON.parse(JSON.stringify(this.posts.attributes));
-		//var posts = [];
-		//this.posts.forEach(function(post) {
-			//console.log(post, post.toJSON());
-			//posts.push(post.toJSON());
-		//});
-		//console.log(posts);
-		//return posts;
-		return this.posts.toJSON();
+		return (BevyStore.bevies._meta.active)
+		? this.posts.toJSON()
+		: [];
 	},
 
 	/**

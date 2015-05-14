@@ -108,11 +108,12 @@ var BevyPanel = React.createClass({
 		if(!this.props.activeBevy) return;
 
 		var bevy_id = this.props.activeBevy.id;
-		var email = user.email;
+		//var email = user.email;
 
-		BevyActions.leave(bevy_id, email, window.bootstrap.user._id);
+		//BevyActions.leave(bevy_id, email, window.bootstrap.user._id);
+		BevyActions.leave(bevy_id);
 		// then switch to another bevy
-		//BevyActions.switch();
+		BevyActions.switchBevy();
 	},
 
 	destroy: function(ev) {

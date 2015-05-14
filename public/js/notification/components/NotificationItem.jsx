@@ -39,6 +39,7 @@ var NotificationItem = React.createClass({
 		var email = user.email;
 
 		BevyActions.join(bevy_id, window.bootstrap.user, email);
+		//BevyActions.switchBevy();
 	},
 
 	render: function() {
