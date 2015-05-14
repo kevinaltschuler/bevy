@@ -73,17 +73,17 @@ var ProfileDropdown = React.createClass({
 						</div>
 						<div className='row profile-links'>
 							<ButtonGroup className="col-xs-12" role="group">
-								<ModalTrigger modal = { <SavedPostsModal /> } >
+								{/*<ModalTrigger modal = { <SavedPostsModal /> } >*/}
 									<Button type='button' className="profile-link">
 										Saved Posts
 									</Button>
-								</ModalTrigger>
+								{/*</ModalTrigger>*/}
 								•
-								<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
+								{/*<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >*/}
 									<Button type='button' className="profile-link">
 										Contacts
 									</Button>
-								</ModalTrigger>
+								{/*</ModalTrigger>*/}
 							</ButtonGroup>
 						</div>
 
