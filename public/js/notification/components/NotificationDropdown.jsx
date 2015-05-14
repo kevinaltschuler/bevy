@@ -15,6 +15,7 @@ var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
 var Popover = rbs.Popover;
 var ButtonGroup = rbs.ButtonGroup;
+var Tooltip = rbs.Tooltip;
 
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
@@ -32,15 +33,18 @@ var ProfileDropdown = React.createClass({
 
 	render: function() {
 
-		return <OverlayTrigger trigger="click" placement="bottom" overlay={
-				 	<Popover className="notification-dropdown">
-				 		<div className="title">
-				 			Notifications
-				 		</div>
-						<NotificationList
-							allNotifications={ this.props.allNotifications }
-						/>
-					</Popover>}>
+		var overlay = (user.notifications.length <= 0)
+		? (<Tooltip><strong>No new notifications!</strong></Tooltip>)
+		: (<Popover className="notification-dropdown">
+		 		<div className="title">
+		 			Notifications
+		 		</div>
+				<NotificationList
+					allNotifications={ this.props.allNotifications }
+				/>
+			</Popover>)
+
+		return <OverlayTrigger trigger="click" placement="bottom" overlay={ overlay }>
 				 	<Button className="notification-dropdown-btn">
 					 	<img src="./../../img/notification-icon.png"/>
 				 	</Button>
