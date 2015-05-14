@@ -30,6 +30,7 @@ exports.upload = function(req, res, next) {
 	var id = shortid.generate();
 
 	var extension = req.files.file.extension;
+	extension = extension.toLowerCase();
 
 	// TODO: more supported extensions
 	if(IMAGE_TYPES.indexOf(extension) == -1) {
