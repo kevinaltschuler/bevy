@@ -45,17 +45,26 @@ exports.index = function(req, res, next) {
 
 		posts.forEach(function(post) {
 
-			if(post.comments.length <= 0) {
+			/*if(post.comments.length <= 0) {
 				// no comments
 				popped_posts.push(post);
-				if(popped_posts.length >= posts.length) return res.json(popped_posts);
-			}
-
-			Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
-				popped_posts.push(post);
-				if(popped_posts.length >= posts.length) return res.json(popped_posts);
-			});
+				//if(popped_posts.length >= posts.length) return res.json(popped_posts);
+			} else {
+				Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
+					if(err) return next(err);
+					popped_posts.push(post);
+					//if(popped_posts.length >= posts.length) return res.json(popped_posts);
+				});
+			}*/
+			popped_posts.push(post);
 		});
+
+		while(popped_posts.length < posts.length) {
+			console.log(popped_posts.length);
+
+		}
+
+		return res.json(popped_posts);
 
 	}, function(err) { next(err); });
 }

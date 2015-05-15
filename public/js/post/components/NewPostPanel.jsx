@@ -46,7 +46,6 @@ var NewPostPanel = React.createClass({
 	getInitialState: function() {
 		return {
 			title: '',
-			body: '',
 			image_url: ''
 		};
 	},
@@ -138,6 +137,7 @@ var NewPostPanel = React.createClass({
 							hintText="What's on your mind?"
 							ref='title'
 							multiLine={ true }
+							value={ this.state.title }
 							onChange={ this.handleChange }
 							onFocus={ this.open }
 						/>
