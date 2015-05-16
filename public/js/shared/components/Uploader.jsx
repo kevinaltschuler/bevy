@@ -20,6 +20,7 @@ var Uploader = React.createClass({
 		onUploadComplete: React.PropTypes.func,
 		className: React.PropTypes.string,
 		style: React.PropTypes.object,
+		dropzoneOptions: React.PropTypes.object
 	},
 
 	componentDidMount: function() {
@@ -33,6 +34,9 @@ var Uploader = React.createClass({
 		this.dropzone = new Dropzone(this.getDOMNode(), {
 			url : constants.apiurl + '/files/upload'
 		});
+
+		//console.log(this.props.dropzoneOptions);
+		Dropzone.options.uploader = this.props.dropzoneOptions;
 
 		this.dropzone.on('success', function(file, response) {
 			this.props.onUploadComplete(response);
@@ -67,7 +71,7 @@ var Uploader = React.createClass({
 				 </div>*/
 		//return <form className='dropzone' method='post' action={ constants.apiurl + '/files/upload' } />
 		//
-		return <form className={ className } style={ style } id='dropzone' />
+		return <form className={ className } style={ style } id='uploader' />
 	}
 
 });

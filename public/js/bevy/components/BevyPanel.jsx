@@ -207,6 +207,11 @@ var BevyPanel = React.createClass({
 
 		}
 
+		var dropzoneOptions = {
+			maxFiles: 1,
+			acceptedFiles: 'image/*'
+		};
+
 		var header;
 		if(this.state.isEditing) {
 			header = <div>
@@ -215,7 +220,8 @@ var BevyPanel = React.createClass({
 									<Uploader
 										onUploadComplete={ this.onUploadComplete }
 										className="bevy-image-dropzone"
-										style= { bevyImageStyle }
+										style={ bevyImageStyle }
+										dropzoneOptions={ dropzoneOptions }
 									/>
 								</div>
 								<div className="col-xs-9 sidebar-title">
@@ -244,11 +250,7 @@ var BevyPanel = React.createClass({
 		} else {
 			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
-								<Uploader
-									onUploadComplete={ this.onUploadComplete }
-									className="bevy-image-dropzone"
-									style= { bevyImageStyle }
-								/>
+								<img src={ this.state.image_url } />
 							</div>
 							<div className="col-xs-9 sidebar-title">
 								<span
