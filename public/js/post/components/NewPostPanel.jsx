@@ -66,7 +66,9 @@ var NewPostPanel = React.createClass({
 
 	close: function() {
 		this.setState({
-			expanded: false
+			expanded: false,
+			title: '',
+			image_url: ''
 		});
 	},
 
@@ -131,7 +133,10 @@ var NewPostPanel = React.createClass({
 
 		var dropzoneOptions = {
 			maxFiles: 1,
-			acceptedFiles: 'image/*'
+			acceptedFiles: 'image/*',
+			thumbnailWidth: 500,
+			thumbnailHeight: 500, 
+			dictDefaultMessage: 'Upload a File',
 		};
 
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
@@ -153,6 +158,7 @@ var NewPostPanel = React.createClass({
 						<Uploader
 							onUploadComplete={ this.onUploadComplete }
 							dropzoneOptions={ dropzoneOptions }
+							className="dropzone post-dropzone"
 						/>
 
 						<div className="panel-bottom">
