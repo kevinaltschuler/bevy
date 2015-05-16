@@ -17,7 +17,9 @@ var Uploader = React.createClass({
 
 	propTypes: {
 		url: React.PropTypes.string,
-		onUploadComplete: React.PropTypes.func
+		onUploadComplete: React.PropTypes.func,
+		className: React.PropTypes.string,
+		style: React.PropTypes.object,
 	},
 
 	componentDidMount: function() {
@@ -55,9 +57,7 @@ var Uploader = React.createClass({
 		var style = this.props.style || {
 			width: this.props.size || '100%',
 			height: this.props.size || '100%',
-			minHeight: 100
-			//borderStyle: this.state.isDragActive ? "solid" : "dashed"
-		};
+			minHeight: 100, };
 
 		//
 

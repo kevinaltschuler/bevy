@@ -11,6 +11,8 @@
 var React = require('react');
 var _ = require('underscore');
 
+var constants = require('./../../constants');
+
 var rbs = require('react-bootstrap');
 var Badge = rbs.Badge;
 var ButtonGroup = rbs.ButtonGroup;
@@ -29,6 +31,8 @@ var InviteModal = require('./InviteModal.jsx');
 var MemberModal = require('./MemberModal.jsx');
 
 var BevyActions = require('./../BevyActions');
+
+var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var NotificationHeader;
 
@@ -84,6 +88,15 @@ var BevyPanel = React.createClass({
 		});
 	},
 
+	onUploadComplete: function(file) {
+		console.log(file);
+		var filename = file.filename;
+		var image_url = constants.apiurl + '/files/' + filename;
+		this.setState({
+			bevyImage: image_url
+		});
+	},
+
 	onKeyUp: function(ev) {
 		if(ev.which === 13) {
 			this.stopEditing(ev);
@@ -131,15 +144,16 @@ var BevyPanel = React.createClass({
 	render: function() {
 
 		var bevy = this.props.activeBevy;
-		var bevyImage = (_.isEmpty(this.props.activeBevy.imageUrl)) ? '/img/logo_100.png' : this.props.activeBevy.imageUrl;
+		var bevyImage = (_.isEmpty(this.state.bevyImage)) ? '/img/logo_100.png' : this.state.bevyImage;
 		var bevyImageStyle= {
 			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundSize: '100% 100%',
 			display: 'inline-block',
 			marginLeft: '5px',
 			marginTop: '5px',
 			borderRadius: '50px',
-			width: '100%',
-			height: '100%'
+			width: '50px',
+			height: '50px',
 		}
 
 		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : bevy.get('name');
@@ -198,7 +212,11 @@ var BevyPanel = React.createClass({
 		} else {
 			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
-										<input type="file" name="bevyImage" style= {bevyImageStyle}/>
+								<Uploader
+									onUploadComplete={ this.onUploadComplete }
+									className="bevy-image-dropzone"
+									style= { bevyImageStyle }
+								/>
 							</div>
 							<div className="col-xs-9 sidebar-title">
 								<span
