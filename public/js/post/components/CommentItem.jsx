@@ -44,6 +44,9 @@ var CommentItem = React.createClass({
 
 		var comment = this.props.comment;
 		var author = comment.author;
+		var authorName = (author.google)
+		? author.google.name.givenName + ' ' + author.google.name.familyName
+		: author.email;
 
 		var replyText = (this.state.isReplying)
 		? 'close'
@@ -52,6 +55,7 @@ var CommentItem = React.createClass({
 		var submit = (this.state.isReplying)
 		? (<CommentSubmit
 				postId={ this.props.postId }
+				commentId={ comment._id }
 				author={ this.props.author }
 				profileImage={ this.props.profileImage }
 			/>)
@@ -62,7 +66,7 @@ var CommentItem = React.createClass({
 						<img className="profile-img" src={ defaultAliasImage }/>
 						<div className="comment-text">
 							<div className="comment-title">
-								<a className="comment-name">{ author.name }</a>
+								<a className="comment-name">{ authorName }</a>
 								<span>&nbsp;</span>
 								<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
 							</div>

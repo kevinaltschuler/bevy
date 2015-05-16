@@ -41,7 +41,7 @@ exports.index = function(req, res, next) {
 		.exec();
 	promise.then(function(posts) {
 
-		Post.deepPopulate(posts, 'comment.author', function(err, _posts) {
+		Post.deepPopulate(posts, 'comments.author', function(err, _posts) {
 			res.json(_posts);
 		});
 

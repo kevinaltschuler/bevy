@@ -15,7 +15,9 @@ module.exports = new Schema({
 	name: String,
 	description: String,
 	color: String,
-	imageURL: String,
+	imageURL: {
+		type: String
+	},
 	members: [ Schema({
 	  	email: {
 	  	  	type: String

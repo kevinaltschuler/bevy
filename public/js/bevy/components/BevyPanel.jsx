@@ -132,6 +132,15 @@ var BevyPanel = React.createClass({
 
 		var bevy = this.props.activeBevy;
 		var bevyImage = (_.isEmpty(this.props.activeBevy.imageUrl)) ? '/img/logo_100.png' : this.props.activeBevy.imageUrl;
+		var bevyImageStyle= {
+			backgroundImage: 'url(' + bevyImage + ')',
+			display: 'inline-block',
+			marginLeft: '5px',
+			marginTop: '5px',
+			borderRadius: '50px',
+			width: '100%',
+			height: '100%'
+		}
 
 		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : bevy.get('name');
 		var description = (_.isEmpty(bevy)) ? 'no description' : bevy.get('description');
@@ -189,7 +198,7 @@ var BevyPanel = React.createClass({
 		} else {
 			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
-								<img src={ bevyImage }/>
+										<input type="file" name="bevyImage" style= {bevyImageStyle}/>
 							</div>
 							<div className="col-xs-9 sidebar-title">
 								<span
@@ -197,10 +206,10 @@ var BevyPanel = React.createClass({
 									onDoubleClick={ this.startEditing }
 								>
 									{ name }
-								</span> 
-								<IconButton 
-									className="edit-button" 
-									tooltip='edit name' 
+								</span>
+								<IconButton
+									className="edit-button"
+									tooltip='edit name'
 									onClick={ this.startEditing }>
 									<span className="glyphicon glyphicon-pencil btn"></span>
 								</IconButton>
