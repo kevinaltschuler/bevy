@@ -4,3 +4,5 @@ public/js/build/*
 public/css/*
 .sublime-workspace
 .sublime-project
+
+*.log
