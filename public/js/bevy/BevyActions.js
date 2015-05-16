@@ -35,11 +35,12 @@ var PostActions = {
 		});
 	},
 
-	update: function(bevy_id, name, description) {
+	update: function(bevy_id, name, description, image_url) {
 		dispatch(BEVY.UPDATE, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
 			name: (name == undefined) ? '' : name,
-			description: (description == undefined) ? '' : description
+			description: (description == undefined) ? '' : description,
+			image_url: (image_url == undefined) ? '' : image_url
 		});
 	},
 

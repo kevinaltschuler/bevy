@@ -5,7 +5,7 @@
  *
  * @author kevin
  */
- 
+
 'use strict';
 
 // imports
@@ -129,6 +129,11 @@ var NewPostPanel = React.createClass({
 		var classSet = React.addons.classSet;
 		//console.log(styles);
 
+		var dropzoneOptions = {
+			maxFiles: 1,
+			acceptedFiles: 'image/*'
+		};
+
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
 
 					<div className="new-post-title">
@@ -147,6 +152,7 @@ var NewPostPanel = React.createClass({
 
 						<Uploader
 							onUploadComplete={ this.onUploadComplete }
+							dropzoneOptions={ dropzoneOptions }
 						/>
 
 						<div className="panel-bottom">

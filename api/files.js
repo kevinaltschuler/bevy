@@ -16,7 +16,7 @@ var mongoose = require('mongoose');
 var Grid = require('gridfs-stream');
 var gfs = Grid(mongoose.connection.db);
 
-var IMAGE_TYPES = 'jpg jpeg gif png jpe';
+var IMAGE_TYPES = 'jpg jpeg gif png jpe bmp';
 
 // GET /files/upload
 // POST /files
@@ -35,7 +35,7 @@ exports.upload = function(req, res, next) {
 	// TODO: more supported extensions
 	if(IMAGE_TYPES.indexOf(extension) == -1) {
 		// not supported
-		return res.status(415).send('Supported image formats: jpeg, jpg, jpe, png.');
+		return res.status(415).send('Supported image formats: jpeg, jpg, jpe, png, bmp');
 	}
 
 	// start upload

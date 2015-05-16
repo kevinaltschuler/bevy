@@ -46,6 +46,9 @@ var BevyPanel = React.createClass({
 
 	getInitialState: function() {
 		return {
+			name: '',
+			description: '',
+			image_url: '',
 			activeMember: null,
 			isEditing: false
 		};
@@ -53,6 +56,13 @@ var BevyPanel = React.createClass({
 
 	componentWillReceiveProps: function(nextProps) {
 		var bevy = nextProps.activeBevy;
+
+		this.setState({
+			name: bevy.get('name'),
+			description: bevy.get('description'),
+			image_url: bevy.get('image_url')
+		});
+
 		if(!_.isEmpty(bevy)) {
 			var members = bevy.get('members');
 			var member = _.find(members, function(m) {
@@ -94,14 +104,27 @@ var BevyPanel = React.createClass({
 		var filename = file.filename;
 		var image_url = constants.apiurl + '/files/' + filename;
 		this.setState({
-			bevyImage: image_url
+			image_url: image_url
 		});
+
+		var bevy_id = this.props.activeBevy.id;
+		var name = this.state.name;
+		var description = this.state.description;
+
+		BevyActions.update(bevy_id, name, description, image_url);
 	},
 
 	onKeyUp: function(ev) {
 		if(ev.which === 13) {
 			this.stopEditing(ev);
 		}
+	},
+
+	onChange: function(ev) {
+		this.setState({
+			name: this.refs.name.getValue(),
+			description: this.refs.description.getValue()
+		});
 	},
 
 	setNotificationLevel: function(ev, selectedIndex, menuItem) {
@@ -145,7 +168,7 @@ var BevyPanel = React.createClass({
 	render: function() {
 
 		var bevy = this.props.activeBevy;
-		var bevyImage = (_.isEmpty(this.state.bevyImage)) ? '/img/logo_100.png' : this.state.bevyImage;
+		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
 		var bevyImageStyle= {
 			backgroundImage: 'url(' + bevyImage + ')',
 			backgroundSize: '100% 100%',
@@ -184,27 +207,41 @@ var BevyPanel = React.createClass({
 
 		}
 
+		var dropzoneOptions = {
+			maxFiles: 1,
+			acceptedFiles: 'image/*'
+		};
+
 		var header;
 		if(this.state.isEditing) {
 			header = <div>
 							<div className="row sidebar-top">
 								<div className="col-xs-3 sidebar-picture">
-									<img src={ bevyImage }/>
+									<Uploader
+										onUploadComplete={ this.onUploadComplete }
+										className="bevy-image-dropzone"
+										style={ bevyImageStyle }
+										dropzoneOptions={ dropzoneOptions }
+									/>
 								</div>
 								<div className="col-xs-9 sidebar-title">
 									<Input
 										type='text'
 										ref='name'
-										defaultValue={ bevy.get('name') }
+										defaultValue={ this.state.name }
+										value={ this.state.name }
 										placeholder='Group Name'
 										onKeyUp={ this.onKeyUp }
+										onChange={ this.onChange }
 									/>
 									<Input
 										type='text'
 										ref='description'
-										defaultValue={ bevy.get('description') }
+										defaultValue={ this.state.description }
+										value={ this.state.description }
 										placeholder='Group Description'
 										onKeyUp={ this.onKeyUp }
+										onChange={ this.onChange }
 									/>
 								</div>
 							</div>
@@ -213,18 +250,14 @@ var BevyPanel = React.createClass({
 		} else {
 			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
-								<Uploader
-									onUploadComplete={ this.onUploadComplete }
-									className="bevy-image-dropzone"
-									style= { bevyImageStyle }
-								/>
+								<img src={ this.state.image_url } />
 							</div>
 							<div className="col-xs-9 sidebar-title">
 								<span
 									className='sidebar-title-name'
 									onDoubleClick={ this.startEditing }
 								>
-									{ name }
+									{ this.state.name }
 								</span>
 								<IconButton
 									className="edit-button"
@@ -236,7 +269,7 @@ var BevyPanel = React.createClass({
 									className='sidebar-title-description'
 									onDoubleClick={ this.startEditing }
 								>
-									{ description }
+									{ this.state.description }
 								</span>
 							</div>
 						</div>;
