@@ -100,7 +100,7 @@ var BevyPanel = React.createClass({
 	},
 
 	onUploadComplete: function(file) {
-		console.log(file);
+		//console.log(file);
 		var filename = file.filename;
 		var image_url = constants.apiurl + '/files/' + filename;
 		this.setState({
@@ -250,7 +250,7 @@ var BevyPanel = React.createClass({
 		} else {
 			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
-								<img src={ this.state.image_url } />
+								<img src={ bevyImage } />
 							</div>
 							<div className="col-xs-9 sidebar-title">
 								<span
