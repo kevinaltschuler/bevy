@@ -131,9 +131,8 @@ var BevyPanel = React.createClass({
 	render: function() {
 
 		var bevy = this.props.activeBevy;
+		var bevyImage = (_.isEmpty(this.props.activeBevy.imageUrl)) ? '/img/logo_100.png' : this.props.activeBevy.imageUrl;
 
-		var defaultBevyImage = '/img/logo_100.png';
-		var bevyImage = "/"
 		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : bevy.get('name');
 		var description = (_.isEmpty(bevy)) ? 'no description' : bevy.get('description');
 		if(_.isEmpty(description)) description = 'no description';
@@ -190,7 +189,7 @@ var BevyPanel = React.createClass({
 		} else {
 			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
-								<img src={ defaultBevyImage }/>
+								<img src={ bevyImage }/>
 							</div>
 							<div className="col-xs-9 sidebar-title">
 								<span
@@ -199,7 +198,10 @@ var BevyPanel = React.createClass({
 								>
 									{ name }
 								</span> 
-								<IconButton className="edit-button" tooltip='edit name' onClick={ this.startEditing }>
+								<IconButton 
+									className="edit-button" 
+									tooltip='edit name' 
+									onClick={ this.startEditing }>
 									<span className="glyphicon glyphicon-pencil btn"></span>
 								</IconButton>
 								<span

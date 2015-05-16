@@ -16,7 +16,7 @@ module.exports = React.createClass({
 	},
 
 	render: function() {
-		return	<div className='col-sm-3 hidden-xs left-sidebar panel'>
+		return	<div className='col-sm-3 left-sidebar panel'>
 						<BevyList
 							allBevies={ this.props.allBevies }
 							activeBevy={ this.props.activeBevy }

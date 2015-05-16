@@ -12,7 +12,7 @@ var RightSidebar = React.createClass({
 	},
 
 	render: function() {
-		return <div className= "col-sm-3 hidden-xs right-sidebar-col">
+		return <div className= "col-sm-3 right-sidebar-col">
 					<BevyPanel
 						activeBevy={ this.props.activeBevy }
 					/>

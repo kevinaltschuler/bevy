@@ -66,26 +66,26 @@ var ProfileDropdown = React.createClass({
 									className="profile-settings"
 									title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
 									<MenuItem>
-										A Setting
+										Delete Account
 									</MenuItem>
 								</DropdownButton>
 							</div>
 						</div>
-						<div className='row profile-links'>
+						{/* <div className='row profile-links'>
 							<ButtonGroup className="col-xs-12" role="group">
-								{/*<ModalTrigger modal = { <SavedPostsModal /> } >*/}
+								<ModalTrigger modal = { <SavedPostsModal /> } >
 									<Button type='button' className="profile-link">
 										Saved Posts
 									</Button>
-								{/*</ModalTrigger>*/}
+								</ModalTrigger>
 								•
-								{/*<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >*/}
+								<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
 									<Button type='button' className="profile-link">
 										Contacts
 									</Button>
-								{/*</ModalTrigger>*/}
+								</ModalTrigger>
 							</ButtonGroup>
-						</div>
+						</div>*/}
 
 						<hr />
 
