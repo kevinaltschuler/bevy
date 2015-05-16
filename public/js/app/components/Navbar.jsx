@@ -53,6 +53,10 @@ var Navbar = React.createClass({
 		? ''
 		: <Badge className='notification-counter'>{ notificationCount }</Badge>
 
+		var navbarStyle; 
+		if(!_.isEmpty(this.props.activeBevy.get('image_url')))
+		 navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'}
+
 		var name;
 		if(!_.isEmpty(user.google.name))
 			name = user.google.name.givenName + ' ' + user.google.name.familyName;
@@ -68,7 +72,7 @@ var Navbar = React.createClass({
 			backgroundImage: 'url(' + this.props.activeBevy.get('image_url') + ')',
 		}
 
-		return <div className="navbar navbar-fixed-top row"> 
+		return <div className="navbar navbar-fixed-top row" style = { navbarStyle }> 
 					<div className="background-image" style= { backgroundStyle } />
 					<div className='col-xs-4'>
 						<div className="navbar-header pull-left">
