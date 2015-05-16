@@ -131,6 +131,8 @@ _.extend(BevyStore, {
 					patch: true
 				});
 
+				this.trigger(BEVY.CHANGE_ALL);
+
 				break;
 
 			case BEVY.SET_NOTIFICATION_LEVEL:
