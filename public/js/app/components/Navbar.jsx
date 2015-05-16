@@ -66,8 +66,6 @@ var Navbar = React.createClass({
 
 		var backgroundStyle = {
 			backgroundImage: 'url(' + this.props.activeBevy.get('image_url') + ')',
- 			filter: 'blur(5px)',
- 			position: 'absolute',
 		}
 
 		return <div className="navbar navbar-fixed-top row"> 
