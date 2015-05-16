@@ -61,28 +61,41 @@ var NotificationItem = React.createClass({
 
 				var bevyImage = (_.isEmpty(bevy.image_url)) ? defaultNotificationImage : bevy.image_url;
 
-				body = <div>
+				body = <div className="notification-body">
 							<div className="col-xs-3 sidebar-picture">
 								<img src={ bevyImage }/>
 							</div>
-						 	Invite to { bevy.name } from { from_user.google.name.givenName }
-						 	<br />
-						 	<Button
-						 		onClick={ this.join }
-						 	>
-						 		Join
-						 	</Button>
-						 </div>
+							<div className="col-xs-5">
+								<div className="row">
+									<div className="name">
+										{ from_user.google.name.givenName + " " }
+										
+										{ from_user.google.name.familyName }
+									</div>
+								</div>
+								<div className="row">
+									<div className="content">
+										Invite to { bevy.name }
+									</div>
+								</div>
+							</div>
+						</div>
 
 				break;
 		}
 
 		return <Panel className="notification-item">
 					<div className='row'>
-						<div className='col-xs-10 notification-body'>
-							{ body }
-						</div>
+						{ body }
 						<div className='col-xs-2'>
+						 	<Button
+						 		className="accept-btn"
+								onClick={ this.join }
+							>
+						 		Join
+						 	</Button>
+						</div>
+						<div className='col-xs-1 dismiss-btn'>
 							<IconButton onClick={ this.dismiss } tooltip='dismiss' >
 								<span className="glyphicon glyphicon-remove" />
 							</IconButton>
