@@ -13,10 +13,14 @@ var RightSidebar = React.createClass({
 
 	render: function() {
 		return <div className= "col-sm-3 right-sidebar-col">
-					<BevyPanel
-						activeBevy={ this.props.activeBevy }
-					/>
-					<Footer />
+					<div className="row">
+						<BevyPanel
+							activeBevy={ this.props.activeBevy }
+						/>
+					</div>
+					<div className="row">
+						<Footer />
+					</div>
 				 </div>
 	}
 });
