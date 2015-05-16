@@ -115,15 +115,18 @@ _.extend(BevyStore, {
 				var bevy_id = payload.bevy_id;
 				var name = payload.name;
 				var description = payload.description;
+				var image_url = payload.image_url;
 
 				var bevy = this.bevies.get(bevy_id);
 
 				if(!_.isEmpty(name)) bevy.set('name', name);
 				if(!_.isEmpty(description)) bevy.set('description', description);
+				if(!_.isEmpty(image_url)) bevy.set('image_url', image_url);
 
 				bevy.save({
 					name: name,
-					description: description
+					description: description,
+					image_url: image_url
 				}, {
 					patch: true
 				});
