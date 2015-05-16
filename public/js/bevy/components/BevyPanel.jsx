@@ -180,8 +180,8 @@ var BevyPanel = React.createClass({
 			height: '50px',
 		}
 
-		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : bevy.get('name');
-		var description = (_.isEmpty(bevy)) ? 'no description' : bevy.get('description');
+		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
+		var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
 		if(_.isEmpty(description)) description = 'no description';
 
 		var notificationMenuItems = [
@@ -228,8 +228,8 @@ var BevyPanel = React.createClass({
 									<Input
 										type='text'
 										ref='name'
-										defaultValue={ this.state.name }
-										value={ this.state.name }
+										defaultValue={ name }
+										value={ name }
 										placeholder='Group Name'
 										onKeyUp={ this.onKeyUp }
 										onChange={ this.onChange }
@@ -237,8 +237,8 @@ var BevyPanel = React.createClass({
 									<Input
 										type='text'
 										ref='description'
-										defaultValue={ this.state.description }
-										value={ this.state.description }
+										defaultValue={ description }
+										value={ description }
 										placeholder='Group Description'
 										onKeyUp={ this.onKeyUp }
 										onChange={ this.onChange }
@@ -257,7 +257,7 @@ var BevyPanel = React.createClass({
 									className='sidebar-title-name'
 									onDoubleClick={ this.startEditing }
 								>
-									{ this.state.name }
+									{ name }
 								</span>
 								<IconButton
 									className="edit-button"
@@ -269,7 +269,7 @@ var BevyPanel = React.createClass({
 									className='sidebar-title-description'
 									onDoubleClick={ this.startEditing }
 								>
-									{ this.state.description }
+									{ description }
 								</span>
 							</div>
 						</div>;
