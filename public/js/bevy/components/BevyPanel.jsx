@@ -135,6 +135,14 @@ var BevyPanel = React.createClass({
 		var level = menuItem.payload;
 
 		BevyActions.setNotificationLevel(bevy_id, user._id, level);
+
+		// now update locally
+		var activeMember = this.state.activeMember;
+		activeMember.level = level;
+
+		this.setState({
+			activeMember: activeMember
+		});
 	},
 
 	leave: function(ev) {
@@ -193,18 +201,13 @@ var BevyPanel = React.createClass({
 		var members = (_.isEmpty(bevy)) ? [] : bevy.get('members');
 
 		var member = this.state.activeMember
+		var itemIndex;
 		if(!_.isEmpty(member)) {
 			var level = member.notificationLevel;
 
 			// swap so the level from the db is the selected one
-			var temp = _.findWhere(notificationMenuItems, { payload: level });
-			var first = notificationMenuItems[0];
-
-			notificationMenuItems[temp.defaultIndex] = first;
-			notificationMenuItems[0] = temp;
-
-		} else {
-
+			var item = _.findWhere(notificationMenuItems, { payload: level });
+			itemIndex = item.defaultIndex;
 		}
 
 		var dropzoneOptions = {
@@ -311,6 +314,7 @@ var BevyPanel = React.createClass({
 							className='sidebar-action-dropdown'
 							menuItems={ notificationMenuItems }
 							onChange={ this.setNotificationLevel }
+							selectedIndex={ itemIndex }
 						/>
 					</div>
 

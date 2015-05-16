@@ -169,6 +169,8 @@ _.extend(BevyStore, {
 
 				bevy.set('members', members);
 
+				this.trigger(BEVY.CHANGE_ALL);
+
 				break;
 
 			case BEVY.REMOVE_USER:
