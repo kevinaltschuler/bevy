@@ -109,10 +109,12 @@ _.extend(PostStore, {
 				});
 
 				// save to server
-				newPost.save({
-					success: function() {
+				newPost.save(null, {
+					success: function(model, response, options) {
 						// success
-					}
+						newPost.set('_id', model.id);
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
 				});
 
 				// simulate server population
