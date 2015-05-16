@@ -24,6 +24,3 @@ connection.on('error', console.error.bind(
 connection.once('open', function() {
 	console.info('connected to database');
 });
-
-var mubsub = require('./mubsub');
-mubsub.connect(config.database.URL);
