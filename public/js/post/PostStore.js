@@ -137,7 +137,7 @@ _.extend(PostStore, {
 
 				this.vote(post_id, author, 1);
 
-				this.trigger(POST.CHANGE_ONE);
+				this.trigger(POST.CHANGE_ALL);
 				break;
 
 			case POST.DOWNVOTE:
@@ -146,7 +146,7 @@ _.extend(PostStore, {
 
 				this.vote(post_id, author, -1);
 
-				this.trigger(POST.CHANGE_ONE);
+				this.trigger(POST.CHANGE_ALL);
 				break;
 
 			case POST.SORT:
@@ -291,6 +291,8 @@ _.extend(PostStore, {
 		}, {
 			patch: true
 		});
+
+		voted_post.set('points', points);
 	},
 
 	sortByTop: function(post) {
