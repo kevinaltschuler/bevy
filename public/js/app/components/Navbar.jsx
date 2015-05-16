@@ -65,12 +65,13 @@ var Navbar = React.createClass({
 		}
 
 		var backgroundStyle = {
-			backgroundImage: 'url(' + this.props.activeBevy.image_url + ')',
+			backgroundImage: 'url(' + this.props.activeBevy.get('image_url') + ')',
  			filter: 'blur(5px)',
+ 			position: 'absolute',
 		}
 
-		return <div className="navbar navbar-fixed-top row" style= { backgroundStyle }>
-
+		return <div className="navbar navbar-fixed-top row"> 
+					<div className="background-image" style= { backgroundStyle } />
 					<div className='col-xs-4'>
 						<div className="navbar-header pull-left">
 							<ProfileDropdown />
