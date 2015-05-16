@@ -21,6 +21,10 @@ var Comment = new Schema({
 	body: String,
 	link: String,
 	image_url: String,
+	comments: [{
+		type: Schema.Types.ObjectId,
+		ref: 'Comment'
+	}],
 	settings: {
 		visibility: String
 	},

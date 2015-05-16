@@ -131,11 +131,12 @@ var NewPostPanel = React.createClass({
 
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
 
-					<div className="row new-post-title">
+					<div className="new-post-title">
 						<TextField
 							className="title-field"
-							hintText="Text"
+							hintText="What's on your mind?"
 							ref='title'
+							multiLine={ true }
 							value={ this.state.title }
 							onChange={ this.handleChange }
 							onFocus={ this.open }
