@@ -7,6 +7,7 @@
 
 var React = require('react');
 var $ = require('jquery');
+var _ = require('underscore');
 
 var rbs = require('react-bootstrap');
 var ButtonGroup = rbs.ButtonGroup;
@@ -58,9 +59,11 @@ var NotificationItem = React.createClass({
 				var bevy = data.bevy;
 				var from_user = data.from_user;
 
+				var bevyImage = (_.isEmpty(bevy.image_url)) ? defaultNotificationImage : bevy.image_url;
+
 				body = <div>
 							<div className="col-xs-3 sidebar-picture">
-								<img src={ bevy.imageUrl }/>
+								<img src={ bevyImage }/>
 							</div>
 						 	Invite to { bevy.name } from { from_user.google.name.givenName }
 						 	<br />
