@@ -174,24 +174,38 @@ _.extend(PostStore, {
 
 			case COMMENT.CREATE:
 				var post_id = payload.post_id;
+				var comment_id = payload.comment_id;
 				var author = payload.author;
 				var body = payload.body;
 
-				var post = this.posts.get(post_id);
-				var comments = post.get('comments');
+				if(comment_id) {
+					var post = this.posts.get(post_id);
+					var comments = post.get('comments');
 
-				var comment = comments.add({
-					author: author._id,
-					body: body
-				});
+					//console.log(comments);
 
-				// save comment to server
-				// API will add comment to post's comment array
-				comment.save();
+					var comment = comments.findWhere({
+						_id: comment_id
+					});
+					console.log(comment);
 
-				// simulate population
-				comment.set('_id', String(Date.now()));
-				comment.set('author', author);
+				} else {
+					var post = this.posts.get(post_id);
+					var comments = post.get('comments');
+
+					var comment = comments.add({
+						author: author._id,
+						body: body
+					});
+
+					// save comment to server
+					// API will add comment to post's comment array
+					comment.save();
+
+					// simulate population
+					comment.set('_id', String(Date.now()));
+					comment.set('author', author);
+				}
 
 
 				//console.log(comments.toJSON());

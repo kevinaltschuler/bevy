@@ -23,6 +23,7 @@ var CommentSubmit = React.createClass({
 
 	propTypes: {
 		postId: React.PropTypes.string,
+		commentId: React.PropTypes.string,
 		author: React.PropTypes.object,
 		profileImage: React.PropTypes.string
 	},
@@ -35,10 +36,14 @@ var CommentSubmit = React.createClass({
 
 	submit: function() {
 		var post_id = this.props.postId;
+		var comment_id = this.props.commentId;
 		var author = this.props.author;
 		var body = this.refs.body.getValue();
 
-		CommentActions.create(post_id, author, body);
+		if(comment_id)	// replying to a post
+			CommentActions.create(post_id, author, body, comment_id);
+		else // replying to a comment
+			CommentActions.create(post_id, author, body);
 
 		// clear text field
 		this.setState({
@@ -61,6 +66,7 @@ var CommentSubmit = React.createClass({
 	},
 
 	render: function() {
+
 		return (<div className="panel-comment-input">
 						<div className="profile-overlay"/>
 						<img className="profile-img" src={ this.props.profileImage }/>

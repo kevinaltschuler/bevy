@@ -11,7 +11,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-module.exports = new Schema({
+var PostSchema = new Schema({
 	bevy: {
 		type: Schema.Types.ObjectId,
 		ref: 'Bevy'
@@ -43,3 +43,11 @@ module.exports = new Schema({
 		default: Date.now
 	}
 });
+
+// register deep populate plugin
+var deepPopulate = require('mongoose-deep-populate');
+PostSchema.plugin(deepPopulate, {
+
+});
+
+module.exports = PostSchema;

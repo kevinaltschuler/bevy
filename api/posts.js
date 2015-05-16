@@ -41,30 +41,9 @@ exports.index = function(req, res, next) {
 		.exec();
 	promise.then(function(posts) {
 
-		var popped_posts = [];
-
-		posts.forEach(function(post) {
-
-			/*if(post.comments.length <= 0) {
-				// no comments
-				popped_posts.push(post);
-				//if(popped_posts.length >= posts.length) return res.json(popped_posts);
-			} else {
-				Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
-					if(err) return next(err);
-					popped_posts.push(post);
-					//if(popped_posts.length >= posts.length) return res.json(popped_posts);
-				});
-			}*/
-			popped_posts.push(post);
+		Post.deepPopulate(posts, 'comments.author', function(err, _posts) {
+			res.json(_posts);
 		});
-
-		while(popped_posts.length < posts.length) {
-			console.log(popped_posts.length);
-
-		}
-
-		return res.json(popped_posts);
 
 	}, function(err) { next(err); });
 }

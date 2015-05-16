@@ -15,7 +15,7 @@ var Schema = mongoose.Schema;
 var Comment = new Schema({
 	author: {
 		type: Schema.Types.ObjectId,
-		ref: 'Alias'
+		ref: 'User'
 	},
 	title: String,
 	body: String,
