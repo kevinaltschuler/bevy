@@ -64,7 +64,12 @@ var Navbar = React.createClass({
 			bevyName = this.props.activeBevy.get('name');
 		}
 
-		return <div className="navbar navbar-fixed-top row">
+		var backgroundStyle = {
+			backgroundImage: 'url(' + this.props.activeBevy.image_url + ')',
+ 			filter: 'blur(5px)',
+		}
+
+		return <div className="navbar navbar-fixed-top row" style= { backgroundStyle }>
 
 					<div className='col-xs-4'>
 						<div className="navbar-header pull-left">
