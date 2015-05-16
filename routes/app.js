@@ -3,6 +3,10 @@
 var passport = require('passport');
 var mailgun = require('./../config').mailgun();
 
+var client = require('./../mubsub').client();
+//var channel = require('./../mubsub').notification_channel;
+var channel = client.channel('notifications');
+
 module.exports = function(app) {
 
 	//test email
@@ -16,6 +20,11 @@ module.exports = function(app) {
 			res.json(body);
 		});
 	});
+
+	/*app.get('/notificationtest', function(req, res, next) {
+		channel.publish('test', { nuts: 'are big' });
+	});*/
+
 
 	// for everything else - pass it off to the react router
 	// on the front end

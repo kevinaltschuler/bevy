@@ -30,9 +30,11 @@ exports.connect = function(db) {
 		console.log(options.message);
 	});
 
+	channel.publish('test', { nuts: 'are big' });
+
 	channel.subscribe('invite:email', function(options) {
 
-		//console.log(options);
+		console.log(options);
 		//var email = options.email;
 		var members = options.members;
 		var bevy = options.bevy;

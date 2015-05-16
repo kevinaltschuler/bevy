@@ -34,7 +34,7 @@
     "passport": "^0.2.1",
     "passport-google-oauth": "^0.2.0",
     "passport-local": "^1.0.0",
-    "react": "^0.12.2",
+    "react": "*",
     "react-bootstrap": "^0.15.1",
     "react-router": "^0.12.0",
     "react-tap-event-plugin": "^0.1.4",

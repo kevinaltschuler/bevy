@@ -12,13 +12,14 @@ var EventEmitter = require('events').EventEmitter;
 var messageBus = new EventEmitter();
 
 var mongoose = require('mongoose');
+var async = require('async');
 var _ = require('underscore');
 var error = require('./../error');
 var client = require('./../mubsub').client();
 //var channel = require('./../mubsub').notification_channel;
 var channel = client.channel('notifications');
 
-
+var mailgun = require('./../config/mailgun')();
 var User = mongoose.model('User');
 
 var paramNames = 'event message email bevy user members';
@@ -42,7 +43,62 @@ exports.create = function(req, res, next) {
 		return next(error.gen('no event supplied'));
 	}
 
-	channel.publish(params.event, params);
+	//channel.publish(params.event, params);
+
+	switch(params.event) {
+		case 'test':
+			console.log(params);
+			break;
+		case 'invite:email':
+			console.log(params);
+			//var email = options.email;
+			var members = params.members;
+			var bevy = params.bevy;
+			var inviter = params.user;
+
+			members.forEach(function(email) {
+				async.waterfall([
+					function(done) {
+						// push the notification object onto a matching user
+						var query = { email: email };
+						var promise = User.findOne(query).exec();
+						promise.then(function(user) {
+							if(!user) done(null);
+							user.notifications.push({
+							 	event: 'invite',
+								data: {
+									bevy: bevy,
+									from_user: inviter
+								}
+							});
+							user.save(function(err) {
+								if(err) return done(err);
+								done(null);
+							});
+						}, function(err) {
+							return done(err);
+						});
+					},
+
+					function(done) {
+						// then send the invite email
+						mailgun.messages().send({
+							from: 'Bevy Team <contact@bvy.io>',
+							to: email,
+							subject: 'Invite',
+							text: 'Invite to ' + bevy.name + ' from ' + inviter.google.name.givenName + ' ' + inviter.google.name.familyName
+						}, function(err, body) {
+							if(err) {
+								return done(err);
+							}
+							console.log(body);
+						});
+					}
+				]);
+			});
+
+			break;
+	}
 
 	return res.json(params);
 }
