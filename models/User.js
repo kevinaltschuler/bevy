@@ -9,9 +9,10 @@
 'use strict';
 
 var mongoose = require('mongoose');
+var _ = require('underscore');
 var Schema = mongoose.Schema;
 
-module.exports = new Schema({
+var UserSchema = new Schema({
 	token: String,
 	password: String,
 	email: {
@@ -59,3 +60,11 @@ module.exports = new Schema({
 		default: Date.now
 	}
 });
+
+UserSchema.virtual('displayName').get(function() {
+	return (_.isEmpty(this.google))
+	? this.email
+	: this.google.name.givenName + ' ' + this.google.name.familyName;
+});
+
+module.exports = UserSchema;

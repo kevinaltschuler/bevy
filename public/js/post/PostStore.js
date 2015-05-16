@@ -15,6 +15,7 @@
 
 // imports
 var Backbone = require('backbone');
+var $ = require('jquery');
 var _ = require('underscore');
 
 var constants = require('./../constants');
@@ -56,15 +57,6 @@ _.extend(PostStore, {
 
 				this.posts.fetch({
 					success: function(collection, response, options) {
-
-						// set comment collection from the passed in array
-						collection.forEach(function(post) {
-							var comments = new CommentCollection(post.get('comments'));
-							// set url
-							comments.url = constants.apiurl + '/bevies/' + bevy.id + '/posts/' + post.id + '/comments';
-							post.set('comments', comments);
-						});
-
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
@@ -145,7 +137,7 @@ _.extend(PostStore, {
 
 				this.vote(post_id, author, 1);
 
-				this.trigger(POST.CHANGE_ONE);
+				this.trigger(POST.CHANGE_ALL);
 				break;
 
 			case POST.DOWNVOTE:
@@ -154,7 +146,7 @@ _.extend(PostStore, {
 
 				this.vote(post_id, author, -1);
 
-				this.trigger(POST.CHANGE_ONE);
+				this.trigger(POST.CHANGE_ALL);
 				break;
 
 			case POST.SORT:
@@ -180,40 +172,62 @@ _.extend(PostStore, {
 				var author = payload.author;
 				var body = payload.body;
 
-				if(comment_id) {
-					var post = this.posts.get(post_id);
-					var comments = post.get('comments');
+				var post = this.posts.get(post_id);
 
-					//console.log(comments);
-
-					var comment = comments.findWhere({
-						_id: comment_id
-					});
-					console.log(comment);
-
-				} else {
-					var post = this.posts.get(post_id);
-					var comments = post.get('comments');
-
-					var comment = comments.add({
+				$.post(
+					constants.apiurl + '/comments',
+					{
+						postId: post_id,
+						parentId: (comment_id) ? comment_id : null,
 						author: author._id,
 						body: body
-					});
+					},
+					function(data) {
+						//console.log(data);
+						var id = data._id;
 
-					// save comment to server
-					// API will add comment to post's comment array
-					comment.save();
+						var comments = post.get('comments') || [];
+						comments.push({
+							_id: id,
+							postId: post_id,
+							parentId: (comment_id) ? comment_id : null,
+							author: author,
+							body: body,
+							created: data.created
+						});
+						post.set('comments', comments);
 
-					// simulate population
-					comment.set('_id', String(Date.now()));
-					comment.set('author', author);
-				}
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
+				).fail(function(jqXHR) {
+					// a server-side error has occured (500 internal error)
+					// load response from jqXHR
+					var response = jqXHR.responseJSON;
+					console.log(response);
+				}.bind(this));
 
+				break;
 
-				//console.log(comments.toJSON());
-				//console.log(this.getAll());
+			case COMMENT.DESTROY:
+				var post_id = payload.post_id;
+				var comment_id = payload.comment_id;
+
+				$.ajax({
+					url: constants.apiurl + '/comments/' + comment_id,
+					method: 'DELETE',
+					success: function(data) {
+					}
+				});
+
+				var post = this.posts.get(post_id);
+				var comments = post.get('comments');
+				comments = _.reject(comments, function(comment) {
+					return comment._id == comment_id;
+				});
+				post.set('comments', comments);
 
 				this.trigger(POST.CHANGE_ALL);
+
 				break;
 		}
 	},
@@ -246,34 +260,42 @@ _.extend(PostStore, {
 	},
 
 	vote: function(post_id, author, value) {
-		var voted_post = this.posts.get(post_id);
 
-		if(!voted_post) {
-			// post not found
-			// TODO: return a snackbar message or something
-			return;
+		var MAX_VOTES = 5;
+
+		var post = this.posts.get(post_id);
+
+		var votes = post.get('votes');
+
+		if(_.isEmpty(votes)) {
+			// create new voter
+			votes.push({
+				voter: author._id,
+				score: value
+			});
+		} else {
+			var vote = _.findWhere(votes, { voter: author._id });
+			if(vote == undefined) {
+				// voter not found, create new voter
+				votes.push({
+					voter: author._id,
+					score: value
+				});
+			} else {
+				// check if they've exceeded their max votes
+				if(Math.abs(vote.score + value) > MAX_VOTES)
+					return;
+
+				// add score to existing voter
+				vote.score += value;
+			}
 		}
 
-		// create a shallow copy so we don't descend
-		// into reference hell
-		var points = voted_post.get('points').slice();
+		post.set('votes', votes);
 
-		// check for already voted
-		var maxVotes = 3;
-		var votes = value; //take into account the current vote
-		points.forEach(function(vote) {
-			if(vote.author === author) votes += vote.value;
-		});
-		if(votes > maxVotes || votes < (0 - maxVotes)) {
-			// over the limit son
-			return;
-		}
-
-		points.push({ author: author, value: value });
-
-		// TODO: save post
-		voted_post.save({
-			points: points
+		// save to server
+		post.save({
+			votes: votes
 		}, {
 			patch: true
 		});

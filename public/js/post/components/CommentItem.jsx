@@ -9,9 +9,15 @@
 var React = require('react');
 var _ = require('underscore');
 
+var rbs = require('react-bootstrap');
+var DropdownButton = rbs.DropdownButton;
+var MenuItem = rbs.MenuItem;
+
 var timeAgo = require('./../../shared/helpers/timeAgo');
 
 var CommentSubmit = require('./CommentSubmit.jsx');
+
+var CommentActions = require('./../CommentActions');
 
 var CommentItem = React.createClass({
 
@@ -38,6 +44,11 @@ var CommentItem = React.createClass({
 		});
 	},
 
+	destroy: function(ev) {
+		ev.preventDefault();
+		CommentActions.destroy(this.props.postId, this.props.comment._id);
+	},
+
 	render: function() {
 
 		var defaultAliasImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
@@ -62,7 +73,7 @@ var CommentItem = React.createClass({
 		: <div />;
 
 		return (<div className="row comment">
-					<div className='col-xs-12'>
+					<div className='col-xs-10'>
 						<img className="profile-img" src={ defaultAliasImage }/>
 						<div className="comment-text">
 							<div className="comment-title">
@@ -71,8 +82,19 @@ var CommentItem = React.createClass({
 								<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
 							</div>
 							<div className="comment-body">{ comment.body }</div>
-							<a className="reply-link" onClick={ this.onReply }>{ replyText }</a>
+							{/*<a className="reply-link" onClick={ this.onReply }>{ replyText }</a>*/}
 						</div>
+					</div>
+					<div className='col-xs-2'>
+						<DropdownButton
+							noCaret
+							pullRight
+							className=""
+							title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+							<MenuItem
+								onClick={ this.destroy }
+								>Delete Comment</MenuItem>
+						</DropdownButton>
 					</div>
 					{ submit }
 				 </div>)

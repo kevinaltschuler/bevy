@@ -89,8 +89,8 @@ var Post = React.createClass({
 	 */
 	countVotes: function() {
 		var sum = 0;
-		this.props.post.points.forEach(function(vote) {
-			sum += vote.value;
+		this.props.post.votes.forEach(function(vote) {
+			sum += vote.score;
 		});
 		return sum;
 	},
@@ -135,6 +135,15 @@ var Post = React.createClass({
 				</div>
 			</div>)
 
+		var commentList = (this.props.post.comments)
+		? (<CommentList
+				comments={ this.props.post.comments }
+				postId={ this.props.id }
+				author={ this.props.post.author }
+				profileImage={ profileImage }
+			/>)
+		: ''
+
 		return <div className="post panel" postId={ this.props.post._id }>
 					<div className='panel-header'>
 						<span className="details">{ author }</span>
@@ -153,13 +162,7 @@ var Post = React.createClass({
 							{ this.countVotes() } points
 						</div>
 
-						<CommentList
-							comments={ this.props.post.comments }
-
-							postId={ this.props.id }
-							author={ this.props.post.author }
-							profileImage={ profileImage }
-						/>
+						{ commentList }
 
 					</div>
 					<div className="panel-bottom">

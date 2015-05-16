@@ -20,13 +20,11 @@ var constants = require('./../constants');
 var Post = Backbone.Model.extend({
 	defaults: {
 		_id: null,
-		title: null,
 		body: null,
 		image_url: null,
 		author: null,
 		bevy: null,
-		comments: [],
-		points: [],
+		votes: [],
 		created: new Date(),
 		updated: new Date()
 	},
@@ -38,8 +36,8 @@ var Post = Backbone.Model.extend({
 
 	countVotes: function() {
 		var sum = 0;
-		this.get('points').forEach(function(vote) {
-			sum += vote.value;
+		this.get('votes').forEach(function(vote) {
+			sum += vote.score;
 		});
 		return sum;
 	}

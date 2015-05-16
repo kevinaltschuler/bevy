@@ -31,12 +31,10 @@ function collectCommentParams(req) {
 // GET /bevies/:bevyid/posts/:postid/comments
 exports.index = function(req, res, next) {
 	var postid = req.params.postid;
-	var query = { _id: postid };
-	var promise = Post.findOne(query)
-		.populate('comments')
+	var query = { postId: postid };
+	var promise = Comment.find(query)
 		.exec();
-	promise.then(function(post) {
-		var comments = post.comments;
+	promise.then(function(comments) {
 		return res.json(comments);
 	}, function(err) {
 		return next(err);
@@ -50,37 +48,18 @@ exports.create = function(req, res, next) {
 
 	if(!update.body) return next(error.gen('comment body not specified'));
 
-	async.waterfall([
-		function(done) {
-			// create comment
-			Comment.create(update, function(err, comment) {
-				if(err) return next(err);
-				done(null, comment);
-			});
-		},
-		function(comment, done) {
-			// add to post
-			var postid = req.params.postid;
-			var query = { _id: postid };
-			var promise = Post.findOne(query).exec();
-			promise.then(function(post) {
-				post.comments.push(comment._id);
-				post.save(function(err) {
-					if(err) return next(err);
-					return res.json(comment);
-				});
-			}, function(err) {
-				return next(err);
-			})
-		}
-	]);
+	Comment.create(update, function(err, comment) {
+		if(err) return next(err);
+		return res.json(comment);
+	});
 }
 
 // GET /bevies/:bevyid/posts/:postid/comments/:id
 exports.show = function(req, res, next) {
 	var id = req.params.id;
 	var query = { _id: id };
-	var promise = Comment.findOne(query).exec();
+	var promise = Comment.findOne(query)
+		.exec();
 	promise.then(function(comment) {
 		if(!comment) return next(error.gen('comment not found'));
 		return res.json(comment);
@@ -96,7 +75,8 @@ exports.update = function(req, res, next) {
 	var update = collectCommentParams(req);
 	var id = req.params.id;
 	var query = { _id: id };
-	var promise = Comment.findOneAndUpdate(query, update).exec();
+	var promise = Comment.findOneAndUpdate(query, update)
+		.exec();
 	promise.then(function(comment) {
 		if(!comment) return next(error.gen('comment not found'));
 		return res.json(comment);
@@ -108,34 +88,14 @@ exports.update = function(req, res, next) {
 // GET /bevies/:bevyid/posts/:postid/comments/:id/destroy
 // DELETE /bevies/:bevyid/posts/:postid/comments/:id/
 exports.destroy = function(req, res, next) {
-
-	async.waterfall([
-		function(done) {
-			// delete comment
-			var id = req.params.id;
-			var query = { _id: id };
-			var promise = Comment.findOneAndRemove(query).exec();
-			promise.then(function(comment) {
-				if(!comment) return next(error.gen('comment not found'));
-				done(null, comment);
-			}, function(err) {
-				return next(err);
-			});
-		},
-		function(comment, done) {
-			// remove from post
-			var postid = req.params.postid;
-			var query = { _id: postid };
-			var promise = Post.findOne(query).exec();
-			promise.then(function(post) {
-				post.comments.remove(comment._id);
-				post.save(function(err) {
-					if(err) return next(err);
-					return res.json(comment);
-				});
-			}, function(err) {
-				return next(err);
-			});
-		}
-	]);
+	// delete comment
+	var id = req.params.id;
+	var query = { _id: id };
+	var promise = Comment.findOneAndRemove(query).exec();
+	promise.then(function(comment) {
+		if(!comment) return next(error.gen('comment not found'));
+		done(null, comment);
+	}, function(err) {
+		return next(err);
+	});
 }

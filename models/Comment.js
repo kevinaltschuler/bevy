@@ -13,21 +13,19 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var Comment = new Schema({
+	postId: { // post comment is under
+		type: Schema.Types.ObjectId,
+		ref: 'Post'
+	},
+	parentId: { // parent comment, if one exists
+		type: Schema.Types.ObjectId,
+		ref: 'Comment'
+	},
 	author: {
 		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
-	title: String,
 	body: String,
-	link: String,
-	image_url: String,
-	comments: [{
-		type: Schema.Types.ObjectId,
-		ref: 'Comment'
-	}],
-	settings: {
-		visibility: String
-	},
 	created: {
 		type: Date,
 		default: Date.now
