@@ -15,6 +15,7 @@
 
 // imports
 var Backbone = require('backbone');
+var $ = require('jquery');
 var _ = require('underscore');
 
 var constants = require('./../constants');
@@ -56,15 +57,6 @@ _.extend(PostStore, {
 
 				this.posts.fetch({
 					success: function(collection, response, options) {
-
-						// set comment collection from the passed in array
-						collection.forEach(function(post) {
-							var comments = new CommentCollection(post.get('comments'));
-							// set url
-							comments.url = constants.apiurl + '/bevies/' + bevy.id + '/posts/' + post.id + '/comments';
-							post.set('comments', comments);
-						});
-
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
@@ -180,38 +172,25 @@ _.extend(PostStore, {
 				var author = payload.author;
 				var body = payload.body;
 
-				if(comment_id) {
-					var post = this.posts.get(post_id);
-					var comments = post.get('comments');
+				var post = this.posts.get(post_id);
 
-					//console.log(comments);
-
-					var comment = comments.findWhere({
-						_id: comment_id
-					});
-					console.log(comment);
-
-				} else {
-					var post = this.posts.get(post_id);
-					var comments = post.get('comments');
-
-					var comment = comments.add({
+				$.post(
+					constants.apiurl + '/comments',
+					{
+						postId: post_id,
+						parentId: (comment_id) ? comment_id : null,
 						author: author._id,
 						body: body
-					});
-
-					// save comment to server
-					// API will add comment to post's comment array
-					comment.save();
-
-					// simulate population
-					comment.set('_id', String(Date.now()));
-					comment.set('author', author);
-				}
-
-
-				//console.log(comments.toJSON());
-				//console.log(this.getAll());
+					},
+					function(data) {
+						console.log(data);
+					}
+				).fail(function(jqXHR) {
+					// a server-side error has occured (500 internal error)
+					// load response from jqXHR
+					var response = jqXHR.responseJSON;
+					console.log(response);
+				}.bind(this));
 
 				this.trigger(POST.CHANGE_ALL);
 				break;

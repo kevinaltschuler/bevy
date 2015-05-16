@@ -71,7 +71,7 @@ var CommentItem = React.createClass({
 								<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
 							</div>
 							<div className="comment-body">{ comment.body }</div>
-							<a className="reply-link" onClick={ this.onReply }>{ replyText }</a>
+							{/*<a className="reply-link" onClick={ this.onReply }>{ replyText }</a>*/}
 						</div>
 					</div>
 					{ submit }

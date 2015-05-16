@@ -37,12 +37,20 @@ exports.index = function(req, res, next) {
 
 	var query = { bevy: bevy_id };
 	var promise = Post.find(query)
-		.populate('bevy comments author')
+		.populate('bevy author')
 		.exec();
 	promise.then(function(posts) {
 
-		Post.deepPopulate(posts, 'comments.author', function(err, _posts) {
-			res.json(_posts);
+		var _posts = [];
+
+		posts.forEach(function(post) {
+			Comment.find({ postId: post._id }, function(err, comments) {
+				//console.log(comments);
+				post = post.toObject();
+				post.comments = comments;
+				_posts.push(post);
+				if(_posts.length == posts.length) return res.json(_posts);
+			}).populate('author');
 		});
 
 	}, function(err) { next(err); });
@@ -71,19 +79,24 @@ exports.show = function(req, res, next) {
 	var bevy_id = req.params.bevyid;
 	var id = req.params.id;
 
-	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
 	var promise = Post.findOne(query)
-		.populate('bevy comments author')
+		.populate('bevy author')
 		.exec();
 	promise.then(function(post) {
 		if(!post) throw error.gen('post not found');
 		return post;
 	}).then(function(post) {
 
-		Comment.populate(post.comments, { path: 'author' }, function(err, comments) {
-			res.json(post);
-		});
+		var _promise = Comment.find({ postId: post._id })
+			.populate('author')
+			.exec();
+		_promise.then(function(comments) {
+			post = post.toObject();
+			post.comments = comments;
+			return res.send(post);
+		}, function(err) { return next(err) });
+
 	}, function(err) { next(err); });
 }
 
@@ -99,7 +112,7 @@ exports.update = function(req, res, next) {
 	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
 	var promise = Post.findOneAndUpdate(query, update)
-		.populate('bevy comments author')
+		.populate('bevy author')
 		.exec();
 	promise.then(function(post) {
 		if(!post) throw error.gen('post not found');
@@ -119,7 +132,7 @@ exports.destroy = function(req, res, next) {
 	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
 	var promise = Post.findOneAndRemove(query)
-		.populate('bevy comments author')
+		.populate('bevy author')
 		.exec();
 	promise.then(function(post) {
 		if(!post) throw error.gen('post not found');
