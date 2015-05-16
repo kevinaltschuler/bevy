@@ -28,8 +28,9 @@ var MemberItem = React.createClass({
 		ev.preventDefault();
 
 		var bevy_id = this.props.activeBevy.id;
+		var user_id = (_.isObject(this.props.userid)) ? this.props.userid._id : null;
 
-		BevyActions.removeUser(bevy_id, this.props.email, this.props.userid._id);
+		BevyActions.removeUser(bevy_id, this.props.email, user_id);
 	},
 
 	render: function() {
@@ -53,7 +54,6 @@ var MemberItem = React.createClass({
 
 					<div className='col-xs-3'>
 						<Button
-							{ ...this.props}
 							className='alias-btn'
 							style={ contactButtonStyle }
 						/>

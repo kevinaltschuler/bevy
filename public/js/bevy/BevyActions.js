@@ -58,7 +58,7 @@ var PostActions = {
 	},
 
 	removeUser: function(bevy_id, email, user_id) {
-		dispatch(BEVY.LEAVE, {
+		dispatch(BEVY.REMOVE_USER, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
 			email: (email == undefined) ? '' : email,
 			user_id: (user_id == undefined) ? '' : user_id
