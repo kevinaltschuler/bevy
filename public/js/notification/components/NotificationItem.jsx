@@ -13,6 +13,9 @@ var ButtonGroup = rbs.ButtonGroup;
 var Button = rbs.Button;
 var Panel = rbs.Panel;
 
+var mui = require('material-ui');
+var IconButton = mui.IconButton;
+
 var NotificationActions = require('./../NotificationActions');
 var BevyActions = require('./../../bevy/BevyActions');
 
@@ -56,6 +59,9 @@ var NotificationItem = React.createClass({
 				var from_user = data.from_user;
 
 				body = <div>
+							<div className="col-xs-3 sidebar-picture">
+								<img src={ bevy.imageUrl }/>
+							</div>
 						 	Invite to { bevy.name } from { from_user.google.name.givenName }
 						 	<br />
 						 	<Button
@@ -70,19 +76,15 @@ var NotificationItem = React.createClass({
 
 		return <Panel className="notification-item">
 					<div className='row'>
-						<div className='col-xs-8'>
-
+						<div className='col-xs-10 notification-body'>
+							{ body }
 						</div>
-						<div className='col-xs-4'>
-							<Button
-								onClick={ this.dismiss }>
-								Dismiss
-							</Button>
+						<div className='col-xs-2'>
+							<IconButton onClick={ this.dismiss } tooltip='dismiss' >
+								<span className="glyphicon glyphicon-remove" />
+							</IconButton>
 						</div>
 					</div>
-					<div className='notification-body'>
-				 		{ body }
-				 	</div>
 				 </Panel>
 	}
 });
