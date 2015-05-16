@@ -89,8 +89,8 @@ var Post = React.createClass({
 	 */
 	countVotes: function() {
 		var sum = 0;
-		this.props.post.points.forEach(function(vote) {
-			sum += vote.value;
+		this.props.post.votes.forEach(function(vote) {
+			sum += vote.score;
 		});
 		return sum;
 	},

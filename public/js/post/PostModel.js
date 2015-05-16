@@ -38,8 +38,8 @@ var Post = Backbone.Model.extend({
 
 	countVotes: function() {
 		var sum = 0;
-		this.get('points').forEach(function(vote) {
-			sum += vote.value;
+		this.get('votes').forEach(function(vote) {
+			sum += vote.score;
 		});
 		return sum;
 	}

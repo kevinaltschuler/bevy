@@ -260,7 +260,43 @@ _.extend(PostStore, {
 	},
 
 	vote: function(post_id, author, value) {
-		var voted_post = this.posts.get(post_id);
+
+		var post = this.posts.get(post_id);
+
+		var votes = post.get('votes');
+
+		if(_.isEmpty(votes)) {
+			// create new voter
+			votes.push({
+				voter: author._id,
+				score: value
+			});
+		} else {
+			var vote = _.findWhere(votes, { voter: author._id });
+			if(vote == undefined) {
+				// voter not found, create new voter
+				votes.push({
+					voter: author._id,
+					score: value
+				});
+			} else {
+				// add score to existing voter
+				// TODO: check if max votes exceeded
+				vote.score += value;
+			}
+		}
+
+		post.set('votes', votes);
+
+		// save to server
+		post.save({
+			votes: votes
+		}, {
+			patch: true
+		});
+
+
+		/*var voted_post = this.posts.get(post_id);
 
 		if(!voted_post) {
 			// post not found
@@ -292,7 +328,7 @@ _.extend(PostStore, {
 			patch: true
 		});
 
-		voted_post.set('points', points);
+		voted_post.set('points', points);*/
 	},
 
 	sortByTop: function(post) {

@@ -24,10 +24,12 @@ var PostSchema = new Schema({
 	},
 	title: String,
 	image_url: String,
-	points: [{
-		author: String,
-		value: Number
-	}],
+	votes: [Schema({
+		voter: String,
+		score: Number
+	}, {
+		_id: false
+	})],
 	created: {
 		type: Date,
 		default: Date.now
