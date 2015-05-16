@@ -261,6 +261,8 @@ _.extend(PostStore, {
 
 	vote: function(post_id, author, value) {
 
+		var MAX_VOTES = 5;
+
 		var post = this.posts.get(post_id);
 
 		var votes = post.get('votes');
@@ -280,8 +282,11 @@ _.extend(PostStore, {
 					score: value
 				});
 			} else {
+				// check if they've exceeded their max votes
+				if(Math.abs(vote.score + value) > MAX_VOTES)
+					return;
+
 				// add score to existing voter
-				// TODO: check if max votes exceeded
 				vote.score += value;
 			}
 		}
@@ -294,41 +299,6 @@ _.extend(PostStore, {
 		}, {
 			patch: true
 		});
-
-
-		/*var voted_post = this.posts.get(post_id);
-
-		if(!voted_post) {
-			// post not found
-			// TODO: return a snackbar message or something
-			return;
-		}
-
-		// create a shallow copy so we don't descend
-		// into reference hell
-		var points = voted_post.get('points').slice();
-
-		// check for already voted
-		var maxVotes = 3;
-		var votes = value; //take into account the current vote
-		points.forEach(function(vote) {
-			if(vote.author === author) votes += vote.value;
-		});
-		if(votes > maxVotes || votes < (0 - maxVotes)) {
-			// over the limit son
-			return;
-		}
-
-		points.push({ author: author, value: value });
-
-		// TODO: save post
-		voted_post.save({
-			points: points
-		}, {
-			patch: true
-		});
-
-		voted_post.set('points', points);*/
 	},
 
 	sortByTop: function(post) {
