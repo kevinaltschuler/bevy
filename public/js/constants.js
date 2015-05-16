@@ -39,7 +39,8 @@ exports.POST = {
 	FETCH: 'post_fetch',
 
 	CHANGE_ALL: 'post_change_all',
-	CHANGE_ONE: 'post_change_one'
+	CHANGE_ONE: 'post_change_one',
+	POSTED_POST: 'post_posted_post'
 };
 
 exports.COMMENT = {
@@ -63,7 +64,8 @@ exports.BEVY = {
 	FETCH: 'bevy_fetch',
 
 	CHANGE_ALL: 'bevy_change_all',
-	CHANGE_ONE: 'bevy_change_one'
+	CHANGE_ONE: 'bevy_change_one',
+	UPDATED_IMAGE: 'bevy_updated_image'
 };
 
 exports.NOTIFICATION = {

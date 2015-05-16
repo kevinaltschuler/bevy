@@ -11,7 +11,10 @@
 var React = require('react');
 var Dropzone = require('dropzone');
 
+var PostStore = require('./../../post/PostStore');
+
 var constants = require('./../../constants');
+var POST = constants.POST;
 
 var Uploader = React.createClass({
 
@@ -39,15 +42,24 @@ var Uploader = React.createClass({
 		this.dropzone.on('success', function(file, response) {
 			this.props.onUploadComplete(response);
 		}.bind(this));
+
+		PostStore.on(POST.POSTED_POST, this._onPosted);
 	},
 
 	componentWillUnmount: function() {
 		// remove files
 		this.dropzone.removeAllFiles(true);
+
+		PostStore.off(POST.POSTED_POST, this._onPosted);
 	},
 
 	onDrop: function() {
 
+	},
+
+	_onPosted: function() {
+		//console.log('post posted!');
+		this.dropzone.removeAllFiles(true);
 	},
 
 	render: function() {

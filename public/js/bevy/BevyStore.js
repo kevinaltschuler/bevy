@@ -132,6 +132,7 @@ _.extend(BevyStore, {
 				});
 
 				this.trigger(BEVY.CHANGE_ALL);
+				this.trigger(BEVY.UPDATED_IMAGE);
 
 				break;
 
