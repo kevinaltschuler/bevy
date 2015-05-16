@@ -25,8 +25,6 @@ var Uploader = React.createClass({
 
 	componentDidMount: function() {
 
-		//var options = {};
-
 		// disable dropzone autodiscover
 		Dropzone.autoDiscover = false;
 
@@ -35,18 +33,17 @@ var Uploader = React.createClass({
 			url : constants.apiurl + '/files/upload'
 		});
 
-		//console.log(this.props.dropzoneOptions);
+		// set options
 		Dropzone.options.uploader = this.props.dropzoneOptions;
 
 		this.dropzone.on('success', function(file, response) {
 			this.props.onUploadComplete(response);
-			//console.log(response);
 		}.bind(this));
 	},
 
 	componentWillUnmount: function() {
-		/*this.dropzone.destroy();
-		this.dropzone = null;*/
+		// remove files
+		this.dropzone.removeAllFiles(true);
 	},
 
 	onDrop: function() {
@@ -63,14 +60,6 @@ var Uploader = React.createClass({
 			height: this.props.size || '100%',
 			minHeight: 100, };
 
-		//
-
-		/*return <div action='/' className={ className } style={ style } >
-					<input style={{display: 'none' }} type='file' multiple ref='fileInput' onChange={this.onDrop} />
-					{ this.props.children }
-				 </div>*/
-		//return <form className='dropzone' method='post' action={ constants.apiurl + '/files/upload' } />
-		//
 		return <form className={ className } style={ style } id='uploader' />
 	}
 
