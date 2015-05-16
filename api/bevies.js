@@ -13,9 +13,6 @@ var mongoose = require('mongoose');
 var error = require('./../error');
 var _ = require('underscore');
 
-var client = require('./../mubsub').client();
-var channel = client.channel('notifications');
-
 var Bevy = mongoose.model('Bevy');
 
 function collectBevyParams(req) {
@@ -58,19 +55,6 @@ exports.create = function(req, res, next) {
 
 	Bevy.create(update, function(err, bevy) {
 		if(err) throw err;
-
-		// invite users
-		if(bevy.members.length > 1) {
-			//TODO: grab alias
-			//TODO: ignore bevy creator
-			channel.publish('invite:email', {
-				  members: bevy.members.toObject()
-				, bevy: bevy
-				, user: {
-					name: 'placeholder-creator'
-				}
-			});
-		}
 
 		res.json(bevy);
 	});

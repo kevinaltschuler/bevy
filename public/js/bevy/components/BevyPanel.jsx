@@ -57,6 +57,7 @@ var BevyPanel = React.createClass({
 			var members = bevy.get('members');
 			var member = _.find(members, function(m) {
 				var user = window.bootstrap.user;
+				if(!m.userid || !_.isObject(m.userid)) return false;
 				return m.userid._id == user._id;
 			});
 			if(member) {
