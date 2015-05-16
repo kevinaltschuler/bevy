@@ -22,9 +22,10 @@ var CommentActions = {
 		});
 	},
 
-	destroy: function() {
+	destroy: function(post_id, comment_id) {
 		dispatch(COMMENT.DESTROY, {
-
+			post_id: (post_id == undefined) ? null : post_id,
+			comment_id: (comment_id == undefined) ? null : comment_id
 		});
 	},
 

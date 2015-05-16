@@ -183,8 +183,22 @@ _.extend(PostStore, {
 						body: body
 					},
 					function(data) {
-						console.log(data);
-					}
+						//console.log(data);
+						var id = data._id;
+
+						var comments = post.get('comments') || [];
+						comments.push({
+							_id: id,
+							postId: post_id,
+							parentId: (comment_id) ? comment_id : null,
+							author: author,
+							body: body,
+							created: data.created
+						});
+						post.set('comments', comments);
+
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
 				).fail(function(jqXHR) {
 					// a server-side error has occured (500 internal error)
 					// load response from jqXHR
@@ -192,7 +206,28 @@ _.extend(PostStore, {
 					console.log(response);
 				}.bind(this));
 
+				break;
+
+			case COMMENT.DESTROY:
+				var post_id = payload.post_id;
+				var comment_id = payload.comment_id;
+
+				$.ajax({
+					url: constants.apiurl + '/comments/' + comment_id,
+					method: 'DELETE',
+					success: function(data) {
+					}
+				});
+
+				var post = this.posts.get(post_id);
+				var comments = post.get('comments');
+				comments = _.reject(comments, function(comment) {
+					return comment._id == comment_id;
+				});
+				post.set('comments', comments);
+
 				this.trigger(POST.CHANGE_ALL);
+
 				break;
 		}
 	},
