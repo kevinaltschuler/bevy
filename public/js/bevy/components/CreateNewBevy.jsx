@@ -25,12 +25,6 @@ var BevyActions = require('./../BevyActions');
 
 var user = window.bootstrap.user;
 
-// helper function to validate whether an email is valid
-function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
-
 var CreateNewBevy = React.createClass({
 
 	propTypes: {
@@ -39,27 +33,7 @@ var CreateNewBevy = React.createClass({
 
 	getInitialState: function() {
 		return {
-			members: []
 		};
-	},
-
-	addMember: function(ev) {
-		ev.preventDefault();
-
-		var memberName = this.refs.addMember.getValue();
-
-		if(_.isEmpty(memberName) || !validateEmail(memberName)) {
-			this.refs.addMember.setErrorText('Please enter a valid email address');
-			return;
-		}
-
-		var members = this.state.members;
-		members.push(memberName);
-		this.setState({
-			members: members
-		});
-
-		this.refs.addMember.clearValue();
 	},
 
 	create: function(ev) {
@@ -73,32 +47,13 @@ var CreateNewBevy = React.createClass({
 			return;
 		}
 
-		var members = this.state.members;
-
-		/*if(_.isEmpty(members)) {
-			this.refs.addMember.setErrorText('Please add a member to this bevy');
-			return;
-		}*/
-
-		BevyActions.create(name, description, members);
+		BevyActions.create(name, description);
 
 		// after, close the window
 		this.props.onRequestHide();
 	},
 
 	render: function() {
-
-		var members = [];
-		var allMembers = this.state.members;
-		for(var key in allMembers) {
-			var member = allMembers[key];
-			members.push(<div key={ key }>
-								<span className='member-item'>
-									{ member }
-								</span>
-								<br/>
-							</div>);
-		}
 
 
 		return <Modal className="create-bevy" {...this.props} title="Create a New Bevy">
@@ -120,28 +75,6 @@ var CreateNewBevy = React.createClass({
 								ref='description'
 								placeholder='Group Description'
 							/>
-						</div>
-					</div>
-
-					<div className="row">
-						<div className='col-xs-8'>
-							<TextField
-								type='text'
-								ref='addMember'
-								placeholder='Add Members...'
-							/>
-						</div>
-						<div className='col-xs-4'>
-							<RaisedButton
-								onClick={ this.addMember }
-								label='Add Member'
-							/>
-						</div>
-					</div>
-
-					<div className='row'>
-						<div className='col-xs-12'>
-							{ members }
 						</div>
 					</div>
 
