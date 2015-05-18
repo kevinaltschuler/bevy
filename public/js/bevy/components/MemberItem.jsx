@@ -19,8 +19,7 @@ var BevyActions = require('./../BevyActions');
 var MemberItem = React.createClass({
 
 	propTypes: {
-		email: React.PropTypes.string,
-		userid: React.PropTypes.any,
+		contact: React.PropTypes.object,
 		activeBevy: React.PropTypes.object
 	},
 
@@ -28,9 +27,9 @@ var MemberItem = React.createClass({
 		ev.preventDefault();
 
 		var bevy_id = this.props.activeBevy.id;
-		var user_id = (_.isObject(this.props.userid)) ? this.props.userid._id : null;
+		var user_id = (_.isObject(this.props.contact.userid)) ? this.props.contact.userid._id : null;
 
-		BevyActions.removeUser(bevy_id, this.props.email, user_id);
+		BevyActions.removeUser(bevy_id, this.props.contact.email, user_id);
 	},
 
 	render: function() {
@@ -41,14 +40,14 @@ var MemberItem = React.createClass({
 			backgroundImage: 'url(' + defaultContactImage + ')'
 		};
 
-		var contactName = this.props.email || "Placeholder Contact";
-		var joined = (_.isEmpty(this.props.userid)) ? false : true;
+		var contactName = this.props.contact.email || "Placeholder Contact";
+		var joined = (_.isEmpty(this.props.contact.userid)) ? false : true;
 
 		var contactStatus = '';
 		if(!joined) contactStatus = '[invited]';
-		else contactStatus = (this.props.userid.google)
-		? this.props.userid.google.name.givenName + ' ' + this.props.userid.google.name.familyName
-		: this.props.userid.email;
+		else contactStatus = (this.props.contact.userid.google)
+		? this.props.contact.userid.google.name.givenName + ' ' + this.props.contact.userid.google.name.familyName
+		: this.props.contact.userid.email;
 
 		return <div className="row alias-item">
 
@@ -59,13 +58,17 @@ var MemberItem = React.createClass({
 						/>
 					</div>
 
-					<div className='col-xs-6'>
+					<div className='col-xs-4'>
 						<div className="alias-name">
 							{ contactName }
 						</div>
 						<div className='alias-status'>
 							{ contactStatus }
 						</div>
+					</div>
+
+					<div className='col-xs-2'>
+						<span> { this.props.contact.role || 'user' } </span>
 					</div>
 
 					<div className='col-xs-3'>
