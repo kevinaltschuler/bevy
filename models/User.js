@@ -43,10 +43,6 @@ var UserSchema = new Schema({
 			_id: false
 		})]
 	},
-	aliases: [{
-		type: Schema.Types.ObjectId,
-		ref: 'Alias'
-	}],
 	notifications: [Schema({
 		event: String,
 	  	data: {}
@@ -65,6 +61,11 @@ UserSchema.virtual('displayName').get(function() {
 	return (_.isEmpty(this.google))
 	? this.email
 	: this.google.name.givenName + ' ' + this.google.name.familyName;
+});
+
+UserSchema.set('toObject', {
+	getters: true,
+	virtuals: true
 });
 
 module.exports = UserSchema;
