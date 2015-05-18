@@ -41,15 +41,20 @@
 		}
 		.panel-body-image {
 			overflow: hidden;
-			transition: 0.5s all ease-in-out;
-			max-height: 50px;
-			&.focus{
-				max-height: 300px;
-				appearance:none;
-				outline:0px;
+			width: 100px;
+			height: 100px;
+			display: inline-block;
+			box-shadow: 1px 1px 8px rgba(0,0,0,.4);
+			margin-right: 10px;
+			.image-thumbnail {
+				border: none;
+				padding: 0px;
 			}
 			img {
-				width: 100%;
+				width: 200px;
+				height: 200px;
+				margin-bottom: 50px;
+				margin-right: 50px;
 			}
 		}
 	}
