@@ -65,6 +65,9 @@ var NewPostPanel = React.createClass({
 	},
 
 	close: function() {
+
+		PostActions.cancel();
+
 		this.setState({
 			expanded: false,
 			title: '',
@@ -134,7 +137,7 @@ var NewPostPanel = React.createClass({
 		var dropzoneOptions = {
 			acceptedFiles: 'image/*',
 			thumbnailWidth: 500,
-			thumbnailHeight: 500, 
+			thumbnailHeight: 500,
 			dictDefaultMessage: 'Upload a File',
 			addRemoveLinks: true,
 			clickable: <button type="button">Click Me!</button>,

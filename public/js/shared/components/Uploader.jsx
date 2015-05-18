@@ -41,6 +41,7 @@ var Uploader = React.createClass({
 		}.bind(this));
 
 		PostStore.on(POST.POSTED_POST, this._onPosted);
+		PostStore.on(POST.CANCELED_POST, this._onCanceled);
 	},
 
 	componentWillUnmount: function() {
@@ -48,6 +49,7 @@ var Uploader = React.createClass({
 		this.dropzone.removeAllFiles(true);
 
 		PostStore.off(POST.POSTED_POST, this._onPosted);
+		PostStore.off(POST.CANCELED_POST, this._onCanceled);
 	},
 
 	onDrop: function() {
@@ -56,6 +58,10 @@ var Uploader = React.createClass({
 
 	_onPosted: function() {
 		//console.log('post posted!');
+		this.dropzone.removeAllFiles(true);
+	},
+
+	_onCanceled: function() {
 		this.dropzone.removeAllFiles(true);
 	},
 

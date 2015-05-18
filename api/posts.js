@@ -41,11 +41,12 @@ exports.index = function(req, res, next) {
 		.exec();
 	promise.then(function(posts) {
 
+		if(posts.length <= 0) return res.json(posts);
+
 		var _posts = [];
 
 		posts.forEach(function(post) {
 			Comment.find({ postId: post._id }, function(err, comments) {
-				//console.log(comments);
 				post = post.toObject();
 				post.comments = comments;
 				_posts.push(post);

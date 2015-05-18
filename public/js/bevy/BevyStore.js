@@ -279,6 +279,7 @@ _.extend(BevyStore, {
 					}
 				} else {
 					this.bevies._meta.active = bevy_id;
+					console.log('switching to', this.bevies._meta.active);
 				}
 
 				this.trigger(BEVY.CHANGE_ALL);

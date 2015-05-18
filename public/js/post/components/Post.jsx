@@ -142,7 +142,11 @@ var Post = React.createClass({
 				author={ this.props.post.author }
 				profileImage={ profileImage }
 			/>)
-		: ''
+		: '';
+
+		var commentCount = (this.props.post.comments)
+		? this.props.post.comments.length
+		: 0;
 
 		return <div className="post panel" postId={ this.props.post._id }>
 					<div className='panel-header'>
@@ -157,7 +161,7 @@ var Post = React.createClass({
 
 					<div className="panel-comments">
 						<div className="comment-count">
-							{ this.props.post.comments.length } Comments
+							{ commentCount } Comments
 							•&nbsp;
 							{ this.countVotes() } points
 						</div>

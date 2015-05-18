@@ -21,13 +21,13 @@ module.exports = Backbone.Collection.extend({
 	model: Post,
 
 	url: function() {
-		return (_.isEmpty(this._meta.bevy))
+		return (_.isEmpty(this._meta.bevy_id))
 		? constants.apiurl + '/posts'
-		: constants.apiurl + '/bevies/' + this._meta.bevy.id + '/posts'
+		: constants.apiurl + '/bevies/' + this._meta.bevy_id + '/posts'
 	},
 
 	_meta: {
-		bevy: null,
+		bevy_id: null,
 		sort: {
 			by: 'top',
 			direction: 'asc'

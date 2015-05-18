@@ -89,10 +89,11 @@ var BevyPanel = React.createClass({
 
 	stopEditing: function(ev) {
 		var bevy_id = this.props.activeBevy.id;
-		var name = this.refs.name.getValue();
-		var description = this.refs.description.getValue();
+		var name = this.state.name;
+		var description = this.state.description;
+		var image_url = this.state.image_url;
 
-		BevyActions.update(bevy_id, name, description);
+		BevyActions.update(bevy_id, name, description, image_url);
 
 		this.setState({
 			isEditing: false
