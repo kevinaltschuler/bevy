@@ -37,7 +37,7 @@ var CommentSubmit = React.createClass({
 	submit: function() {
 		var post_id = this.props.postId;
 		var comment_id = this.props.commentId;
-		var author = this.props.author;
+		var author = window.bootstrap.user;
 		var body = this.refs.body.getValue();
 
 		if(comment_id)	// replying to a post
