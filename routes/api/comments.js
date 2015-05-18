@@ -14,14 +14,7 @@ module.exports = function(router) {
 	router.get('/posts/:postid/comments', api.comments.index);
 
 	// CREATE
-	router.get('/posts/:postid/comments/create', api.comments.create);
-	router.post('/posts/:postid/comments', api.comments.create);
-
-	router.get('/comments/:id/create', api.comments.create);
-	router.post('/comments/:id', api.comments.create);
-
 	router.post('/comments/', api.comments.create);
-
 
 	// SHOW
 	router.get('/posts/:postid/comments/:id', api.comments.show);
@@ -41,9 +34,6 @@ module.exports = function(router) {
 	router.patch('/comments/:id', api.comments.update);
 
 	// DESTROY
-	router.get('/posts/:postid/comments/:id/destroy', api.comments.destroy);
-	router.delete('/posts/:postid/comments/:id', api.comments.destroy);
-
 	router.get('/comments/:id/destroy', api.comments.destroy);
 	router.delete('/comments/:id', api.comments.destroy);
 }
