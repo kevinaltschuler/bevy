@@ -123,7 +123,7 @@ var Post = React.createClass({
 			var allImages = this.props.post.images;
 			for(var key in allImages) {
 				images.push(
-					<div className='panel-body-image' onClick={ this.expand } key='key'>
+					<div className='panel-body-image' onClick={ this.expand } key={ key }>
 						<img className="panel-media" src={ this.props.post.images[key] }/>
 					</div>
 				);
