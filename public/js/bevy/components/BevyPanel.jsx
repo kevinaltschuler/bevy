@@ -217,6 +217,18 @@ var BevyPanel = React.createClass({
 			clickable: '.btn'
 		};
 
+		var editButton = '';
+		if(this.state.activeMember) {
+			editButton = (this.state.activeMember.role == 'admin')
+			? (<IconButton
+					className="edit-button"
+					tooltip='edit name'
+					onClick={ this.startEditing }>
+					<span className="glyphicon glyphicon-pencil btn"></span>
+				</IconButton>)
+			: '';
+		}
+
 		var header;
 		if(this.state.isEditing) {
 			header = <div>
@@ -263,12 +275,7 @@ var BevyPanel = React.createClass({
 									onDoubleClick={ this.startEditing } >
 									{ name }
 								</span>
-								<IconButton
-									className="edit-button"
-									tooltip='edit name'
-									onClick={ this.startEditing }>
-									<span className="glyphicon glyphicon-pencil btn"></span>
-								</IconButton>
+								{ editButton }
 								<span
 									className='sidebar-title-description'
 									onDoubleClick={ this.startEditing } >
