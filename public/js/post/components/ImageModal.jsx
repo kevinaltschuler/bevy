@@ -18,6 +18,8 @@ var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 
+var ImageForModal = require('./ImageForModal.jsx');
+
 var ImageModal = React.createClass({
 
 	propTypes: {
@@ -43,7 +45,7 @@ var ImageModal = React.createClass({
 			      backdrop={false}
 			      className="image-modal">
 			      <div className='modal-body'>
-			        <img src={ this.props.url }/>
+			        <ImageForModal onRequestHide= { this.props.onRequestHide } url={ this.props.url }/>
 			      </div>
 			    </Modal>
 	}
