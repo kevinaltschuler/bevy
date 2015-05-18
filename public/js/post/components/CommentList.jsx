@@ -18,7 +18,8 @@ var CommentList = React.createClass({
 
 		postId: React.PropTypes.string,
 		author: React.PropTypes.object,
-		profileImage: React.PropTypes.string
+		profileImage: React.PropTypes.string,
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -40,6 +41,7 @@ var CommentList = React.createClass({
 					postId={ this.props.postId }
 					author={ this.props.author }
 					profileImage={ this.props.profileImage }
+					activeMember={ this.props.activeMember }
 				/>
 			);
 		}

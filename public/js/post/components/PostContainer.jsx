@@ -9,7 +9,6 @@
 
 // imports
 var React = require('react');
-var ReactPropTypes = React.PropTypes;
 
 var Post = require('./Post.jsx');
 var PostStore = require('./../PostStore');
@@ -21,8 +20,8 @@ var PostContainer = React.createClass({
 	// expects App.jsx to pass in Posts collection
 	// see App.jsx and PostStore.js for more details
 	propTypes: {
-		allPosts: ReactPropTypes.array.isRequired,
-		activeBevy: ReactPropTypes.object.isRequired
+		allPosts: React.PropTypes.array,
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -52,6 +51,7 @@ var PostContainer = React.createClass({
 					id={ post._id }
 					key={ post._id }
 					post={ post }
+					activeMember={ this.props.activeMember }
 				/>
 			);
 		}

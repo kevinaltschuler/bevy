@@ -20,6 +20,7 @@ var MemberList = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object,
+		activeMember: React.PropTypes.object,
 		contacts: React.PropTypes.array
 	},
 
@@ -29,14 +30,12 @@ var MemberList = React.createClass({
 		var allContacts = this.props.contacts;
 		for(var key in allContacts) {
 			var contact = allContacts[key];
-			var email = contact.email || '';
-			var userid = contact.userid || '';
 			contacts.push(
 				<MemberItem
 					key={ key }
-					email={ email }
-					userid={ userid }
+					contact={ contact }
 					activeBevy={ this.props.activeBevy }
+					activeMember={ this.props.activeMember }
 				/>
 			);
 		}

@@ -41,7 +41,8 @@ var user = window.bootstrap.user;
 var BevyPanel = React.createClass({
 
 	propTypes: {
-		activeBevy: React.PropTypes.object
+		activeBevy: React.PropTypes.object,
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -75,6 +76,7 @@ var BevyPanel = React.createClass({
 					activeMember: member
 				});
 			} else {
+				// you don't belong here!
 				// add member
 			}
 		}
@@ -259,8 +261,7 @@ var BevyPanel = React.createClass({
 							<div className="col-xs-9 sidebar-title">
 								<span
 									className='sidebar-title-name'
-									onDoubleClick={ this.startEditing }
-								>
+									onDoubleClick={ this.startEditing } >
 									{ name }
 								</span>
 								<IconButton
@@ -271,12 +272,21 @@ var BevyPanel = React.createClass({
 								</IconButton>
 								<span
 									className='sidebar-title-description'
-									onDoubleClick={ this.startEditing }
-								>
+									onDoubleClick={ this.startEditing } >
 									{ description }
 								</span>
 							</div>
 						</div>;
+		}
+
+		var destroyButton = '';
+		if(this.state.activeMember) {
+			destroyButton = (this.state.activeMember.role == 'admin')
+			? (<Button className="sidebar-action-link-bottom"
+					onClick={ this.destroy }>
+					Delete Bevy
+				</Button>)
+			: '';
 		}
 
 
@@ -299,6 +309,7 @@ var BevyPanel = React.createClass({
 							<ModalTrigger modal={
 								<MemberModal
 									activeBevy={ this.props.activeBevy }
+									activeMember={ this.props.activeMember }
 									contacts={ members }
 									title={ "Members of " + name } />
 							}>
@@ -327,10 +338,7 @@ var BevyPanel = React.createClass({
 							</Button>
 						</div>
 						<div className='col-xs-6'>
-							<Button className="sidebar-action-link-bottom"
-								onClick={ this.destroy }>
-								Delete Bevy
-							</Button>
+							{ destroyButton }
 						</div>
 					</div>
 

@@ -8,7 +8,8 @@ var Footer = require('./../../bevy/components/Footer.jsx');
 var RightSidebar = React.createClass({
 
 	propTypes: {
-		activeBevy: React.PropTypes.object
+		activeBevy: React.PropTypes.object,
+		activeMember: React.PropTypes.object
 	},
 
 	render: function() {
@@ -16,6 +17,7 @@ var RightSidebar = React.createClass({
 					<div className="row">
 						<BevyPanel
 							activeBevy={ this.props.activeBevy }
+							activeMember={ this.props.activeMember }
 						/>
 					</div>
 					<div className="row">
