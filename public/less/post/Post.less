@@ -100,6 +100,19 @@
 					text-decoration: underline;
 				}
 			}
+			.btn-group {
+				.btn {
+					color: @light-font;
+					background: none;
+					border: none;
+					box-shadow: none;
+				}
+				&.open {
+					.btn {
+						color: black;
+					}
+				}
+			}
 		}
 	}
 	.panel-bottom {
@@ -161,12 +174,13 @@
 			.post-settings {
 				.btn {
 					border: none;
-				}
-				&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open{
+					&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open {
 					outline: none;
 					box-shadow: none;
 					background-color: rgba(0,0,0,0);
+					}
 				}
+				
 				&:active, &.active, .btn.active, .btn:active {
 					color: black;
 				}
