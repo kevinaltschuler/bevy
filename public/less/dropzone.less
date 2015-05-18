@@ -11,6 +11,7 @@
   padding: 5px 5px; 
   .row {
     text-align: center;
+    
     .mui-floating-action-button {
       margin: 10px;
     }
@@ -231,8 +232,42 @@
         border-bottom: 6px solid #be2626; }
 
 .bevy-image-dropzone, .bevy-image-dropzone * {
-  margin-right: 10px;
-  margin-left: 5px;
+  margin-right: 0px;
+  margin-left: 15px;
+  margin-top: 5px;
+  .row {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    text-align: center;
+    .btn {
+      margin: 0px;
+      padding: 0px;
+      border: none;
+      background-color: rgba(0,0,0,0);
+      color: #E6E6E6;
+      width: 30px;
+      height: 30px;
+      margin-top: 10px;
+      font-size: 22px;
+      &:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open{
+        outline: none;
+        box-shadow: none;
+        background-color: rgba(0,0,0,0);
+      }
+      &:active, &.active, .btn.active, .btn:active {
+        color: black;
+        background-color: rgba(0,0,0,0);
+      }
+      span {
+        margin-top: 0px;
+        margin-left: auto;
+        margin-right: auto;
+        width: 90%;
+        height: 100%;
+      }
+    }
+  }
   .dz-details {
     .dz-filename, .dz-size {
       display: none;
@@ -247,41 +282,6 @@
       img {
         display: none;
       }
-    }
-  }
-}
-
-.post-dropzone {
-  padding: 25px;
-  //box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1) inset, 0px -2px 1px rgba(0, 0, 0, 0.1) inset !important;
-  .dz-details {
-    width: 80%;
-      .dz-filename, .dz-size {
-      }
-  }
-  .dz-preview {
-    background: none !important;
-    width: 100% !important;
-    height: 100% !important;
-    margin-right: auto;
-    margin-left: auto;
-    display: flex;
-    .dz-image {
-      width: 40% !important;
-      height: 40% !important;
-      margin-left: auto !important;
-      margin-right: auto !important;
-      box-shadow: 1px 1px 8px rgba(0,0,0,.4);
-      img {
-        width: 100% !important;
-        height: 100% !important;
-      }
-    }
-  }
-  .dz-default {
-    span {
-      margin-top: 0px;
-      color: @light-font;
     }
   }
 }

@@ -78,15 +78,25 @@ var Uploader = React.createClass({
 
 		var className = this.props.className || 'dropzone';
 
+		var div = document.createElement('div');
+
+		var actionButton = (this.props.className === 'dropzone')
+		? (<div className="row">
+			<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
+			</div>)
+		:<div className="row"> 
+			 <button className="btn btn-lg" onClick={this.preventDefault}> 
+				<span className='glyphicon glyphicon-picture'/> 
+			 </button>
+		 </div>
+
 		var style = this.props.style || {
 			width: this.props.size || '100%',
 			height: this.props.size || '100%',
 			minHeight: 100, };
 
 		return <form className={ className } style={ style } id='uploader' >
-					<div className="row">
-						<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
-					</div>
+					{ actionButton }
 				</form>
 	}
 

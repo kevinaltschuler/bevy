@@ -184,8 +184,6 @@ var BevyPanel = React.createClass({
 			backgroundImage: 'url(' + bevyImage + ')',
 			backgroundSize: '100% 100%',
 			display: 'inline-block',
-			marginLeft: '5px',
-			marginTop: '5px',
 			borderRadius: '50px',
 			width: '50px',
 			height: '50px',
@@ -215,7 +213,8 @@ var BevyPanel = React.createClass({
 
 		var dropzoneOptions = {
 			maxFiles: 1,
-			acceptedFiles: 'image/*'
+			acceptedFiles: 'image/*',
+			clickable: '.btn'
 		};
 
 		var header;
