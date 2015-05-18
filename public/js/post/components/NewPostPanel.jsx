@@ -46,7 +46,7 @@ var NewPostPanel = React.createClass({
 	getInitialState: function() {
 		return {
 			title: '',
-			image_url: ''
+			images: []
 		};
 	},
 
@@ -71,7 +71,7 @@ var NewPostPanel = React.createClass({
 		this.setState({
 			expanded: false,
 			title: '',
-			image_url: ''
+			images: []
 		});
 	},
 
@@ -79,8 +79,10 @@ var NewPostPanel = React.createClass({
 		console.log(file);
 		var filename = file.filename;
 		var image_url = constants.apiurl + '/files/' + filename;
+		var images = this.state.images;
+		images.push(image_url);
 		this.setState({
-			image_url: image_url
+			images: images
 		});
 	},
 
@@ -95,7 +97,7 @@ var NewPostPanel = React.createClass({
 		// send the create action
 		PostActions.create(
 			this.state.title, // title
-			this.state.image_url, // image_url
+			this.state.images, // image_url
 			window.bootstrap.user, // author
 			this.props.activeBevy.toJSON()); // bevy
 

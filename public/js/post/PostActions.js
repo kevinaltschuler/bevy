@@ -34,10 +34,10 @@ var PostActions = {
 	 * @param  {string} author
 	 * @param  {string} bevy
 	 */
-	create: function(title, image_url, author, bevy) {
+	create: function(title, images, author, bevy) {
 		dispatch(POST.CREATE, {
 			title: (title == undefined) ? 'untitled' : title,
-			image_url: (image_url == undefined) ? null : image_url,
+			images: (image_url == undefined) ? null : images,
 			author: (author == undefined) ? null : author, // grab the current, logged in user?
 			bevy: (bevy == undefined) ? null : bevy // grab the current, active bevy
 		});
