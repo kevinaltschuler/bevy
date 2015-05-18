@@ -51,8 +51,7 @@ _.extend(PostStore, {
 				// wait for bevies
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
-				var bevy = BevyStore.getActive();
-				this.posts._meta.bevy = bevy;
+				this.posts._meta.bevy_id = BevyStore.bevies._meta.active;
 				this.posts.comparator = this.sortByTop;
 
 				this.posts.fetch({
@@ -68,11 +67,12 @@ _.extend(PostStore, {
 			case BEVY.SWITCH:
 			case BEVY.JOIN:
 
+				var bevy_id = payload.bevy_id;
+
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
-				var bevy = BevyStore.getActive();
-				this.posts._meta.bevy = bevy;
+				this.posts._meta.bevy_id = bevy_id;
 
 				this.posts.fetch({
 					reset: true,
@@ -80,8 +80,6 @@ _.extend(PostStore, {
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
-
-				this.trigger(POST.CHANGE_ALL);
 
 				break;
 

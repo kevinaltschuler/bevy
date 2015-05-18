@@ -47,7 +47,6 @@ exports.index = function(req, res, next) {
 
 		posts.forEach(function(post) {
 			Comment.find({ postId: post._id }, function(err, comments) {
-				//console.log(comments);
 				post = post.toObject();
 				post.comments = comments;
 				_posts.push(post);
