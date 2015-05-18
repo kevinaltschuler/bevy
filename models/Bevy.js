@@ -11,7 +11,9 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-module.exports = new Schema({
+var roles = 'admin mod user'.split(' ');
+
+var BevySchema = new Schema({
 	name: String,
 	description: String,
 	color: String,
@@ -29,7 +31,13 @@ module.exports = new Schema({
 	  	notificationLevel: {
 	  		type: String,
 	  		default: 'all'
+	  	},
+	  	role: {
+	  		type: String,
+	  		enum: roles,
+	  		default: 'user'
 	  	}
+
 	}, { _id: false }) ],
 	settings: {
 		visibility: String
@@ -43,3 +51,5 @@ module.exports = new Schema({
 		default: Date.now
 	}
 });
+
+module.exports = BevySchema;
