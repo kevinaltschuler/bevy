@@ -35,4 +35,7 @@ module.exports = function(router) {
 	router.get('/bevies/:bevyid/posts/:id/destroy', api.posts.destroy);
 	router.delete('/bevies/:bevyid/posts/:id', api.posts.destroy);
 
+	// frontpage
+	router.get('/users/:userid/posts', api.posts.frontpage);
+
 }

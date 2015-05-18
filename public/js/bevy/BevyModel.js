@@ -18,8 +18,7 @@ module.exports = Backbone.Model.extend({
 	defaults: {
 		name: null,
 		description: null,
-		color: null,
-		imageUrl: null,
+		image_url: null,
 		members: [],
 		settings: {},
 		created: 0,

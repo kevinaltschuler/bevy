@@ -47,15 +47,20 @@ _.extend(BevyStore, {
 
 				this.bevies.fetch({
 					async: false,
+					reset: true,
 					success: function(collection, response, options) {
-						// set the first found bevy to the active one
-						var first = collection.models[0];
-						if(!_.isEmpty(first)) this.bevies._meta.active = first.id;
-
 						// propagate change
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
 				});
+
+				// add frontpage - and put it at the top of the list
+				this.bevies.unshift({
+					_id: '-1',
+					name: 'Frontpage'
+				});
+				// set it to the active bevy
+				this.bevies._meta.active = this.bevies.models[0].id;
 
 				break;
 
@@ -270,6 +275,7 @@ _.extend(BevyStore, {
 				var bevy_id = payload.bevy_id;
 
 				if(!bevy_id) {
+					// TODO: set to front page
 					if(this.bevies.models.length < 1) {
 						// no more bevies
 						this.bevies._meta.active = null;
