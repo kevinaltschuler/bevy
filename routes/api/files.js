@@ -16,4 +16,7 @@ module.exports = function(router) {
 	router.post('/files', api.files.upload);
 
 	router.get('/files/:fileid', api.files.retrieve);
+
+	router.get('/files/:filename/remove', api.files.remove);
+	router.delete('/files/:filename', api.files.remove);
 }

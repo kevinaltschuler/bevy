@@ -73,3 +73,16 @@ exports.retrieve = function(req, res, next) {
 	});
 	readstream.pipe(res);
 }
+
+// GET /files/:filename/remove
+// DELETE /files/:filename
+exports.remove = function(req, res, next) {
+	var filename = req.params.filename;
+
+	var options = { filename: filename };
+
+	gfs.remove(options, function(err) {
+		if(err) return next(err);
+		return res.json(filename);
+	});
+}
