@@ -1,7 +1,6 @@
 'use strict';
 
 var gulp = require('gulp');
-
 var fs = require('fs');
 
 var gutil = require('gulp-util');
@@ -11,11 +10,13 @@ var autoprefixer = require('gulp-autoprefixer');
 
 var nodemon = require('gulp-nodemon');
 
-
 var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 var webpackProductionConfig = require('./webpack.production.config.js');
+
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
 
 
 gulp.task('webpack:build', function(callback) {
@@ -57,7 +58,16 @@ gulp.task('webpack-dev-server', function(callback) {
 });
 
 
-gulp.task('watch', ['webpack-dev-server', 'less:watch', 'serve:dev']);
+gulp.task('watch', ['webpack-dev-server', 'less:watch', 'serve:dev'], function() {
+	/*browserSync.init({
+		server: {
+			baseDir: './public',
+			proxy: 'bevy.dev'
+		},
+		tunnel: 'bevy',
+		open: false
+	});*/
+});
 gulp.task('watch:nohot', ['less:watch', 'webpack:watch', 'serve']);
 
 gulp.task('less:watch', function() {
@@ -79,7 +89,7 @@ gulp.task('webpack:watch', function() {
 
 function buildLess() {
 	console.log('building less...');
-	gulp.src('public/less/app.less')
+	return gulp.src('public/less/app.less')
 		.pipe(sourcemaps.init())
 		.pipe(less())
 		.on('error', function(err){ console.log(err.message); })
@@ -89,8 +99,8 @@ function buildLess() {
 			, cascade: true
 		}))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('public/css'));
-	console.log('...done');
+		.pipe(gulp.dest('public/css'))
+		.pipe(reload({ stream: true }));
 }
 
 

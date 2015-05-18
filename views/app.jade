@@ -1,8 +1,10 @@
 extends ./base.jade
 
 block scripts
-	style
-		include ./../public/css/app.css
+	if env == 'development'
+		link(rel='stylesheet', href='/css/app.css')
+	else
+		link(rel='stylesheet', href='/css/app.css')
 
 block content
 	#app.container
