@@ -151,12 +151,14 @@ _.extend(PostStore, {
 				var by = payload.by;
 				var direction = payload.direction;
 
+				by = by.trim(); // trim whitespace - it sometimes makes it in there
 				switch(by) {
 					case 'new':
-						this.posts.comparator = sortByNew;
+						this.posts.comparator = this.sortByNew;
 						break;
 					case 'top':
-						this.posts.comparator = sortByTop;
+					default:
+						this.posts.comparator = this.sortByTop;
 						break;
 				}
 				this.posts.sort();
