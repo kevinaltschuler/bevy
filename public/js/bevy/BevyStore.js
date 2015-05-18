@@ -79,13 +79,19 @@ _.extend(BevyStore, {
 				});
 
 				//console.log(name, members);
-				var newBevy = {
+				var newBevy = this.bevies.add({
 					name: name,
 					description: description,
 					members: members
-				};
-				this.bevies.create(newBevy, {
-					wait: true
+				});
+
+				newBevy.save(null, {
+					success: function(model, response, options) {
+						// success
+						newBevy.set('_id', model.id);
+						// update posts
+						BevyActions.switchBevy(model.id);
+					}.bind(this)
 				});
 
 				break;
@@ -279,7 +285,6 @@ _.extend(BevyStore, {
 					}
 				} else {
 					this.bevies._meta.active = bevy_id;
-					console.log('switching to', this.bevies._meta.active);
 				}
 
 				this.trigger(BEVY.CHANGE_ALL);

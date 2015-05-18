@@ -113,14 +113,24 @@ var Post = React.createClass({
 		var author;
 		author = 'placeholder-author';
 		if(this.props.post.author) {
-			//console.log(this.props.post.title, this.props.post.author);
-			///author = this.props.post.author.name;
-			author = this.props.post.author.google.name.givenName + ' ' + this.props.post.author.google.name.familyName
+			author = this.props.post.author.displayName;
 		}
 
 		var postTitle = (<span>{ this.props.post.title } &nbsp; </span>)
 
-		var panelBody = (_.isEmpty(this.props.post.image_url))
+		var images = [];
+		if(!_.isEmpty(this.props.post.images)) {
+			var allImages = this.props.post.images;
+			for(var key in allImages) {
+				images.push(
+					<div className='panel-body-image' onClick={ this.expand } key='key'>
+						<img className="panel-media" src={ this.props.post.images[key] }/>
+					</div>
+				);
+			}
+		}
+
+		var panelBody = (_.isEmpty(this.props.post.images))
 		? (<div className='panel-body'>
 				<div className='panel-body-text'>
 					{ postTitle }
@@ -130,9 +140,7 @@ var Post = React.createClass({
 				<div className='panel-body-text'>
 					{ postTitle }
 				</div>
-				<div className='panel-body-image' onClick={ this.expand }>
-					<img className="panel-media" src={ this.props.post.image_url }/>
-				</div>
+				{ images }
 			</div>)
 
 		var commentList = (this.props.post.comments)

@@ -21,7 +21,7 @@ var Post = Backbone.Model.extend({
 	defaults: {
 		_id: null,
 		body: null,
-		image_url: null,
+		images: [],
 		author: null,
 		bevy: null,
 		votes: [],

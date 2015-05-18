@@ -51,36 +51,11 @@ module.exports = function(router) {
 	router.get('/users/:userid/bevies/:id/destroy', api.bevies.destroy);
 	router.delete('/users/:userid/bevies/:id', api.bevies.destroy);
 
-
-
-
-
 	// members
 
 	router.get('/bevies/:id/members', api.bevies.memberList);
 
 	router.post('/bevies/:id/members', api.bevies.memberAdd);
 	router.get('/bevies/:id/members/add', api.bevies.memberAdd);
-
-
-
-	router.get('/bevies/:id/members/remove', api.bevies.memberRemove);
-
-	router.get('/bevies/:id/members/:email', api.bevies.memberShow);
-
-	// alias dependent
-
-	router.get('/aliases/:aliasid/bevies/:id/members', api.bevies.memberList);
-
-	router.post('/aliases/:aliasid/bevies/:id/members', api.bevies.memberAdd);
-	router.get('/aliases/:aliasid/bevies/:id/members/add', api.bevies.memberAdd);
-
-
-
-	router.get('/aliases/:aliasid/bevies/:id/members/remove', api.bevies.memberRemove);
-
-	router.get('/aliases/:aliasid/bevies/:id/members/:email', api.bevies.memberShow);
-
-
 
 };
