@@ -41,6 +41,8 @@ exports.index = function(req, res, next) {
 		.exec();
 	promise.then(function(posts) {
 
+		if(posts.length <= 0) return res.json(posts);
+
 		var _posts = [];
 
 		posts.forEach(function(post) {
