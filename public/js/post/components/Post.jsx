@@ -122,10 +122,14 @@ var Post = React.createClass({
 
 		var panelBody = (_.isEmpty(this.props.post.image_url))
 		? (<div className='panel-body'>
-				{ postTitle }
+				<div className='panel-body-text'>
+					{ postTitle }
+				</div>
 			</div>)
 		: (<div className='panel-body'>
-				{ postTitle }
+				<div className='panel-body-text'>
+					{ postTitle }
+				</div>
 				<div className='panel-body-image' onClick={ this.expand }>
 					<img className="panel-media" src={ this.props.post.image_url }/>
 				</div>
@@ -185,7 +189,6 @@ var Post = React.createClass({
 									onClick={ this.destroy }
 									>Delete Post</MenuItem>
 							</DropdownButton>
-
 						</div>
 					</div>
 				</div>;
