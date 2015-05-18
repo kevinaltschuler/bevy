@@ -83,6 +83,10 @@ var PostActions = {
 			by: (by == undefined) ? 'new' : by,
 			direction: (direction == undefined) ? 'asc' : direction
 		});
+	},
+
+	cancel: function() {
+		dispatch(POST.CANCEL, {});
 	}
 };
 

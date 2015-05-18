@@ -35,12 +35,14 @@ exports.POST = {
 	UPVOTE: 'post_upvote',
 	DOWNVOTE: 'post_downvote',
 	SORT: 'post_sort',
+	CANCEL: 'post_cancel',
 
 	FETCH: 'post_fetch',
 
 	CHANGE_ALL: 'post_change_all',
 	CHANGE_ONE: 'post_change_one',
-	POSTED_POST: 'post_posted_post'
+	POSTED_POST: 'post_posted_post',
+	CANCELED_POST: 'post_canceled_post'
 };
 
 exports.COMMENT = {

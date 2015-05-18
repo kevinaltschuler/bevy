@@ -65,6 +65,9 @@ var NewPostPanel = React.createClass({
 	},
 
 	close: function() {
+
+		PostActions.cancel();
+
 		this.setState({
 			expanded: false,
 			title: '',
@@ -135,7 +138,7 @@ var NewPostPanel = React.createClass({
 			maxFiles: 1,
 			acceptedFiles: 'image/*',
 			thumbnailWidth: 500,
-			thumbnailHeight: 500, 
+			thumbnailHeight: 500,
 			dictDefaultMessage: 'Upload a File',
 		};
 

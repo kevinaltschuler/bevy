@@ -166,6 +166,12 @@ _.extend(PostStore, {
 				this.trigger(POST.CHANGE_ALL);
 				break;
 
+			case POST.CANCEL:
+				// TODO: remove uploaded files from the server
+				this.trigger(POST.CANCELED_POST);
+
+				break;
+
 			case COMMENT.CREATE:
 				var post_id = payload.post_id;
 				var comment_id = payload.comment_id;
