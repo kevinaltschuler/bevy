@@ -18,9 +18,13 @@ var TextField = mui.TextField;
 var rbs = require('react-bootstrap');
 var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
+var ModalTrigger = rbs.ModalTrigger;
+var Button = rbs.Button;
 
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
+
+var ImageModal  = require('./ImageModal.jsx');
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
@@ -94,9 +98,10 @@ var Post = React.createClass({
 	expand: function(ev) {
 		ev.preventDefault();
 
-		var parent = $(ev.target).parent();
-		if(parent.hasClass('focus')) parent.removeClass('focus');
-		else parent.addClass('focus');
+		//var parent = $(ev.target).parent();
+		//if(parent.hasClass('focus')) parent.removeClass('focus');
+		//else parent.addClass('focus');
+
 	},
 
 	render: function() {
@@ -119,8 +124,12 @@ var Post = React.createClass({
 			var allImages = this.props.post.images;
 			for(var key in allImages) {
 				images.push(
-					<div className='panel-body-image' onClick={ this.expand } key={ key }>
-						<img className="panel-media" src={ this.props.post.images[key] }/>
+					<div className='panel-body-image' key={ key } >
+						<ModalTrigger modal={ <ImageModal url={ this.props.post.images[key] } /> } >
+							<button className="image-thumbnail">
+								<img className="panel-media" src={ this.props.post.images[key] }/>
+							</button>
+						</ModalTrigger>
 					</div>
 				);
 			}
