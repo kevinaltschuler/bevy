@@ -44,12 +44,8 @@ var Post = React.createClass({
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
 		id: React.PropTypes.string.isRequired,
-		post: React.PropTypes.object
-	},
-
-	defaults: {
-		// no need to set these, as they've already been set
-		// by PostActions.js
+		post: React.PropTypes.object,
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -156,6 +152,16 @@ var Post = React.createClass({
 		? this.props.post.comments.length
 		: 0;
 
+		var deleteButton = '';
+		if(!_.isEmpty(this.props.activeMember)) {
+			if(this.props.activeMember.role == 'admin' || this.props.post.author._id == user._id)
+				deleteButton = (
+					<MenuItem onClick={ this.destroy } >
+						Delete Post
+					</MenuItem>
+				);
+		}
+
 		return <div className="post panel" postId={ this.props.post._id }>
 					<div className='panel-header'>
 						<span className="details">{ author }</span>
@@ -197,9 +203,7 @@ var Post = React.createClass({
 								pullRight
 								className="post-settings"
 								title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-								<MenuItem
-									onClick={ this.destroy }
-									>Delete Post</MenuItem>
+								{ deleteButton }
 							</DropdownButton>
 						</div>
 					</div>

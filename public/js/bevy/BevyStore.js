@@ -66,19 +66,14 @@ _.extend(BevyStore, {
 				var user = window.bootstrap.user;
 
 				var members = [];
-				payload.members.forEach(function(email) {
-					members.push({
-						email: email
-					});
-				});
 
 				// add yerself
 				members.push({
 					email: user.email,
-					userid: user._id
+					userid: user._id,
+					role: 'admin'
 				});
 
-				//console.log(name, members);
 				var newBevy = this.bevies.add({
 					name: name,
 					description: description,
@@ -392,6 +387,19 @@ _.extend(BevyStore, {
 		return (this.bevies._meta.active == null)
 		? {}
 		: this.bevies.get(this.bevies._meta.active);
+	},
+
+	getActiveMember: function() {
+		var bevy = this.getActive();
+		if(_.isEmpty(bevy)) return {};
+		var members = bevy.get('members');
+		var member = _.find(members, function(m) {
+			if(!m.userid || !_.isObject(m.userid)) return false;
+			return m.userid._id == user._id;
+		});
+		return (member == undefined)
+		? {}
+		: member;
 	}
 });
 
