@@ -164,8 +164,24 @@ exports.frontpage = function(req, res, next) {
 				.populate('bevy author')
 				.exec();
 			post_promise.then(function(posts) {
-				return res.json(posts);
+				done(null, posts);
 			}, function(err) { return next(err) });
+		},
+		function(posts, done) {
+
+			if(posts.length <= 0) return res.json(posts);
+
+			var _posts = [];
+
+			posts.forEach(function(post) {
+			Comment.find({ postId: post._id }, function(err, comments) {
+				post = post.toObject();
+				post.comments = comments;
+				_posts.push(post);
+				if(_posts.length == posts.length) return res.json(_posts);
+
+			}).populate('author');
+		});
 		}
 	]);
 }
