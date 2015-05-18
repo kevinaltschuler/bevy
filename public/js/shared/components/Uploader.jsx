@@ -16,6 +16,10 @@ var PostStore = require('./../../post/PostStore');
 var constants = require('./../../constants');
 var POST = constants.POST;
 
+var mui = require('material-ui');
+var RaisedButton = mui.RaisedButton;
+var FloatingActionButton = mui.FloatingActionButton;
+
 var Uploader = React.createClass({
 
 	propTypes: {
@@ -65,6 +69,10 @@ var Uploader = React.createClass({
 		this.dropzone.removeAllFiles(true);
 	},
 
+	preventDefault: function(ev) {
+		ev.preventDefault();
+	},
+
 	render: function() {
 		var children = this.props.children;
 
@@ -75,7 +83,11 @@ var Uploader = React.createClass({
 			height: this.props.size || '100%',
 			minHeight: 100, };
 
-		return <form className={ className } style={ style } id='uploader' />
+		return <form className={ className } style={ style } id='uploader' >
+					<div className="row">
+						<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
+					</div>
+				</form>
 	}
 
 });

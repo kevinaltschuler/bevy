@@ -8,7 +8,17 @@
 .dropzone {
   min-height: 150px;
   background: white;
-  padding: 5px 5px; }
+  padding: 5px 5px; 
+  .row {
+    text-align: center;
+    .mui-floating-action-button {
+      margin: 10px;
+    }
+    .mui-floating-action-button .mui-floating-action-button-container {
+      background-color: #999999;
+    }
+  }
+}
   .dropzone.dz-clickable {
     cursor: pointer; }
     .dropzone.dz-clickable * {
@@ -23,7 +33,8 @@
       opacity: 0.5; }
   .dropzone .dz-message {
     text-align: center;
-    margin: 2em 0; }
+    margin: 2em 0;
+    display: none; }
   .dropzone .dz-preview {
     position: relative;
     display: inline-block;

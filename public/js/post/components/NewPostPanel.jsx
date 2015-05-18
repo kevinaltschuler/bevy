@@ -133,14 +133,13 @@ var NewPostPanel = React.createClass({
 		var styles = this.getCollapsableClassSet();
 		var classSet = React.addons.classSet;
 		//console.log(styles);
-
 		var dropzoneOptions = {
 			acceptedFiles: 'image/*',
 			thumbnailWidth: 500,
 			thumbnailHeight: 500,
 			dictDefaultMessage: 'Upload a File',
 			addRemoveLinks: true,
-			clickable: <button type="button">Click Me!</button>,
+			clickable: '.mui-floating-action-button',
 		};
 
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
@@ -164,6 +163,8 @@ var NewPostPanel = React.createClass({
 							dropzoneOptions={ dropzoneOptions }
 							className="dropzone"
 						/>
+
+						
 
 						<div className="panel-bottom">
 							<div className="panel-controls-right">
