@@ -145,6 +145,7 @@ var Post = React.createClass({
 				postId={ this.props.id }
 				author={ this.props.post.author }
 				profileImage={ profileImage }
+				activeMember={ this.props.activeMember }
 			/>)
 		: '';
 

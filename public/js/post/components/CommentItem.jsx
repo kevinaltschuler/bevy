@@ -19,6 +19,8 @@ var CommentSubmit = require('./CommentSubmit.jsx');
 
 var CommentActions = require('./../CommentActions');
 
+var user = window.bootstrap.user;
+
 var CommentItem = React.createClass({
 
 	propTypes: {
@@ -27,7 +29,8 @@ var CommentItem = React.createClass({
 
 		postId: React.PropTypes.string,
 		author: React.PropTypes.object,
-		profileImage: React.PropTypes.string
+		profileImage: React.PropTypes.string,
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -72,6 +75,17 @@ var CommentItem = React.createClass({
 			/>)
 		: <div />;
 
+		var deleteButton = '';
+		if(!_.isEmpty(this.props.activeMember)) {
+			if(this.props.activeMember.role == 'admin' || comment.author._id == user._id)
+				deleteButton = (
+					<MenuItem onClick={ this.destroy } >
+						Delete Comment
+					</MenuItem>);
+		}
+
+		//console.log(comment.author._id, user._id, (comment.author._id == user._id));
+
 		return (<div className="row comment">
 					<div className='col-xs-10'>
 						<img className="profile-img" src={ defaultAliasImage }/>
@@ -91,9 +105,9 @@ var CommentItem = React.createClass({
 							pullRight
 							className=""
 							title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-							<MenuItem
-								onClick={ this.destroy }
-								>Delete Comment</MenuItem>
+
+							{ deleteButton }
+
 						</DropdownButton>
 					</div>
 					{ submit }
