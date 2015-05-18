@@ -16,7 +16,6 @@ var roles = 'admin mod user'.split(' ');
 var BevySchema = new Schema({
 	name: String,
 	description: String,
-	color: String,
 	image_url: {
 		type: String
 	},

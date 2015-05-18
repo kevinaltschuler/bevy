@@ -14,6 +14,7 @@ var _ = require('underscore');
 var async = require('async');
 
 var Post = mongoose.model('Post');
+var Bevy = mongoose.model('Bevy');
 var Comment = mongoose.model('Comment');
 
 function collectPostParams(req) {
@@ -141,4 +142,30 @@ exports.destroy = function(req, res, next) {
 	}).then(function(post) {
 		res.json(post);
 	}, function(err) { next(err); });
+}
+
+// FRONTPAGE
+// GET /users/:userid/posts
+exports.frontpage = function(req, res, next) {
+
+	async.waterfall([
+		function(done) {
+			var user_id = req.params.userid;
+			var bevy_query = { members: { $elemMatch: { userid: user_id } } };
+			var bevy_promise = Bevy.find(bevy_query).exec();
+			bevy_promise.then(function(bevies) {
+				done(null, bevies);
+			}, function(err) { return next(err) });
+		},
+		function(bevies, done) {
+			var bevy_id_list = _.pluck(bevies, '_id');
+			var post_query = { bevy: { $in: bevy_id_list } };
+			var post_promise = Post.find(post_query)
+				.populate('bevy author')
+				.exec();
+			post_promise.then(function(posts) {
+				return res.json(posts);
+			}, function(err) { return next(err) });
+		}
+	]);
 }

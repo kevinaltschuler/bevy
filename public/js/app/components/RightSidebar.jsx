@@ -3,6 +3,7 @@
 var React = require('react');
 
 var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
+var FrontpagePanel = require('./../../bevy/components/FrontpagePanel.jsx');
 var Footer = require('./Footer.jsx');
 
 var RightSidebar = React.createClass({
@@ -18,7 +19,7 @@ var RightSidebar = React.createClass({
 		var bevy_id = bevy.get('_id');
 
 		var panel = (bevy_id == -1)
-		? ''
+		? (<FrontpagePanel />)
 		: (<BevyPanel
 				activeBevy={ this.props.activeBevy }
 				activeMember={ this.props.activeMember }
