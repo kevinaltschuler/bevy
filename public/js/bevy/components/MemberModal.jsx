@@ -24,7 +24,8 @@ var MemberModal = React.createClass({
 	propTypes: {
 		title: React.PropTypes.string,
 		contacts: React.PropTypes.array,
-		activeBevy: React.PropTypes.object
+		activeBevy: React.PropTypes.object,
+		activeMember: React.PropTypes.object
 	},
 
 	render: function() {
@@ -32,6 +33,7 @@ var MemberModal = React.createClass({
 		return <Modal className="saved-posts-modal" {...this.props} title={this.props.title}>
 					<MemberList
 						activeBevy={ this.props.activeBevy }
+						activeMember={ this.props.activeMember }
 						contacts={ this.props.contacts }
 					/>
 				 </Modal>

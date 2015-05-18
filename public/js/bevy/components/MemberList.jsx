@@ -20,6 +20,7 @@ var MemberList = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object,
+		activeMember: React.PropTypes.object,
 		contacts: React.PropTypes.array
 	},
 
@@ -34,6 +35,7 @@ var MemberList = React.createClass({
 					key={ key }
 					contact={ contact }
 					activeBevy={ this.props.activeBevy }
+					activeMember={ this.props.activeMember }
 				/>
 			);
 		}

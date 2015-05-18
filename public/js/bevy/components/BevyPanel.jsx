@@ -309,6 +309,7 @@ var BevyPanel = React.createClass({
 							<ModalTrigger modal={
 								<MemberModal
 									activeBevy={ this.props.activeBevy }
+									activeMember={ this.props.activeMember }
 									contacts={ members }
 									title={ "Members of " + name } />
 							}>

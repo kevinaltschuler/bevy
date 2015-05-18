@@ -20,7 +20,8 @@ var MemberItem = React.createClass({
 
 	propTypes: {
 		contact: React.PropTypes.object,
-		activeBevy: React.PropTypes.object
+		activeBevy: React.PropTypes.object,
+		activeMember: React.PropTypes.object
 	},
 
 	remove: function(ev) {
@@ -49,6 +50,15 @@ var MemberItem = React.createClass({
 		? this.props.contact.userid.google.name.givenName + ' ' + this.props.contact.userid.google.name.familyName
 		: this.props.contact.userid.email;
 
+		var removeButton = '';
+		if(!_.isEmpty(this.props.activeMember)) {
+			if(this.props.activeMember.role == 'admin')
+				removeButton = (
+					<Button onClick={ this.remove } >
+						Remove
+					</Button>);
+		}
+
 		return <div className="row alias-item">
 
 					<div className='col-xs-3'>
@@ -72,11 +82,7 @@ var MemberItem = React.createClass({
 					</div>
 
 					<div className='col-xs-3'>
-						<Button
-							onClick={ this.remove }
-						>
-						Remove
-						</Button>
+						{ removeButton }
 					</div>
 
 				 </div>
