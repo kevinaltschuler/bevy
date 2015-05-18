@@ -32,24 +32,9 @@ var Uploader = React.createClass({
 		Dropzone.autoDiscover = false;
 
 		// instantiate dropzone
-		this.dropzone = new Dropzone(this.getDOMNode(), {
-			url : constants.apiurl + '/files/upload',
-			maxFiles: 1,
-			acceptedFiles: 'image/*',
-			thumbnailWidth: 500,
-			thumbnailHeight: 500, 
-			dictDefaultMessage: 'Upload a File',
-		});
-
-		// set options
-		//Dropzone.options.uploader = this.props.dropzoneOptions;
-		Dropzone.options.uploader = {
-			maxFiles: 1,
-			acceptedFiles: 'image/*',
-			//thumbnailWidth: 100,
-			//thumbnailHeight: 100, 
-			dictDefaultMessage: 'Upload a File',
-		};
+		var options = this.props.dropzoneOptions;
+		options.url = constants.apiurl + '/files/upload';
+		this.dropzone = new Dropzone(this.getDOMNode(), options);
 
 		this.dropzone.on('success', function(file, response) {
 			this.props.onUploadComplete(response);

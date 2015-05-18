@@ -8,7 +8,7 @@
 .dropzone {
   min-height: 150px;
   background: white;
-  padding: 20px 20px; }
+  padding: 5px 5px; }
   .dropzone.dz-clickable {
     cursor: pointer; }
     .dropzone.dz-clickable * {
@@ -97,6 +97,7 @@
       -webkit-filter: blur(8px);
       filter: blur(8px); }
     .dropzone .dz-preview .dz-image {
+      box-shadow: 1px 1px 8px rgba(0,0,0,.4);
       border-radius: 20px;
       overflow: hidden;
       width: 120px;
@@ -240,22 +241,26 @@
 }
 
 .post-dropzone {
-  padding: 0px;
-  box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1) inset, 0px -2px 1px rgba(0, 0, 0, 0.1) inset !important;
+  padding: 25px;
+  //box-shadow: 0px 2px 1px rgba(0, 0, 0, 0.1) inset, 0px -2px 1px rgba(0, 0, 0, 0.1) inset !important;
   .dz-details {
-  .dz-filename, .dz-size {
-    }
+    width: 80%;
+      .dz-filename, .dz-size {
+      }
   }
   .dz-preview {
     background: none !important;
     width: 100% !important;
     height: 100% !important;
-    margin: 0px !important;
+    margin-right: auto;
+    margin-left: auto;
+    display: flex;
     .dz-image {
-      width: 100% !important;
-      height: 100% !important;
+      width: 40% !important;
+      height: 40% !important;
       margin-left: auto !important;
       margin-right: auto !important;
+      box-shadow: 1px 1px 8px rgba(0,0,0,.4);
       img {
         width: 100% !important;
         height: 100% !important;
@@ -264,6 +269,7 @@
   }
   .dz-default {
     span {
+      margin-top: 0px;
       color: @light-font;
     }
   }

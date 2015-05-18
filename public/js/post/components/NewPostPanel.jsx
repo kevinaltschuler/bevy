@@ -132,11 +132,12 @@ var NewPostPanel = React.createClass({
 		//console.log(styles);
 
 		var dropzoneOptions = {
-			maxFiles: 1,
 			acceptedFiles: 'image/*',
 			thumbnailWidth: 500,
 			thumbnailHeight: 500, 
 			dictDefaultMessage: 'Upload a File',
+			addRemoveLinks: true,
+			clickable: <button type="button">Click Me!</button>,
 		};
 
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
@@ -158,7 +159,7 @@ var NewPostPanel = React.createClass({
 						<Uploader
 							onUploadComplete={ this.onUploadComplete }
 							dropzoneOptions={ dropzoneOptions }
-							className="dropzone post-dropzone"
+							className="dropzone"
 						/>
 
 						<div className="panel-bottom">
