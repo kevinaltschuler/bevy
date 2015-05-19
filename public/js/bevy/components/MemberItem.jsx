@@ -37,9 +37,12 @@ var MemberItem = React.createClass({
 	render: function() {
 
 		var defaultContactImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var contactImage = (this.props.contact.user.google && this.props.contact.user.google.photos)
+		? this.props.contact.user.google.photos[0].value
+		: defaultContactImage;
 
 		var contactButtonStyle = {
-			backgroundImage: 'url(' + defaultContactImage + ')'
+			backgroundImage: 'url(' + contactImage + ')'
 		};
 
 		var contactName = this.props.contact.email || "Placeholder Contact";
