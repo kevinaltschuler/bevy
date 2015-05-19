@@ -26,6 +26,8 @@ var ModalTrigger = rbs.ModalTrigger;
 var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
 var IconButton = mui.IconButton;
+var TextField = mui.TextField;
+var RaisedButton = mui.RaisedButton;
 
 var InviteModal = require('./InviteModal.jsx');
 var MemberModal = require('./MemberModal.jsx');
@@ -118,9 +120,6 @@ var BevyPanel = React.createClass({
 	},
 
 	onKeyUp: function(ev) {
-		if(ev.which === 13) {
-			this.stopEditing(ev);
-		}
 	},
 
 	onChange: function(ev) {
@@ -243,7 +242,7 @@ var BevyPanel = React.createClass({
 									/>
 								</div>
 								<div className="col-xs-9 sidebar-title">
-									<Input
+									<TextField
 										type='text'
 										ref='name'
 										defaultValue={ name }
@@ -252,7 +251,7 @@ var BevyPanel = React.createClass({
 										onKeyUp={ this.onKeyUp }
 										onChange={ this.onChange }
 									/>
-									<Input
+									<TextField
 										type='text'
 										ref='description'
 										defaultValue={ description }
@@ -260,7 +259,9 @@ var BevyPanel = React.createClass({
 										placeholder='Group Description'
 										onKeyUp={ this.onKeyUp }
 										onChange={ this.onChange }
+										multiLine= { true }
 									/>
+									<RaisedButton label="save changes" onClick= {this.stopEditing} />
 								</div>
 							</div>
 						</div>;
@@ -325,6 +326,14 @@ var BevyPanel = React.createClass({
 							</Button>
 							</ModalTrigger>
 						</ButtonGroup>
+					</div>
+
+					<div className='row sidebar-action'>
+						<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+						<span
+							className='sidebar-posting-name'>
+						</span>
+						{ editButton }
 					</div>
 
 					<div className='row sidebar-action'>

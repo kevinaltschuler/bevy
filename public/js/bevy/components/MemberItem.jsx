@@ -14,6 +14,9 @@ var ButtonGroup = rbs.ButtonGroup;
 var Button = rbs.Button;
 var Panel = rbs.Panel;
 
+var mui = require('material-ui');
+var RaisedButton = mui.FlatButton;
+
 var BevyActions = require('./../BevyActions');
 
 var MemberItem = React.createClass({
@@ -55,9 +58,7 @@ var MemberItem = React.createClass({
 		if(!_.isEmpty(this.props.activeMember)) {
 			if(this.props.activeMember.role == 'admin')
 				removeButton = (
-					<Button onClick={ this.remove } >
-						Remove
-					</Button>);
+					<RaisedButton label="remove" onClick={this.remove} />);
 		}
 
 		var className = 'row';

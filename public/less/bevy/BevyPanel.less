@@ -50,11 +50,8 @@
 			padding-left: 20px;
 			color: black;
 			width: 65%;
+			margin-top: -15px;
 			button {
-				display: inline-block;
-				padding: 0px;
-				width: 35px;
-				height: 35px;
 				color: @light-font;
 			}
 			span{
@@ -67,6 +64,23 @@
 			span.sidebar-title-description {
 				font-size: 0.7em;
 				color: #4c4c4c;
+			}
+			.mui-text-field {
+				width: 90%;
+				.mui-text-field-input {
+					.mui-text-field-textarea {
+						background: none;
+						border: none;
+						box-shadow: none;
+					}
+				}
+				.mui-text-field-focus-underline {
+					border-color: rgba(0,0,0,.5);
+				}
+			}
+			.mui-raised-button {
+				margin-top: 7px;
+				margin-bottom: 5px;
 			}
 		}
 	}

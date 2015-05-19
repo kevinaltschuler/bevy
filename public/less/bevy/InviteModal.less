@@ -1,36 +1,51 @@
-.modal-content {
-	border-radius: 4px !important;
-}
 .invite-modal {
-	.title {
-		font-size: 1.25em;
-
-	}
-	.row.member-list {
-		margin-top: 20px;
-		.member-item {}
-		.member-remove-btn {
-			background-color: rgba(0,0,0,0);
-			color: @light-font;
-			font-size: .9em;
-			transition: all 0.15s linear;
-			border: none;
-			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-				outline: none;
-				box-shadow: none;
+	.modal-dialog {
+		width: 300px;
+		.modal-content {
+			border-radius: 4px !important;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		.title {
+			font-size: 1.25em;
+		}
+		.row.member-list {
+			margin-top: 20px;
+			.member-item {}
+			.member-remove-btn {
 				background-color: rgba(0,0,0,0);
-			}
-			&:active, &.active, .btn.active, .btn:active {
-				color: black;
+				color: @light-font;
+				font-size: .9em;
+				transition: all 0.15s linear;
+				border: none;
+				&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+					outline: none;
+					box-shadow: none;
+					background-color: rgba(0,0,0,0);
+				}
+				&:active, &.active, .btn.active, .btn:active {
+					color: black;
+				}
 			}
 		}
-	}
-	.row {
-		.col-xs-4 {
+		.row {
+			.mui-text-field {
+				width: 200px;
+				.mui-text-field-focus-underline {
+					border-color: rgba(0,0,0,.5);
+				}
+			}
 			.glyphicon {
 				color: @light-font;
 				&:active, &.active, .btn.active, .btn:active {
 					color: black;
+				}
+			}
+		}
+		.row {
+			.col-xs-12 {
+				.panel-bottom {
+					margin-top: 10px;
 				}
 			}
 		}
