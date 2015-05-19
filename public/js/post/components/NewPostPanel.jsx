@@ -119,18 +119,14 @@ var NewPostPanel = React.createClass({
 		var bevies = [];
 		var allBevies = this.props.allBevies;
 		for(var key in allBevies) {
-			var bevy = allBevies[key];
-			bevies.push({
-				payload: key,
-				text: bevy.name
-			});
-		}
-		if(bevies.length < 1) {
-			bevies.push({
-				payload: '1',
-				text: ''
-			});
-		}
+				var bevy = allBevies[key];
+				if(bevy._id != -1) {
+				bevies.push({
+					payload: key,
+					text: bevy.name
+				});
+			}
+		} 
 
 		var styles = this.getCollapsableClassSet();
 		var classSet = React.addons.classSet;
@@ -143,6 +139,11 @@ var NewPostPanel = React.createClass({
 			addRemoveLinks: true,
 			clickable: '.mui-floating-action-button',
 		};
+
+		var beviesDropdown = (bevies.length < 1)
+		?  ''
+		: (<DropDownMenu autoWidth={false} menuItems={bevies} />)
+
 
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
 
@@ -168,17 +169,17 @@ var NewPostPanel = React.createClass({
 
 						
 
-						<div className="panel-bottom">
-							<div className="panel-controls-right">
+						<div className="panel-bottom row">
+							<div className="panel-controls-left  col-xs-7">
+									<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
+									{beviesDropdown}
+							</div>
+							<div className="panel-controls-right col-xs-5">
 								<FlatButton
 									label='cancel'
 									onClick={ this.close }
 								/>
 								<RaisedButton label="submit" onClick={this.submit} />
-							</div>
-							<div className="panel-controls-left">
-								<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
-								<DropDownMenu menuItems={bevies} />
 							</div>
 						</div>
 					</div>
