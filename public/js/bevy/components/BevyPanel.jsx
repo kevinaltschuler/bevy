@@ -185,7 +185,7 @@ var BevyPanel = React.createClass({
 		var members = (_.isEmpty(bevy)) ? [] : bevy.get('members');
 
 		var member = this.state.activeMember
-		var itemIndex;
+		var itemIndex = 0;
 		if(!_.isEmpty(member)) {
 			var level = member.notificationLevel;
 
