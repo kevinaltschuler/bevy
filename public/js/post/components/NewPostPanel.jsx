@@ -139,7 +139,7 @@ var NewPostPanel = React.createClass({
 			acceptedFiles: 'image/*',
 			thumbnailWidth: 500,
 			thumbnailHeight: 500,
-			dictDefaultMessage: 'Upload a File',
+			dictDefaultMessage: 'Upload a Picture',
 			addRemoveLinks: true,
 			clickable: '.mui-floating-action-button',
 		};
@@ -177,7 +177,8 @@ var NewPostPanel = React.createClass({
 								<RaisedButton label="submit" onClick={this.submit} />
 							</div>
 							<div className="panel-controls-left">
-								{/* left side of the bottom of the panel */}
+								<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
+								<DropDownMenu menuItems={bevies} />
 							</div>
 						</div>
 					</div>
