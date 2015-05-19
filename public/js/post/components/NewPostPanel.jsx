@@ -31,6 +31,16 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var PostActions = require('./../PostActions');
 
+var hintTexts = [
+	"What's on your mind?",
+	"What's up?",
+	"How's it going?",
+	"What's new?",
+	"How are you doing today?",
+	"Share your thoughts"
+]
+var hintText = hintTexts[Math.floor(Math.random() * 4)];
+
 // React class
 var NewPostPanel = React.createClass({
 
@@ -153,13 +163,12 @@ var NewPostPanel = React.createClass({
 		?  ''
 		: (<DropDownMenu autoWidth={false} menuItems={bevies} />)
 
-
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
 
 					<div className="new-post-title">
 						<TextField
 							className="title-field"
-							hintText="What's on your mind?"
+							hintText={ hintText }
 							ref='title'
 							multiLine={ true }
 							value={ this.state.title }
