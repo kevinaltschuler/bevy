@@ -13,7 +13,8 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{ test: /\.jsx?$/, loaders: ['jsx-loader?harmony'], exclude: /node_modules/ }
+			{ test: /\.jsx?$/, loaders: ['jsx-loader'], exclude: /node_modules/ },
+			{ test: /.*\/public\/.*\.js$/, loaders: ['uglify-loader'], exclude: /node_modules/ }
 		]
 	},
 	resolve: {
@@ -21,5 +22,12 @@ module.exports = {
 	},
 	resolveLoader: {
 		modulesDirectories: ['node_modules']
-	}
+	},
+	plugins: [
+		new webpack.optimize.UglifyJsPlugin({
+			compress: {
+				warnings: false
+			}
+		})
+	]
 };

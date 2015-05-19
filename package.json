@@ -54,6 +54,7 @@
     "gulp-util": "^3.0.3",
     "jsx-loader": "^0.12.2",
     "react-hot-loader": "^1.1.5",
+    "uglify-loader": "^1.2.0",
     "webpack": "^1.5.3",
     "webpack-dev-server": "^1.7.0"
   }
