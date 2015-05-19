@@ -214,7 +214,8 @@ var BevyPanel = React.createClass({
 		var dropzoneOptions = {
 			maxFiles: 1,
 			acceptedFiles: 'image/*',
-			clickable: '.btn'
+			clickable: '.dropzone-panel-button',
+			dictDefaultMessage: ' ',
 		};
 
 		var editButton = '';
