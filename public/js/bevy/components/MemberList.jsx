@@ -7,6 +7,7 @@
 'use strict';
 
 var React = require('react');
+var _ = require('underscore');
 
 var rbs = require('react-bootstrap');
 var ButtonGroup = rbs.ButtonGroup;
@@ -30,10 +31,19 @@ var MemberList = React.createClass({
 		var allContacts = this.props.contacts;
 		for(var key in allContacts) {
 			var contact = allContacts[key];
+			var active = false;
+
+			if(_.isObject(this.props.activeMember)) {
+				if(_.isObject(contact.userid)) {
+					if(contact.userid._id == this.props.activeMember._id) active = true;
+				}
+			}
+
 			contacts.push(
 				<MemberItem
 					key={ key }
 					contact={ contact }
+					active={ active }
 					activeBevy={ this.props.activeBevy }
 					activeMember={ this.props.activeMember }
 				/>

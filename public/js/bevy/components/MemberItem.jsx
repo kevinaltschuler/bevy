@@ -21,7 +21,8 @@ var MemberItem = React.createClass({
 	propTypes: {
 		contact: React.PropTypes.object,
 		activeBevy: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		activeMember: React.PropTypes.object,
+		active: React.PropTypes.bool
 	},
 
 	remove: function(ev) {
@@ -59,22 +60,25 @@ var MemberItem = React.createClass({
 					</Button>);
 		}
 
-		return <div className="row alias-item">
+		var className = 'row';
+		if(this.props.active) className += ' active';
+
+		return <div className="row">
 
 					<div className='col-xs-3'>
 						<Button
-							className='alias-btn'
+							className=''
 							style={ contactButtonStyle }
 						/>
 					</div>
 
 					<div className='col-xs-4'>
-						<div className="alias-name">
+						<span className="">
 							{ contactName }
-						</div>
-						<div className='alias-status'>
+						</span>
+						<span className=''>
 							{ contactStatus }
-						</div>
+						</span>
 					</div>
 
 					<div className='col-xs-2'>
