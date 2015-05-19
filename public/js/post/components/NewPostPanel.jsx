@@ -31,6 +31,16 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var PostActions = require('./../PostActions');
 
+var hintTexts = [
+	"What's on your mind?",
+	"What's up?",
+	"How's it going?",
+	"What's new?",
+	"How are you doing today?",
+	"Share your thoughts"
+]
+var hintText = hintTexts[Math.floor(Math.random() * 4)];
+
 // React class
 var NewPostPanel = React.createClass({
 
@@ -46,8 +56,29 @@ var NewPostPanel = React.createClass({
 	getInitialState: function() {
 		return {
 			title: '',
-			images: []
+			images: [],
+			bevies: []
 		};
+	},
+
+	componentWillReceiveProps: function(nextProps) {
+
+		// load bevies
+		var bevies = [];
+		var allBevies = nextProps.allBevies;
+		for(var key in allBevies) {
+			var bevy = allBevies[key];
+			if(bevy._id != -1) {
+				bevies.push({
+					payload: key,
+					text: bevy.name
+				});
+			}
+		}
+
+		this.setState({
+			bevies: bevies
+		});
 	},
 
 	getCollapsableDOMNode: function(){
@@ -115,19 +146,6 @@ var NewPostPanel = React.createClass({
 
 	render: function() {
 
-		// load bevies
-		var bevies = [];
-		var allBevies = this.props.allBevies;
-		for(var key in allBevies) {
-				var bevy = allBevies[key];
-				if(bevy._id != -1) {
-				bevies.push({
-					payload: key,
-					text: bevy.name
-				});
-			}
-		} 
-
 		var styles = this.getCollapsableClassSet();
 		var classSet = React.addons.classSet;
 		//console.log(styles);
@@ -140,17 +158,17 @@ var NewPostPanel = React.createClass({
 			clickable: '.mui-floating-action-button',
 		};
 
+		var bevies = this.state.bevies;
 		var beviesDropdown = (bevies.length < 1)
 		?  ''
 		: (<DropDownMenu autoWidth={false} menuItems={bevies} />)
-
 
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
 
 					<div className="new-post-title">
 						<TextField
 							className="title-field"
-							hintText="What's on your mind?"
+							hintText={ hintText }
 							ref='title'
 							multiLine={ true }
 							value={ this.state.title }
@@ -167,7 +185,7 @@ var NewPostPanel = React.createClass({
 							className="dropzone"
 						/>
 
-						
+
 
 						<div className="panel-bottom row">
 							<div className="panel-controls-left  col-xs-7">

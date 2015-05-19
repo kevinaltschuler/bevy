@@ -75,7 +75,7 @@ _.extend(BevyStore, {
 				// add yerself
 				members.push({
 					email: user.email,
-					userid: user._id,
+					user: user._id,
 					role: 'admin'
 				});
 
@@ -153,7 +153,7 @@ _.extend(BevyStore, {
 
 				// set level
 				members = _.map(members, function(member) {
-					if(member.userid._id == user_id) {
+					if(member.user._id == user_id) {
 						member.notificationLevel = level;
 						return member;
 					} else return member;
@@ -161,8 +161,8 @@ _.extend(BevyStore, {
 
 				// unpopulate member aliasid
 				var unpopulated_members = _.map(members, function(member, key) {
-					if(_.isObject(member.userid))
-						member.userid = member.userid._id;
+					if(_.isObject(member.user))
+						member.user = member.user._id;
 					return member;
 				});
 
@@ -196,10 +196,10 @@ _.extend(BevyStore, {
 				} else {
 					// remove the specific user
 					members = _.reject(members, function(member) {
-						if(_.isObject(member.userid)) {
-							return member.userid._id == user_id;
+						if(_.isObject(member.user)) {
+							return member.user._id == user_id;
 						} else {
-							return member.userid == user_id;
+							return member.user == user_id;
 						}
 					});
 				}
@@ -207,8 +207,8 @@ _.extend(BevyStore, {
 				// need to create a deep clone
 
 				var unpopulated_members = _.map(members, function(member, key) {
-					if(_.isObject(member.userid))
-						member.userid = member.userid._id;
+					if(_.isObject(member.user))
+						member.user = member.user._id;
 					return member;
 				});
 
@@ -235,16 +235,16 @@ _.extend(BevyStore, {
 				// remove the specific user
 				members = _.reject(members, function(member) {
 					if(_.isObject(member.userid)) {
-						return member.userid._id == user._id;
+						return member.user._id == user._id;
 					} else {
-						return member.userid == user._id;
+						return member.user == user._id;
 					}
 				});
 
 				// need to create a deep clone
 				var unpopulated_members = _.map(members, function(member, key) {
-					if(_.isObject(member.userid))
-						member.userid = member.userid._id;
+					if(_.isObject(member.user))
+						member.user = member.user._id;
 					return member;
 				});
 
@@ -331,8 +331,8 @@ _.extend(BevyStore, {
 				members.push(invited_user);
 
 				var unpopulated_members = _.map(members, function(member, key) {
-					if(_.isObject(member.userid))
-						member.userid = member.userid._id;
+					if(_.isObject(member.user))
+						member.user = member.user._id;
 					return member;
 				});
 
@@ -344,7 +344,7 @@ _.extend(BevyStore, {
 				});
 
 				// simulate population
-				members[members.indexOf(invited_user)].userid = user;
+				members[members.indexOf(invited_user)].user = user;
 				bevy.set('members', members);
 
 				break;
@@ -400,8 +400,8 @@ _.extend(BevyStore, {
 		if(_.isEmpty(bevy)) return {};
 		var members = bevy.get('members');
 		var member = _.find(members, function(m) {
-			if(!m.userid || !_.isObject(m.userid)) return false;
-			return m.userid._id == user._id;
+			if(!m.user || !_.isObject(m.user)) return false;
+			return m.user._id == user._id;
 		});
 		return (member == undefined)
 		? {}

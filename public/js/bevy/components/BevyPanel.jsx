@@ -63,25 +63,9 @@ var BevyPanel = React.createClass({
 		this.setState({
 			name: bevy.get('name'),
 			description: bevy.get('description'),
-			image_url: bevy.get('image_url')
+			image_url: bevy.get('image_url'),
+			activeMember: nextProps.activeMember
 		});
-
-		if(!_.isEmpty(bevy)) {
-			var members = bevy.get('members');
-			var member = _.find(members, function(m) {
-				var user = window.bootstrap.user;
-				if(!m.userid || !_.isObject(m.userid)) return false;
-				return m.userid._id == user._id;
-			});
-			if(member) {
-				this.setState({
-					activeMember: member
-				});
-			} else {
-				// you don't belong here!
-				// add member
-			}
-		}
 	},
 
 	startEditing: function(ev) {

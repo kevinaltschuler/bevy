@@ -63,8 +63,8 @@ var CommentItem = React.createClass({
 		? author.google.name.givenName + ' ' + author.google.name.familyName
 		: author.email;
 
-		var profileImage = (!_.isEmpty(author.google.photos))
-		? author.google.photos[0].value
+		var profileImage = (author.image_url)
+		? author.image_url
 		: defaultProfileImage;
 
 		var replyText = (this.state.isReplying)

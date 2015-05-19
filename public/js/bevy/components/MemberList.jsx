@@ -34,8 +34,8 @@ var MemberList = React.createClass({
 			var active = false;
 
 			if(_.isObject(this.props.activeMember)) {
-				if(_.isObject(contact.userid)) {
-					if(contact.userid._id == this.props.activeMember._id) active = true;
+				if(_.isObject(contact.user)) {
+					if(contact.user._id == this.props.activeMember._id) active = true;
 				}
 			}
 

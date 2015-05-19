@@ -35,11 +35,11 @@ exports.index = function(req, res, next) {
 	var userid = req.params.userid;
 	var query = {};
 	if (userid) {
-		query = { members: { $elemMatch: { userid: userid } } };
+		query = { members: { $elemMatch: { user: userid } } };
 	}
 
 	var promise = Bevy.find(query)
-		.populate('members.userid')
+		.populate('members.user')
 		.exec();
 	promise.then(function(bevies) {
 		res.json(bevies);
