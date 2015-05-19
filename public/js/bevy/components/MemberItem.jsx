@@ -29,7 +29,7 @@ var MemberItem = React.createClass({
 		ev.preventDefault();
 
 		var bevy_id = this.props.activeBevy.id;
-		var user_id = (_.isObject(this.props.contact.userid)) ? this.props.contact.userid._id : null;
+		var user_id = (_.isObject(this.props.contact.user)) ? this.props.contact.user._id : null;
 
 		BevyActions.removeUser(bevy_id, this.props.contact.email, user_id);
 	},
@@ -43,13 +43,13 @@ var MemberItem = React.createClass({
 		};
 
 		var contactName = this.props.contact.email || "Placeholder Contact";
-		var joined = (_.isEmpty(this.props.contact.userid)) ? false : true;
+		var joined = (_.isEmpty(this.props.contact.user)) ? false : true;
 
 		var contactStatus = '';
 		if(!joined) contactStatus = '[invited]';
-		else contactStatus = (this.props.contact.userid.google)
-		? this.props.contact.userid.google.name.givenName + ' ' + this.props.contact.userid.google.name.familyName
-		: this.props.contact.userid.email;
+		else contactStatus = (this.props.contact.user.google)
+		? this.props.contact.user.google.name.givenName + ' ' + this.props.contact.user.google.name.familyName
+		: this.props.contact.user.email;
 
 		var removeButton = '';
 		if(!_.isEmpty(this.props.activeMember)) {

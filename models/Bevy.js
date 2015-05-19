@@ -23,7 +23,7 @@ var BevySchema = new Schema({
 	  	email: {
 	  	  	type: String
 	  	},
-	  	userid: {
+	  	user: {
 	  		type: Schema.Types.ObjectId,
 	  		ref: 'User'
 	  	},
