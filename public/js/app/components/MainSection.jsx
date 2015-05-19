@@ -24,6 +24,7 @@ var NewPostPanel = require('./../../post/components/NewPostPanel.jsx')
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
+var UserStore = require('./../../profile/UserStore');
 
 var AppActions = require('./../../app/AppActions');
 

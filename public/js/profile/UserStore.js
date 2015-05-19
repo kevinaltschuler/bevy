@@ -5,6 +5,8 @@ var Backbone = require('backbone');
 var $ = require('jquery');
 var _ = require('underscore');
 
+var Dispatcher = require('./../shared/dispatcher');
+
 var constants = require('./../constants');
 var USER = constants.USER;
 
@@ -19,7 +21,7 @@ _.extend(UserStore, {
 			case USER.UPDATE:
 				var image_url = payload.image_url;
 
-				$.ajax(
+				$.ajax({
 					url: constants.apiurl + '/users/' + user._id,
 					method: 'PATCH',
 					data: {
@@ -28,14 +30,14 @@ _.extend(UserStore, {
 					success: function(data) {
 
 					}
-				);
+				});
 
 				break;
 		}
 	}
 });
 
-var dispatchToken = Dispatcher.register(UserStore.handleDispatch.bind(PostStore));
+var dispatchToken = Dispatcher.register(UserStore.handleDispatch.bind(UserStore));
 UserStore.dispatchToken = dispatchToken;
 
 module.exports = UserStore;
