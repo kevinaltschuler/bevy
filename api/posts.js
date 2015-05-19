@@ -151,7 +151,7 @@ exports.frontpage = function(req, res, next) {
 	async.waterfall([
 		function(done) {
 			var user_id = req.params.userid;
-			var bevy_query = { members: { $elemMatch: { userid: user_id } } };
+			var bevy_query = { members: { $elemMatch: { user: user_id } } };
 			var bevy_promise = Bevy.find(bevy_query).exec();
 			bevy_promise.then(function(bevies) {
 				done(null, bevies);
