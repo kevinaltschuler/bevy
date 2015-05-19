@@ -85,7 +85,8 @@ var InviteModal = React.createClass({
 
 	// triggered every time a key is pressed
 	// updates the state
-	handleChange: function() {
+	handleChange: function(ev) {
+		this.onKeyUp(ev);
 	},
 
 	// used to trigger the invite action (enter key)
@@ -127,7 +128,8 @@ var InviteModal = React.createClass({
 							<TextField
 								type='text'
 								ref='addMember'
-								placeholder='Add Members...' />
+								placeholder='Add Members...'
+								onKeyUp={this.onKeyUp}/>
 						</div>
 						<div className='col-xs-2'>
 							<IconButton

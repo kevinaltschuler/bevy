@@ -256,17 +256,21 @@ var BevyPanel = React.createClass({
 								<img src={ bevyImage } />
 							</div>
 							<div className="col-xs-9 sidebar-title">
-								<span
-									className='sidebar-title-name'
-									onDoubleClick={ this.startEditing } >
-									{ name }
-								</span>
-								{ editButton }
-								<span
-									className='sidebar-title-description'
-									onDoubleClick={ this.startEditing } >
-									{ description }
-								</span>
+								<div className='row'>
+									<span
+										className='sidebar-title-name'
+										onDoubleClick={ this.startEditing } >
+										{ name }
+									</span>
+									{ editButton }
+								</div>
+								<div className='row'>
+									<span
+										className='sidebar-title-description'
+										onDoubleClick={ this.startEditing } >
+										{ description }
+									</span>
+								</div>
 							</div>
 						</div>;
 		}
