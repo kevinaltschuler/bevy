@@ -19,6 +19,7 @@ var UserSchema = new Schema({
 		type: String,
 		unique: true
 	},
+	image_url: String,
 	google: {
 		provider: String,
 		id: String,

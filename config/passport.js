@@ -68,6 +68,9 @@ module.exports = function(app) {
 						// google profile has not yet been set
 						console.log('setting users google profile');
 						user.google = profile;
+						if(profile.photos) {
+							user.image_url = user.google.photos[0].value;
+						}
 						user.save(function(err) {
 							if(err) return done(err);
 							return done(null, user);
@@ -78,6 +81,7 @@ module.exports = function(app) {
 					console.log('User', emails[0], 'doesnt exist. Creating new user...');
 					User.create({
 						token: accessToken,
+						image_url: (profile.photos) ? profile.photos[0].value : undefined,
 						email: emails[0], // use the first email as default.
 												 // let the user change this later
 						google: profile // load the entire profile object into the 'google' object

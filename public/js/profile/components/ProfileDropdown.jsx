@@ -36,9 +36,7 @@ var ProfileDropdown = React.createClass({
 	render: function() {
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
-		var profileImage = (_.isEmpty(user.google.photos))
-		 ? defaultProfileImage
-		 : user.google.photos[0].value;
+		var profileImage = (user.image_url) ? user.image_url : defaultProfileImage;
 
 		var defaultName = 'Default Name';
 		var name = user.google.displayName || defaultName;
