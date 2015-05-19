@@ -156,7 +156,6 @@ var Post = React.createClass({
 				comments={ this.props.post.comments }
 				postId={ this.props.id }
 				author={ this.props.post.author }
-				profileImage={ profileImage }
 				activeMember={ this.props.activeMember }
 			/>)
 		: '';

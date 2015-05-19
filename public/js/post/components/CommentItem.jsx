@@ -29,7 +29,6 @@ var CommentItem = React.createClass({
 
 		postId: React.PropTypes.string,
 		author: React.PropTypes.object,
-		profileImage: React.PropTypes.string,
 		activeMember: React.PropTypes.object
 	},
 
@@ -54,13 +53,19 @@ var CommentItem = React.createClass({
 
 	render: function() {
 
-		var defaultAliasImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 
 		var comment = this.props.comment;
 		var author = comment.author;
+
+		//console.log(author);
 		var authorName = (author.google)
 		? author.google.name.givenName + ' ' + author.google.name.familyName
 		: author.email;
+
+		var profileImage = (!_.isEmpty(author.google.photos))
+		? author.google.photos[0].value
+		: defaultProfileImage;
 
 		var replyText = (this.state.isReplying)
 		? 'close'
@@ -88,7 +93,7 @@ var CommentItem = React.createClass({
 
 		return (<div className="row comment">
 					<div className='col-xs-10'>
-						<img className="profile-img" src={ this.props.profileImage }/>
+						<img className="profile-img" src={ profileImage }/>
 						<div className="comment-text">
 							<div className="comment-title">
 								<a className="comment-name">{ authorName }</a>
