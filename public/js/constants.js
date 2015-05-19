@@ -70,6 +70,10 @@ exports.BEVY = {
 	UPDATED_IMAGE: 'bevy_updated_image'
 };
 
+exports.USER = {
+	UPDATE: 'user_update'
+};
+
 exports.NOTIFICATION = {
 	  DISMISS: 'notification_dismiss',
 

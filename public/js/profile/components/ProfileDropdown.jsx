@@ -23,26 +23,59 @@ var FlatButton = mui.FlatButton;
 
 var SavedPostsModal = require('./../../profile/components/SavedPostsModal.jsx');
 var ContactsModal = require('./../../profile/components/ContactsModal.jsx');
+var Uploader = require('./../../shared/components/Uploader.jsx');
+
+var UserActions = require('./../UserActions');
+var constants = require('./../../constants');
 
 var user = window.bootstrap.user;
 var email = user.email;
 
+var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+
 var ProfileDropdown = React.createClass({
 
-	propTypes: {
+	getInitialState: function() {
+		return {
+			image_url: (user.image_url) ? user.image_url : defaultProfileImage
+		}
+	},
 
+	onUploadComplete: function(file) {
+		//console.log(file);
+		var filename = file.filename;
+		var image_url = constants.apiurl + '/files/' + filename;
+		this.setState({
+			image_url: image_url
+		});
+
+		UserActions.update(image_url);
 	},
 
 	render: function() {
 
-		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
-		var profileImage = (user.image_url) ? user.image_url : defaultProfileImage;
-
 		var defaultName = 'Default Name';
 		var name = user.google.displayName || defaultName;
 
+		var profileImage = (_.isEmpty(this.state.image_url)) ? defaultProfileImage : this.state.image_url;
+		var profileImageStyle= {
+			backgroundImage: 'url(' + profileImage + ')',
+			backgroundSize: '100% 100%',
+			display: 'inline-block',
+			borderRadius: '50px',
+			width: '75px',
+			height: '75px',
+		};
+
 		var buttonStyle = {
 			backgroundImage: 'url(' + profileImage + ')'
+		};
+
+		var dropzoneOptions = {
+			maxFiles: 1,
+			acceptedFiles: 'image/*',
+			clickable: '.dropzone-panel-button',
+			dictDefaultMessage: ' ',
 		};
 
 		return <OverlayTrigger trigger="click" placement="bottom" overlay={
@@ -50,7 +83,12 @@ var ProfileDropdown = React.createClass({
 
 						<div className="row profile-top">
 							<div className="col-xs-3 profile-picture">
-								<img src={ profileImage }/>
+								<Uploader
+									onUploadComplete={ this.onUploadComplete }
+									className="bevy-image-dropzone"
+									style={ profileImageStyle }
+									dropzoneOptions={ dropzoneOptions }
+								/>
 							</div>
 							<div className="col-xs-6 profile-details">
 								<span className='profile-name'>{ name }</span>
