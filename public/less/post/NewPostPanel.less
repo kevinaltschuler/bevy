@@ -63,6 +63,21 @@
 			float: left;
 			margin-top: 0px;
 			margin-bottom: 10px;
+			.mui-raised-button {
+			float: right;
+			margin-right: 10px;
+			.mui-paper-container {
+				.mui-raised-button-container {
+					background-color: @bevy-green;
+					color: white;
+					div {
+						.mui-raised-button-label {
+							color: white;
+						}
+					}
+				}
+			}
+		}
 		}
 		.panel-controls-left {
 			float: left;
@@ -71,9 +86,11 @@
 		      width: 45px;
 		      height: 45px;
 		      display: inline-block;
+		      margin-left: 10px;
+		      margin-top: -10px;
 		    }
 		    .mui-floating-action-button .mui-floating-action-button-container {
-		      background-color: #999999;
+		      background-color: @bevy-green;
 		      width: 45px;
 		      height: 45px;
 		      .mui-floating-action-button-icon {
@@ -90,20 +107,7 @@
 				}
 			}
 		}
-		.mui-raised-button {
-			float: right;
-			.mui-paper-container {
-				.mui-raised-button-container {
-					background-color: @bevy-green;
-					color: white;
-					div {
-						.mui-raised-button-label {
-							color: white;
-						}
-					}
-				}
-			}
-		}
+
 	}
 	.mui-text-field {
 		margin-bottom: 5px;
