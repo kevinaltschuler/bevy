@@ -24,11 +24,10 @@ var ImageForModal = React.createClass({
 
 	handleClickOutside: function(ev) {
 		this.props.onRequestHide();
-		console.log('nigs');
 	},
 
 	render: function() {
-		return  <img src={ this.props.url }/>    
+		return  <img src={ this.props.url }/>
 	}
 });
 
