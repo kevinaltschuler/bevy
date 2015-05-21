@@ -284,7 +284,9 @@ var BevyPanel = React.createClass({
 		} else {
 			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
-								<img src={ bevyImage } />
+								<div className="image-wrapper">
+									<img src={ bevyImage } />
+								</div>
 							</div>
 							<div className="col-xs-9 sidebar-title">
 								<div className='row'>

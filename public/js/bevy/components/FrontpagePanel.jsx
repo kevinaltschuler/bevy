@@ -13,9 +13,11 @@ var FrontpagePanel = React.createClass({
 		return (<div className='right-sidebar panel frontpage'>
 					<div className="row sidebar-top">
 						<div className="col-xs-3 sidebar-picture frontpage">
-							<img src={ bevyImage } />
+							<div className='image-wrapper'>
+								<img src={ bevyImage } />
+							</div>
 						</div>
-						<div className="col-xs-9 sidebar-title">
+						<div className="col-xs-9 sidebar-title frontpage">
 							<span
 								className='sidebar-title-name'>
 								{ name }
