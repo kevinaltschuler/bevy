@@ -181,12 +181,14 @@ var Post = React.createClass({
 
 		return <div className="post panel" postId={ this.props.post._id }>
 					<div className='panel-header'>
-						<img className='profile-img' src={profileImage}/>
-						<span className="details">{ author }</span>
-						&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
-						<span className="details">{ this.props.post.bevy.name }</span>
-						<span className="dot">&nbsp; • &nbsp;</span>
-						<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
+						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
+						<div className='post-details'>
+							<span className="details">{ author }</span>
+							&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
+							<span className="details">{ this.props.post.bevy.name }</span>
+							<span className="dot">&nbsp; • &nbsp;</span>
+							<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
+						</div>
 					</div>
 
 					{ panelBody }

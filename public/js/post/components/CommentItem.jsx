@@ -107,7 +107,7 @@ var CommentItem = React.createClass({
 
 		return (<div className="row comment">
 					<div className='col-xs-10'>
-						<img className="profile-img" src={ profileImage }/>
+						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<div className="comment-text">
 							<div className="comment-title">
 								<a className="comment-name">{ authorName }</a>

@@ -53,7 +53,6 @@ var CommentSubmit = React.createClass({
 
 	onKeyPress: function(ev) {
 		if(ev.which == 13) { // enter key
-			//console.log('submit');
 			this.submit();
 		}
 	},
@@ -69,7 +68,7 @@ var CommentSubmit = React.createClass({
 
 		return (<div className="panel-comment-input">
 						<div className="profile-overlay"/>
-						<img className="profile-img" src={ this.props.profileImage }/>
+						<div className='profile-img' style={{backgroundImage: 'url(' + this.props.profileImage + ')',}}/>
 						<TextField
 							className="panel-comment-textfield"
 							hintText="Write a Comment"
