@@ -107,7 +107,6 @@ var NewPostPanel = React.createClass({
 	},
 
 	onUploadComplete: function(file) {
-		console.log(file);
 		var filename = file.filename;
 		var image_url = constants.apiurl + '/files/' + filename;
 		var images = this.state.images;

@@ -29,7 +29,8 @@ var CommentItem = React.createClass({
 
 		postId: React.PropTypes.string,
 		author: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		activeMember: React.PropTypes.object,
+		members: React.PropTypes.array
 	},
 
 	getInitialState: function() {
@@ -51,6 +52,14 @@ var CommentItem = React.createClass({
 		CommentActions.destroy(this.props.postId, this.props.comment._id);
 	},
 
+	findMember: function(user_id) {
+		var members = this.props.members;
+		return _.find(members, function(member) {
+			if(member.user == user_id) return true;
+			else return false;
+		});
+	},
+
 	render: function() {
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
@@ -62,6 +71,11 @@ var CommentItem = React.createClass({
 		var authorName = (author.google)
 		? author.google.name.givenName + ' ' + author.google.name.familyName
 		: author.email;
+
+		var authorMember = this.findMember(this.props.author._id);
+		if(authorMember) {
+			if(!_.isEmpty(authorMember.displayName)) authorName = authorMember.displayName;
+		}
 
 		var profileImage = (author.image_url)
 		? author.image_url

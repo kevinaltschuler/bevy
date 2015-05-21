@@ -44,11 +44,13 @@ var PostActions = {
 		});
 	},
 
-	setNotificationLevel: function(bevy_id, user_id, level) {
-		dispatch(BEVY.SET_NOTIFICATION_LEVEL, {
+	editMember: function(bevy_id, user_id, displayName, notificationLevel, role) {
+		dispatch(BEVY.EDIT_MEMBER, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
 			user_id: (user_id == undefined) ? '' : user_id,
-			level: (level == undefined) ? 'never' : level
+			displayName: (displayName == undefined) ? '' : displayName,
+			notificationLevel: (notificationLevel == undefined) ? 'all' : notificationLevel,
+			role: (role == undefined) ? 'user' : role
 		});
 	},
 

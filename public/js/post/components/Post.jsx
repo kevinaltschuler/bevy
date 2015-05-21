@@ -95,13 +95,12 @@ var Post = React.createClass({
 		return sum;
 	},
 
-	expand: function(ev) {
-		ev.preventDefault();
-
-		//var parent = $(ev.target).parent();
-		//if(parent.hasClass('focus')) parent.removeClass('focus');
-		//else parent.addClass('focus');
-
+	findMember: function(user_id) {
+		var members = this.props.post.bevy.members;
+		return _.find(members, function(member) {
+			if(member.user == user_id) return true;
+			else return false;
+		});
 	},
 
 	render: function() {
@@ -118,6 +117,11 @@ var Post = React.createClass({
 				author = this.props.post.author.google.name.givenName + ' ' + this.props.post.author.google.name.familyName;
 			else
 				author = this.props.post.author.email;
+		}
+
+		var authorMember = this.findMember(this.props.post.author._id);
+		if(authorMember) {
+			if(!_.isEmpty(authorMember.displayName)) author = authorMember.displayName;
 		}
 
 		var postTitle = (<span>{ this.props.post.title } &nbsp; </span>)
@@ -157,6 +161,7 @@ var Post = React.createClass({
 				postId={ this.props.id }
 				author={ this.props.post.author }
 				activeMember={ this.props.activeMember }
+				members={ this.props.post.bevy.members }
 			/>)
 		: '';
 

@@ -55,13 +55,13 @@ exports.BEVY = {
 	CREATE: 'bevy_create',
 	DESTROY: 'bevy_destroy',
 	UPDATE: 'bevy_update',
-	SET_NOTIFICATION_LEVEL: 'bevy_set_notification_level',
 	LEAVE: 'bevy_leave',
 	SWITCH: 'bevy_switch',
 	INVITE: 'bevy_invite',
 	ADD_USER: 'bevy_add_user',
 	REMOVE_USER: 'bevy_remove_user',
 	JOIN: 'bevy_join',
+	EDIT_MEMBER: 'bevy_edit_member',
 
 	FETCH: 'bevy_fetch',
 

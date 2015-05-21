@@ -77,7 +77,7 @@ var PostSort = React.createClass({
 			var className = 'sort-btn btn';
 			// if this type matches the current sorting mechanism (stored in the state)
 			// make it active
-			if(type === this.state.by) className += ' active';
+			if(type === this.state.by.trim()) className += ' active';
 
 			// the dot that separates types
 			// don't generate for the last one

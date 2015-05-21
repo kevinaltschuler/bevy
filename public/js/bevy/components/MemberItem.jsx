@@ -57,6 +57,8 @@ var MemberItem = React.createClass({
 		? this.props.contact.user.google.name.givenName + ' ' + this.props.contact.user.google.name.familyName
 		: this.props.contact.user.email;
 
+		if(this.props.contact.displayName) contactStatus = this.props.contact.displayName;
+
 		var removeButton = '';
 		if(!_.isEmpty(this.props.activeMember)) {
 			if(this.props.activeMember.role == 'admin')
