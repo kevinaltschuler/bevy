@@ -112,7 +112,7 @@ var Post = React.createClass({
 	stopEdit: function(ev) {
 		ev.preventDefault();
 
-		var postTitle = this.state.postTitle;
+		var postTitle = this.state.title;
 
 		PostActions.update(this.props.post._id, postTitle);
 
@@ -160,7 +160,7 @@ var Post = React.createClass({
 
 		var panelBodyText;
 		if(this.state.isEditing) {
-			panelBodyText = 
+			panelBodyText =
 			(<div className='panel-body-text'>
 				<TextField
 					type='text'

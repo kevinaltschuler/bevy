@@ -137,7 +137,11 @@ _.extend(PostStore, {
 
 				post.set('title', title);
 
-				post.save({ title: title }, { patch: true });				
+				post.save({
+					title: title
+				}, {
+					patch: true
+				});
 
 				this.trigger(POST.CHANGE_ALL);
 				break;
