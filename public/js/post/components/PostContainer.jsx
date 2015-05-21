@@ -21,8 +21,7 @@ var PostContainer = React.createClass({
 	// see App.jsx and PostStore.js for more details
 	propTypes: {
 		allPosts: React.PropTypes.array,
-		activeMember: React.PropTypes.object,
-		members: React.PropTypes.array
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -53,7 +52,6 @@ var PostContainer = React.createClass({
 					key={ post._id }
 					post={ post }
 					activeMember={ this.props.activeMember }
-					members={ this.props.members }
 				/>
 			);
 		}

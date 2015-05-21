@@ -49,8 +49,7 @@ var Post = React.createClass({
 	propTypes: {
 		id: React.PropTypes.string.isRequired,
 		post: React.PropTypes.object,
-		activeMember: React.PropTypes.object,
-		members: React.PropTypes.array
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -162,7 +161,7 @@ var Post = React.createClass({
 				postId={ this.props.id }
 				author={ this.props.post.author }
 				activeMember={ this.props.activeMember }
-				members={ this.props.members }
+				members={ this.props.post.bevy.members }
 			/>)
 		: '';
 

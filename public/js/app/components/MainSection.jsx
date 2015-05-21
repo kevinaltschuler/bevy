@@ -135,7 +135,6 @@ var MainSection = React.createClass({
 								<PostContainer
 									allPosts={ this.state.allPosts }
 									activeMember={ this.state.activeMember }
-									members={ this.state.members }
 								/>
 								<RightSidebar
 									activeBevy={ this.state.activeBevy }
