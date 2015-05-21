@@ -49,6 +49,13 @@ var PostActions = {
 		});
 	},
 
+	update: function(post_id, postTitle) {
+		dispatch(POST.UPDATE, {
+			post_id: (post_id == undefined) ? '0' : post_id,
+			postTitle: (postTitle == undefined) ? '' : postTitle
+		});
+	},
+
 	/**
 	 * upvote a post
 	 * @param  {string} post_id

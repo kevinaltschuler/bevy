@@ -53,18 +53,16 @@ var Post = React.createClass({
 	},
 
 	getInitialState: function() {
-		return {};
+		return {
+			isEditing: false,
+			title: this.props.post.title
+		};
 	},
 
-	componentDidMount:function() {
-		PostStore.on(POST.CHANGE_ONE, this._onPostChange);
-	},
-	componentWillUnmount: function() {
-		PostStore.off(POST.CHANGE_ONE, this._onPostChange);
-	},
-
-	_onPostChange: function() {
-		this.setState(getPostState(this.props.id));
+	onChange: function(ev) {
+		this.setState({
+			title: this.refs.title.getValue()
+		});
 	},
 
 	upvote: function(ev) {
@@ -103,6 +101,26 @@ var Post = React.createClass({
 		});
 	},
 
+	startEdit: function(ev) {
+		ev.preventDefault();
+
+		this.setState({
+			isEditing: true
+		});
+	},
+
+	stopEdit: function(ev) {
+		ev.preventDefault();
+
+		var postTitle = this.state.postTitle;
+
+		PostActions.update(this.props.post._id, postTitle);
+
+		this.setState({
+			isEditing: false
+		});
+	},
+
 	render: function() {
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
@@ -124,8 +142,6 @@ var Post = React.createClass({
 			if(!_.isEmpty(authorMember.displayName)) author = authorMember.displayName;
 		}
 
-		var postTitle = (<span>{ this.props.post.title } &nbsp; </span>)
-
 		var images = [];
 		if(!_.isEmpty(this.props.post.images)) {
 			var allImages = this.props.post.images;
@@ -142,18 +158,30 @@ var Post = React.createClass({
 			}
 		}
 
-		var panelBody = (_.isEmpty(this.props.post.images))
-		? (<div className='panel-body'>
-				<div className='panel-body-text'>
-					{ postTitle }
-				</div>
+		var panelBodyText;
+		if(this.state.isEditing) {
+			panelBodyText = 
+			(<div className='panel-body-text'>
+				<TextField
+					type='text'
+					ref='title'
+					defaultValue={ this.state.title  }
+					value={ this.state.title  }
+					placeholder=' '
+					onChange={ this.onChange }
+				/>
+				<IconButton
+					className="save-button"
+					tooltip='save changes'
+					onClick={ this.stopEdit }>
+					<span className="glyphicon glyphicon-heart-empty"></span>
+				</IconButton>
 			</div>)
-		: (<div className='panel-body'>
-				<div className='panel-body-text'>
-					{ postTitle }
-				</div>
-				{ images }
-			</div>)
+		} else {
+			panelBodyText = (<div className='panel-body-text'>
+								{ this.state.title  }
+							</div>);
+		}
 
 		var commentList = (this.props.post.comments)
 		? (<CommentList
@@ -179,6 +207,16 @@ var Post = React.createClass({
 				);
 		}
 
+		var editButton = '';
+		if(!_.isEmpty(this.props.activeMember)) {
+			if(this.props.activeMember.role == 'admin' || this.props.post.author._id == user._id)
+				deleteButton = (
+					<MenuItem onClick={ this.startEdit } >
+						Edit Post
+					</MenuItem>
+				);
+		}
+
 		return <div className="post panel" postId={ this.props.post._id }>
 					<div className='panel-header'>
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
@@ -191,7 +229,12 @@ var Post = React.createClass({
 						</div>
 					</div>
 
-					{ panelBody }
+				<div className='panel-body'>
+					{ panelBodyText }
+				</div>
+				<div className='panel-body'>
+					{ images }
+				</div>
 
 					<div className="panel-comments">
 						<div className="comment-count">
@@ -224,6 +267,7 @@ var Post = React.createClass({
 								className="post-settings"
 								title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
 								{ deleteButton }
+								{ editButton }
 							</DropdownButton>
 						</div>
 					</div>

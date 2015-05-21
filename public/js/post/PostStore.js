@@ -129,6 +129,19 @@ _.extend(PostStore, {
 
 				break;
 
+			case POST.UPDATE:
+				var post_id = payload.post_id;
+				var title = payload.postTitle;
+
+				var post = this.posts.get(post_id);
+
+				post.set('title', title);
+
+				post.save({ title: title }, { patch: true });				
+
+				this.trigger(POST.CHANGE_ALL);
+				break;
+
 			case POST.UPVOTE:
 				var post_id = payload.post_id;
 				var author = payload.author;

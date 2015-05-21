@@ -36,6 +36,7 @@ exports.POST = {
 	DOWNVOTE: 'post_downvote',
 	SORT: 'post_sort',
 	CANCEL: 'post_cancel',
+	UPDATE: 'post_update',
 
 	FETCH: 'post_fetch',
 
