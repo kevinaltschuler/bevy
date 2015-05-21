@@ -69,14 +69,14 @@ var MemberItem = React.createClass({
 
 		return <div className="row">
 
-					<div className='col-xs-3'>
+					<div className='col-xs-2'>
 						<Button
-							className=''
+							className='contact-btn'
 							style={ contactButtonStyle }
 						/>
 					</div>
 
-					<div className='col-xs-4'>
+					<div className='col-xs-5'>
 						<span className="">
 							{ contactName }
 						</span>

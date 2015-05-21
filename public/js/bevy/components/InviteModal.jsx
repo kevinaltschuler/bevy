@@ -124,19 +124,15 @@ var InviteModal = React.createClass({
 					</div>
 
 					<div className="row">
-						<div className='col-xs-8'>
 							<TextField
 								type='text'
 								ref='addMember'
 								placeholder='Add Members...'
 								onKeyUp={this.onKeyUp}/>
-						</div>
-						<div className='col-xs-2'>
 							<IconButton
 								iconClassName="glyphicon glyphicon-plus"
 								onClick={ this.addMember }
 								label='Add Member'/>
-						</div>
 					</div>
 
 					<div className='row'>

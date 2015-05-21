@@ -20,6 +20,7 @@ var MenuItem = rbs.MenuItem;
 
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
+var TextField = mui.TextField;
 
 var SavedPostsModal = require('./../../profile/components/SavedPostsModal.jsx');
 var ContactsModal = require('./../../profile/components/ContactsModal.jsx');
@@ -52,6 +53,12 @@ var ProfileDropdown = React.createClass({
 		UserActions.update(image_url);
 	},
 
+	onChange: function(ev) {
+		this.setState({
+			name: this.refs.name.getValue(),
+		});
+	},
+
 	render: function() {
 
 		var defaultName = 'Default Name';
@@ -82,7 +89,7 @@ var ProfileDropdown = React.createClass({
 					<Popover>
 
 						<div className="row profile-top">
-							<div className="col-xs-3 profile-picture">
+							<div className="col-xs-3 profile-picture overlay">
 								<Uploader
 									onUploadComplete={ this.onUploadComplete }
 									className="bevy-image-dropzone"
@@ -91,7 +98,15 @@ var ProfileDropdown = React.createClass({
 								/>
 							</div>
 							<div className="col-xs-6 profile-details">
-								<span className='profile-name'>{ name }</span>
+								<TextField
+									type='text'
+									className='profile-name'
+									ref='name'
+									defaultValue={ name }
+									value={ name }
+									placeholder='Username'
+									onChange={ this.onChange }
+								/>
 								<span className='profile-email'>{ email }</span>
 								<span className='profile-points'>123 points</span>
 							</div>

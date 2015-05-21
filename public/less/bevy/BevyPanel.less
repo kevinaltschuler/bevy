@@ -92,8 +92,8 @@
 	.row.sidebar-links {
 		color: @light-font;
 		font-size: .9em;
-		margin-top: 15px;
-		padding-left: 60px;
+		padding-left: 85px;
+		margin-bottom: 20px;
 		span {
 			float: left;
 			padding: 0 5px;
@@ -120,7 +120,7 @@
 	}
 
 	.row.sidebar-action {
-		margin-top: 20px;
+		margin-top: 0px;
 		margin-left: 5px;
 		.sidebar-action-title {
 			margin-left: 10px;
@@ -149,8 +149,24 @@
 			}
 		}
 		.sidebar-action-dropdown {
-			margin-left: 40px;
+			margin-left: 20px;
 			margin-top: 5px;
+		}
+		&.name-edit-action {
+			.mui-text-field {
+				width: 50%;
+				margin-left: 40px;
+				.mui-text-field-focus-underline {
+					border-color: rgba(0,0,0,.5);
+				}
+			}
+			.sidebar-posting-name {
+				margin-left: 40px;
+				color: @light-font;
+			}
+			.edit-button {
+				color: @light-font;
+			}
 		}
 	}
 	.row.sidebar-bottom {
@@ -158,7 +174,6 @@
 		.sidebar-action-link-bottom {
 			margin-top: 20px;
 			margin-bottom: 15px;
-			margin-left: auto;
 			margin-right: auto;
 			padding: 0 5px;
 			background-color: rgba(0,0,0,0);

@@ -31,6 +31,7 @@ var RaisedButton = mui.RaisedButton;
 
 var InviteModal = require('./InviteModal.jsx');
 var MemberModal = require('./MemberModal.jsx');
+var BevySettingsModal = require('./BevySettingsModal.jsx');
 
 var BevyActions = require('./../BevyActions');
 
@@ -53,7 +54,8 @@ var BevyPanel = React.createClass({
 			description: '',
 			image_url: '',
 			activeMember: null,
-			isEditing: false
+			isEditing: false,
+			isEditingName: false,
 		};
 	},
 
@@ -86,6 +88,18 @@ var BevyPanel = React.createClass({
 		this.setState({
 			isEditing: false
 		});
+	},
+
+	startEditingName: function(ev) {
+		this.setState({
+			isEditingName: true
+		})
+	},
+
+	stopEditingName: function(ev) {
+		this.setState({
+			isEditingName: false
+		})
 	},
 
 	onUploadComplete: function(file) {
@@ -275,14 +289,65 @@ var BevyPanel = React.createClass({
 						</div>;
 		}
 
-		var destroyButton = '';
+		var nameEditAction;
+		if (this.state.isEditingName) {
+			nameEditAction = <div className='row sidebar-action name-edit-action'>
+								<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+								<TextField
+										type='text'
+										ref='name'
+										defaultValue= 'kevin blatluer'
+								/>
+								<IconButton
+									className="save-button"
+									tooltip='save changes'
+									onClick={ this.stopEditingName }>
+									<span className="glyphicon glyphicon-heart-empty"></span>
+								</IconButton>
+							</div>
+		} else {
+			nameEditAction = <div className='row sidebar-action name-edit-action'>
+								<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+								<span className='sidebar-posting-name'>
+									Kevin Blaltuler
+								</span>
+								<IconButton
+									className="edit-button"
+									tooltip='edit name'
+									onClick={ this.startEditingName }>
+									<span className="glyphicon glyphicon-pencil"></span>
+								</IconButton>
+							</div>
+		}
+
 		if(this.state.activeMember) {
-			destroyButton = (this.state.activeMember.role == 'admin')
-			? (<Button className="sidebar-action-link-bottom"
-					onClick={ this.destroy }>
-					Delete Bevy
-				</Button>)
-			: '';
+		var bottomActions = (this.state.activeMember.role == 'admin')
+		? (<div className='row sidebar-bottom'>
+				<div className='col-xs-6'>
+					<Button className="sidebar-action-link-bottom">
+						Bevy Settings
+					</Button>
+				</div>
+				<div className='col-xs-6'>
+					<ModalTrigger modal={<BevySettingsModal activeBevy={this.props.activeBevy} />}>
+						<Button className="sidebar-action-link-bottom"
+							onClick={ this.destroy }>
+							Delete Bevy
+						</Button>
+					</ModalTrigger>
+				</div>
+			</div>) 
+		: (<div className='row sidebar-bottom'>
+				<div className='col-xs-6'>
+					{/* user settings */}
+				</div>
+				<div className='col-xs-6'>
+					 <Button className="sidebar-action-link-bottom"
+						onClick={ this.leave }>
+						Leave Bevy
+					  </Button> 
+				</div>
+			</div>)
 		}
 
 
@@ -316,13 +381,7 @@ var BevyPanel = React.createClass({
 						</ButtonGroup>
 					</div>
 
-					<div className='row sidebar-action'>
-						<div className="sidebar-action-title col-xs-12"> Posting As... </div>
-						<span
-							className='sidebar-posting-name'>
-						</span>
-						{ editButton }
-					</div>
+					{ nameEditAction }
 
 					<div className='row sidebar-action'>
 						<div className="sidebar-action-title col-xs-12"> Notifications </div>
@@ -334,17 +393,7 @@ var BevyPanel = React.createClass({
 						/>
 					</div>
 
-					<div className='row sidebar-bottom'>
-						<div className='col-xs-6'>
-							<Button className="sidebar-action-link-bottom"
-								onClick={ this.leave }>
-								Leave Bevy
-							</Button>
-						</div>
-						<div className='col-xs-6'>
-							{ destroyButton }
-						</div>
-					</div>
+					{bottomActions}
 
 				 </ButtonGroup>
 	}
