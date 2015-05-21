@@ -412,6 +412,7 @@ _.extend(BevyStore, {
 
 	getMembers: function() {
 		var bevy = this.getActive();
+		if(_.isEmpty(bevy)) return [];
 		var members = bevy.get('members');
 		return members;
 	}

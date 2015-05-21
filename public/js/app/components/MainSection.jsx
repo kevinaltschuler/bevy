@@ -50,7 +50,7 @@ function getBevyState() {
 	var activeMember = BevyStore.getActiveMember();
 	var members = BevyStore.getMembers();
 
-	//console.log(activeMember);
+	//console.log(members);
 
 	return {
 		// later, load this from session/cookies
