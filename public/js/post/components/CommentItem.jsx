@@ -95,13 +95,12 @@ var CommentItem = React.createClass({
 		: <div />;
 
 		var deleteButton = '';
-		if(!_.isEmpty(this.props.activeMember)) {
-			if(this.props.activeMember.role == 'admin' || comment.author._id == user._id)
-				deleteButton = (
-					<MenuItem onClick={ this.destroy } >
-						Delete Comment
-					</MenuItem>);
-		}
+		var activeMember = this.findMember(user._id);
+		if(this.props.activeMember.role == 'admin' || comment.author._id == user._id)
+			deleteButton = (
+				<MenuItem onClick={ this.destroy } >
+					Delete Comment
+				</MenuItem>);
 
 		//console.log(comment.author._id, user._id, (comment.author._id == user._id));
 

@@ -170,8 +170,9 @@ var Post = React.createClass({
 		: 0;
 
 		var deleteButton = '';
-		if(!_.isEmpty(this.props.activeMember)) {
-			if(this.props.activeMember.role == 'admin' || this.props.post.author._id == user._id)
+		var activeMember = this.findMember(user._id);
+		if(!_.isEmpty(activeMember)) {
+			if(activeMember.role == 'admin' || this.props.post.author._id == user._id)
 				deleteButton = (
 					<MenuItem onClick={ this.destroy } >
 						Delete Post
