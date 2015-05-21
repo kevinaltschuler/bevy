@@ -142,25 +142,27 @@ _.extend(BevyStore, {
 
 				break;
 
-			case BEVY.SET_NOTIFICATION_LEVEL:
-
+			case BEVY.EDIT_MEMBER:
 				var bevy_id = payload.bevy_id;
 				var user_id = payload.user_id;
-				var level = payload.level;
+				var displayName = payload.displayName;
+				var notificationLevel = payload.notificationLevel;
+				var role = payload.role;
 
 				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
 
-				// set level
 				members = _.map(members, function(member) {
 					if(member.user._id == user_id) {
-						member.notificationLevel = level;
+						member.displayName = displayName;
+						member.notificationLevel = notificationLevel;
+						member.role = role;
 						return member;
 					} else return member;
 				});
 
 				// unpopulate member aliasid
-				var unpopulated_members = _.map(members, function(member, key) {
+				var unpopulated_members = _.map(members, function(member) {
 					if(_.isObject(member.user))
 						member.user = member.user._id;
 					return member;

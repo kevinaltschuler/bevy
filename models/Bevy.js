@@ -27,6 +27,9 @@ var BevySchema = new Schema({
 	  		type: Schema.Types.ObjectId,
 	  		ref: 'User'
 	  	},
+	  	displayName: {
+	  		type: String
+	  	},
 	  	notificationLevel: {
 	  		type: String,
 	  		default: 'all'

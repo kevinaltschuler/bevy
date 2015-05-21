@@ -53,6 +53,7 @@ var BevyPanel = React.createClass({
 			name: '',
 			description: '',
 			image_url: '',
+			displayName: '',
 			activeMember: null,
 			isEditing: false,
 			isEditingName: false,
@@ -66,7 +67,8 @@ var BevyPanel = React.createClass({
 			name: bevy.get('name'),
 			description: bevy.get('description'),
 			image_url: bevy.get('image_url'),
-			activeMember: nextProps.activeMember
+			activeMember: nextProps.activeMember,
+			displayName: (nextProps.activeMember && nextProps.activeMember.displayName) ? nextProps.activeMember.displayName : 'no display name'
 		});
 	},
 
@@ -97,9 +99,23 @@ var BevyPanel = React.createClass({
 	},
 
 	stopEditingName: function(ev) {
+
+		var bevy_id = this.props.activeBevy.id;
+		var user_id = window.bootstrap.user._id;
+		var displayName = this.refs.displayName.getValue();
+		var notificationLevel = this.state.activeMember.notificationLevel;
+		var role = this.state.activeMember.role;
+
+		BevyActions.editMember(bevy_id, user_id, displayName, notificationLevel, role);
+
+		// update locally
+		var activeMember = this.state.activeMember;
+		activeMember.displayName = displayName;
 		this.setState({
-			isEditingName: false
-		})
+			isEditingName: false,
+			displayName: displayName,
+			activeMember: activeMember
+		});
 	},
 
 	onUploadComplete: function(file) {
@@ -130,16 +146,18 @@ var BevyPanel = React.createClass({
 	setNotificationLevel: function(ev, selectedIndex, menuItem) {
 		ev.preventDefault();
 
+		var activeMember = this.state.activeMember;
+		var role = activeMember.role;
+		var displayName = activeMember.displayName;
+
 		var bevy_id = this.props.activeBevy.id;
 		var user = window.bootstrap.user;
-		var level = menuItem.payload;
+		var notificationLevel = menuItem.payload;
 
-		BevyActions.setNotificationLevel(bevy_id, user._id, level);
+		BevyActions.editMember(bevy_id, user._id, displayName, notificationLevel, role);
 
 		// now update locally
-		var activeMember = this.state.activeMember;
-		activeMember.level = level;
-
+		activeMember.notificationLevel = notificationLevel;
 		this.setState({
 			activeMember: activeMember
 		});
@@ -291,33 +309,33 @@ var BevyPanel = React.createClass({
 
 		var nameEditAction;
 		if (this.state.isEditingName) {
-			nameEditAction = <div className='row sidebar-action name-edit-action'>
-								<div className="sidebar-action-title col-xs-12"> Posting As... </div>
-								<TextField
-										type='text'
-										ref='name'
-										defaultValue= 'kevin blatluer'
-								/>
-								<IconButton
-									className="save-button"
-									tooltip='save changes'
-									onClick={ this.stopEditingName }>
-									<span className="glyphicon glyphicon-heart-empty"></span>
-								</IconButton>
-							</div>
+			nameEditAction = (<div className='row sidebar-action name-edit-action'>
+										<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+										<TextField
+												type='text'
+												ref='displayName'
+												defaultValue={ this.state.displayName }
+										/>
+										<IconButton
+											className="save-button"
+											tooltip='save changes'
+											onClick={ this.stopEditingName }>
+											<span className="glyphicon glyphicon-heart-empty"></span>
+										</IconButton>
+									</div>)
 		} else {
-			nameEditAction = <div className='row sidebar-action name-edit-action'>
-								<div className="sidebar-action-title col-xs-12"> Posting As... </div>
-								<span className='sidebar-posting-name'>
-									Kevin Blaltuler
-								</span>
-								<IconButton
-									className="edit-button"
-									tooltip='edit name'
-									onClick={ this.startEditingName }>
-									<span className="glyphicon glyphicon-pencil"></span>
-								</IconButton>
-							</div>
+			nameEditAction = (<div className='row sidebar-action name-edit-action'>
+										<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+										<span className='sidebar-posting-name'>
+											{ this.state.displayName }
+										</span>
+										<IconButton
+											className="edit-button"
+											tooltip='edit name'
+											onClick={ this.startEditingName }>
+											<span className="glyphicon glyphicon-pencil"></span>
+										</IconButton>
+									</div>)
 		}
 
 		if(this.state.activeMember) {
@@ -336,7 +354,7 @@ var BevyPanel = React.createClass({
 						</Button>
 					</ModalTrigger>
 				</div>
-			</div>) 
+			</div>)
 		: (<div className='row sidebar-bottom'>
 				<div className='col-xs-6'>
 					{/* user settings */}
@@ -345,7 +363,7 @@ var BevyPanel = React.createClass({
 					 <Button className="sidebar-action-link-bottom"
 						onClick={ this.leave }>
 						Leave Bevy
-					  </Button> 
+					  </Button>
 				</div>
 			</div>)
 		}
