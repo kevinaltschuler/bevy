@@ -11,6 +11,7 @@
   padding: 5px 5px; 
 }
   .dropzone.dz-clickable {
+    z-index: 10;
     cursor: pointer; }
     .dropzone.dz-clickable * {
       cursor: default; }
@@ -236,6 +237,64 @@
       border: none;
       background-color: rgba(0,0,0,0);
       color: #E6E6E6;
+      width: 50px;
+      height: 50px;
+      font-size: 22px;
+      &:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open{
+        outline: none;
+        box-shadow: none;
+        background-color: rgba(0,0,0,0);
+      }
+      &:active, &.active, .btn.active, .btn:active {
+        background-color: rgba(0,0,0,0);
+      }
+      span {
+        width: 50px;
+        height: 50px;
+        border-radius: 50px;
+        margin: 0px;
+        background-color: rgba(0,0,0,.5);
+        opacity: 0;
+        padding-top: 12px;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .dz-details {
+    .dz-filename, .dz-size {
+      display: none;
+    }
+  }
+  .dz-progress, .dz-success-mark, .dz-error-mark, .dz-error-message {
+    display: none;
+  }
+  .dz-preview {
+    display: none;
+    .dz-image {
+      img {
+        display: none;
+      }
+    }
+  }
+}
+
+.profile-image-dropzone, .bevy-image-dropzone * {
+  margin-right: 0px;
+  margin-top: 5px;
+  margin-left: 10px;
+  .row {
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 0px;
+    text-align: center;
+    .btn {
+      margin: 0px;
+      padding: 0px;
+      border: none;
+      background-color: rgba(0,0,0,0);
+      color: #E6E6E6;
       width: 30px;
       height: 30px;
       margin-top: 10px;
@@ -252,9 +311,18 @@
         margin-top: 0px;
         margin-left: auto;
         margin-right: auto;
-        width: 90%;
-        height: 100%;
-      }
+        width: 75px;
+        height: 75px;
+        border-radius: 50px;
+        background-color: rgba(0,0,0,.5);
+        top: -10px;
+        left: -23px;
+        opacity: 0;
+        padding-top: 25px;
+        &:hover {
+          opacity: 1;
+        }
+      } 
     }
   }
   .dz-details {

@@ -92,21 +92,13 @@ var ProfileDropdown = React.createClass({
 							<div className="col-xs-3 profile-picture overlay">
 								<Uploader
 									onUploadComplete={ this.onUploadComplete }
-									className="bevy-image-dropzone"
+									className="profile-image-dropzone"
 									style={ profileImageStyle }
 									dropzoneOptions={ dropzoneOptions }
 								/>
 							</div>
 							<div className="col-xs-6 profile-details">
-								<TextField
-									type='text'
-									className='profile-name'
-									ref='name'
-									defaultValue={ name }
-									value={ name }
-									placeholder='Username'
-									onChange={ this.onChange }
-								/>
+								<span className='profile-name'>{ name }</span>
 								<span className='profile-email'>{ email }</span>
 								<span className='profile-points'>123 points</span>
 							</div>

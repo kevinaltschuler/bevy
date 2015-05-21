@@ -179,7 +179,7 @@ var BevyPanel = React.createClass({
 		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
 		var bevyImageStyle= {
 			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '100% 100%',
+			backgroundSize: '100px auto',
 			display: 'inline-block',
 			borderRadius: '50px',
 			width: '50px',

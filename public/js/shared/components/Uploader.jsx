@@ -80,9 +80,9 @@ var Uploader = React.createClass({
 
 		var div = document.createElement('div');
 
-		var actionButton = (this.props.className === 'bevy-image-dropzone')
+		var actionButton = (this.props.className === 'bevy-image-dropzone' || this.props.className === 'profile-image-dropzone')
 		? <div className="row"> 
-			 <button className="btn btn-lg dropzone-panel-button" onClick={this.preventDefault}> 
+			 <button className="btn btn-lg dropzone-panel-button" onClick={this.preventDefault}>
 				<span className='glyphicon glyphicon-picture'/> 
 			 </button>
 		 </div>
