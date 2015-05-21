@@ -48,6 +48,7 @@ function getBevyState() {
 	var all = BevyStore.getAll();
 	var active = BevyStore.getActive();
 	var activeMember = BevyStore.getActiveMember();
+	var members = BevyStore.getMembers();
 
 	//console.log(activeMember);
 
@@ -55,7 +56,8 @@ function getBevyState() {
 		// later, load this from session/cookies
 		allBevies: all,
 		activeBevy: active,
-		activeMember: activeMember
+		activeMember: activeMember,
+		members: members
 	}
 }
 function getNotificationState() {
@@ -133,6 +135,7 @@ var MainSection = React.createClass({
 								<PostContainer
 									allPosts={ this.state.allPosts }
 									activeMember={ this.state.activeMember }
+									members={ this.state.members }
 								/>
 								<RightSidebar
 									activeBevy={ this.state.activeBevy }

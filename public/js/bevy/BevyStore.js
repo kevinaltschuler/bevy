@@ -408,6 +408,12 @@ _.extend(BevyStore, {
 		return (member == undefined)
 		? {}
 		: member;
+	},
+
+	getMembers: function() {
+		var bevy = this.getActive();
+		var members = bevy.get('members');
+		return members;
 	}
 });
 

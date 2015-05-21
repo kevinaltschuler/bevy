@@ -29,7 +29,8 @@ var CommentItem = React.createClass({
 
 		postId: React.PropTypes.string,
 		author: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		activeMember: React.PropTypes.object,
+		members: React.PropTypes.array
 	},
 
 	getInitialState: function() {

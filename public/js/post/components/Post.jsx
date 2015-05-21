@@ -49,7 +49,8 @@ var Post = React.createClass({
 	propTypes: {
 		id: React.PropTypes.string.isRequired,
 		post: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		activeMember: React.PropTypes.object,
+		members: React.PropTypes.array
 	},
 
 	getInitialState: function() {
@@ -93,15 +94,6 @@ var Post = React.createClass({
 			sum += vote.score;
 		});
 		return sum;
-	},
-
-	expand: function(ev) {
-		ev.preventDefault();
-
-		//var parent = $(ev.target).parent();
-		//if(parent.hasClass('focus')) parent.removeClass('focus');
-		//else parent.addClass('focus');
-
 	},
 
 	render: function() {
@@ -157,6 +149,7 @@ var Post = React.createClass({
 				postId={ this.props.id }
 				author={ this.props.post.author }
 				activeMember={ this.props.activeMember }
+				members={ this.props.members }
 			/>)
 		: '';
 
