@@ -67,7 +67,7 @@ exports.show = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOne(query)
-		.populate('members.userid')
+		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -88,7 +88,7 @@ exports.update = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update, { upsert: true })
-		.populate('members.userid')
+		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -106,7 +106,7 @@ exports.destroy = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndRemove(query)
-		.populate('members.userid')
+		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		res.json(bevy);
@@ -121,7 +121,7 @@ exports.memberList = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOne(query)
-		.populate('members.userid')
+		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -139,7 +139,7 @@ exports.memberAdd = function(req, res, next) {
 
 	// collect params
 	var update = {};
-	var fields = 'email userid notificationLevel';
+	var fields = 'email user notificationLevel';
 	fields.split(' ').forEach(function(field) {
 		var val = null;
 		if(req.body != undefined) val = req.body[field];
