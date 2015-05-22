@@ -194,14 +194,20 @@ var BevyPanel = React.createClass({
 
 		var bevy = this.props.activeBevy;
 		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
-		var bevyImageStyle= {
+		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png') 
+		? {
 			backgroundImage: 'url(' + bevyImage + ')',
 			backgroundSize: '100px auto',
-			display: 'inline-block',
-			borderRadius: '50px',
-			width: '50px',
-			height: '50px',
+
 		}
+		: {
+			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundSize: '50px 50px',
+		}
+
+		var imgStyle = (this.state.image_url === '/img/logo_100.png')
+		? { minWidth: '50px', height: 'auto' }
+		: { minWidth: '100px', height: 'auto' }
 
 		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
 		var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
@@ -284,9 +290,7 @@ var BevyPanel = React.createClass({
 		} else {
 			header = <div className="row sidebar-top">
 							<div className="col-xs-3 sidebar-picture">
-								<div className="image-wrapper">
-									<img src={ bevyImage } />
-								</div>
+								<div className='profile-img' style={ bevyImageStyle }/>
 							</div>
 							<div className="col-xs-9 sidebar-title">
 								<div className='row'>
