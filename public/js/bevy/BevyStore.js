@@ -237,7 +237,7 @@ _.extend(BevyStore, {
 
 				// remove the specific user
 				members = _.reject(members, function(member) {
-					if(_.isObject(member.userid)) {
+					if(_.isObject(member.user)) {
 						return member.user._id == user._id;
 					} else {
 						return member.user == user._id;
@@ -361,7 +361,7 @@ _.extend(BevyStore, {
 					constants.apiurl + '/bevies/' + bevy_id + '/members/',
 					{
 						email: email,
-						userid: user._id
+						user: user._id
 					},
 					function(data) {
 						//console.log(data);
