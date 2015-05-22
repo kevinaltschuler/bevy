@@ -209,9 +209,9 @@ var Post = React.createClass({
 		}
 
 		var editButton = '';
-		if(!_.isEmpty(this.props.activeMember)) {
-			if(this.props.activeMember.role == 'admin' || this.props.post.author._id == user._id)
-				deleteButton = (
+		if(!_.isEmpty(activeMember)) {
+			if(activeMember.role == 'admin' || this.props.post.author._id == user._id)
+				editButton = (
 					<MenuItem onClick={ this.startEdit } >
 						Edit Post
 					</MenuItem>
