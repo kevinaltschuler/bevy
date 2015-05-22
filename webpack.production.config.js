@@ -27,6 +27,9 @@ module.exports = {
 		new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings: false
+			},
+			mangle: {
+				except: ['require', 'exports', '$', '_']
 			}
 		})
 	]
