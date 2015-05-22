@@ -10,12 +10,15 @@ var FrontpagePanel = React.createClass({
 		var name = 'Frontpage';
 		var description = 'Welcome to Bevy!';
 
+		var bevyImageStyle = {
+			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundSize: '50px 50px',
+		}
+
 		return (<div className='right-sidebar panel frontpage'>
 					<div className="row sidebar-top">
 						<div className="col-xs-3 sidebar-picture frontpage">
-							<div className='image-wrapper'>
-								<img src={ bevyImage } />
-							</div>
+							<div className='profile-img' style={ bevyImageStyle }/>
 						</div>
 						<div className="col-xs-9 sidebar-title frontpage">
 							<span
