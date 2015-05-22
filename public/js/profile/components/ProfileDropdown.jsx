@@ -64,10 +64,20 @@ var ProfileDropdown = React.createClass({
 		var defaultName = 'Default Name';
 		var name = user.google.displayName || defaultName;
 
-		var profileImage = (_.isEmpty(this.state.image_url)) ? defaultProfileImage : this.state.image_url;
-		var profileImageStyle= {
-			backgroundImage: 'url(' + profileImage + ')',
-		};
+		var profileImage; 
+		if(_.isEmpty(this.state.image_url)) {
+			profileImage = defaultProfileImage;
+			var profileImageStyle= {
+				backgroundImage: 'url(' + profileImage + ')',
+				backgroundSize: '75px 75px'
+			};
+		} else {
+			profileImage =  this.state.image_url;
+			var profileImageStyle = {
+				backgroundImage: 'url(' + profileImage + ')',
+				backgroundSize: '100px auto'
+			}
+		}
 
 		var buttonStyle = {
 			backgroundImage: 'url(' + profileImage + ')'

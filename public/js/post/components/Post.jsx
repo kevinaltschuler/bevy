@@ -124,8 +124,8 @@ var Post = React.createClass({
 	render: function() {
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
-		var profileImage = (user.image_url)
-		 ? user.image_url
+		var profileImage = (this.props.post.author.image_url)
+		 ? this.props.post.author.image_url;
 		 : defaultProfileImage;
 
 		var author;
