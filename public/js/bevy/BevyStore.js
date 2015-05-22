@@ -153,6 +153,7 @@ _.extend(BevyStore, {
 				var members = bevy.get('members');
 
 				members = _.map(members, function(member) {
+					if(!_.isObject(member.user)) return member;
 					if(member.user._id == user_id) {
 						member.displayName = displayName;
 						member.notificationLevel = notificationLevel;
