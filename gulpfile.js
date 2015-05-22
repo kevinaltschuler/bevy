@@ -100,7 +100,7 @@ function buildLess() {
 			, cascade: true
 		}))
 		.pipe(sourcemaps.write())
-		.pipe(minifyCss({compatibility: 'ie8'}))
+		//.pipe(minifyCss({compatibility: 'ie8'}))
 		.pipe(gulp.dest('public/css'))
 		.pipe(reload({ stream: true }));
 }
