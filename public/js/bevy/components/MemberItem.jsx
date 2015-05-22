@@ -40,9 +40,7 @@ var MemberItem = React.createClass({
 	render: function() {
 
 		var defaultContactImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
-		var contactImage = (this.props.contact.user.google && this.props.contact.user.google.photos)
-		? this.props.contact.user.google.photos[0].value
-		: defaultContactImage;
+		var contactImage = defaultContactImage;
 
 		var contactButtonStyle = {
 			backgroundImage: 'url(' + contactImage + ')'
@@ -57,7 +55,16 @@ var MemberItem = React.createClass({
 		? this.props.contact.user.google.name.givenName + ' ' + this.props.contact.user.google.name.familyName
 		: this.props.contact.user.email;
 
-		if(this.props.contact.displayName) contactStatus = this.props.contact.displayName;
+		if(joined)
+			if(this.props.contact.displayName) contactStatus = this.props.contact.displayName;
+
+		if(joined) {
+			contactImage = (this.props.contact.user.google && this.props.contact.user.google.photos)
+			? this.props.contact.user.google.photos[0].value
+			: defaultContactImage;
+
+			if(this.props.contact.image_url) contactImage = this.props.contact.image_url;
+		}
 
 		var removeButton = '';
 		if(!_.isEmpty(this.props.activeMember)) {
