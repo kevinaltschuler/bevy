@@ -124,8 +124,8 @@ var Post = React.createClass({
 	render: function() {
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
-		var profileImage = (user.image_url)
-		 ? user.image_url
+		var profileImage = (this.props.post.author.image_url)
+		 ? this.props.post.author.image_url
 		 : defaultProfileImage;
 
 		var author;
@@ -149,9 +149,7 @@ var Post = React.createClass({
 				images.push(
 					<div className='panel-body-image' key={ key } >
 						<ModalTrigger modal={ <ImageModal url={ this.props.post.images[key] } /> } >
-							<button className="image-thumbnail">
-								<img className="panel-media" src={ this.props.post.images[key] }/>
-							</button>
+							<button className="image-thumbnail" style={{backgroundImage: 'url(' + this.props.post.images[key] + ')',}}/>
 						</ModalTrigger>
 					</div>
 				);
