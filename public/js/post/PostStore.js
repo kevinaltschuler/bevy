@@ -100,6 +100,10 @@ _.extend(PostStore, {
 					bevy: bevy._id
 				});
 
+				// switch to posting bevy realll quick
+				var temp = this.posts._meta.bevy_id;
+				this.posts._meta.bevy_id = bevy._id;
+
 				// save to server
 				newPost.save(null, {
 					success: function(model, response, options) {
@@ -108,6 +112,9 @@ _.extend(PostStore, {
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
+
+				// switch back
+				this.posts._meta.bevy_id = temp;
 
 				// simulate server population
 				newPost.set('_id', String(Date.now()));

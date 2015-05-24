@@ -57,7 +57,8 @@ var NewPostPanel = React.createClass({
 		return {
 			title: '',
 			images: [],
-			bevies: []
+			bevies: [],
+			selectedIndex: 0
 		};
 	},
 
@@ -77,8 +78,14 @@ var NewPostPanel = React.createClass({
 			}
 		}
 
+		var selectedIndex = nextProps.selectedIndex || 0;
+		bevies.forEach(function(bevy, index) {
+			if(bevy.id === nextProps.activeBevy.id) selectedIndex = index;
+		});
+
 		this.setState({
-			bevies: bevies
+			bevies: bevies,
+			selectedIndex: selectedIndex
 		});
 	},
 
@@ -130,7 +137,7 @@ var NewPostPanel = React.createClass({
 			this.state.title, // title
 			this.state.images, // image_url
 			window.bootstrap.user, // author
-			this.props.activeBevy.toJSON()); // bevy
+			this.props.allBevies[this.state.selectedIndex + 1]); // bevy
 
 		// reset fields
 		this.setState(this.getInitialState());
@@ -141,6 +148,12 @@ var NewPostPanel = React.createClass({
 	handleChange: function() {
 		this.setState({
 			title: this.refs.title.getValue()
+		});
+	},
+
+	onBevyChange: function(e, selectedIndex, menuItem) {
+		this.setState({
+			selectedIndex: selectedIndex
 		});
 	},
 
@@ -159,14 +172,15 @@ var NewPostPanel = React.createClass({
 		};
 
 		var bevies = this.state.bevies;
-		var activeBevy = this.props.activeBevy;
-		var selectedIndex = 0;
-		bevies.forEach(function(bevy, index) {
-			if(bevy.id === activeBevy.id) selectedIndex = index;
-		});
+		var selectedIndex = this.state.selectedIndex;
 		var beviesDropdown = (bevies.length < 1)
 		? ''
-		: (<DropDownMenu autoWidth={false} menuItems={bevies} selectedIndex={ selectedIndex } />);
+		: (<DropDownMenu
+				autoWidth={false}
+				menuItems={bevies}
+				selectedIndex={ selectedIndex }
+				onChange={ this.onBevyChange }
+			/>);
 
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
 
