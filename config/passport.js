@@ -25,20 +25,20 @@ module.exports = function(app) {
 			passwordField: 'password'
 		},
 		function(email, password, done) {
-			console.log('Authenticating user: ', email, password);
+			//console.log('Authenticating user: ', email, password);
 			var query = { email: email };
 			User.findOne(query).exec(function(err, user) {
 				if(err) return done(err);
 				if(!user) {
-					console.log('incorrect email');
+					//console.log('incorrect email');
 					return done(null, false, { message: 'Incorrect email' });
 				}
 				var hash = user.password;
 				if(!bcrypt.compareSync(password, hash)) {
-					console.log('incorrect password');
+					//console.log('incorrect password');
 					return done(null, false, { message: 'Incorrect password' });
 				}
-				console.log('User', email, 'authenticated!');
+				//console.log('User', email, 'authenticated!');
 				return done(null, user);
 			});
 		}
@@ -51,7 +51,7 @@ module.exports = function(app) {
 			realm: config.app.server.hostname
 		},
 		function(accessToken, refreshToken, profile, done) {
-			console.log('Authenticating user: ', profile.emails[0]);
+			//console.log('Authenticating user: ', profile.emails[0]);
 			var emails = _.pluck(profile.emails, 'value');
 
 			var id_query = { 'google.id': profile.id };
@@ -63,10 +63,10 @@ module.exports = function(app) {
 				if(err) return done(err);
 				if(user) {
 					// user found
-					console.log('User', emails[0], 'already exists! Logging in...');
+					//console.log('User', emails[0], 'already exists! Logging in...');
 					if(_.isEmpty(user.google.emails)) {
 						// google profile has not yet been set
-						console.log('setting users google profile');
+						//console.log('setting users google profile');
 						user.google = profile;
 						if(profile.photos) {
 							user.image_url = user.google.photos[0].value;
@@ -78,7 +78,7 @@ module.exports = function(app) {
 					} else return done(null, user);
 				} else {
 					// user not found. let's create an account
-					console.log('User', emails[0], 'doesnt exist. Creating new user...');
+					//console.log('User', emails[0], 'doesnt exist. Creating new user...');
 					User.create({
 						token: accessToken,
 						image_url: (profile.photos) ? profile.photos[0].value : undefined,
@@ -98,16 +98,16 @@ module.exports = function(app) {
 
 	passport.serializeUser(function(user, done) {
 		if(!user) {
-			console.log('no user passed to serialize func');
+			//console.log('no user passed to serialize func');
 			//done('woops', null);
 		} else {
-			console.log('Serializing: ', user);
+			//console.log('Serializing: ', user);
 			done(null, user._id);
 		}
 	});
 
 	passport.deserializeUser(function(id, done) {
-		console.log('Deserializing: ', id);
+		//console.log('Deserializing: ', id);
 		var query = { _id: id };
 		User.findOne(query).exec(function(err, user) {
 			if(err) done(err, null);
