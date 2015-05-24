@@ -250,7 +250,6 @@ var Post = React.createClass({
 						<CommentSubmit
 							postId={ this.props.id }
 							author={ this.props.post.author }
-							profileImage={ profileImage }
 						/>
 
 						<div className="panel-controls-right">
