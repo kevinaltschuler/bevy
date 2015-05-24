@@ -30,7 +30,13 @@ var BevySettingsModal = React.createClass({
 		activeBevy: React.PropTypes.object
 	},
 
+	nameToggle: function() {
+		this.canChangeName = !this.canChangeName;
+	},
+
 	render: function() {
+
+		var canChangeName = true;
 
 		return <Modal className="bevy-settings-modal">
 					<span className="title">Settings for {this.props.activeBevy.get('name')}</span>
@@ -39,7 +45,9 @@ var BevySettingsModal = React.createClass({
 						<Toggle
 						  name="toggleName1"
 						  value="toggleValue1"
-						  label="allow users to change display name?" />
+						  label="allow users to change display name?" 
+						  setToggled = {canChangeName}
+						  onToggle = {this.nameToggle}/>
 					</div>
 
 					<div className='row'>
