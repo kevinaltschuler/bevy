@@ -194,7 +194,7 @@ _.extend(BevyStore, {
 					// member is invited but has not joined
 					// just cancel the invite
 					members = _.reject(members, function(member) {
-						return member.email == email;
+						return (member.email == email && !_.isObject(member.user));
 					});
 				} else {
 					// remove the specific user
@@ -208,7 +208,6 @@ _.extend(BevyStore, {
 				}
 
 				// need to create a deep clone
-
 				var unpopulated_members = _.map(members, function(member, key) {
 					if(_.isObject(member.user))
 						member.user = member.user._id;
@@ -255,7 +254,10 @@ _.extend(BevyStore, {
 				bevy.save({
 					members: unpopulated_members
 				}, {
-					patch: true
+					patch: true,
+					success: function(model, response, options) {
+						BevyActions.switchBevy();
+					}
 				});
 				// apply change
 				bevy.set('members', members);
@@ -368,6 +370,12 @@ _.extend(BevyStore, {
 						this.bevies.fetch({
 							reset: true,
 							success: function(data) {
+								// add frontpage - and put it at the top of the list
+								this.bevies.unshift({
+									_id: '-1',
+									name: 'Frontpage'
+								});
+
 								// switch to new bevy
 								this.bevies._meta.active = bevy_id;
 								this.trigger(BEVY.CHANGE_ALL);

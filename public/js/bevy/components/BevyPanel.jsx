@@ -170,12 +170,10 @@ var BevyPanel = React.createClass({
 		if(!this.props.activeBevy) return;
 
 		var bevy_id = this.props.activeBevy.id;
-		var email = user.email;
-		var user = window.bootstrap.user;
 
-		BevyActions.leave(bevy_id, email, user._id);
+		BevyActions.leave(bevy_id);
 		// then switch to another bevy
-		BevyActions.switch();
+		//BevyActions.switchBevy();
 	},
 
 	destroy: function(ev) {
@@ -194,7 +192,7 @@ var BevyPanel = React.createClass({
 
 		var bevy = this.props.activeBevy;
 		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
-		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png') 
+		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png')
 		? {
 			backgroundImage: 'url(' + bevyImage + ')',
 			backgroundSize: '100px auto',

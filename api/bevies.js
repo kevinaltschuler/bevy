@@ -156,11 +156,28 @@ exports.memberAdd = function(req, res, next) {
 		return bevy;
 	}).then(function(bevy) {
 		if(!_.isEmpty(update) && update.email) {
-			bevy.members.addToSet(update);
+			var invited_member_index = -1;
+			// find the existing member
+			bevy.members.toObject().forEach(function(member, index) {
+				if(member.email == update.email && member.user == null) invited_member_index = index;
+			});
+
+			if(invited_member_index == -1) {
+				// not found. create one from scratch
+				bevy.members.addToSet(update);
+			} else {
+				// found it. update existing member
+				bevy.members.set(invited_member_index, {
+					email: update.email,
+					user: update.user
+				});
+			}
+
 			bevy.save(function(err) {
 				if(err) return next(err);
 				return res.json(bevy.members);
 			});
+
 		} else res.json(bevy.members);
 	}, function(err) { next(err); });
 }

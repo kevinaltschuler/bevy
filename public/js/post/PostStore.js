@@ -68,6 +68,8 @@ _.extend(PostStore, {
 			case BEVY.JOIN:
 
 				var bevy_id = payload.bevy_id;
+				// if none, default to frontpage
+				if(!bevy_id) bevy_id = -1;
 
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
@@ -98,6 +100,10 @@ _.extend(PostStore, {
 					bevy: bevy._id
 				});
 
+				// switch to posting bevy realll quick
+				var temp = this.posts._meta.bevy_id;
+				this.posts._meta.bevy_id = bevy._id;
+
 				// save to server
 				newPost.save(null, {
 					success: function(model, response, options) {
@@ -106,6 +112,9 @@ _.extend(PostStore, {
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
+
+				// switch back
+				this.posts._meta.bevy_id = temp;
 
 				// simulate server population
 				newPost.set('_id', String(Date.now()));
@@ -121,11 +130,18 @@ _.extend(PostStore, {
 				var post_id = payload.post_id;
 				var post = this.posts.get(post_id);
 
+				// set to post's bevy in case on frontpage
+				var temp = this.posts._meta.bevy_id;
+				this.posts._meta.bevy_id = post.get('bevy')._id;
+
 				post.destroy({
 					success: function(model, response) {
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
+
+				// set back
+				this.posts._meta.bevy_id = temp;
 
 				break;
 
@@ -137,11 +153,18 @@ _.extend(PostStore, {
 
 				post.set('title', title);
 
+				// set to post's bevy in case on frontpage
+				var temp = this.posts._meta.bevy_id;
+				this.posts._meta.bevy_id = post.get('bevy')._id;
+
 				post.save({
 					title: title
 				}, {
 					patch: true
 				});
+
+				// set back
+				this.posts._meta.bevy_id = temp;
 
 				this.trigger(POST.CHANGE_ALL);
 				break;
@@ -316,12 +339,19 @@ _.extend(PostStore, {
 
 		post.set('votes', votes);
 
+		// set the url in case on frontpage
+		var temp = this.posts._meta.bevy_id;
+		this.posts._meta.bevy_id = post.get('bevy')._id;
+
 		// save to server
 		post.save({
 			votes: votes
 		}, {
 			patch: true
 		});
+
+		// set back
+		this.posts._meta.bevy_id = temp;
 	},
 
 	sortByTop: function(post) {

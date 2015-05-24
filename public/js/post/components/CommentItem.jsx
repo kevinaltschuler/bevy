@@ -96,7 +96,7 @@ var CommentItem = React.createClass({
 
 		var deleteButton = '';
 		var activeMember = this.findMember(user._id);
-		if(this.props.activeMember.role == 'admin' || comment.author._id == user._id)
+		if(activeMember.role == 'admin' || comment.author._id == user._id)
 			deleteButton = (
 				<MenuItem onClick={ this.destroy } >
 					Delete Comment

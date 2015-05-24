@@ -24,8 +24,7 @@ var CommentSubmit = React.createClass({
 	propTypes: {
 		postId: React.PropTypes.string,
 		commentId: React.PropTypes.string,
-		author: React.PropTypes.object,
-		profileImage: React.PropTypes.string
+		author: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -66,9 +65,15 @@ var CommentSubmit = React.createClass({
 
 	render: function() {
 
+		var user = window.bootstrap.user;
+		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var profileImage = (user.image_url)
+		? user.image_url
+		: defaultProfileImage;
+
 		return (<div className="panel-comment-input">
 						<div className="profile-overlay"/>
-						<div className='profile-img' style={{backgroundImage: 'url(' + this.props.profileImage + ')',}}/>
+						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<TextField
 							className="panel-comment-textfield"
 							hintText="Write a Comment"
