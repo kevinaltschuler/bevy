@@ -325,12 +325,19 @@ _.extend(PostStore, {
 
 		post.set('votes', votes);
 
+		// set the url in case on frontpage
+		var temp = this.posts._meta.bevy_id;
+		this.posts._meta.bevy_id = post.get('bevy')._id;
+
 		// save to server
 		post.save({
 			votes: votes
 		}, {
 			patch: true
 		});
+
+		// set back
+		this.posts._meta.bevy_id = temp;
 	},
 
 	sortByTop: function(post) {
