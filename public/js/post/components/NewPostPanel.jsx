@@ -71,7 +71,8 @@ var NewPostPanel = React.createClass({
 			if(bevy._id != -1) {
 				bevies.push({
 					payload: key,
-					text: bevy.name
+					text: bevy.name,
+					id: bevy._id
 				});
 			}
 		}
@@ -158,9 +159,14 @@ var NewPostPanel = React.createClass({
 		};
 
 		var bevies = this.state.bevies;
+		var activeBevy = this.props.activeBevy;
+		var selectedIndex = 0;
+		bevies.forEach(function(bevy, index) {
+			if(bevy.id === activeBevy.id) selectedIndex = index;
+		});
 		var beviesDropdown = (bevies.length < 1)
-		?  ''
-		: (<DropDownMenu autoWidth={false} menuItems={bevies} />)
+		? ''
+		: (<DropDownMenu autoWidth={false} menuItems={bevies} selectedIndex={ selectedIndex } />);
 
 		return <Panel className="panel new-post-panel" postId={ this.state.id }>
 
