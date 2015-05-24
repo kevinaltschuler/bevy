@@ -68,6 +68,8 @@ _.extend(PostStore, {
 			case BEVY.JOIN:
 
 				var bevy_id = payload.bevy_id;
+				// if none, default to frontpage
+				if(!bevy_id) bevy_id = -1;
 
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
