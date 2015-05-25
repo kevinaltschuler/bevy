@@ -61,20 +61,16 @@ _.extend(NotificationStore, {
 
 // set up long poll
 (function poll() {
-	setTimeout(function() {
-		$.ajax({
-			url: constants.apiurl + '/users/' + user._id + '/notifications/poll',
-			dataType: 'json',
-			success: function(data) {
-				notifications.push(data);
-				NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
-
-				// set up next poll recursively
-				//poll();
-			},
-			complete: poll
-		});
-	}, 30000);
+	$.ajax({
+		url: constants.apiurl + '/users/' + user._id + '/notifications/poll',
+		dataType: 'json',
+		success: function(data) {
+			notifications.push(data);
+			NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
+		},
+		complete: poll,
+		timeout: 30000
+	});
 })();
 
 

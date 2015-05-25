@@ -68,5 +68,9 @@ UserSchema.set('toObject', {
 	getters: true,
 	virtuals: true
 });
+UserSchema.set('toJSON', {
+	getters: true,
+	virtuals: true
+});
 
 module.exports = UserSchema;

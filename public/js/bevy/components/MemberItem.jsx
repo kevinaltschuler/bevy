@@ -31,7 +31,7 @@ var MemberItem = React.createClass({
 	remove: function(ev) {
 		ev.preventDefault();
 
-		var bevy_id = this.props.activeBevy.id;
+		var bevy_id = this.props.activeBevy._id;
 		var user_id = (_.isObject(this.props.contact.user)) ? this.props.contact.user._id : null;
 
 		BevyActions.removeUser(bevy_id, this.props.contact.email, user_id);
@@ -42,29 +42,30 @@ var MemberItem = React.createClass({
 		var defaultContactImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var contactImage = defaultContactImage;
 
-		var contactButtonStyle = {
-			backgroundImage: 'url(' + contactImage + ')'
-		};
+		var contact = this.props.contact;
 
-		var contactName = this.props.contact.email || "Placeholder Contact";
-		var joined = (_.isEmpty(this.props.contact.user)) ? false : true;
+		var contactName = contact.email || "Placeholder Contact";
+		var joined = (_.isEmpty(contact.user)) ? false : true;
 
 		var contactStatus = '';
 		if(!joined) contactStatus = '[invited]';
-		else contactStatus = (this.props.contact.user.google)
-		? this.props.contact.user.google.name.givenName + ' ' + this.props.contact.user.google.name.familyName
-		: this.props.contact.user.email;
+		else contactStatus = contact.user.displayName;
 
 		if(joined)
-			if(this.props.contact.displayName) contactStatus = this.props.contact.displayName;
+			if(contact.displayName && this.props.activeBevy.settings.allow_changeable_names)
+				contactStatus = this.props.contact.displayName;
 
 		if(joined) {
-			contactImage = (this.props.contact.user.google && this.props.contact.user.google.photos)
-			? this.props.contact.user.google.photos[0].value
+			contactImage = (contact.user.google && contact.user.google.photos)
+			? contact.user.google.photos[0].value
 			: defaultContactImage;
 
-			if(this.props.contact.image_url) contactImage = this.props.contact.image_url;
+			if(contact.user.image_url) contactImage = contact.user.image_url;
 		}
+
+		var contactButtonStyle = {
+			backgroundImage: 'url(' + contactImage + ')'
+		};
 
 		var removeButton = '';
 		if(!_.isEmpty(this.props.activeMember)) {
@@ -76,7 +77,7 @@ var MemberItem = React.createClass({
 		var className = 'row';
 		if(this.props.active) className += ' active';
 
-		return <div className="row">
+		return <div className="member-item row">
 
 					<div className='col-xs-2'>
 						<Button
@@ -86,16 +87,16 @@ var MemberItem = React.createClass({
 					</div>
 
 					<div className='col-xs-5'>
-						<span className="">
+						<span className='member-contact-name'>
 							{ contactName }
 						</span>
-						<span className=''>
+						<span className='member-contact-status'>
 							{ contactStatus }
 						</span>
 					</div>
 
 					<div className='col-xs-2'>
-						<span> { this.props.contact.role || 'user' } </span>
+						<span className='member-contact-role'>{ this.props.contact.role || 'user' }</span>
 					</div>
 
 					<div className='col-xs-3'>

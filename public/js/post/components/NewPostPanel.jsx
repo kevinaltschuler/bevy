@@ -80,7 +80,7 @@ var NewPostPanel = React.createClass({
 
 		var selectedIndex = nextProps.selectedIndex || 0;
 		bevies.forEach(function(bevy, index) {
-			if(bevy.id === nextProps.activeBevy.id) selectedIndex = index;
+			if(bevy.id === nextProps.activeBevy._id) selectedIndex = index;
 		});
 
 		this.setState({

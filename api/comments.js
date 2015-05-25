@@ -33,6 +33,7 @@ exports.index = function(req, res, next) {
 	var postid = req.params.postid;
 	var query = { postId: postid };
 	var promise = Comment.find(query)
+		.populate('author')
 		.exec();
 	promise.then(function(comments) {
 		return res.json(comments);

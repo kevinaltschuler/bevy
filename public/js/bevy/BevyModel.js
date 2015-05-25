@@ -14,7 +14,8 @@ var Backbone = require('backbone');
 var constants = require('./../constants');
 
 // backbone model
-module.exports = Backbone.Model.extend({
+var BevyModel = Backbone.Model.extend({
+
 	defaults: {
 		name: null,
 		description: null,
@@ -27,3 +28,5 @@ module.exports = Backbone.Model.extend({
 
 	idAttribute: '_id'
 });
+
+module.exports = BevyModel;

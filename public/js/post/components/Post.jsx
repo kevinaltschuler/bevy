@@ -185,10 +185,7 @@ var Post = React.createClass({
 		var commentList = (this.props.post.comments)
 		? (<CommentList
 				comments={ this.props.post.comments }
-				postId={ this.props.id }
-				author={ this.props.post.author }
-				activeMember={ this.props.activeMember }
-				members={ this.props.post.bevy.members }
+				post={ this.props.post }
 			/>)
 		: '';
 
@@ -225,7 +222,6 @@ var Post = React.createClass({
 								<span className="details">{ author }</span>
 								&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
 								<span className="details">{ this.props.post.bevy.name }</span>
-								
 							</div>
 							<div className="bottom">
 								<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>

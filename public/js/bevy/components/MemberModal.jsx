@@ -30,7 +30,7 @@ var MemberModal = React.createClass({
 
 	render: function() {
 
-		return <Modal className="member-modal" {...this.props} title={this.props.title}>
+		return <Modal className="member-modal" {...this.props} title={ this.props.title }>
 					<MemberList
 						activeBevy={ this.props.activeBevy }
 						activeMember={ this.props.activeMember }

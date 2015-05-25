@@ -30,32 +30,30 @@ var BevySettingsModal = React.createClass({
 		activeBevy: React.PropTypes.object
 	},
 
-	nameToggle: function() {
-		this.canChangeName = !this.canChangeName;
+	nameToggle: function(e, toggled) {
+		BevyActions.update(this.props.activeBevy._id, null, null, null, {
+			allow_changeable_names: toggled
+		});
 	},
 
 	render: function() {
 
-		var canChangeName = true;
-
-		return <Modal className="bevy-settings-modal">
-					<span className="title">Settings for {this.props.activeBevy.get('name')}</span>
+		return <Modal className="bevy-settings-modal" { ...this.props }>
+					<span className="title">Settings for {this.props.activeBevy.name}</span>
 
 					<div className='row bevy-setting'>
 						<Toggle
-						  name="toggleName1"
-						  value="toggleValue1"
-						  label="allow users to change display name?" 
-						  setToggled = {canChangeName}
-						  onToggle = {this.nameToggle}/>
+						  label="Allow users to change their display name?"
+						  defaultToggled={ this.props.activeBevy.settings.allow_changeable_names }
+						  onToggle={ this.nameToggle } />
 					</div>
 
 					<div className='row'>
 						<div className='col-xs-12'>
 							<div className="panel-bottom">
 								<RaisedButton
-									onClick={this.props.onRequestHide}
-									label="Save"/>
+									onClick={ this.props.onRequestHide }
+									label='Close' />
 							</div>
 						</div>
 					</div>

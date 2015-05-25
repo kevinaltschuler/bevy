@@ -16,7 +16,7 @@ var RightSidebar = React.createClass({
 	render: function() {
 
 		var bevy = this.props.activeBevy;
-		var bevy_id = bevy.get('_id');
+		var bevy_id = bevy._id;
 
 		var panel = (bevy_id == -1)
 		? (<FrontpagePanel />)

@@ -362,6 +362,9 @@ _.extend(PostStore, {
 
 		// set back
 		this.posts._meta.bevy_id = temp;
+
+		// sort posts
+		this.posts.sort();
 	},
 
 	sortByTop: function(post) {

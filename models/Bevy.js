@@ -11,7 +11,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var roles = 'admin mod user'.split(' ');
+var Member = require('./BevyMember');
 
 var BevySchema = new Schema({
 	name: String,
@@ -19,30 +19,12 @@ var BevySchema = new Schema({
 	image_url: {
 		type: String
 	},
-	members: [ Schema({
-	  	email: {
-	  	  	type: String
-	  	},
-	  	user: {
-	  		type: Schema.Types.ObjectId,
-	  		ref: 'User'
-	  	},
-	  	displayName: {
-	  		type: String
-	  	},
-	  	notificationLevel: {
-	  		type: String,
-	  		default: 'all'
-	  	},
-	  	role: {
-	  		type: String,
-	  		enum: roles,
-	  		default: 'user'
-	  	}
-
-	}, { _id: false }) ],
+	members: [ Member ],
 	settings: {
-		visibility: String
+		allow_changeable_names: {
+			type: Boolean,
+			default: true
+		}
 	},
 	created: {
 		type: Date,
@@ -53,5 +35,15 @@ var BevySchema = new Schema({
 		default: Date.now
 	}
 });
+
+BevySchema.set('toObject', {
+	getters: true,
+	virtuals: true
+});
+BevySchema.set('toJSON', {
+	getters: true,
+	virtuals: true
+});
+
 
 module.exports = BevySchema;

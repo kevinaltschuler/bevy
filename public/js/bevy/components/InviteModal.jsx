@@ -65,7 +65,7 @@ var InviteModal = React.createClass({
 
 		// TODO: idiot proofing
 
-		var bevy = this.props.activeBevy.toJSON();
+		var bevy = this.props.activeBevy;
 		var user = window.bootstrap.user;
 
 		var members = this.state.members;

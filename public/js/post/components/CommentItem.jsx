@@ -26,11 +26,7 @@ var CommentItem = React.createClass({
 	propTypes: {
 		index: React.PropTypes.string,
 		comment: React.PropTypes.object,
-
-		postId: React.PropTypes.string,
-		author: React.PropTypes.object,
-		activeMember: React.PropTypes.object,
-		members: React.PropTypes.array
+		post: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -49,11 +45,11 @@ var CommentItem = React.createClass({
 
 	destroy: function(ev) {
 		ev.preventDefault();
-		CommentActions.destroy(this.props.postId, this.props.comment._id);
+		CommentActions.destroy(this.props.post._id, this.props.comment._id);
 	},
 
 	findMember: function(user_id) {
-		var members = this.props.members;
+		var members = this.props.post.bevy.members;
 		return _.find(members, function(member) {
 			if(member.user == user_id) return true;
 			else return false;
@@ -68,13 +64,12 @@ var CommentItem = React.createClass({
 		var author = comment.author;
 
 		//console.log(author);
-		var authorName = (author.google)
-		? author.google.name.givenName + ' ' + author.google.name.familyName
-		: author.email;
+		var authorName = author.displayName;
 
 		var authorMember = this.findMember(author._id);
 		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName)) authorName = authorMember.displayName;
+			if(!_.isEmpty(authorMember.displayName) && this.props.post.bevy.settings.allow_changeable_names)
+				authorName = authorMember.displayName;
 		}
 
 		var profileImage = (author.image_url)
@@ -87,9 +82,9 @@ var CommentItem = React.createClass({
 
 		var submit = (this.state.isReplying)
 		? (<CommentSubmit
-				postId={ this.props.postId }
+				postId={ this.props.post._id }
 				commentId={ comment._id }
-				author={ this.props.author }
+				author={ this.props.post.author }
 				profileImage={ this.props.profileImage }
 			/>)
 		: <div />;
