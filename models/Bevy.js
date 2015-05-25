@@ -54,4 +54,14 @@ var BevySchema = new Schema({
 	}
 });
 
+BevySchema.set('toObject', {
+	getters: true,
+	virtuals: true
+});
+BevySchema.set('toJSON', {
+	getters: true,
+	virtuals: true
+});
+
+
 module.exports = BevySchema;

@@ -11,8 +11,6 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Comment = mongoose.model('Comment');
-
 var PostSchema = new Schema({
 	bevy: {
 		type: Schema.Types.ObjectId,
@@ -39,6 +37,16 @@ var PostSchema = new Schema({
 		default: Date.now
 	}
 });
+
+PostSchema.set('toObject', {
+	getters: true,
+	virtuals: true
+});
+PostSchema.set('toJSON', {
+	getters: true,
+	virtuals: true
+});
+
 
 // register deep populate plugin
 /*var deepPopulate = require('mongoose-deep-populate');

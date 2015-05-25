@@ -12,7 +12,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Comment = new Schema({
+var CommentSchema = new Schema({
 	postId: { // post comment is under
 		type: Schema.Types.ObjectId,
 		ref: 'Post'
@@ -36,4 +36,14 @@ var Comment = new Schema({
 	}
 });
 
-module.exports = Comment;
+CommentSchema.set('toObject', {
+	getters: true,
+	virtuals: true
+});
+CommentSchema.set('toJSON', {
+	getters: true,
+	virtuals: true
+});
+
+
+module.exports = CommentSchema;
