@@ -47,12 +47,17 @@ exports.index = function(req, res, next) {
 		var _posts = [];
 
 		posts.forEach(function(post) {
-			Comment.find({ postId: post._id }, function(err, comments) {
-				post = post.toObject();
+			var comment_query = { postId: post._id };
+			var comment_promise = Comment.find(comment_query)
+				.populate('author')
+				.exec();
+			comment_promise.then(function(comments) {
+				console.log(comments);
+				post = post.toJSON();
 				post.comments = comments;
 				_posts.push(post);
-				if(_posts.length == posts.length) return res.json(_posts);
-			}).populate('author');
+				if(_posts.length == posts.length) return res.send(_posts);
+			}, function(err) { return next(err) });
 		});
 
 	}, function(err) { next(err); });
