@@ -21,9 +21,7 @@ var BevyModel = Backbone.Model.extend({
 		description: null,
 		image_url: null,
 		members: [],
-		settings: {
-			allow_changeable_names: true
-		},
+		settings: {},
 		created: 0,
 		updated: 0
 	},

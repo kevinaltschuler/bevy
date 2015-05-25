@@ -185,11 +185,7 @@ var Post = React.createClass({
 		var commentList = (this.props.post.comments)
 		? (<CommentList
 				comments={ this.props.post.comments }
-				postId={ this.props.id }
-				author={ this.props.post.author }
-				activeMember={ this.props.activeMember }
-				members={ this.props.post.bevy.members }
-				activeBevy={ this.props.post.bevy }
+				post={ this.props.post }
 			/>)
 		: '';
 
