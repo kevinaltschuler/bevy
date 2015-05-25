@@ -49,9 +49,7 @@ var MemberItem = React.createClass({
 
 		var contactStatus = '';
 		if(!joined) contactStatus = '[invited]';
-		else contactStatus = (contact.user.google)
-		? contact.user.google.name.givenName + ' ' + contact.user.google.name.familyName
-		: contact.user.email;
+		else contactStatus = contact.user.displayName;
 
 		if(joined)
 			if(contact.displayName) contactStatus = this.props.contact.displayName;

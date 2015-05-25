@@ -57,11 +57,7 @@ var Navbar = React.createClass({
 		if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.get('image_url')))
 		navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'}
 
-		var name;
-		if(!_.isEmpty(user.google.name))
-			name = user.google.name.givenName + ' ' + user.google.name.familyName;
-		else
-			name = user.email;
+		var name = user.displayName;
 
 		var bevyName;
 		if(!_.isEmpty(this.props.activeBevy)) {

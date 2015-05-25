@@ -68,9 +68,7 @@ var CommentItem = React.createClass({
 		var author = comment.author;
 
 		//console.log(author);
-		var authorName = (author.google)
-		? author.google.name.givenName + ' ' + author.google.name.familyName
-		: author.email;
+		var authorName = author.displayName;
 
 		var authorMember = this.findMember(author._id);
 		if(authorMember) {
