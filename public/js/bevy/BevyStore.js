@@ -127,6 +127,15 @@ _.extend(BevyStore, {
 				var image_url = payload.image_url || bevy.get('image_url');
 				var settings = payload.settings || bevy.get('settings');
 
+				//console.log(bevy.changed);
+
+				bevy.set({
+					name: name,
+					description: description,
+					image_url: image_url,
+					settings: settings
+				});
+
 				bevy.save({
 					name: name,
 					description: description,
@@ -134,13 +143,6 @@ _.extend(BevyStore, {
 					settings: settings
 				}, {
 					patch: true
-				});
-
-				bevy.set({
-					name: name,
-					description: description,
-					image_url: image_url,
-					settings: settings
 				});
 
 				this.trigger(BEVY.CHANGE_ALL);

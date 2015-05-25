@@ -21,7 +21,10 @@ var BevySchema = new Schema({
 	},
 	members: [ Member ],
 	settings: {
-		visibility: String
+		allow_changeable_names: {
+			type: Boolean,
+			default: true
+		}
 	},
 	created: {
 		type: Date,
