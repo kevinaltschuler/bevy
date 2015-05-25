@@ -128,18 +128,16 @@ var Post = React.createClass({
 		 ? this.props.post.author.image_url
 		 : defaultProfileImage;
 
-		var author;
-		author = 'placeholder-author';
-		if(this.props.post.author) {
-			if(this.props.post.author.google)
-				author = this.props.post.author.google.name.givenName + ' ' + this.props.post.author.google.name.familyName;
-			else
-				author = this.props.post.author.email;
+		var authorName;
+		var author = this.props.post.author;
+		authorName = 'placeholder-author';
+		if(author) {
+			authorName = author.displayName;
 		}
 
 		var authorMember = this.findMember(this.props.post.author._id);
 		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName)) author = authorMember.displayName;
+			if(!_.isEmpty(authorMember.displayName)) authorName = authorMember.displayName;
 		}
 
 		var images = [];
@@ -220,7 +218,7 @@ var Post = React.createClass({
 					<div className='panel-header'>
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<div className='post-details'>
-							<span className="details">{ author }</span>
+							<span className="details">{ authorName }</span>
 							&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
 							<span className="details">{ this.props.post.bevy.name }</span>
 							<span className="dot">&nbsp; • &nbsp;</span>
