@@ -30,7 +30,8 @@ var CommentItem = React.createClass({
 		postId: React.PropTypes.string,
 		author: React.PropTypes.object,
 		activeMember: React.PropTypes.object,
-		members: React.PropTypes.array
+		members: React.PropTypes.array,
+		activeBevy: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -72,7 +73,8 @@ var CommentItem = React.createClass({
 
 		var authorMember = this.findMember(author._id);
 		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName)) authorName = authorMember.displayName;
+			if(!_.isEmpty(authorMember.displayName) && this.props.activeBevy.settings.allow_changeable_names)
+				authorName = authorMember.displayName;
 		}
 
 		var profileImage = (author.image_url)

@@ -52,7 +52,8 @@ var MemberItem = React.createClass({
 		else contactStatus = contact.user.displayName;
 
 		if(joined)
-			if(contact.displayName) contactStatus = this.props.contact.displayName;
+			if(contact.displayName && this.props.activeBevy.settings.allow_changeable_names)
+				contactStatus = this.props.contact.displayName;
 
 		if(joined) {
 			contactImage = (contact.user.google && contact.user.google.photos)

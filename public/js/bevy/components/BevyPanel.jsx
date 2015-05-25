@@ -341,6 +341,8 @@ var BevyPanel = React.createClass({
 									</div>)
 		}
 
+		if(!this.props.activeBevy.settings.allow_changeable_names) nameEditAction = '';
+
 		if(this.state.activeMember) {
 		var bottomActions = (this.state.activeMember.role == 'admin')
 		? (<div className='row sidebar-bottom'>

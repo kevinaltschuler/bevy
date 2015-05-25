@@ -123,6 +123,8 @@ var Post = React.createClass({
 
 	render: function() {
 
+		var bevy = this.props.post.bevy;
+
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (this.props.post.author.image_url)
 		 ? this.props.post.author.image_url
@@ -137,7 +139,8 @@ var Post = React.createClass({
 
 		var authorMember = this.findMember(this.props.post.author._id);
 		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName)) authorName = authorMember.displayName;
+			if(!_.isEmpty(authorMember.displayName) && bevy.settings.allow_changeable_names)
+				authorName = authorMember.displayName;
 		}
 
 		var images = [];
@@ -186,6 +189,7 @@ var Post = React.createClass({
 				author={ this.props.post.author }
 				activeMember={ this.props.activeMember }
 				members={ this.props.post.bevy.members }
+				activeBevy={ this.props.post.bevy }
 			/>)
 		: '';
 
