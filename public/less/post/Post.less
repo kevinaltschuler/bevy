@@ -25,9 +25,15 @@
 		.post-details {
 			vertical-align: top;
 			display: inline-block;
+			.top {
+			}
+			.bottom {
+				margin-top: -10px;
+			}
 			.details, .detail-time, .dot {
 				font-size: .6em;
 				color: #1A1A1A;
+				vertical-align: top;
 			}
 			.details:focus, .details:hover {
 				text-decoration: underline;
@@ -38,6 +44,21 @@
 			.glyphicon {
 				font-size: .4em;
 				color: #1A1A1A;
+				vertical-align: top;
+			}
+		}
+		.badges {
+			display: inline-block;
+			float: right;
+			margin-top: 1px;
+			.points {
+				display: block;
+				font-size: .6em;
+			}
+			.badge {
+				margin-top: 3px;
+				display: block;
+				font-size: .5em;
 			}
 		}
 	}

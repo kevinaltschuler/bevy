@@ -115,7 +115,7 @@ var InviteModal = React.createClass({
 		}
 
 		return <Modal className="invite-modal" { ...this.props }>
-					<span className="title">Invite Yo Friends</span>
+					<span className="title">Invite New Members</span>
 
 					<div className='row member-list'>
 						<div className='col-xs-12'>

@@ -20,6 +20,7 @@ var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
 var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
+var Badge = rbs.Badge;
 
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
@@ -32,6 +33,8 @@ var PostStore = require('./../PostStore');
 var POST = require('./../../constants').POST;
 
 var timeAgo = require('./../../shared/helpers/timeAgo');
+
+var $ = require('jquery');
 
 var user = window.bootstrap.user;
 var email = user.email;
@@ -121,24 +124,23 @@ var Post = React.createClass({
 
 	render: function() {
 
-		var bevy = this.props.post.bevy;
-
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (this.props.post.author.image_url)
 		 ? this.props.post.author.image_url
 		 : defaultProfileImage;
 
-		var authorName;
-		var author = this.props.post.author;
-		authorName = 'placeholder-author';
-		if(author) {
-			authorName = author.displayName;
+		var author;
+		author = 'placeholder-author';
+		if(this.props.post.author) {
+			if(this.props.post.author.google)
+				author = this.props.post.author.google.name.givenName + ' ' + this.props.post.author.google.name.familyName;
+			else
+				author = this.props.post.author.email;
 		}
 
 		var authorMember = this.findMember(this.props.post.author._id);
 		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName) && bevy.settings.allow_changeable_names)
-				authorName = authorMember.displayName;
+			if(!_.isEmpty(authorMember.displayName)) author = authorMember.displayName;
 		}
 
 		var images = [];
@@ -216,11 +218,18 @@ var Post = React.createClass({
 					<div className='panel-header'>
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<div className='post-details'>
-							<span className="details">{ authorName }</span>
-							&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
-							<span className="details">{ this.props.post.bevy.name }</span>
-							<span className="dot">&nbsp; • &nbsp;</span>
-							<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
+							<div className='top'>
+								<span className="details">{ author }</span>
+								&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
+								<span className="details">{ this.props.post.bevy.name }</span>
+							</div>
+							<div className="bottom">
+								<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
+							</div>
+						</div>
+						<div className='badges'>
+							<span className="points">{ this.countVotes() } Points</span>
+							<span className='badge pinned'>Pinned</span>
 						</div>
 					</div>
 
@@ -234,8 +243,6 @@ var Post = React.createClass({
 					<div className="panel-comments">
 						<div className="comment-count">
 							{ commentCount } Comments
-							•&nbsp;
-							{ this.countVotes() } points
 						</div>
 
 						{ commentList }
