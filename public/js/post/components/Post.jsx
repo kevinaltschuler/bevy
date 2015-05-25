@@ -20,6 +20,7 @@ var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
 var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
+var Badge = rbs.Badge;
 
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
@@ -220,11 +221,19 @@ var Post = React.createClass({
 					<div className='panel-header'>
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<div className='post-details'>
-							<span className="details">{ author }</span>
-							&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
-							<span className="details">{ this.props.post.bevy.name }</span>
-							<span className="dot">&nbsp; • &nbsp;</span>
-							<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
+							<div className='top'>
+								<span className="details">{ author }</span>
+								&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
+								<span className="details">{ this.props.post.bevy.name }</span>
+								
+							</div>
+							<div className="bottom">
+								<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
+							</div>
+						</div>
+						<div className='badges'>
+							<span className="points">{ this.countVotes() } Points</span>
+							<span className='badge pinned'>Pinned</span>
 						</div>
 					</div>
 
@@ -238,8 +247,6 @@ var Post = React.createClass({
 					<div className="panel-comments">
 						<div className="comment-count">
 							{ commentCount } Comments
-							•&nbsp;
-							{ this.countVotes() } points
 						</div>
 
 						{ commentList }
