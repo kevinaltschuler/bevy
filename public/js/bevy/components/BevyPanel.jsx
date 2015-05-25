@@ -64,9 +64,9 @@ var BevyPanel = React.createClass({
 		var bevy = nextProps.activeBevy;
 
 		this.setState({
-			name: bevy.get('name'),
-			description: bevy.get('description'),
-			image_url: bevy.get('image_url'),
+			name: bevy.name,
+			description: bevy.description,
+			image_url: bevy.image_url,
 			activeMember: nextProps.activeMember,
 			displayName: (nextProps.activeMember && nextProps.activeMember.displayName) ? nextProps.activeMember.displayName : 'no display name'
 		});
@@ -217,7 +217,7 @@ var BevyPanel = React.createClass({
 		   { payload: 'never', text: 'Never', defaultIndex: 2 },
 		];
 
-		var members = (_.isEmpty(bevy)) ? [] : bevy.get('members');
+		var members = (_.isEmpty(bevy)) ? [] : bevy.members;
 
 		var member = this.state.activeMember
 		var itemIndex = 0;

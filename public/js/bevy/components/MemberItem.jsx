@@ -31,7 +31,7 @@ var MemberItem = React.createClass({
 	remove: function(ev) {
 		ev.preventDefault();
 
-		var bevy_id = this.props.activeBevy.id;
+		var bevy_id = this.props.activeBevy._id;
 		var user_id = (_.isObject(this.props.contact.user)) ? this.props.contact.user._id : null;
 
 		BevyActions.removeUser(bevy_id, this.props.contact.email, user_id);

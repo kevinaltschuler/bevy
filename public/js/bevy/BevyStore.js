@@ -119,22 +119,28 @@ _.extend(BevyStore, {
 
 			case BEVY.UPDATE:
 				var bevy_id = payload.bevy_id;
-				var name = payload.name;
-				var description = payload.description;
-				var image_url = payload.image_url;
 
 				var bevy = this.bevies.get(bevy_id);
 
-				if(!_.isEmpty(name)) bevy.set('name', name);
-				if(!_.isEmpty(description)) bevy.set('description', description);
-				if(!_.isEmpty(image_url)) bevy.set('image_url', image_url);
+				var name = payload.name || bevy.get('name');
+				var description = payload.description || bevy.get('description');
+				var image_url = payload.image_url || bevy.get('image_url');
+				var settings = payload.settings || bevy.get('settings');
 
 				bevy.save({
 					name: name,
 					description: description,
-					image_url: image_url
+					image_url: image_url,
+					settings: settings
 				}, {
 					patch: true
+				});
+
+				bevy.set({
+					name: name,
+					description: description,
+					image_url: image_url,
+					settings: settings
 				});
 
 				this.trigger(BEVY.CHANGE_ALL);
@@ -403,13 +409,13 @@ _.extend(BevyStore, {
 	getActive: function() {
 		return (this.bevies._meta.active == null)
 		? {}
-		: this.bevies.get(this.bevies._meta.active);
+		: this.bevies.get(this.bevies._meta.active).toJSON();
 	},
 
 	getActiveMember: function() {
 		var bevy = this.getActive();
 		if(_.isEmpty(bevy)) return {};
-		var members = bevy.get('members');
+		var members = bevy.members;
 		var member = _.find(members, function(m) {
 			if(!m.user || !_.isObject(m.user)) return false;
 			return m.user._id == user._id;
@@ -422,7 +428,7 @@ _.extend(BevyStore, {
 	getMembers: function() {
 		var bevy = this.getActive();
 		if(_.isEmpty(bevy)) return [];
-		var members = bevy.get('members');
+		var members = bevy.members;
 		return members;
 	}
 });
