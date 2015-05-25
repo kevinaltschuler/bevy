@@ -147,7 +147,7 @@ var Post = React.createClass({
 			for(var key in allImages) {
 				images.push(
 					<div className='panel-body-image' key={ key } >
-						<ModalTrigger modal={ <ImageModal url={ this.props.post.images[key] } /> } >
+						<ModalTrigger modal={ <ImageModal allImages={ allImages } index={ key } /> } >
 							<button className="image-thumbnail" style={{backgroundImage: 'url(' + this.props.post.images[key] + ')',}}/>
 						</ModalTrigger>
 					</div>

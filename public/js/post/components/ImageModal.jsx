@@ -13,23 +13,26 @@ var rbs = require('react-bootstrap');
 var Modal = rbs.Modal;
 var Button = rbs.Button;
 
-var mui = require('material-ui');
-var FlatButton = mui.FlatButton;
-var RaisedButton = mui.RaisedButton;
-var TextField = mui.TextField;
-
 var ImageForModal = require('./ImageForModal.jsx');
 
 var ImageModal = React.createClass({
 
 	propTypes: {
-		url: React.PropTypes.string,
+		allImages: React.PropTypes.array,
+		index: React.PropTypes.number
 	},
 
 	getInitialState: function() {
-	    return {
-	      isModalOpen: false
-	    };
+		return {
+			isModalOpen: false,
+			index: 0
+		};
+ 	},
+
+ 	componentWillMount: function() {
+ 		this.setState({
+ 			index: this.props.index
+ 		});
  	},
 
  	// triggered every time a key is pressed
@@ -37,17 +40,49 @@ var ImageModal = React.createClass({
 	handleChange: function() {
 	},
 
+	onLeft: function(ev) {
+		if(this.state.index === 0) {
+			this.setState({
+				index: this.props.allImages.length - 1
+			});
+		} else {
+			this.setState({
+				index: --this.state.index
+			});
+		}
+	},
+
+	onRight: function(ev) {
+		if(this.state.index === this.props.allImages.length - 1) {
+			this.setState({
+				index: 0
+			});
+		} else {
+			this.setState({
+				index: ++this.state.index
+			});
+		}
+	},
+
 	render: function() {
 
-		return <Modal
-				  {...this.props}
-				  title=" "
-			      backdrop={false}
-			      className="image-modal">
-			      <div className='modal-body'>
-			        <ImageForModal onRequestHide= { this.props.onRequestHide } url={ this.props.url }/>
-			      </div>
-			    </Modal>
+		var url = this.props.allImages[this.state.index];
+
+		return (
+			<Modal
+				{...this.props}
+				title=" "
+				className="image-modal" >
+
+				<div className='modal-body'>
+					<ImageForModal onRequestHide={ this.props.onRequestHide } url={ url }/>
+				</div>
+
+				<Button className='image-left-btn' onClick={ this.onLeft }>Left</Button>
+				<Button className='image-right-btn' onClick={ this.onRight }>Right</Button>
+
+			</Modal>
+		);
 	}
 });
 

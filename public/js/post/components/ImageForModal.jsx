@@ -23,7 +23,7 @@ var ImageForModal = React.createClass({
 	},
 
 	handleClickOutside: function(ev) {
-		this.props.onRequestHide();
+		//this.props.onRequestHide();
 	},
 
 	render: function() {
