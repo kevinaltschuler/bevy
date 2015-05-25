@@ -68,6 +68,15 @@ var ImageModal = React.createClass({
 
 		var url = this.props.allImages[this.state.index];
 
+		var scrollButtons = (this.props.allImages.length < 2)
+		? ''
+		: (
+			<div>
+				<Button className='image-left-btn' onClick={ this.onLeft }>Left</Button>
+				<Button className='image-right-btn' onClick={ this.onRight }>Right</Button>
+			</div>
+		);
+
 		return (
 			<Modal
 				{...this.props}
@@ -78,8 +87,7 @@ var ImageModal = React.createClass({
 					<ImageForModal onRequestHide={ this.props.onRequestHide } url={ url }/>
 				</div>
 
-				<Button className='image-left-btn' onClick={ this.onLeft }>Left</Button>
-				<Button className='image-right-btn' onClick={ this.onRight }>Right</Button>
+				{ scrollButtons }
 
 			</Modal>
 		);
