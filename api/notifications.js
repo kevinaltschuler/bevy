@@ -51,8 +51,6 @@ exports.create = function(req, res, next) {
 			//console.log(params);
 			break;
 		case 'invite:email':
-			//console.log(params);
-			//var email = options.email;
 			var members = params.members;
 			var bevy = params.bevy;
 			var inviter = params.user;
@@ -73,13 +71,14 @@ exports.create = function(req, res, next) {
 								}
 							}
 							user.notifications.push(notification);
-							user.save(function(err) {
+							user.save(function(err, $user) {
 								if(err) return done(err);
+								emitter.emit('invite:email:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
 								done(null);
 							});
 
 							// push notification
-							emitter.emit('invite:email:' + user._id, notification);
+							//emitter.emit('invite:email:' + user._id, notification);
 
 						}, function(err) {
 							return done(err);
@@ -156,7 +155,7 @@ exports.destroy = function(req, res, next) {
 
 exports.poll = function(req, res, next) {
 	var user_id = req.params.userid;
-	emitter.on('invite:email:' + user._id, function(invite) {
+	emitter.on('invite:email:' + user_id, function(invite) {
 		return res.json(invite);
 	});
 }
