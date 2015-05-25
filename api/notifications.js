@@ -77,9 +77,6 @@ exports.create = function(req, res, next) {
 								done(null);
 							});
 
-							// push notification
-							//emitter.emit('invite:email:' + user._id, notification);
-
 						}, function(err) {
 							return done(err);
 						});
@@ -87,16 +84,20 @@ exports.create = function(req, res, next) {
 
 					function(done) {
 						// then send the invite email
+
+						var inviter_name = (inviter.google)
+						? inviter.google.name.givenName + ' ' + inviter.google.name.familyName
+						: inviter.email;
+
 						mailgun.messages().send({
 							from: 'Bevy Team <contact@bvy.io>',
 							to: email,
 							subject: 'Invite',
-							text: 'Invite to ' + bevy.name + ' from ' + inviter.google.name.givenName + ' ' + inviter.google.name.familyName
+							text: 'Invite to ' + bevy.name + ' from ' + inviter_name
 						}, function(err, body) {
 							if(err) {
 								return done(err);
 							}
-							//console.log(body);
 						});
 					}
 				]);
