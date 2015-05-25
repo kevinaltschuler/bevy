@@ -76,7 +76,7 @@ var MemberItem = React.createClass({
 		var className = 'row';
 		if(this.props.active) className += ' active';
 
-		return <div className="row">
+		return <div className="member-item row">
 
 					<div className='col-xs-2'>
 						<Button
@@ -86,16 +86,16 @@ var MemberItem = React.createClass({
 					</div>
 
 					<div className='col-xs-5'>
-						<span className="">
+						<span className='member-contact-name'>
 							{ contactName }
 						</span>
-						<span className=''>
+						<span className='member-contact-status'>
 							{ contactStatus }
 						</span>
 					</div>
 
 					<div className='col-xs-2'>
-						<span> { this.props.contact.role || 'user' } </span>
+						<span className='member-contact-role'>{ this.props.contact.role || 'user' }</span>
 					</div>
 
 					<div className='col-xs-3'>

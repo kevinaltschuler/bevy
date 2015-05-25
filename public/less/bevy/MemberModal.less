@@ -2,16 +2,41 @@
 	min-height: 400px;
 	.modal-dialog {
 		.modal-content {
-			.contact-btn {
-				border-radius: 40px;
-				width: 40px;
-				height: 40px;
-				margin-left: 15px;
-				background-position: center;
-				background-size: 60px auto;
+
+			.modal-header {
+				span.member-modal-title {
+					font-size: 1.25em;
+					display: block;
+					text-align: center;
+				}
 			}
-			span {
-				display: block;
+
+			.member-item {
+
+				display: flex;
+				align-items: center;
+				margin-bottom: 10px;
+
+				span.member-contact-name, span.member-contact-status {
+					display: block;
+				}
+
+				span.member-contact-name {
+					font-weight: bold;
+				}
+
+				span.member-contact-status {
+					font-style: italic;
+				}
+
+				.contact-btn {
+					border-radius: 40px;
+					width: 40px;
+					height: 40px;
+					margin-left: 15px;
+					background-position: center;
+					background-size: 60px auto;
+				}
 			}
 		}
 	}

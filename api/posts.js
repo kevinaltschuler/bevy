@@ -52,7 +52,6 @@ exports.index = function(req, res, next) {
 				.populate('author')
 				.exec();
 			comment_promise.then(function(comments) {
-				console.log(comments);
 				post = post.toJSON();
 				post.comments = comments;
 				_posts.push(post);

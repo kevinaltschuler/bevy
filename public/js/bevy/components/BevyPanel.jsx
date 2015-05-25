@@ -393,7 +393,7 @@ var BevyPanel = React.createClass({
 									activeBevy={ this.props.activeBevy }
 									activeMember={ this.props.activeMember }
 									contacts={ members }
-									title={ "Members of " + name } />
+									title={ <span className='member-modal-title'>Members of <b>{ name }</b></span> } />
 							}>
 							<Button type='button' className="sidebar-link">
 								{ members.length + ' Members' }
