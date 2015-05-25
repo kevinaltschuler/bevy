@@ -22,6 +22,7 @@ var User = mongoose.model('User');
 var paramNames = 'event message email bevy user members';
 
 var emitter = new EventEmitter();
+emitter.setMaxListeners(0);
 
 function collectParams(req) {
 	var params = {};
@@ -78,7 +79,7 @@ exports.create = function(req, res, next) {
 							});
 
 							// push notification
-							emitter.emit('invite:email', notification);
+							emitter.emit('invite:email:' + user._id, notification);
 
 						}, function(err) {
 							return done(err);
@@ -154,7 +155,8 @@ exports.destroy = function(req, res, next) {
 }
 
 exports.poll = function(req, res, next) {
-	emitter.on('invite:email', function(invite) {
+	var user_id = req.params.userid;
+	emitter.on('invite:email:' + user._id, function(invite) {
 		return res.json(invite);
 	});
 }
