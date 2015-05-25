@@ -73,7 +73,6 @@ var BevyPanel = React.createClass({
 	},
 
 	startEditing: function(ev) {
-		//console.log('start editing');
 		this.setState({
 			isEditing: true
 		});
@@ -132,9 +131,6 @@ var BevyPanel = React.createClass({
 		BevyActions.update(bevy_id, name, description, image_url);
 	},
 
-	onKeyUp: function(ev) {
-	},
-
 	onChange: function(ev) {
 		this.setState({
 			name: this.refs.name.getValue(),
@@ -172,8 +168,6 @@ var BevyPanel = React.createClass({
 		var bevy_id = this.props.activeBevy.id;
 
 		BevyActions.leave(bevy_id);
-		// then switch to another bevy
-		//BevyActions.switchBevy();
 	},
 
 	destroy: function(ev) {
@@ -248,177 +242,171 @@ var BevyPanel = React.createClass({
 			: '';
 		}
 
-		var header;
-		if(this.state.isEditing) {
-			header = <div>
-							<div className="row sidebar-top">
-								<div className="col-xs-3 sidebar-picture">
-									<Uploader
-										onUploadComplete={ this.onUploadComplete }
-										className="bevy-image-dropzone"
-										style={ bevyImageStyle }
-										dropzoneOptions={ dropzoneOptions }
-									/>
-								</div>
-								<div className="col-xs-9 sidebar-title">
-									<TextField
-										type='text'
-										ref='name'
-										defaultValue={ name }
-										value={ name }
-										placeholder='Group Name'
-										onKeyUp={ this.onKeyUp }
-										onChange={ this.onChange }
-									/>
-									<TextField
-										type='text'
-										ref='description'
-										defaultValue={ description }
-										value={ description }
-										placeholder='Group Description'
-										onKeyUp={ this.onKeyUp }
-										onChange={ this.onChange }
-										multiLine= { true }
-									/>
-									<RaisedButton label="save changes" onClick= {this.stopEditing} />
-								</div>
-							</div>
-						</div>;
+		var header = (this.state.isEditing)
+		? (<div>
+				<div className="row sidebar-top">
+					<div className="col-xs-3 sidebar-picture">
+						<Uploader
+							onUploadComplete={ this.onUploadComplete }
+							className="bevy-image-dropzone"
+							style={ bevyImageStyle }
+							dropzoneOptions={ dropzoneOptions }
+						/>
+					</div>
+					<div className="col-xs-9 sidebar-title">
+						<TextField
+							type='text'
+							ref='name'
+							defaultValue={ name }
+							value={ name }
+							placeholder='Group Name'
+							onKeyUp={ this.onKeyUp }
+							onChange={ this.onChange }
+						/>
+						<TextField
+							type='text'
+							ref='description'
+							defaultValue={ description }
+							value={ description }
+							placeholder='Group Description'
+							onKeyUp={ this.onKeyUp }
+							onChange={ this.onChange }
+							multiLine= { true }
+						/>
+						<RaisedButton label="save changes" onClick= {this.stopEditing} />
+					</div>
+				</div>
+			</div>)
+		: (<div className="row sidebar-top">
+				<div className="col-xs-3 sidebar-picture">
+					<div className='profile-img' style={ bevyImageStyle }/>
+				</div>
+				<div className="col-xs-9 sidebar-title">
+					<div className='row'>
+						<span
+							className='sidebar-title-name'
+							onDoubleClick={ this.startEditing } >
+							{ name }
+						</span>
+						{ editButton }
+					</div>
+					<div className='row'>
+						<span
+							className='sidebar-title-description'
+							onDoubleClick={ this.startEditing } >
+							{ description }
+						</span>
+					</div>
+				</div>
+			</div>
+		);
 
-		} else {
-			header = <div className="row sidebar-top">
-							<div className="col-xs-3 sidebar-picture">
-								<div className='profile-img' style={ bevyImageStyle }/>
-							</div>
-							<div className="col-xs-9 sidebar-title">
-								<div className='row'>
-									<span
-										className='sidebar-title-name'
-										onDoubleClick={ this.startEditing } >
-										{ name }
-									</span>
-									{ editButton }
-								</div>
-								<div className='row'>
-									<span
-										className='sidebar-title-description'
-										onDoubleClick={ this.startEditing } >
-										{ description }
-									</span>
-								</div>
-							</div>
-						</div>;
-		}
-
-		var nameEditAction;
-		if (this.state.isEditingName) {
-			nameEditAction = (<div className='row sidebar-action name-edit-action'>
-										<div className="sidebar-action-title col-xs-12"> Posting As... </div>
-										<TextField
-												type='text'
-												ref='displayName'
-												defaultValue={ this.state.displayName }
-										/>
-										<IconButton
-											className="save-button"
-											tooltip='save changes'
-											onClick={ this.stopEditingName }>
-											<span className="glyphicon glyphicon-heart-empty"></span>
-										</IconButton>
-									</div>)
-		} else {
-			nameEditAction = (<div className='row sidebar-action name-edit-action'>
-										<div className="sidebar-action-title col-xs-12"> Posting As... </div>
-										<span className='sidebar-posting-name'>
-											{ this.state.displayName }
-										</span>
-										<IconButton
-											className="edit-button"
-											tooltip='edit name'
-											onClick={ this.startEditingName }>
-											<span className="glyphicon glyphicon-pencil"></span>
-										</IconButton>
-									</div>)
-		}
+		var nameEditAction = (this.state.isEditingName)
+		? (<div className='row sidebar-action name-edit-action'>
+				<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+				<TextField
+						type='text'
+						ref='displayName'
+						defaultValue={ this.state.displayName }
+				/>
+				<IconButton
+					className="save-button"
+					tooltip='save changes'
+					onClick={ this.stopEditingName }>
+					<span className="glyphicon glyphicon-heart-empty"></span>
+				</IconButton>
+			</div>)
+		: (<div className='row sidebar-action name-edit-action'>
+				<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+				<span className='sidebar-posting-name'>
+					{ this.state.displayName }
+				</span>
+				<IconButton
+					className="edit-button"
+					tooltip='edit name'
+					onClick={ this.startEditingName }>
+					<span className="glyphicon glyphicon-pencil"></span>
+				</IconButton>
+			</div>
+		);
 
 		if(!this.props.activeBevy.settings.allow_changeable_names) nameEditAction = '';
 
 		if(this.state.activeMember) {
-		var bottomActions = (this.state.activeMember.role == 'admin')
-		? (<div className='row sidebar-bottom'>
-				<div className='col-xs-6'>
-					<ModalTrigger modal={<BevySettingsModal activeBevy={this.props.activeBevy} />}>
-						<Button className="sidebar-action-link-bottom">
-							Bevy Settings
-						</Button>
-					</ModalTrigger>
-				</div>
-				<div className='col-xs-6'>
-						<Button className="sidebar-action-link-bottom"
-							onClick={ this.destroy }>
-							Delete Bevy
-						</Button>
-				</div>
-			</div>)
-		: (<div className='row sidebar-bottom'>
-				<div className='col-xs-6'>
-					{/* user settings */}
-				</div>
-				<div className='col-xs-6'>
-					 <Button className="sidebar-action-link-bottom"
-						onClick={ this.leave }>
-						Leave Bevy
-					  </Button>
-				</div>
-			</div>)
+			var bottomActions = (this.state.activeMember.role == 'admin')
+			? (<div className='row sidebar-bottom'>
+					<div className='col-xs-6'>
+						<ModalTrigger modal={<BevySettingsModal activeBevy={this.props.activeBevy} />}>
+							<Button className="sidebar-action-link-bottom">
+								Bevy Settings
+							</Button>
+						</ModalTrigger>
+					</div>
+					<div className='col-xs-6'>
+							<Button className="sidebar-action-link-bottom"
+								onClick={ this.destroy }>
+								Delete Bevy
+							</Button>
+					</div>
+				</div>)
+			: (<div className='row sidebar-bottom'>
+					<div className='col-xs-6'>
+						{/* user settings */}
+					</div>
+					<div className='col-xs-6'>
+						 <Button className="sidebar-action-link-bottom"
+							onClick={ this.leave }>
+							Leave Bevy
+						  </Button>
+					</div>
+				</div>)
 		}
 
 
-		return <ButtonGroup className="btn-group right-sidebar panel">
-
-					{ header }
-
-					<div className='row sidebar-links'>
-						<ButtonGroup className="col-xs-12" role="group">
-							<ModalTrigger modal={
-								<InviteModal
-									activeBevy={ this.props.activeBevy }
-								/>
-							}>
-								<Button type='button' className="sidebar-link">
-									Invite People
-								</Button>
-							</ModalTrigger>
-							•
-							<ModalTrigger modal={
-								<MemberModal
-									activeBevy={ this.props.activeBevy }
-									activeMember={ this.props.activeMember }
-									contacts={ members }
-									title={ <span className='member-modal-title'>Members of <b>{ name }</b></span> } />
-							}>
+		return (
+			<ButtonGroup className="btn-group right-sidebar panel">
+				{ header }
+				<div className='row sidebar-links'>
+					<ButtonGroup className="col-xs-12" role="group">
+						<ModalTrigger modal={
+							<InviteModal
+								activeBevy={ this.props.activeBevy }
+							/>
+						}>
 							<Button type='button' className="sidebar-link">
-								{ members.length + ' Members' }
+								Invite People
 							</Button>
-							</ModalTrigger>
-						</ButtonGroup>
-					</div>
+						</ModalTrigger>
+						•
+						<ModalTrigger modal={
+							<MemberModal
+								activeBevy={ this.props.activeBevy }
+								activeMember={ this.props.activeMember }
+								contacts={ members }
+								title={ <span className='member-modal-title'>Members of <b>{ name }</b></span> } />
+						}>
+						<Button type='button' className="sidebar-link">
+							{ members.length + ' Members' }
+						</Button>
+						</ModalTrigger>
+					</ButtonGroup>
+				</div>
 
-					{ nameEditAction }
+				{ nameEditAction }
 
-					<div className='row sidebar-action'>
-						<div className="sidebar-action-title col-xs-12"> Notifications </div>
-						<DropDownMenu
-							className='sidebar-action-dropdown'
-							menuItems={ notificationMenuItems }
-							onChange={ this.setNotificationLevel }
-							selectedIndex={ itemIndex }
-						/>
-					</div>
+				<div className='row sidebar-action'>
+					<div className="sidebar-action-title col-xs-12"> Notifications </div>
+					<DropDownMenu
+						className='sidebar-action-dropdown'
+						menuItems={ notificationMenuItems }
+						onChange={ this.setNotificationLevel }
+						selectedIndex={ itemIndex }
+					/>
+				</div>
 
-					{bottomActions}
+				{bottomActions}
 
-				 </ButtonGroup>
+			 </ButtonGroup>);
 	}
 });
 module.exports = BevyPanel;

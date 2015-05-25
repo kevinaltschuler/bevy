@@ -33,8 +33,6 @@ var POST = require('./../../constants').POST;
 
 var timeAgo = require('./../../shared/helpers/timeAgo');
 
-var $ = require('jquery');
-
 var user = window.bootstrap.user;
 var email = user.email;
 
