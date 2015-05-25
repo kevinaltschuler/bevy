@@ -9,10 +9,7 @@
 var React = require('react');
 
 var rbs = require('react-bootstrap');
-//var ButtonGroup = rbs.ButtonGroup;
-var {
-	ButtonGroup
-} = rbs;
+var ButtonGroup = rbs.ButtonGroup;
 
 var NotificationItem = require('./NotificationItem.jsx');
 
