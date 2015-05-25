@@ -42,29 +42,31 @@ var MemberItem = React.createClass({
 		var defaultContactImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var contactImage = defaultContactImage;
 
-		var contactButtonStyle = {
-			backgroundImage: 'url(' + contactImage + ')'
-		};
+		var contact = this.props.contact;
 
-		var contactName = this.props.contact.email || "Placeholder Contact";
-		var joined = (_.isEmpty(this.props.contact.user)) ? false : true;
+		var contactName = contact.email || "Placeholder Contact";
+		var joined = (_.isEmpty(contact.user)) ? false : true;
 
 		var contactStatus = '';
 		if(!joined) contactStatus = '[invited]';
-		else contactStatus = (this.props.contact.user.google)
-		? this.props.contact.user.google.name.givenName + ' ' + this.props.contact.user.google.name.familyName
-		: this.props.contact.user.email;
+		else contactStatus = (contact.user.google)
+		? contact.user.google.name.givenName + ' ' + contact.user.google.name.familyName
+		: contact.user.email;
 
 		if(joined)
-			if(this.props.contact.displayName) contactStatus = this.props.contact.displayName;
+			if(contact.displayName) contactStatus = this.props.contact.displayName;
 
 		if(joined) {
-			contactImage = (this.props.contact.user.google && this.props.contact.user.google.photos)
-			? this.props.contact.user.google.photos[0].value
+			contactImage = (contact.user.google && contact.user.google.photos)
+			? contact.user.google.photos[0].value
 			: defaultContactImage;
 
-			if(this.props.contact.image_url) contactImage = this.props.contact.image_url;
+			if(contact.user.image_url) contactImage = contact.user.image_url;
 		}
+
+		var contactButtonStyle = {
+			backgroundImage: 'url(' + contactImage + ')'
+		};
 
 		var removeButton = '';
 		if(!_.isEmpty(this.props.activeMember)) {
