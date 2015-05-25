@@ -19,13 +19,15 @@ module.exports = function(router) {
 	// INDEX
 	router.get('/users/:userid/notifications', api.notifications.index);
 
-	// SHOW
-	router.get('/users/:userid/notifications/:id', api.notifications.show);
-
-	// DESTROY
-	router.get('/users/:userid/notifications/:id', api.notifications.destroy);
-	router.delete('/users/:userid/notifications/:id', api.notifications.destroy);
-
 	// LONG POLL
 	router.get('/users/:userid/notifications/poll', api.notifications.poll);
+
+	// SHOW
+	//router.get('/users/:userid/notifications/:id', api.notifications.show);
+
+	// DESTROY
+	router.get('/users/:userid/notifications/:id/destroy', api.notifications.destroy);
+	router.delete('/users/:userid/notifications/:id', api.notifications.destroy);
+
+
 }

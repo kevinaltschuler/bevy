@@ -59,20 +59,23 @@ _.extend(NotificationStore, {
 
 });
 
-setInterval(
-	function() {
+// set up long poll
+(function poll() {
+	setTimeout(function() {
 		$.ajax({
-			method: 'GET',
-			url: constants.apiurl + '/users/' + user._id + '/notifications/',
-			success: function(data){
-				notifications = data;
+			url: constants.apiurl + '/users/' + user._id + '/notifications/poll',
+			dataType: 'json',
+			success: function(data) {
+				notifications.push(data);
 				NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
+
+				// set up next poll recursively
+				//poll();
 			},
-			dataType: 'json'
+			complete: poll
 		});
-	},
-	30000
-);
+	}, 30000);
+})();
 
 
 Dispatcher.register(NotificationStore.handleDispatch.bind(NotificationStore));

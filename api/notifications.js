@@ -21,6 +21,8 @@ var User = mongoose.model('User');
 
 var paramNames = 'event message email bevy user members';
 
+var emitter = new EventEmitter();
+
 function collectParams(req) {
 	var params = {};
 	paramNames.split(' ').forEach(function(param) {
@@ -41,13 +43,14 @@ exports.create = function(req, res, next) {
 	}
 
 	//channel.publish(params.event, params);
+	//emitter.emit(params.event, params);
 
 	switch(params.event) {
 		case 'test':
-			console.log(params);
+			//console.log(params);
 			break;
 		case 'invite:email':
-			console.log(params);
+			//console.log(params);
 			//var email = options.email;
 			var members = params.members;
 			var bevy = params.bevy;
@@ -61,17 +64,22 @@ exports.create = function(req, res, next) {
 						var promise = User.findOne(query).exec();
 						promise.then(function(user) {
 							if(!user) done(null);
-							user.notifications.push({
-							 	event: 'invite',
+							var notification = {
+								event: 'invite',
 								data: {
 									bevy: bevy,
 									from_user: inviter
 								}
-							});
+							}
+							user.notifications.push(notification);
 							user.save(function(err) {
 								if(err) return done(err);
 								done(null);
 							});
+
+							// push notification
+							emitter.emit('invite:email', notification);
+
 						}, function(err) {
 							return done(err);
 						});
@@ -88,7 +96,7 @@ exports.create = function(req, res, next) {
 							if(err) {
 								return done(err);
 							}
-							console.log(body);
+							//console.log(body);
 						});
 					}
 				]);
@@ -146,13 +154,7 @@ exports.destroy = function(req, res, next) {
 }
 
 exports.poll = function(req, res, next) {
-	/*setInterval(
-		channel.subscribe('invite:email', function(data) {
-			res.json({
-				  event: 'invite:email'
-				, data: data
-			});
-		}),
-		5000
-	);*/
+	emitter.on('invite:email', function(invite) {
+		return res.json(invite);
+	});
 }
