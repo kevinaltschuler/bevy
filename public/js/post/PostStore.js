@@ -106,10 +106,20 @@ _.extend(PostStore, {
 
 				// save to server
 				newPost.save(null, {
-					success: function(model, response, options) {
+					success: function(post, response, options) {
 						// success
-						newPost.set('_id', model.id);
+						newPost.set('_id', post.id);
 						this.trigger(POST.CHANGE_ALL);
+
+						// send notification
+						$.post(
+							constants.apiurl + '/notifications',
+							{
+								event: 'post:create',
+								post: post.toJSON()
+							}
+						);
+
 					}.bind(this)
 				});
 

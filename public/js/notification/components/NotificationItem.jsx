@@ -69,7 +69,7 @@ var NotificationItem = React.createClass({
 								<div className="row">
 									<div className="name">
 										{ from_user.google.name.givenName + " " }
-										
+
 										{ from_user.google.name.familyName }
 									</div>
 								</div>
@@ -79,23 +79,47 @@ var NotificationItem = React.createClass({
 									</div>
 								</div>
 							</div>
+							<div className='col-xs-2'>
+							 	<Button
+							 		className="accept-btn"
+									onClick={ this.join } >
+							 		Join
+							 	</Button>
+							</div>
 						</div>
 
+				break;
+
+			case 'post:create':
+
+				var post = data.post;
+				var authorName = (post.author.google)
+				? post.author.google.name.givenName + ' ' + post.author.google.name.familyName
+				: post.author.email;
+				var bevyName = post.bevy.name;
+
+				body = (
+					<div className="notification-body col-xs-10">
+						<span>Post to <b>{ bevyName }</b> by <b>{ authorName }</b></span>
+						<br />
+						<span><i>{ post.title }</i></span>
+					</div>
+				);
+
+				break;
+
+			default:
+				body = (
+					<span>{ data }</span>
+				);
 				break;
 		}
 
 		return <Panel className="notification-item">
 					<div className='row'>
 						{ body }
-						<div className='col-xs-2'>
-						 	<Button
-						 		className="accept-btn"
-								onClick={ this.join }
-							>
-						 		Join
-						 	</Button>
-						</div>
-						<div className='col-xs-1 dismiss-btn'>
+
+						<div className='col-xs-2 dismiss-btn'>
 							<IconButton onClick={ this.dismiss } tooltip='dismiss' >
 								<span className="glyphicon glyphicon-remove" />
 							</IconButton>

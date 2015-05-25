@@ -43,9 +43,6 @@ exports.create = function(req, res, next) {
 		return next(error.gen('no event supplied'));
 	}
 
-	//channel.publish(params.event, params);
-	//emitter.emit(params.event, params);
-
 	switch(params.event) {
 		case 'test':
 			//console.log(params);
@@ -104,6 +101,43 @@ exports.create = function(req, res, next) {
 			});
 
 			break;
+
+		case 'post:create':
+			var post = req.body['post'];
+			//console.log(post);
+			var members = post.bevy.members;
+			members = _.filter(members, function(member) {
+				return member.notificationLevel == 'all';
+			});
+
+			members.forEach(function(member) {
+				if(_.isEmpty(member.user)) return; // user hasn't joined yet, so continue
+				var user_query = { _id: member.user };
+				var user_promise = User.findOne(user_query).exec();
+				user_promise.then(function(user) {
+					if(!user) return next(err);
+					var notification = {
+						event: 'post:create',
+						data: {
+							post: post
+						}
+					};
+					user.notifications.push(notification);
+					user.save(function(err, $user) {
+						if(err) return next(err);
+						emitter.emit('post:create:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
+					})
+				}, function(err) { return next(err); })
+			});
+
+			// grab members
+			// determine which members will receive notification
+			// 	check notification level
+			// foreach member
+			// 	save to member
+			// 	emit event
+
+			break;
 	}
 
 	return res.json(params);
@@ -158,5 +192,8 @@ exports.poll = function(req, res, next) {
 	var user_id = req.params.userid;
 	emitter.on('invite:email:' + user_id, function(invite) {
 		return res.json(invite);
+	});
+	emitter.on('post:create:' + user_id, function(data) {
+		return res.json(data);
 	});
 }
