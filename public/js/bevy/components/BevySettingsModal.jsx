@@ -20,24 +20,41 @@ var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var IconButton = mui.IconButton;
+var Toggle = mui.Toggle;
 
 var BevyActions = require('./../BevyActions');
 
 var BevySettingsModal = React.createClass({
 
 	propTypes: {
-		activeBevy: React.PropTypes.object,
+		activeBevy: React.PropTypes.object
+	},
+
+	nameToggle: function() {
+		this.canChangeName = !this.canChangeName;
 	},
 
 	render: function() {
 
+		var canChangeName = true;
+
 		return <Modal className="bevy-settings-modal">
-					<span className="title">Settings for {activeBevy.get('name')}</span>
+					<span className="title">Settings for {this.props.activeBevy.get('name')}</span>
+
+					<div className='row bevy-setting'>
+						<Toggle
+						  name="toggleName1"
+						  value="toggleValue1"
+						  label="allow users to change display name?" 
+						  setToggled = {canChangeName}
+						  onToggle = {this.nameToggle}/>
+					</div>
 
 					<div className='row'>
 						<div className='col-xs-12'>
 							<div className="panel-bottom">
 								<RaisedButton
+									onClick={this.props.onRequestHide}
 									label="Save"/>
 							</div>
 						</div>

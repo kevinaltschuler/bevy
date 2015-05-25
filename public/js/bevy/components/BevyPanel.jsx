@@ -345,17 +345,17 @@ var BevyPanel = React.createClass({
 		var bottomActions = (this.state.activeMember.role == 'admin')
 		? (<div className='row sidebar-bottom'>
 				<div className='col-xs-6'>
-					{/*<Button className="sidebar-action-link-bottom">
-						Bevy Settings
-					</Button>*/}
+					<ModalTrigger modal={<BevySettingsModal activeBevy={this.props.activeBevy} />}>
+						<Button className="sidebar-action-link-bottom">
+							Bevy Settings
+						</Button>
+					</ModalTrigger>
 				</div>
 				<div className='col-xs-6'>
-					<ModalTrigger modal={<BevySettingsModal activeBevy={this.props.activeBevy} />}>
 						<Button className="sidebar-action-link-bottom"
 							onClick={ this.destroy }>
 							Delete Bevy
 						</Button>
-					</ModalTrigger>
 				</div>
 			</div>)
 		: (<div className='row sidebar-bottom'>

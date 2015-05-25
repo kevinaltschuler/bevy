@@ -75,7 +75,6 @@ var ProfileDropdown = React.createClass({
 			profileImage =  this.state.image_url;
 			var profileImageStyle = {
 				backgroundImage: 'url(' + profileImage + ')',
-				backgroundSize: '100px auto'
 			}
 		}
 
