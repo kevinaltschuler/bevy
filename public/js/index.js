@@ -11,18 +11,10 @@
 
 'use strict';
 
-// polyfills and shims
-// files/functions which patch functionality for
-// older browsers that don't support new features
-// TODO: es6 support
-require('./shared/polyfills/Object.assign.js');
-
 var _ = require('underscore');
 
 // load globals
 var Backbone = require('backbone');
-global.jQuery = require('jquery');
-Backbone.$ = require('jquery');
 
 // patch toJSON function to support nested stuff
 Backbone.Model.prototype.toJSON = function() {
@@ -44,7 +36,6 @@ var React = require('react');
 var Navbar = require('./app/components/Navbar.jsx');
 var MainSection = require('./app/components/MainSection.jsx');
 
-var ProfilePage = require('./profile/components/ProfilePage.jsx');
 var LoginPage = require('./auth/components/LoginPage.jsx');
 var RegisterPage = require('./auth/components/RegisterPage.jsx');
 var ForgotPage = require('./auth/components/ForgotPage.jsx');
@@ -78,7 +69,6 @@ var App = React.createClass({
 // route configuration
 var routes = (
 	<Route name='app' path='/' handler={ App }>
-		<Route name='profile' handler={ ProfilePage } />
 		<Route name='login' handler={ LoginPage } />
 		<Route name='register' handler={ RegisterPage } />
 		<Route name='forgot' handler={ ForgotPage } />
@@ -90,5 +80,3 @@ var routes = (
 Router.run(routes, Router.HistoryLocation, function(Handler) {
 	React.render(<Handler/>, document.getElementById('app'));
 });
-
-//console.log(window.bootstrap.user);
