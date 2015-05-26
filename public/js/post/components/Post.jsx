@@ -243,12 +243,13 @@ var Post = React.createClass({
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<div className='post-details'>
 							<div className='top'>
-								<span className="details">{ author }</span>
-								&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
-								<span className="details">{ this.props.post.bevy.name }</span>
+								<span className="details">{ author } </span>
+								<span className="glyphicon glyphicon-triangle-right"/>
+								<span className="details"> { this.props.post.bevy.name }</span>
 							</div>
 							<div className="bottom">
-								<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
+								<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) } | </span>
+								<span className='detail-time'>expires in 12 hours</span>
 							</div>
 						</div>
 						<div className='badges'>
