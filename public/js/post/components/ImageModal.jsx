@@ -20,7 +20,7 @@ var ImageModal = React.createClass({
 
 	propTypes: {
 		allImages: React.PropTypes.array.isRequired,
-		index: React.PropTypes.number.isRequired
+		index: React.PropTypes.string.isRequired
 	},
 
 	getInitialState: function() {

@@ -159,8 +159,8 @@ var NewPostPanel = React.createClass({
 
 	render: function() {
 
-		var styles = this.getCollapsableClassSet();
-		var classSet = React.addons.classSet;
+		//var styles = this.getCollapsableClassSet();
+		//var classSet = React.addons.classSet;
 		//console.log(styles);
 		var dropzoneOptions = {
 			acceptedFiles: 'image/*',
@@ -196,7 +196,7 @@ var NewPostPanel = React.createClass({
 						/>
 					</div>
 
-					<div ref='collapse' className={ classSet(styles) }>
+					<div ref='collapse'>
 
 						<Uploader
 							onUploadComplete={ this.onUploadComplete }

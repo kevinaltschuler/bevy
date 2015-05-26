@@ -17,7 +17,7 @@ var _ = require('underscore');
 var Backbone = require('backbone');
 
 // patch toJSON function to support nested stuff
-Backbone.Model.prototype.toJSON = function() {
+/*Backbone.Model.prototype.toJSON = function() {
     if (this._isSerializing) {
         return this.id || this.cid;
     }
@@ -28,7 +28,7 @@ Backbone.Model.prototype.toJSON = function() {
     });
     this._isSerializing = false;
     return json;
-}
+}*/
 
 var React = require('react');
 
@@ -45,24 +45,26 @@ var ResetPage = require('./auth/components/ResetPage.jsx');
 var Router = require('react-router');
 
 var DefaultRoute = Router.DefaultRoute;
-var Link = Router.Link;
 var Route = Router.Route;
 var RouteHandler = Router.RouteHandler;
+var Redirect = Router.Redirect;
 
 //Needed for onTouchTap - a feature of Material-UI
 //Can go away when react 1.0 release
 //Check this repo:
 //https://github.com/zilverline/react-tap-event-plugin
-var injectTapEventPlugin = require('react-tap-event-plugin');
-injectTapEventPlugin();
+//var injectTapEventPlugin = require('react-tap-event-plugin');
+//injectTapEventPlugin();
 
 
 // App bootstrap
 var App = React.createClass({
 	render: function() {
-		return <div>
-					<RouteHandler/>
-				</div>
+		return (
+			<div>
+				<RouteHandler/>
+			</div>
+		);
 	}
 });
 
@@ -73,7 +75,9 @@ var routes = (
 		<Route name='register' handler={ RegisterPage } />
 		<Route name='forgot' handler={ ForgotPage } />
 		<Route name='reset' path='reset/:token' handler={ ResetPage } />
-		<DefaultRoute handler={ MainSection } />
+		{/*<DefaultRoute handler={ MainSection } />*/}
+		<Route name='home' path='/b/' handler={ MainSection } />
+		<Redirect to='home' />
 	</Route>
 );
 
