@@ -114,10 +114,11 @@ exports.update = function(req, res, next) {
 	var bevy_id = req.params.id;
 	var id = req.params.id;
 	var update = collectPostParams(req);
+	update.pinned = req.body['pinned'];
 
 	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
-	var promise = Post.findOneAndUpdate(query, update)
+	var promise = Post.findOneAndUpdate(query, update, { new: true, upsert: true })
 		.populate('bevy author')
 		.exec();
 	promise.then(function(post) {

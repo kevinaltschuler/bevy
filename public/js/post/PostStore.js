@@ -220,7 +220,7 @@ _.extend(PostStore, {
 				var post_id = payload.post_id;
 				var post = this.posts.get(post_id);
 
-				var pinned = post.get('pinned') || false;
+				var pinned = post.get('pinned');
 
 				post.set('pinned', !pinned);
 
