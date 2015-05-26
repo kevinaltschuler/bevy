@@ -216,6 +216,31 @@ _.extend(PostStore, {
 				this.trigger(POST.CHANGE_ALL);
 				break;
 
+			case POST.PIN:
+				var post_id = payload.post_id;
+				var post = this.posts.get(post_id);
+
+				var pinned = post.get('pinned') || false;
+
+				post.set('pinned', !pinned);
+
+				// set to post's bevy in case on frontpage
+				var temp = this.posts._meta.bevy_id;
+				this.posts._meta.bevy_id = post.get('bevy')._id;
+
+				post.save({
+					pinned: !pinned
+				}, {
+					patch: true
+				});
+
+				// set back
+				this.posts._meta.bevy_id = temp;
+
+				this.trigger(POST.CHANGE_ALL);
+
+				break;
+
 			case POST.CANCEL:
 				// TODO: remove uploaded files from the server
 				this.trigger(POST.CANCELED_POST);
@@ -368,11 +393,15 @@ _.extend(PostStore, {
 	},
 
 	sortByTop: function(post) {
-		return -post.countVotes();
+		var score = post.countVotes();
+		if(post.get('pinned')) score = 9000;
+		return -score;
 	},
 
 	sortByNew: function(post) {
-		return -Date.parse(post.get('created'));
+		var date = Date.parse(post.get('created'));
+		if(post.get('pinned')) date = 0;
+		return -date;
 	}
 });
 

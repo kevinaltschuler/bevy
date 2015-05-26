@@ -37,6 +37,7 @@ exports.POST = {
 	SORT: 'post_sort',
 	CANCEL: 'post_cancel',
 	UPDATE: 'post_update',
+	PIN: 'post_pin',
 
 	FETCH: 'post_fetch',
 

@@ -28,6 +28,10 @@ var PostSchema = new Schema({
 	}, {
 		_id: false
 	})],
+	pinned: {
+		type: Boolean,
+		default: false
+	},
 	created: {
 		type: Date,
 		default: Date.now

@@ -122,6 +122,14 @@ var Post = React.createClass({
 		});
 	},
 
+	pin: function(ev) {
+		ev.preventDefault();
+
+		var post_id = this.props.post._id;
+
+		PostActions.pin(post_id);
+	},
+
 	render: function() {
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
@@ -214,6 +222,22 @@ var Post = React.createClass({
 				);
 		}
 
+		var pinButton = '';
+		var pinButtonText = (this.props.post.pinned) ? 'Unpin Post' : 'Pin Post';
+		if(!_.isEmpty(activeMember)) {
+			if(activeMember.role == 'admin') {
+				pinButton = (
+					<MenuItem onClick={ this.pin }>
+						{ pinButtonText }
+					</MenuItem>
+				);
+			}
+		}
+
+		var pinnedBadge = (this.props.post.pinned)
+		? <span className='badge pinned'>Pinned</span>
+		: '';
+
 		return <div className="post panel" postId={ this.props.post._id }>
 					<div className='panel-header'>
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
@@ -229,7 +253,7 @@ var Post = React.createClass({
 						</div>
 						<div className='badges'>
 							<span className="points">{ this.countVotes() } Points</span>
-							<span className='badge pinned'>Pinned</span>
+							{ pinnedBadge }
 						</div>
 					</div>
 
@@ -269,6 +293,7 @@ var Post = React.createClass({
 								title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
 								{ deleteButton }
 								{ editButton }
+								{ pinButton }
 							</DropdownButton>
 						</div>
 					</div>
