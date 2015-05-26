@@ -237,6 +237,8 @@ _.extend(PostStore, {
 				// set back
 				this.posts._meta.bevy_id = temp;
 
+				this.posts.sort();
+
 				this.trigger(POST.CHANGE_ALL);
 
 				break;
