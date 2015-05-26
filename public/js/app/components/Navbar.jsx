@@ -20,8 +20,6 @@
 var React = require('react');
 var _ = require('underscore');
 
-var ProfileModal = require('./../../modals/components/ProfileModal.jsx');
-
 var rbs = require('react-bootstrap');
 var Input = rbs.Input;
 var ModalTrigger = rbs.ModalTrigger;

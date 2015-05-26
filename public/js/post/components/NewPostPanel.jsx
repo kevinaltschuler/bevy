@@ -11,6 +11,8 @@
 // imports
 var React = require('react');
 
+var classNames = require('classnames');
+
 var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
@@ -159,7 +161,7 @@ var NewPostPanel = React.createClass({
 
 	render: function() {
 
-		//var styles = this.getCollapsableClassSet();
+		var styles = this.getCollapsableClassSet();
 		//var classSet = React.addons.classSet;
 		//console.log(styles);
 		var dropzoneOptions = {
@@ -196,7 +198,7 @@ var NewPostPanel = React.createClass({
 						/>
 					</div>
 
-					<div ref='collapse'>
+					<div ref='collapse' className={ classNames(styles) }>
 
 						<Uploader
 							onUploadComplete={ this.onUploadComplete }
