@@ -103,10 +103,15 @@ exports.create = function(req, res, next) {
 			break;
 
 		case 'post:create':
-			var post = req.body['post'];
+			//var post = req.body['post'];
+			var author_name = req.body['author_name'];
+			var author_img = req.body['author_img'];
+			var bevy_name = req.body['bevy_name'];
+			var bevy_members = req.body['bevy_members'];
+			var post_title = req.body['post_title'];
 			//console.log(post);
-			var members = post.bevy.members;
-			members = _.filter(members, function(member) {
+			var members = [];
+			members = _.filter(bevy_members, function(member) {
 				return member.notificationLevel == 'all';
 			});
 
@@ -119,7 +124,11 @@ exports.create = function(req, res, next) {
 					var notification = {
 						event: 'post:create',
 						data: {
-							post: post
+							// post: post,
+							author_name: author_name,
+							author_img: author_img,
+							bevy_name: bevy_name,
+							post_title: post_title
 						}
 					};
 					user.notifications.push(notification);

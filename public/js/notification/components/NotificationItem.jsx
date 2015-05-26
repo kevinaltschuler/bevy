@@ -92,17 +92,22 @@ var NotificationItem = React.createClass({
 
 			case 'post:create':
 
-				var post = data.post;
+				/*var post = data.post;
 				var authorName = (post.author.google)
 				? post.author.google.name.givenName + ' ' + post.author.google.name.familyName
 				: post.author.email;
-				var bevyName = post.bevy.name;
+				var bevyName = post.bevy.name;*/
+
+				var author_name = data.author_name;
+				var author_img = data.author_img;
+				var bevy_name = data.bevy_name;
+				var post_title = data.post_title;
 
 				body = (
 					<div className="notification-body col-xs-10">
-						<span>Post to <b>{ bevyName }</b> by <b>{ authorName }</b></span>
+						<span>Post to <b>{ bevy_name }</b> by <b>{ author_name }</b></span>
 						<br />
-						<span><i>{ post.title }</i></span>
+						<span><i>{ post_title }</i></span>
 					</div>
 				);
 

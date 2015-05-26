@@ -111,12 +111,26 @@ _.extend(PostStore, {
 						newPost.set('_id', post.id);
 						this.trigger(POST.CHANGE_ALL);
 
+						var stripped_members = _.map(bevy.members, function(member) {
+							var new_member = {};
+							new_member.role = member.role;
+							new_member.notificationLevel = member.notificationLevel;
+							if(_.isObject(member.user))
+								new_member.user = member.user._id;
+							return new_member;
+						});
+
 						// send notification
 						$.post(
 							constants.apiurl + '/notifications',
 							{
 								event: 'post:create',
-								post: post.toJSON()
+								//post: post.toJSON()
+								author_name: author.displayName,
+								author_img: author.image_url,
+								bevy_name: bevy.name,
+								bevy_members: stripped_members,
+								post_title: title
 							}
 						);
 
