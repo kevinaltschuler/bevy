@@ -39,7 +39,7 @@ var NotificationItem = React.createClass({
 		ev.preventDefault();
 
 		var data = this.props.data;
-		var bevy_id = data.bevy._id;
+		var bevy_id = data.bevy_id;
 		var email = user.email;
 
 		BevyActions.join(bevy_id, window.bootstrap.user, email);
@@ -56,26 +56,25 @@ var NotificationItem = React.createClass({
 
 		switch(event) {
 			case 'invite':
-				var bevy = data.bevy;
-				var from_user = data.from_user;
-
-				var bevyImage = (_.isEmpty(bevy.image_url)) ? defaultNotificationImage : bevy.image_url;
+				//var bevy = data.bevy;
+				//var from_user = data.from_user;
+				var bevy_name = data.bevy_name;
+				var bevy_img = data.bevy_img;
+				var inviter_name = data.inviter_name;
 
 				body = <div className="notification-body">
 							<div className="col-xs-3 sidebar-picture">
-								<img src={ bevyImage }/>
+								<img src={ bevy_img }/>
 							</div>
 							<div className="col-xs-5">
 								<div className="row">
 									<div className="name">
-										{ from_user.google.name.givenName + " " }
-
-										{ from_user.google.name.familyName }
+										{ inviter_name }
 									</div>
 								</div>
 								<div className="row">
 									<div className="content">
-										Invite to { bevy.name }
+										Invite to { bevy_name }
 									</div>
 								</div>
 							</div>

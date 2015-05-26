@@ -49,8 +49,12 @@ exports.create = function(req, res, next) {
 			break;
 		case 'invite:email':
 			var members = params.members;
-			var bevy = params.bevy;
-			var inviter = params.user;
+			//var bevy = params.bevy;
+			//var inviter = params.user;
+			var bevy_id = req.body['bevy_id'];
+			var bevy_name = req.body['bevy_name'];
+			var bevy_img = req.body['bevy_img'];
+			var inviter_name = req.body['inviter_name'];
 
 			members.forEach(function(email) {
 				async.waterfall([
@@ -63,8 +67,10 @@ exports.create = function(req, res, next) {
 							var notification = {
 								event: 'invite',
 								data: {
-									bevy: bevy,
-									from_user: inviter
+									bevy_id: bevy_id,
+									bevy_name: bevy_name,
+									bevy_img: bevy_img,
+									inviter_name: inviter_name
 								}
 							}
 							user.notifications.push(notification);
@@ -82,15 +88,11 @@ exports.create = function(req, res, next) {
 					function(done) {
 						// then send the invite email
 
-						var inviter_name = (inviter.google)
-						? inviter.google.name.givenName + ' ' + inviter.google.name.familyName
-						: inviter.email;
-
 						mailgun.messages().send({
 							from: 'Bevy Team <contact@bvy.io>',
 							to: email,
 							subject: 'Invite',
-							text: 'Invite to ' + bevy.name + ' from ' + inviter_name
+							text: 'Invite to ' + bevy_name + ' from ' + inviter_name
 						}, function(err, body) {
 							if(err) {
 								return done(err);
