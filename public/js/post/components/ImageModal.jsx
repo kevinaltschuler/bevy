@@ -13,19 +13,20 @@ var rbs = require('react-bootstrap');
 var Modal = rbs.Modal;
 var Button = rbs.Button;
 
-var ImageForModal = require('./ImageForModal.jsx');
+var mui = require('material-ui');
+var IconButton = mui.IconButton;
 
 var ImageModal = React.createClass({
 
 	propTypes: {
-		allImages: React.PropTypes.array,
-		index: React.PropTypes.number
+		allImages: React.PropTypes.array.isRequired,
+		index: React.PropTypes.number.isRequired
 	},
 
 	getInitialState: function() {
 		return {
 			isModalOpen: false,
-			index: 0
+			index: this.props.index
 		};
  	},
 
@@ -41,7 +42,7 @@ var ImageModal = React.createClass({
 	},
 
 	onLeft: function(ev) {
-		if(this.state.index === 0) {
+		if(this.state.index == 0) {
 			this.setState({
 				index: this.props.allImages.length - 1
 			});
@@ -53,7 +54,7 @@ var ImageModal = React.createClass({
 	},
 
 	onRight: function(ev) {
-		if(this.state.index === this.props.allImages.length - 1) {
+		if(this.state.index == this.props.allImages.length - 1) {
 			this.setState({
 				index: 0
 			});
@@ -72,8 +73,8 @@ var ImageModal = React.createClass({
 		? ''
 		: (
 			<div>
-				<Button className='image-left-btn' onClick={ this.onLeft }>Left</Button>
-				<Button className='image-right-btn' onClick={ this.onRight }>Right</Button>
+				<IconButton iconClassName="glyphicon glyphicon-chevron-left" className='image-left-btn' onClick={ this.onLeft }/>
+				<IconButton iconClassName="glyphicon glyphicon-chevron-right" className='image-right-btn' onClick={ this.onRight } />
 			</div>
 		);
 
@@ -84,7 +85,7 @@ var ImageModal = React.createClass({
 				className="image-modal" >
 
 				<div className='modal-body'>
-					<ImageForModal onRequestHide={ this.props.onRequestHide } url={ url }/>
+					<img src={ this.props.allImages[this.state.index] }/>
 				</div>
 
 				{ scrollButtons }

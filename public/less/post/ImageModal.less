@@ -21,14 +21,44 @@
 				}
 			}
 			.image-left-btn {
+				height: 100%;
+				width: 100px;
+				color: white;
 				position: absolute;
-				top: 50px;
 				left: 0px;
+				top: 0px;
+				transition: all 0.5s ease;
+				&:hover {
+					box-shadow: inset 75px 0px 80px -37px rgba(0,0,0,0.6);
+				}
+				&:active {
+					transition: all 0.2s ease;
+					box-shadow: inset 75px 0px 50px -37px rgba(0,0,0,0.6);
+				}
+				.mui-touch-ripple {
+					width: 0px;
+					height: 0px;
+				}
 			}
 			.image-right-btn {
+				height: 100%;
+				width: 100px;
+				color: white;
 				position: absolute;
-				top: 50px;
 				right: 0px;
+				top: 0px;
+				transition: all 0.5s ease;
+				&:hover {
+					box-shadow: inset -75px 0px 80px -37px rgba(0,0,0,0.6);
+				}
+				&:active {
+					transition: all 0.2s ease;
+					box-shadow: inset -75px 0px 50px -37px rgba(0,0,0,0.6);
+				}
+				.mui-touch-ripple {
+					width: 0px;
+					height: 0px;
+				}
 			}
 	}
 	}
