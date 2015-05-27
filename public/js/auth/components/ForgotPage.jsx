@@ -11,6 +11,9 @@ var $ = require('jquery');
 var _ = require('underscore');
 var constants = require('./../../constants');
 
+var Router = require('react-router');
+var Link = Router.Link;
+
 var rbs = require('react-bootstrap');
 var Input = rbs.Input;
 var Panel = rbs.Panel;
@@ -119,7 +122,7 @@ var ForgotPage = React.createClass({
 								onClick={ this.submit } />
 						</form>
 					</Panel>
-					<a href='/login'>Back to Login</a>
+					<Link to='login'>Back to Login</Link>
 				 </div>
 	}
 });

@@ -13,6 +13,9 @@ var $ = require('jquery');
 var _ = require('underscore');
 var constants = require('./../../constants');
 
+var Router = require('react-router');
+var Link = Router.Link;
+
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
 var Input = rbs.Input;
@@ -108,11 +111,11 @@ var LoginPanel = React.createClass({
 						label='Sign In With Google'
 						linkButton={true}
 						href={ constants.siteurl + '/auth/google' } />
-					<FlatButton
+					{/*<FlatButton
 						className='register-button'
 						label='Create an Account'
 						linkButton={true}
-						href={ constants.siteurl + '/register'} />
+						href={ constants.siteurl + '/register'} />*/}
 				</Panel>;
 	}
 });

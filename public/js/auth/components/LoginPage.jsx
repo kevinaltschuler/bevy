@@ -10,6 +10,9 @@
 // imports
 var React = require('react');
 
+var Router = require('react-router');
+var Link = Router.Link;
+
 var LoginPanel = require('./LoginPanel.jsx');
 
 var LoginPage = React.createClass({
@@ -28,7 +31,9 @@ var LoginPage = React.createClass({
 					<LoginPanel />
 
 					<div className='back-link'>
-						<a href="/forgot">Forgot your password?</a>
+						<Link to="forgot">Forgot your password?</Link>
+						<br />
+						<Link to='register'>Create an Account</Link>
 					</div>
 
 					<br/>
