@@ -166,6 +166,11 @@ var Post = React.createClass({
 			}
 		}
 
+		var ago = timeAgo(Date.parse(this.props.post.created));
+		var left = (this.props.post.expires)
+		? timeLeft(Date.parse(this.props.post.expires))
+		: '';
+
 		var panelBodyText;
 		if(this.state.isEditing) {
 			panelBodyText =
@@ -249,8 +254,8 @@ var Post = React.createClass({
 								<span className="details"> { this.props.post.bevy.name }</span>
 							</div>
 							<div className="bottom">
-								<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) } | </span>
-								<span className='detail-time'>expires { timeLeft(Date.parse(this.props.post.expires)) }</span>
+								<span className="detail-time">{ ago } | </span>
+								<span className='detail-time'>expires { left }</span>
 							</div>
 						</div>
 						<div className='badges'>
