@@ -75,9 +75,9 @@ var routes = (
 		<Route name='register' handler={ RegisterPage } />
 		<Route name='forgot' handler={ ForgotPage } />
 		<Route name='reset' path='reset/:token' handler={ ResetPage } />
-		{/*<DefaultRoute handler={ MainSection } />*/}
-		<Route name='home' path='/b/' handler={ MainSection } />
-		<Redirect to='home' />
+		<DefaultRoute handler={ MainSection } />
+		{/*<Route name='home' path='/b/' handler={ MainSection } />
+		<Redirect to='home' />*/}
 	</Route>
 );
 
