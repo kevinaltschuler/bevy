@@ -34,7 +34,7 @@ var PostSchema = new Schema({
 	},
 	expires: {
 		type: Date,
-		default: Date.now() + (1000 * 60 * 60), // set to one hour after post, by default
+		default: Date.now() + (1000 * 60 * 60 * 24 * 7), // set to one week after post, by default
 		index: {
 			expireAfterSeconds: 5
 		}
