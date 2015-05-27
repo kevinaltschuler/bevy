@@ -22,6 +22,7 @@ var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 
 var BevyActions = require('./../BevyActions');
+var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var user = window.bootstrap.user;
 
@@ -33,6 +34,9 @@ var CreateNewBevy = React.createClass({
 
 	getInitialState: function() {
 		return {
+			name: '',
+			description: '',
+			image_url: '',
 		};
 	},
 
@@ -55,21 +59,40 @@ var CreateNewBevy = React.createClass({
 
 	render: function() {
 
+		var dropzoneOptions = {
+			maxFiles: 1,
+			acceptedFiles: 'image/*',
+			clickable: '.dropzone-panel-button',
+			dictDefaultMessage: ' ',
+		};
+		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
+		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png')
+		? {
+			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundSize: '100px auto',
+
+		}
+		: {
+			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundSize: '50px 50px',
+		}
 
 		return <Modal className="create-bevy" {...this.props} title="Create a New Bevy">
 
 					<div className="row">
-						<div className='col-xs-12'>
+						<div className="col-xs-3 new-bevy-picture">
+							<Uploader
+								className="bevy-image-dropzone"
+								style={ bevyImageStyle }
+								dropzoneOptions={ dropzoneOptions }
+							/>
+						</div>
+						<div className='col-xs-6'>
 							<TextField
 								type='text'
 								ref='name'
 								placeholder='Group Name'
 							/>
-						</div>
-					</div>
-
-					<div className='row'>
-						<div className='col-xs-12'>
 							<TextField
 								type='text'
 								ref='description'
