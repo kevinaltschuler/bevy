@@ -89,7 +89,7 @@ exports.create = function(req, res, next) {
 						// then send the invite email
 
 						mailgun.messages().send({
-							from: 'Bevy Team <contact@bvy.io>',
+							from: 'Bevy Team <contact@joinbevy.com>',
 							to: email,
 							subject: 'Invite',
 							text: 'Invite to ' + bevy_name + ' from ' + inviter_name

@@ -39,7 +39,7 @@ if(current_env == 'development') {
 		port: 80,
 		// In staging and production, listen loopback. nginx listens on the network.
 		ip: '127.0.0.1',
-		hostname: 'http://bvy.io'
+		hostname: 'http://joinbevy.com'
 	};
 }
 
