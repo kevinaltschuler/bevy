@@ -33,6 +33,7 @@ var PostStore = require('./../PostStore');
 var POST = require('./../../constants').POST;
 
 var timeAgo = require('./../../shared/helpers/timeAgo');
+var timeLeft = require('./../../shared/helpers/timeLeft');
 
 var $ = require('jquery');
 
@@ -249,7 +250,7 @@ var Post = React.createClass({
 							</div>
 							<div className="bottom">
 								<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) } | </span>
-								<span className='detail-time'>expires in 12 hours</span>
+								<span className='detail-time'>expires { timeLeft(Date.parse(this.props.post.expires)) }</span>
 							</div>
 						</div>
 						<div className='badges'>
