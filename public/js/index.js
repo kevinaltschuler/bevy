@@ -61,7 +61,7 @@ var Redirect = Router.Redirect;
 var App = React.createClass({
 	render: function() {
 		return (
-			<div>
+			<div className='container'>
 				<RouteHandler/>
 			</div>
 		);
@@ -75,12 +75,12 @@ var routes = (
 		<Route name='register' handler={ RegisterPage } />
 		<Route name='forgot' handler={ ForgotPage } />
 		<Route name='reset' path='reset/:token' handler={ ResetPage } />
-		<DefaultRoute handler={ MainSection } />
-		{/*<Route name='home' path='/b/' handler={ MainSection } />
-		<Redirect to='home' />*/}
+		{/*<DefaultRoute handler={ MainSection } />*/}
+		<Route name='b' handler={ MainSection } />
+		<Redirect to='b' />
 	</Route>
 );
 
 Router.run(routes, Router.HistoryLocation, function(Handler) {
-	React.render(<Handler/>, document.getElementById('app'));
+	React.render(<Handler/>, document.body);
 });
