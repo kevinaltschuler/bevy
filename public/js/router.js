@@ -9,11 +9,15 @@ var Router = Backbone.Router.extend({
 		'register' : 'register',
 		'forgot' : 'forgot',
 		'reset/:token' : 'reset',
+		'b' : 'home',
+		'b/:bevyid' : 'bevy',
+		'search/:query' : 'search',
 		'*nuts' : 'not_found'
 	},
 
 	home: function() {
 		this.current = 'home';
+		this.navigate('b/frontpage', { trigger: true });
 	},
 
 	login: function() {
@@ -30,6 +34,16 @@ var Router = Backbone.Router.extend({
 
 	reset: function(token) {
 		this.current = 'reset';
+	},
+
+	bevy: function(bevy_id) {
+		this.current = 'bevy';
+		this.bevy_id = bevy_id;
+		if(bevy_id == 'frontpage') this.bevy_id = -1;
+	},
+
+	search: function(query) {
+		this.current = 'search';
 	},
 
 	not_found: function(nuts) {

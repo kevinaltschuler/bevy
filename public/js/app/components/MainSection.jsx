@@ -13,8 +13,11 @@
 var React = require('react');
 var _ = require('underscore');
 
+var router = require('./../../router');
+
 var Navbar = require('./Navbar.jsx');
 var PostView = require('./PostView.jsx');
+var SearchView = require('./SearchView.jsx');
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -62,7 +65,8 @@ var MainSection = React.createClass({
 	getBevyState: function() {
 
 		var all = BevyStore.getAll();
-		var active = BevyStore.getActive();
+		//var active = BevyStore.getActive();
+		var active = BevyStore.getBevy(router.bevy_id);
 		var activeMember = BevyStore.getActiveMember();
 		var members = BevyStore.getMembers();
 
@@ -110,13 +114,39 @@ var MainSection = React.createClass({
 	},
 
 	render: function(){
-		return	<div>
-						<Navbar
-							activeBevy={ this.state.activeBevy }
-							allNotifications={ this.state.allNotifications }
-						/>
-						<PostView {...this.state} />
-					</div>;
+		return (
+			<div>
+				<Navbar
+					activeBevy={ this.state.activeBevy }
+					allNotifications={ this.state.allNotifications }
+				/>
+				<InterfaceComponent {...this.state} />
+			</div>
+		);
+	}
+});
+
+var InterfaceComponent = React.createClass({
+	componentWillMount : function() {
+		this.callback = (function() {
+			this.forceUpdate();
+		}).bind(this);
+
+		router.on('route', this.callback);
+	},
+	componentWillUnmount : function() {
+		router.off('route', this.callback);
+	},
+	render : function() {
+		switch(router.current) {
+			case 'search':
+				return <SearchView {...this.props} />
+				break;
+			case 'bevy':
+			default:
+				return <PostView {...this.props} />
+				break;
+		}
 	}
 });
 

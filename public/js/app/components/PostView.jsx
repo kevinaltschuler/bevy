@@ -2,6 +2,8 @@
 
 var React = require('react');
 
+var router = require('./../../router');
+
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');

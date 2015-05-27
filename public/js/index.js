@@ -73,20 +73,29 @@ var InterfaceComponent = React.createClass({
 		router.off('route', this.callback);
 	},
 	render : function() {
-		if(router.current == 'home') {
-			return <MainSection />;
-		} else if (router.current == 'login') {
-			return <LoginPage />;
-		} else if (router.current == 'register') {
-			return <RegisterPage />;
-		} else if (router.current == 'forgot') {
-			return <ForgotPage />
-		} else if (router.current == 'reset') {
-			return <ResetPage />
-		} else if (router.current == '404') {
-			return <FourOhFour />
+		switch(router.current) {
+			case 'home':
+				return <MainSection />
+				break;
+			case 'login':
+				return <LoginPage />
+				break;
+			case 'register':
+				return <RegisterPage />
+				break;
+			case 'forgot':
+				return <ForgotPage />
+				break;
+			case 'reset':
+				return <ResetPage />
+				break;
+			case '404':
+				return <FourOhFour />
+				break;
+			default:
+				return <MainSection />
+				break;
 		}
-		return <MainSection />;
 	}
 });
 

@@ -11,8 +11,7 @@
 // imports
 var React = require('react');
 
-var Router = require('react-router');
-var Navigation = Router.Navigation;
+var router = require('./../../router');
 
 var rbs = require('react-bootstrap');
 var Badge = rbs.Badge;
@@ -43,8 +42,10 @@ var BevyList = React.createClass({
 		ev.preventDefault();
 		// get the bevy id
 		var id = ev.target.getAttribute('id') || null;
+		if(id == -1) id = 'frontpage';
 		// call action
 		//BevyActions.switchBevy(id);
+		router.navigate('/b/' + id, { trigger: true });
 	},
 
 	render: function() {
