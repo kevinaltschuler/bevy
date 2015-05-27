@@ -39,6 +39,7 @@ var LoginPage = require('./auth/components/LoginPage.jsx');
 var RegisterPage = require('./auth/components/RegisterPage.jsx');
 var ForgotPage = require('./auth/components/ForgotPage.jsx');
 var ResetPage = require('./auth/components/ResetPage.jsx');
+var FourOhFour = require('./app/components/FourOhFour.jsx');
 
 //Needed for onTouchTap - a feature of Material-UI
 //Can go away when react 1.0 release
@@ -72,17 +73,18 @@ var InterfaceComponent = React.createClass({
 		router.off('route', this.callback);
 	},
 	render : function() {
-		if (router.current == 'login') {
+		if(router.current == 'home') {
+			return <MainSection />;
+		} else if (router.current == 'login') {
 			return <LoginPage />;
-		}
-		else if (router.current == 'register') {
+		} else if (router.current == 'register') {
 			return <RegisterPage />;
-		}
-		else if (router.current == 'forgot') {
+		} else if (router.current == 'forgot') {
 			return <ForgotPage />
-		}
-		else if (router.current == 'reset') {
+		} else if (router.current == 'reset') {
 			return <ResetPage />
+		} else if (router.current == '404') {
+			return <FourOhFour />
 		}
 		return <MainSection />;
 	}

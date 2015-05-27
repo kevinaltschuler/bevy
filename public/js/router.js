@@ -4,11 +4,16 @@ var Backbone = require('backbone');
 
 var Router = Backbone.Router.extend({
 	routes: {
+		'' : 'home',
 		'login' : 'login',
 		'register' : 'register',
 		'forgot' : 'forgot',
 		'reset/:token' : 'reset',
 		'*nuts' : 'not_found'
+	},
+
+	home: function() {
+		this.current = 'home';
 	},
 
 	login: function() {
@@ -28,8 +33,7 @@ var Router = Backbone.Router.extend({
 	},
 
 	not_found: function(nuts) {
-		this.current = nuts;
-		console.log(nuts);
+		this.current = '404';
 	}
 });
 
