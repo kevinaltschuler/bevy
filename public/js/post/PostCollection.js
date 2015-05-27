@@ -13,6 +13,8 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 
+var router = require('./../router');
+
 var Post = require('./PostModel');
 var constants = require('./../constants');
 
@@ -24,15 +26,12 @@ module.exports = Backbone.Collection.extend({
 
 	url: function() {
 
-		if(this._meta.bevy_id == -1) return constants.apiurl + '/users/' + user._id + '/posts';
+		if(router.bevy_id == -1) return constants.apiurl + '/users/' + user._id + '/posts';
 
-		return (_.isEmpty(this._meta.bevy_id))
-		? constants.apiurl + '/posts'
-		: constants.apiurl + '/bevies/' + this._meta.bevy_id + '/posts'
+		return constants.apiurl + '/bevies/' + router.bevy_id + '/posts';
 	},
 
 	_meta: {
-		bevy_id: null,
 		sort: {
 			by: 'top',
 			direction: 'asc'

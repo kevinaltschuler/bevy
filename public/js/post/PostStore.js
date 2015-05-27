@@ -18,6 +18,8 @@ var Backbone = require('backbone');
 var $ = require('jquery');
 var _ = require('underscore');
 
+var router = require('./../router');
+
 var constants = require('./../constants');
 var POST = constants.POST;
 var ALIAS = constants.ALIAS;
@@ -51,7 +53,6 @@ _.extend(PostStore, {
 				// wait for bevies
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
-				this.posts._meta.bevy_id = BevyStore.bevies._meta.active;
 				this.posts.comparator = this.sortByTop;
 
 				this.posts.fetch({
@@ -67,14 +68,8 @@ _.extend(PostStore, {
 			case BEVY.SWITCH:
 			case BEVY.JOIN:
 
-				var bevy_id = payload.bevy_id;
-				// if none, default to frontpage
-				if(!bevy_id) bevy_id = -1;
-
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
-
-				this.posts._meta.bevy_id = bevy_id;
 
 				this.posts.fetch({
 					reset: true,
@@ -97,12 +92,9 @@ _.extend(PostStore, {
 					title: title,
 					images: images,
 					author: author._id,
-					bevy: bevy._id
+					bevy: bevy._id,
+					created: Date.now()
 				});
-
-				// switch to posting bevy realll quick
-				var temp = this.posts._meta.bevy_id;
-				this.posts._meta.bevy_id = bevy._id;
 
 				// save to server
 				newPost.save(null, {
@@ -136,9 +128,6 @@ _.extend(PostStore, {
 
 					}.bind(this)
 				});
-
-				// switch back
-				this.posts._meta.bevy_id = temp;
 
 				// simulate server population
 				newPost.set('_id', String(Date.now()));
@@ -177,18 +166,12 @@ _.extend(PostStore, {
 
 				post.set('title', title);
 
-				// set to post's bevy in case on frontpage
-				var temp = this.posts._meta.bevy_id;
-				this.posts._meta.bevy_id = post.get('bevy')._id;
-
 				post.save({
-					title: title
+					title: title,
+					updated: Date.now()
 				}, {
 					patch: true
 				});
-
-				// set back
-				this.posts._meta.bevy_id = temp;
 
 				this.trigger(POST.CHANGE_ALL);
 				break;
@@ -238,18 +221,11 @@ _.extend(PostStore, {
 
 				post.set('pinned', !pinned);
 
-				// set to post's bevy in case on frontpage
-				var temp = this.posts._meta.bevy_id;
-				this.posts._meta.bevy_id = post.get('bevy')._id;
-
 				post.save({
 					pinned: !pinned
 				}, {
 					patch: true
 				});
-
-				// set back
-				this.posts._meta.bevy_id = temp;
 
 				this.posts.sort();
 
@@ -390,19 +366,12 @@ _.extend(PostStore, {
 
 		post.set('votes', votes);
 
-		// set the url in case on frontpage
-		var temp = this.posts._meta.bevy_id;
-		this.posts._meta.bevy_id = post.get('bevy')._id;
-
 		// save to server
 		post.save({
 			votes: votes
 		}, {
 			patch: true
 		});
-
-		// set back
-		this.posts._meta.bevy_id = temp;
 
 		// sort posts
 		this.posts.sort();

@@ -24,7 +24,7 @@ exports.upload = function(req, res, next) {
 	//var gfs = require('./../gridfs');
 	//console.log(gfs);
 
-	console.log('start upload...');
+	//console.log('start upload...');
 	//console.log(req.files);
 	var is, os;
 	var id = shortid.generate();
@@ -51,7 +51,7 @@ exports.upload = function(req, res, next) {
 	os.on('close', function (file) {
 		//delete file from temp folder
 		fs.unlink(req.files.file.path, function() {
-			console.log(file);
+			//console.log(file);
 			res.status(200).json(file);
 		});
 	});

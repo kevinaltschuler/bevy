@@ -285,7 +285,7 @@ _.extend(BevyStore, {
 				break;
 
 			case BEVY.SWITCH:
-				var bevy_id = payload.bevy_id;
+				/*var bevy_id = payload.bevy_id;
 
 				if(!bevy_id) {
 					// TODO: set to front page
@@ -299,9 +299,9 @@ _.extend(BevyStore, {
 					}
 				} else {
 					this.bevies._meta.active = bevy_id;
-				}
+				}*/
 
-				this.trigger(BEVY.CHANGE_ALL);
+				//this.trigger(BEVY.CHANGE_ALL);
 
 				break;
 
