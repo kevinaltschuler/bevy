@@ -10,9 +10,6 @@
 // imports
 var React = require('react');
 
-var Router = require('react-router');
-var Link = Router.Link;
-
 var RegisterPanel = require('./RegisterPanel.jsx')
 
 var RegisterPage = React.createClass({
@@ -26,7 +23,7 @@ var RegisterPage = React.createClass({
 					<RegisterPanel />
 
 					<div className='back-link'>
-						<Link to='login'>Back to Login</Link>
+						<a href='/login'>Back to Login</a>
 					</div>
 
 					<br/>

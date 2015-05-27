@@ -418,6 +418,10 @@ _.extend(BevyStore, {
 		: this.bevies.get(this.bevies._meta.active).toJSON();
 	},
 
+	getBevy: function(bevy_id) {
+		return this.bevies.get(bevy_id).toJSON();
+	},
+
 	getActiveMember: function() {
 		var bevy = this.getActive();
 		if(_.isEmpty(bevy)) return {};

@@ -13,13 +13,8 @@
 var React = require('react');
 var _ = require('underscore');
 
-var LeftSidebar = require('./LeftSidebar.jsx');
-var RightSidebar = require('./RightSidebar.jsx');
-
 var Navbar = require('./Navbar.jsx');
-var PostSort = require('./../../post/components/PostSort.jsx');
-var PostContainer = require('./../../post/components/PostContainer.jsx');
-var NewPostPanel = require('./../../post/components/NewPostPanel.jsx')
+var PostView = require('./PostView.jsx');
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -33,57 +28,15 @@ var BEVY = require('./../../constants').BEVY;
 var NOTIFICATION = require('./../../constants').NOTIFICATION;
 
 
-/**
- * update posts by getting the collection from the store
- * @return [post_obj] collection of post models - refer to PostStore.js for more details
- */
-function getPostState() {
-	return {
-		allPosts: PostStore.getAll()
-	}
-}
-
-function getBevyState() {
-
-	var all = BevyStore.getAll();
-	var active = BevyStore.getActive();
-	var activeMember = BevyStore.getActiveMember();
-	var members = BevyStore.getMembers();
-
-	//console.log(members);
-
-	return {
-		// later, load this from session/cookies
-		allBevies: all,
-		activeBevy: active,
-		activeMember: activeMember,
-		members: members
-	}
-}
-function getNotificationState() {
-	return {
-		allNotifications: NotificationStore.getAll()
-	};
-}
-
-function collectState() {
-	var state = {};
-	_.extend(state,
-		getPostState(),
-		getBevyState(),
-		getNotificationState()
-	);
-	return state;
-}
-
 // create app
 var MainSection = React.createClass({
+
 	// called directly after mounting
 	getInitialState: function() {
 
 		AppActions.load();
 
-		return collectState();
+		return this.collectState();
 	},
 
 	// mount event listeners
@@ -100,15 +53,60 @@ var MainSection = React.createClass({
 		NotificationStore.off(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
 	},
 
+	getPostState: function() {
+		return {
+			allPosts: PostStore.getAll()
+		}
+	},
+
+	getBevyState: function() {
+
+		var all = BevyStore.getAll();
+		var active = BevyStore.getActive();
+		var activeMember = BevyStore.getActiveMember();
+		var members = BevyStore.getMembers();
+
+		//console.log(members);
+
+		return {
+			// later, load this from session/cookies
+			allBevies: all,
+			activeBevy: active,
+			activeMember: activeMember,
+			members: members
+		}
+	},
+
+	getNotificationState: function() {
+		return {
+			allNotifications: NotificationStore.getAll()
+		};
+	},
+
+	collectState: function() {
+		var state = {};
+		_.extend(state,
+			this.getPostState(),
+			this.getBevyState(),
+			this.getNotificationState()
+		);
+		return state;
+	},
+
+
 	// event listener callbacks
 	_onPostChange: function() {
-		this.setState(_.extend(this.state, getPostState()));
+		this.setState(_.extend(this.state, this.getPostState()));
 	},
 	_onBevyChange: function() {
-		this.setState(_.extend(this.state, getBevyState()));
+		this.setState(_.extend(this.state, this.getBevyState()));
 	},
 	_onNotificationChange: function() {
-		this.setState(_.extend(this.state, getNotificationState()));
+		this.setState(_.extend(this.state, this.getNotificationState()));
+	},
+
+	componentWillReceiveProps: function(nextProps) {
+		this.setState(this.collectState());
 	},
 
 	render: function(){
@@ -117,31 +115,7 @@ var MainSection = React.createClass({
 							activeBevy={ this.state.activeBevy }
 							allNotifications={ this.state.allNotifications }
 						/>
-						<div className='main-section'>
-							<div className='row'>
-								<NewPostPanel
-									activeBevy={ this.state.activeBevy }
-									allBevies={ this.state.allBevies }
-								/>
-							</div>
-							<div className='row'>
-								<PostSort />
-							</div>
-							<div className='row'>
-								<LeftSidebar
-									allBevies={ this.state.allBevies }
-									activeBevy={ this.state.activeBevy }
-								/>
-								<PostContainer
-									allPosts={ this.state.allPosts }
-									activeMember={ this.state.activeMember }
-								/>
-								<RightSidebar
-									activeBevy={ this.state.activeBevy }
-									activeMember={ this.state.activeMember }
-								/>
-							</div>
-						</div>
+						<PostView {...this.state} />
 					</div>;
 	}
 });
