@@ -91,12 +91,12 @@ var NewPostPanel = React.createClass({
 		});
 	},
 
-	getCollapsableDOMNode: function(){
-		return this.refs.collapse.getDOMNode();
+	getCollapsibleDOMNode: function(){
+		return React.findDOMNode(this.refs.collapse);
 	},
 
-	getCollapsableDimensionValue: function(){
-		return this.refs.collapse.getDOMNode().scrollHeight;
+	getCollapsibleDimensionValue: function(){
+		return React.findDOMNode(this.refs.collapse).scrollHeight;
 	},
 
 	open: function() {
