@@ -17,5 +17,5 @@ block content
 	if env == 'development'
 		script(src='http://localhost:8888/build/app.bundle.js')
 	else
-		script(src='js/build/app.bundle.js')
+		script(src='http://' + hostname + '/js/build/app.bundle.js')
 

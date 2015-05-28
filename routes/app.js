@@ -26,6 +26,7 @@ module.exports = function(app) {
 	app.get('/*', function(req, res, next) {
 		res.render('app', {
 			env: process.env.NODE_ENV,
+			hostname: req.hostname,
 			user: req.user
 		});
 	});
