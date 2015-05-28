@@ -20,14 +20,14 @@ var BevyMemberSchema = new Schema({
 		type: String,
 		default: function() {
 			fruit = (fruit) ? fruit : fruits[Math.floor(Math.random() * fruits.length)];
-			return 'Anonymous ' + fruit
+			return 'Anonymous ' + fruit;
 		}
 	},
 	image_url: {
 		type: String,
 		default: function() {
 			fruit = (fruit) ? fruit : fruits[Math.floor(Math.random() * fruits.length)];
-			return '/img/anonymous-icons/' + fruit.toLowerCase()
+			return '/img/anonymous-icons/' + fruit.toLowerCase() + '.png';
 		}
 	},
 	notificationLevel: {
