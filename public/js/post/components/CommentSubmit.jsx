@@ -24,7 +24,9 @@ var CommentSubmit = React.createClass({
 	propTypes: {
 		postId: React.PropTypes.string,
 		commentId: React.PropTypes.string,
-		author: React.PropTypes.object
+		author: React.PropTypes.object,
+		activeMember: React.PropTypes.object,
+		bevy: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -65,11 +67,18 @@ var CommentSubmit = React.createClass({
 
 	render: function() {
 
+		var bevy = this.props.bevy;
+		var activeMember = this.props.activeMember;
+
 		var user = window.bootstrap.user;
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+
 		var profileImage = (user.image_url)
 		? user.image_url
 		: defaultProfileImage;
+
+		if(bevy.settings.anonymise_users && !_.isEmpty(activeMember.image_url))
+			profileImage = activeMember.image_url;
 
 		return (<div className="panel-comment-input">
 						<div className="profile-overlay"/>

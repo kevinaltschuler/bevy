@@ -133,12 +133,17 @@ var Post = React.createClass({
 
 	render: function() {
 
+		var bevy = this.props.post.bevy;
+		var activeMember = this.props.activeMember;
+		var post = this.props.post;
+
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (this.props.post.author.image_url)
-		 ? this.props.post.author.image_url
-		 : defaultProfileImage;
+		? this.props.post.author.image_url
+		: defaultProfileImage;
 
-		var bevy = this.props.post.bevy;
+		if(bevy.settings.anonymise_users && !_.isEmpty(activeMember.image_url))
+			profileImage = activeMember.image_url;
 
 		var author;
 		author = 'placeholder-author';
@@ -217,6 +222,7 @@ var Post = React.createClass({
 		? (<CommentList
 				comments={ this.props.post.comments }
 				post={ this.props.post }
+				activeMember={ activeMember }
 			/>)
 		: '';
 
@@ -301,6 +307,8 @@ var Post = React.createClass({
 						<CommentSubmit
 							postId={ this.props.id }
 							author={ this.props.post.author }
+							activeMember={ activeMember }
+							bevy={ bevy }
 						/>
 
 						<div className="panel-controls-right">

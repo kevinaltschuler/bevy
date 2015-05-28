@@ -16,6 +16,7 @@ var CommentList = React.createClass({
 	propTypes: {
 		comments: React.PropTypes.array,
 		post: React.PropTypes.object,
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -34,6 +35,7 @@ var CommentList = React.createClass({
 					index={ key }
 					comment={ comment }
 					post={ this.props.post }
+					activeMember={ this.props.activeMember }
 				/>
 			);
 		}
