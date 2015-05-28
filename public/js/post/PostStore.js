@@ -409,7 +409,7 @@ _.extend(PostStore, {
 
 	sortByNew: function(post) {
 		var date = Date.parse(post.get('created'));
-		if(post.get('pinned')) date = 0;
+		if(post.get('pinned')) date = new Date('2035', '1', '1');
 		return -date;
 	}
 });

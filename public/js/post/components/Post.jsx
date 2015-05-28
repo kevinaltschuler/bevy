@@ -171,17 +171,19 @@ var Post = React.createClass({
 		? (' • expires ' + timeLeft(Date.parse(this.props.post.expires)))
 		: '';
 
-		var words = this.state.title.split(' ');
-		var $words = [];
-		var tags = this.props.post.tags;
-		words.forEach(function(word) {
-			var index = tags.indexOf(word.slice(1, word.length));
-			if(index > -1) {
-				return $words.push(<a href='#' key={ index }>{ word } </a>);
-			}
-			return $words.push(word + ' ');
-		});
-		var bodyText = (<p>{ $words }</p>);
+		if(!_.isEmpty(this.state.title){
+			var words = this.state.title.split(' ');
+			var $words = [];
+			var tags = this.props.post.tags;
+			words.forEach(function(word) {
+				var index = tags.indexOf(word.slice(1, word.length));
+				if(index > -1) {
+					return $words.push(<a href='#' key={ index }>{ word } </a>);
+				}
+				return $words.push(word + ' ');
+			});
+			var bodyText = (<p>{ $words }</p>);
+		} else bodyText = '';
 
 		var panelBodyText;
 		if(this.state.isEditing) {
