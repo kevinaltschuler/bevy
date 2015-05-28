@@ -158,6 +158,7 @@ _.extend(BevyStore, {
 				var displayName = payload.displayName;
 				var notificationLevel = payload.notificationLevel;
 				var role = payload.role;
+				var image_url = payload.image_url;
 
 				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
@@ -168,6 +169,7 @@ _.extend(BevyStore, {
 						member.displayName = displayName;
 						member.notificationLevel = notificationLevel;
 						member.role = role;
+						member.image_url = image_url;
 						return member;
 					} else return member;
 				});

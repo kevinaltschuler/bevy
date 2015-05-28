@@ -46,13 +46,14 @@ var PostActions = {
 		});
 	},
 
-	editMember: function(bevy_id, user_id, displayName, notificationLevel, role) {
+	editMember: function(bevy_id, user_id, displayName, notificationLevel, role, image_url) {
 		dispatch(BEVY.EDIT_MEMBER, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
 			user_id: (user_id == undefined) ? '' : user_id,
 			displayName: (displayName == undefined) ? '' : displayName,
 			notificationLevel: (notificationLevel == undefined) ? 'all' : notificationLevel,
-			role: (role == undefined) ? 'user' : role
+			role: (role == undefined) ? 'user' : role,
+			image_url: (image_url == undefined) ? '' : image_url
 		});
 	},
 

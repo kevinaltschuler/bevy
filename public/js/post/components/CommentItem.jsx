@@ -92,6 +92,7 @@ var CommentItem = React.createClass({
 				commentId={ comment._id }
 				author={ this.props.post.author }
 				profileImage={ this.props.profileImage }
+				bevy={ bevy }
 			/>)
 		: <div />;
 
