@@ -137,6 +137,10 @@ var BevyPanel = React.createClass({
 		BevyActions.update(bevy_id, name, description, image_url);
 	},
 
+	onAliasUploadComplete: function(file) {
+
+	},
+
 	onChange: function(ev) {
 		this.setState({
 			name: this.refs.name.getValue(),
@@ -202,6 +206,10 @@ var BevyPanel = React.createClass({
 			backgroundImage: 'url(' + bevyImage + ')',
 			backgroundSize: '50px 50px',
 		}
+		var aliasImageStyle = {
+			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundSize: '50px auto',
+		}
 
 		var imgStyle = (this.state.image_url === '/img/logo_100.png')
 		? { minWidth: '50px', height: 'auto' }
@@ -230,6 +238,13 @@ var BevyPanel = React.createClass({
 		}
 
 		var dropzoneOptions = {
+			maxFiles: 1,
+			acceptedFiles: 'image/*',
+			clickable: '.dropzone-panel-button',
+			dictDefaultMessage: ' ',
+		};
+
+		var aliasDropzoneOptions = {
 			maxFiles: 1,
 			acceptedFiles: 'image/*',
 			clickable: '.dropzone-panel-button',
@@ -310,6 +325,12 @@ var BevyPanel = React.createClass({
 		var nameEditAction = (this.state.isEditingName)
 		? (<div className='row sidebar-action name-edit-action'>
 				<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+				<Uploader
+					onUploadComplete={ this.onAliasUploadComplete }
+					className="alias-image-dropzone"
+					style={ aliasImageStyle }
+					dropzoneOptions={ aliasDropzoneOptions }
+				/>
 				<TextField
 						type='text'
 						ref='displayName'
@@ -324,6 +345,7 @@ var BevyPanel = React.createClass({
 			</div>)
 		: (<div className='row sidebar-action name-edit-action'>
 				<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+				<div className='alias-img' style={ aliasImageStyle }/>
 				<span className='sidebar-posting-name'>
 					{ this.state.displayName }
 				</span>
