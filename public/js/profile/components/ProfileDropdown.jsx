@@ -89,7 +89,7 @@ var ProfileDropdown = React.createClass({
 			dictDefaultMessage: ' ',
 		};
 
-		return <OverlayTrigger trigger="click" rootClose={ true } placement="bottom" overlay={
+		return <OverlayTrigger trigger="click" rootClose={ false } placement="bottom" overlay={
 					<Popover>
 
 						<div className="row profile-top">

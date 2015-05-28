@@ -168,7 +168,7 @@ var Post = React.createClass({
 
 		var ago = timeAgo(Date.parse(this.props.post.created));
 		var left = (this.props.post.expires && !this.props.post.pinned)
-		? (' | expires ' + timeLeft(Date.parse(this.props.post.expires)))
+		? (' • expires ' + timeLeft(Date.parse(this.props.post.expires)))
 		: '';
 
 		var words = this.state.title.split(' ');

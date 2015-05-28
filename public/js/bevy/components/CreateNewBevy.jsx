@@ -9,6 +9,7 @@
 
 var React = require('react');
 var _ = require('underscore');
+var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
@@ -22,6 +23,7 @@ var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 
 var BevyActions = require('./../BevyActions');
+var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var user = window.bootstrap.user;
 
@@ -33,7 +35,18 @@ var CreateNewBevy = React.createClass({
 
 	getInitialState: function() {
 		return {
+			name: '',
+			description: '',
+			image_url: '',
 		};
+	},
+
+	onUploadComplete: function(file) {
+		var filename = file.filename;
+		var image_url = constants.apiurl + '/files/' + filename
+		this.setState({
+			image_url: image_url,
+		});
 	},
 
 	create: function(ev) {
@@ -41,13 +54,14 @@ var CreateNewBevy = React.createClass({
 
 		var name = this.refs.name.getValue();
 		var description = this.refs.description.getValue();
+		var image_url = this.state.image_url;
 
 		if(_.isEmpty(name)) {
 			this.refs.name.setErrorText('Please enter a name for your bevy');
 			return;
 		}
 
-		BevyActions.create(name, description);
+		BevyActions.create(name, description, image_url);
 
 		// after, close the window
 		this.props.onRequestHide();
@@ -55,21 +69,41 @@ var CreateNewBevy = React.createClass({
 
 	render: function() {
 
+		var dropzoneOptions = {
+			maxFiles: 1,
+			acceptedFiles: 'image/*',
+			clickable: '.dropzone-panel-button',
+			dictDefaultMessage: ' ',
+		};
+		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
+		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png')
+		? {
+			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundSize: '100px auto',
+
+		}
+		: {
+			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundSize: '50px 50px',
+		}
 
 		return <Modal className="create-bevy" {...this.props} title="Create a New Bevy">
 
 					<div className="row">
-						<div className='col-xs-12'>
+						<div className="col-xs-3 new-bevy-picture">
+							<Uploader
+								onUploadComplete={ this.onUploadComplete }
+								className="bevy-image-dropzone"
+								style={ bevyImageStyle }
+								dropzoneOptions={ dropzoneOptions }
+							/>
+						</div>
+						<div className='col-xs-6'>
 							<TextField
 								type='text'
 								ref='name'
 								placeholder='Group Name'
 							/>
-						</div>
-					</div>
-
-					<div className='row'>
-						<div className='col-xs-12'>
 							<TextField
 								type='text'
 								ref='description'
