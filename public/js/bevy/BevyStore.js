@@ -392,7 +392,10 @@ _.extend(BevyStore, {
 	},
 
 	getActive: function() {
-		return this.bevies.get(router.bevy_id).toJSON();
+		var bevy = this.bevies.get(router.bevy_id)
+		return (bevy)
+		? bevy.toJSON()
+		: {};
 	},
 
 	getActiveMember: function() {

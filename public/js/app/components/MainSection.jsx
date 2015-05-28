@@ -18,6 +18,8 @@ var router = require('./../../router');
 var Navbar = require('./Navbar.jsx');
 var PostView = require('./PostView.jsx');
 var SearchView = require('./SearchView.jsx');
+var PublicView = require('./PublicView.jsx');
+var FourOhFour = require('./FourOhFour.jsx');
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -140,8 +142,14 @@ var InterfaceComponent = React.createClass({
 				return <SearchView {...this.props} />
 				break;
 			case 'bevy':
+				var bevy = this.props.activeBevy;
+				if(_.isEmpty(bevy))
+					return <PublicView />
+				else
+					return <PostView {...this.props} />
+				break;
 			default:
-				return <PostView {...this.props} />
+				return <FourOhFour />
 				break;
 		}
 	}
