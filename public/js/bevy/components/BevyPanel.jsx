@@ -357,8 +357,8 @@ var BevyPanel = React.createClass({
 				</IconButton>
 			</div>
 		);
-
-		if(!this.props.activeBevy.settings.allow_changeable_names) nameEditAction = '';
+		console.log(bevy.settings);
+		if(!bevy.settings.anonymise_users) nameEditAction = '';
 
 		if(this.state.activeMember) {
 			var bottomActions = (this.state.activeMember.role == 'admin')
