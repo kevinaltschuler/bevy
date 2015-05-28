@@ -10,6 +10,7 @@ var Router = Backbone.Router.extend({
 		'forgot' : 'forgot',
 		'reset/:token' : 'reset',
 		'b' : 'home',
+		'b/' : 'home',
 		'b/:bevyid' : 'bevy',
 		'search/:query' : 'search',
 		'*nuts' : 'not_found'
@@ -40,6 +41,10 @@ var Router = Backbone.Router.extend({
 		this.current = 'bevy';
 		this.bevy_id = bevy_id;
 		if(bevy_id == 'frontpage') this.bevy_id = -1;
+		if(bevy_id == '') {
+			this.bevy_id = -1;
+			this.navigate('/b/frontpage');
+		}
 	},
 
 	search: function(query) {
