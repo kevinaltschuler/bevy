@@ -91,8 +91,14 @@ _.extend(BevyStore, {
 					success: function(model, response, options) {
 						// success
 						newBevy.set('_id', model.id);
+
+						// switch to bevy
+						router.navigate('/b/' + model.id, { trigger: true });
+
 						// update posts
 						BevyActions.switchBevy();
+
+						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
 				});
 
@@ -392,7 +398,8 @@ _.extend(BevyStore, {
 		if(_.isEmpty(bevy)) return {};
 		var members = bevy.members;
 		var member = _.find(members, function(m) {
-			if(!m.user || !_.isObject(m.user)) return false;
+			if(!m.user) return false;
+			if(!_.isObject(m.user)) return m.user == user._id;
 			return m.user._id == user._id;
 		});
 		return (member == undefined)
