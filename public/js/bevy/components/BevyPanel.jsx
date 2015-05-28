@@ -335,7 +335,7 @@ var BevyPanel = React.createClass({
 				</IconButton>
 			</div>
 		);
-		console.log(bevy.settings);
+
 		if(!bevy.settings.anonymise_users) nameEditAction = '';
 
 		if(this.state.activeMember) {

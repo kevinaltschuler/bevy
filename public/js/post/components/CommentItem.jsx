@@ -26,7 +26,8 @@ var CommentItem = React.createClass({
 	propTypes: {
 		index: React.PropTypes.string,
 		comment: React.PropTypes.object,
-		post: React.PropTypes.object
+		post: React.PropTypes.object,
+		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -62,6 +63,8 @@ var CommentItem = React.createClass({
 
 		var comment = this.props.comment;
 		var author = comment.author;
+		var bevy = this.props.post.bevy;
+		var activeMember = this.props.activeMember;
 
 		//console.log(author);
 		var authorName = author.displayName;
@@ -75,6 +78,9 @@ var CommentItem = React.createClass({
 		var profileImage = (author.image_url)
 		? author.image_url
 		: defaultProfileImage;
+
+		if(bevy.settings.anonymise_users && !_.isEmpty(activeMember.image_url))
+			profileImage = activeMember.image_url;
 
 		var replyText = (this.state.isReplying)
 		? 'close'

@@ -39,6 +39,8 @@ var MemberItem = React.createClass({
 
 	render: function() {
 
+		var bevy = this.props.activeBevy;
+
 		var defaultContactImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var contactImage = defaultContactImage;
 
@@ -60,7 +62,11 @@ var MemberItem = React.createClass({
 			? contact.user.google.photos[0].value
 			: defaultContactImage;
 
-			if(contact.user.image_url) contactImage = contact.user.image_url;
+			if(contact.user.image_url)
+				contactImage = contact.user.image_url;
+
+			if(bevy.settings.anonymise_users && !_.isEmpty(contact.image_url))
+				contactImage = contact.image_url;
 		}
 
 		var contactButtonStyle = {
