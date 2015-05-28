@@ -46,16 +46,23 @@ var MemberItem = React.createClass({
 
 		var contact = this.props.contact;
 
-		var contactName = contact.email || "Placeholder Contact";
 		var joined = (_.isEmpty(contact.user)) ? false : true;
+		var contactName = '';
 
 		var contactStatus = '';
-		if(!joined) contactStatus = '[invited]';
-		else contactStatus = contact.user.displayName;
-
-		if(joined)
-			if(contact.displayName && this.props.activeBevy.settings.anonymise_users)
-				contactStatus = this.props.contact.displayName;
+		if(this.props.activeMember.role == 'admin') {
+			contactName = contact.email || "Placeholder Contact";
+			if(!joined) {
+				contactStatus = '[invited]';
+			} 
+			else {
+				contactStatus = contact.user.displayName;
+			}
+		}
+		else {
+			contactStatus = '';
+			contactName = contact.user.displayName;
+		}
 
 		if(joined) {
 			contactImage = (contact.user.google && contact.user.google.photos)
@@ -75,9 +82,10 @@ var MemberItem = React.createClass({
 
 		var removeButton = '';
 		if(!_.isEmpty(this.props.activeMember)) {
-			if(this.props.activeMember.role == 'admin')
+			if(this.props.activeMember.role == 'admin') {
 				removeButton = (
 					<RaisedButton label="remove" onClick={this.remove} />);
+			}
 		}
 
 		var className = 'row';
