@@ -21,10 +21,11 @@ var PostActions = {
 		});
 	},
 
-	create: function(name, description, members) {
+	create: function(name, description, image_url, members) {
 		dispatch(BEVY.CREATE, {
 			name: (name == undefined) ? '' : name,
 			description: (description == undefined) ? '' : description,
+			image_url: (image_url == undefined) ? '' : image_url,
 			members: (members == undefined) ? [] : members
 		});
 	},

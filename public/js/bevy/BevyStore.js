@@ -67,6 +67,7 @@ _.extend(BevyStore, {
 			case BEVY.CREATE:
 				var name = payload.name;
 				var description = payload.description;
+				var image_url = payload.image_url;
 
 				var user = window.bootstrap.user;
 
@@ -82,7 +83,8 @@ _.extend(BevyStore, {
 				var newBevy = this.bevies.add({
 					name: name,
 					description: description,
-					members: members
+					members: members,
+					image_url: image_url
 				});
 
 				newBevy.save(null, {

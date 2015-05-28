@@ -9,6 +9,7 @@
 
 var React = require('react');
 var _ = require('underscore');
+var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
@@ -40,18 +41,27 @@ var CreateNewBevy = React.createClass({
 		};
 	},
 
+	onUploadComplete: function(file) {
+		var filename = file.filename;
+		var image_url = constants.apiurl + '/files/' + filename
+		this.setState({
+			image_url: image_url,
+		});
+	},
+
 	create: function(ev) {
 		ev.preventDefault();
 
 		var name = this.refs.name.getValue();
 		var description = this.refs.description.getValue();
+		var image_url = this.state.image_url;
 
 		if(_.isEmpty(name)) {
 			this.refs.name.setErrorText('Please enter a name for your bevy');
 			return;
 		}
 
-		BevyActions.create(name, description);
+		BevyActions.create(name, description, image_url);
 
 		// after, close the window
 		this.props.onRequestHide();
@@ -82,6 +92,7 @@ var CreateNewBevy = React.createClass({
 					<div className="row">
 						<div className="col-xs-3 new-bevy-picture">
 							<Uploader
+								onUploadComplete={ this.onUploadComplete }
 								className="bevy-image-dropzone"
 								style={ bevyImageStyle }
 								dropzoneOptions={ dropzoneOptions }
