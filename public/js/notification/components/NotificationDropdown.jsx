@@ -27,15 +27,22 @@ var email = user.email;
 
 var ProfileDropdown = React.createClass({
 
+	 mixins: [
+	    require('react-onclickoutside')
+	  ],
+
 	propTypes: {
 		allNotifications: React.PropTypes.array,
 	},
+
+	handleClickOutside: function(evt) {
+  	},
 
 	render: function() {
 
 		var overlay = (user.notifications.length <= 0)
 		? (<Tooltip><strong>No new notifications!</strong></Tooltip>)
-		: (<Popover className="notification-dropdown">
+		: (<Popover className="notification-dropdown" disableOnClickOutside={false}>
 		 		<div className="title">
 		 			Notifications
 		 		</div>
@@ -48,7 +55,7 @@ var ProfileDropdown = React.createClass({
 		? 'hover'
 		: 'click';
 
-		return <OverlayTrigger trigger={ trigger } rootClose={ true } placement="bottom" overlay={ overlay }>
+		return <OverlayTrigger ref="trigger" trigger={trigger} placement="bottom" overlay={ overlay }>
 				 	<Button className="notification-dropdown-btn">
 					 	<img src="./../../img/notification-icon.png"/>
 				 	</Button>

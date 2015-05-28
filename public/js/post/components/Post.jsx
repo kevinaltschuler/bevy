@@ -254,7 +254,7 @@ var Post = React.createClass({
 								<span className="details"> { this.props.post.bevy.name }</span>
 							</div>
 							<div className="bottom">
-								<span className="detail-time">{ ago } | </span>
+								<span className="detail-time">posted { ago } • </span>
 								<span className='detail-time'>expires { left }</span>
 							</div>
 						</div>
