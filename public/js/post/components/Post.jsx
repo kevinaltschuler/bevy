@@ -134,7 +134,7 @@ var Post = React.createClass({
 	render: function() {
 
 		var bevy = this.props.post.bevy;
-		var activeMember = this.props.activeMember;
+		var activeMember = this.findMember(user._id);
 		var post = this.props.post;
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';

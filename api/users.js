@@ -88,7 +88,7 @@ exports.create = function(req, res, next) {
 			// send a welcome email
 			if(req.query['send_email'] == true || req.body['send_email'] == true) {
 				mailgun.messages().send({
-					  from: 'Bevy Team <contact@bvy.io>'
+					  from: 'Bevy Team <contact@joinbevy.com>'
 					, to: user.email
 					, subject: 'Welcome to Bevy!'
 					, text: 'Thanks for signing up for bevy! A prettier template is coming soon.'
