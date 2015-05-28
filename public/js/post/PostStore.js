@@ -34,6 +34,9 @@ var Dispatcher = require('./../shared/dispatcher');
 var PostCollection = require('./PostCollection');
 var CommentCollection = require('./CommentCollection');
 
+//var tagRegex = new RegExp('#\w+', 'g');
+var tagRegex = /#\w+/g;
+
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
 // to this store's events
@@ -92,8 +95,14 @@ _.extend(PostStore, {
 				posts_expire_in *= (1000 * 60 * 60 * 24);
 				posts_expire_in += Date.now();
 
+				var tags = title.match(tagRegex);
+				tags = _.map(tags, function(tag) {
+					return tag.slice(1, tag.length); // remove the hashtag
+				});
+
 				var newPost = this.posts.add({
 					title: title,
+					tags: tags,
 					images: images,
 					author: author._id,
 					bevy: bevy._id,
@@ -166,13 +175,19 @@ _.extend(PostStore, {
 			case POST.UPDATE:
 				var post_id = payload.post_id;
 				var title = payload.postTitle;
+				var tags = title.match(tagRegex);
+				tags = _.map(tags, function(tag) {
+					tag = tag.slice(1, tag.length); // remove the hashtag
+				});
 
 				var post = this.posts.get(post_id);
 
 				post.set('title', title);
+				post.set('tags', tags);
 
 				post.save({
 					title: title,
+					tags: tags,
 					updated: Date.now()
 				}, {
 					patch: true
@@ -222,12 +237,18 @@ _.extend(PostStore, {
 				var post_id = payload.post_id;
 				var post = this.posts.get(post_id);
 
-				var pinned = post.get('pinned');
+				var pinned = !post.get('pinned');
 
-				post.set('pinned', !pinned);
+				var expires = (pinned)
+				? new Date('2035', '1', '1') // expires in a long time
+				: new Date(Date.now() + (1000 * 60 * 30)) // unpinned - expire in 30 minutes
+
+				post.set('pinned', pinned);
+				post.set('expires', expires);
 
 				post.save({
-					pinned: !pinned
+					pinned: pinned,
+					expires: expires
 				}, {
 					patch: true
 				});
