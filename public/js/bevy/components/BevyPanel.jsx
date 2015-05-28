@@ -49,12 +49,16 @@ var BevyPanel = React.createClass({
 	},
 
 	getInitialState: function() {
+
+		var bevy = this.props.activeBevy;
+		var member = this.props.activeMember;
+
 		return {
-			name: '',
-			description: '',
-			image_url: '',
-			displayName: '',
-			activeMember: null,
+			name: bevy.name || '',
+			description: bevy.description || '',
+			image_url: bevy.image_url || '',
+			displayName: member.displayName || 'no display name',
+			activeMember: member || null,
 			isEditing: false,
 			isEditingName: false,
 		};
@@ -68,7 +72,9 @@ var BevyPanel = React.createClass({
 			description: bevy.description,
 			image_url: bevy.image_url,
 			activeMember: nextProps.activeMember,
-			displayName: (nextProps.activeMember && nextProps.activeMember.displayName) ? nextProps.activeMember.displayName : 'no display name'
+			displayName: (nextProps.activeMember && nextProps.activeMember.displayName)
+				? nextProps.activeMember.displayName
+				: 'no display name'
 		});
 	},
 

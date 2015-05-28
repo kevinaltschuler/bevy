@@ -111,7 +111,7 @@ module.exports = function(app) {
 			function(resetToken, user, done) {
 				// send email
 				mailgun.messages().send({
-					from: 'Bevy Team <contact@bvy.io>',
+					from: 'Bevy Team <contact@joinbevy.com>',
 					to: email,
 					subject: 'Reset Password',
 					text: 'Heres your link: ' + config.app.server.hostname + '/reset/' + resetToken.token

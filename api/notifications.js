@@ -49,8 +49,12 @@ exports.create = function(req, res, next) {
 			break;
 		case 'invite:email':
 			var members = params.members;
-			var bevy = params.bevy;
-			var inviter = params.user;
+			//var bevy = params.bevy;
+			//var inviter = params.user;
+			var bevy_id = req.body['bevy_id'];
+			var bevy_name = req.body['bevy_name'];
+			var bevy_img = req.body['bevy_img'];
+			var inviter_name = req.body['inviter_name'];
 
 			members.forEach(function(email) {
 				async.waterfall([
@@ -63,8 +67,10 @@ exports.create = function(req, res, next) {
 							var notification = {
 								event: 'invite',
 								data: {
-									bevy: bevy,
-									from_user: inviter
+									bevy_id: bevy_id,
+									bevy_name: bevy_name,
+									bevy_img: bevy_img,
+									inviter_name: inviter_name
 								}
 							}
 							user.notifications.push(notification);
@@ -82,15 +88,11 @@ exports.create = function(req, res, next) {
 					function(done) {
 						// then send the invite email
 
-						var inviter_name = (inviter.google)
-						? inviter.google.name.givenName + ' ' + inviter.google.name.familyName
-						: inviter.email;
-
 						mailgun.messages().send({
-							from: 'Bevy Team <contact@bvy.io>',
+							from: 'Bevy Team <contact@joinbevy.com>',
 							to: email,
 							subject: 'Invite',
-							text: 'Invite to ' + bevy.name + ' from ' + inviter_name
+							text: 'Invite to ' + bevy_name + ' from ' + inviter_name
 						}, function(err, body) {
 							if(err) {
 								return done(err);
@@ -103,10 +105,15 @@ exports.create = function(req, res, next) {
 			break;
 
 		case 'post:create':
-			var post = req.body['post'];
+			//var post = req.body['post'];
+			var author_name = req.body['author_name'];
+			var author_img = req.body['author_img'];
+			var bevy_name = req.body['bevy_name'];
+			var bevy_members = req.body['bevy_members'];
+			var post_title = req.body['post_title'];
 			//console.log(post);
-			var members = post.bevy.members;
-			members = _.filter(members, function(member) {
+			var members = [];
+			members = _.filter(bevy_members, function(member) {
 				return member.notificationLevel == 'all';
 			});
 
@@ -119,7 +126,11 @@ exports.create = function(req, res, next) {
 					var notification = {
 						event: 'post:create',
 						data: {
-							post: post
+							// post: post,
+							author_name: author_name,
+							author_img: author_img,
+							bevy_name: bevy_name,
+							post_title: post_title
 						}
 					};
 					user.notifications.push(notification);

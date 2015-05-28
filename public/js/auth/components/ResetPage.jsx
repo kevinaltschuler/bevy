@@ -18,11 +18,7 @@ var Panel=rbs.Panel;
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 
-var Router = require('react-router');
-
 var ResetPage = React.createClass({
-
-	mixins: [Router.State],
 
 	getInitialState: function() {
 		return {

@@ -21,6 +21,7 @@ var PostSchema = new Schema({
 		ref: 'User'
 	},
 	title: String,
+	tags: [String],
 	images: [String],
 	votes: [Schema({
 		voter: String,
@@ -31,6 +32,13 @@ var PostSchema = new Schema({
 	pinned: {
 		type: Boolean,
 		default: false
+	},
+	expires: {
+		type: Date,
+		default: Date.now() + (1000 * 60 * 60 * 24 * 7), // set to one week after post, by default
+		index: {
+			expireAfterSeconds: 5
+		}
 	},
 	created: {
 		type: Date,

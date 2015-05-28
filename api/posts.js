@@ -66,9 +66,7 @@ exports.index = function(req, res, next) {
 // GET /bevies/:bevyid/posts/create
 // POST /bevies/:bevyid/posts
 exports.create = function(req, res, next) {
-	var bevy_id = req.params.bevyid;
 	var update = collectPostParams(req);
-	update.bevy = bevy_id;
 
 	Post.create(update, function(err, post) {
 		if(err) throw err;
@@ -82,7 +80,6 @@ exports.create = function(req, res, next) {
 // SHOW
 // GET /bevies/:bevyid/posts/:id
 exports.show = function(req, res, next) {
-	var bevy_id = req.params.bevyid;
 	var id = req.params.id;
 
 	var query = { _id: id };
@@ -111,7 +108,6 @@ exports.show = function(req, res, next) {
 // GET /bevies/:bevyid/posts/:id/edit
 // PUT/PATCH /bevies/:bevyid/posts/:id
 exports.update = function(req, res, next) {
-	var bevy_id = req.params.id;
 	var id = req.params.id;
 	var update = collectPostParams(req);
 	update.pinned = req.body['pinned'];
@@ -133,10 +129,8 @@ exports.update = function(req, res, next) {
 // GET /bevies/:bevyid/posts/:id/destroy
 // DELETE /bevies/:bevyid/posts/:id
 exports.destroy = function(req, res, next) {
-	var bevy_id = req.params.id;
 	var id = req.params.id;
 
-	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
 	var promise = Post.findOneAndRemove(query)
 		.populate('bevy author')

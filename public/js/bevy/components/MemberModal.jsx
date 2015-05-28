@@ -22,7 +22,7 @@ var MemberList = require('./MemberList.jsx');
 var MemberModal = React.createClass({
 
 	propTypes: {
-		title: React.PropTypes.string,
+		title: React.PropTypes.object,
 		contacts: React.PropTypes.array,
 		activeBevy: React.PropTypes.object,
 		activeMember: React.PropTypes.object

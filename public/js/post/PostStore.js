@@ -18,6 +18,8 @@ var Backbone = require('backbone');
 var $ = require('jquery');
 var _ = require('underscore');
 
+var router = require('./../router');
+
 var constants = require('./../constants');
 var POST = constants.POST;
 var ALIAS = constants.ALIAS;
@@ -51,7 +53,6 @@ _.extend(PostStore, {
 				// wait for bevies
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
-				this.posts._meta.bevy_id = BevyStore.bevies._meta.active;
 				this.posts.comparator = this.sortByTop;
 
 				this.posts.fetch({
@@ -67,14 +68,8 @@ _.extend(PostStore, {
 			case BEVY.SWITCH:
 			case BEVY.JOIN:
 
-				var bevy_id = payload.bevy_id;
-				// if none, default to frontpage
-				if(!bevy_id) bevy_id = -1;
-
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
-
-				this.posts._meta.bevy_id = bevy_id;
 
 				this.posts.fetch({
 					reset: true,
@@ -93,16 +88,18 @@ _.extend(PostStore, {
 				var author = payload.author;
 				var bevy = payload.bevy;
 
+				var posts_expire_in = bevy.settings.posts_expire_in || 7;
+				posts_expire_in *= (1000 * 60 * 60 * 24);
+				posts_expire_in += Date.now();
+
 				var newPost = this.posts.add({
 					title: title,
 					images: images,
 					author: author._id,
-					bevy: bevy._id
+					bevy: bevy._id,
+					created: Date.now(),
+					expires: posts_expire_in
 				});
-
-				// switch to posting bevy realll quick
-				var temp = this.posts._meta.bevy_id;
-				this.posts._meta.bevy_id = bevy._id;
 
 				// save to server
 				newPost.save(null, {
@@ -111,20 +108,31 @@ _.extend(PostStore, {
 						newPost.set('_id', post.id);
 						this.trigger(POST.CHANGE_ALL);
 
+						var stripped_members = _.map(bevy.members, function(member) {
+							var new_member = {};
+							new_member.role = member.role;
+							new_member.notificationLevel = member.notificationLevel;
+							if(_.isObject(member.user))
+								new_member.user = member.user._id;
+							return new_member;
+						});
+
 						// send notification
 						$.post(
 							constants.apiurl + '/notifications',
 							{
 								event: 'post:create',
-								post: post.toJSON()
+								//post: post.toJSON()
+								author_name: author.displayName,
+								author_img: author.image_url,
+								bevy_name: bevy.name,
+								bevy_members: stripped_members,
+								post_title: title
 							}
 						);
 
 					}.bind(this)
 				});
-
-				// switch back
-				this.posts._meta.bevy_id = temp;
 
 				// simulate server population
 				newPost.set('_id', String(Date.now()));
@@ -163,18 +171,12 @@ _.extend(PostStore, {
 
 				post.set('title', title);
 
-				// set to post's bevy in case on frontpage
-				var temp = this.posts._meta.bevy_id;
-				this.posts._meta.bevy_id = post.get('bevy')._id;
-
 				post.save({
-					title: title
+					title: title,
+					updated: Date.now()
 				}, {
 					patch: true
 				});
-
-				// set back
-				this.posts._meta.bevy_id = temp;
 
 				this.trigger(POST.CHANGE_ALL);
 				break;
@@ -224,18 +226,11 @@ _.extend(PostStore, {
 
 				post.set('pinned', !pinned);
 
-				// set to post's bevy in case on frontpage
-				var temp = this.posts._meta.bevy_id;
-				this.posts._meta.bevy_id = post.get('bevy')._id;
-
 				post.save({
 					pinned: !pinned
 				}, {
 					patch: true
 				});
-
-				// set back
-				this.posts._meta.bevy_id = temp;
 
 				this.posts.sort();
 
@@ -317,9 +312,7 @@ _.extend(PostStore, {
 
 	// send all posts to the App.jsx in JSON form
 	getAll: function() {
-		return (BevyStore.bevies._meta.active)
-		? this.posts.toJSON()
-		: [];
+		return this.posts.toJSON();
 	},
 
 	/**
@@ -376,19 +369,12 @@ _.extend(PostStore, {
 
 		post.set('votes', votes);
 
-		// set the url in case on frontpage
-		var temp = this.posts._meta.bevy_id;
-		this.posts._meta.bevy_id = post.get('bevy')._id;
-
 		// save to server
 		post.save({
 			votes: votes
 		}, {
 			patch: true
 		});
-
-		// set back
-		this.posts._meta.bevy_id = temp;
 
 		// sort posts
 		this.posts.sort();

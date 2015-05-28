@@ -33,6 +33,7 @@ var PostStore = require('./../PostStore');
 var POST = require('./../../constants').POST;
 
 var timeAgo = require('./../../shared/helpers/timeAgo');
+var timeLeft = require('./../../shared/helpers/timeLeft');
 
 var $ = require('jquery');
 
@@ -165,6 +166,11 @@ var Post = React.createClass({
 			}
 		}
 
+		var ago = timeAgo(Date.parse(this.props.post.created));
+		var left = (this.props.post.expires)
+		? timeLeft(Date.parse(this.props.post.expires))
+		: '';
+
 		var panelBodyText;
 		if(this.state.isEditing) {
 			panelBodyText =
@@ -243,12 +249,13 @@ var Post = React.createClass({
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<div className='post-details'>
 							<div className='top'>
-								<span className="details">{ author }</span>
-								&nbsp;<span className="glyphicon glyphicon-triangle-right"/>&nbsp;
-								<span className="details">{ this.props.post.bevy.name }</span>
+								<span className="details">{ author } </span>
+								<span className="glyphicon glyphicon-triangle-right"/>
+								<span className="details"> { this.props.post.bevy.name }</span>
 							</div>
 							<div className="bottom">
-								<span className="detail-time">{ timeAgo(Date.parse(this.props.post.created)) }</span>
+								<span className="detail-time">{ ago } | </span>
+								<span className='detail-time'>expires { left }</span>
 							</div>
 						</div>
 						<div className='badges'>

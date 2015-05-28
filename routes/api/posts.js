@@ -38,4 +38,8 @@ module.exports = function(router) {
 	// frontpage
 	router.get('/users/:userid/posts', api.posts.frontpage);
 
+	router.post('/users/:userid/posts', api.posts.create);
+	router.put('/users/:userid/posts/:id', api.posts.update);
+	router.patch('/users/:userid/posts/:id', api.posts.update);
+	router.delete('/users/:userid/posts/:id', api.posts.destroy);
 }

@@ -33,21 +33,13 @@ var Backbone = require('backbone');
 var React = require('react');
 
 // load components
-var Navbar = require('./app/components/Navbar.jsx');
 var MainSection = require('./app/components/MainSection.jsx');
 
 var LoginPage = require('./auth/components/LoginPage.jsx');
 var RegisterPage = require('./auth/components/RegisterPage.jsx');
 var ForgotPage = require('./auth/components/ForgotPage.jsx');
 var ResetPage = require('./auth/components/ResetPage.jsx');
-
-// load react-router
-var Router = require('react-router');
-
-var DefaultRoute = Router.DefaultRoute;
-var Route = Router.Route;
-var RouteHandler = Router.RouteHandler;
-var Redirect = Router.Redirect;
+var FourOhFour = require('./app/components/FourOhFour.jsx');
 
 //Needed for onTouchTap - a feature of Material-UI
 //Can go away when react 1.0 release
@@ -56,31 +48,55 @@ var Redirect = Router.Redirect;
 //var injectTapEventPlugin = require('react-tap-event-plugin');
 //injectTapEventPlugin();
 
-
 // App bootstrap
 var App = React.createClass({
 	render: function() {
 		return (
-			<div>
-				<RouteHandler/>
+			<div className='container'>
+				<InterfaceComponent />
 			</div>
 		);
 	}
 });
 
-// route configuration
-var routes = (
-	<Route name='app' path='/' handler={ App }>
-		<Route name='login' handler={ LoginPage } />
-		<Route name='register' handler={ RegisterPage } />
-		<Route name='forgot' handler={ ForgotPage } />
-		<Route name='reset' path='reset/:token' handler={ ResetPage } />
-		{/*<DefaultRoute handler={ MainSection } />*/}
-		<Route name='home' path='/b/' handler={ MainSection } />
-		<Redirect to='home' />
-	</Route>
-);
+var router = require('./router');
 
-Router.run(routes, Router.HistoryLocation, function(Handler) {
-	React.render(<Handler/>, document.getElementById('app'));
+var InterfaceComponent = React.createClass({
+	componentWillMount : function() {
+		this.callback = (function() {
+			this.forceUpdate();
+		}).bind(this);
+
+		router.on('route', this.callback);
+	},
+	componentWillUnmount : function() {
+		router.off('route', this.callback);
+	},
+	render : function() {
+		switch(router.current) {
+			case 'home':
+				return <MainSection />
+				break;
+			case 'login':
+				return <LoginPage />
+				break;
+			case 'register':
+				return <RegisterPage />
+				break;
+			case 'forgot':
+				return <ForgotPage />
+				break;
+			case 'reset':
+				return <ResetPage />
+				break;
+			case '404':
+				return <FourOhFour />
+				break;
+			default:
+				return <MainSection />
+				break;
+		}
+	}
 });
+
+React.render(<App />, document.body);
