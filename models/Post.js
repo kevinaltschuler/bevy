@@ -21,6 +21,7 @@ var PostSchema = new Schema({
 		ref: 'User'
 	},
 	title: String,
+	tags: [String],
 	images: [String],
 	votes: [Schema({
 		voter: String,
