@@ -118,8 +118,9 @@ var BevyPanel = React.createClass({
 		var displayName = this.refs.displayName.getValue();
 		var notificationLevel = this.state.activeMember.notificationLevel;
 		var role = this.state.activeMember.role;
+		var image_url = this.state.activeMember.image_url;
 
-		BevyActions.editMember(bevy_id, user_id, displayName, notificationLevel, role);
+		BevyActions.editMember(bevy_id, user_id, displayName, notificationLevel, role, image_url);
 
 		// update locally
 		var activeMember = this.state.activeMember;
@@ -146,7 +147,21 @@ var BevyPanel = React.createClass({
 	},
 
 	onAliasUploadComplete: function(file) {
+		var filename = file.filename;
+		var image_url = constants.apiurl + '/files/' + filename;
+		this.setState({
+			image_url: image_url
+		});
 
+		var bevy_id = this.props.activeBevy.id;
+
+		var activeMember = this.state.activeMember;
+
+		var role = activeMember.role;
+		var displayName = activeMember.displayName;
+		var notificationLevel = activeMember.notificationLevel;
+
+		BevyActions.editMember(bevy_id, user._id, displayName, notificationLevel, role, image_url);
 	},
 
 	onChange: function(ev) {
@@ -160,14 +175,16 @@ var BevyPanel = React.createClass({
 		ev.preventDefault();
 
 		var activeMember = this.state.activeMember;
+
 		var role = activeMember.role;
 		var displayName = activeMember.displayName;
+		var image_url = activeMember.image_url;
 
 		var bevy_id = this.props.activeBevy.id;
 		var user = window.bootstrap.user;
 		var notificationLevel = menuItem.payload;
 
-		BevyActions.editMember(bevy_id, user._id, displayName, notificationLevel, role);
+		BevyActions.editMember(bevy_id, user._id, displayName, notificationLevel, role, image_url);
 
 		// now update locally
 		activeMember.notificationLevel = notificationLevel;
@@ -214,14 +231,19 @@ var BevyPanel = React.createClass({
 			backgroundImage: 'url(' + bevyImage + ')',
 			backgroundSize: '50px 50px',
 		}
+
+		var aliasImage = (this.state.activeMember.image_url)
+		? this.state.activeMember.image_url
+		: '/img/logo_100.png';
+
 		var aliasImageStyle = {
-			backgroundImage: 'url(' + bevyImage + ')',
+			backgroundImage: 'url(' + aliasImage + ')',
 			backgroundSize: 'auto 50px',
-		}
+		};
 
 		var imgStyle = (this.state.image_url === '/img/logo_100.png')
 		? { minWidth: '50px', height: 'auto' }
-		: { minWidth: '100px', height: 'auto' }
+		: { minWidth: '100px', height: 'auto' };
 
 		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
 		var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
