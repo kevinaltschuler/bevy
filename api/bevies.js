@@ -85,7 +85,8 @@ exports.update = function(req, res, next) {
 	var id = req.params.id;
 
 	var update = collectBevyParams(req);
-	update.settings = req.body['settings'];
+	if(req.body['settings'])
+		update.settings = req.body['settings'];
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update, { new: true, upsert: true })
