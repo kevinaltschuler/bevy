@@ -15,11 +15,11 @@ var ResetToken = mongoose.model('ResetToken');
 
 module.exports = function(app) {
 
-	app.get('/login', function(req, res, next) {
+	/*app.get('/login', function(req, res, next) {
 		res.render('app', {
 			env: process.env.NODE_ENV
 		});
-	});
+	});*/
 
 	app.post('/login', function(req, res, next) {
 		passport.authenticate('local', function(err, user, info) {
@@ -61,19 +61,6 @@ module.exports = function(app) {
 
 		req.logout();
 		res.redirect('/login');
-	});
-
-	app.get('/register', function(req, res, next) {
-		res.render('app', {
-			env: process.env.NODE_ENV
-		});
-	});
-
-	// forgot password
-	app.get('/forgot', function(req, res, next) {
-		res.render('app', {
-			env: process.env.NODE_ENV
-		});
 	});
 
 	app.post('/forgot', function(req, res, next) {
@@ -122,13 +109,6 @@ module.exports = function(app) {
 				});
 			}
 		]);
-	});
-
-	// reset password
-	app.get('/reset/:token', function(req, res, next) {
-		res.render('app', {
-			env: process.env.NODE_ENV
-		});
 	});
 
 	app.post('/reset/:token', checkToken, function(req, res, next) {

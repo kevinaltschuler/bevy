@@ -1,6 +1,7 @@
 'use strict';
 
 var Backbone = require('backbone');
+var _ = require('underscore');
 
 var Router = Backbone.Router.extend({
 	routes: {
@@ -18,6 +19,9 @@ var Router = Backbone.Router.extend({
 
 	home: function() {
 		this.current = 'home';
+
+		if(!checkUser()) return;
+
 		this.navigate('b/frontpage', { trigger: true });
 	},
 
@@ -39,6 +43,9 @@ var Router = Backbone.Router.extend({
 
 	bevy: function(bevy_id) {
 		this.current = 'bevy';
+
+		if(!checkUser()) return;
+
 		this.bevy_id = bevy_id;
 		if(bevy_id == 'frontpage') this.bevy_id = -1;
 		if(bevy_id == '') {
@@ -49,12 +56,24 @@ var Router = Backbone.Router.extend({
 
 	search: function(query) {
 		this.current = 'search';
+
+		if(!checkUser()) return;
 	},
 
 	not_found: function(nuts) {
 		this.current = '404';
+
+		if(!checkUser()) return;
 	}
 });
+
+function checkUser() {
+	if(_.isEmpty(window.bootstrap.user)) {
+		router.navigate('login', { trigger: true });
+		return false
+	}
+	return true
+}
 
 var router = new Router();
 
