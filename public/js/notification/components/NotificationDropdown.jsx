@@ -48,7 +48,7 @@ var ProfileDropdown = React.createClass({
 		? 'hover'
 		: 'click';
 
-		return <OverlayTrigger trigger={ trigger } placement="bottom" overlay={ overlay }>
+		return <OverlayTrigger trigger={ trigger } rootClose={ true } placement="bottom" overlay={ overlay }>
 				 	<Button className="notification-dropdown-btn">
 					 	<img src="./../../img/notification-icon.png"/>
 				 	</Button>

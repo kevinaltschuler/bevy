@@ -16,7 +16,7 @@ var classNames = require('classnames');
 var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
-var CollapsableMixin = rbs.CollapsableMixin;
+var CollapsibleMixin = rbs.CollapsibleMixin;
 var Tooltip = rbs.Tooltip;
 var Input = rbs.Input;
 var Panel = rbs.Panel;
@@ -46,7 +46,7 @@ var hintText = hintTexts[Math.floor(Math.random() * 4)];
 // React class
 var NewPostPanel = React.createClass({
 
-	mixins: [CollapsableMixin],
+	mixins: [CollapsibleMixin],
 
 	propTypes: {
 		activeBevy: React.PropTypes.object.isRequired,
@@ -161,7 +161,7 @@ var NewPostPanel = React.createClass({
 
 	render: function() {
 
-		var styles = this.getCollapsableClassSet();
+		var styles = this.getCollapsibleClassSet();
 		//var classSet = React.addons.classSet;
 		//console.log(styles);
 		var dropzoneOptions = {

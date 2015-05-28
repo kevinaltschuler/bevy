@@ -64,7 +64,7 @@ var ProfileDropdown = React.createClass({
 		var defaultName = 'Default Name';
 		var name = user.google.displayName || defaultName;
 
-		var profileImage; 
+		var profileImage;
 		if(_.isEmpty(this.state.image_url)) {
 			profileImage = defaultProfileImage;
 			var profileImageStyle= {
@@ -89,7 +89,7 @@ var ProfileDropdown = React.createClass({
 			dictDefaultMessage: ' ',
 		};
 
-		return <OverlayTrigger trigger="click" placement="bottom" overlay={
+		return <OverlayTrigger trigger="click" rootClose={ true } placement="bottom" overlay={
 					<Popover>
 
 						<div className="row profile-top">
