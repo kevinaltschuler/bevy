@@ -88,12 +88,17 @@ _.extend(PostStore, {
 				var author = payload.author;
 				var bevy = payload.bevy;
 
+				var posts_expire_in = bevy.settings.posts_expire_in || 7;
+				posts_expire_in *= (1000 * 60 * 60 * 24);
+				posts_expire_in += Date.now();
+
 				var newPost = this.posts.add({
 					title: title,
 					images: images,
 					author: author._id,
 					bevy: bevy._id,
-					created: Date.now()
+					created: Date.now(),
+					expires: posts_expire_in
 				});
 
 				// save to server

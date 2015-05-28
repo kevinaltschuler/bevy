@@ -24,6 +24,10 @@ var BevySchema = new Schema({
 		allow_changeable_names: {
 			type: Boolean,
 			default: true
+		},
+		posts_expire_in : {
+			type: Number,
+			default: 7
 		}
 	},
 	created: {

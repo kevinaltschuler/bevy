@@ -30,30 +30,57 @@ var BevySettingsModal = React.createClass({
 		activeBevy: React.PropTypes.object
 	},
 
-	nameToggle: function(e, toggled) {
+	save: function(ev) {
+		var allow_changeable_names = this.refs.allow_changeable_names.isToggled();
+		var posts_expire_in = this.refs.posts_expire_in.getValue();
+
 		BevyActions.update(this.props.activeBevy._id, null, null, null, {
-			allow_changeable_names: toggled
+			allow_changeable_names: allow_changeable_names,
+			posts_expire_in: posts_expire_in
 		});
+
+		this.props.onRequestHide();
 	},
 
 	render: function() {
 
+		var bevy = this.props.activeBevy;
+		var settings = bevy.settings;
+
 		return <Modal className="bevy-settings-modal" { ...this.props }>
 					<span className="title">Settings for {this.props.activeBevy.name}</span>
 
-					<div className='row bevy-setting'>
+					<div className='bevy-setting'>
 						<Toggle
 						  label="Allow users to change their display name?"
-						  defaultToggled={ this.props.activeBevy.settings.allow_changeable_names }
-						  onToggle={ this.nameToggle } />
+						  defaultToggled={ settings.allow_changeable_names }
+						  ref='allow_changeable_names'
+						/>
+					</div>
+
+					<div className='bevy-setting'>
+						Posts expire in
+						<Input
+							type='number'
+							defaultValue={ settings.posts_expire_in }
+							ref='posts_expire_in'
+						/>
+						 days
 					</div>
 
 					<div className='row'>
-						<div className='col-xs-12'>
+						<div className='col-xs-6'>
 							<div className="panel-bottom">
 								<RaisedButton
 									onClick={ this.props.onRequestHide }
 									label='Close' />
+							</div>
+						</div>
+						<div className='col-xs-6'>
+							<div className="panel-bottom">
+								<RaisedButton
+									onClick={ this.save }
+									label='Save Changes' />
 							</div>
 						</div>
 					</div>
