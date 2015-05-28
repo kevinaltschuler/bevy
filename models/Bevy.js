@@ -21,13 +21,13 @@ var BevySchema = new Schema({
 	},
 	members: [ Member ],
 	settings: {
-		allow_changeable_names: {
-			type: Boolean,
-			default: true
-		},
-		posts_expire_in : {
+		posts_expire_in: {
 			type: Number,
 			default: 7
+		},
+		anonymise_users: {
+			type: Boolean,
+			default: false
 		}
 	},
 	created: {

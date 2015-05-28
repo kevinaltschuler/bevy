@@ -52,7 +52,7 @@ var MemberItem = React.createClass({
 		else contactStatus = contact.user.displayName;
 
 		if(joined)
-			if(contact.displayName && this.props.activeBevy.settings.allow_changeable_names)
+			if(contact.displayName && this.props.activeBevy.settings.anonymise_users)
 				contactStatus = this.props.contact.displayName;
 
 		if(joined) {

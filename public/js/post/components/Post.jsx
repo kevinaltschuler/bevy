@@ -138,6 +138,8 @@ var Post = React.createClass({
 		 ? this.props.post.author.image_url
 		 : defaultProfileImage;
 
+		var bevy = this.props.post.bevy;
+
 		var author;
 		author = 'placeholder-author';
 		if(this.props.post.author) {
@@ -149,7 +151,7 @@ var Post = React.createClass({
 
 		var authorMember = this.findMember(this.props.post.author._id);
 		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName)) author = authorMember.displayName;
+			if(!_.isEmpty(authorMember.displayName) && bevy.settings.anonymise_users) author = authorMember.displayName;
 		}
 
 		var images = [];
@@ -171,7 +173,7 @@ var Post = React.createClass({
 		? (' • expires ' + timeLeft(Date.parse(this.props.post.expires)))
 		: '';
 
-		if(!_.isEmpty(this.state.title){
+		if(!_.isEmpty(this.state.title)) {
 			var words = this.state.title.split(' ');
 			var $words = [];
 			var tags = this.props.post.tags;

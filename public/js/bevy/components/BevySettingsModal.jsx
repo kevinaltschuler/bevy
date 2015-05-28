@@ -31,12 +31,12 @@ var BevySettingsModal = React.createClass({
 	},
 
 	save: function(ev) {
-		var allow_changeable_names = this.refs.allow_changeable_names.isToggled();
 		var posts_expire_in = this.refs.posts_expire_in.getValue();
+		var anonymise_users = this.refs.anonymise_users.isToggled();
 
 		BevyActions.update(this.props.activeBevy._id, null, null, null, {
-			allow_changeable_names: allow_changeable_names,
-			posts_expire_in: posts_expire_in
+			posts_expire_in: posts_expire_in,
+			anonymise_users: anonymise_users
 		});
 
 		this.props.onRequestHide();
@@ -51,14 +51,6 @@ var BevySettingsModal = React.createClass({
 					<span className="title">Settings for {this.props.activeBevy.name}</span>
 
 					<div className='bevy-setting'>
-						<Toggle
-						  label="Allow users to change their display name?"
-						  defaultToggled={ settings.allow_changeable_names }
-						  ref='allow_changeable_names'
-						/>
-					</div>
-
-					<div className='bevy-setting'>
 						Posts expire in
 						<Input
 							type='number'
@@ -66,6 +58,14 @@ var BevySettingsModal = React.createClass({
 							ref='posts_expire_in'
 						/>
 						 days
+					</div>
+
+					<div className='bevy-setting'>
+						<Toggle
+						  label="Anonymise Users?"
+						  defaultToggled={ settings.anonymise_users }
+						  ref='anonymise_users'
+						/>
 					</div>
 
 					<div className='row'>

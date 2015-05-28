@@ -68,7 +68,7 @@ var CommentItem = React.createClass({
 
 		var authorMember = this.findMember(author._id);
 		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName) && this.props.post.bevy.settings.allow_changeable_names)
+			if(!_.isEmpty(authorMember.displayName) && this.props.post.bevy.settings.anonymise_users)
 				authorName = authorMember.displayName;
 		}
 
