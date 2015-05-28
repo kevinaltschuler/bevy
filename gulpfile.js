@@ -99,8 +99,8 @@ function buildLess() {
 			  browser: ['last 2 versions']
 			, cascade: true
 		}))
+		.pipe(minifyCss({compatibility: 'ie8'}))
 		.pipe(sourcemaps.write())
-		//.pipe(minifyCss({compatibility: 'ie8'}))
 		.pipe(gulp.dest('public/css'))
 		.pipe(reload({ stream: true }));
 }
