@@ -65,12 +65,9 @@ var MainSection = React.createClass({
 	getBevyState: function() {
 
 		var all = BevyStore.getAll();
-		//var active = BevyStore.getActive();
-		var active = BevyStore.getBevy(router.bevy_id);
+		var active = BevyStore.getActive();
 		var activeMember = BevyStore.getActiveMember();
 		var members = BevyStore.getMembers();
-
-		//console.log(members);
 
 		return {
 			// later, load this from session/cookies

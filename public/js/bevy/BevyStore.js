@@ -14,6 +14,8 @@ var Backbone = require('backbone');
 var $ = require('jquery');
 var _ = require('underscore');
 
+var router = require('./../router');
+
 var Dispatcher = require('./../shared/dispatcher');
 
 var Bevy = require('./BevyModel');
@@ -59,8 +61,6 @@ _.extend(BevyStore, {
 					_id: '-1',
 					name: 'Frontpage'
 				});
-				// set it to the active bevy
-				this.bevies._meta.active = this.bevies.models[0].id;
 
 				break;
 
@@ -90,7 +90,7 @@ _.extend(BevyStore, {
 						// success
 						newBevy.set('_id', model.id);
 						// update posts
-						BevyActions.switchBevy(model.id);
+						BevyActions.switchBevy();
 					}.bind(this)
 				});
 
@@ -101,15 +101,11 @@ _.extend(BevyStore, {
 				var bevy = this.bevies.get(id);
 				bevy.destroy({
 					success: function(model, response) {
-						// switch the active bevy
-						var newBevy = this.bevies.models[0];
-						if(!newBevy) {
-							this.bevies._meta.active = null;
-						}
-						this.bevies._meta.active = newBevy.id;
+						// switch to the frontpage
+						router.navigate('/b/frontpage', { trigger: true });
 
 						// update posts
-						BevyActions.switchBevy(newBevy.id);
+						BevyActions.switchBevy();
 
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
@@ -126,8 +122,6 @@ _.extend(BevyStore, {
 				var description = payload.description || bevy.get('description');
 				var image_url = payload.image_url || bevy.get('image_url');
 				var settings = payload.settings || bevy.get('settings');
-
-				//console.log(bevy.changed);
 
 				bevy.set({
 					name: name,
@@ -272,37 +266,15 @@ _.extend(BevyStore, {
 
 				// ok, now remove the bevy from the local list
 				this.bevies.remove(bevy);
-				if(this.bevies.models.length <= 0) {
-					// no more bevies
-					this.bevies._meta.active = null;
-				} else {
-					// switch to the first one
-					this.bevies._meta.active = this.bevies.models[0].id;
-				}
+				// switch to frontpage
+				router.navigate('/b/frontpage', { trigger: true });
 
 				this.trigger(BEVY.CHANGE_ALL);
 
 				break;
 
 			case BEVY.SWITCH:
-				/*var bevy_id = payload.bevy_id;
-
-				if(!bevy_id) {
-					// TODO: set to front page
-					if(this.bevies.models.length < 1) {
-						// no more bevies
-						this.bevies._meta.active = null;
-					} else {
-						// set to the first one
-						var first_id = this.bevies.models[0].id;
-						this.bevies._meta.active = first_id;
-					}
-				} else {
-					this.bevies._meta.active = bevy_id;
-				}*/
-
-				//this.trigger(BEVY.CHANGE_ALL);
-
+				this.trigger(BEVY.CHANGE_ALL);
 				break;
 
 			case BEVY.INVITE:
@@ -389,7 +361,7 @@ _.extend(BevyStore, {
 								});
 
 								// switch to new bevy
-								this.bevies._meta.active = bevy_id;
+								router.navigate('/b/' + bevy_id, { trigger: true });
 								this.trigger(BEVY.CHANGE_ALL);
 							}.bind(this)
 						});
@@ -398,9 +370,6 @@ _.extend(BevyStore, {
 					var response = jqXHR.responseJSON;
 					console.log(response);
 				});
-
-				// be optimistic so post store can do its thing
-				this.bevies._meta.active = bevy_id;
 
 				break;
 		}
@@ -413,13 +382,7 @@ _.extend(BevyStore, {
 	},
 
 	getActive: function() {
-		return (this.bevies._meta.active == null)
-		? {}
-		: this.bevies.get(this.bevies._meta.active).toJSON();
-	},
-
-	getBevy: function(bevy_id) {
-		return this.bevies.get(bevy_id).toJSON();
+		return this.bevies.get(router.bevy_id).toJSON();
 	},
 
 	getActiveMember: function() {

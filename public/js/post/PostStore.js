@@ -307,9 +307,7 @@ _.extend(PostStore, {
 
 	// send all posts to the App.jsx in JSON form
 	getAll: function() {
-		return (BevyStore.bevies._meta.active)
-		? this.posts.toJSON()
-		: [];
+		return this.posts.toJSON();
 	},
 
 	/**
