@@ -167,8 +167,8 @@ var Post = React.createClass({
 		}
 
 		var ago = timeAgo(Date.parse(this.props.post.created));
-		var left = (this.props.post.expires)
-		? timeLeft(Date.parse(this.props.post.expires))
+		var left = (this.props.post.expires && !this.props.post.pinned)
+		? (' | expires ' + timeLeft(Date.parse(this.props.post.expires)))
 		: '';
 
 		var panelBodyText;
@@ -254,8 +254,8 @@ var Post = React.createClass({
 								<span className="details"> { this.props.post.bevy.name }</span>
 							</div>
 							<div className="bottom">
-								<span className="detail-time">{ ago } | </span>
-								<span className='detail-time'>expires { left }</span>
+								<span className="detail-time">{ ago }</span>
+								<span className='detail-time'>{ left }</span>
 							</div>
 						</div>
 						<div className='badges'>

@@ -222,12 +222,18 @@ _.extend(PostStore, {
 				var post_id = payload.post_id;
 				var post = this.posts.get(post_id);
 
-				var pinned = post.get('pinned');
+				var pinned = !post.get('pinned');
 
-				post.set('pinned', !pinned);
+				var expires = (pinned)
+				? new Date('2035', '1', '1') // expires in a long time
+				: new Date(Date.now() + (1000 * 60 * 30)) // unpinned - expire in 30 minutes
+
+				post.set('pinned', pinned);
+				post.set('expires', expires);
 
 				post.save({
-					pinned: !pinned
+					pinned: pinned,
+					expires: expires
 				}, {
 					patch: true
 				});
