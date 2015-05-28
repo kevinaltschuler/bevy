@@ -171,29 +171,42 @@ var Post = React.createClass({
 		? (' | expires ' + timeLeft(Date.parse(this.props.post.expires)))
 		: '';
 
+		var words = this.state.title.split(' ');
+		var $words = [];
+		var tags = this.props.post.tags;
+		words.forEach(function(word) {
+			var index = tags.indexOf(word.slice(1, word.length));
+			if(index > -1) {
+				return $words.push(<a href='#' key={ index }>{ word } </a>);
+			}
+			return $words.push(word + ' ');
+		});
+		var bodyText = (<p>{ $words }</p>);
+
 		var panelBodyText;
 		if(this.state.isEditing) {
-			panelBodyText =
-			(<div className='panel-body-text'>
-				<TextField
-					type='text'
-					ref='title'
-					defaultValue={ this.state.title  }
-					value={ this.state.title  }
-					placeholder=' '
-					onChange={ this.onChange }
-				/>
-				<IconButton
-					className="save-button"
-					tooltip='save changes'
-					onClick={ this.stopEdit }>
-					<span className="glyphicon glyphicon-heart-empty"></span>
-				</IconButton>
-			</div>)
+			panelBodyText = (
+				<div className='panel-body-text'>
+					<TextField
+						type='text'
+						ref='title'
+						defaultValue={ this.state.title  }
+						value={ this.state.title  }
+						placeholder=' '
+						onChange={ this.onChange }
+					/>
+					<IconButton
+						className="save-button"
+						tooltip='save changes'
+						onClick={ this.stopEdit }>
+						<span className="glyphicon glyphicon-heart-empty"></span>
+					</IconButton>
+				</div>);
 		} else {
-			panelBodyText = (<div className='panel-body-text'>
-								{ this.state.title  }
-							</div>);
+			panelBodyText = (
+				<div className='panel-body-text'>
+					{ bodyText }
+				</div>);
 		}
 
 		var commentList = (this.props.post.comments)
