@@ -82,7 +82,7 @@ var MemberItem = React.createClass({
 
 		var removeButton = '';
 		if(!_.isEmpty(this.props.activeMember)) {
-			if(this.props.activeMember.role == 'admin') {
+			if(this.props.activeMember.role == 'admin' && contact.role != 'admin') {
 				removeButton = (
 					<RaisedButton label="remove" onClick={this.remove} />);
 			}
