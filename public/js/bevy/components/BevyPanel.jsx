@@ -208,7 +208,7 @@ var BevyPanel = React.createClass({
 		}
 		var aliasImageStyle = {
 			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '50px auto',
+			backgroundSize: 'auto 50px',
 		}
 
 		var imgStyle = (this.state.image_url === '/img/logo_100.png')
@@ -345,16 +345,18 @@ var BevyPanel = React.createClass({
 			</div>)
 		: (<div className='row sidebar-action name-edit-action'>
 				<div className="sidebar-action-title col-xs-12"> Posting As... </div>
-				<div className='alias-img' style={ aliasImageStyle }/>
-				<span className='sidebar-posting-name'>
-					{ this.state.displayName }
-				</span>
-				<IconButton
-					className="edit-button"
-					tooltip='edit name'
-					onClick={ this.startEditingName }>
-					<span className="glyphicon glyphicon-pencil"></span>
-				</IconButton>
+				<div className='sidebar-action-deets'>
+					<div className='alias-img' style={ aliasImageStyle }/>
+					<span className='sidebar-posting-name'>
+						{ this.state.displayName }
+					</span>
+					<IconButton
+						className="edit-button"
+						tooltip='edit name'
+						onClick={ this.startEditingName }>
+						<span className="glyphicon glyphicon-pencil"></span>
+					</IconButton>
+				</div>
 			</div>
 		);
 
