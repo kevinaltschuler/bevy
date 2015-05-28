@@ -40,21 +40,22 @@ var MemberList = React.createClass({
 					}
 				}
 			}
-
-			contacts.push(
-				<MemberItem
-					key={ key }
-					contact={ contact }
-					active={ active }
-					activeBevy={ this.props.activeBevy }
-					activeMember={ this.props.activeMember }
-				/>
-			);
+			if(!(this.props.activeMember.role != 'admin' && _.isEmpty(contact.user))) {
+				contacts.push(
+					<MemberItem
+						key={ key }
+						contact={ contact }
+						active={ active }
+						activeBevy={ this.props.activeBevy }
+						activeMember={ this.props.activeMember }
+					/>
+				);
+			}
 		}
 
 		return <div>
 				 	{ contacts }
-				 </div>
+				</div>
 	}
 });
 module.exports = MemberList;
