@@ -202,9 +202,13 @@ exports.destroy = function(req, res, next) {
 exports.poll = function(req, res, next) {
 	var user_id = req.params.userid;
 	emitter.on('invite:email:' + user_id, function(invite) {
-		return res.json(invite);
+		if(!res.headersSent)
+			return res.json(invite);
+		else return next();
 	});
 	emitter.on('post:create:' + user_id, function(data) {
-		return res.json(data);
+		if(!res.headersSent)
+			return res.json(data);
+		else return next();
 	});
 }
