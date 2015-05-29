@@ -137,16 +137,48 @@ exports.create = function(req, res, next) {
 					user.save(function(err, $user) {
 						if(err) return next(err);
 						emitter.emit('post:create:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
-					})
+					});
 				}, function(err) { return next(err); })
 			});
 
-			// grab members
-			// determine which members will receive notification
-			// 	check notification level
-			// foreach member
-			// 	save to member
-			// 	emit event
+			break;
+
+		case 'bevy:requestjoin':
+
+			var bevy_id = req.body['bevy_id'];
+			var bevy_members = req.body['bevy_members'];
+			var bevy_name = req.body['bevy_name'];
+			var user_id = req.body['user_id'];
+			var user_name = req.body['user_name'];
+			var user_image = req.body['user_image'];
+
+			var admins = _.where(bevy_members, { role: 'admin' });
+			admins.forEach(function(admin) {
+				var admin_query = { _id: admin.user };
+				var admin_promise = User.findOne(admin_query).exec();
+				admin_promise.then(function(user) {
+					var notification = {
+						event: 'bevy:requestjoin',
+						data: {
+							bevy_id: bevy_id,
+							bevy_name: bevy_name,
+							user_id: user_id,
+							user_name: user_name,
+							user_image: user_image
+						}
+					};
+					user.notifications.push(notification);
+					user.save(function(err, $user) {
+						if(err) return next(err);
+						emitter.emit('bevy:requestjoin:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
+					});
+				}, function(err) { return next(err) });
+			});
+
+			// look for admins
+			// push notification onto admin
+			// 	need user id
+			// 	need bevy id
 
 			break;
 	}
@@ -207,6 +239,11 @@ exports.poll = function(req, res, next) {
 		else return next();
 	});
 	emitter.on('post:create:' + user_id, function(data) {
+		if(!res.headersSent)
+			return res.json(data);
+		else return next();
+	});
+	emitter.on('bevy:requestjoin:' + user_id, function(data) {
 		if(!res.headersSent)
 			return res.json(data);
 		else return next();

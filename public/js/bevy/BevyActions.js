@@ -95,6 +95,13 @@ var PostActions = {
 		});
 	},
 
+	requestJoin: function(bevy_id, user) {
+		dispatch(BEVY.REQUEST_JOIN, {
+			bevy: (bevy_id == undefined) ? {} : bevy_id,
+			user: (user == undefined) ? {} : user
+		});
+	},
+
 	/**
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to

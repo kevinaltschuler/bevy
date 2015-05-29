@@ -3,8 +3,13 @@
 var React = require('react');
 var $ = require('jquery');
 
+var rbs = require('react-bootstrap');
+var Button = rbs.Button;
+
 var router = require('./../../router');
 var constants = require('./../../constants');
+
+var BevyActions = require('./../../bevy/BevyActions');
 
 var PublicView = React.createClass({
 
@@ -30,6 +35,14 @@ var PublicView = React.createClass({
 		};
 	},
 
+	onRequestJoin: function(ev) {
+		ev.preventDefault();
+
+		if(!this.state.bevy) return;
+
+		BevyActions.requestJoin(this.state.bevy, window.bootstrap.user);
+	},
+
 	render: function() {
 		var bevy = this.state.bevy;
 		if(bevy === -1) {
@@ -52,6 +65,7 @@ var PublicView = React.createClass({
 			<div className='main-section'>
 				<h1>{ bevy.name }</h1>
 				<h2>{ bevy.description }</h2>
+				<Button onClick={ this.onRequestJoin } >Request to Join</Button>
 				<img src={bevy.image_url} />
 			</div>
 		);

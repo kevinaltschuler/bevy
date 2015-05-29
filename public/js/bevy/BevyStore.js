@@ -154,14 +154,15 @@ _.extend(BevyStore, {
 
 			case BEVY.EDIT_MEMBER:
 				var bevy_id = payload.bevy_id;
-				var user_id = payload.user_id;
+
+				var bevy = this.bevies.get(bevy_id);
+				var members = bevy.get('members');
+
+				var user_id = payload.user_id ;
 				var displayName = payload.displayName;
 				var notificationLevel = payload.notificationLevel;
 				var role = payload.role;
 				var image_url = payload.image_url;
-
-				var bevy = this.bevies.get(bevy_id);
-				var members = bevy.get('members');
 
 				members = _.map(members, function(member) {
 					if(!_.isObject(member.user)) return member;
@@ -380,6 +381,37 @@ _.extend(BevyStore, {
 					var response = jqXHR.responseJSON;
 					console.log(response);
 				});
+
+				break;
+
+			case BEVY.REQUEST_JOIN:
+				var bevy = payload.bevy;
+				var $user = payload.user;
+
+				var stripped_members = _.map(bevy.members, function(member) {
+					var new_member = {};
+					new_member.role = member.role;
+					if(_.isObject(member.user))
+						new_member.user = member.user._id;
+					return new_member;
+				});
+
+				$.post(
+					constants.apiurl + '/notifications',
+					{
+						event: 'bevy:requestjoin',
+						bevy_id: bevy._id,
+						bevy_members: stripped_members,
+						bevy_name: bevy.name,
+						user_id: $user._id,
+						user_name: $user.displayName,
+						user_img: $user.image_url
+					},
+					function(data) {
+					}
+				).fail(function(jqXHR) {
+					var response = jqXHR.responseJSON;
+				}.bind(this));
 
 				break;
 		}

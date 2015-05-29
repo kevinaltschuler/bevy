@@ -63,6 +63,7 @@ exports.BEVY = {
 	ADD_USER: 'bevy_add_user',
 	REMOVE_USER: 'bevy_remove_user',
 	JOIN: 'bevy_join',
+	REQUEST_JOIN: 'bevy_request_join',
 	EDIT_MEMBER: 'bevy_edit_member',
 
 	FETCH: 'bevy_fetch',
