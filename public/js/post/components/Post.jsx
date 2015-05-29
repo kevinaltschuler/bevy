@@ -11,6 +11,8 @@
 var React = require('react');
 var _ = require('underscore');
 
+var router = require('./../../router');
+
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
@@ -131,6 +133,13 @@ var Post = React.createClass({
 		PostActions.pin(post_id);
 	},
 
+	onTag: function(ev) {
+		ev.preventDefault();
+		var tag = ev.target.parentNode.getAttribute('id');
+
+		router.navigate('/s/' + tag, { trigger: true });
+	},
+
 	render: function() {
 
 		var bevy = this.props.post.bevy;
@@ -183,12 +192,13 @@ var Post = React.createClass({
 			var $words = [];
 			var tags = this.props.post.tags;
 			words.forEach(function(word) {
-				var index = tags.indexOf(word.slice(1, word.length));
+				var tag = word.slice(1, word.length);
+				var index = tags.indexOf(tag);
 				if(index > -1) {
-					return $words.push(<a href='#' key={ index }>{ word } </a>);
+					return $words.push(<a href={ '/s/' + tag } key={ index } id={ tag } onClick={ this.onTag }>{ word } </a>);
 				}
 				return $words.push(word + ' ');
-			});
+			}.bind(this));
 			var bodyText = (<p>{ $words }</p>);
 		} else bodyText = '';
 
