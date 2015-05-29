@@ -24,6 +24,10 @@ var user = window.bootstrap.user;
 module.exports = Backbone.Collection.extend({
 	model: Post,
 
+	sync: function(method, model, options) {
+		Backbone.Collection.prototype.sync.apply(this, arguments); //continue using backbone's collection sync
+	},
+
 	url: function() {
 
 		if(router.bevy_id == -1) return constants.apiurl + '/users/' + user._id + '/posts';

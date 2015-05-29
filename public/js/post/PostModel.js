@@ -14,6 +14,9 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 
+var router = require('./../router');
+var constants = require('./../constants');
+
 var constants = require('./../constants');
 
 // backbone model
@@ -30,6 +33,16 @@ var Post = Backbone.Model.extend({
 	},
 
 	initialize: function() {
+	},
+
+	sync: function(method, model, options) {
+
+		if(method != 'read' && router.bevy_id == -1) {
+			var bevy_id = model.get('bevy')._id;
+			model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/' + model.id;
+		}
+
+		Backbone.Model.prototype.sync.apply(this, arguments);
 	},
 
 	idAttribute: '_id',
