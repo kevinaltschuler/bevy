@@ -324,7 +324,7 @@ var BevyPanel = React.createClass({
 							onChange={ this.onChange }
 							multiLine= { true }
 						/>
-						<RaisedButton label="save changes" onClick= {this.stopEditing} />
+						<RaisedButton label="save changes" onClick={this.stopEditing} />
 					</div>
 				</div>
 			</div>)

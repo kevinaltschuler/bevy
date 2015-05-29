@@ -58,6 +58,8 @@ _.extend(PostStore, {
 
 				this.posts.comparator = this.sortByTop;
 
+				if(_.isEmpty(router.bevy_id)) break;
+
 				this.posts.fetch({
 					success: function(collection, response, options) {
 						this.trigger(POST.CHANGE_ALL);
@@ -333,7 +335,9 @@ _.extend(PostStore, {
 
 	// send all posts to the App.jsx in JSON form
 	getAll: function() {
-		return this.posts.toJSON();
+		return (_.isEmpty(router.bevy_id))
+		? []
+		: this.posts.toJSON();
 	},
 
 	/**
