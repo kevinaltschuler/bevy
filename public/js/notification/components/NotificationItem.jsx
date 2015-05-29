@@ -48,6 +48,13 @@ var NotificationItem = React.createClass({
 
 	acceptJoin: function(ev) {
 		ev.preventDefault();
+
+		var data = this.props.data;
+		var bevy_id = data.bevy_id;
+		var user_id = data.user_id;
+		var user_email = data.user_email;
+
+		BevyActions.addUser(bevy_id, user_id, user_email);
 	},
 
 	render: function() {
@@ -114,12 +121,16 @@ var NotificationItem = React.createClass({
 
 				var user_id = data.user_id;
 				var user_name = data.user_name;
+				var user_image = data.user_image;
 				var bevy_id = data.bevy_id;
 				var bevy_name = data.bevy_name;
 
 				body = (
 					<div className='notification-body'>
-						<div className='col-xs-8'>
+						<div className='col-xs-2 sidebar-picture'>
+							<img src={ user_image } />
+						</div>
+						<div className='col-xs-6'>
 							<div className='row'>
 								<span>Request to join <b>{ bevy_name }</b></span>
 							</div>

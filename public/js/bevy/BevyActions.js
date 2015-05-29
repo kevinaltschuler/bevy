@@ -79,10 +79,10 @@ var PostActions = {
 		});
 	},
 
-	addUser: function(bevy_id, user, email) {
+	addUser: function(bevy_id, user_id, email) {
 		dispatch(BEVY.ADD_USER, {
-			bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
-			user: (user == undefined) ? {} : user,
+			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
+			user_id: (user_id == undefined) ? '' : user_id,
 			email: (email == undefined) ? '' : email
 		});
 	},

@@ -151,6 +151,7 @@ exports.create = function(req, res, next) {
 			var user_id = req.body['user_id'];
 			var user_name = req.body['user_name'];
 			var user_image = req.body['user_image'];
+			var user_email = req.body['user_email'];
 
 			var admins = _.where(bevy_members, { role: 'admin' });
 			admins.forEach(function(admin) {
@@ -164,7 +165,8 @@ exports.create = function(req, res, next) {
 							bevy_name: bevy_name,
 							user_id: user_id,
 							user_name: user_name,
-							user_image: user_image
+							user_image: user_image,
+							user_email: user_email
 						}
 					};
 					user.notifications.push(notification);

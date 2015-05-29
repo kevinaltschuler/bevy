@@ -338,7 +338,20 @@ _.extend(BevyStore, {
 				break;
 
 			case BEVY.ADD_USER:
+				var bevy_id = payload.bevy_id;
+				var user_id = payload.user_id;
+				var email = payload.email;
 
+				$.post(
+					constants.apiurl + '/bevies/' + bevy_id + '/members/',
+					{
+						email: email,
+						user: user_id
+					},
+					function(data) {
+						this.trigger(BEVY.CHANGE_ALL);
+					}.bind(this)
+				);
 
 				break;
 
@@ -398,13 +411,10 @@ _.extend(BevyStore, {
 						bevy_name: bevy.name,
 						user_id: $user._id,
 						user_name: $user.displayName,
-						user_image: $user.image_url
-					},
-					function(data) {
+						user_image: $user.image_url,
+						user_email: $user.email
 					}
-				).fail(function(jqXHR) {
-					var response = jqXHR.responseJSON;
-				}.bind(this));
+				);
 
 				break;
 		}
