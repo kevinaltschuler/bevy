@@ -291,44 +291,16 @@ _.extend(BevyStore, {
 			case BEVY.INVITE:
 				var bevy = payload.bevy;
 				var user = payload.user;
-				var members = payload.members;
+				var emails = payload.members;
 
-				// create notification
-				// which sends email
-				$.post(
-					constants.apiurl + '/notifications',
-					{
-						event: 'invite:email',
-						members: members,
-						//bevy: bevy,
-						//user: user
-						bevy_id: bevy._id,
-						bevy_name: bevy.name,
-						bevy_img: bevy.image_url,
-						inviter_name: user.displayName
-					},
-					function(data) {
-					}
-				).fail(function(jqXHR) {
-					var response = jqXHR.responseJSON;
-				}.bind(this));
+				var $bevy = this.bevies.get(bevy._id);
+				var members = $bevy.get('members');
 
-				break;
-
-			case BEVY.ADD_USER:
-				var bevy_id = payload.bevy_id;
-				var user = payload.user;
-				var email = payload.email;
-
-				var bevy = this.bevies.get(bevy_id);
-
-				//console.log(bevy_id, bevy);
-				var members = bevy.get('members');
-				// user is being invited, add email
-				var invited_user = {
-					email: email
-				}
-				members.push(invited_user);
+				emails.forEach(function(email) {
+					members.push({
+						email: email
+					});
+				});
 
 				var unpopulated_members = _.map(members, function(member, key) {
 					if(_.isObject(member.user))
@@ -337,15 +309,36 @@ _.extend(BevyStore, {
 				});
 
 				// save changes
-				bevy.save({
+				$bevy.save({
 					members: unpopulated_members
 				}, {
 					patch: true
 				});
 
-				// simulate population
-				members[members.indexOf(invited_user)].user = user;
-				bevy.set('members', members);
+				$bevy.set('members', members);
+
+				// create notification
+				// which sends email
+				$.post(
+					constants.apiurl + '/notifications',
+					{
+						event: 'invite:email',
+						members: emails,
+						//bevy: bevy,
+						//user: user
+						bevy_id: bevy._id,
+						bevy_name: bevy.name,
+						bevy_img: bevy.image_url,
+						inviter_name: user.displayName
+					}
+				);
+
+				this.trigger(BEVY.CHANGE_ALL);
+
+				break;
+
+			case BEVY.ADD_USER:
+
 
 				break;
 
@@ -405,7 +398,7 @@ _.extend(BevyStore, {
 						bevy_name: bevy.name,
 						user_id: $user._id,
 						user_name: $user.displayName,
-						user_img: $user.image_url
+						user_image: $user.image_url
 					},
 					function(data) {
 					}

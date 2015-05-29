@@ -76,7 +76,7 @@ var InviteModal = React.createClass({
 		// then add the invited user
 		for(var key in members) {
 			var member = members[key];
-			BevyActions.addUser(bevy._id, null, member);
+			//BevyActions.addUser(bevy._id, null, member);
 		}
 
 		// hide modal
