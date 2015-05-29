@@ -13,7 +13,8 @@ var Router = Backbone.Router.extend({
 		'b' : 'home',
 		'b/' : 'home',
 		'b/:bevyid' : 'bevy',
-		'search/:query' : 'search',
+		's' : 'search',
+		's/:query' : 'search',
 		'*nuts' : 'not_found'
 	},
 
@@ -58,6 +59,10 @@ var Router = Backbone.Router.extend({
 		this.current = 'search';
 
 		if(!checkUser()) return;
+
+		if(query == undefined) {} // get all posts
+
+		this.search_query = query;
 	},
 
 	not_found: function(nuts) {

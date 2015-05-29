@@ -35,6 +35,9 @@ module.exports = function(router) {
 	router.get('/bevies/:bevyid/posts/:id/destroy', api.posts.destroy);
 	router.delete('/bevies/:bevyid/posts/:id', api.posts.destroy);
 
+	// SEARCH
+	router.get('/users/:userid/posts/search/:query', api.posts.search);
+
 	// frontpage
 	router.get('/users/:userid/posts', api.posts.frontpage);
 
@@ -42,4 +45,6 @@ module.exports = function(router) {
 	router.put('/users/:userid/posts/:id', api.posts.update);
 	router.patch('/users/:userid/posts/:id', api.posts.update);
 	router.delete('/users/:userid/posts/:id', api.posts.destroy);
+
+
 }

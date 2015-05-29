@@ -173,14 +173,63 @@ exports.frontpage = function(req, res, next) {
 			var _posts = [];
 
 			posts.forEach(function(post) {
-			Comment.find({ postId: post._id }, function(err, comments) {
-				post = post.toObject();
-				post.comments = comments;
-				_posts.push(post);
-				if(_posts.length == posts.length) return res.json(_posts);
+				Comment.find({ postId: post._id }, function(err, comments) {
+					post = post.toObject();
+					post.comments = comments;
+					_posts.push(post);
+					if(_posts.length == posts.length) return res.json(_posts);
 
-			}).populate('author');
-		});
+				}).populate('author');
+			});
+		}
+	]);
+}
+
+// SEARCH
+// GET /users/:userid/posts/search/:query
+exports.search = function(req, res, next) {
+	///var query = req.query['q'];
+	//var user_id = req.body['user_id'];
+	var user_id = req.params.userid;
+	var tag_query = req.params.query;
+
+	async.waterfall([
+		function(done) {
+			// find bevies user is a member of
+			var bevy_query = { members: { $elemMatch: { user: user_id } } };
+			var bevy_promise = Bevy.find(bevy_query).exec();
+			bevy_promise.then(function(bevies) {
+				done(null, bevies);
+			}, function(err) { return next(err) });
+		},
+		function(bevies, done) {
+			// find posts in all bevies with matching tags
+			var bevy_id_list = _.pluck(bevies, '_id');
+			var post_query = { bevy: { $in: bevy_id_list } };
+			var post_promise = Post.find()
+				.where('bevy').in(bevy_id_list)
+				.where('tags').equals(tag_query)
+				.populate('bevy author')
+				.exec();
+			post_promise.then(function(posts) {
+				done(null, posts);
+			}, function(err) { return next(err) });
+		},
+		function(posts, done) {
+
+			if(posts.length <= 0) return res.json(posts);
+
+			var _posts = [];
+
+			posts.forEach(function(post) {
+				Comment.find({ postId: post._id }, function(err, comments) {
+					post = post.toObject();
+					post.comments = comments;
+					_posts.push(post);
+					if(_posts.length == posts.length) return res.json(_posts);
+
+				}).populate('author');
+			});
 		}
 	]);
 }

@@ -20,6 +20,8 @@
 var React = require('react');
 var _ = require('underscore');
 
+var router = require('./../../router');
+
 var rbs = require('react-bootstrap');
 var Input = rbs.Input;
 var ModalTrigger = rbs.ModalTrigger;
@@ -42,6 +44,21 @@ var Navbar = React.createClass({
 	propTypes: {
 		activeBevy: React.PropTypes.object,
 		allNotifications: React.PropTypes.array
+	},
+
+	onKeyUp: function(ev) {
+		if(ev.which == 13) {
+			// trigger search
+			this.onSearch(ev);
+		}
+	},
+
+	onSearch: function(ev) {
+		ev.preventDefault();
+
+		var query = this.refs.search.getValue();
+
+		router.navigate('s/' + query, { trigger: true });
 	},
 
 	render: function() {
@@ -68,6 +85,8 @@ var Navbar = React.createClass({
 			backgroundImage: 'url(' + this.props.activeBevy.image_url + ')'
 		};
 
+		var searchQuery = router.search_query || '';
+
 		return <div className="navbar navbar-fixed-top row" style = { navbarStyle }>
 					<div className="background-image" style= { backgroundStyle } />
 					<div className='col-xs-4'>
@@ -89,13 +108,19 @@ var Navbar = React.createClass({
 
 					<div className='col-xs-4'>
 						<div className="navbar-header pull-right">
-							{/* <form className="navbar-form navbar-right" role="search">
-								<TextField type="text" className="search-input" placeholder=" "/>
+							<form className="navbar-form navbar-right" role="search">
+								<TextField
+									type='text'
+									className='search-input'
+									ref='search'
+									onKeyUp={ this.onKeyUp }
+									defaultValue={ searchQuery }
+								/>
 								<IconButton
-									iconClassName="glyphicon glyphicon-search"
-									href="#"
-									disabled />
-							</form>*/}
+									iconClassName='glyphicon glyphicon-search'
+									onClick={ this.onSearch }
+								/>
+							</form>
 						</div>
 					</div>
 

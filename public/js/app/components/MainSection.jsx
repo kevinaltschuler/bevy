@@ -126,11 +126,10 @@ var MainSection = React.createClass({
 });
 
 var InterfaceComponent = React.createClass({
+	callback: function() {
+		this.forceUpdate();
+	},
 	componentWillMount : function() {
-		this.callback = (function() {
-			this.forceUpdate();
-		}).bind(this);
-
 		router.on('route', this.callback);
 	},
 	componentWillUnmount : function() {
