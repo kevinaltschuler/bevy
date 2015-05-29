@@ -423,7 +423,7 @@ _.extend(BevyStore, {
 	},
 
 	getAll: function() {
-		return (this.bevies.models.length <= 0 || _.isEmpty(router.bevy_id))
+		return (this.bevies.models.length <= 0)
 		? []
 		: this.bevies.toJSON();
 	},
