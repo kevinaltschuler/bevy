@@ -59,24 +59,24 @@ var PostActions = {
 	/**
 	 * upvote a post
 	 * @param  {string} post_id
-	 * @param  {string} author
+	 * @param  {string} voter
 	 */
-	upvote: function(post_id, author) {
+	upvote: function(post_id, voter) {
 		dispatch(POST.UPVOTE, {
-			post_id: (post_id == undefined) ? 'default' : post_id,
-			author: (author == undefined) ? 'current author' : author
+			post_id: (post_id == undefined) ? '' : post_id,
+			voter: (voter == undefined) ? '' : voter
 		});
 	},
 
 	/**
 	 * downvote a post
 	 * @param  {string} post_id
-	 * @param  {string} author
+	 * @param  {string} voter
 	 */
-	downvote: function(post_id, author) {
+	downvote: function(post_id, voter) {
 		dispatch(POST.DOWNVOTE, {
-			post_id: (post_id == undefined) ? 'default' : post_id,
-			author: (author == undefined) ? 'current author' : author
+			post_id: (post_id == undefined) ? '' : post_id,
+			voter: (voter == undefined) ? '' : voter
 		});
 	},
 

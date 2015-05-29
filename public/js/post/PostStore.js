@@ -200,18 +200,18 @@ _.extend(PostStore, {
 
 			case POST.UPVOTE:
 				var post_id = payload.post_id;
-				var author = payload.author;
+				var voter = payload.voter;
 
-				this.vote(post_id, author, 1);
+				this.vote(post_id, voter, 1);
 
 				this.trigger(POST.CHANGE_ALL);
 				break;
 
 			case POST.DOWNVOTE:
 				var post_id = payload.post_id;
-				var author = payload.author;
+				var voter = payload.voter;
 
-				this.vote(post_id, author, -1);
+				this.vote(post_id, voter, -1);
 
 				this.trigger(POST.CHANGE_ALL);
 				break;
@@ -358,7 +358,7 @@ _.extend(PostStore, {
 		};
 	},
 
-	vote: function(post_id, author, value) {
+	vote: function(post_id, voter, value) {
 
 		var MAX_VOTES = 5;
 
@@ -369,15 +369,15 @@ _.extend(PostStore, {
 		if(_.isEmpty(votes)) {
 			// create new voter
 			votes.push({
-				voter: author._id,
+				voter: voter._id,
 				score: value
 			});
 		} else {
-			var vote = _.findWhere(votes, { voter: author._id });
+			var vote = _.findWhere(votes, { voter: voter._id });
 			if(vote == undefined) {
 				// voter not found, create new voter
 				votes.push({
-					voter: author._id,
+					voter: voter._id,
 					score: value
 				});
 			} else {

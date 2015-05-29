@@ -71,12 +71,12 @@ var Post = React.createClass({
 
 	upvote: function(ev) {
 		ev.preventDefault();
-		PostActions.upvote(this.props.post._id, this.props.post.author);
+		PostActions.upvote(this.props.post._id, window.bootstrap.user);
 	},
 
 	downvote: function(ev) {
 		ev.preventDefault();
-		PostActions.downvote(this.props.post._id, this.props.post.author);
+		PostActions.downvote(this.props.post._id, window.bootstrap.user);
 	},
 
 	destroy: function(ev) {
