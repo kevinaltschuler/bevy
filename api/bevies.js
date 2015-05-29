@@ -152,6 +152,7 @@ exports.memberAdd = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOne(query)
+		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);

@@ -349,6 +349,8 @@ _.extend(BevyStore, {
 						user: user_id
 					},
 					function(data) {
+						var bevy = this.bevies.get(bevy_id);
+						bevy.set('members', data);
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
 				);
