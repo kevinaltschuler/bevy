@@ -46,6 +46,10 @@ var NotificationItem = React.createClass({
 		//BevyActions.switchBevy();
 	},
 
+	acceptJoin: function(ev) {
+		ev.preventDefault();
+	},
+
 	render: function() {
 
 		var event = this.props.event;
@@ -91,12 +95,6 @@ var NotificationItem = React.createClass({
 
 			case 'post:create':
 
-				/*var post = data.post;
-				var authorName = (post.author.google)
-				? post.author.google.name.givenName + ' ' + post.author.google.name.familyName
-				: post.author.email;
-				var bevyName = post.bevy.name;*/
-
 				var author_name = data.author_name;
 				var author_img = data.author_img;
 				var bevy_name = data.bevy_name;
@@ -107,6 +105,35 @@ var NotificationItem = React.createClass({
 						<span>Post to <b>{ bevy_name }</b> by <b>{ author_name }</b></span>
 						<br />
 						<span><i>{ post_title }</i></span>
+					</div>
+				);
+
+				break;
+
+			case 'bevy:requestjoin':
+
+				var user_id = data.user_id;
+				var user_name = data.user_name;
+				var bevy_id = data.bevy_id;
+				var bevy_name = data.bevy_name;
+
+				body = (
+					<div className='notification-body'>
+						<div className='col-xs-8'>
+							<div className='row'>
+								<span>Request to join <b>{ bevy_name }</b></span>
+							</div>
+							<div className='row'>
+								<span>From <i>{ user_name }</i></span>
+							</div>
+						</div>
+						<div className='col-xs-2'>
+							<Button
+								className="accept-btn"
+								onClick={ this.acceptJoin } >
+								Accept
+							</Button>
+						</div>
 					</div>
 				);
 
