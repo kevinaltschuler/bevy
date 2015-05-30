@@ -110,7 +110,9 @@ exports.show = function(req, res, next) {
 exports.update = function(req, res, next) {
 	var id = req.params.id;
 	var update = collectPostParams(req);
-	update.pinned = req.body['pinned'];
+
+	if(req.body['pinned'])
+		update.pinned = req.body['pinned'];
 
 	// var query = { _id: id, bevy: bevy_id };
 	var query = { _id: id };
