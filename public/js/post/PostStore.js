@@ -58,8 +58,6 @@ _.extend(PostStore, {
 
 				this.posts.comparator = this.sortByTop;
 
-				if(router.bevy_id == undefined) break;
-
 				this.posts.fetch({
 					success: function(collection, response, options) {
 						this.trigger(POST.CHANGE_ALL);

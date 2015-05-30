@@ -37,7 +37,12 @@ var Post = Backbone.Model.extend({
 
 	sync: function(method, model, options) {
 
-		if(method != 'read' && router.bevy_id == -1) {
+		if(method != 'read' && router.bevy_id == -1 && router.current == 'bevy') {
+			var bevy_id = model.get('bevy')._id;
+			model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/' + model.id;
+		}
+
+		if(method != 'read' && router.current == 'search') {
 			var bevy_id = model.get('bevy')._id;
 			model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/' + model.id;
 		}

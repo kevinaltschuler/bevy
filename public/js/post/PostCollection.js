@@ -30,7 +30,11 @@ module.exports = Backbone.Collection.extend({
 
 	url: function() {
 
-		if(router.bevy_id == -1) return constants.apiurl + '/users/' + user._id + '/posts';
+		if(router.bevy_id == -1 && router.current == 'bevy')
+			return constants.apiurl + '/users/' + user._id + '/posts';
+
+		if(router.current == 'search' && !_.isEmpty(router.search_query))
+			return constants.apiurl + '/users/' + user._id + '/posts/search/' + router.search_query;
 
 		return constants.apiurl + '/bevies/' + router.bevy_id + '/posts';
 	},

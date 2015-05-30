@@ -13,13 +13,12 @@ var PostContainer = require('./../../post/components/PostContainer.jsx');
 
 var SearchView = React.createClass({
 
+	propTypes: {
+		allPosts: React.PropTypes.array
+	},
+
 	getInitialState: function() {
-		var query = router.search_query;
-		this.onRoute();
-		return {
-			posts: [],
-			query: query
-		};
+		return {};
 	},
 
 	onRoute: function() {
@@ -37,23 +36,14 @@ var SearchView = React.createClass({
 		});
 	},
 
-	componentWillMount: function() {
-		router.on('route', this.onRoute);
-	},
-
-	componentWillUnmount: function() {
-		router.off('route', this.onRoute);
-	},
 
 	render: function() {
 
-		var postContainer = (_.isEmpty(this.state.posts))
-		? ''
-		: <PostContainer allPosts={ this.state.posts } />;
+		var postContainer = <PostContainer allPosts={ this.props.allPosts } />;
 
 		return (
 			<div className='main-section'>
-				<h1>Search for <i>{ this.state.query }</i></h1>
+				<h1>Search for <i>{ router.search_query }</i></h1>
 				{ postContainer }
 			</div>
 		);
