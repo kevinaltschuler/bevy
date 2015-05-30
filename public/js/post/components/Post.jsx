@@ -140,6 +140,13 @@ var Post = React.createClass({
 		router.navigate('/s/' + tag, { trigger: true });
 	},
 
+	onSwitchBevy: function(ev) {
+		ev.preventDefault();
+		var bevy_id = ev.target.parentNode.getAttribute('id');
+
+		router.navigate('/b/' + bevy_id, { trigger: true });
+	},
+
 	render: function() {
 
 		var bevy = this.props.post.bevy;
@@ -284,7 +291,9 @@ var Post = React.createClass({
 							<div className='top'>
 								<span className="details">{ author } </span>
 								<span className="glyphicon glyphicon-triangle-right"/>
-								<span className="details"> { this.props.post.bevy.name }</span>
+								<span className="details">
+									<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }> { bevy.name }</a>
+								</span>
 							</div>
 							<div className="bottom">
 								<span className="detail-time">{ ago }</span>
