@@ -52,8 +52,7 @@ var Post = React.createClass({
 	// expects (most) of these to be passed in by PostContainer.jsx
 	propTypes: {
 		id: React.PropTypes.string.isRequired,
-		post: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		post: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -150,7 +149,7 @@ var Post = React.createClass({
 	render: function() {
 
 		var bevy = this.props.post.bevy;
-		var activeMember = this.findMember(user._id);
+		var activeMember = this.findMember(user._id) || {};
 		var post = this.props.post;
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
@@ -248,7 +247,6 @@ var Post = React.createClass({
 		: 0;
 
 		var deleteButton = '';
-		var activeMember = this.findMember(user._id);
 		if(!_.isEmpty(activeMember)) {
 			if(activeMember.role == 'admin' || this.props.post.author._id == user._id)
 				deleteButton = (
