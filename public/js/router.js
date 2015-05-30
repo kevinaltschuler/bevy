@@ -3,6 +3,8 @@
 var Backbone = require('backbone');
 var _ = require('underscore');
 
+var BevyActions = require('./bevy/BevyActions');
+
 var Router = Backbone.Router.extend({
 	routes: {
 		'' : 'home',
@@ -47,12 +49,16 @@ var Router = Backbone.Router.extend({
 
 		if(!checkUser()) return;
 
-		this.bevy_id = bevy_id;
-		if(bevy_id == 'frontpage') this.bevy_id = -1;
 		if(bevy_id == '') {
 			this.bevy_id = -1;
 			this.navigate('/b/frontpage');
+			return;
 		}
+
+		this.bevy_id = bevy_id;
+		if(bevy_id == 'frontpage') this.bevy_id = -1;
+
+		BevyActions.switchBevy();
 	},
 
 	search: function(query) {
