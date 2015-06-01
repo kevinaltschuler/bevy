@@ -26,6 +26,7 @@ var CommentSchema = new Schema({
 		ref: 'User'
 	},
 	body: String,
+	comments: [{}],
 	created: {
 		type: Date,
 		default: Date.now

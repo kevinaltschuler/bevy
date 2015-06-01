@@ -243,7 +243,7 @@ var Post = React.createClass({
 		: '';
 
 		var commentCount = (this.props.post.comments)
-		? this.props.post.comments.length
+		? this.props.post.commentCount
 		: 0;
 
 		var deleteButton = '';

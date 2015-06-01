@@ -19,28 +19,25 @@ var CommentList = React.createClass({
 		activeMember: React.PropTypes.object
 	},
 
-	getInitialState: function() {
-		return {};
-	},
-
 	render: function() {
 
-		var allComments = this.props.comments
+		var allComments = this.props.comments;
 		var comments = [];
-		for(var key in allComments) {
-			var comment = allComments[key];
+		allComments.forEach(function(comment, index) {
 			comments.push(
 				<CommentItem
-					key={ comment._id }
-					index={ key }
+					key={ index }
 					comment={ comment }
 					post={ this.props.post }
 					activeMember={ this.props.activeMember }
 				/>
 			);
-		}
+		}.bind(this));
 
-		return (<div>{ comments }</div>)
+		return (
+			<div>
+				{ comments }
+			</div>);
 	}
 
 });

@@ -23,6 +23,7 @@ var PostSchema = new Schema({
 	title: String,
 	tags: [String],
 	images: [String],
+	comments: [{}],
 	votes: [Schema({
 		voter: String,
 		score: Number
@@ -58,12 +59,5 @@ PostSchema.set('toJSON', {
 	getters: true,
 	virtuals: true
 });
-
-
-// register deep populate plugin
-/*var deepPopulate = require('mongoose-deep-populate');
-PostSchema.plugin(deepPopulate, {
-
-});*/
 
 module.exports = PostSchema;

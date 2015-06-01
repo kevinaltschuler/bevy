@@ -104,6 +104,7 @@ _.extend(PostStore, {
 				var newPost = this.posts.add({
 					title: title,
 					tags: tags,
+					comments: [],
 					images: images,
 					author: author._id,
 					bevy: bevy._id,
@@ -294,25 +295,44 @@ _.extend(PostStore, {
 						//console.log(data);
 						var id = data._id;
 
-						var comments = post.get('comments') || [];
-						comments.push({
-							_id: id,
-							postId: post_id,
-							parentId: (comment_id) ? comment_id : null,
-							author: author,
-							body: body,
-							created: data.created
-						});
-						post.set('comments', comments);
+						if(comment_id) {
+							// replied to a comment
+							var comments = post.get('comments');
+							var comment = _.findWhere(comments, { _id: comment_id });
+
+							if(!comment.comments) comment.comments = [];
+							comment.comments.push({
+								_id: id,
+								depth: comment.depth+1,
+								postId: post_id,
+								parentId: comment_id,
+								author: author,
+								body: body,
+								comments: [],
+								created: data.created
+							});
+
+							// increment comment count
+							var commentCount = post.get('commentCount');
+							post.set('commentCount', ++commentCount);
+
+						} else {
+							// replied to a post
+
+							var comments = post.get('comments') || [];
+							comments.push({
+								_id: id,
+								postId: post_id,
+								parentId: undefined,
+								author: author,
+								body: body,
+								created: data.created
+							});
+						}
 
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
-				).fail(function(jqXHR) {
-					// a server-side error has occured (500 internal error)
-					// load response from jqXHR
-					var response = jqXHR.responseJSON;
-					console.log(response);
-				}.bind(this));
+				);
 
 				break;
 
