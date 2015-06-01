@@ -43,7 +43,7 @@ var SearchView = React.createClass({
 
 		return (
 			<div className='main-section'>
-				<h1>Search for <i>{ router.search_query }</i></h1>
+				<h1>Search for <i>#{ router.search_query }</i></h1>
 				{ postContainer }
 			</div>
 		);
