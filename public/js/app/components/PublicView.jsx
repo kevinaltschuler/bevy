@@ -11,6 +11,10 @@ var constants = require('./../../constants');
 
 var BevyActions = require('./../../bevy/BevyActions');
 
+var LeftSidebar = require('./LeftSidebar.jsx');
+var PublicBevyRequest = require('./PublicBevyRequest.jsx');
+var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
+
 var PublicView = React.createClass({
 
 	getInitialState: function() {
@@ -18,9 +22,9 @@ var PublicView = React.createClass({
 		$.ajax({
 			url: constants.apiurl + '/bevies/' + router.bevy_id,
 			method: 'GET',
-			success: function(data) {
+			success: function(bevy) {
 				this.setState({
-					bevy: data
+					bevy: bevy
 				});
 			}.bind(this),
 			error: function(jqXHR) {
@@ -35,38 +39,35 @@ var PublicView = React.createClass({
 		};
 	},
 
-	onRequestJoin: function(ev) {
-		ev.preventDefault();
-
-		if(!this.state.bevy) return;
-
-		BevyActions.requestJoin(this.state.bevy, window.bootstrap.user);
-	},
-
 	render: function() {
 		var bevy = this.state.bevy;
 		if(bevy === -1) {
 			return (
-				<div className='main-section'>
-					<h1>Fetching Bevy...</h1>
+				<div className='main-section not-in-bevy'>
+					<div className='bevy-message'>Fetching Bevy...</div>
 				</div>
 			);
 		}
 		if(!bevy) {
 			return (
-				<div className='main-section'>
-					<h1>Bevy Not Found</h1>
-					<a href='/b/frontpage'>back to frontpage</a>
-				</div>
+			<div className='main-section not-in-bevy'>
+				<LeftSidebar
+					allBevies={ this.props.allBevies }
+					activeBevy={this.props.activeBevy}
+				/>
+				<div className='bevy-message'>Bevy Not Found</div>
+			</div>
 			);
 		}
 
 		return (
-			<div className='main-section'>
-				<h1>{ bevy.name }</h1>
-				<h2>{ bevy.description }</h2>
-				<Button onClick={ this.onRequestJoin } >Request to Join</Button>
-				<img src={bevy.image_url} />
+			<div className='main-section not-in-bevy'>
+				<LeftSidebar
+					allBevies={ this.props.allBevies }
+					activeBevy={ this.props.activeBevy }
+				/>
+				<PublicBevyRequest bevy={bevy}/>
+				<PublicBevyPanel activeBevy={bevy} />
 			</div>
 		);
 	}

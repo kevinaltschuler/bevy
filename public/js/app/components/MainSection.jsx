@@ -143,7 +143,7 @@ var InterfaceComponent = React.createClass({
 			case 'bevy':
 				var bevy = this.props.activeBevy;
 				if(_.isEmpty(bevy))
-					return <PublicView />
+					return <PublicView {...this.props} />
 				else
 					return <PostView {...this.props} />
 				break;
