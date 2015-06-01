@@ -90,6 +90,7 @@ _.extend(PostStore, {
 				var images = payload.images;
 				var author = payload.author;
 				var bevy = payload.bevy;
+				var active_member = payload.active_member;
 
 				var posts_expire_in = bevy.settings.posts_expire_in || 7;
 				posts_expire_in *= (1000 * 60 * 60 * 24);
@@ -126,14 +127,22 @@ _.extend(PostStore, {
 							return new_member;
 						});
 
+						var author_name = (active_member.displayName && bevy.settings.anonymise_users)
+						? active_member.displayName
+						: author.displayName;
+
+						var author_img = (active_member.image_url && bevy.settings.anonymise_users)
+						? active_member.image_url
+						: author.image_url;
+
 						// send notification
 						$.post(
 							constants.apiurl + '/notifications',
 							{
 								event: 'post:create',
 								//post: post.toJSON()
-								author_name: author.displayName,
-								author_img: author.image_url,
+								author_name: author_name,
+								author_img: author_img,
 								bevy_name: bevy.name,
 								bevy_members: stripped_members,
 								post_title: title

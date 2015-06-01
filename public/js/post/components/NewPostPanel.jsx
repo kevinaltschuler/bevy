@@ -39,9 +39,12 @@ var hintTexts = [
 	"How's it going?",
 	"What's new?",
 	"How are you doing today?",
-	"Share your thoughts"
+	"Share your thoughts",
+	"Drop some knowledge son"
 ]
 var hintText = hintTexts[Math.floor(Math.random() * 4)];
+
+var user = window.bootstrap.user;
 
 // React class
 var NewPostPanel = React.createClass({
@@ -139,7 +142,8 @@ var NewPostPanel = React.createClass({
 			this.state.title, // title
 			this.state.images, // image_url
 			window.bootstrap.user, // author
-			this.props.allBevies[this.state.selectedIndex + 1]); // bevy
+			this.props.allBevies[this.state.selectedIndex + 1], // bevy
+			findMember());
 
 		// reset fields
 		this.setState(this.getInitialState());
@@ -156,6 +160,14 @@ var NewPostPanel = React.createClass({
 	onBevyChange: function(e, selectedIndex, menuItem) {
 		this.setState({
 			selectedIndex: selectedIndex
+		});
+	},
+
+	findMember: function() {
+		var members = this.props.activeBevy.members;
+		return _.find(members, function(member) {
+			if(member.user._id == user._id) return true;
+			else return false;
 		});
 	},
 
