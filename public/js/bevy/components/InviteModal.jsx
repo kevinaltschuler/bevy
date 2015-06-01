@@ -23,6 +23,8 @@ var IconButton = mui.IconButton;
 
 var BevyActions = require('./../BevyActions');
 
+var user = window.bootstrap.user;
+
 // helper function to validate whether an email is valid
 function validateEmail(email) {
     var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -72,7 +74,7 @@ var InviteModal = React.createClass({
 		if(members.length < 1) return;
 
 		// send the invite and add the invited users
-		BevyActions.invite(bevy, user, members);
+		BevyActions.invite(bevy, user, members, findMember().displayName);
 
 		// hide modal
 		this.props.onRequestHide();
@@ -90,6 +92,14 @@ var InviteModal = React.createClass({
 		if(ev.which === 13) {
 			this.addMember(ev);
 		}
+	},
+
+	findMember: function() {
+		var members = this.props.activeBevy.members;
+		return _.find(members, function(member) {
+			if(member.user._id == user._id) return true;
+			else return false;
+		});
 	},
 
 	render: function() {

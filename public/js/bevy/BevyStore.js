@@ -292,6 +292,7 @@ _.extend(BevyStore, {
 				var bevy = payload.bevy;
 				var user = payload.user;
 				var emails = payload.members;
+				var member_name = payload.member_name;
 
 				var $bevy = this.bevies.get(bevy._id);
 				var members = $bevy.get('members');
@@ -317,6 +318,10 @@ _.extend(BevyStore, {
 
 				$bevy.set('members', members);
 
+				var inviter_name = (member_name && bevy.settings.anonymise_users)
+				? member_name
+				: user.displayName;
+
 				// create notification
 				// which sends email
 				$.post(
@@ -329,7 +334,7 @@ _.extend(BevyStore, {
 						bevy_id: bevy._id,
 						bevy_name: bevy.name,
 						bevy_img: bevy.image_url,
-						inviter_name: user.displayName
+						inviter_name: inviter_name
 					}
 				);
 

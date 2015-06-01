@@ -53,7 +53,8 @@ exports.index = function(req, res, next) {
 				.exec();
 			comment_promise.then(function(comments) {
 				post = post.toJSON();
-				post.comments = comments;
+				post.commentCount = comments.length;
+				post.comments = nestComments(comments);
 				_posts.push(post);
 				if(_posts.length == posts.length) return res.send(_posts);
 			}, function(err) { return next(err) });
@@ -96,7 +97,8 @@ exports.show = function(req, res, next) {
 			.exec();
 		_promise.then(function(comments) {
 			post = post.toObject();
-			post.comments = comments;
+			post.commentCount = comments.length;
+			post.comments = nestComments(comments);
 			return res.send(post);
 		}, function(err) { return next(err) });
 
@@ -123,7 +125,17 @@ exports.update = function(req, res, next) {
 		if(!post) throw error.gen('post not found');
 		return post;
 	}).then(function(post) {
-		res.json(post);
+
+		var _promise = Comment.find({ postId: post._id })
+			.populate('author')
+			.exec();
+		_promise.then(function(comments) {
+			post = post.toObject();
+			post.commentCount = comments.length;
+			post.comments = nestComments(comments);
+			return res.send(post);
+		}, function(err) { return next(err) });
+
 	}, function(err) { next(err); });
 }
 
@@ -141,7 +153,17 @@ exports.destroy = function(req, res, next) {
 		if(!post) throw error.gen('post not found');
 		return post;
 	}).then(function(post) {
-		res.json(post);
+
+		var _promise = Comment.find({ postId: post._id })
+			.populate('author')
+			.exec();
+		_promise.then(function(comments) {
+			post = post.toObject();
+			post.commentCount = comments.length;
+			post.comments = nestComments(comments);
+			return res.send(post);
+		}, function(err) { return next(err) });
+
 	}, function(err) { next(err); });
 }
 
@@ -177,7 +199,8 @@ exports.frontpage = function(req, res, next) {
 			posts.forEach(function(post) {
 				Comment.find({ postId: post._id }, function(err, comments) {
 					post = post.toObject();
-					post.comments = comments;
+					post.commentCount = comments.length;
+					post.comments = nestComments(comments);
 					_posts.push(post);
 					if(_posts.length == posts.length) return res.json(_posts);
 
@@ -226,7 +249,8 @@ exports.search = function(req, res, next) {
 			posts.forEach(function(post) {
 				Comment.find({ postId: post._id }, function(err, comments) {
 					post = post.toObject();
-					post.comments = comments;
+					post.commentCount = comments.length;
+					post.comments = nestComments(comments);
 					_posts.push(post);
 					if(_posts.length == posts.length) return res.json(_posts);
 
@@ -234,4 +258,25 @@ exports.search = function(req, res, next) {
 			});
 		}
 	]);
+}
+
+function nestComments(comments, parentId, depth) {
+	if(typeof depth === 'number')
+		depth++;
+	else
+		depth = 1;
+
+	if(comments.length < 0) return [];
+	var $comments = [];
+
+	comments.forEach(function(comment, index) {
+		if(comment.parentId == parentId) {
+			comment = JSON.parse(JSON.stringify(comment));
+			comment.depth = depth;
+			comment.comments = nestComments(comments, comment._id, depth);
+			$comments.push(comment);
+		}
+	});
+
+	return $comments;
 }

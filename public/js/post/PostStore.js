@@ -90,6 +90,7 @@ _.extend(PostStore, {
 				var images = payload.images;
 				var author = payload.author;
 				var bevy = payload.bevy;
+				var active_member = payload.active_member;
 
 				var posts_expire_in = bevy.settings.posts_expire_in || 7;
 				posts_expire_in *= (1000 * 60 * 60 * 24);
@@ -103,6 +104,7 @@ _.extend(PostStore, {
 				var newPost = this.posts.add({
 					title: title,
 					tags: tags,
+					comments: [],
 					images: images,
 					author: author._id,
 					bevy: bevy._id,
@@ -126,14 +128,22 @@ _.extend(PostStore, {
 							return new_member;
 						});
 
+						var author_name = (active_member.displayName && bevy.settings.anonymise_users)
+						? active_member.displayName
+						: author.displayName;
+
+						var author_img = (active_member.image_url && bevy.settings.anonymise_users)
+						? active_member.image_url
+						: author.image_url;
+
 						// send notification
 						$.post(
 							constants.apiurl + '/notifications',
 							{
 								event: 'post:create',
 								//post: post.toJSON()
-								author_name: author.displayName,
-								author_img: author.image_url,
+								author_name: author_name,
+								author_img: author_img,
 								bevy_name: bevy.name,
 								bevy_members: stripped_members,
 								post_title: title
@@ -285,25 +295,44 @@ _.extend(PostStore, {
 						//console.log(data);
 						var id = data._id;
 
-						var comments = post.get('comments') || [];
-						comments.push({
-							_id: id,
-							postId: post_id,
-							parentId: (comment_id) ? comment_id : null,
-							author: author,
-							body: body,
-							created: data.created
-						});
-						post.set('comments', comments);
+						if(comment_id) {
+							// replied to a comment
+							var comments = post.get('comments');
+							var comment = _.findWhere(comments, { _id: comment_id });
+
+							if(!comment.comments) comment.comments = [];
+							comment.comments.push({
+								_id: id,
+								depth: comment.depth+1,
+								postId: post_id,
+								parentId: comment_id,
+								author: author,
+								body: body,
+								comments: [],
+								created: data.created
+							});
+
+							// increment comment count
+							var commentCount = post.get('commentCount');
+							post.set('commentCount', ++commentCount);
+
+						} else {
+							// replied to a post
+
+							var comments = post.get('comments') || [];
+							comments.push({
+								_id: id,
+								postId: post_id,
+								parentId: undefined,
+								author: author,
+								body: body,
+								created: data.created
+							});
+						}
 
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
-				).fail(function(jqXHR) {
-					// a server-side error has occured (500 internal error)
-					// load response from jqXHR
-					var response = jqXHR.responseJSON;
-					console.log(response);
-				}.bind(this));
+				);
 
 				break;
 

@@ -71,11 +71,12 @@ var PostActions = {
 		});
 	},
 
-	invite: function(bevy, user, members) {
+	invite: function(bevy, user, members, member_name) {
 		dispatch(BEVY.INVITE, {
 			bevy: (bevy == undefined) ? {} : bevy,
 			user: (user == undefined) ? {} : user,
-			members: (members == undefined) ? [] : members
+			members: (members == undefined) ? [] : members,
+			member_name: (member_name == undefined) ? null : member_name
 		});
 	},
 

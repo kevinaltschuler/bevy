@@ -16,18 +16,49 @@ var MenuItem = rbs.MenuItem;
 var timeAgo = require('./../../shared/helpers/timeAgo');
 
 var CommentSubmit = require('./CommentSubmit.jsx');
+//var CommentList = require('./CommentList.jsx');
 
 var CommentActions = require('./../CommentActions');
 
 var user = window.bootstrap.user;
 
+var CommentList = React.createClass({
+
+	propTypes: {
+		comments: React.PropTypes.array,
+		post: React.PropTypes.object,
+		activeMember: React.PropTypes.object
+	},
+
+	render: function() {
+
+		var allComments = this.props.comments
+		var comments = [];
+		allComments.forEach(function(comment, index) {
+			comments.push(
+				<CommentItem
+					key={ index }
+					comment={ comment }
+					post={ this.props.post }
+					activeMember={ this.props.activeMember }
+				/>
+			);
+		}.bind(this));
+
+		return (
+			<div>
+				{ comments }
+			</div>);
+	}
+
+});
+
 var CommentItem = React.createClass({
 
 	propTypes: {
-		index: React.PropTypes.string,
-		comment: React.PropTypes.object,
-		post: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		comment: React.PropTypes.object.isRequired,
+		post: React.PropTypes.object.isRequired,
+		activeMember: React.PropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -64,10 +95,10 @@ var CommentItem = React.createClass({
 		var comment = this.props.comment;
 		var author = comment.author;
 		var bevy = this.props.post.bevy;
+		var post = this.props.post;
 		var activeMember = this.props.activeMember;
 
-		//console.log(author);
-		var authorName = author.displayName;
+		var authorName = author.displayName || 'placeholder author';
 
 		var authorMember = this.findMember(author._id);
 		if(authorMember) {
@@ -88,13 +119,21 @@ var CommentItem = React.createClass({
 
 		var submit = (this.state.isReplying)
 		? (<CommentSubmit
-				postId={ this.props.post._id }
+				postId={ post._id }
 				commentId={ comment._id }
-				author={ this.props.post.author }
-				profileImage={ this.props.profileImage }
+				author={ post.author }
+				activeMember={ activeMember }
 				bevy={ bevy }
 			/>)
 		: <div />;
+
+		var commentList = (!_.isEmpty(comment.comments))
+		? (<CommentList
+				comments={ comment.comments }
+				post={ post }
+				activeMember={ activeMember }
+			/>)
+		: '';
 
 		var deleteButton = '';
 		var activeMember = this.findMember(user._id);
@@ -104,34 +143,40 @@ var CommentItem = React.createClass({
 					Delete Comment
 				</MenuItem>);
 
-		//console.log(comment.author._id, user._id, (comment.author._id == user._id));
-
-		return (<div className="row comment">
-					<div className='col-xs-10'>
-						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
-						<div className="comment-text">
-							<div className="comment-title">
-								<a className="comment-name">{ authorName }</a>
-								<span>&nbsp;</span>
-								<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
-							</div>
-							<div className="comment-body">{ comment.body }</div>
-							{/*<a className="reply-link" onClick={ this.onReply }>{ replyText }</a>*/}
+		return (
+			<div className="row comment">
+				<div className='col-xs-10'>
+					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
+					<div className="comment-text">
+						<div className="comment-title">
+							<a className="comment-name">{ authorName }</a>
+							<span>&nbsp;</span>
+							<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
 						</div>
+						<div className="comment-body">{ comment.body }</div>
+						depth: {comment.depth}
+						<a className="reply-link" href="#" onClick={ this.onReply }>{ replyText }</a>
 					</div>
-					<div className='col-xs-2'>
-						<DropdownButton
-							noCaret
-							pullRight
-							className=""
-							title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+				</div>
+				<div className='col-xs-2'>
+					<DropdownButton
+						noCaret
+						pullRight
+						className=""
+						title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
 
-							{ deleteButton }
+						{ deleteButton }
 
-						</DropdownButton>
-					</div>
+					</DropdownButton>
+				</div>
+				<div className='col-xs-12'>
+					{ commentList }
+				</div>
+				<div className='col-xs-12'>
 					{ submit }
-				 </div>)
+				</div>
+			</div>
+		);
 	}
 
 });
