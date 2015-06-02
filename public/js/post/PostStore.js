@@ -59,12 +59,14 @@ _.extend(PostStore, {
 				this.posts.comparator = this.sortByTop;
 
 				this.posts.fetch({
-					success: function(collection, response, options) {
+					reset: true,
+					success: function(posts, response, options) {
+
+						this.postsNestComments(posts);
+
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
-
-				this.trigger(POST.CHANGE_ALL);
 
 				break;
 
@@ -448,6 +450,32 @@ _.extend(PostStore, {
 		var date = Date.parse(post.get('created'));
 		if(post.get('pinned') && router.bevy_id != -1) date = new Date('2035', '1', '1');
 		return -date;
+	},
+
+	postsNestComments: function(posts) {
+		posts.forEach(function(post) {
+			var comments = this.nestComments(post.get('comments'), null);
+		}.bind(this));
+	},
+
+	nestComments: function(comments, parentId, depth) {
+		if(typeof depth === 'number')
+			depth++;
+		else
+			depth = 1;
+
+		if(comments.length < 0) return [];
+		var $comments = [];
+
+		comments.forEach(function(comment, index) {
+			if(comment.parentId == parentId) {
+				comment.depth = depth;
+				comment.comments = this.nestComments(comments, comment._id, depth);
+				$comments.push(comment);
+			}
+		}.bind(this));
+
+		return $comments;
 	}
 });
 
