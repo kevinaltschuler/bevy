@@ -45,7 +45,6 @@ var BevyList = React.createClass({
 		if(id == -1) id = 'frontpage';
 		// call action
 		router.navigate('/b/' + id, { trigger: true });
-		//BevyActions.switchBevy(id);
 	},
 
 	render: function() {

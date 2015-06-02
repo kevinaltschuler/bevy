@@ -83,8 +83,7 @@ var CommentItem = React.createClass({
 	findMember: function(user_id) {
 		var members = this.props.post.bevy.members;
 		return _.find(members, function(member) {
-			if(member.user == user_id) return true;
-			else return false;
+			return user_id == member.user;
 		});
 	},
 
@@ -96,7 +95,7 @@ var CommentItem = React.createClass({
 		var author = comment.author;
 		var bevy = this.props.post.bevy;
 		var post = this.props.post;
-		var activeMember = this.props.activeMember;
+		var activeMember = this.findMember(user._id);
 
 		var authorName = author.displayName || 'placeholder author';
 
