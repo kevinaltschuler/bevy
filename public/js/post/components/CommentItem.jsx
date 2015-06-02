@@ -118,13 +118,15 @@ var CommentItem = React.createClass({
 		: 'reply';
 
 		var submit = (this.state.isReplying)
-		? (<CommentSubmit
+		? (<div>
+			<CommentSubmit
 				postId={ post._id }
 				commentId={ comment._id }
 				author={ post.author }
 				activeMember={ activeMember }
 				bevy={ bevy }
-			/>)
+			/>
+			</div>)
 		: <div />;
 
 		var commentList = (!_.isEmpty(comment.comments))
@@ -143,9 +145,16 @@ var CommentItem = React.createClass({
 					Delete Comment
 				</MenuItem>);
 
+		var margin = (comment.depth * 15) - 21;
+		var marginLeft = margin + 'px';
+
+		var commentStyle = {
+			marginLeft: marginLeft
+		};
+
 		return (
 			<div className="row comment">
-				<div className='col-xs-10'>
+				<div className='col-xs-12 comment-col' style={commentStyle}>
 					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 					<div className="comment-text">
 						<div className="comment-title">
@@ -157,23 +166,19 @@ var CommentItem = React.createClass({
 						depth: {comment.depth}
 						<a className="reply-link" href="#" onClick={ this.onReply }>{ replyText }</a>
 					</div>
-				</div>
-				<div className='col-xs-2'>
 					<DropdownButton
 						noCaret
 						pullRight
-						className=""
+						className="comment-settings"
 						title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-
 						{ deleteButton }
-
 					</DropdownButton>
 				</div>
 				<div className='col-xs-12'>
-					{ commentList }
+					{ submit }
 				</div>
 				<div className='col-xs-12'>
-					{ submit }
+					{ commentList }
 				</div>
 			</div>
 		);

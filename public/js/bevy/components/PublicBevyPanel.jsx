@@ -81,6 +81,10 @@ var PublicBevyPanel = React.createClass({
 			backgroundSize: '50px 50px',
 		}
 
+		var bevyAdmin = (_.isEmpty(_.findWhere(bevy.members, {role: 'admin'})))
+		? ''
+		: _.findWhere(bevy.members, {role: 'admin'}).displayName
+
 		var imgStyle = (this.state.image_url === '/img/logo_100.png')
 		? { minWidth: '50px', height: 'auto' }
 		: { minWidth: '100px', height: 'auto' };
@@ -118,7 +122,7 @@ var PublicBevyPanel = React.createClass({
 								12 Members
 							</span>
 							<span type='button' className="sidebar-link">
-								Created by: {_.findWhere(bevy.members, {role: 'admin'})}
+								Created by: {bevyAdmin}
 							</span>
 						</ButtonGroup>
 					</div>
