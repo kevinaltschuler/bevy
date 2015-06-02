@@ -32,7 +32,6 @@ var BevyStore = require('./../bevy/BevyStore');
 var Dispatcher = require('./../shared/dispatcher');
 
 var PostCollection = require('./PostCollection');
-var CommentCollection = require('./CommentCollection');
 
 //var tagRegex = new RegExp('#\w+', 'g');
 var tagRegex = /#\w+/g;
@@ -307,7 +306,7 @@ _.extend(PostStore, {
 
 						if(comment_id) {
 							// replied to a comment
-							var comments = post.get('comments');
+							var comments = post.get('all_comments');
 							var comment = _.findWhere(comments, { _id: comment_id });
 
 							if(!comment.comments) comment.comments = [];
@@ -359,10 +358,16 @@ _.extend(PostStore, {
 
 				var post = this.posts.get(post_id);
 				var comments = post.get('comments');
-				comments = _.reject(comments, function(comment) {
-					return comment._id == comment_id;
-				});
-				post.set('comments', comments);
+
+				if(_.findWhere(comments, { _id: comment_id })) {
+					// delete from post
+					comments = _.reject(comments, function(comment) {
+						return comment._id == comment_id;
+					});
+				} else {
+					// delete from comment
+					this.removeComment(comments, comment_id);
+				}
 
 				this.trigger(POST.CHANGE_ALL);
 
@@ -450,6 +455,19 @@ _.extend(PostStore, {
 		var date = Date.parse(post.get('created'));
 		if(post.get('pinned') && router.bevy_id != -1) date = new Date('2035', '1', '1');
 		return -date;
+	},
+
+	removeComment: function(comments, comment_id) {
+		return comments.every(function(comment, index) {
+			if(comment._id == comment_id) {
+				comments.splice(index, 1);
+				return false;
+			}
+			if(_.isEmpty(comment.comments)) return false;
+			else return this.removeComment(comment.comments, comment_id);
+
+			return true;
+		}.bind(this));
 	},
 
 	postsNestComments: function(posts) {
