@@ -32,7 +32,7 @@ var PublicBevyRequest = React.createClass({
 
 		return (
 			<div className="col-xs-6">
-				<div className='pulbic-bevy-panel'>
+				<div className='public-bevy-panel'>
 					<div className='row'>
 						<div className='message'>This bevy requires an invitation</div>
 					</div>
