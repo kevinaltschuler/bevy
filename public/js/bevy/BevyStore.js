@@ -48,18 +48,18 @@ _.extend(BevyStore, {
 			case APP.LOAD:
 
 				this.bevies.fetch({
-					async: false,
 					reset: true,
 					success: function(collection, response, options) {
+
+						// add frontpage - and put it at the top of the list
+						this.bevies.unshift({
+							_id: '-1',
+							name: 'Frontpage'
+						});
+
 						// propagate change
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
-				});
-
-				// add frontpage - and put it at the top of the list
-				this.bevies.unshift({
-					_id: '-1',
-					name: 'Frontpage'
 				});
 
 				break;
