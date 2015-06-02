@@ -10,6 +10,7 @@
 
 // imports
 var React = require('react');
+var _ = require('underscore');
 
 var classNames = require('classnames');
 
@@ -145,7 +146,7 @@ var NewPostPanel = React.createClass({
 			this.state.images, // image_url
 			window.bootstrap.user, // author
 			this.props.allBevies[this.state.selectedIndex + 1], // bevy
-			findMember());
+			this.findMember());
 
 		// reset fields
 		this.setState(this.getInitialState());
