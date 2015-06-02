@@ -13,6 +13,8 @@ var _ = require('underscore');
 
 var router = require('./../../router');
 
+var classNames = require('classnames');
+
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
@@ -23,6 +25,7 @@ var MenuItem = rbs.MenuItem;
 var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
 var Badge = rbs.Badge;
+var CollapsibleMixin = rbs.CollapsibleMixin;
 
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
@@ -48,18 +51,34 @@ function getPostState(id) {
 
 // React class
 var Post = React.createClass({
-
-	// expects (most) of these to be passed in by PostContainer.jsx
-	propTypes: {
-		id: React.PropTypes.string.isRequired,
-		post: React.PropTypes.object
-	},
+	mixins: [CollapsibleMixin],
 
 	getInitialState: function() {
 		return {
 			isEditing: false,
-			title: this.props.post.title
+			title: this.props.post.title,
 		};
+	},
+
+
+	getCollapsibleDOMNode: function(){
+		return React.findDOMNode(this.refs.postBody);
+	},
+
+	getCollapsibleDimensionValue: function(){
+		return React.findDOMNode(this.refs.postBody).scrollHeight;
+	},
+
+	onHandleToggle: function(ev){
+    	ev.preventDefault();
+    	this.setState({
+    		expanded: !this.state.expanded
+    	});
+	},
+	// expects (most) of these to be passed in by PostContainer.jsx
+	propTypes: {
+		id: React.PropTypes.string.isRequired,
+		post: React.PropTypes.object
 	},
 
 	onChange: function(ev) {
@@ -282,39 +301,41 @@ var Post = React.createClass({
 		? <span className='badge pinned'>Pinned</span>
 		: '';
 
-		return <div className="post panel" postId={ this.props.post._id }>
+		var styles = this.getCollapsibleClassSet();
+		var text = this.isExpanded() ? 'Hide' : 'Show';
+
+		var postBody = (
+				<div>
 					<div className='panel-header'>
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<div className='post-details'>
 							<div className='top'>
-								<span className="details">{ author } </span>
-								<span className="glyphicon glyphicon-triangle-right"/>
-								<span className="details">
-									<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }> { bevy.name }</a>
-								</span>
+									<span className="details">{ author } </span>
+									<span className="glyphicon glyphicon-triangle-right"/>
+									<span className="details">
+										<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }> { bevy.name }</a>
+									</span>
+								</div>
+								<div className="bottom">
+									<span className="detail-time">{ ago }</span>
+									<span className='detail-time'>{ left }</span>
+								</div>
 							</div>
-							<div className="bottom">
-								<span className="detail-time">{ ago }</span>
-								<span className='detail-time'>{ left }</span>
-							</div>
-						</div>
 						<div className='badges'>
-							<span className="points">{ this.countVotes() } Points</span>
-							{ pinnedBadge }
+								<span className="comment-count"> { commentCount } Comments •&nbsp;</span>
+								<span className="points"> { this.countVotes() } Points</span>
+								{ pinnedBadge }
 						</div>
 					</div>
 
-				<div className='panel-body'>
-					{ panelBodyText }
-				</div>
-				<div className='panel-body'>
-					{ images }
-				</div>
+					<div className='panel-body'>
+						{ panelBodyText }
+					</div>
+					<div className='panel-body'>
+						{ images }
+					</div>
 
 					<div className="panel-comments">
-						<div className="comment-count">
-							{ commentCount } Comments
-						</div>
 
 						{ commentList }
 
@@ -346,6 +367,19 @@ var Post = React.createClass({
 							</DropdownButton>
 						</div>
 					</div>
+				</div>);
+		
+		var collapsibleDiv = (this.props.post.pinned)
+		? (<div className='collapse-post'>
+				<Button className="collapse-button" onClick={this.onHandleToggle}>{text} pinned post</Button>
+				<div ref='postBody' className={classNames(styles)}>
+					{postBody}
+				</div>
+			</div>)
+		: {postBody};
+
+		return <div className="post panel" postId={ this.props.post._id }>
+					{collapsibleDiv}
 				</div>;
 	}
 });
