@@ -454,7 +454,15 @@ _.extend(PostStore, {
 
 	postsNestComments: function(posts) {
 		posts.forEach(function(post) {
-			var comments = this.nestComments(post.get('comments'), null);
+			var comments = post.get('comments');
+			// create deep clone to avoid reference hell
+			comments = _.map(comments, function(comment) {
+				return comment;
+			});
+			post.set('all_comments', comments);
+			post.set('commentCount', comments.length);
+			comments = this.nestComments(comments);
+			post.set('comments', comments);
 		}.bind(this));
 	},
 
@@ -469,6 +477,8 @@ _.extend(PostStore, {
 
 		comments.forEach(function(comment, index) {
 			if(comment.parentId == parentId) {
+				//console.log(comment);
+				//comments.splice(index, 1);
 				comment.depth = depth;
 				comment.comments = this.nestComments(comments, comment._id, depth);
 				$comments.push(comment);
