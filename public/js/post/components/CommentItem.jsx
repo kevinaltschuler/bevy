@@ -118,20 +118,14 @@ var CommentItem = React.createClass({
 		: 'reply';
 
 		var submit = (this.state.isReplying)
-		? (<div>
-			<CommentSubmit
+		? (<CommentSubmit
 				postId={ post._id }
 				commentId={ comment._id }
 				author={ post.author }
 				activeMember={ activeMember }
 				bevy={ bevy }
-<<<<<<< HEAD
-			/>
-			</div>)
-=======
 				onReply={ this.onReply }
 			/>)
->>>>>>> 7a3329f875467578ffd45f90d1bd4d402b0905f8
 		: <div />;
 
 		var commentList = (!_.isEmpty(comment.comments))
@@ -168,7 +162,6 @@ var CommentItem = React.createClass({
 							<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
 						</div>
 						<div className="comment-body">{ comment.body }</div>
-						depth: {comment.depth}
 						<a className="reply-link" href="#" onClick={ this.onReply }>{ replyText }</a>
 					</div>
 					<DropdownButton
