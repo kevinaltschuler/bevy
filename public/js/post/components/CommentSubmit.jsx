@@ -26,7 +26,8 @@ var CommentSubmit = React.createClass({
 		commentId: React.PropTypes.string,
 		author: React.PropTypes.object,
 		activeMember: React.PropTypes.object,
-		bevy: React.PropTypes.object
+		bevy: React.PropTypes.object,
+		onReply: React.PropTypes.func
 	},
 
 	getInitialState: function() {
@@ -50,6 +51,9 @@ var CommentSubmit = React.createClass({
 		this.setState({
 			body: ''
 		});
+
+		if(this.props.onReply)
+			this.props.onReply();
 	},
 
 	onKeyPress: function(ev) {

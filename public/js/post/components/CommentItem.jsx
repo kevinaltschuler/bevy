@@ -68,7 +68,8 @@ var CommentItem = React.createClass({
 	},
 
 	onReply: function(ev) {
-		ev.preventDefault();
+		if(ev)
+			ev.preventDefault();
 
 		this.setState({
 			isReplying: !this.state.isReplying
@@ -123,6 +124,7 @@ var CommentItem = React.createClass({
 				author={ post.author }
 				activeMember={ activeMember }
 				bevy={ bevy }
+				onReply={ this.onReply }
 			/>)
 		: <div />;
 
