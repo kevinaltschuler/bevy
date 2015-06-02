@@ -32,7 +32,6 @@ var BevyStore = require('./../bevy/BevyStore');
 var Dispatcher = require('./../shared/dispatcher');
 
 var PostCollection = require('./PostCollection');
-var CommentCollection = require('./CommentCollection');
 
 //var tagRegex = new RegExp('#\w+', 'g');
 var tagRegex = /#\w+/g;
@@ -59,12 +58,14 @@ _.extend(PostStore, {
 				this.posts.comparator = this.sortByTop;
 
 				this.posts.fetch({
-					success: function(collection, response, options) {
+					reset: true,
+					success: function(posts, response, options) {
+
+						this.postsNestComments(posts);
+
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
-
-				this.trigger(POST.CHANGE_ALL);
 
 				break;
 
@@ -305,7 +306,7 @@ _.extend(PostStore, {
 
 						if(comment_id) {
 							// replied to a comment
-							var comments = post.get('comments');
+							var comments = post.get('all_comments');
 							var comment = _.findWhere(comments, { _id: comment_id });
 
 							if(!comment.comments) comment.comments = [];
@@ -357,10 +358,16 @@ _.extend(PostStore, {
 
 				var post = this.posts.get(post_id);
 				var comments = post.get('comments');
-				comments = _.reject(comments, function(comment) {
-					return comment._id == comment_id;
-				});
-				post.set('comments', comments);
+
+				if(_.findWhere(comments, { _id: comment_id })) {
+					// delete from post
+					comments = _.reject(comments, function(comment) {
+						return comment._id == comment_id;
+					});
+				} else {
+					// delete from comment
+					this.removeComment(comments, comment_id);
+				}
 
 				this.trigger(POST.CHANGE_ALL);
 
@@ -448,6 +455,55 @@ _.extend(PostStore, {
 		var date = Date.parse(post.get('created'));
 		if(post.get('pinned') && router.bevy_id != -1) date = new Date('2035', '1', '1');
 		return -date;
+	},
+
+	removeComment: function(comments, comment_id) {
+		return comments.every(function(comment, index) {
+			if(comment._id == comment_id) {
+				comments.splice(index, 1);
+				return false;
+			}
+			if(_.isEmpty(comment.comments)) return false;
+			else return this.removeComment(comment.comments, comment_id);
+
+			return true;
+		}.bind(this));
+	},
+
+	postsNestComments: function(posts) {
+		posts.forEach(function(post) {
+			var comments = post.get('comments');
+			// create deep clone to avoid reference hell
+			comments = _.map(comments, function(comment) {
+				return comment;
+			});
+			post.set('all_comments', comments);
+			post.set('commentCount', comments.length);
+			comments = this.nestComments(comments);
+			post.set('comments', comments);
+		}.bind(this));
+	},
+
+	nestComments: function(comments, parentId, depth) {
+		if(typeof depth === 'number')
+			depth++;
+		else
+			depth = 1;
+
+		if(comments.length < 0) return [];
+		var $comments = [];
+
+		comments.forEach(function(comment, index) {
+			if(comment.parentId == parentId) {
+				//console.log(comment);
+				//comments.splice(index, 1);
+				comment.depth = depth;
+				comment.comments = this.nestComments(comments, comment._id, depth);
+				$comments.push(comment);
+			}
+		}.bind(this));
+
+		return $comments;
 	}
 });
 

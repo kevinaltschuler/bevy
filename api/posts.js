@@ -53,8 +53,7 @@ exports.index = function(req, res, next) {
 				.exec();
 			comment_promise.then(function(comments) {
 				post = post.toJSON();
-				post.commentCount = comments.length;
-				post.comments = nestComments(comments);
+				post.comments = comments;
 				_posts.push(post);
 				if(_posts.length == posts.length) return res.send(_posts);
 			}, function(err) { return next(err) });
@@ -97,8 +96,7 @@ exports.show = function(req, res, next) {
 			.exec();
 		_promise.then(function(comments) {
 			post = post.toObject();
-			post.commentCount = comments.length;
-			post.comments = nestComments(comments);
+			post.comments = comments;
 			return res.send(post);
 		}, function(err) { return next(err) });
 
@@ -131,8 +129,7 @@ exports.update = function(req, res, next) {
 			.exec();
 		_promise.then(function(comments) {
 			post = post.toObject();
-			post.commentCount = comments.length;
-			post.comments = nestComments(comments);
+			post.comments = comments;
 			return res.send(post);
 		}, function(err) { return next(err) });
 
@@ -159,8 +156,7 @@ exports.destroy = function(req, res, next) {
 			.exec();
 		_promise.then(function(comments) {
 			post = post.toObject();
-			post.commentCount = comments.length;
-			post.comments = nestComments(comments);
+			post.comments = comments;
 			return res.send(post);
 		}, function(err) { return next(err) });
 
@@ -199,8 +195,7 @@ exports.frontpage = function(req, res, next) {
 			posts.forEach(function(post) {
 				Comment.find({ postId: post._id }, function(err, comments) {
 					post = post.toObject();
-					post.commentCount = comments.length;
-					post.comments = nestComments(comments);
+					post.comments = comments;
 					_posts.push(post);
 					if(_posts.length == posts.length) return res.json(_posts);
 
@@ -249,8 +244,7 @@ exports.search = function(req, res, next) {
 			posts.forEach(function(post) {
 				Comment.find({ postId: post._id }, function(err, comments) {
 					post = post.toObject();
-					post.commentCount = comments.length;
-					post.comments = nestComments(comments);
+					post.comments = comments;
 					_posts.push(post);
 					if(_posts.length == posts.length) return res.json(_posts);
 
