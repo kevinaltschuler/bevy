@@ -32,6 +32,7 @@ var RaisedButton = mui.RaisedButton;
 var InviteModal = require('./InviteModal.jsx');
 var MemberModal = require('./MemberModal.jsx');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
+var BevyPanelHeader = require('./BevyPanelHeader.jsx');
 
 var BevyActions = require('./../BevyActions');
 
@@ -86,25 +87,6 @@ var BevyPanel = React.createClass({
 		});
 	},
 
-	startEditing: function(ev) {
-		this.setState({
-			isEditing: true
-		});
-	},
-
-	stopEditing: function(ev) {
-		var bevy_id = this.props.activeBevy.id;
-		var name = this.state.name;
-		var description = this.state.description;
-		var image_url = this.state.image_url;
-
-		BevyActions.update(bevy_id, name, description, image_url);
-
-		this.setState({
-			isEditing: false
-		});
-	},
-
 	startEditingName: function(ev) {
 		this.setState({
 			isEditingName: true
@@ -130,20 +112,6 @@ var BevyPanel = React.createClass({
 			displayName: displayName,
 			activeMember: activeMember
 		});
-	},
-
-	onUploadComplete: function(file) {
-		var filename = file.filename;
-		var image_url = constants.apiurl + '/files/' + filename;
-		this.setState({
-			image_url: image_url
-		});
-
-		var bevy_id = this.props.activeBevy.id;
-		var name = this.state.name;
-		var description = this.state.description;
-
-		BevyActions.update(bevy_id, name, description, image_url);
 	},
 
 	onAliasUploadComplete: function(file) {
@@ -267,90 +235,12 @@ var BevyPanel = React.createClass({
 			itemIndex = item.defaultIndex;
 		}
 
-		var dropzoneOptions = {
-			maxFiles: 1,
-			acceptedFiles: 'image/*',
-			clickable: '.dropzone-panel-button',
-			dictDefaultMessage: ' ',
-		};
-
 		var aliasDropzoneOptions = {
 			maxFiles: 1,
 			acceptedFiles: 'image/*',
 			clickable: '.dropzone-panel-button',
 			dictDefaultMessage: ' ',
 		};
-
-		var editButton = '';
-		if(this.state.activeMember) {
-			editButton = (this.state.activeMember.role == 'admin')
-			? (<IconButton
-					className="edit-button"
-					tooltip='edit name'
-					onClick={ this.startEditing }>
-					<span className="glyphicon glyphicon-pencil btn"></span>
-				</IconButton>)
-			: '';
-		}
-
-		var header = (this.state.isEditing)
-		? (<div>
-				<div className="row sidebar-top">
-					<div className="col-xs-3 sidebar-picture">
-						<Uploader
-							onUploadComplete={ this.onUploadComplete }
-							className="bevy-image-dropzone"
-							style={ bevyImageStyle }
-							dropzoneOptions={ dropzoneOptions }
-						/>
-					</div>
-					<div className="col-xs-9 sidebar-title">
-						<TextField
-							type='text'
-							ref='name'
-							defaultValue={ name }
-							value={ name }
-							placeholder='Group Name'
-							onKeyUp={ this.onKeyUp }
-							onChange={ this.onChange }
-						/>
-						<TextField
-							type='text'
-							ref='description'
-							defaultValue={ description }
-							value={ description }
-							placeholder='Group Description'
-							onKeyUp={ this.onKeyUp }
-							onChange={ this.onChange }
-							multiLine= { true }
-						/>
-						<RaisedButton label="save changes" onClick={this.stopEditing} />
-					</div>
-				</div>
-			</div>)
-		: (<div className="row sidebar-top">
-				<div className="col-xs-3 sidebar-picture">
-					<div className='profile-img' style={ bevyImageStyle }/>
-				</div>
-				<div className="col-xs-9 sidebar-title">
-					<div className='row'>
-						<span
-							className='sidebar-title-name'
-							onDoubleClick={ this.startEditing } >
-							{ name }
-						</span>
-						{ editButton }
-					</div>
-					<div className='row'>
-						<span
-							className='sidebar-title-description'
-							onDoubleClick={ this.startEditing } >
-							{ description }
-						</span>
-					</div>
-				</div>
-			</div>
-		);
 
 		var nameEditAction = (this.state.isEditingName)
 		? (<div className='row sidebar-action name-edit-action'>
@@ -425,7 +315,7 @@ var BevyPanel = React.createClass({
 
 		return (
 			<ButtonGroup className="btn-group right-sidebar panel">
-				{ header }
+				<BevyPanelHeader {...this.props}/>
 				<div className='row sidebar-links'>
 					<ButtonGroup className="col-xs-12" role="group">
 						<ModalTrigger modal={
