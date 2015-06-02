@@ -68,7 +68,8 @@ var CommentItem = React.createClass({
 	},
 
 	onReply: function(ev) {
-		ev.preventDefault();
+		if(ev)
+			ev.preventDefault();
 
 		this.setState({
 			isReplying: !this.state.isReplying
@@ -83,8 +84,7 @@ var CommentItem = React.createClass({
 	findMember: function(user_id) {
 		var members = this.props.post.bevy.members;
 		return _.find(members, function(member) {
-			if(member.user == user_id) return true;
-			else return false;
+			return user_id == member.user;
 		});
 	},
 
@@ -96,7 +96,7 @@ var CommentItem = React.createClass({
 		var author = comment.author;
 		var bevy = this.props.post.bevy;
 		var post = this.props.post;
-		var activeMember = this.props.activeMember;
+		var activeMember = this.findMember(user._id);
 
 		var authorName = author.displayName || 'placeholder author';
 
@@ -125,8 +125,13 @@ var CommentItem = React.createClass({
 				author={ post.author }
 				activeMember={ activeMember }
 				bevy={ bevy }
+<<<<<<< HEAD
 			/>
 			</div>)
+=======
+				onReply={ this.onReply }
+			/>)
+>>>>>>> 7a3329f875467578ffd45f90d1bd4d402b0905f8
 		: <div />;
 
 		var commentList = (!_.isEmpty(comment.comments))

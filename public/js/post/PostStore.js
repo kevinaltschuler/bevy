@@ -74,6 +74,14 @@ _.extend(PostStore, {
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
+				// dont load posts in a public bevy
+				// also reset the posts
+				var bevy_id = router.bevy_id;
+				if(_.isEmpty(BevyStore.bevies.get(bevy_id))) {
+					this.posts.reset();
+					break;
+				}
+
 				this.posts.fetch({
 					reset: true,
 					success: function(collection, response, options) {
