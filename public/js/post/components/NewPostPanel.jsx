@@ -40,7 +40,9 @@ var hintTexts = [
 	"What's new?",
 	"How are you doing today?",
 	"Share your thoughts",
-	"Drop some knowledge son"
+	"Drop some knowledge son",
+	"What would your mother think?",
+	"Drop a line"
 ]
 var hintText = hintTexts[Math.floor(Math.random() * 4)];
 
@@ -217,8 +219,6 @@ var NewPostPanel = React.createClass({
 							dropzoneOptions={ dropzoneOptions }
 							className="dropzone"
 						/>
-
-
 
 						<div className="panel-bottom row">
 							<div className="panel-controls-left  col-xs-7">

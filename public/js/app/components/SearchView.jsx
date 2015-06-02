@@ -10,6 +10,7 @@ var router = require('./../../router');
 var user = window.bootstrap.user;
 
 var PostContainer = require('./../../post/components/PostContainer.jsx');
+var LeftSidebar = require('./LeftSidebar.jsx');
 
 var SearchView = React.createClass({
 
@@ -43,6 +44,10 @@ var SearchView = React.createClass({
 
 		return (
 			<div className='main-section'>
+				<LeftSidebar
+					allBevies={ this.props.allBevies }
+					activeBevy={ this.props.activeBevy }
+				/>
 				<h1>Search for <i>#{ router.search_query }</i></h1>
 				{ postContainer }
 			</div>
