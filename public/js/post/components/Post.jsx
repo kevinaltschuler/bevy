@@ -45,6 +45,8 @@ var $ = require('jquery');
 var user = window.bootstrap.user;
 var email = user.email;
 
+var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
+
 function getPostState(id) {
 	return PostStore.getPost(id);
 }
@@ -193,6 +195,7 @@ var Post = React.createClass({
 			if(!_.isEmpty(authorMember.displayName) && bevy.settings.anonymise_users) author = authorMember.displayName;
 		}
 
+		var imageBody = (<div/>);
 		var images = [];
 		if(!_.isEmpty(this.props.post.images)) {
 			var allImages = this.props.post.images;
@@ -205,6 +208,10 @@ var Post = React.createClass({
 					</div>
 				);
 			}
+			imageBody = (
+				<div className="panel-body">
+					{ images }
+				</div>);
 		}
 
 		var ago = timeAgo(Date.parse(this.props.post.created));
@@ -216,12 +223,24 @@ var Post = React.createClass({
 			var words = this.state.title.split(' ');
 			var $words = [];
 			var tags = this.props.post.tags;
+			var urls = this.state.title.match(urlRegex);
+			console.log(urls);
 			words.forEach(function(word) {
+				// take of the hashtag
 				var tag = word.slice(1, word.length);
 				var index = tags.indexOf(tag);
 				if(index > -1) {
 					return $words.push(<a href={ '/s/' + tag } key={ index } id={ tag } onClick={ this.onTag }>{ word } </a>);
 				}
+				// if this word is in the urls array
+				if(!_.isEmpty(urls)) {
+					index = urls.indexOf(word);
+					if(index > -1) {
+						// return a linka
+						return $words.push(<a href={ word } target='_blank'>{ word }</a>);
+					}
+				}
+				
 				return $words.push(word + ' ');
 			}.bind(this));
 			var bodyText = (<p>{ $words }</p>);
@@ -331,9 +350,8 @@ var Post = React.createClass({
 					<div className='panel-body'>
 						{ panelBodyText }
 					</div>
-					<div className='panel-body'>
-						{ images }
-					</div>
+					
+					{ imageBody }
 
 					<div className="panel-comments">
 
