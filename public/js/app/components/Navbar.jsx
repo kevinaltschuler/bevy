@@ -69,7 +69,7 @@ var Navbar = React.createClass({
 		: <Badge className='notification-counter'>{ notificationCount }</Badge>
 
 		var navbarStyle;
-		if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image_url))
+		if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(window.bootstrap.user))
 		navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'}
 
 		var name = user.displayName;
@@ -87,24 +87,43 @@ var Navbar = React.createClass({
 
 		var searchQuery = router.search_query || '';
 
-		return <div className="navbar navbar-fixed-top row" style = { navbarStyle }>
-					<div className="background-image" style= { backgroundStyle } />
-					<div className='col-xs-4'>
-						<div className="navbar-header pull-left">
-							<ProfileDropdown />
-							<NotificationDropdown
-								allNotifications={ this.props.allNotifications }
-							/>
-							{ counter }
-							<span className="navbar-brand navbar-brand-text">{ name }</span>
-						</div>
+		var navContent = (_.isEmpty(window.bootstrap.user))
+		?	(<div>
+				<div className='col-xs-4'>
+					<div className="navbar-header pull-left">
+						<span className="navbar-brand navbar-brand-text"> Log In </span>
 					</div>
+				</div>
 
-					<div className='col-xs-4'>
-						<div className="nav navbar-brand-text nav-center">
-							{ bevyName }
-						</div>
+				<div className='col-xs-4'>
+					<div className="nav navbar-brand-text nav-center">
+						{ bevyName }
 					</div>
+				</div>
+			</div>)
+		:	(<div>
+				<div className="background-image" style= { backgroundStyle } />
+				<div className='col-xs-4'>
+					<div className="navbar-header pull-left">
+						<ProfileDropdown />
+						<NotificationDropdown
+							allNotifications={ this.props.allNotifications }
+						/>
+						{ counter }
+						<span className="navbar-brand navbar-brand-text">{ name }</span>
+					</div>
+				</div>
+
+				<div className='col-xs-4'>
+					<div className="nav navbar-brand-text nav-center">
+						{ bevyName }
+					</div>
+				</div>
+			</div>);
+
+		return <div className="navbar navbar-fixed-top row" style = { navbarStyle }>
+
+					{ navContent }
 
 					<div className='col-xs-4'>
 						<div className="navbar-header pull-right">
