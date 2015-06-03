@@ -61,14 +61,13 @@ var BevySettingsModal = React.createClass({
 		var bevy = this.props.activeBevy;
 		var settings = bevy.settings;
 		var expireMenuItems = [
-			   { payload: '1', text: '1 day', defaultIndex: 0 },
-			   { payload: '2', text: '2 days', defaultIndex: 1  },
-			   { payload: '5', text: '5 days', defaultIndex: 2  },
-			   { payload: '7', text: '7 days', defaultIndex: 3  }
-			];
+			{ payload: '1', text: '1 day', defaultIndex: 0 },
+			{ payload: '2', text: '2 days', defaultIndex: 1  },
+			{ payload: '5', text: '5 days', defaultIndex: 2  },
+			{ payload: '7', text: '7 days', defaultIndex: 3  }
+		];
 		var itemIndex = 0;
-		var item = _.findWhere(expireMenuItems, { payload: this.state.posts_expire_in });
-		//console.log(this.state.posts_expire_in, item);
+		var item = _.findWhere(expireMenuItems, { payload: this.state.posts_expire_in.toString() });
 		if(!_.isEmpty(item)) {
 			itemIndex = item.defaultIndex;
 		}
@@ -82,9 +81,9 @@ var BevySettingsModal = React.createClass({
 						Posts expire in
 						<DropDownMenu
 							ref='posts_expire_in'
-							menuItems = {expireMenuItems}
-							onChange= {this.onDropDownChange}
-							defaultIndex =  {itemIndex}
+							menuItems={ expireMenuItems }
+							onChange={ this.onDropDownChange }
+							selectedIndex={ itemIndex }
 						/>
 					</div>
 

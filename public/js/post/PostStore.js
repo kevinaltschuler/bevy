@@ -85,7 +85,10 @@ _.extend(PostStore, {
 
 				this.posts.fetch({
 					reset: true,
-					success: function(collection, response, options) {
+					success: function(posts, response, options) {
+
+						this.postsNestComments(posts);
+
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
@@ -301,7 +304,7 @@ _.extend(PostStore, {
 						body: body
 					},
 					function(data) {
-						//console.log(data);
+						// optimistic update
 						var id = data._id;
 
 						if(comment_id) {
@@ -339,6 +342,32 @@ _.extend(PostStore, {
 							});
 						}
 
+						var stripped_members = _.map(post.get('bevy').members, function(member) {
+							var new_member = {};
+							new_member.role = member.role;
+							new_member.notificationLevel = member.notificationLevel;
+							if(_.isObject(member.user))
+								new_member.user = member.user._id;
+							else new_member.user = member.user;
+							return new_member;
+						});
+
+						// send notification
+						$.post(
+							constants.apiurl + '/notifications',
+							{
+								event: 'comment:create',
+								author_id: author._id,
+								author_name: author.displayName,
+								author_image: author.image_url,
+								post_id: post.get('_id'),
+								post_title: post.get('title'),
+								post_author_id: post.get('author')._id,
+								bevy_name: post.get('bevy').name,
+								bevy_members: stripped_members
+							}
+						);
+
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				);
@@ -364,6 +393,7 @@ _.extend(PostStore, {
 					comments = _.reject(comments, function(comment) {
 						return comment._id == comment_id;
 					});
+					post.set('comments', comments);
 				} else {
 					// delete from comment
 					this.removeComment(comments, comment_id);
@@ -457,15 +487,26 @@ _.extend(PostStore, {
 		return -date;
 	},
 
+	/**
+	 * recursively remove a comment
+	 */
 	removeComment: function(comments, comment_id) {
+		// use every so we can break out if we need
 		return comments.every(function(comment, index) {
 			if(comment._id == comment_id) {
+				// it's a match. remove the comment and collapse
 				comments.splice(index, 1);
 				return false;
 			}
-			if(_.isEmpty(comment.comments)) return false;
-			else return this.removeComment(comment.comments, comment_id);
-
+			if(_.isEmpty(comment.comments)) {
+				// end of the line. collapse
+				return false;
+			}
+			else {
+				// there's more. keep going
+				return this.removeComment(comment.comments, comment_id);
+			}
+			// continue the every loop
 			return true;
 		}.bind(this));
 	},
@@ -479,27 +520,28 @@ _.extend(PostStore, {
 			});
 			post.set('all_comments', comments);
 			post.set('commentCount', comments.length);
+			// recurse through comments
 			comments = this.nestComments(comments);
 			post.set('comments', comments);
 		}.bind(this));
 	},
 
 	nestComments: function(comments, parentId, depth) {
-		if(typeof depth === 'number')
-			depth++;
-		else
-			depth = 1;
+		// increment depth (used for indenting later)
+		if(typeof depth === 'number') depth++;
+		else depth = 1;
 
-		if(comments.length < 0) return [];
+		if(comments.length < 0) return []; // return if it's the end of the line
+
 		var $comments = [];
-
 		comments.forEach(function(comment, index) {
+			// look for comments under this one
 			if(comment.parentId == parentId) {
-				//console.log(comment);
-				//comments.splice(index, 1);
 				comment.depth = depth;
+				// and keep going
 				comment.comments = this.nestComments(comments, comment._id, depth);
 				$comments.push(comment);
+				// TODO: splice the matched comment out of the list so we can go faster
 			}
 		}.bind(this));
 

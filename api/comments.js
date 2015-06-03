@@ -42,8 +42,8 @@ exports.index = function(req, res, next) {
 	});
 }
 
-// GET /bevies/:bevyid/posts/:postid/comments/create
-// POST /bevies/:bevyid/posts/:postid/comments/
+// GET /posts/:postid/comments/create
+// POST /posts/:postid/comments/
 exports.create = function(req, res, next) {
 	var update = collectCommentParams(req);
 
@@ -55,7 +55,7 @@ exports.create = function(req, res, next) {
 	});
 }
 
-// GET /bevies/:bevyid/posts/:postid/comments/:id
+// GET /posts/:postid/comments/:id
 exports.show = function(req, res, next) {
 	var id = req.params.id;
 	var query = { _id: id };
@@ -69,9 +69,9 @@ exports.show = function(req, res, next) {
 	});
 }
 
-// GET /bevies/:bevyid/posts/:postid/comments/:id/edit
-// GET /bevies/:bevyid/posts/:postid/comments/:id/update
-// PUT /bevies/:bevyid/posts/:postid/comments/:id/
+// GET /posts/:postid/comments/:id/edit
+// GET /posts/:postid/comments/:id/update
+// PUT /posts/:postid/comments/:id/
 exports.update = function(req, res, next) {
 	var update = collectCommentParams(req);
 	var id = req.params.id;
@@ -86,8 +86,8 @@ exports.update = function(req, res, next) {
 	});
 }
 
-// GET /bevies/:bevyid/posts/:postid/comments/:id/destroy
-// DELETE /bevies/:bevyid/posts/:postid/comments/:id/
+// GET /posts/:postid/comments/:id/destroy
+// DELETE /posts/:postid/comments/:id/
 exports.destroy = function(req, res, next) {
 	// delete comment
 	var id = req.params.id;

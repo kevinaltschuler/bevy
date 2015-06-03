@@ -18,6 +18,9 @@ var error = require('./../error');
 
 var mailgun = require('./../config/mailgun')();
 var User = mongoose.model('User');
+var Comment = mongoose.model('Comment');
+var Post = mongoose.model('Post');
+var Bevy = mongoose.model('Bevy');
 
 var paramNames = 'event message email bevy user members';
 
@@ -177,10 +180,87 @@ exports.create = function(req, res, next) {
 				}, function(err) { return next(err) });
 			});
 
-			// look for admins
-			// push notification onto admin
-			// 	need user id
-			// 	need bevy id
+			break;
+
+		case 'comment:create':
+			var author_id = req.body['author_id'];
+			var author_name = req.body['author_name'];
+			var author_image = req.body['author_image'];
+			var post_id = req.body['post_id'];
+			var post_title = req.body['post_title'];
+			var post_author_id = req.body['post_author_id'];
+			var bevy_name = req.body['bevy_name'];
+			var bevy_members = req.body['bevy_members'];
+
+			// send reply notification to post author
+			//	get member - match post author id
+			var post_author_member = _.findWhere(bevy_members, { user: post_author_id });
+			// check if notification level is 'my' or 'all'
+			if(post_author_member.notificationLevel == 'none') {
+			} else {
+				// send reply notification
+				User.findOne({ _id: post_author_id }, function(err, user) {
+					var notification = {
+						event: 'post:reply',
+						data: {
+							author_name: author_name,
+							author_image: author_image,
+							post_title: post_title,
+							bevy_name: bevy_name
+						}
+					};
+					user.notifications.push(notification);
+					user.save(function(err, $user) {
+						if(err) return next(err);
+						emitter.emit('post:reply:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
+					});
+				});
+			}
+
+			//	send comment notification to all commentators
+			async.waterfall([
+				function(done) {
+					// loop thru comments and collect authors
+					var commentators = [];
+					Comment.find({ postId: post_id }, function(err, comments) {
+						comments.forEach(function(comment) {
+							commentators.push(comment.author);
+						});
+						// remove dupes
+						commentators = _.uniq(commentators);
+						done(null, commentators);
+					}).lean();
+				},
+				function(commentators, done) {
+					commentators.forEach(function(commentator) {
+						var commentator_member = _.findWhere(bevy_members, { user: commentator.toString() });
+						// TODO: (see if they muted the post)
+						// check if notification level is 'none'
+						if(commentator_member.notificationLevel == 'none') {
+							return;
+						} else {
+							// send commented notification
+							User.findOne({ _id: commentator }, function(err, user) {
+								var notification = {
+									event: 'post:commentedon',
+									data: {
+										author_name: author_name,
+										author_image: author_image,
+										post_title: post_title,
+										bevy_name: bevy_name
+									}
+								};
+								user.notifications.push(notification);
+								user.save(function(err, $user) {
+									if(err) return next(err);
+									emitter.emit('post:commentedon:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
+									done(null);
+								});
+							});
+						}
+					});
+				}
+			]);
 
 			break;
 	}
@@ -241,6 +321,16 @@ exports.poll = function(req, res, next) {
 		else return next();
 	});
 	emitter.on('post:create:' + user_id, function(data) {
+		if(!res.headersSent)
+			return res.json(data);
+		else return next();
+	});
+	emitter.on('post:reply:' + user_id, function(data) {
+		if(!res.headersSent)
+			return res.json(data);
+		else return next();
+	});
+	emitter.on('post:commentedon:' + user_id, function(data) {
 		if(!res.headersSent)
 			return res.json(data);
 		else return next();
