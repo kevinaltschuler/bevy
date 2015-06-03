@@ -150,6 +150,40 @@ var NotificationItem = React.createClass({
 
 				break;
 
+			case 'post:reply':
+
+				var author_name = data.author_name;
+				var author_image = data.author_image;
+				var post_title = data.post_title;
+				var bevy_name = data.bevy_name;
+
+				body = (
+					<div className='notification-body'>
+						<div className='col-xs-9'>
+							<b>{ author_name }</b> replied to your post <i>{ post_title }</i> in <b>{ bevy_name }</b>
+						</div>
+					</div>
+				);
+
+				break;
+
+			case 'post:commentedon':
+
+				var author_name = data.author_name;
+				var author_image = data.author_image;
+				var post_title = data.post_title;
+				var bevy_name = data.bevy_name;
+
+				body = (
+					<div className='notification-body'>
+						<div className='col-xs-9'>
+							<b>{ author_name }</b> commented on a post you commented on
+						</div>
+					</div>
+				);
+
+				break;
+
 			default:
 				body = (
 					<span>{ data }</span>
