@@ -71,7 +71,6 @@ var BevySettingsModal = React.createClass({
 		if(!_.isEmpty(item)) {
 			itemIndex = item.defaultIndex;
 		}
-		console.log(this.state.posts_expire_in, item, itemIndex);
 
 		var posts_expire_in = this.state.posts_expire_in;
 
