@@ -1,5 +1,27 @@
 @import '../variables.less';
 
+.collapse-post {
+	.collapse-button {
+		background-color: @clear;
+		color: @light-font;
+		font-size: inherit;
+		transition: all 0.15s linear;
+		border: none;
+		display: block;
+		margin-left: auto;
+ 		margin-right: auto;
+		&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+			outline: none;
+			text-decoration: underline;
+			color: @dark-font;
+			box-shadow: none;
+			background-color: @clear;
+		}
+		&:hover {
+			background-color: @clear;
+		}
+	}
+}
 .post.panel {
 	.form-control {
 		box-shadow: none;
@@ -8,11 +30,6 @@
 		font-size: 1.6em;
 		padding-top: 15px;
 		padding-bottom: 0px;
-		//border-bottom: 1px solid #c6c6c6;
-		margin-bottom: 2%;
-		span, a{
-			//font-size: 1.6em;
-		}
 		.profile-img {
 			display: inline-block;
 			width: 35px;
@@ -51,15 +68,17 @@
 		.badges {
 			display: inline-block;
 			float: right;
-			margin-top: 1px;
-			.points {
-				display: block;
+			margin-top: -6px;
+			text-align: -webkit-right;
+			.points, .comment-count {
+				display: inline-block;
 				font-size: .6em;
 			}
 			.badge {
 				margin-top: 3px;
 				display: block;
 				font-size: .5em;
+				width: 50px;
 			}
 		}
 	}
@@ -67,9 +86,13 @@
 		padding-top: 0px !important;
 		.panel-body-text {
 			box-shadow: none;
-			padding-bottom: 10px;
+			padding-bottom: 0px;
 			padding-left: 5px;
 			color: #4C4C4C;
+			p {
+				margin-bottom: 0px;
+				padding-top: 0px;
+			}
 			.mui-text-field {
 				width: 90%;
 				.mui-text-field-input {
@@ -170,7 +193,7 @@
 	}
 	.panel-bottom {
 		display: inline-block;
-		padding: 10px 10px 5px 10px;
+		padding: 0px 10px 5px 10px;
 		width: 100%;
 		color: @light-font;
 
