@@ -59,9 +59,15 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('displayName').get(function() {
-	return (_.isEmpty(this.google))
-	? this.email
-	: this.google.name.givenName + ' ' + this.google.name.familyName;
+	if(_.isEmpty(this.google)) {
+		return this.email;
+	} else {
+		if(_.isEmpty(this.google.name)) {
+			return this.email;
+		} else {
+			return this.google.name.givenName + ' ' + this.google.name.familyName;
+		}
+	}
 });
 
 UserSchema.set('toObject', {

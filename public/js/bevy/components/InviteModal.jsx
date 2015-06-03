@@ -74,7 +74,7 @@ var InviteModal = React.createClass({
 		if(members.length < 1) return;
 
 		// send the invite and add the invited users
-		BevyActions.invite(bevy, user, members, findMember().displayName);
+		BevyActions.invite(bevy, user, members, this.findMember().displayName);
 
 		// hide modal
 		this.props.onRequestHide();

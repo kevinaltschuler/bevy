@@ -172,27 +172,28 @@ var Post = React.createClass({
 		var bevy = this.props.post.bevy;
 		var activeMember = this.findMember(user._id) || {};
 		var post = this.props.post;
+		var author = this.props.post.author;
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (this.props.post.author.image_url)
 		? this.props.post.author.image_url
 		: defaultProfileImage;
 
-		if(bevy.settings.anonymise_users && !_.isEmpty(activeMember.image_url))
-			profileImage = activeMember.image_url;
-
-		var author;
-		author = 'placeholder-author';
-		if(this.props.post.author) {
-			if(this.props.post.author.google)
-				author = this.props.post.author.google.name.givenName + ' ' + this.props.post.author.google.name.familyName;
+		var authorName;
+		authorName = 'placeholder-author';
+		if(author) {
+			if(author.google)
+				authorName = author.google.name.givenName + ' ' + author.google.name.familyName;
 			else
-				author = this.props.post.author.email;
+				authorName = author.email;
 		}
 
 		var authorMember = this.findMember(this.props.post.author._id);
 		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName) && bevy.settings.anonymise_users) author = authorMember.displayName;
+			if(!_.isEmpty(authorMember.displayName) && bevy.settings.anonymise_users)
+				authorName = authorMember.displayName;
+			if(bevy.settings.anonymise_users && !_.isEmpty(authorMember.image_url))
+				profileImage = authorMember.image_url;
 		}
 
 		var imageBody = (<div/>);
@@ -337,7 +338,7 @@ var Post = React.createClass({
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 						<div className='post-details'>
 							<div className='top'>
-									<span className="details">{ author } </span>
+									<span className="details">{ authorName } </span>
 									<span className="glyphicon glyphicon-triangle-right"/>
 									<span className="details">
 										<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }> { bevy.name }</a>
@@ -358,7 +359,7 @@ var Post = React.createClass({
 					<div className='panel-body'>
 						{ panelBodyText }
 					</div>
-					
+
 					{ imageBody }
 					
 					<div className="panel-comments">
@@ -394,7 +395,7 @@ var Post = React.createClass({
 						</div>
 					</div>
 				</div>);
-		
+
 		var collapsibleDiv = (this.props.post.pinned)
 		? (<div className='collapse-post'>
 				<Button className="collapse-button" onClick={this.onHandleToggle}>{text} pinned post</Button>
@@ -402,7 +403,7 @@ var Post = React.createClass({
 					{postBody}
 				</div>
 			</div>)
-		: {postBody};
+		: <div>{postBody}</div>;
 
 		return <div className="post panel" postId={ this.props.post._id }>
 					{collapsibleDiv}

@@ -198,8 +198,10 @@ _.extend(PostStore, {
 				var post_id = payload.post_id;
 				var title = payload.postTitle;
 				var tags = title.match(tagRegex);
+
+				var tags = title.match(tagRegex);
 				tags = _.map(tags, function(tag) {
-					tag = tag.slice(1, tag.length); // remove the hashtag
+					return tag.slice(1, tag.length); // remove the hashtag
 				});
 
 				var post = this.posts.get(post_id);
@@ -398,6 +400,9 @@ _.extend(PostStore, {
 					// delete from comment
 					this.removeComment(comments, comment_id);
 				}
+
+				var commentCount = post.get('commentCount');
+				post.set('commentCount', --commentCount);
 
 				this.trigger(POST.CHANGE_ALL);
 
