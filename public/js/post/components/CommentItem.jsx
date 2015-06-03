@@ -109,7 +109,7 @@ var CommentItem = React.createClass({
 			if(!_.isEmpty(authorMember.displayName) && this.props.post.bevy.settings.anonymise_users)
 				authorName = authorMember.displayName;
 			if(bevy.settings.anonymise_users && !_.isEmpty(authorMember.image_url))
-				profileImage = activeMember.image_url;
+				profileImage = authorMember.image_url;
 		}
 
 		var replyText = (this.state.isReplying)
