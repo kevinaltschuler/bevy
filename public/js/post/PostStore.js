@@ -518,7 +518,7 @@ _.extend(PostStore, {
 			comments = _.map(comments, function(comment) {
 				return comment;
 			});
-			//post.set('all_comments', comments);
+			post.set('all_comments', comments);
 			post.set('commentCount', comments.length);
 			// recurse through comments
 			comments = this.nestComments(comments);
