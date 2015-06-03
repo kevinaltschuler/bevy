@@ -399,6 +399,9 @@ _.extend(PostStore, {
 					this.removeComment(comments, comment_id);
 				}
 
+				var commentCount = post.get('commentCount');
+				post.set('commentCount', --commentCount);
+
 				this.trigger(POST.CHANGE_ALL);
 
 				break;
