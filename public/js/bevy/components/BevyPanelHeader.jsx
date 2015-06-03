@@ -62,6 +62,16 @@ var BevyPanelHeader = React.createClass({
 		};
 	},
 
+	componentWillReceiveProps: function(nextProps) {
+		var bevy = nextProps.activeBevy;
+
+		this.setState({
+			name: bevy.name,
+			description: bevy.description,
+			image_url: bevy.image_url,
+		});
+	},
+
 	startEditing: function(ev) {
 		this.setState({
 			isEditing: true

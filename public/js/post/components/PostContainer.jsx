@@ -10,6 +10,8 @@
 // imports
 var React = require('react');
 
+var router = require('./../../router');
+
 var Post = require('./Post.jsx');
 var PostStore = require('./../PostStore');
 
@@ -45,6 +47,9 @@ var PostContainer = React.createClass({
 		for(var key in allPosts) {
 			var post = allPosts[key];
 			// load post into array
+			if(((router.bevy_id == -1) && post.pinned)) {
+				continue;
+			}
 			posts.push(
 				<Post
 					id={ post._id }

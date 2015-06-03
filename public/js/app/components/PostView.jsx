@@ -43,6 +43,7 @@ var PostView = React.createClass({
 					<PostContainer
 						allPosts={ this.props.allPosts }
 						activeMember={ this.props.activeMember }
+						activeBevy={ this.props.activeBevy }
 					/>
 					<RightSidebar
 						activeBevy={ this.props.activeBevy }
