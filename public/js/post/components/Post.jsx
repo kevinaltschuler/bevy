@@ -240,7 +240,7 @@ var Post = React.createClass({
 						return $words.push(<a href={ word } target='_blank'>{ word }</a>);
 					}
 				}
-				
+
 				return $words.push(word + ' ');
 			}.bind(this));
 			var bodyText = (<p>{ $words }</p>);
@@ -350,7 +350,7 @@ var Post = React.createClass({
 					<div className='panel-body'>
 						{ panelBodyText }
 					</div>
-					
+
 					{ imageBody }
 
 					<div className="panel-comments">
@@ -386,7 +386,7 @@ var Post = React.createClass({
 						</div>
 					</div>
 				</div>);
-		
+
 		var collapsibleDiv = (this.props.post.pinned)
 		? (<div className='collapse-post'>
 				<Button className="collapse-button" onClick={this.onHandleToggle}>{text} pinned post</Button>
@@ -394,7 +394,7 @@ var Post = React.createClass({
 					{postBody}
 				</div>
 			</div>)
-		: {postBody};
+		: <div>{postBody}</div>;
 
 		return <div className="post panel" postId={ this.props.post._id }>
 					{collapsibleDiv}
