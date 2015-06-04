@@ -66,7 +66,7 @@ var NotificationItem = React.createClass({
 		var body;
 
 		switch(event) {
-			case 'invite':
+			case 'invite:email':
 				//var bevy = data.bevy;
 				//var from_user = data.from_user;
 				var bevy_name = data.bevy_name;

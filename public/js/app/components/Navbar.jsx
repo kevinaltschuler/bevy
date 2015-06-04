@@ -63,7 +63,7 @@ var Navbar = React.createClass({
 
 	render: function() {
 
-		var notificationCount = user.notifications.length;
+		var notificationCount = this.props.allNotifications.length;
 		var counter = (notificationCount <= 0)
 		? ''
 		: <Badge className='notification-counter'>{ notificationCount }</Badge>

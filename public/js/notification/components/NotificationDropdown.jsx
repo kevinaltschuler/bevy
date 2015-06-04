@@ -33,6 +33,10 @@ var ProfileDropdown = React.createClass({
 		allNotifications: React.PropTypes.array,
 	},
 
+	getInitialState: function() {
+		return {};
+	},
+
 	dismissAll: function(ev) {
 		ev.preventDefault();
 		var allNotifications = this.props.allNotifications;
@@ -44,7 +48,9 @@ var ProfileDropdown = React.createClass({
 
 	render: function() {
 
-		var overlay = (user.notifications.length <= 0)
+		var notifications = this.props.allNotifications;
+
+		var overlay = (notifications.length <= 0)
 		? (<Tooltip><strong>No new notifications!</strong></Tooltip>)
 		: (<Popover className="notification-dropdown" disableOnClickOutside={false}>
 		 		<div className="title">
@@ -52,11 +58,11 @@ var ProfileDropdown = React.createClass({
 		 			<IconButton iconClassName="glyphicon glyphicon-minus" tooltip='clear all' onClick={this.dismissAll}/>
 		 		</div>
 				<NotificationList
-					allNotifications={ this.props.allNotifications }
+					allNotifications={ notifications }
 				/>
 			</Popover>)
 
-		var trigger = (user.notifications.length <= 0)
+		var trigger = (notifications.length <= 0)
 		? 'hover'
 		: 'click';
 
