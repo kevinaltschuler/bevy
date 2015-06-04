@@ -30,7 +30,6 @@ var UserActions = require('./../UserActions');
 var constants = require('./../../constants');
 
 var user = window.bootstrap.user;
-var email = user.email;
 
 var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 
@@ -61,8 +60,11 @@ var ProfileDropdown = React.createClass({
 
 	render: function() {
 
-		var defaultName = 'Default Name';
-		var name = user.google.displayName || defaultName;
+		var name = user.displayName;
+		var email = (_.isEmpty(user.google.name))
+		? ''
+		: (<span className='profile-email'>{ user.email }</span>)
+
 
 		var profileImage;
 		if(_.isEmpty(this.state.image_url)) {
@@ -103,7 +105,7 @@ var ProfileDropdown = React.createClass({
 							</div>
 							<div className="col-xs-6 profile-details">
 								<span className='profile-name'>{ name }</span>
-								<span className='profile-email'>{ email }</span>
+								{ email }
 								<span className='profile-points'>123 points</span>
 							</div>
 							<div className="col-xs-3">
