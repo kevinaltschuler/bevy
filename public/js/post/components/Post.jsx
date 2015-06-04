@@ -12,7 +12,6 @@ var React = require('react');
 var _ = require('underscore');
 
 var router = require('./../../router');
-
 var classNames = require('classnames');
 
 var mui = require('material-ui');
@@ -46,6 +45,7 @@ var user = window.bootstrap.user;
 var email = user.email;
 
 var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
+var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 
 function getPostState(id) {
 	return PostStore.getPost(id);
@@ -226,7 +226,7 @@ var Post = React.createClass({
 			var $words = [];
 			var tags = this.props.post.tags;
 			var urls = this.state.title.match(urlRegex);
-			console.log(urls);
+			var videos = this.state.title.match(youtubeRegex);
 			words.forEach(function(word) {
 				// take of the hashtag
 				var tag = word.slice(1, word.length);
@@ -238,13 +238,21 @@ var Post = React.createClass({
 				if(!_.isEmpty(urls)) {
 					index = urls.indexOf(word);
 					if(index > -1) {
-						// return a linka
-						return $words.push(<a href={ word } target='_blank'>{ word }</a>);
+						return $words.push(<a href={ word } target='_blank'>{ word + ' '}</a>);
 					}
 				}
-
 				return $words.push(word + ' ');
 			}.bind(this));
+
+			// check for youtube videos
+			if(!_.isEmpty(videos)) {
+				videos.forEach(function(video) {
+					if(!_.isEmpty(youtubeRegex.exec(video))) {
+						var match = youtubeRegex.exec(video);
+						$words.push(<iframe width="60%" height="200px" src={"https://www.youtube.com/embed/" + match[1]} frameborder="0" allowfullscreen={true}></iframe>);
+					}
+				});
+			}
 			var bodyText = (<p>{ $words }</p>);
 		} else bodyText = '';
 
@@ -354,7 +362,7 @@ var Post = React.createClass({
 					</div>
 
 					{ imageBody }
-
+					
 					<div className="panel-comments">
 
 						{ commentList }

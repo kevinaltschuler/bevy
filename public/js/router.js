@@ -47,8 +47,6 @@ var Router = Backbone.Router.extend({
 	bevy: function(bevy_id) {
 		this.current = 'bevy';
 
-		if(!checkUser()) return;
-
 		if(bevy_id == '') {
 			this.bevy_id = -1;
 			this.navigate('/b/frontpage');
