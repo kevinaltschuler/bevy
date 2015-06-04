@@ -54,7 +54,7 @@ var MemberItem = React.createClass({
 			contactName = contact.email || "Placeholder Contact";
 			if(!joined) {
 				contactStatus = '[invited]';
-			} 
+			}
 			else {
 				contactStatus = contact.user.displayName;
 			}
@@ -64,8 +64,12 @@ var MemberItem = React.createClass({
 			contactName = contact.user.displayName;
 		}
 
+		if(bevy.settings.anonymise_users && this.props.activeMember.role != 'admin') {
+			contactName = contact.displayName;
+		}
+
 		if(joined) {
-			contactImage = (contact.user.google && contact.user.google.photos)
+			contactImage = (!_.isEmpty(contact.user.google) && !_.isEmpty(contact.user.google.photos))
 			? contact.user.google.photos[0].value
 			: defaultContactImage;
 
