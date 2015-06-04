@@ -42,15 +42,10 @@ var RegisterPanel = React.createClass({
 	},
 
 	onChange: function() {
-		// set jquery objects
-		var $email = $(this.refs.email.getDOMNode());
-		var $confirmEmail = $(this.refs.confirmEmail.getDOMNode());
-		var $password = $(this.refs.password.getDOMNode());
-
 		// grab input values for processing
-		var emailVal = $email.find('input').val();
-		var confirmEmailVal = $confirmEmail.find('input').val();
-		var passwordVal = $password.find('input').val();
+		var emailVal = this.refs.email.getValue();
+		var confirmEmailVal = this.refs.confirmEmail.getValue();
+		var passwordVal = this.refs.password.getValue();
 
 		// first check if the email is valid
 		// TODO: validate this on the server as well
