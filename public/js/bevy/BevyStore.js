@@ -329,8 +329,6 @@ _.extend(BevyStore, {
 					{
 						event: 'invite:email',
 						members: emails,
-						//bevy: bevy,
-						//user: user
 						bevy_id: bevy._id,
 						bevy_name: bevy.name,
 						bevy_img: bevy.image_url,

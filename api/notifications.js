@@ -59,60 +59,68 @@ exports.create = function(req, res, next) {
 			var inviter_name = req.body['inviter_name'];
 
 			var notifications = [];
-			members.forEach(function(email) {
-				// push the notification object onto a matching user
-				User.findOne({ email: email }, function(err, user) {
-					if(err) return next(err);
-					if(!user) {
-						notifications.push({
-							email: email,
-							event: 'invite:email',
-							data: {
-								bevy_id: bevy_id,
-								bevy_name: bevy_name,
-								bevy_img: bevy_img,
-								inviter_name: inviter_name
-							}
-						});
-					} else {
-						notifications.push({
-							user: user._id,
-							event: 'invite:email',
-							data: {
-								bevy_id: bevy_id,
-								bevy_name: bevy_name,
-								bevy_img: bevy_img,
-								inviter_name: inviter_name
-							}
-						});
-					}
-				});
 
-				// then send the invite email
-				mailgun.messages().send({
-					from: 'Bevy Team <contact@joinbevy.com>',
-					to: email,
-					subject: 'Invite',
-					text: 'Invite to ' + bevy_name + ' from ' + inviter_name
-				}, function(err, body) {
-					if(err) return next(err);
-				});
-			});
+			async.waterfall([
+				function(done) {
+					members.forEach(function(email) {
+						// push the notification object onto a matching user
+						User.findOne({ email: email }, function(err, user) {
+							if(err) return next(err);
+							if(!user) {
+								notifications.push({
+									email: email,
+									event: 'invite:email',
+									data: {
+										bevy_id: bevy_id,
+										bevy_name: bevy_name,
+										bevy_img: bevy_img,
+										inviter_name: inviter_name
+									}
+								});
+							} else {
+								notifications.push({
+									user: user._id,
+									event: 'invite:email',
+									data: {
+										bevy_id: bevy_id,
+										bevy_name: bevy_name,
+										bevy_img: bevy_img,
+										inviter_name: inviter_name
+									}
+								});
+							}
 
-			Notification.create(notifications, function(err, $notifications) {
-				if(err) return next(err);
-				if(_.isEmpty($notifications)) return next();
-				// emit event
-				if(_.isArray($notifications)) {
-					$notifications.forEach(function(notification) {
-						if(!_.isEmpty(notification.user))
-							emitter.emit(notification.user, notification);
+							if(notifications.length == members.length) done(null); // continue when ready
+						});
+
+						// then send the invite email
+						mailgun.messages().send({
+							from: 'Bevy Team <contact@joinbevy.com>',
+							to: email,
+							subject: 'Invite',
+							text: 'Invite to ' + bevy_name + ' from ' + inviter_name
+						}, function(err, body) {
+							if(err) return next(err);
+						});
 					});
-				} else {
-					if(!_.isEmpty($notifications.user))
-						emitter.emit($notifications.user, $notifications);
+				},
+				function(err, done) {
+					Notification.create(notifications, function(err, $notifications) {
+						if(err) return next(err);
+						if(_.isEmpty($notifications)) return next();
+						// emit event
+						if(_.isArray($notifications)) {
+							$notifications.forEach(function(notification) {
+								if(!_.isEmpty(notification.user))
+									emitter.emit(notification.user, notification);
+							});
+						} else {
+							if(!_.isEmpty($notifications.user))
+								emitter.emit($notifications.user, $notifications);
+						}
+					});
 				}
-			});
+			]);
 
 			break;
 
