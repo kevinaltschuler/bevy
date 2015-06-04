@@ -23,6 +23,7 @@ var ObjectId = mongoose.Types.ObjectId;
 
 var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
+var Notification = mongoose.model('Notification');
 
 function collectUserParams(req) {
 	var update = {};
@@ -88,10 +89,10 @@ exports.create = function(req, res, next) {
 				});
 			}
 
-			// push existing invites into user notifications
-			//Bevy.find({ members: { $elemMatch: { email: user.email } } }, function(err, bevies) {
+			// push existing notifications
+			Notification.update({ email: user.email }, { user: user._id }, { multi: true }, function(err, raw) {
 
-			//});
+			});
 
 			res.json(user);
 		});
