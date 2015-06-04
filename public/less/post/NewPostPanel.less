@@ -1,3 +1,9 @@
+.collapsing {
+   // transition: height 0.01s;
+	//-webkit-transition: height 0.01s;
+    height: 0px !important;
+    overflow: visible;
+}
 .new-post-panel {
 	margin-left: auto;
 	margin-right: auto;
@@ -5,6 +11,8 @@
 	width: 500px;
 	.panel-body {
 		padding: 0px;
+		.collapse {
+		}
 	}
 	.new-post-title {
 		.title-field.mui-text-field {
@@ -63,6 +71,7 @@
 			float: left;
 			margin-top: 0px;
 			margin-bottom: 10px;
+			height: 35px;
 			.mui-raised-button {
 			float: right;
 			margin-right: 10px;
@@ -80,6 +89,7 @@
 		}
 		}
 		.panel-controls-left {
+			height: 45px;
 			float: left;
 			//margin-left: 0px;
 			.mui-floating-action-button {
