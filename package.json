@@ -21,6 +21,7 @@
     "express-session": "^1.10.2",
     "express-subdomain": "^1.0.3",
     "flux": "^2.0.1",
+    "gm": "^1.18.1",
     "gridfs-stream": "^1.1.1",
     "jade": "^1.9.2",
     "jquery": "^2.1.3",
