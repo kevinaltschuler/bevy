@@ -84,11 +84,13 @@
 	}
 	.panel-body {
 		padding-top: 0px !important;
+		padding-bottom: 0px !important;
 		.panel-body-text {
 			box-shadow: none;
 			padding-bottom: 0px;
 			padding-left: 5px;
 			color: #4C4C4C;
+			margin-bottom: 10px;
 			p {
 				margin-bottom: 0px;
 				padding-top: 0px;
@@ -152,6 +154,17 @@
 		.comment {
 			margin-top: 10px;
 			.comment-col {
+				.comment-name.collapsed {
+					text-decoration: none;
+					vertical-align: -webkit-baseline-middle;
+					color: @light-font;
+					margin-left: 15px;
+				}
+				.detail-time.collapsed {
+					font-size: 10px;
+					color: @light-font;
+					vertical-align: -webkit-baseline-middle;
+				}
 			}
 			.profile-img {
 				display: inline-block;
@@ -187,11 +200,13 @@
 			}
 			.comment-actions {
 				float: right;
+				font-size: 10px;
 				.btn {
 					color: @light-font;
 					background: none;
 					border: none;
 					box-shadow: none;
+					font-size: 10px;
 				}
 				&.open {
 					.btn {

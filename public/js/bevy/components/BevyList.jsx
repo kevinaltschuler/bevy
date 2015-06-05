@@ -85,7 +85,7 @@ var BevyList = React.createClass({
 							</ModalTrigger>
 						</text>
 					</ButtonGroup>
-				 </div>;
+				</div>;
 	}
 
 });

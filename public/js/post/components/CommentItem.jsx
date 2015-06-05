@@ -151,12 +151,15 @@ var CommentItem = React.createClass({
 		var collapseBody = (this.state.collapsed)
 		? (<div className="row comment">
 				<div className='col-xs-12 comment-col' >
-					<a className="comment-name">{ authorName }</a>
+					<span className="comment-name collapsed">{ authorName }</span>
+					<span>&nbsp;</span>
+					<span className="detail-time collapsed">{ timeAgo(Date.parse(comment.created)) }</span>
+					<div className="comment-actions">
+						<span className="glyphicon glyphicon-plus btn" onClick={this.onCollapse}></span>
+						<span className="glyphicon btn" onClick={this.onCollapse}></span>
+					</div>
 				</div>
-				<div className="comment-actions">
-					<span className="glyphicon glyphicon-plus btn" onClick={this.onCollapse}></span>
-					{ deleteButton }
-				</div>
+
 			</div>)
 		: (<div className="row comment">
 				<div className='col-xs-12 comment-col' >
