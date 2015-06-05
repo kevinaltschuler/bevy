@@ -14,6 +14,9 @@ var Dispatcher = require('./../shared/dispatcher');
 var constants = require('./../constants');
 
 var NOTIFICATION = require('./../constants').NOTIFICATION;
+var APP = require('./../constants').APP;
+
+var Notifications = require('./NotificationCollection');
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
@@ -25,36 +28,40 @@ var notifications = user.notifications;
 
 // now add some custom functions
 _.extend(NotificationStore, {
+
+	notifications: new Notifications,
+
 	// handle calls from the dispatcher
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
+
+			case APP.LOAD:
+
+				this.notifications.fetch({
+					reset: true,
+					success: function(collection, response, options) {
+						this.trigger(NOTIFICATION.CHANGE_ALL);
+					}.bind(this)
+				});
+
+				break;
+
 			case NOTIFICATION.DISMISS:
 				var id = payload.notification_id;
-				//console.log('dismiss', id);
 
-				// remove client-side
-				notifications.forEach(function(notification, index) {
-					if(notification._id == id) {
-						notifications.splice(index, 1);
-						this.trigger(NOTIFICATION.CHANGE_ALL);
-					}
-				}.bind(this));
+				var notification = this.notifications.get(id);
+				notification.destroy();
 
-				// send server request
-				$.ajax({
-					url: constants.apiurl + '/users/' + user._id + '/notifications/' + id,
-					type: 'DELETE',
-					success: function(response) {
-						//console.log(response);
-					}
-				});
+				this.trigger(NOTIFICATION.CHANGE_ALL);
 
 				break;
 		}
 	},
 
 	getAll: function() {
-		return notifications;
+		return (this.notifications.models.length <= 0)
+		? []
+		: this.notifications.toJSON();
 	}
 
 });
@@ -65,7 +72,9 @@ _.extend(NotificationStore, {
 		url: constants.apiurl + '/users/' + user._id + '/notifications/poll',
 		dataType: 'json',
 		success: function(data) {
-			notifications.push(data);
+
+			NotificationStore.notifications.add(data);
+
 			NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
 		},
 		complete: poll,

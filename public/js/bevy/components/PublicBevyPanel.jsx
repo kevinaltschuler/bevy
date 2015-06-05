@@ -61,9 +61,7 @@ var PublicBevyPanel = React.createClass({
 	onRequestJoin: function(ev) {
 		ev.preventDefault();
 
-		if(!this.state.bevy) return;
-
-		BevyActions.requestJoin(this.state.bevy, window.bootstrap.user);
+		BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
 	},
 
 	render: function() {
@@ -128,10 +126,10 @@ var PublicBevyPanel = React.createClass({
 					</div>
 
 					<div className='row sidebar-action'>
-						<RaisedButton 
-							className='request-button' 
-							onClick={ this.onRequestJoin } 
-							label = {'Request Invite'} 
+						<RaisedButton
+							className='request-button'
+							onClick={ this.onRequestJoin }
+							label = {'Request Invite'}
 						/>
 					</div>
 

@@ -201,10 +201,11 @@ var Post = React.createClass({
 		if(!_.isEmpty(this.props.post.images)) {
 			var allImages = this.props.post.images;
 			for(var key in allImages) {
+				var url = this.props.post.images[key] + '?w=150&h=150';
 				images.push(
 					<div className='panel-body-image' key={ key } >
 						<ModalTrigger modal={ <ImageModal allImages={ allImages } index={ key } /> } >
-							<button className="image-thumbnail" style={{backgroundImage: 'url(' + this.props.post.images[key] + ')',}}/>
+							<button className="image-thumbnail" style={{backgroundImage: 'url(' + url + ')'}}/>
 						</ModalTrigger>
 					</div>
 				);

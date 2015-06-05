@@ -63,14 +63,14 @@ var Navbar = React.createClass({
 
 	render: function() {
 
-		var notificationCount = user.notifications.length;
+		var notificationCount = this.props.allNotifications.length;
 		var counter = (notificationCount <= 0)
 		? ''
 		: <Badge className='notification-counter'>{ notificationCount }</Badge>
 
 		var navbarStyle;
-		if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(window.bootstrap.user))
-		navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'}
+		if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image_url))
+		navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'};
 
 		var name = user.displayName;
 

@@ -10,6 +10,7 @@
 
 var shortid = require('shortid');
 var fs = require('fs');
+var gm = require('gm');
 
 //var gfs = require('./../gridfs')();
 var mongoose = require('mongoose');
@@ -62,16 +63,34 @@ exports.upload = function(req, res, next) {
 exports.retrieve = function(req, res, next) {
 	var fileid = req.params.fileid;
 
+	var width = req.query['w'];
+	var height = req.query['h'];
+
 	var readstream = gfs.createReadStream({
 		filename: fileid
 	});
+
 	req.on('error', function(err) {
 		next(err);
 	});
 	readstream.on('error', function (err) {
 		next(err);
 	});
-	readstream.pipe(res);
+
+
+	if(width && height) {
+		// resize
+		gm(readstream)
+			.resize(width, height, '^')
+			.gravity('Center')
+			.crop(width, height)
+			.stream(function(err, stdout, stderr) {
+				if(err) return next(err);
+				stdout.pipe(res);
+			});
+	} else {
+		readstream.pipe(res);
+	}
 }
 
 // GET /files/:filename/remove

@@ -59,7 +59,7 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('displayName').get(function() {
-	if(_.isEmpty(this.google)) {
+	if(_.isEmpty(this.google.emails)) {
 		return this.email;
 	} else {
 		if(_.isEmpty(this.google.name)) {

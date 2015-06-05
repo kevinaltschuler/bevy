@@ -41,9 +41,10 @@ var hintTexts = [
 	"What's new?",
 	"How are you doing today?",
 	"Share your thoughts",
-	"Drop some knowledge son",
+	"Drop some knowledge buddy",
 	"What would your mother think?",
-	"Drop a line"
+	"Drop a line",
+	"What's good?"
 ]
 var hintText = hintTexts[Math.floor(Math.random() * 4)];
 

@@ -117,6 +117,7 @@ var BevyPanel = React.createClass({
 	onAliasUploadComplete: function(file) {
 		var filename = file.filename;
 		var image_url = constants.apiurl + '/files/' + filename;
+		image_url += '?w=75&h=75';
 		this.setState({
 			image_url: image_url
 		});

@@ -21,6 +21,7 @@ var User = mongoose.model('User');
 var Comment = mongoose.model('Comment');
 var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
+var Notification = mongoose.model('Notification');
 
 var paramNames = 'event message email bevy user members';
 
@@ -52,96 +53,114 @@ exports.create = function(req, res, next) {
 			break;
 		case 'invite:email':
 			var members = params.members;
-			//var bevy = params.bevy;
-			//var inviter = params.user;
 			var bevy_id = req.body['bevy_id'];
 			var bevy_name = req.body['bevy_name'];
 			var bevy_img = req.body['bevy_img'];
 			var inviter_name = req.body['inviter_name'];
 
-			members.forEach(function(email) {
-				async.waterfall([
-					function(done) {
+			var notifications = [];
+
+			async.waterfall([
+				function(done) {
+					members.forEach(function(email) {
 						// push the notification object onto a matching user
-						var query = { email: email };
-						var promise = User.findOne(query).exec();
-						promise.then(function(user) {
-							if(!user) done(null);
-							var notification = {
-								event: 'invite',
-								data: {
-									bevy_id: bevy_id,
-									bevy_name: bevy_name,
-									bevy_img: bevy_img,
-									inviter_name: inviter_name
-								}
+						User.findOne({ email: email }, function(err, user) {
+							if(err) return next(err);
+							if(!user) {
+								notifications.push({
+									email: email,
+									event: 'invite:email',
+									data: {
+										bevy_id: bevy_id,
+										bevy_name: bevy_name,
+										bevy_img: bevy_img,
+										inviter_name: inviter_name
+									}
+								});
+							} else {
+								notifications.push({
+									user: user._id,
+									event: 'invite:email',
+									data: {
+										bevy_id: bevy_id,
+										bevy_name: bevy_name,
+										bevy_img: bevy_img,
+										inviter_name: inviter_name
+									}
+								});
 							}
-							user.notifications.push(notification);
-							user.save(function(err, $user) {
-								if(err) return done(err);
-								emitter.emit('invite:email:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
-								done(null);
-							});
 
-						}, function(err) {
-							return done(err);
+							if(notifications.length == members.length) done(null); // continue when ready
 						});
-					},
 
-					function(done) {
 						// then send the invite email
-
 						mailgun.messages().send({
 							from: 'Bevy Team <contact@joinbevy.com>',
 							to: email,
 							subject: 'Invite',
 							text: 'Invite to ' + bevy_name + ' from ' + inviter_name
 						}, function(err, body) {
-							if(err) {
-								return done(err);
-							}
+							if(err) return next(err);
 						});
-					}
-				]);
-			});
+					});
+				},
+				function(err, done) {
+					Notification.create(notifications, function(err, $notifications) {
+						if(err) return next(err);
+						if(_.isEmpty($notifications)) return next();
+						// emit event
+						if(_.isArray($notifications)) {
+							$notifications.forEach(function(notification) {
+								if(!_.isEmpty(notification.user))
+									emitter.emit(notification.user, notification);
+							});
+						} else {
+							if(!_.isEmpty($notifications.user))
+								emitter.emit($notifications.user, $notifications);
+						}
+					});
+				}
+			]);
 
 			break;
 
 		case 'post:create':
-			//var post = req.body['post'];
 			var author_name = req.body['author_name'];
 			var author_img = req.body['author_img'];
 			var bevy_name = req.body['bevy_name'];
 			var bevy_members = req.body['bevy_members'];
 			var post_title = req.body['post_title'];
-			//console.log(post);
+
 			var members = [];
 			members = _.filter(bevy_members, function(member) {
 				return member.notificationLevel == 'all';
 			});
 
+			var notifications = [];
 			members.forEach(function(member) {
-				if(_.isEmpty(member.user)) return; // user hasn't joined yet, so continue
-				var user_query = { _id: member.user };
-				var user_promise = User.findOne(user_query).exec();
-				user_promise.then(function(user) {
-					if(!user) return next(err);
-					var notification = {
-						event: 'post:create',
-						data: {
-							// post: post,
-							author_name: author_name,
-							author_img: author_img,
-							bevy_name: bevy_name,
-							post_title: post_title
-						}
-					};
-					user.notifications.push(notification);
-					user.save(function(err, $user) {
-						if(err) return next(err);
-						emitter.emit('post:create:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
+				if(_.isEmpty(member.user)) return;
+				notifications.push({
+					user: member.user,
+					event: 'post:create',
+					data: {
+						author_name: author_name,
+						author_img: author_img,
+						bevy_name: bevy_name,
+						post_title: post_title
+					}
+				});
+			});
+
+			Notification.create(notifications, function(err, $notifications) {
+				if(err) return next(err);
+				// emit event
+				if(_.isArray($notifications)) {
+					$notifications.forEach(function(notification) {
+						emitter.emit(notification.user, notification);
 					});
-				}, function(err) { return next(err); })
+				} else {
+					emitter.emit($notifications.user, $notifications);
+				}
 			});
 
 			break;
@@ -156,28 +175,34 @@ exports.create = function(req, res, next) {
 			var user_image = req.body['user_image'];
 			var user_email = req.body['user_email'];
 
+			// send to all admins
 			var admins = _.where(bevy_members, { role: 'admin' });
+			var notifications = [];
 			admins.forEach(function(admin) {
-				var admin_query = { _id: admin.user };
-				var admin_promise = User.findOne(admin_query).exec();
-				admin_promise.then(function(user) {
-					var notification = {
-						event: 'bevy:requestjoin',
-						data: {
-							bevy_id: bevy_id,
-							bevy_name: bevy_name,
-							user_id: user_id,
-							user_name: user_name,
-							user_image: user_image,
-							user_email: user_email
-						}
-					};
-					user.notifications.push(notification);
-					user.save(function(err, $user) {
-						if(err) return next(err);
-						emitter.emit('bevy:requestjoin:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
+				notifications.push({
+					user: admin.user,
+					event: 'bevy:requestjoin',
+					data: {
+						bevy_id: bevy_id,
+						bevy_name: bevy_name,
+						user_id: user_id,
+						user_name: user_name,
+						user_image: user_image,
+						user_email: user_email
+					}
+				});
+			});
+
+			Notification.create(notifications, function(err, $notifications) {
+				if(err) return next(err);
+				// emit event
+				if(_.isArray($notifications)) {
+					$notifications.forEach(function(notification) {
+						emitter.emit(notification.user, notification);
 					});
-				}, function(err) { return next(err) });
+				} else {
+					emitter.emit($notifications.user, $notifications);
+				}
 			});
 
 			break;
@@ -192,6 +217,8 @@ exports.create = function(req, res, next) {
 			var bevy_name = req.body['bevy_name'];
 			var bevy_members = req.body['bevy_members'];
 
+			var notifications = [];
+
 			// send reply notification to post author
 			//	get member - match post author id
 			var post_author_member = _.findWhere(bevy_members, { user: post_author_id });
@@ -199,21 +226,15 @@ exports.create = function(req, res, next) {
 			if(post_author_member.notificationLevel == 'none') {
 			} else {
 				// send reply notification
-				User.findOne({ _id: post_author_id }, function(err, user) {
-					var notification = {
-						event: 'post:reply',
-						data: {
-							author_name: author_name,
-							author_image: author_image,
-							post_title: post_title,
-							bevy_name: bevy_name
-						}
-					};
-					user.notifications.push(notification);
-					user.save(function(err, $user) {
-						if(err) return next(err);
-						emitter.emit('post:reply:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
-					});
+				notifications.push({
+					user: post_author_id,
+					event: 'post:reply',
+					data: {
+						author_name: author_name,
+						author_image: author_image,
+						post_title: post_title,
+						bevy_name: bevy_name
+					}
 				});
 			}
 
@@ -240,27 +261,32 @@ exports.create = function(req, res, next) {
 							return;
 						} else {
 							// send commented notification
-							User.findOne({ _id: commentator }, function(err, user) {
-								var notification = {
-									event: 'post:commentedon',
-									data: {
-										author_name: author_name,
-										author_image: author_image,
-										post_title: post_title,
-										bevy_name: bevy_name
-									}
-								};
-								user.notifications.push(notification);
-								user.save(function(err, $user) {
-									if(err) return next(err);
-									emitter.emit('post:commentedon:' + user._id, $user.notifications.toObject()[$user.notifications.length - 1]);
-									done(null);
-								});
+							notifications.push({
+								user: commentator,
+								event: 'post:commentedon',
+								data: {
+									author_name: author_name,
+									author_image: author_image,
+									post_title: post_title,
+									bevy_name: bevy_name
+								}
 							});
 						}
 					});
 				}
 			]);
+
+			Notification.create(notifications, function(err, $notifications) {
+				if(err) return next(err);
+				// emit event
+				if(_.isArray($notifications)) {
+					$notifications.forEach(function(notification) {
+						emitter.emit(notification.user, notification);
+					});
+				} else {
+					emitter.emit($notifications.user, $notifications);
+				}
+			});
 
 			break;
 	}
@@ -271,10 +297,9 @@ exports.create = function(req, res, next) {
 // GET /users/:userid/notifications
 exports.index = function(req, res, next) {
 	var userid = req.params.userid;
-	var query = { _id: userid };
-	var promise = User.findOne(query).exec();
-	promise.then(function(user) {
-		var notifications = user.notifications.toObject();
+	var query = { user: userid };
+	var promise = Notification.find(query).exec();
+	promise.then(function(notifications) {
 		return res.json(notifications);
 	}, function(err) {
 		return next(err);
@@ -283,61 +308,28 @@ exports.index = function(req, res, next) {
 
 // GET /users/:userid/notifications/:id
 exports.show = function(req, res, next) {
-	var userid = req.params.userid;
-	var query = { _id: userid };
-	var promise = User.findOne(query).exec();
-	promise.then(function(user) {
-		var id = req.params.id;
-		var notification = user.notifications.id(id);
+	var id = req.params.id;
+	Notification.findOne({ _id: id }, function(err, notification) {
+		if(err) return next(err);
 		return res.json(notification);
-	}, function(err) {
-		return next(err);
 	});
 }
 
 // GET /users/:userid/notifications/:id/destroy
 // DELETE /users/:userid/notifications
 exports.destroy = function(req, res, next) {
-	var userid = req.params.userid;
-	var query = { _id: userid };
-	var promise = User.findOne(query).exec();
-	promise.then(function(user) {
-		var id = req.params.id;
-		user.notifications.remove(id);
-		user.save(function(err) {
-			if(err) return next(err);
-			return res.json(user.notifications.toObject());
-		});
-	}, function(err) {
-		return next(err);
+	var id = req.params.id;
+	Notification.findOneAndRemove({ _id: id }, function(err, notification) {
+		if(err) return next(err);
+		return res.json(notification);
 	});
 }
 
 exports.poll = function(req, res, next) {
 	var user_id = req.params.userid;
-	emitter.on('invite:email:' + user_id, function(invite) {
+	emitter.on(user_id, function(notification) {
 		if(!res.headersSent)
-			return res.json(invite);
-		else return next();
-	});
-	emitter.on('post:create:' + user_id, function(data) {
-		if(!res.headersSent)
-			return res.json(data);
-		else return next();
-	});
-	emitter.on('post:reply:' + user_id, function(data) {
-		if(!res.headersSent)
-			return res.json(data);
-		else return next();
-	});
-	emitter.on('post:commentedon:' + user_id, function(data) {
-		if(!res.headersSent)
-			return res.json(data);
-		else return next();
-	});
-	emitter.on('bevy:requestjoin:' + user_id, function(data) {
-		if(!res.headersSent)
-			return res.json(data);
+			return res.json(notification);
 		else return next();
 	});
 }
