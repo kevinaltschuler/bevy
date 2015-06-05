@@ -156,7 +156,7 @@ var CommentItem = React.createClass({
 					<span className="detail-time collapsed">{ timeAgo(Date.parse(comment.created)) }</span>
 					<div className="comment-actions">
 						<span className="glyphicon glyphicon-plus btn" onClick={this.onCollapse}></span>
-						{ deleteButton }
+						<span className="glyphicon btn" onClick={this.onCollapse}></span>
 					</div>
 				</div>
 
