@@ -135,19 +135,23 @@
 		width: 93%;
 		margin-left: auto;
 		margin-right: auto;
-
 		.comment-count {
 			font-size: .85em;
 			color: #1A1A1A;
 		}
+		.comment-list .comment-list {
+			margin-left: 2em;
+			border-left: 1px solid #d2d3d3;
+		}
+		.comment-list .comment-list::before {
+				content: '';
+				border-bottom: 1px solid #edeeee;
+				position: absolute;
+		}
+
 		.comment {
 			margin-top: 10px;
 			.comment-col {
-				border-style: solid;
-				border-top: none;
-				border-bottom: none;
-				border-right: none;
-				border-left: 1px solid #edeeee;
 			}
 			.profile-img {
 				display: inline-block;
@@ -181,7 +185,7 @@
 					text-decoration: underline;
 				}
 			}
-			.comment-settings {
+			.comment-actions {
 				float: right;
 				.btn {
 					color: @light-font;

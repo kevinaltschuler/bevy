@@ -35,7 +35,7 @@ var CommentList = React.createClass({
 		}.bind(this));
 
 		return (
-			<div>
+			<div className="comment-list">
 				{ comments }
 			</div>);
 	}

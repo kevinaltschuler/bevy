@@ -32,7 +32,7 @@ var CommentList = React.createClass({
 
 	render: function() {
 
-		var allComments = this.props.comments
+		var allComments = this.props.comments;
 		var comments = [];
 		allComments.forEach(function(comment, index) {
 			comments.push(
@@ -46,7 +46,7 @@ var CommentList = React.createClass({
 		}.bind(this));
 
 		return (
-			<div>
+			<div className="comment-list">
 				{ comments }
 			</div>);
 	}
@@ -63,7 +63,8 @@ var CommentItem = React.createClass({
 
 	getInitialState: function() {
 		return {
-			isReplying: false
+			isReplying: false,
+			collapsed: false
 		};
 	},
 
@@ -79,6 +80,12 @@ var CommentItem = React.createClass({
 	destroy: function(ev) {
 		ev.preventDefault();
 		CommentActions.destroy(this.props.post._id, this.props.comment._id);
+	},
+
+	onCollapse: function(ev) {
+		this.setState({
+			collapsed: !this.state.collapsed
+		});
 	},
 
 	findMember: function(user_id) {
@@ -139,20 +146,20 @@ var CommentItem = React.createClass({
 		var activeMember = this.findMember(user._id);
 		if(activeMember.role == 'admin' || comment.author._id == user._id)
 			deleteButton = (
-				<MenuItem onClick={ this.destroy } >
-					Delete Comment
-				</MenuItem>);
+				<span className="glyphicon glyphicon-remove btn" onClick={ this.destroy }></span>);
 
-		var margin = (comment.depth * 15) - 21;
-		var marginLeft = margin + 'px';
-
-		var commentStyle = {
-			marginLeft: marginLeft
-		};
-
-		return (
-			<div className="row comment">
-				<div className='col-xs-12 comment-col' style={commentStyle}>
+		var collapseBody = (this.state.collapsed)
+		? (<div className="row comment">
+				<div className='col-xs-12 comment-col' >
+					<a className="comment-name">{ authorName }</a>
+				</div>
+				<div className="comment-actions">
+					<span className="glyphicon glyphicon-plus btn" onClick={this.onCollapse}></span>
+					{ deleteButton }
+				</div>
+			</div>)
+		: (<div className="row comment">
+				<div className='col-xs-12 comment-col' >
 					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 					<div className="comment-text">
 						<div className="comment-title">
@@ -163,13 +170,10 @@ var CommentItem = React.createClass({
 						<div className="comment-body">{ comment.body }</div>
 						<a className="reply-link" href="#" onClick={ this.onReply }>{ replyText }</a>
 					</div>
-					<DropdownButton
-						noCaret
-						pullRight
-						className="comment-settings"
-						title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+					<div className="comment-actions">
+						<span className="glyphicon glyphicon-minus btn" onClick={this.onCollapse}></span>
 						{ deleteButton }
-					</DropdownButton>
+					</div>
 				</div>
 				<div className='col-xs-12'>
 					{ submit }
@@ -177,6 +181,11 @@ var CommentItem = React.createClass({
 				<div className='col-xs-12'>
 					{ commentList }
 				</div>
+			</div>);
+
+		return (
+			<div>
+				{ collapseBody }
 			</div>
 		);
 	}
