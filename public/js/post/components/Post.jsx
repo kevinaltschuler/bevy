@@ -153,6 +153,14 @@ var Post = React.createClass({
 		PostActions.pin(post_id);
 	},
 
+	mute: function(ev) {
+		ev.preventDefault();
+
+		var post_id = this.props.post._id;
+
+		PostActions.mute(post_id);
+	},
+
 	onTag: function(ev) {
 		ev.preventDefault();
 		var tag = ev.target.parentNode.getAttribute('id');
@@ -326,6 +334,15 @@ var Post = React.createClass({
 			}
 		}
 
+		var muteButtonText = (_.find(post.muted_by, function(muter) { return muter == user._id }))
+		? 'Unmute Post'
+		: 'Mute Post';
+		var muteButton = (
+			<MenuItem onClick={ this.mute }>
+				{ muteButtonText }
+			</MenuItem>
+		);
+
 		var pinnedBadge = (this.props.post.pinned)
 		? <span className='badge pinned'>Pinned</span>
 		: '';
@@ -362,7 +379,7 @@ var Post = React.createClass({
 					</div>
 
 					{ imageBody }
-					
+
 					<div className="panel-comments">
 
 						{ commentList }
@@ -392,6 +409,7 @@ var Post = React.createClass({
 								{ deleteButton }
 								{ editButton }
 								{ pinButton }
+								{ muteButton }
 							</DropdownButton>
 						</div>
 					</div>

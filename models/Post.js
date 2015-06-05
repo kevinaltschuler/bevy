@@ -34,6 +34,10 @@ var PostSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
+	muted_by: [{
+		type: Schema.Types.ObjectId,
+		ref: 'User'
+	}],
 	expires: {
 		type: Date,
 		default: Date.now() + (1000 * 60 * 60 * 24 * 7), // set to one week after post, by default

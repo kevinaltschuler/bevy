@@ -99,6 +99,12 @@ var PostActions = {
 		});
 	},
 
+	mute: function(post_id) {
+		dispatch(POST.MUTE, {
+			post_id: (post_id == undefined) ? '' : post_id
+		});
+	},
+
 	cancel: function() {
 		dispatch(POST.CANCEL, {});
 	}

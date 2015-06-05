@@ -257,6 +257,31 @@ _.extend(PostStore, {
 				this.trigger(POST.CHANGE_ALL);
 				break;
 
+			case POST.MUTE:
+				var post_id = payload.post_id;
+				var post = this.posts.get(post_id);
+
+				var user = window.bootstrap.user;
+
+				var muted_by = post.get('muted_by') || [];
+				// unmute post if user is found
+				muted_by = _.reject(muted_by, function(muter) {
+					return muter == user._id;
+				});
+				// else, add user to muted by
+				if(muted_by.length == (post.get('muted_by') || []).length)
+					muted_by.push(user._id);
+
+				post.save({
+					muted_by: muted_by
+				}, {
+					patch: true
+				});
+
+				this.trigger(POST.CHANGE_ALL);
+
+				break;
+
 			case POST.PIN:
 				var post_id = payload.post_id;
 				var post = this.posts.get(post_id);
@@ -365,6 +390,7 @@ _.extend(PostStore, {
 								post_id: post.get('_id'),
 								post_title: post.get('title'),
 								post_author_id: post.get('author')._id,
+								post_muted_by: post.get('muted_by') || [],
 								bevy_name: post.get('bevy').name,
 								bevy_members: stripped_members
 							}

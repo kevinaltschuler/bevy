@@ -214,28 +214,37 @@ exports.create = function(req, res, next) {
 			var post_id = req.body['post_id'];
 			var post_title = req.body['post_title'];
 			var post_author_id = req.body['post_author_id'];
+			var post_muted_by = req.body['post_muted_by'];
 			var bevy_name = req.body['bevy_name'];
 			var bevy_members = req.body['bevy_members'];
 
 			var notifications = [];
 
+			// dont do anything for users who've muted this post
+			bevy_members = _.reject(bevy_members, function(member) {
+				return _.contains(post_muted_by, member);
+			});
+
 			// send reply notification to post author
 			//	get member - match post author id
 			var post_author_member = _.findWhere(bevy_members, { user: post_author_id });
-			// check if notification level is 'my' or 'all'
-			if(post_author_member.notificationLevel == 'none') {
-			} else {
-				// send reply notification
-				notifications.push({
-					user: post_author_id,
-					event: 'post:reply',
-					data: {
-						author_name: author_name,
-						author_image: author_image,
-						post_title: post_title,
-						bevy_name: bevy_name
-					}
-				});
+
+			if(post_author_member) {
+				// check if notification level is 'my' or 'all'
+				if(post_author_member.notificationLevel == 'none') {
+				} else {
+					// send reply notification
+					notifications.push({
+						user: post_author_id,
+						event: 'post:reply',
+						data: {
+							author_name: author_name,
+							author_image: author_image,
+							post_title: post_title,
+							bevy_name: bevy_name
+						}
+					});
+				}
 			}
 
 			//	send comment notification to all commentators
@@ -255,22 +264,25 @@ exports.create = function(req, res, next) {
 				function(commentators, done) {
 					commentators.forEach(function(commentator) {
 						var commentator_member = _.findWhere(bevy_members, { user: commentator.toString() });
-						// TODO: (see if they muted the post)
-						// check if notification level is 'none'
-						if(commentator_member.notificationLevel == 'none') {
-							return;
-						} else {
-							// send commented notification
-							notifications.push({
-								user: commentator,
-								event: 'post:commentedon',
-								data: {
-									author_name: author_name,
-									author_image: author_image,
-									post_title: post_title,
-									bevy_name: bevy_name
-								}
-							});
+
+						if(commentator_member) {
+							// TODO: (see if they muted the post)
+							// check if notification level is 'none'
+							if(commentator_member.notificationLevel == 'none') {
+								return;
+							} else {
+								// send commented notification
+								notifications.push({
+									user: commentator,
+									event: 'post:commentedon',
+									data: {
+										author_name: author_name,
+										author_image: author_image,
+										post_title: post_title,
+										bevy_name: bevy_name
+									}
+								});
+							}
 						}
 					});
 				}
