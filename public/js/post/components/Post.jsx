@@ -120,8 +120,8 @@ var Post = React.createClass({
 	findMember: function(user_id) {
 		var members = this.props.post.bevy.members;
 		return _.find(members, function(member) {
-			if(member.user == user_id) return true;
-			else return false;
+			if(_.isEmpty(member.user)) return false;
+			return member.user == user_id;
 		});
 	},
 

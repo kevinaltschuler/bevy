@@ -82,6 +82,7 @@ var BevyPanel = React.createClass({
 	findMember: function(user_id) {
 		var members = this.props.activeBevy.members;
 		return _.find(members, function(member) {
+			if(_.isEmpty(member.user)) return false;
 			if(member.user._id == user_id) return true;
 			else return false;
 		});
