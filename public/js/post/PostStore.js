@@ -129,6 +129,8 @@ _.extend(PostStore, {
 					success: function(post, response, options) {
 						// success
 						newPost.set('_id', post.id);
+						newPost.set('images', post.get('images'));
+						newPost.set('links', post.get('links'));
 						this.trigger(POST.CHANGE_ALL);
 
 						var stripped_members = _.map(bevy.members, function(member) {
@@ -214,10 +216,16 @@ _.extend(PostStore, {
 					tags: tags,
 					updated: Date.now()
 				}, {
-					patch: true
+					patch: true,
+					success: function($post, response, options) {
+
+						post.set('images', $post.get('images'));
+						post.set('links', $post.get('links'));
+
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
 				});
 
-				this.trigger(POST.CHANGE_ALL);
 				break;
 
 			case POST.UPVOTE:
