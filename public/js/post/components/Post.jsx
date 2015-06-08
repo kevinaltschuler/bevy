@@ -190,7 +190,7 @@ var Post = React.createClass({
 		var authorName;
 		authorName = 'placeholder-author';
 		if(author) {
-			if(author.google)
+			if(!_.isEmpty(author.google.name))
 				authorName = author.google.name.givenName + ' ' + author.google.name.familyName;
 			else
 				authorName = author.email;
