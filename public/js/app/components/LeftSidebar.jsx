@@ -26,7 +26,6 @@ module.exports = React.createClass({
 			} else {
 				$('#left-sidebar-wrapper').removeClass('fixed');
 			}
-			console.log(scrollTop);
 		});
 
 		return	<div className='col-sm-3 left-sidebar'>
