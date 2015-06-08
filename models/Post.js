@@ -24,6 +24,7 @@ var PostSchema = new Schema({
 	tags: [String],
 	images: [String],
 	comments: [{}],
+	links: [{}],
 	votes: [Schema({
 		voter: String,
 		score: Number

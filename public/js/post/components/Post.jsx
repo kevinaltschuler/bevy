@@ -55,13 +55,17 @@ function getPostState(id) {
 var Post = React.createClass({
 	mixins: [CollapsibleMixin],
 
+	propTypes: {
+		id: React.PropTypes.string.isRequired,
+		post: React.PropTypes.object
+	},
+
 	getInitialState: function() {
 		return {
 			isEditing: false,
-			title: this.props.post.title,
+			title: this.props.post.title
 		};
 	},
-
 
 	getCollapsibleDOMNode: function(){
 		return React.findDOMNode(this.refs.postBody);
@@ -76,11 +80,6 @@ var Post = React.createClass({
     	this.setState({
     		expanded: !this.state.expanded
     	});
-	},
-	// expects (most) of these to be passed in by PostContainer.jsx
-	propTypes: {
-		id: React.PropTypes.string.isRequired,
-		post: React.PropTypes.object
 	},
 
 	onChange: function(ev) {
@@ -234,7 +233,7 @@ var Post = React.createClass({
 			var $words = [];
 			var tags = this.props.post.tags;
 			var urls = this.state.title.match(urlRegex);
-			var videos = this.state.title.match(youtubeRegex);
+			var videos = youtubeRegex.exec(this.state.title);
 			words.forEach(function(word) {
 				// take of the hashtag
 				var tag = word.slice(1, word.length);
@@ -254,13 +253,12 @@ var Post = React.createClass({
 
 			// check for youtube videos
 			if(!_.isEmpty(videos)) {
-				videos.forEach(function(video) {
-					if(!_.isEmpty(youtubeRegex.exec(video))) {
-						var match = youtubeRegex.exec(video);
-						$words.push(<iframe width="60%" height="200px" src={"https://www.youtube.com/embed/" + match[1]} frameborder="0" allowfullscreen={true}></iframe>);
-					}
+				videos.forEach(function(video, index) {
+					if((index % 2) == 0) return;
+					$words.push(<iframe width="60%" height="200px" src={"https://www.youtube.com/embed/" + video} frameborder="0" allowfullscreen={true}></iframe>);
 				});
 			}
+
 			var bodyText = (<p>{ $words }</p>);
 		} else bodyText = '';
 

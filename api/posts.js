@@ -12,10 +12,15 @@ var mongoose = require('mongoose');
 var error = require('./../error');
 var _ = require('underscore');
 var async = require('async');
+var og = require('open-graph');
+var http = require('http');
 
 var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
 var Comment = mongoose.model('Comment');
+
+var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
+var urlPartsRegex = /(.*:)\/\/([A-Za-z0-9\-\.]+)(:[0-9]+)?(.+)/i;
 
 function collectPostParams(req) {
 	var update = {};
@@ -68,13 +73,20 @@ exports.index = function(req, res, next) {
 exports.create = function(req, res, next) {
 	var update = collectPostParams(req);
 
-	Post.create(update, function(err, post) {
-		if(err) throw err;
-		// populate bevy
-		Post.populate(post, { path: 'bevy author' }, function(err, pop_post) {
-			res.json(pop_post);
-		});
-	});
+	async.waterfall([
+		function(done) {
+			populateLinks(update, done);
+		},
+		function($update, done) {
+			Post.create($update, function(err, post) {
+				if(err) throw err;
+				// populate bevy
+				Post.populate(post, { path: 'bevy author' }, function(err, pop_post) {
+					res.json(pop_post);
+				});
+			});
+		}
+	]);
 }
 
 // SHOW
@@ -111,29 +123,36 @@ exports.update = function(req, res, next) {
 	var id = req.params.id;
 	var update = collectPostParams(req);
 
-	if(req.body['pinned'])
-		update.pinned = req.body['pinned'];
+	async.waterfall([
+		function(done) {
+			populateLinks(update, done);
+		},
+		function($update, done) {
+			console.log($update);
+			if(req.body['pinned'])
+				$update.pinned = req.body['pinned'];
 
-	// var query = { _id: id, bevy: bevy_id };
-	var query = { _id: id };
-	var promise = Post.findOneAndUpdate(query, update, { new: true, upsert: true })
-		.populate('bevy author')
-		.exec();
-	promise.then(function(post) {
-		if(!post) throw error.gen('post not found');
-		return post;
-	}).then(function(post) {
+			var query = { _id: id };
+			var promise = Post.findOneAndUpdate(query, $update, { new: true, upsert: true })
+				.populate('bevy author')
+				.exec();
+			promise.then(function(post) {
+				if(!post) throw error.gen('post not found');
+				return post;
+			}).then(function(post) {
 
-		var _promise = Comment.find({ postId: post._id })
-			.populate('author')
-			.exec();
-		_promise.then(function(comments) {
-			post = post.toObject();
-			post.comments = comments;
-			return res.send(post);
-		}, function(err) { return next(err) });
+				var _promise = Comment.find({ postId: post._id })
+					.populate('author')
+					.exec();
+				_promise.then(function(comments) {
+					post = post.toObject();
+					post.comments = comments;
+					return res.send(post);
+				}, function(err) { return next(err) });
 
-	}, function(err) { next(err); });
+			}, function(err) { next(err); });
+		}
+	]);
 }
 
 // DESTROY
@@ -252,6 +271,96 @@ exports.search = function(req, res, next) {
 			});
 		}
 	]);
+}
+
+function populateLinks(post, done) {
+	var title = post.title;
+	if(_.isEmpty(title)) return done(null, post);
+	var links = title.match(urlRegex);
+	var $links = [];
+	if(!_.isEmpty(links)) {
+		links.forEach(function(link) {
+			getMeta(link, function(meta) {
+				console.log(meta);
+				if(_.isEmpty(meta)) {
+					$links.push({
+						url: link
+					});
+				} else {
+					$links.push(meta);
+				}
+				if($links.length == links.length) {
+					// add links
+					post.links = $links;
+					// add images
+					var images = post.images || [];
+					post.images = addImages($links, images);
+
+					done(null, post);
+				}
+			});
+		});
+	} else {
+		done(null, post);
+	}
+}
+
+function addImages(links, images) {
+	links.forEach(function(link) {
+		// does it have an image field?
+		if(!_.isEmpty(link.image)) {
+			// is it an array?
+			if(_.isArray(link.image.url)) {
+				link.image.url.forEach(function(url, index) {
+					// see if it already exists
+					if(images.indexOf(url) > -1) return;
+					if(index == 0) return; // dont get the title image
+					images.push(url);
+				});
+			} else {
+				// see if it already exists
+				if(images.indexOf(link.image.url) > -1) return;
+				images.push(link.image.url);
+			}
+		}
+	});
+	return images;
+}
+
+var imageContentTypes = 'image/png image/gif image/jpg image/jpeg image/bmp'.split(' ');
+
+function getMeta(link, callback) {
+
+	// first try opengraph
+	og(link, function(err, meta) {
+		if(err || _.isEmpty(meta)) {
+			// open graph didn't work, send a HEAD request
+			var url = link.match(urlPartsRegex);
+			var options = { method:'HEAD', host:url[2], port:'80', path:url[4] };
+			var req = http.request(options, function(res) {
+				var headers = res.headers;
+				var content_type = headers['content-type'];
+				if(imageContentTypes.indexOf(content_type) > -1) {
+					// its an image!
+					callback({
+						url: link,
+						image: {
+							url: link
+						}
+					});
+				} else {
+					callback({
+						url: link
+					});
+				}
+
+			});
+			req.end();
+		} else {
+			// return the opengraph meta
+			callback(meta);
+		}
+	});
 }
 
 function nestComments(comments, parentId, depth) {
