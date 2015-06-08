@@ -232,20 +232,20 @@ var Post = React.createClass({
 			var words = this.state.title.split(' ');
 			var $words = [];
 			var tags = this.props.post.tags;
-			var urls = this.state.title.match(urlRegex);
+			var urls = _.pluck(this.props.post.links, 'url');
 			var videos = youtubeRegex.exec(this.state.title);
 			words.forEach(function(word) {
-				// take of the hashtag
+				// take off the hashtag
 				var tag = word.slice(1, word.length);
 				var index = tags.indexOf(tag);
 				if(index > -1) {
-					return $words.push(<a href={ '/s/' + tag } key={ index } id={ tag } onClick={ this.onTag }>{ word } </a>);
+					return $words.push(<a href={ '/s/' + tag } key={ this.props.post._id + index + 'hash'} id={ tag } onClick={ this.onTag }>{ word } </a>);
 				}
 				// if this word is in the urls array
 				if(!_.isEmpty(urls)) {
 					index = urls.indexOf(word);
 					if(index > -1) {
-						return $words.push(<a href={ word } target='_blank'>{ word + ' '}</a>);
+						return $words.push(<a href={ word } key={ this.props.post._id + index } target='_blank'>{ word + ' '}</a>);
 					}
 				}
 				return $words.push(word + ' ');
