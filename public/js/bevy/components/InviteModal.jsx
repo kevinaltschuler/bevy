@@ -97,8 +97,13 @@ var InviteModal = React.createClass({
 	findMember: function() {
 		var members = this.props.activeBevy.members;
 		return _.find(members, function(member) {
-			if(member.user._id == user._id) return true;
-			else return false;
+			if(_.isEmpty(member.user)) {
+				// match email
+				return member.email == user.email;
+			} else {
+				// match user id
+				return member.user._id == user._id;
+			}
 		});
 	},
 
