@@ -78,6 +78,10 @@ gulp.task('less:watch', function() {
 	});
 });
 
+gulp.task('less:build', function() {
+	buildLess();
+});
+
 gulp.task('webpack:watch', function() {
 	gulp.watch(['public/js/*.js', 'public/js/**/*.js', 'public/js/*.jsx', 'public/js/**/*.jsx'], function(event) {
 	  webpack(webpackProductionConfig, function(err, stats) {
