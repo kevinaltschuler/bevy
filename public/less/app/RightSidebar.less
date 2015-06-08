@@ -10,6 +10,15 @@
 	padding-left: 15px;
 }
 
+.right-sidebar-wrapper {
+	&.fixed {
+		position: fixed;
+		width: inherit;
+		max-width: 263px;
+		top: 85px;
+	}
+}
+
 .footer {
 	padding-right: 5px;
 	color: @light-font;
@@ -45,9 +54,22 @@
 	float: none;
 }
 
+@media(max-width: 1200px) {
+	.right-sidebar-wrapper {
+		&.fixed {
+			max-width: 157.5px !important;
+		}
+	}
+}
+
 @media(max-width: 991px) {
-  .right-sidebar {
-    display: inline-block;
-    float: right;
-  }
+	.right-sidebar {
+		display: inline-block;
+		float: right;
+	}
+	.right-sidebar-wrapper {
+		&.fixed {
+			max-width: 212px !important;
+		}
+	}
 }

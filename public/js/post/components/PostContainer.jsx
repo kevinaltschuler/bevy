@@ -59,9 +59,11 @@ var PostContainer = React.createClass({
 			);
 		}
 
-		return	<div className="col-xs-6 post-container">
+		return	<div className="col-xs-6">
+					<div className='post-container'>
 						{posts}
 					</div>
+				</div>
 	}
 });
 

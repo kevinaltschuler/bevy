@@ -2,6 +2,8 @@
 
 var React = require('react');
 
+var $ = require('jquery');
+
 var BevyList = require('./../../bevy/components/BevyList.jsx');
 
 module.exports = React.createClass({
@@ -16,11 +18,24 @@ module.exports = React.createClass({
 	},
 
 	render: function() {
-		return	<div className='col-sm-3 left-sidebar panel'>
+
+		$(document).on("scroll", function(e) {
+			var scrollTop = $(document).scrollTop();
+			if(scrollTop > 128) {
+				$('#left-sidebar-wrapper').addClass('fixed');
+			} else {
+				$('#left-sidebar-wrapper').removeClass('fixed');
+			}
+			console.log(scrollTop);
+		});
+
+		return	<div className='col-sm-3 left-sidebar'>
+				 	<div className='panel left-sidebar-wrapper' id='left-sidebar-wrapper'>
 						<BevyList
 							allBevies={ this.props.allBevies }
 							activeBevy={ this.props.activeBevy }
 						/>
-					</div>;
+					</div>
+				</div>;
 	}
 });
