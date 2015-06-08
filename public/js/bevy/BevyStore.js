@@ -76,7 +76,7 @@ _.extend(BevyStore, {
 				// add yerself
 				members.push({
 					email: user.email,
-					user: user._id,
+					user: (_.isEmpty(user)) ? null : user._id,
 					role: 'admin'
 				});
 
