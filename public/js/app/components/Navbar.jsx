@@ -102,7 +102,9 @@ var Navbar = React.createClass({
 				</div>
 			</div>)
 		:	(<div>
-				<div className="background-image" style= { backgroundStyle } />
+				<div className='background-wrapper'>
+					<div className="background-image" style= { backgroundStyle } />
+				</div>
 				<div className='col-xs-4'>
 					<div className="navbar-header pull-left">
 						<ProfileDropdown />
