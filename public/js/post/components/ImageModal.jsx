@@ -65,6 +65,16 @@ var ImageModal = React.createClass({
 		}
 	},
 
+	onKeyDown: function(ev) {
+		if(ev.which == 37) {
+			// left
+			this.onLeft();
+		} else if (ev.which == 39) {
+			// right
+			this.onRight();
+		}
+	},
+
 	render: function() {
 
 		var url = this.props.allImages[this.state.index];
@@ -82,7 +92,9 @@ var ImageModal = React.createClass({
 			<Modal
 				{...this.props}
 				title=" "
-				className="image-modal" >
+				className="image-modal"
+				tabIndex="0"
+				onKeyDown={ this.onKeyDown }>
 
 				<div className='modal-body'>
 					<img src={ this.props.allImages[this.state.index] }/>
