@@ -66,30 +66,35 @@
 	}
 	.panel-bottom {
 		.panel-controls-right {
-			float: left;
+			float: right;
 			margin-top: 0px;
 			margin-bottom: 10px;
 			height: 35px;
+			margin-right: 30px;
 			.mui-raised-button {
 			float: right;
 			margin-right: 10px;
-			.mui-paper-container {
-				.mui-raised-button-container {
-					background-color: rgba(0,0,0,0);
-					color: white;
-					div {
-						.mui-raised-button-label {
-							color: black;
+			margin-left: 10px;
+				.mui-paper-container {
+					.mui-raised-button-container {
+						background-color: rgba(0,0,0,0);
+						color: white;
+						div {
+							.mui-raised-button-label {
+								color: black;
+							}
 						}
 					}
 				}
 			}
-		}
+			.mui-flat-button {
+				float: right;
+			}
 		}
 		.panel-controls-left {
 			height: 45px;
 			float: left;
-			//margin-left: 0px;
+			margin-left: 20px;
 			.mui-floating-action-button {
 		      width: 35px;
 		      height: 35px;
@@ -138,6 +143,77 @@
 		}
 		.mui-text-field-focus-underline {
 			border-color: rgba(0,0,0,.5);
+		}
+	}
+}
+
+@media(max-width: 991px) {
+	.new-post-panel {
+		.new-post-title {
+			.title-field.mui-text-field {
+				textarea {
+				}
+			}
+		}
+		.row.media {
+			.media-content{
+				.attach-btn {
+					.mui-floating-action-button-inner {
+						.mui-floating-action-button-container  {
+							.glyphicon {
+							}
+						}
+					}
+				}
+			}
+		}
+		.form-group {
+			.post-body-text {
+			}
+		}
+		.panel-bottom {
+			font-size: .85em;
+			& * {
+				font-size: inherit !important;
+			}
+			.panel-controls-right {
+				.mui-raised-button {
+					min-width: 60px;
+					width: 60px;
+					.mui-paper-container {
+						.mui-raised-button-label {
+							padding: 0 2px;
+						}
+					}
+				}
+				.mui-flat-button {
+					min-width: 60px;
+					width: 60px;
+					.mui-flat-button-label {
+						padding: 0 2px;
+					}
+				}
+			}
+			.panel-controls-left {
+				.mui-floating-action-button {
+					width: 30px;
+					height: 30px;
+					.mui-floating-action-button-container {
+						width: 30px;
+						height: 30px;
+					}
+			    }
+				.mui-drop-down-menu {
+					width: 130px;
+					height: 50px;
+					margin-top: -16px;
+				}
+			}
+
+		}
+		.mui-text-field {
+			.mui-text-field-input {
+			}
 		}
 	}
 }

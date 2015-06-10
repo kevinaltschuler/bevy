@@ -228,16 +228,18 @@ var NewPostPanel = React.createClass({
 						/>
 
 						<div className="panel-bottom row">
-							<div className="panel-controls-left  col-xs-7">
+							<div className="panel-controls-left">
 									<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
 									{beviesDropdown}
 							</div>
-							<div className="panel-controls-right col-xs-5">
-								<FlatButton
-									label='cancel'
-									onClick={ this.close }
-								/>
-								<RaisedButton label="submit" onClick={this.submit} />
+							<div className="panel-controls-right ">
+								<div className='row'>
+									<RaisedButton label="submit" onClick={this.submit} />
+									<FlatButton
+										label='cancel'
+										onClick={ this.close }
+									/>
+								</div>
 							</div>
 						</div>
 					</div>
