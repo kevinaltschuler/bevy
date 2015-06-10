@@ -58,6 +58,8 @@ exports.create = function(req, res, next) {
 			var bevy_img = req.body['bevy_img'];
 			var inviter_name = req.body['inviter_name'];
 
+			var template = require('./../public/html/email/template.jsx')(bevy_name, inviter_name, bevy_id);
+
 			var notifications = [];
 
 			async.waterfall([
@@ -98,7 +100,7 @@ exports.create = function(req, res, next) {
 							from: 'Bevy Team <contact@joinbevy.com>',
 							to: email,
 							subject: 'Invite',
-							text: 'Invite to ' + bevy_name + ' from ' + inviter_name
+							html: template
 						}, function(err, body) {
 							if(err) return next(err);
 						});

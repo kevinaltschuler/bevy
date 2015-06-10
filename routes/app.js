@@ -2,16 +2,19 @@
 
 var passport = require('passport');
 var mailgun = require('./../config').mailgun();
+var template = require('./../public/html/email/template.jsx')('nuts', 'kevin');
 
 module.exports = function(app) {
+
+	var emailHTML = template; 
 
 	//test email
 	app.get('/emailtest', function(req, res, next) {
 		mailgun.messages().send({
 			from: 'Bevy Team <contact@bvy.io>',
-			to: 'blahoink@gmail.com',
+			to: 'kevin@joinbevy.com',
 			subject: 'Test Subject',
-			text: 'Test Body'
+			html: emailHTML
 		}, function(error, body) {
 			res.json(body);
 		});
