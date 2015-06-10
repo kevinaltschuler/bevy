@@ -15,7 +15,7 @@ var Footer = React.createClass({
 			<span className="footer">
 				English (US) · Bevy © 2015
 				<br />
-				Version 0.1 ALPHA
+				Version 0.1 <b>ALPHA</b>
 			</span>
 		);
 	}

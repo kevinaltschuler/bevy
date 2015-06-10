@@ -17,6 +17,21 @@ module.exports = function(app) {
 		});
 	});
 
+	app.post('/feedback', function(req, res, next) {
+
+		var name = req.body['name'] || 'Anonymous';
+		var body = req.body['body'] || '';
+
+		mailgun.messages().send({
+			from: name + ' <contact@joinbevy.com>',
+			to: 'contact@joinbevy.com',
+			subject: 'Feedback',
+			text: body
+		}, function(error, body) {
+			res.json(body);
+		});
+	});
+
 
 	// for everything else - pass it off to the react router
 	// on the front end
