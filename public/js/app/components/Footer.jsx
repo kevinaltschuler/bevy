@@ -8,6 +8,8 @@
 'use strict';
 
 var React = require('react');
+var constants = require('./../../constants');
+var version = constants.version;
 
 var Footer = React.createClass({
 	render: function() {
@@ -15,7 +17,7 @@ var Footer = React.createClass({
 			<span className="footer">
 				English (US) · Bevy © 2015
 				<br />
-				Version 0.1 <b>ALPHA</b>
+				Version { version } <b>ALPHA</b>
 			</span>
 		);
 	}
