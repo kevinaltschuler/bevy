@@ -19,17 +19,8 @@ module.exports = React.createClass({
 
 	render: function() {
 
-		$(document).on("scroll", function(e) {
-			var scrollTop = $(document).scrollTop();
-			if(scrollTop > 128) {
-				$('#left-sidebar-wrapper').addClass('fixed');
-			} else {
-				$('#left-sidebar-wrapper').removeClass('fixed');
-			}
-		});
-
-		return	<div className='col-sm-3 left-sidebar'>
-				 	<div className='panel left-sidebar-wrapper' id='left-sidebar-wrapper'>
+		return	<div className='col-xs-3 left-sidebar'>
+				 	<div className='panel left-sidebar-wrapper fixed' id='left-sidebar-wrapper'>
 						<BevyList
 							allBevies={ this.props.allBevies }
 							activeBevy={ this.props.activeBevy }
