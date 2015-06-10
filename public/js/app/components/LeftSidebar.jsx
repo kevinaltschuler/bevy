@@ -5,8 +5,9 @@ var React = require('react');
 var $ = require('jquery');
 
 var BevyList = require('./../../bevy/components/BevyList.jsx');
+var ContactList = require('./../../contact/components/ContactList.jsx');
 
-module.exports = React.createClass({
+var LeftSidebar = React.createClass({
 
 	propTypes: {
 		allBevies: React.PropTypes.array.isRequired,
@@ -28,13 +29,20 @@ module.exports = React.createClass({
 			}
 		});
 
-		return	<div className='col-sm-3 left-sidebar'>
-				 	<div className='panel left-sidebar-wrapper' id='left-sidebar-wrapper'>
-						<BevyList
-							allBevies={ this.props.allBevies }
-							activeBevy={ this.props.activeBevy }
-						/>
-					</div>
-				</div>;
+		return (
+			<div className='col-sm-3 left-sidebar'>
+				<div className='left-sidebar-wrapper' id='left-sidebar-wrapper'>
+					<BevyList
+						allBevies={ this.props.allBevies }
+						activeBevy={ this.props.activeBevy }
+					/>
+					<ContactList
+
+					/>
+				</div>
+			</div>
+		);
 	}
 });
+
+module.exports = LeftSidebar;

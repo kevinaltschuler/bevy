@@ -68,24 +68,26 @@ var BevyList = React.createClass({
 			);
 		}
 
-		return <div>
-					<div className='panel-header'>
-						<p>Bevies</p>
-					</div>
-					<ButtonGroup className='bevy-list' role="group">
-						<text>
-							{bevies}
-							<ModalTrigger modal={
-								<CreateNewBevy	/>
-							}>
-								<button className='bevy-btn new-bevy-btn'>
-									<FontIcon className="glyphicon glyphicon-plus"/> &nbsp;
-									<span className="mui-flat-button-label">Create New Bevy</span>
-								</button>
-							</ModalTrigger>
-						</text>
-					</ButtonGroup>
-				</div>;
+		return (
+			<div className='bevy-list panel'>
+				<div className='panel-header'>
+					<p>Bevies</p>
+				</div>
+				<ButtonGroup className='bevy-list-btns' role="group">
+					<text>
+						{bevies}
+						<ModalTrigger modal={
+							<CreateNewBevy	/>
+						}>
+							<button className='bevy-btn new-bevy-btn'>
+								<FontIcon className="glyphicon glyphicon-plus"/> &nbsp;
+								<span className="mui-flat-button-label">Create New Bevy</span>
+							</button>
+						</ModalTrigger>
+					</text>
+				</ButtonGroup>
+			</div>
+		);
 	}
 
 });

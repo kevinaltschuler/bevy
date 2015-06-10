@@ -25,14 +25,14 @@ module.exports = function(router) {
 	// UPDATE
 	router.put('/users/:id', api.users.update);
 	router.patch('/users/:id', api.users.update);
-	// browser hack
-	// TODO: disable on production
 	router.get('/users/:id/update', api.users.update);
 
 	// DESTROY
 	router.delete('/users/:id', api.users.destroy);
-	// browser hack
-	// TODO: disable on production
 	router.get('/users/:id/destroy', api.users.destroy);
+
+
+	// CONTACTS
+	router.get('/users/:id/contacts', api.users.getContacts);
 
 };

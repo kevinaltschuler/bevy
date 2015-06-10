@@ -14,6 +14,7 @@
 var _ = require('underscore');
 var error = require('./../error');
 var bcrypt = require('bcryptjs');
+var async = require('async');
 
 var mailgun = require('./../config').mailgun();
 
@@ -155,4 +156,32 @@ exports.destroy = function(req, res, next) {
 	}).then(function(user) {
 		res.json(user);
 	}, function(err) { next(err); });
+}
+
+// GET /users/:id/contacts
+exports.getContacts = function(req, res, next) {
+	var id = req.params.id;
+
+	async.waterfall([
+		function(done) {
+			// get bevies the user is a member of
+			Bevy.find({ members: { $elemMatch: { user: id } } }, function(err, bevies) {
+				done(null, bevies);
+			}).populate('members.user');
+		},
+		function(bevies, done) {
+			// get members
+			var members = [];
+			bevies.forEach(function(bevy) {
+				if(bevy.settings.anonymise_users) return;
+				bevy.members.forEach(function(member) {
+					members.push(member.user);
+				});
+			});
+			// remove dupes
+			members = _.uniq(members);
+
+			return res.json(members);
+		}
+	]);
 }
