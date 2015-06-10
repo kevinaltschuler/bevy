@@ -16,6 +16,7 @@ var Button = rbs.Button;
 var Popover = rbs.Popover;
 var ButtonGroup = rbs.ButtonGroup;
 var Tooltip = rbs.Tooltip;
+var OverlayMixin = rbs.OverlayMixin;
 
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
@@ -29,12 +30,16 @@ var email = user.email;
 
 var ProfileDropdown = React.createClass({
 
+	//mixins: [OverlayMixin],
+
 	propTypes: {
 		allNotifications: React.PropTypes.array,
 	},
 
 	getInitialState: function() {
-		return {};
+		return {
+			isOverlayOpen: false
+		};
 	},
 
 	dismissAll: function(ev) {
@@ -46,31 +51,44 @@ var ProfileDropdown = React.createClass({
 		}
   	},
 
+  	handleToggle: function(ev) {
+  		ev.preventDefault();
+  		this.setState({
+  			isOverlayOpen: !this.state.isOverlayOpen
+  		});
+  	},
+
+  	renderOverlay: function() {
+  		if(!this.state.isOverlayOpen) return <span />
+
+  		var notifications = this.props.allNotifications;
+
+  		return (notifications.length <= 0)
+		? (<Tooltip placement='bottom'><strong>No new notifications!</strong></Tooltip>)
+		: (<div>
+				<div className='notification-backdrop' onClick={ this.handleToggle } />
+				<Popover className="notification-dropdown" placement='bottom'>
+					<div className="title">
+						Notifications
+						<IconButton iconClassName="glyphicon glyphicon-minus" tooltip='clear all' onClick={this.dismissAll}/>
+			 		</div>
+					<NotificationList
+						allNotifications={ notifications }
+					/>
+				</Popover>
+			</div>);
+  	},
+
 	render: function() {
 
-		var notifications = this.props.allNotifications;
-
-		var overlay = (notifications.length <= 0)
-		? (<Tooltip><strong>No new notifications!</strong></Tooltip>)
-		: (<Popover className="notification-dropdown" disableOnClickOutside={false}>
-		 		<div className="title">
-		 			Notifications
-		 			<IconButton iconClassName="glyphicon glyphicon-minus" tooltip='clear all' onClick={this.dismissAll}/>
-		 		</div>
-				<NotificationList
-					allNotifications={ notifications }
-				/>
-			</Popover>)
-
-		var trigger = (notifications.length <= 0)
-		? 'hover'
-		: 'click';
-
-		return <OverlayTrigger ref="trigger" trigger={trigger} placement="bottom" overlay={ overlay }>
-				 	<Button className="notification-dropdown-btn">
-					 	<img src="./../../img/notification-icon.png"/>
-				 	</Button>
-				 </OverlayTrigger>;
+		return (
+			<div>
+				<Button className="notification-dropdown-btn" onClick={ this.handleToggle }>
+					<img src="./../../img/notification-icon.png"/>
+				</Button>
+				{ this.renderOverlay() }
+			</div>
+		);
 	}
 });
 module.exports = ProfileDropdown;
