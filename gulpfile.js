@@ -96,7 +96,9 @@ function buildLess() {
 	console.log('building less...');
 	return gulp.src('public/less/app.less')
 		.pipe(sourcemaps.init())
-		.pipe(less())
+		.pipe(less({
+			plugins: [ require('less-plugin-glob') ]
+		}))
 		.on('error', function(err){ console.log(err.message); })
 		// now do css transformations
 		.pipe(autoprefixer({
