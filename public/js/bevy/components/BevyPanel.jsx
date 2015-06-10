@@ -260,7 +260,7 @@ var BevyPanel = React.createClass({
 				/>
 				<IconButton
 					className="save-button"
-					tooltip='save changes'
+					tooltip='save'
 					onClick={ this.stopEditingName }>
 					<span className="glyphicon glyphicon-ok"></span>
 				</IconButton>
