@@ -60,8 +60,6 @@ var FrontpagePanel = React.createClass({
 					</div>
 				</div>
 
-				<hr />
-
 				<div className='row announcements'>
 					<span className='col-xs-12 announcements-title'>Announcements</span>
 					<div className='col-xs-12'>
@@ -71,8 +69,6 @@ var FrontpagePanel = React.createClass({
 						</p>
 					</div>
 				</div>
-
-				<hr />
 
 				<div className='row feedback'>
 					<span className='col-xs-12 feedback-title'>Feedback</span>
