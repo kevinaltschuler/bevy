@@ -281,7 +281,6 @@ function populateLinks(post, done) {
 	if(!_.isEmpty(links)) {
 		links.forEach(function(link) {
 			getMeta(link, function(meta) {
-				console.log(meta);
 				if(_.isEmpty(meta)) {
 					$links.push({
 						url: link
@@ -328,15 +327,28 @@ function addImages(links, images) {
 }
 
 var imageContentTypes = 'image/png image/gif image/jpg image/jpeg image/bmp'.split(' ');
+var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 
 function getMeta(link, callback) {
+
+	var url = link.match(urlPartsRegex);
+	var host = url[2];
+	var path = url[4];
+
+	var youtubeUrls = 'www.youtube.com youtube.com youtu.be www.youtu.be'.split(' ');
+	// lets not process videos
+	if(youtubeUrls.indexOf(host) > -1) {
+		callback({
+			url: link
+		});
+	}
 
 	// first try opengraph
 	og(link, function(err, meta) {
 		if(err || _.isEmpty(meta)) {
 			// open graph didn't work, send a HEAD request
-			var url = link.match(urlPartsRegex);
-			var options = { method:'HEAD', host:url[2], port:'80', path:url[4] };
+
+			var options = { method:'HEAD', host:host, port:'80', path:path };
 			var req = http.request(options, function(res) {
 				var headers = res.headers;
 				var content_type = headers['content-type'];
@@ -349,6 +361,7 @@ function getMeta(link, callback) {
 						}
 					});
 				} else {
+					// it's just a link!
 					callback({
 						url: link
 					});
