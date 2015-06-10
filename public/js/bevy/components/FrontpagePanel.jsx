@@ -62,6 +62,18 @@ var FrontpagePanel = React.createClass({
 
 				<hr />
 
+				<div className='row announcements'>
+					<span className='col-xs-12 announcements-title'>Announcements</span>
+					<div className='col-xs-12'>
+						<p className='announcement'>
+							<b>Jun 10, 2015</b><br />
+							Thanks for testing Bevy&#39;s Alpha! Please submit any questions or suggestions via. the form below, or email us at <a href='mailto:contact@joinbevy.com'>contact@joinbevy.com</a>.
+						</p>
+					</div>
+				</div>
+
+				<hr />
+
 				<div className='row feedback'>
 					<span className='col-xs-12 feedback-title'>Feedback</span>
 					<div className='col-xs-12'>
