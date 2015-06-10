@@ -17,6 +17,7 @@ var Popover = rbs.Popover;
 var ButtonGroup = rbs.ButtonGroup;
 var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
+var OverlayMixin = rbs.OverlayMixin;
 
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
@@ -35,8 +36,11 @@ var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 
 var ProfileDropdown = React.createClass({
 
+	//mixins: [OverlayMixin],
+
 	getInitialState: function() {
 		return {
+			isOverlayOpen: false,
 			image_url: (user.image_url) ? user.image_url : defaultProfileImage
 		}
 	},
@@ -59,13 +63,108 @@ var ProfileDropdown = React.createClass({
 		});
 	},
 
-	render: function() {
+	handleToggle: function(ev) {
+		ev.preventDefault();
+
+		this.setState({
+			isOverlayOpen: !this.state.isOverlayOpen
+		});
+	},
+
+	renderOverlay: function() {
+		if(!this.state.isOverlayOpen) return <span />;
 
 		var name = user.displayName;
 		var email = (_.isEmpty(user.google.name))
 		? ''
 		: (<span className='profile-email'>{ user.email }</span>)
 
+		var dropzoneOptions = {
+			maxFiles: 1,
+			acceptedFiles: 'image/*',
+			clickable: '.dropzone-panel-button',
+			dictDefaultMessage: ' ',
+		};
+
+		var profileImage;
+		if(_.isEmpty(this.state.image_url)) {
+			profileImage = defaultProfileImage;
+			var profileImageStyle= {
+				backgroundImage: 'url(' + profileImage + ')',
+				backgroundSize: '75px 75px'
+			};
+		} else {
+			profileImage =  this.state.image_url;
+			var profileImageStyle = {
+				backgroundImage: 'url(' + profileImage + ')',
+			}
+		}
+
+		return (
+			<div className='profile-dropdown'>
+			<div className='profile-backdrop' onClick={ this.handleToggle }></div>
+			<Popover placement='bottom'>
+				<div className="row profile-top">
+					<div className="col-xs-3 profile-picture overlay">
+						<Uploader
+							onUploadComplete={ this.onUploadComplete }
+							className="profile-image-dropzone"
+							style={ profileImageStyle }
+							dropzoneOptions={ dropzoneOptions }
+						/>
+					</div>
+					<div className="col-xs-6 profile-details">
+						<span className='profile-name'>{ name }</span>
+						{ email }
+						<span className='profile-points'>123 points</span>
+					</div>
+					<div className="col-xs-3">
+						<DropdownButton
+							noCaret
+							pullRight
+							className="profile-settings"
+							title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+							<MenuItem>
+								Delete Account
+							</MenuItem>
+						</DropdownButton>
+					</div>
+				</div>
+				{/* <div className='row profile-links'>
+					<ButtonGroup className="col-xs-12" role="group">
+						<ModalTrigger modal = { <SavedPostsModal /> } >
+							<Button type='button' className="profile-link">
+								Saved Posts
+							</Button>
+						</ModalTrigger>
+						•
+						<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
+							<Button type='button' className="profile-link">
+								Contacts
+							</Button>
+						</ModalTrigger>
+					</ButtonGroup>
+				</div>*/}
+
+				<hr />
+
+				<div className="profile-buttons">
+					<div className="profile-btn-left">
+
+					</div>
+					<div className="profile-btn-right">
+						<FlatButton
+							label="Logout"
+							linkButton={ true }
+							href='/logout' />
+					</div>
+				</div>
+			</Popover>
+			</div>
+		);
+	},
+
+	render: function() {
 
 		var profileImage;
 		if(_.isEmpty(this.state.image_url)) {
@@ -85,74 +184,12 @@ var ProfileDropdown = React.createClass({
 			backgroundImage: 'url(' + profileImage + ')'
 		};
 
-		var dropzoneOptions = {
-			maxFiles: 1,
-			acceptedFiles: 'image/*',
-			clickable: '.dropzone-panel-button',
-			dictDefaultMessage: ' ',
-		};
-
-		return <OverlayTrigger trigger="click" rootClose={ false } placement="bottom" overlay={
-					<Popover>
-
-						<div className="row profile-top">
-							<div className="col-xs-3 profile-picture overlay">
-								<Uploader
-									onUploadComplete={ this.onUploadComplete }
-									className="profile-image-dropzone"
-									style={ profileImageStyle }
-									dropzoneOptions={ dropzoneOptions }
-								/>
-							</div>
-							<div className="col-xs-6 profile-details">
-								<span className='profile-name'>{ name }</span>
-								{ email }
-								<span className='profile-points'>123 points</span>
-							</div>
-							<div className="col-xs-3">
-								<DropdownButton
-									noCaret
-									pullRight
-									className="profile-settings"
-									title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-									<MenuItem>
-										Delete Account
-									</MenuItem>
-								</DropdownButton>
-							</div>
-						</div>
-						{/* <div className='row profile-links'>
-							<ButtonGroup className="col-xs-12" role="group">
-								<ModalTrigger modal = { <SavedPostsModal /> } >
-									<Button type='button' className="profile-link">
-										Saved Posts
-									</Button>
-								</ModalTrigger>
-								•
-								<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
-									<Button type='button' className="profile-link">
-										Contacts
-									</Button>
-								</ModalTrigger>
-							</ButtonGroup>
-						</div>*/}
-
-						<hr />
-
-						<div className="profile-buttons">
-							<div className="profile-btn-left">
-
-							</div>
-							<div className="profile-btn-right">
-								<FlatButton
-									label="Logout"
-									linkButton={ true }
-									href='/logout' />
-							</div>
-						</div>
-					</Popover>}>
-				<Button className="profile-btn" style={ buttonStyle } />
-			 </OverlayTrigger>;
+		return (
+			<div>
+				<Button className="profile-btn" onClick={ this.handleToggle } style={ buttonStyle } />
+				{ this.renderOverlay() }
+			</div>
+		);
 	}
 });
 module.exports = ProfileDropdown;

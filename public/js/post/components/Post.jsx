@@ -349,69 +349,72 @@ var Post = React.createClass({
 		var text = this.isExpanded() ? 'Hide' : 'Show';
 
 		var postBody = (
-				<div>
-					<div className='panel-header'>
-						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
-						<div className='post-details'>
-							<div className='top'>
-									<span className="details">{ authorName } </span>
-									<span className="glyphicon glyphicon-triangle-right"/>
-									<span className="details">
-										<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }> { bevy.name }</a>
-									</span>
-								</div>
-								<div className="bottom">
-									<span className="detail-time">{ ago }</span>
-									<span className='detail-time'>{ left }</span>
-								</div>
-							</div>
-						<div className='badges'>
-								<span className="comment-count"> { commentCount } Comments •&nbsp;</span>
-								<span className="points"> { this.countVotes() } Points</span>
-								{ pinnedBadge }
+			<div>
+				<div className='panel-header'>
+					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
+					<div className='post-details'>
+						<div className='top'>
+							<span className="details">{ authorName } </span>
+							<span className="glyphicon glyphicon-triangle-right"/>
+							<span className="details">
+								<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }> { bevy.name }</a>
+							</span>
+						</div>
+						<div className="bottom">
+							<span className="detail-time">{ ago }</span>
+							<span className='detail-time'>{ left }</span>
 						</div>
 					</div>
-
-					<div className='panel-body'>
-						{ panelBodyText }
-					</div>
-
-					{ imageBody }
-
-					<div className="panel-comments">
-
-						{ commentList }
-
-					</div>
-					<div className="panel-bottom">
-
-						<CommentSubmit
-							postId={ this.props.id }
-							author={ this.props.post.author }
-							activeMember={ activeMember }
-							bevy={ bevy }
-						/>
-
-						<div className="panel-controls-right">
-							<IconButton tooltip='upvote' onClick={ this.upvote }>
-								<span className="glyphicon glyphicon-menu-up btn"></span>
-							</IconButton>
-							<IconButton tooltip='downvote' onClick={ this.downvote }>
-								<span className="glyphicon glyphicon-menu-down btn"></span>
-							</IconButton>
-							<DropdownButton
-								noCaret
-								pullRight
-								className="post-settings"
-								title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-								{ deleteButton }
-								{ editButton }
-								{ pinButton }
-								{ muteButton }
-							</DropdownButton>
+					<div className='badges'>
+						<div>
+							<span className="comment-count"> { commentCount } Comments •&nbsp;</span>
+							<span className="points"> { this.countVotes() } Points</span>
+						</div>
+						<div>
+							{ pinnedBadge }
 						</div>
 					</div>
-				</div>);
+				</div>
+
+				<div className='panel-body'>
+					{ panelBodyText }
+				</div>
+
+				{ imageBody }
+
+				<div className="panel-comments">
+					{ commentList }
+				</div>
+				<div className="panel-bottom">
+
+					<CommentSubmit
+						postId={ this.props.id }
+						author={ this.props.post.author }
+						activeMember={ activeMember }
+						bevy={ bevy }
+					/>
+
+					<div className="panel-controls-right">
+						<IconButton tooltip='upvote' onClick={ this.upvote }>
+							<span className="glyphicon glyphicon-menu-up btn"></span>
+						</IconButton>
+						<IconButton tooltip='downvote' onClick={ this.downvote }>
+							<span className="glyphicon glyphicon-menu-down btn"></span>
+						</IconButton>
+						<DropdownButton
+							noCaret
+							pullRight
+							className="post-settings"
+							title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+							{ deleteButton }
+							{ editButton }
+							{ pinButton }
+							{ muteButton }
+						</DropdownButton>
+					</div>
+				</div>
+			</div>
+		);
 
 		var collapsibleDiv = (this.props.post.pinned)
 		? (<div className='collapse-post'>

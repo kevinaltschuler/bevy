@@ -128,7 +128,6 @@ exports.update = function(req, res, next) {
 			populateLinks(update, done);
 		},
 		function($update, done) {
-			console.log($update);
 			if(req.body['pinned'])
 				$update.pinned = req.body['pinned'];
 
