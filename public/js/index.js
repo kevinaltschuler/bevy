@@ -48,6 +48,8 @@ var FourOhFour = require('./app/components/FourOhFour.jsx');
 //var injectTapEventPlugin = require('react-tap-event-plugin');
 //injectTapEventPlugin();
 
+//console.log(window.bootstrap);
+
 // App bootstrap
 var App = React.createClass({
 	render: function() {

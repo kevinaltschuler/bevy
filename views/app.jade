@@ -12,6 +12,8 @@ block content
 		// jenk global variable bootstrapping
 		window.bootstrap = {};
 		window.bootstrap.user = !{JSON.stringify(user || {})};
+		window.bootstrap.bevies = !{JSON.stringify(bevies || [])};
+		window.bootstrap.notifications = !{JSON.stringify(notifications || [])};
 
 
 	if env == 'development'

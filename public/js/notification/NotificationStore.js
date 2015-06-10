@@ -37,12 +37,9 @@ _.extend(NotificationStore, {
 
 			case APP.LOAD:
 
-				this.notifications.fetch({
-					reset: true,
-					success: function(collection, response, options) {
-						this.trigger(NOTIFICATION.CHANGE_ALL);
-					}.bind(this)
-				});
+				var notifications = window.bootstrap.notifications;
+				this.notifications.reset(notifications);
+				this.trigger(NOTIFICATION.CHANGE_ALL);
 
 				break;
 
