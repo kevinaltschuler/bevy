@@ -63,20 +63,20 @@ var ProfileDropdown = React.createClass({
 
   		var notifications = this.props.allNotifications;
 
-  		return (notifications.length <= 0)
-		? (<Tooltip placement='bottom'><strong>No new notifications!</strong></Tooltip>)
-		: (<div>
+  		return (
+  			<div>
 				<div className='notification-backdrop' onClick={ this.handleToggle } />
 				<Popover className="notification-dropdown" placement='bottom'>
 					<div className="title">
 						Notifications
 						<IconButton iconClassName="glyphicon glyphicon-minus" tooltip='clear all' onClick={this.dismissAll}/>
-			 		</div>
+					</div>
 					<NotificationList
 						allNotifications={ notifications }
 					/>
 				</Popover>
-			</div>);
+			</div>
+		);
   	},
 
 	render: function() {
