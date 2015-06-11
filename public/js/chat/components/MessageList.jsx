@@ -38,8 +38,13 @@ var MessageList = React.createClass({
 	},
 
 	componentDidUpdate: function() {
+		var node = this.getDOMNode();
+
+		if(this.prevScrollHeight < node.scrollHeight) {
+			node.scrollTop = node.scrollHeight - this.prevScrollHeight;
+		}
+
 		if(this.shouldScrollBottom) {
-			var node = this.getDOMNode();
 			node.scrollTop = node.scrollHeight;
 		}
 	},
@@ -49,6 +54,7 @@ var MessageList = React.createClass({
 	},
 
 	_onMessageFetch: function() {
+
 		this.setState({
 			loading: false
 		});
@@ -56,12 +62,12 @@ var MessageList = React.createClass({
 
 	onScroll: function(ev) {
 		var node = this.getDOMNode();
-		//console.log(node.scrollTop);
 		if(node.scrollTop <= 0) {
 			// load more
 			this.setState({
 				loading: true
 			});
+			this.prevScrollHeight = node.scrollHeight;
 
 			ChatActions.loadMore(this.props.thread._id);
 		}

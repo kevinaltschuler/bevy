@@ -100,7 +100,7 @@ _.extend(ChatStore, {
 				if(thread == undefined) return;
 
 				var message_count = thread.messages.models.length;
-				console.log(message_count);
+				//console.log(message_count);
 				// set query variable
 				thread.messages.url += ('?skip=' + message_count);
 				thread.messages.fetch({
