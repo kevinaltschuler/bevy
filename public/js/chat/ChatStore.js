@@ -58,8 +58,6 @@ _.extend(ChatStore, {
 
 				this.openThreads.push(thread_id);
 
-				console.log(this.openThreads);
-
 				this.trigger(CHAT.CHANGE_ALL);
 				break;
 
