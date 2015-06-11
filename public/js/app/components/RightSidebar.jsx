@@ -22,15 +22,6 @@ var RightSidebar = React.createClass({
 	},
 
 	render: function() {
-		
-		$(document).on("scroll", function(e) {
-			var scrollTop = $(document).scrollTop();
-			if(scrollTop > 128) {
-				$('#right-sidebar-wrapper').addClass('fixed');
-			} else {
-				$('#right-sidebar-wrapper').removeClass('fixed');
-			}
-		});
 
 		var bevy = this.props.activeBevy;
 		var bevy_id = bevy._id;
@@ -42,8 +33,8 @@ var RightSidebar = React.createClass({
 				activeMember={ this.props.activeMember }
 			/>);
 
-		return <div className= "col-sm-3 right-sidebar-col">
-					<div className='right-sidebar-wrapper' id='right-sidebar-wrapper' onScroll={this.componentDidUpdate}>
+		return <div className= "col-xs-3 right-sidebar-col">
+					<div className='right-sidebar-wrapper fixed' id='right-sidebar-wrapper' onScroll={this.componentDidUpdate}>
 						<div className="row">
 							{ panel }
 						</div>

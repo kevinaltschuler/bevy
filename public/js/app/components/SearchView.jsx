@@ -45,15 +45,19 @@ var SearchView = React.createClass({
 		return (
 			<div className='main-section'>
 				<div className='row'>
-							<div className='message' style={{marginBottom: '20px'}}>
-								Search for #{router.search_query}
-							</div>
+					<LeftSidebar
+						allBevies={ this.props.allBevies }
+						activeBevy={ this.props.activeBevy }
+					/>
+					<div className="col-xs-6">
+						<div className='message' style={{marginBottom: '20px'}}>
+							Search for #{router.search_query}
+						</div>
+						{ postContainer }
+					</div>
 				</div>
-				<LeftSidebar
-					allBevies={ this.props.allBevies }
-					activeBevy={ this.props.activeBevy }
-				/>
-				{ postContainer }
+
+				
 			</div>
 		);
 	}

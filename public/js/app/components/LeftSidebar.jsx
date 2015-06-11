@@ -22,18 +22,18 @@ var LeftSidebar = React.createClass({
 
 	render: function() {
 
-		$(document).on("scroll", function(e) {
+		/*$(document).on("scroll", function(e) {
 			var scrollTop = $(document).scrollTop();
 			if(scrollTop > 128) {
 				$('#left-sidebar-wrapper').addClass('fixed');
 			} else {
 				$('#left-sidebar-wrapper').removeClass('fixed');
 			}
-		});
+		});*/
 
 		return (
 			<div className='col-sm-3 left-sidebar'>
-				<div className='left-sidebar-wrapper' id='left-sidebar-wrapper'>
+				<div className='left-sidebar-wrapper fixed' id='left-sidebar-wrapper'>
 					<BevyList
 						allBevies={ this.props.allBevies }
 						activeBevy={ this.props.activeBevy }

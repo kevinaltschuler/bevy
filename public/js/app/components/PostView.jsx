@@ -27,30 +27,29 @@ var PostView = React.createClass({
 		return (
 			<div className='main-section'>
 				<div className='row'>
-					<NewPostPanel
-						activeBevy={ this.props.activeBevy }
-						allBevies={ this.props.allBevies }
-					/>
-				</div>
-				<div className='row'>
-					<PostSort />
-				</div>
-				<div className='row'>
 					<LeftSidebar
 						allBevies={ this.props.allBevies }
 						activeBevy={ this.props.activeBevy }
 						allThreads={ this.props.allThreads }
 					/>
-					<PostContainer
-						allPosts={ this.props.allPosts }
-						activeMember={ this.props.activeMember }
-						activeBevy={ this.props.activeBevy }
-					/>
+					<div className='col-xs-6'>
+						<NewPostPanel
+								activeBevy={ this.props.activeBevy }
+								allBevies={ this.props.allBevies }
+						/>
+						<PostSort />
+						<PostContainer
+							allPosts={ this.props.allPosts }
+							activeMember={ this.props.activeMember }
+							activeBevy={ this.props.activeBevy }
+						/>
+					</div>
 					<RightSidebar
 						activeBevy={ this.props.activeBevy }
 						activeMember={ this.props.activeMember }
 					/>
 				</div>
+
 			</div>
 		);
 	}
