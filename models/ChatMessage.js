@@ -12,7 +12,11 @@ var ChatMessage = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'User'
 	},
-	body: String
+	body: String,
+	created: {
+		type: Date,
+		default: Date.now
+	}
 });
 
 module.exports = ChatMessage;
