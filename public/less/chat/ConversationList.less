@@ -1,0 +1,46 @@
+@import './../variables.less';
+
+.conversation-list.panel {
+	padding-bottom: 15px;
+	.conversation-list-header {
+		text-align: left;
+		padding-left: 20px;
+		margin-bottom: 10px;
+		padding-top: 10px;
+		span {
+			font-size: 1.25em;
+			color: #000;
+		}
+	}
+	ul {
+		list-style: none;
+		padding-left: 30px;
+		li.conversation-item {
+			border-radius: 3px;
+			margin-right: 15px;
+			margin-bottom: 10px;
+			color: @light-font;
+			background-color: #f8f8f8;
+			a.conversation-item-link {
+				display: block;
+				padding-top: 5px;
+				padding-bottom: 5px;
+				color: @light-font;
+				img.bevy-img {
+					width: 30px;
+					height: 30px;
+					border-radius: 20px;
+					margin-right: 10px;
+					margin-left: 15px;
+				}
+				&:hover {
+					text-decoration: none;
+					background-color: #eee;
+				}
+			}
+			&:hover {
+
+			}
+		}
+	}
+}

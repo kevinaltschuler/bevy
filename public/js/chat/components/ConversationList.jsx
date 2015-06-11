@@ -26,10 +26,12 @@ var ConversationList = React.createClass({
 		for(var key in allThreads) {
 			var thread = allThreads[key];
 			var bevy = thread.bevy;
+
 			threads.push(
-				<li key={ 'thread' + bevy._id }>
-					<a href="#" id={ thread._id } onClick={ this.openThread }>
-						{ bevy.name }
+				<li className='conversation-item' key={ 'thread' + bevy._id }>
+					<a className='conversation-item-link' href="#" id={ thread._id } onClick={ this.openThread }>
+						<img className='bevy-img' src={ bevy.image_url } />
+						<span className='bevy-name'>{ bevy.name }</span>
 					</a>
 				</li>
 			);
@@ -37,7 +39,9 @@ var ConversationList = React.createClass({
 
 		return (
 			<div className='conversation-list panel'>
-				<span className='conversation-list-header'>Conversations</span>
+				<div className='conversation-list-header'>
+					<span>Conversations</span>
+				</div>
 				<ul>
 					{ threads }
 				</ul>
