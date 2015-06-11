@@ -73,8 +73,10 @@ var InviteModal = React.createClass({
 		var members = this.state.members;
 		if(members.length < 1) return;
 
+		var activeMember = this.findMember();
+
 		// send the invite and add the invited users
-		BevyActions.invite(bevy, user, members, this.findMember().displayName);
+		BevyActions.invite(bevy, user, members, activeMember.displayName);
 
 		// hide modal
 		this.props.onRequestHide();
@@ -102,7 +104,7 @@ var InviteModal = React.createClass({
 				return member.email == user.email;
 			} else {
 				// match user id
-				return member.user._id == user._id;
+				return member.user == user._id;
 			}
 		});
 	},

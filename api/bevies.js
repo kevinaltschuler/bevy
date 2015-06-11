@@ -14,6 +14,7 @@ var error = require('./../error');
 var _ = require('underscore');
 
 var Bevy = mongoose.model('Bevy');
+var ChatThread = mongoose.model('ChatThread');
 
 function collectBevyParams(req) {
 	var update = {};
@@ -56,6 +57,11 @@ exports.create = function(req, res, next) {
 	Bevy.create(update, function(err, bevy) {
 		if(err) throw err;
 
+		// create chat thread
+		ChatThread.create({ bevy: bevy._id }, function(err, thread) {
+
+		});
+
 		res.json(bevy);
 	});
 }
@@ -85,8 +91,20 @@ exports.update = function(req, res, next) {
 	var id = req.params.id;
 
 	var update = collectBevyParams(req);
-	if(req.body['settings'])
+	if(req.body['settings']) {
 		update.settings = req.body['settings'];
+		if(update.settings.group_chat) {
+			// group chat was enabled, create thread
+			ChatThread.create({ bevy: id }, function(err, thread) {
+
+			});
+		} else {
+			// group chat was disabled, destroy thread
+			ChatThread.findOneAndRemove({ bevy: id }, function(err, thread) {
+
+			});
+		}
+	}
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update, { new: true, upsert: true })
