@@ -43,6 +43,16 @@ _.extend(ChatStore, {
 				}
 
 				var thread = this.threads.get(thread_id);
+				if(thread.messages.models.length <= 0) {
+					thread.messages.fetch({
+						reset: true,
+						success: function(collection, response, options) {
+							this.trigger(CHAT.MESSAGE_FETCH + thread_id);
+						}.bind(this)
+					});
+				} else {
+
+				}
 
 				this.openThreads.add(thread);
 
@@ -71,7 +81,8 @@ _.extend(ChatStore, {
 				message.save(null, {
 					success: function(model, response, options) {
 						message.set('_id', model.get('_id'));
-						this.trigger(CHAT.CHANGE_ALL);
+						message.set('author', model.get('author'));
+						this.trigger(CHAT.MESSAGE_FETCH + thread_id);
 					}.bind(this)
 				});
 
@@ -89,6 +100,26 @@ _.extend(ChatStore, {
 		return (_.isEmpty(this.openThreads.models))
 			? []
 			: this.openThreads.toJSON();
+	},
+
+	getMessages: function(thread_id) {
+		var thread = this.threads.get(thread_id);
+		if(thread == undefined) {
+			// thread not found
+			return [];
+		} else {
+			return thread.messages.toJSON();
+		}
+	},
+
+	addMessage: function(message) {
+		var thread = this.threads.get(message.thread);
+		if(thread == undefined) {
+			return;
+		} else {
+			thread.messages.add(message);
+			this.trigger(CHAT.MESSAGE_FETCH + message.thread);
+		}
 	}
 });
 

@@ -6,7 +6,13 @@ var rbs = require('react-bootstrap');
 var Button = rbs.Button;
 var Input = rbs.Input;
 
-var ChatActions = require('./../ChatActions')
+var MessageList = require('./MessageList.jsx');
+
+var ChatActions = require('./../ChatActions');
+var ChatStore = require('./../ChatStore');
+
+var constants = require('./../../constants');
+var CHAT = constants.CHAT;
 
 var ChatPanel = React.createClass({
 
@@ -16,9 +22,24 @@ var ChatPanel = React.createClass({
 
 	getInitialState: function() {
 		return {
-			isOpen: false,
-			body: ''
+			isOpen: true,
+			body: '',
+			messages: []
 		};
+	},
+
+	componentDidMount: function() {
+		ChatStore.on(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
+	},
+
+	componentWillUnmount: function() {
+		ChatStore.off(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
+	},
+
+	_onMessageFetch: function() {
+		this.setState({
+			messages: ChatStore.getMessages(this.props.thread._id)
+		});
 	},
 
 	onChange: function(ev) {
@@ -93,7 +114,9 @@ var ChatPanel = React.createClass({
 
 		var body = (
 			<div className='row chat-panel-body'>
-				the chat body
+				<MessageList
+					messages={ this.state.messages }
+				/>
 				{ input }
 			</div>
 		);

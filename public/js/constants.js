@@ -91,5 +91,7 @@ exports.CHAT = {
 	PANEL_CLOSE: 'chat_panel_close',
 	MESSAGE_CREATE: 'chat_message_create',
 
+	MESSAGE_FETCH: 'chat_message_fetch:',
+
 	CHANGE_ALL: 'chat_change_all'
 };

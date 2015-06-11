@@ -21,8 +21,8 @@ var LoginPage = React.createClass({
 					</div>
 
 					<div className='login-title'>
-						<h1>Join the Fun.</h1>
-						<h2>Sign in to continue to Bevy.</h2>
+						<h1>bevy</h1>
+						<h2>Sign in to continue.</h2>
 					</div>
 
 					<LoginPanel />

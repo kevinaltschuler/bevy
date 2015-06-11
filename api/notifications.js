@@ -28,6 +28,8 @@ var paramNames = 'event message email bevy user members';
 var emitter = new EventEmitter();
 emitter.setMaxListeners(0);
 
+exports.emitter = emitter;
+
 function collectParams(req) {
 	var params = {};
 	paramNames.split(' ').forEach(function(param) {
@@ -343,7 +345,18 @@ exports.poll = function(req, res, next) {
 	var user_id = req.params.userid;
 	emitter.on(user_id, function(notification) {
 		if(!res.headersSent)
-			return res.json(notification);
-		else return next();
+			return res.json({
+				type: 'notification',
+				data: notification
+			});
+		else return res.end();
+	});
+	emitter.on(user_id + ':chat', function(message) {
+		if(!res.headersSent)
+			return res.json({
+				type: 'message',
+				data: message
+			});
+		else return res.end();
 	});
 }

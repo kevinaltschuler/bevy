@@ -18,6 +18,8 @@ var APP = require('./../constants').APP;
 
 var Notifications = require('./NotificationCollection');
 
+var ChatStore = require('./../chat/ChatStore');
+
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
 // to this store's events
@@ -68,10 +70,16 @@ _.extend(NotificationStore, {
 		url: constants.apiurl + '/users/' + user._id + '/notifications/poll',
 		dataType: 'json',
 		success: function(data) {
-
-			NotificationStore.notifications.add(data);
-
-			NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
+			console.log(data);
+			switch(data.type) {
+				case 'notification':
+					NotificationStore.notifications.add(data.data);
+					NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
+					break;
+				case 'message':
+					ChatStore.addMessage(data.data);
+					break;
+			}
 		},
 		complete: poll,
 		timeout: 30000
