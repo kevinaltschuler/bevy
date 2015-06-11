@@ -70,7 +70,6 @@ _.extend(NotificationStore, {
 		url: constants.apiurl + '/users/' + user._id + '/notifications/poll',
 		dataType: 'json',
 		success: function(data) {
-			console.log(data);
 			switch(data.type) {
 				case 'notification':
 					NotificationStore.notifications.add(data.data);

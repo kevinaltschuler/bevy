@@ -13,6 +13,8 @@ var ThreadCollection = require('./ThreadCollection');
 
 var ChatStore = _.extend({}, Backbone.Events);
 
+var user = window.bootstrap.user;
+
 _.extend(ChatStore, {
 
 	threads: new ThreadCollection,
@@ -117,6 +119,10 @@ _.extend(ChatStore, {
 		if(thread == undefined) {
 			return;
 		} else {
+			// dont get the message you just added
+			// TODO: do this on the server?
+			if(message.author._id == user._id) return;
+
 			thread.messages.add(message);
 			this.trigger(CHAT.MESSAGE_FETCH + message.thread);
 		}
