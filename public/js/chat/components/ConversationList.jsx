@@ -3,6 +3,9 @@
 var React = require('react');
 var _ = require('underscore');
 
+var rbs = require('react-bootstrap');
+var Button = rbs.Button;
+
 var ChatActions = require('./../ChatActions');
 
 var ConversationList = React.createClass({
@@ -28,12 +31,10 @@ var ConversationList = React.createClass({
 			var bevy = thread.bevy;
 
 			threads.push(
-				<li className='conversation-item' key={ 'thread' + bevy._id }>
-					<a className='conversation-item-link' href="#" id={ thread._id } onClick={ this.openThread }>
+					<Button className='conversation-item' key={ 'thread' + bevy._id } id={ thread._id } onClick={ this.openThread }>
 						<img className='bevy-img' src={ bevy.image_url } />
 						<span className='bevy-name'>{ bevy.name }</span>
-					</a>
-				</li>
+					</Button>
 			);
 		}
 
@@ -42,9 +43,9 @@ var ConversationList = React.createClass({
 				<div className='conversation-list-header'>
 					<span>Conversations</span>
 				</div>
-				<ul>
+				<div className='list-links'>
 					{ threads }
-				</ul>
+				</div>
 			</div>
 		);
 	}
