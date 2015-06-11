@@ -85,3 +85,11 @@ exports.NOTIFICATION = {
 
 	  CHANGE_ALL: 'notification_change_all'
 };
+
+exports.CHAT = {
+	THREAD_OPEN: 'chat_thread_open',
+	PANEL_CLOSE: 'chat_panel_close',
+	MESSAGE_CREATE: 'chat_message_create',
+
+	CHANGE_ALL: 'chat_change_all'
+};

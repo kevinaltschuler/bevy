@@ -6,12 +6,14 @@ var $ = require('jquery');
 
 var BevyList = require('./../../bevy/components/BevyList.jsx');
 var ContactList = require('./../../contact/components/ContactList.jsx');
+var ConversationList = require('./../../chat/components/ConversationList.jsx');
 
 var LeftSidebar = React.createClass({
 
 	propTypes: {
 		allBevies: React.PropTypes.array.isRequired,
-		activeBevy: React.PropTypes.object.isRequired
+		activeBevy: React.PropTypes.object.isRequired,
+		allThreads: React.PropTypes.array.isRequired
 	},
 
 	getInitialState: function() {
@@ -36,8 +38,8 @@ var LeftSidebar = React.createClass({
 						allBevies={ this.props.allBevies }
 						activeBevy={ this.props.activeBevy }
 					/>
-					<ContactList
-
+					<ConversationList
+						allThreads={ this.props.allThreads }
 					/>
 				</div>
 			</div>

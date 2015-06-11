@@ -24,7 +24,6 @@ var Notifications = require('./NotificationCollection');
 var NotificationStore = _.extend({}, Backbone.Events);
 
 var user = window.bootstrap.user;
-var notifications = user.notifications;
 
 // now add some custom functions
 _.extend(NotificationStore, {

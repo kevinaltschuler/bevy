@@ -39,6 +39,7 @@ var PostView = React.createClass({
 					<LeftSidebar
 						allBevies={ this.props.allBevies }
 						activeBevy={ this.props.activeBevy }
+						allThreads={ this.props.allThreads }
 					/>
 					<PostContainer
 						allPosts={ this.props.allPosts }

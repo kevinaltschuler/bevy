@@ -20,18 +20,22 @@ var PostView = require('./PostView.jsx');
 var SearchView = require('./SearchView.jsx');
 var PublicView = require('./PublicView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
+var ChatDock = require('./../../chat/components/ChatDock.jsx');
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 var UserStore = require('./../../profile/UserStore');
+var ChatStore = require('./../../chat/ChatStore');
 
 var AppActions = require('./../../app/AppActions');
 
-var POST = require('./../../constants').POST;
-var BEVY = require('./../../constants').BEVY;
-var NOTIFICATION = require('./../../constants').NOTIFICATION;
+var constants = require('./../../constants');
 
+var POST = constants.POST;
+var BEVY = constants.BEVY;
+var NOTIFICATION = constants.NOTIFICATION;
+var CHAT = constants.CHAT;
 
 // create app
 var MainSection = React.createClass({
@@ -49,6 +53,7 @@ var MainSection = React.createClass({
 		PostStore.on(POST.CHANGE_ALL, this._onPostChange);
 		BevyStore.on(BEVY.CHANGE_ALL, this._onBevyChange);
 		NotificationStore.on(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
+		ChatStore.on(CHAT.CHANGE_ALL, this._onChatChange);
 	},
 
 	// unmount event listeners
@@ -56,6 +61,7 @@ var MainSection = React.createClass({
 		PostStore.off(POST.CHANGE_ALL, this._onPostChange);
 		BevyStore.off(BEVY.CHANGE_ALL, this._onBevyChange);
 		NotificationStore.off(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
+		ChatStore.off(CHAT.CHANGE_ALL, this._onChatChange);
 	},
 
 	getPostState: function() {
@@ -86,12 +92,20 @@ var MainSection = React.createClass({
 		};
 	},
 
+	getChatState: function() {
+		return {
+			allThreads: ChatStore.getAllThreads(),
+			openThreads: ChatStore.getOpenThreads()
+		};
+	},
+
 	collectState: function() {
 		var state = {};
 		_.extend(state,
 			this.getPostState(),
 			this.getBevyState(),
-			this.getNotificationState()
+			this.getNotificationState(),
+			this.getChatState()
 		);
 		return state;
 	},
@@ -107,6 +121,9 @@ var MainSection = React.createClass({
 	_onNotificationChange: function() {
 		this.setState(_.extend(this.state, this.getNotificationState()));
 	},
+	_onChatChange: function() {
+		this.setState(_.extend(this.state, this.getChatState()));
+	},
 
 	componentWillReceiveProps: function(nextProps) {
 		this.setState(this.collectState());
@@ -120,6 +137,9 @@ var MainSection = React.createClass({
 					allNotifications={ this.state.allNotifications }
 				/>
 				<InterfaceComponent {...this.state} />
+				<ChatDock
+					openThreads={ this.state.openThreads }
+				/>
 			</div>
 		);
 	}

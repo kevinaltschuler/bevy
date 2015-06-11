@@ -47,10 +47,12 @@ var BevySettingsModal = React.createClass({
 
 	save: function(ev) {
 		var anonymise_users = this.refs.anonymise_users.isToggled();
+		var group_chat = this.refs.group_chat.isToggled();
 
 		BevyActions.update(this.props.activeBevy._id, null, null, null, {
 			anonymise_users: anonymise_users,
-			posts_expire_in: this.state.posts_expire_in
+			posts_expire_in: this.state.posts_expire_in,
+			group_chat: group_chat
 		});
 
 		this.props.onRequestHide();
@@ -92,6 +94,14 @@ var BevySettingsModal = React.createClass({
 						  label="Anonymise Users?"
 						  defaultToggled={ settings.anonymise_users }
 						  ref='anonymise_users'
+						/>
+					</div>
+
+					<div className='bevy-setting'>
+						<Toggle
+						  label="Show Group Chat?"
+						  defaultToggled={ settings.group_chat }
+						  ref='group_chat'
 						/>
 					</div>
 

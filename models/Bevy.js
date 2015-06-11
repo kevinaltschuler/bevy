@@ -28,6 +28,10 @@ var BevySchema = new Schema({
 		anonymise_users: {
 			type: Boolean,
 			default: false
+		},
+		group_chat: {
+			type: Boolean,
+			default: true
 		}
 	},
 	created: {
