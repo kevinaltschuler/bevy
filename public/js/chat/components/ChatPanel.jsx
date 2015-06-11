@@ -51,11 +51,17 @@ var ChatPanel = React.createClass({
 
 	onKeyPress: function(ev) {
 		if(ev.which == 13) {
+
+			// dont send empty messages
+			if(_.isEmpty(this.state.body)) return;
+
 			// create message
 			var thread = this.props.thread;
 			var author = window.bootstrap.user;
 			var body = this.refs.body.getValue();
 			ChatActions.createMessage(thread._id, author, body);
+
+			// reset input field
 			this.setState({
 				body: ''
 			});
