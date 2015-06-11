@@ -54,7 +54,6 @@ var MessageList = React.createClass({
 	},
 
 	_onMessageFetch: function() {
-
 		this.setState({
 			loading: false
 		});

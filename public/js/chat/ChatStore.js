@@ -24,11 +24,19 @@ _.extend(ChatStore, {
 		switch(payload.actionType) {
 			case APP.LOAD:
 
+				// fetch threads
 				this.threads.fetch({
 					reset: true,
 					success: function(collection, response, options) {
-						//console.log(collection);
-						this.trigger(CHAT.CHANGE_ALL);
+						collection.forEach(function(thread) {
+							// fetch messages
+							thread.messages.fetch({
+								reset: true,
+								success: function(collection, response, options) {
+									this.trigger(CHAT.CHANGE_ALL);
+								}.bind(this)
+							});
+						}.bind(this));
 					}.bind(this)
 				});
 
@@ -36,7 +44,6 @@ _.extend(ChatStore, {
 
 			case CHAT.THREAD_OPEN:
 				var thread_id = payload.thread_id;
-				//console.log(thread_id);
 
 				if(this.openThreads.indexOf(thread_id) > -1) {
 					// already found it
@@ -46,15 +53,6 @@ _.extend(ChatStore, {
 
 				var thread = this.threads.get(thread_id);
 				if(thread == undefined) return;
-
-				if(thread.messages.models.length <= 0) {
-					thread.messages.fetch({
-						reset: true,
-						success: function(collection, response, options) {
-							this.trigger(CHAT.MESSAGE_FETCH + thread_id);
-						}.bind(this)
-					});
-				}
 
 				this.openThreads.push(thread_id);
 
@@ -140,6 +138,16 @@ _.extend(ChatStore, {
 		} else {
 			return thread.messages.toJSON();
 		}
+	},
+
+	getLatestMessage: function(thread_id) {
+		var thread = this.threads.get(thread_id);
+		if(thread == undefined) {
+			return {};
+		}
+		var message = thread.messages.at(thread.messages.length - 1);
+		if(message == undefined) return {};
+		else return message.toJSON();
 	},
 
 	addMessage: function(message) {
