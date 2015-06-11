@@ -45,6 +45,8 @@ _.extend(ChatStore, {
 				}
 
 				var thread = this.threads.get(thread_id);
+				if(thread == undefined) return;
+
 				if(thread.messages.models.length <= 0) {
 					thread.messages.fetch({
 						reset: true,
@@ -55,6 +57,8 @@ _.extend(ChatStore, {
 				}
 
 				this.openThreads.push(thread_id);
+
+				console.log(this.openThreads);
 
 				this.trigger(CHAT.CHANGE_ALL);
 				break;
@@ -103,7 +107,7 @@ _.extend(ChatStore, {
 		var threads = [];
 		this.openThreads.forEach(function(thread_id) {
 			var thread = this.threads.get(thread_id);
-			if(!_.isEmpty(thread)) threads.push(thread.toJSON());
+			if(thread != undefined) threads.push(thread.toJSON());
 		}.bind(this));
 		return threads;
 	},
