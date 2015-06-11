@@ -25,7 +25,7 @@ var ChatPanel = React.createClass({
 		return {
 			isOpen: true,
 			body: '',
-			messages: []
+			messages: ChatStore.getMessages(this.props.thread._id)
 		};
 	},
 

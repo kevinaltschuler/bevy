@@ -18,7 +18,7 @@ var user = window.bootstrap.user;
 _.extend(ChatStore, {
 
 	threads: new ThreadCollection,
-	openThreads: new ThreadCollection,
+	openThreads: [],
 
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
@@ -38,7 +38,7 @@ _.extend(ChatStore, {
 				var thread_id = payload.thread_id;
 				//console.log(thread_id);
 
-				if(!_.isEmpty(this.openThreads.get(thread_id))) {
+				if(this.openThreads.indexOf(thread_id) > -1) {
 					// already found it
 					// just open the panel
 					break;
@@ -52,11 +52,9 @@ _.extend(ChatStore, {
 							this.trigger(CHAT.MESSAGE_FETCH + thread_id);
 						}.bind(this)
 					});
-				} else {
-
 				}
 
-				this.openThreads.add(thread);
+				this.openThreads.push(thread_id);
 
 				this.trigger(CHAT.CHANGE_ALL);
 				break;
@@ -64,7 +62,10 @@ _.extend(ChatStore, {
 			case CHAT.PANEL_CLOSE:
 				var thread_id = payload.thread_id;
 
-				this.openThreads.remove(thread_id);
+				var index = this.openThreads.indexOf(thread_id);
+				if(index > -1) {
+					this.openThreads.splice(index, 1);
+				}
 
 				this.trigger(CHAT.CHANGE_ALL);
 				break;
@@ -99,9 +100,12 @@ _.extend(ChatStore, {
 	},
 
 	getOpenThreads: function() {
-		return (_.isEmpty(this.openThreads.models))
-			? []
-			: this.openThreads.toJSON();
+		var threads = [];
+		this.openThreads.forEach(function(thread_id) {
+			var thread = this.threads.get(thread_id);
+			if(!_.isEmpty(thread)) threads.push(thread.toJSON());
+		}.bind(this));
+		return threads;
 	},
 
 	getMessages: function(thread_id) {

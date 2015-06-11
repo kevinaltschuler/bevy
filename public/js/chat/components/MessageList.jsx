@@ -1,6 +1,8 @@
 'use strict';
 
 var React = require('react');
+var _ = require('underscore');
+var $ = require('jquery');
 
 var MessageItem = require('./MessageItem.jsx');
 
@@ -8,6 +10,10 @@ var MessageList = React.createClass({
 
 	propTypes: {
 		messages: React.PropTypes.array
+	},
+
+	getInitialState: function() {
+		return {};
 	},
 
 	render: function() {
@@ -25,7 +31,7 @@ var MessageList = React.createClass({
 		}
 
 		return (
-			<div className='message-list'>
+			<div id='message-list' className='message-list'>
 				{ messages }
 			</div>
 		);
