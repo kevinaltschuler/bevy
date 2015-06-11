@@ -94,7 +94,8 @@ var NewPostPanel = React.createClass({
 
 		this.setState({
 			bevies: bevies,
-			selectedIndex: selectedIndex
+			selectedIndex: selectedIndex,
+			expanded: true
 		});
 	},
 
