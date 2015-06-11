@@ -433,6 +433,13 @@ _.extend(BevyStore, {
 		: {};
 	},
 
+	getBevy: function(bevy_id) {
+		var bevy = this.bevies.get(bevy_id);
+		return (bevy)
+		? bevy.toJSON()
+		: {};
+	},
+
 	getActiveMember: function() {
 		var bevy = this.getActive();
 		if(_.isEmpty(bevy)) return {};

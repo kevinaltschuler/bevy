@@ -9,7 +9,8 @@ var MessageItem = require('./MessageItem.jsx');
 var MessageList = React.createClass({
 
 	propTypes: {
-		messages: React.PropTypes.array
+		messages: React.PropTypes.array,
+		bevy: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -26,6 +27,7 @@ var MessageList = React.createClass({
 				<MessageItem
 					key={ message._id }
 					message={ message }
+					bevy={ this.props.bevy }
 				/>
 			);
 		}

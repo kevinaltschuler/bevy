@@ -11,6 +11,7 @@ var MessageList = require('./MessageList.jsx');
 
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
+var BevyStore = require('./../../bevy/BevyStore');
 
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
@@ -125,6 +126,7 @@ var ChatPanel = React.createClass({
 			<div className='row chat-panel-body'>
 				<MessageList
 					messages={ this.state.messages }
+					bevy={ bevy }
 				/>
 				{ input }
 			</div>
