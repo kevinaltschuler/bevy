@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var _ = require('underscore');
 
 var rbs = require('react-bootstrap');
 var Button = rbs.Button;
