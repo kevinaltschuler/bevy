@@ -17,6 +17,11 @@ var MessageList = React.createClass({
 		return {};
 	},
 
+	componentDidUpdate: function() {
+		var node = this.getDOMNode();
+		node.scrollTop = node.scrollHeight;
+	},
+
 	render: function() {
 
 		var allMessages = this.props.messages;
