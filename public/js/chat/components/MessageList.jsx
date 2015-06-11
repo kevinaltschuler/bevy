@@ -6,18 +6,28 @@ var $ = require('jquery');
 
 var MessageItem = require('./MessageItem.jsx');
 
+var ChatActions = require('./../ChatActions');
+var ChatStore = require('./../ChatStore');
+
+var constants = require('./../../constants');
+var CHAT = constants.CHAT;
+
 var MessageList = React.createClass({
 
 	propTypes: {
+		thread: React.PropTypes.object,
 		messages: React.PropTypes.array,
 		bevy: React.PropTypes.object
 	},
 
 	getInitialState: function() {
-		return {};
+		return {
+			loading: false
+		};
 	},
 
 	componentDidMount: function() {
+		ChatStore.on(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
 		var node = this.getDOMNode();
 		node.scrollTop = node.scrollHeight;
 	},
@@ -31,6 +41,29 @@ var MessageList = React.createClass({
 		if(this.shouldScrollBottom) {
 			var node = this.getDOMNode();
 			node.scrollTop = node.scrollHeight;
+		}
+	},
+
+	componentWillUnmount: function() {
+		ChatStore.off(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
+	},
+
+	_onMessageFetch: function() {
+		this.setState({
+			loading: false
+		});
+	},
+
+	onScroll: function(ev) {
+		var node = this.getDOMNode();
+		//console.log(node.scrollTop);
+		if(node.scrollTop <= 0) {
+			// load more
+			this.setState({
+				loading: true
+			});
+
+			ChatActions.loadMore(this.props.thread._id);
 		}
 	},
 
@@ -49,8 +82,13 @@ var MessageList = React.createClass({
 			);
 		}
 
+		var loading = (this.state.loading)
+			? <span>Loading...</span>
+			: '';
+
 		return (
-			<div id='message-list' className='message-list'>
+			<div id='message-list' className='message-list' onScroll={ this.onScroll }>
+				{ loading }
 				{ messages }
 			</div>
 		);

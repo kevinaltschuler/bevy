@@ -12,9 +12,14 @@ var Bevy = mongoose.model('Bevy');
 // GET /threads/:threadid/messages
 exports.index = function(req, res, next) {
 	var thread_id = req.params.threadid;
+	var skip = req.query['skip'] || 0;
 	Message.find({ thread: thread_id }, function(err, messages) {
 		return res.json(messages);
-	}).populate('author');
+	})
+		.populate('author')
+		.sort('-created')
+		.skip(skip)
+		.limit(10);
 };
 
 // POST /threads/:threadid/messages

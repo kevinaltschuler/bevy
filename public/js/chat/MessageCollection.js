@@ -5,7 +5,8 @@ var _ = require('underscore');
 var Message = require('./MessageModel');
 
 var MessageCollection = Backbone.Collection.extend({
-	model: Message
+	model: Message,
+	comparator: 'created'
 });
 
 module.exports = MessageCollection;

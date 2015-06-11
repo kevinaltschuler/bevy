@@ -92,6 +92,7 @@ exports.CHAT = {
 	MESSAGE_CREATE: 'chat_message_create',
 
 	MESSAGE_FETCH: 'chat_message_fetch:',
+	MESSAGE_FETCH_MORE: 'chat_message_fetch_more',
 
 	CHANGE_ALL: 'chat_change_all'
 };

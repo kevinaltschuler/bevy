@@ -26,6 +26,12 @@ var ChatActions = {
 			author: author,
 			body: body
 		});
+	},
+
+	loadMore: function(thread_id) {
+		dispatch(CHAT.MESSAGE_FETCH_MORE, {
+			thread_id: thread_id
+		});
 	}
 };
 

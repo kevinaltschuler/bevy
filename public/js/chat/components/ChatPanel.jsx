@@ -123,6 +123,7 @@ var ChatPanel = React.createClass({
 		var body = (
 			<div className='row chat-panel-body'>
 				<MessageList
+					thread={ thread }
 					messages={ this.state.messages }
 					bevy={ bevy }
 				/>
