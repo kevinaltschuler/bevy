@@ -86,13 +86,15 @@ var ChatPanel = React.createClass({
 		var thread = this.props.thread;
 		var bevy = thread.bevy;
 
+		var expandGlyph = (this.state.isOpen) ? 'glyphicon-minus' : 'glyphicon-plus';
+
 		var header = (
 			<div className='row chat-panel-header'>
 				<div className='col-xs-8'>
 					<a href="#" onClick={ this.handleToggle }>{ bevy.name }</a>
 				</div>
 				<div className='col-xs-2'>
-					<span className="glyphicon glyphicon-minus btn" onClick={ this.handleToggle }></span>
+					<span className={ 'glyphicon ' + expandGlyph } onClick={ this.handleToggle }></span>
 				</div>
 				<div className='col-xs-2'>
 					<span className="glyphicon glyphicon-remove btn" onClick={ this.closePanel }></span>
