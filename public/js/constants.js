@@ -9,7 +9,7 @@
 
 'use strict';
 
-exports.version = '0.1.3';
+exports.version = '0.2.0';
 
 var hostname = window.location.hostname;
 var protocol = location.protocol;
