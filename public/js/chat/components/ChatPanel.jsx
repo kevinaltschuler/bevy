@@ -88,24 +88,25 @@ var ChatPanel = React.createClass({
 		var bevy = thread.bevy;
 
 		var expandGlyph = (this.state.isOpen) ? 'glyphicon-minus' : 'glyphicon-plus';
+		var expandTitle = (this.state.isOpen) ? 'Minimize' : 'Maximize';
 
 		var header = (
 			<div className='row chat-panel-header'>
-				<div className='col-xs-8'>
-					<a href="#" onClick={ this.handleToggle }>{ bevy.name }</a>
+				<a href='#' className='bevy-name col-xs-8' onClick={ this.handleToggle }>
+					{ bevy.name }
+				</a>
+				<div className='col-xs-2'>
+					<span className={ 'glyphicon ' + expandGlyph + ' btn' } title={ expandTitle } onClick={ this.handleToggle }></span>
 				</div>
 				<div className='col-xs-2'>
-					<span className={ 'glyphicon ' + expandGlyph } onClick={ this.handleToggle }></span>
-				</div>
-				<div className='col-xs-2'>
-					<span className="glyphicon glyphicon-remove btn" onClick={ this.closePanel }></span>
+					<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
 				</div>
 			</div>
 		);
 
 		var input = (
-			<div className='row chat-panel-input'>
-				<div className='col-xs-10'>
+			<div className='chat-panel-input'>
+				<div className='chat-text-field'>
 					<Input
 						type='text'
 						ref='body'
@@ -114,9 +115,6 @@ var ChatPanel = React.createClass({
 						onChange={ this.onChange }
 						value={ this.state.body }
 					/>
-				</div>
-				<div className='col-xs-2'>
-
 				</div>
 			</div>
 		);

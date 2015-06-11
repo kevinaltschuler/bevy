@@ -1,20 +1,45 @@
+@import './../variables.less';
+
 .chat-panel {
 	//position: absolute;
 	bottom: 0px;
 	margin-right: 10px;
+	box-shadow: 0px 0px 10px #aaa;
 
 	.chat-panel-header {
-		background-color: #ddd;
+		background-color: #666;
 		padding: 3px 5px;
 		text-align: center;
 
-		.btn {
+		a.bevy-name {
+			color: #fff;
+			text-align: left;
+			&:hover, &:active, &:focus {
+				text-decoration: none;
+			}
+		}
+
+		.glyphicon.btn {
 			padding: 0px;
+			color: #ccc;
 		}
 	}
 
 	.chat-panel-body {
-		background-color: #fff;
+		background-color: #eee;
 		padding: 3px 5px;
+
+		.chat-panel-input {
+			background-color: #fff;
+			width: 100%;
+			.chat-text-field {
+				.form-group {
+					margin-bottom: 0px;
+					input {
+						border-radius: 0px;
+					}
+				}
+			}
+		}
 	}
 }

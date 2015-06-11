@@ -3,6 +3,10 @@
 var React = require('react');
 var _ = require('underscore');
 
+var rbs = require('react-bootstrap');
+var OverlayTrigger = rbs.OverlayTrigger;
+var Tooltip = rbs.Tooltip;
+
 var user = window.bootstrap.user;
 
 var MessageItem = React.createClass({
@@ -40,12 +44,15 @@ var MessageItem = React.createClass({
 			authorImage = member.image_url;
 		}
 
+		var authorName = author.displayName;
+		if(bevy.settings.anonymise_users) {
+			authorName = member.displayName;
+		}
+
 		return (
 			<div className='message-item' style={ messageStyle }>
-				<a href='#' title={ author.name }>
-					<img className='message-author-img' title={ author.name } alt={ author.name } src={ authorImage } />
-				</a>
-				<span>{ message.body }</span>
+				<img className='message-author-img' title={ authorName } alt={ authorName } src={ authorImage } />
+				<span className='message-body'>{ message.body }</span>
 			</div>
 		);
 	}
