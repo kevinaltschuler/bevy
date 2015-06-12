@@ -31,8 +31,8 @@ var MessageItem = React.createClass({
 		var bevy = this.props.bevy;
 		var member = this.findMember(author._id);
 
-		var direction = (author._id == user._id) ? 'row' : 'row-reverse';
-		var align = (author._id == user._id) ? 'left' : 'right';
+		var direction = (author._id == user._id) ? 'row-reverse' : 'row';
+		var align = (author._id == user._id) ? 'right' : 'left';
 		var messageStyle = {
 			//float: float
 			flexDirection: direction,
