@@ -41,7 +41,7 @@ var MessageList = React.createClass({
 		var node = this.getDOMNode();
 
 		if(this.prevScrollHeight < node.scrollHeight) {
-			node.scrollTop = node.scrollHeight - this.prevScrollHeight;
+			node.scrollTop = node.scrollHeight - this.prevScrollHeight - 20;
 		}
 
 		if(this.shouldScrollBottom) {
