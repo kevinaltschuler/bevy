@@ -33,11 +33,16 @@ var MessageItem = React.createClass({
 
 		var direction = (author._id == user._id) ? 'row-reverse' : 'row';
 		var align = (author._id == user._id) ? 'right' : 'left';
+		var flex = (author._id == user._id) ? 'flex-end' : 'flex-start';
 		var messageStyle = {
 			//float: float
 			flexDirection: direction,
 			textAlign: align
 		};
+		var bodyStyle = {
+			justifyContent: flex,
+			alignItems: flex
+		}
 
 		var authorImage = (_.isEmpty(author.image_url)) ? '//ssl.gstatic.com/accounts/ui/avatar_2x.png' : author.image_url;
 		if(bevy.settings.anonymise_users && member.image_url) {
@@ -49,10 +54,24 @@ var MessageItem = React.createClass({
 			authorName = member.displayName;
 		}
 
+		var createDate = new Date(message.created);
+		var dateOptions = {
+			year: undefined,
+			month: 'long',
+			day: 'numeric',
+			hour: 'numeric',
+			minute: 'numeric'
+		};
+		var created = createDate.toLocaleString('en-US', dateOptions);
+
 		return (
 			<div className='message-item' style={ messageStyle }>
 				<img className='message-author-img' title={ authorName } alt={ authorName } src={ authorImage } />
-				<span className='message-body'>{ message.body }</span>
+				<div className='message-body' style={ bodyStyle }>
+					<span className='message-text'>{ message.body }</span>
+					{/*<span className='message-info'>{ authorName + ' • ' + created }</span>*/}
+					<span className='message-info'>{ created }</span>
+				</div>
 			</div>
 		);
 	}
