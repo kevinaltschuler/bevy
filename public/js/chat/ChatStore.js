@@ -36,11 +36,11 @@ _.extend(ChatStore, {
 								reset: true,
 								success: function(collection, response, options) {
 
-									var openThreads = localStorage.getItem('openThreads') || '';
+									/*var openThreads = localStorage.getItem('openThreads') || '';
 									openThreads = openThreads.split(' ');
 									openThreads.forEach(function(thread) {
 										this.openThreads.push(thread);
-									}.bind(this));
+									}.bind(this));*/
 
 									this.trigger(CHAT.CHANGE_ALL);
 								}.bind(this)
