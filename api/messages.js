@@ -36,7 +36,6 @@ exports.create = function(req, res, next) {
 
 	Message.create(message, function(err, $message) {
 		Message.populate(message, { path: 'author' }, function(err, $pop_message) {
-
 			// now lets push it to everybody
 			Thread.findOne({ _id: thread_id }, function(err, thread) {
 				if(_.isEmpty(thread.users)) {
@@ -54,6 +53,9 @@ exports.create = function(req, res, next) {
 				}
 			});
 
+			$pop_message = JSON.parse(JSON.stringify($pop_message));
+			$pop_message._id = $message._id;
+			$pop_message.created = $message.created;
 			return res.json($pop_message);
 		});
 	});

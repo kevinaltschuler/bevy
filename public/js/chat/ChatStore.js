@@ -120,7 +120,7 @@ _.extend(ChatStore, {
 				});
 				message.save(null, {
 					success: function(model, response, options) {
-						message.set('_id', model.get('_id'));
+						message.set('_id', model.id);
 						message.set('author', model.get('author'));
 						message.set('created', model.get('created'));
 						this.trigger(CHAT.MESSAGE_FETCH + thread_id);

@@ -76,11 +76,38 @@ var MessageList = React.createClass({
 
 		var allMessages = this.props.messages;
 		var messages = [];
-		for(var key in allMessages) {
-			var message = allMessages[key];
+
+		// compress messages
+		var threshold = 1000 * 60 * 3; // 3 minutes
+		var $allMessages = [];
+		var compressed = [];
+		allMessages.forEach(function(message, index) {
+			if(compressed.indexOf(message._id) > -1) return; // skip compressed
+			var date = Date.parse(message.created);
+			message.$body = ''; // clear the body between rerenders
+			allMessages.forEach(function($message, $index) {
+				if($message._id == message._id) return; // skip self
+				if(compressed.indexOf($message._id) > -1) return; // skip compressed
+				var $date = Date.parse($message.created);
+				if(Math.abs(date - $date) <= threshold) {
+					// compress
+					if(_.isEmpty(message.$body))
+						message.$body = message.body + '\n' + $message.body;
+					else
+						message.$body = message.$body + '\n' + $message.body;
+					compressed.push($message._id);
+				}
+			});
+			if(_.isEmpty(message.$body)) message.$body = message.body;
+			$allMessages.push(message);
+		});
+		console.log($allMessages);
+
+		for(var key in $allMessages) {
+			var message = $allMessages[key];
 			messages.push(
 				<MessageItem
-					key={ message._id }
+					key={ 'message:' + message._id }
 					message={ message }
 					bevy={ this.props.bevy }
 				/>
