@@ -32,7 +32,7 @@ var ChatDock = React.createClass({
 		}
 
 		return (
-			<div className='row chat-dock'>
+			<div className='chat-dock'>
 				{ threads }
 			</div>
 		);

@@ -142,7 +142,7 @@ var ChatPanel = React.createClass({
 		if(!this.state.isOpen) body = <div />;
 
 		return (
-			<div className='chat-panel col-xs-2'>
+			<div className='chat-panel'>
 				{ header }
 				{ body }
 			</div>
