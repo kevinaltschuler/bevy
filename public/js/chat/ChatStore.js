@@ -14,6 +14,7 @@ var ThreadCollection = require('./ThreadCollection');
 var ChatStore = _.extend({}, Backbone.Events);
 
 var user = window.bootstrap.user;
+var localStorage = window.localStorage;
 
 _.extend(ChatStore, {
 
@@ -34,6 +35,13 @@ _.extend(ChatStore, {
 							thread.messages.fetch({
 								reset: true,
 								success: function(collection, response, options) {
+
+									var openThreads = localStorage.getItem('openThreads') || '';
+									openThreads = openThreads.split(' ');
+									openThreads.forEach(function(thread) {
+										this.openThreads.push(thread);
+									}.bind(this));
+
 									this.trigger(CHAT.CHANGE_ALL);
 								}.bind(this)
 							});
@@ -66,6 +74,15 @@ _.extend(ChatStore, {
 
 				this.openThreads.push(thread_id);
 
+				var openThreads = localStorage.getItem('openThreads') || '';
+				if(openThreads.split(' ').indexOf(thread_id) == -1) {
+					// add to local storage
+					if(openThreads.length <= 0)
+						localStorage.setItem('openThreads', thread_id);
+					else
+						localStorage.setItem('openThreads', openThreads + ' ' + thread_id);
+				}
+
 				this.trigger(CHAT.CHANGE_ALL);
 				break;
 
@@ -75,6 +92,16 @@ _.extend(ChatStore, {
 				var index = this.openThreads.indexOf(thread_id);
 				if(index > -1) {
 					this.openThreads.splice(index, 1);
+				}
+
+				var openThreads = localStorage.getItem('openThreads') || '';
+				openThreads = openThreads.split(' ');
+				var threadIndex = openThreads.indexOf(thread_id);
+				if(threadIndex > -1) {
+					openThreads.splice(threadIndex, 1);
+					localStorage.setItem('openThreads', _.reduce(openThreads, function(str, thread) {
+						return str + ' ' + thread;
+					}, ''));
 				}
 
 				this.trigger(CHAT.CHANGE_ALL);
