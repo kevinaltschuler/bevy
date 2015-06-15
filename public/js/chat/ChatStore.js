@@ -30,6 +30,7 @@ _.extend(ChatStore, {
 					success: function(collection, response, options) {
 						collection.forEach(function(thread) {
 							// fetch messages
+							// TODO: only get one
 							thread.messages.fetch({
 								reset: true,
 								success: function(collection, response, options) {
@@ -53,6 +54,15 @@ _.extend(ChatStore, {
 
 				var thread = this.threads.get(thread_id);
 				if(thread == undefined) return;
+
+				// fetch messages
+				thread.messages.fetch({
+					remove: false,
+					success: function(collection, response, options) {
+						thread.messages.sort();
+						this.trigger(CHAT.MESSAGE_FETCH + thread_id);
+					}.bind(this)
+				});
 
 				this.openThreads.push(thread_id);
 
