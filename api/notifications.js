@@ -157,13 +157,16 @@ exports.create = function(req, res, next) {
 
 			Notification.create(notifications, function(err, $notifications) {
 				if(err) return next(err);
+				if(_.isEmpty($notifications)) return next();
 				// emit event
 				if(_.isArray($notifications)) {
 					$notifications.forEach(function(notification) {
-						emitter.emit(notification.user, notification);
+						if(!_.isEmpty(notification.user))
+							emitter.emit(notification.user, notification);
 					});
 				} else {
-					emitter.emit($notifications.user, $notifications);
+					if(!_.isEmpty($notifications.user))
+						emitter.emit($notifications.user, $notifications);
 				}
 			});
 
