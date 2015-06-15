@@ -90,9 +90,18 @@ var ChatPanel = React.createClass({
 		var expandGlyph = (this.state.isOpen) ? 'glyphicon-minus' : 'glyphicon-plus';
 		var expandTitle = (this.state.isOpen) ? 'Minimize' : 'Maximize';
 
+		var backgroundStyle = (_.isEmpty(bevy.image_url))
+		? {}
+		: {
+			backgroundImage: 'url(' + bevy.image_url + ')'
+		};
+
 		var header = (
 			<div className='row chat-panel-header'>
-				<a href='#' className='bevy-name col-xs-8' onClick={ this.handleToggle }>
+				<div className='chat-panel-background-wrapper'>
+					<div className='chat-panel-background-image' style={ backgroundStyle } />
+				</div>
+				<a href='#' className='bevy-name col-xs-8' title={ expandTitle } onClick={ this.handleToggle }>
 					{ bevy.name }
 				</a>
 				<div className='col-xs-2'>
