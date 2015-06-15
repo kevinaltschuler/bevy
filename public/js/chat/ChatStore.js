@@ -122,6 +122,7 @@ _.extend(ChatStore, {
 					success: function(model, response, options) {
 						message.set('_id', model.get('_id'));
 						message.set('author', model.get('author'));
+						message.set('created', model.get('created'));
 						this.trigger(CHAT.MESSAGE_FETCH + thread_id);
 					}.bind(this)
 				});
