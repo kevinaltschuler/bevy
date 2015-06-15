@@ -137,10 +137,11 @@ var NewPostPanel = React.createClass({
 
 	// trigger the create action
 	// TODO: pass in the rest of the state attributes needed
-	submit: function() {
+	submit: function(ev) {
+		ev.preventDefault();
 
 		// close the post panel
-		this.close();
+		//this.close();
 
 		// send the create action
 		PostActions.create(
@@ -206,47 +207,45 @@ var NewPostPanel = React.createClass({
 				onChange={ this.onBevyChange }
 			/>);
 
-		return <Panel className="panel new-post-panel" postId={ this.state.id }>
+		return (
+			<Panel className="panel new-post-panel" postId={ this.state.id }>
 
-					<div className="new-post-title">
-						<TextField
-							className="title-field"
-							hintText={ hintText }
-							ref='title'
-							multiLine={ true }
-							value={ this.state.title }
-							onChange={ this.handleChange }
-							onFocus={ this.open }
-						/>
-					</div>
+				<div className="new-post-title">
+					<TextField
+						className="title-field"
+						hintText={ hintText }
+						ref='title'
+						multiLine={ true }
+						value={ this.state.title }
+						onChange={ this.handleChange }
+						onFocus={ this.open }
+					/>
+				</div>
 
-					<div ref='collapse' className={ classNames(styles) }>
+				<div ref='collapse' className={ classNames(styles) }>
 
-						<Uploader
-							onUploadComplete={ this.onUploadComplete }
-							dropzoneOptions={ dropzoneOptions }
-							className="dropzone"
-						/>
+					<Uploader
+						onUploadComplete={ this.onUploadComplete }
+						dropzoneOptions={ dropzoneOptions }
+						className="dropzone"
+					/>
 
-						<div className="panel-bottom row">
-							<div className="panel-controls-left">
-									<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
-									{beviesDropdown}
-							</div>
-							<div className="panel-controls-right ">
-								<div className='row'>
-									<RaisedButton label="submit" onClick={this.submit} />
-									<FlatButton
-										label='cancel'
-										onClick={ this.close }
-									/>
-								</div>
+					<div className="panel-bottom row">
+						<div className="panel-controls-left">
+								<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
+								{beviesDropdown}
+						</div>
+						<div className="panel-controls-right ">
+							<div className='row'>
+								<RaisedButton label="post" onClick={this.submit} />
 							</div>
 						</div>
 					</div>
+				</div>
 
-				</Panel>
-			}
-		});
+			</Panel>
+		);
+	}
+});
 
 module.exports = NewPostPanel;
