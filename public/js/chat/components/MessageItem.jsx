@@ -62,15 +62,18 @@ var MessageItem = React.createClass({
 			hour: 'numeric',
 			minute: 'numeric'
 		};
+		if(new Date(Date.now()).getDay() == createDate.getDay()) {
+			dateOptions.month = undefined;
+			dateOptions.day = undefined;
+		}
 		var created = createDate.toLocaleString('en-US', dateOptions);
 
 		return (
 			<div className='message-item' style={ messageStyle }>
 				<img className='message-author-img' title={ authorName } alt={ authorName } src={ authorImage } />
 				<div className='message-body' style={ bodyStyle }>
-					<span className='message-text'>{ message.$body }</span>
-					{/*<span className='message-info'>{ authorName + ' • ' + created }</span>*/}
-					<span className='message-info'>{ created }</span>
+					<span title={ created } className='message-text'>{ message.$body }</span>
+					<span className='message-info'>{ authorName }</span>
 				</div>
 			</div>
 		);

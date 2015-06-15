@@ -101,7 +101,6 @@ var MessageList = React.createClass({
 			if(_.isEmpty(message.$body)) message.$body = message.body;
 			$allMessages.push(message);
 		});
-		console.log($allMessages);
 
 		for(var key in $allMessages) {
 			var message = $allMessages[key];
