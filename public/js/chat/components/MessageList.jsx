@@ -89,7 +89,7 @@ var MessageList = React.createClass({
 				if($message._id == message._id) return; // skip self
 				if(compressed.indexOf($message._id) > -1) return; // skip compressed
 				var $date = Date.parse($message.created);
-				if(Math.abs(date - $date) <= threshold) {
+				if((Math.abs(date - $date) <= threshold) && (message.author._id == $message.author._id)) {
 					// compress
 					if(_.isEmpty(message.$body))
 						message.$body = message.body + '\n' + $message.body;
