@@ -166,6 +166,7 @@ var NewPostPanel = React.createClass({
 		var beviesDropdown = (bevies.length < 1)
 		? ''
 		: (<DropDownMenu
+				className='bevies-dropdown'
 				autoWidth={false}
 				menuItems={bevies}
 				selectedIndex={ selectedIndex }
@@ -174,7 +175,6 @@ var NewPostPanel = React.createClass({
 
 		return (
 			<Panel className="panel new-post-panel" postId={ this.state.id }>
-
 				<div className="new-post-title">
 					<TextField
 						className="title-field"
@@ -192,18 +192,17 @@ var NewPostPanel = React.createClass({
 					className="dropzone"
 				/>
 
-				<div className="panel-bottom row">
-					<div className="panel-controls-left">
-							<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
-							{beviesDropdown}
+				<div className="panel-bottom">
+					<div className='paperclip'>
+						<FloatingActionButton
+							title="Attach Media"
+							iconClassName="glyphicon glyphicon-paperclip"
+							onClick={ this.preventDefault }
+						/>
 					</div>
-					<div className="panel-controls-right ">
-						<div className='row'>
-							<RaisedButton label="post" onClick={this.submit} />
-						</div>
-					</div>
+					{ beviesDropdown }
+					<RaisedButton label="post" onClick={this.submit} />
 				</div>
-
 			</Panel>
 		);
 	}

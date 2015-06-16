@@ -34,7 +34,7 @@
 			}
 		}
 	}
-	.row.media {
+	.media {
 		overflow: hidden;
 		margin: 0;
 		padding: 20px 0px;
@@ -67,7 +67,6 @@
 		padding: 5px;
 		margin-bottom: 0px;
 		.post-body-text {
-			-webkit-transition: 0s all ease-in;
 	 		transition: 0s all ease-in;
 	 		width: 100%;
 	 		border-color: rgba(0,0,0,0);
@@ -76,56 +75,42 @@
 		}
 	}
 	.panel-bottom {
-		.panel-controls-right {
-			float: right;
-			margin-top: 0px;
-			margin-bottom: 10px;
-			height: 35px;
-			margin-right: 30px;
-			.mui-raised-button {
-				float: right;
-				margin-right: 10px;
-				margin-left: 10px;
-			}
-			.mui-flat-button {
-				float: right;
-			}
-		}
-		.panel-controls-left {
-			height: 45px;
-			float: left;
-			margin-left: 20px;
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		padding: 0 20px;
+		padding-bottom: 10px;
+		.paperclip {
+			flex-grow: 1;
 			.mui-floating-action-button {
-		      width: 35px;
-		      height: 35px;
-		      display: inline-block;
-		      margin-left: 15px;
-		      margin-top: -10px;
-		    }
-		    .mui-floating-action-button .mui-floating-action-button-container {
-		      background-color: white;
-		      width: 35px;
-		      height: 35px;
-		      .mui-floating-action-button-icon {
-		      	line-height: 23px;
-		      	font-size: 18px;
-		      	color: black;
-		      }
-		    }
-			.mui-drop-down-menu {
-				margin-bottom: -5px;
-				margin-left: 15px;
-				margin-top: -26px;
+				width: 35px;
+				height: 35px;
 				display: inline-block;
-				width: 150px;
-				.mui-menu.mui-visible {
-					height: auto !important;
-				}
-				.mui-paper {
+			}
+			.mui-floating-action-button .mui-floating-action-button-container {
+				background-color: white;
+				width: 35px;
+				height: 35px;
+				.mui-floating-action-button-icon {
+					line-height: 23px;
+					font-size: 18px;
+					color: black;
 				}
 			}
 		}
-
+		.bevies-dropdown {
+			margin-top: -15px;
+			height: 45px;
+			display: inline-block;
+			width: 150px;
+			.mui-menu.mui-visible {
+				height: auto !important;
+			}
+			&:not(.mui-open).mui-drop-down-menu .mui-menu-control .mui-menu-control-bg {
+				background-color: transparent;
+			}
+		}
 	}
 
 }
