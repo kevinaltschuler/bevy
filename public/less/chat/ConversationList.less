@@ -16,7 +16,8 @@
 		padding-left: 30px;
 		padding-right: 15px;
 		.conversation-item {
-			display: block;
+			display: flex;
+			justify-content: flex-start;
 			padding-top: 5px;
 			padding-bottom: 5px;
 			padding-left: 0px;
@@ -29,7 +30,8 @@
 			border: none;
 			transition: 0.2s ease-in-out;
 			img.bevy-img {
-				width: 30px;
+				min-width: 30px;
+				max-width: 30px;
 				height: 30px;
 				border-radius: 20px;
 				margin-right: 10px;
@@ -40,10 +42,11 @@
 				display: flex;
 				flex-direction: column;
 				span.bevy-name {
-
+					overflow-x: hidden;
 				}
 				span.latest-message {
 					font-size: 0.8em;
+					overflow-x: hidden;
 				}
 			}
 			&:hover, &:active {

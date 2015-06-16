@@ -57,13 +57,13 @@ var ConversationList = React.createClass({
 			}
 
 			threads.push(
-					<Button className='conversation-item' key={ 'thread' + bevy._id } id={ thread._id } onClick={ this.openThread }>
-						<img className='bevy-img' src={ bevy.image_url } />
-						<div className='conversation-details'>
-							<span className='bevy-name'>{ bevy.name }</span>
-							{ message }
-						</div>
-					</Button>
+				<Button className='conversation-item' key={ 'thread' + bevy._id } id={ thread._id } onClick={ this.openThread } onFocus={ this.openThread }>
+					<img className='bevy-img' src={ bevy.image_url } />
+					<div className='conversation-details'>
+						<span className='bevy-name'>{ bevy.name }</span>
+						{ message }
+					</div>
+				</Button>
 			);
 		}
 
