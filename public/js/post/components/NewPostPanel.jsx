@@ -111,9 +111,6 @@ var NewPostPanel = React.createClass({
 	submit: function(ev) {
 		ev.preventDefault();
 
-		// close the post panel
-		//this.close();
-
 		// send the create action
 		PostActions.create(
 			this.state.title, // title
