@@ -31,18 +31,25 @@ var MessageItem = React.createClass({
 		var bevy = this.props.bevy;
 		var member = this.findMember(author._id);
 
-		var direction = (author._id == user._id) ? 'row-reverse' : 'row';
-		var align = (author._id == user._id) ? 'right' : 'left';
-		var flex = (author._id == user._id) ? 'flex-end' : 'flex-start';
+		var isMe = (author._id == user._id);
+
 		var messageStyle = {
 			//float: float
-			flexDirection: direction,
-			textAlign: align
+			flexDirection: (isMe) ? 'row-reverse' : 'row',
+			textAlign: (isMe) ? 'right' : 'left'
 		};
 		var bodyStyle = {
-			justifyContent: flex,
-			alignItems: flex
+			justifyContent: (isMe) ? 'flex-end' : 'flex-start',
+			alignItems: (isMe) ? 'flex-end' : 'flex-start'
 		}
+
+		var arrowStyle = {
+			borderLeft: (isMe) ? '10px solid white' : 'none',
+			borderRight: (isMe) ? 'none' : '10px solid white'
+		};
+		var messageTextStyle = {
+			borderRadius: (isMe) ? '3px 0px 3px 3px' : '0px 3px 3px 3px'
+		};
 
 		var authorImage = (_.isEmpty(author.image_url)) ? '//ssl.gstatic.com/accounts/ui/avatar_2x.png' : author.image_url;
 		if(bevy.settings.anonymise_users && member.image_url) {
@@ -71,9 +78,10 @@ var MessageItem = React.createClass({
 		return (
 			<div className='message-item' style={ messageStyle }>
 				<img className='message-author-img' title={ authorName } alt={ authorName } src={ authorImage } />
+				<div className='arrow' style={ arrowStyle }/>
 				<div>
 					<div className='message-body' style={ bodyStyle }>
-						<span title={ created } className='message-text'>{ message.$body }</span>
+						<span title={ created } className='message-text' style={ messageTextStyle }>{ message.$body }</span>
 					</div>
 					<span className='message-info'>{ authorName }</span>
 				</div>
