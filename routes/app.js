@@ -80,7 +80,10 @@ module.exports = function(app) {
 				function(callback) {
 					var path = req.path;
 					var postRegex = /(?:b)\/(.+)/;
-					var bevy_id = path.match(postRegex)[1];
+					var $bevy_id = path.match(postRegex);
+					var bevy_id;
+					if($bevy_id == null) return callback(null, []);
+					else bevy_id = $bevy_id[1];
 
 					if(bevy_id == 'frontpage') {
 						// get frontpage posts
