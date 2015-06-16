@@ -341,9 +341,7 @@ _.extend(PostStore, {
 							// replied to a comment
 							var comments = post.get('all_comments');
 							var comment = _.findWhere(comments, { _id: comment_id });
-
-							if(!comment.comments) comment.comments = [];
-							comment.comments.push({
+							var new_comment = {
 								_id: id,
 								depth: comment.depth+1,
 								postId: post_id,
@@ -352,7 +350,10 @@ _.extend(PostStore, {
 								body: body,
 								comments: [],
 								created: data.created
-							});
+							};
+
+							if(!comment.comments) comment.comments = [];
+							comment.comments.push(new_comment);
 
 							// increment comment count
 							var commentCount = post.get('commentCount');
@@ -362,14 +363,17 @@ _.extend(PostStore, {
 							// replied to a post
 
 							var comments = post.get('comments') || [];
-							comments.push({
+							var allComments = post.get('all_comments') || [];
+							var new_comment = {
 								_id: id,
 								postId: post_id,
 								parentId: undefined,
 								author: author,
 								body: body,
 								created: data.created
-							});
+							};
+							comments.push(new_comment);
+							allComments.push(new_comment);
 						}
 
 						var stripped_members = _.map(post.get('bevy').members, function(member) {
