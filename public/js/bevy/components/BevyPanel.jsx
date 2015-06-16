@@ -193,22 +193,19 @@ var BevyPanel = React.createClass({
 		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
 		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png')
 		? {
-			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '100px auto',
+			backgroundImage: 'url(' + bevyImage + ')'
 
 		}
 		: {
-			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '50px 50px',
-		}
+			backgroundImage: 'url(' + bevyImage + ')'
+		};
 
 		var aliasImage = (this.state.activeMember.image_url)
 		? this.state.activeMember.image_url
 		: '/img/logo_100.png';
 
 		var aliasImageStyle = {
-			backgroundImage: 'url(' + aliasImage + ')',
-			backgroundSize: 'auto 50px',
+			backgroundImage: 'url(' + aliasImage + ')'
 		};
 
 		var imgStyle = (this.state.image_url === '/img/logo_100.png')

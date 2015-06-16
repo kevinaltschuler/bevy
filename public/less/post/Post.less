@@ -36,9 +36,7 @@
 			height: 35px;
 			border-radius: 100px;
 			margin-right: 10px;
-			background-size: auto 45px;
-			background-repeat: no-repeat;
-			background-position: center;
+			#image-icon;
 		}
 		.post-details {
 			vertical-align: top;
@@ -129,8 +127,7 @@
 				height: 100%;
 				border: none;
 				padding: 0px;
-				background-position: center;
-				background-size: 100%;
+				#image-icon;
 			}
 		}
 	}
@@ -148,9 +145,9 @@
 			border-left: 1px solid #d2d3d3;
 		}
 		.comment-list .comment-list::before {
-				content: '';
-				border-bottom: 1px solid #edeeee;
-				position: absolute;
+			content: '';
+			border-bottom: 1px solid #edeeee;
+			position: absolute;
 		}
 
 		.comment {
@@ -177,8 +174,7 @@
 				vertical-align: top;
 				height: 35px;
 				width: 35px;
-				background-size: auto 45px;
-				background-position: center;
+				#image-icon;
 			}
 			.comment-text {
 				display: inline-block;
@@ -226,9 +222,8 @@
 					height: 35px;
 					width: 35px;
 					border-radius: 40px;
-					background-size: auto 45px;
-					background-position: center;
 					margin-bottom: -15px;
+					#image-icon;
 				}
 				.panel-comment-textfield {
 					background-color: rgba(0,0,0,0);
@@ -267,9 +262,8 @@
 				height: 35px;
 				width: 35px;
 				border-radius: 40px;
-				background-size: auto 45px;
-				background-position: center;
 				margin-bottom: -15px;
+				#image-icon;
 			}
 			.panel-comment-textfield {
 				background-color: rgba(0,0,0,0);
@@ -314,9 +308,9 @@
 				.btn {
 					border: none;
 					&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open {
-					outline: none;
-					box-shadow: none;
-					background-color: rgba(0,0,0,0);
+						outline: none;
+						box-shadow: none;
+						background-color: rgba(0,0,0,0);
 					}
 				}
 
