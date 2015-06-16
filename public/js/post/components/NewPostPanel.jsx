@@ -183,7 +183,6 @@ var NewPostPanel = React.createClass({
 						multiLine={ true }
 						value={ this.state.title }
 						onChange={ this.handleChange }
-						onFocus={ this.open }
 					/>
 				</div>
 

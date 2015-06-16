@@ -1,22 +1,33 @@
 
 .new-post-panel {
-	.collapsing {
-	    height: 0px !important;
-	    overflow: visible;
-	}
 	margin-left: auto;
 	margin-right: auto;
 	z-index: 1;
 	.panel-body {
 		padding: 0px;
-		.collapse {
-		}
 	}
 	.new-post-title {
 		.title-field.mui-text-field {
 			padding: 0 15px;
 			width: 90%;
 			font-size: 1.2em;
+
+			margin-bottom: 5px;
+			box-shadow: none;
+			margin-left: 5px;
+			.mui-text-field-input {
+				margin-left: 5px;
+				box-shadow: none;
+				font-size: .85em;
+			}
+			&:focus {
+				box-shadow: none;
+			}
+			.mui-text-field-underline{
+			}
+			.mui-text-field-focus-underline {
+				border-color: rgba(0,0,0,.5);
+			}
 
 			textarea {
 				box-shadow: none !important;
@@ -72,20 +83,9 @@
 			height: 35px;
 			margin-right: 30px;
 			.mui-raised-button {
-			float: right;
-			margin-right: 10px;
-			margin-left: 10px;
-				.mui-paper-container {
-					.mui-raised-button-container {
-						background-color: rgba(0,0,0,0);
-						color: white;
-						div {
-							.mui-raised-button-label {
-								color: black;
-							}
-						}
-					}
-				}
+				float: right;
+				margin-right: 10px;
+				margin-left: 10px;
 			}
 			.mui-flat-button {
 				float: right;
@@ -127,50 +127,11 @@
 		}
 
 	}
-	.mui-text-field {
-		margin-bottom: 5px;
-		-webkit-box-shadow: none;
-		margin-left: 5px;
-		.mui-text-field-input {
-			margin-left: 5px;
-			-webkit-box-shadow: none;
-			font-size: .85em;
-		}
-		&:focus {
-			-webkit-box-shadow: none;
-		}
-		.mui-text-field-underline{
-		}
-		.mui-text-field-focus-underline {
-			border-color: rgba(0,0,0,.5);
-		}
-	}
+
 }
 
 @media(max-width: 991px) {
 	.new-post-panel {
-		.new-post-title {
-			.title-field.mui-text-field {
-				textarea {
-				}
-			}
-		}
-		.row.media {
-			.media-content{
-				.attach-btn {
-					.mui-floating-action-button-inner {
-						.mui-floating-action-button-container  {
-							.glyphicon {
-							}
-						}
-					}
-				}
-			}
-		}
-		.form-group {
-			.post-body-text {
-			}
-		}
 		.panel-bottom {
 			font-size: .85em;
 			& * {
@@ -208,11 +169,6 @@
 					height: 50px;
 					margin-top: -16px;
 				}
-			}
-
-		}
-		.mui-text-field {
-			.mui-text-field-input {
 			}
 		}
 	}
