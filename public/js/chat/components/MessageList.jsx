@@ -85,19 +85,37 @@ var MessageList = React.createClass({
 			if(compressed.indexOf(message._id) > -1) return; // skip compressed
 			var date = Date.parse(message.created);
 			message.$body = ''; // clear the body between rerenders
-			allMessages.forEach(function($message, $index) {
+			/*allMessages.forEach(function($message, $index) {
 				if($message._id == message._id) return; // skip self
 				if(compressed.indexOf($message._id) > -1) return; // skip compressed
 				var $date = Date.parse($message.created);
+				// only compress messages within the threshold and by the same author
 				if((Math.abs(date - $date) <= threshold) && (message.author._id == $message.author._id)) {
-					// compress
+					// preserve
+					if($message.author._id != allMessages[(($index == 0) ? allMessages.length - 1 : $index - 1)].author._id) {
+						// compress
+						if(_.isEmpty(message.$body))
+							message.$body = message.body + '\n' + $message.body;
+						else
+							message.$body = message.$body + '\n' + $message.body;
+						compressed.push($message._id);
+					}
+				}
+			});*/
+			for(var i = index + 1; i < allMessages.length; i++) {
+				var $message = allMessages[i];
+				var $date = Date.parse($message.created);
+
+				if($message.author._id != message.author._id) break; // dont compress posts by different authors
+				if(Math.abs(date - $date) <= threshold) { // if the messages are within the time threshold
 					if(_.isEmpty(message.$body))
 						message.$body = message.body + '\n' + $message.body;
 					else
 						message.$body = message.$body + '\n' + $message.body;
 					compressed.push($message._id);
-				}
-			});
+				} else break;
+			}
+
 			if(_.isEmpty(message.$body)) message.$body = message.body;
 			$allMessages.push(message);
 		});
