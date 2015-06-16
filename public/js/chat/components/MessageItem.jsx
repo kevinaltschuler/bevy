@@ -71,8 +71,10 @@ var MessageItem = React.createClass({
 		return (
 			<div className='message-item' style={ messageStyle }>
 				<img className='message-author-img' title={ authorName } alt={ authorName } src={ authorImage } />
-				<div className='message-body' style={ bodyStyle }>
-					<span title={ created } className='message-text'>{ message.$body }</span>
+				<div>
+					<div className='message-body' style={ bodyStyle }>
+						<span title={ created } className='message-text'>{ message.$body }</span>
+					</div>
 					<span className='message-info'>{ authorName }</span>
 				</div>
 			</div>
