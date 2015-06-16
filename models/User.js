@@ -59,14 +59,23 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('displayName').get(function() {
+	var name;
+	var maxLength = 30; // max length, in characters, of someone's name
 	if(_.isEmpty(this.google.emails)) {
-		return this.email;
+		name = this.email;
 	} else {
 		if(_.isEmpty(this.google.name)) {
-			return this.email;
+			name = this.email;
 		} else {
-			return this.google.name.givenName + ' ' + this.google.name.familyName;
+			name = this.google.name.givenName + ' ' + this.google.name.familyName;
 		}
+	}
+	if(name.length > 30) {
+		name = name.slice(26);
+		name += '...';
+		return name;
+	} else {
+		return name;
 	}
 });
 
