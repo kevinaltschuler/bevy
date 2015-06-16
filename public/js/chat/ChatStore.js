@@ -26,28 +26,26 @@ _.extend(ChatStore, {
 			case APP.LOAD:
 
 				// fetch threads
-				this.threads.fetch({
-					reset: true,
-					success: function(collection, response, options) {
-						collection.forEach(function(thread) {
-							// fetch messages
-							// TODO: only get one
-							thread.messages.fetch({
-								reset: true,
-								success: function(collection, response, options) {
+				var threads = window.bootstrap.threads;
+				this.threads.reset(threads);
+				this.threads.forEach(function(thread) {
+					// fetch messages
+					// TODO: only get one
+					thread.messages.fetch({
+						reset: true,
+						success: function(collection, response, options) {
 
-									/*var openThreads = localStorage.getItem('openThreads') || '';
-									openThreads = openThreads.split(' ');
-									openThreads.forEach(function(thread) {
-										this.openThreads.push(thread);
-									}.bind(this));*/
 
-									this.trigger(CHAT.CHANGE_ALL);
-								}.bind(this)
-							});
-						}.bind(this));
-					}.bind(this)
-				});
+							/*var openThreads = localStorage.getItem('openThreads') || '';
+							openThreads = openThreads.split(' ');
+							openThreads.forEach(function(thread) {
+								this.openThreads.push(thread);
+							}.bind(this));*/
+							thread.messages.sort();
+							this.trigger(CHAT.CHANGE_ALL);
+						}.bind(this)
+					});
+				}.bind(this));
 
 				break;
 

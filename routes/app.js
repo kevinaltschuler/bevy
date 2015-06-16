@@ -43,6 +43,8 @@ module.exports = function(app) {
 	var Notification = mongoose.model('Notification');
 	var Post = mongoose.model('Post');
 	var Comment = mongoose.model('Comment');
+	var Thread = mongoose.model('ChatThread');
+	var Message = mongoose.model('ChatMessage');
 
 	// for everything else - pass it off to the react router
 	// on the front end
@@ -150,15 +152,31 @@ module.exports = function(app) {
 								}).populate('bevy author');
 							}
 						]);
-					}//,
-					//function(callback) {
+					}
+				},
+				function(callback) {
+					async.waterfall([
+						function(done) {
+							Bevy.find({ members: { $elemMatch: { user: user._id } } }, function(err, bevies) {
+								done(null, bevies);
+							});
+						},
+						function(bevies, done) {
+							var bevy_id_list = _.pluck(bevies, '_id');
 
-					//}
+							Thread.find(function(err, threads) {
+								if(err) return callback(null, []);
+								return callback(null, threads);
+							}).or([{ users: { $elemMatch: { $eq: user._id } } }, { bevy: { $in: bevy_id_list } }])
+							.populate('bevy');
+						}
+					]);
 				}
 			], function(err, results) {
 				var bevies =  results[0];
 				var notifications = results[1];
 				var posts = results[2];
+				var threads = results[3];
 
 				res.render('app', {
 					env: process.env.NODE_ENV,
@@ -166,7 +184,8 @@ module.exports = function(app) {
 					user: user,
 					bevies: bevies,
 					notifications: notifications,
-					posts: posts
+					posts: posts,
+					threads: threads
 				});
 			});
 		}
