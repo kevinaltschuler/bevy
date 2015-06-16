@@ -22,8 +22,8 @@ var LeftSidebar = React.createClass({
 
 	render: function() {
 		return (
-			<div className='col-sm-3 left-sidebar'>
-				<div className='left-sidebar-wrapper fixed' id='left-sidebar-wrapper'>
+			<div className='left-sidebar'>
+				<div className='fixed'>
 					<div className='hide-scroll'>
 						<BevyList
 							allBevies={ this.props.allBevies }

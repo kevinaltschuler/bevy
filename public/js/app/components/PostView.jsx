@@ -50,21 +50,18 @@ var PostView = React.createClass({
 
 		return (
 			<div className='main-section'>
-				<div className='row'>
-					<LeftSidebar
-						allBevies={ this.props.allBevies }
-						activeBevy={ this.props.activeBevy }
-						allThreads={ this.props.allThreads }
-					/>
-					<div className='col-xs-6'>
-						{ body }
-					</div>
-					<RightSidebar
-						activeBevy={ this.props.activeBevy }
-						activeMember={ this.props.activeMember }
-					/>
+				<LeftSidebar
+					allBevies={ this.props.allBevies }
+					activeBevy={ this.props.activeBevy }
+					allThreads={ this.props.allThreads }
+				/>
+				<div className='post-view-body'>
+					{ body }
 				</div>
-
+				<RightSidebar
+					activeBevy={ this.props.activeBevy }
+					activeMember={ this.props.activeMember }
+				/>
 			</div>
 		);
 	}

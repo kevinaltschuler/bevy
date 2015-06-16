@@ -43,7 +43,7 @@ var FrontpagePanel = React.createClass({
 		}
 
 		return (
-			<div className='right-sidebar panel frontpage'>
+			<div className='panel frontpage'>
 				<div className="row sidebar-top">
 					<div className="col-xs-3 sidebar-picture frontpage">
 						<div className='profile-img' style={ bevyImageStyle }/>

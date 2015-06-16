@@ -154,9 +154,10 @@ var BevyPanelHeader = React.createClass({
 
 
 		if (this.state.isEditing) {
-			return (<div>
-					<div className="row sidebar-top">
-						<div className="col-xs-3 sidebar-picture">
+			return (
+				<div>
+					<div className="sidebar-top">
+						<div className="sidebar-picture">
 							<Uploader
 								onUploadComplete={ this.onUploadComplete }
 								className="bevy-image-dropzone"
@@ -164,7 +165,7 @@ var BevyPanelHeader = React.createClass({
 								dropzoneOptions={ dropzoneOptions }
 							/>
 						</div>
-						<div className="col-xs-9 sidebar-title">
+						<div className="sidebar-title">
 							<TextField
 								type='text'
 								ref='name'
@@ -187,31 +188,34 @@ var BevyPanelHeader = React.createClass({
 							<RaisedButton label="save" onClick={this.stopEditing} />
 						</div>
 					</div>
-				</div>)
+				</div>
+			);
 		}
 		else {
-			return (<div className="row sidebar-top">
-				<div className="col-xs-3 sidebar-picture">
-					<div className='profile-img' style={ bevyImageStyle }/>
-				</div>
-				<div className="col-xs-9 sidebar-title">
-					<div className='row'>
-						<span
-							className='sidebar-title-name'
-							onDoubleClick={ this.startEditing } >
-							{ name }
-						</span>
-						{ editButton }
+			return (
+				<div className="sidebar-top">
+					<div className="sidebar-picture">
+						<div className='profile-img' style={ bevyImageStyle }/>
 					</div>
-					<div className='row'>
-						<span
-							className='sidebar-title-description'
-							onDoubleClick={ this.startEditing } >
-							{ description }
-						</span>
+					<div className="sidebar-title">
+						<div>
+							<span
+								className='sidebar-title-name'
+								onDoubleClick={ this.startEditing } >
+								{ name }
+							</span>
+							{ editButton }
+						</div>
+						<div>
+							<span
+								className='sidebar-title-description'
+								onDoubleClick={ this.startEditing } >
+								{ description }
+							</span>
+						</div>
 					</div>
 				</div>
-			</div>)
+			);
 		}
 	}
 })

@@ -5,46 +5,50 @@
 	color: @light-font;
 	display: inline-block;
 	float: left;
-	.left-sidebar-wrapper {
-		width: 105%;
-		height: 80%;
+	flex-grow: 1;
+	order: 1;
+	width: 105%;
+	max-width: 275px;
+	.hide-scroll {
+		visibility: visible;
+	}
+	.fixed {
+		position: fixed;
+		width: inherit;
+		max-width: 275px;
+		top: 85px;
+		height: ~"calc(100% - 95px)";
 		overflow-x: hidden;
 		overflow-y: auto;
 		visibility: hidden; // hide scrollbar
-		.hide-scroll {
-			visibility: visible;
-		}
-		.panel-header {
-			padding-left: 25px;
-		}
-		&.fixed {
-			position: fixed;
-			width: inherit;
-			max-width: 275px;
-			top: 85px;
-		}
+	}
+	.panel-header {
+		padding-left: 25px;
 	}
 }
 
 @media(max-width: 1200px) {
-	.left-sidebar-wrapper {
-		&.fixed {
+	.left-sidebar {
+		max-width: 223px !important;
+		.fixed {
 			max-width: 223px !important;
 		}
 	}
 }
 
 @media(max-width: 991px) {
-	.left-sidebar-wrapper {
-		&.fixed {
+	.left-sidebar {
+		max-width: 165px !important;
+		.fixed {
 			max-width: 165px !important;
 		}
 	}
 }
 
 @media(max-width: 770px) {
-	.left-sidebar-wrapper {
-		&.fixed {
+	.left-sidebar {
+		max-width: 165px !important;
+		.fixed {
 			max-width: 165px !important;
 		}
 	}

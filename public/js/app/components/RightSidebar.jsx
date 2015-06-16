@@ -32,14 +32,14 @@ var RightSidebar = React.createClass({
 			/>);
 
 		return (
-			<div className= "col-xs-3 right-sidebar-col">
-				<div className='right-sidebar-wrapper fixed' id='right-sidebar-wrapper'>
+			<div className='right-sidebar'>
+				<div className='fixed'>
 					<div className='hide-scroll'>
 						{ panel }
 						<Footer />
 					</div>
 				</div>
-			 </div>
+			</div>
 		);
 	}
 });

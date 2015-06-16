@@ -245,28 +245,33 @@ var BevyPanel = React.createClass({
 		};
 
 		var nameEditAction = (this.state.isEditingName)
-		? (<div className='row sidebar-action name-edit-action'>
-				<div className="sidebar-action-title col-xs-12"> Posting As... </div>
-				<Uploader
-					onUploadComplete={ this.onAliasUploadComplete }
-					className="alias-image-dropzone"
-					style={ aliasImageStyle }
-					dropzoneOptions={ aliasDropzoneOptions }
-				/>
-				<TextField
-						type='text'
-						ref='displayName'
-						defaultValue={ this.state.displayName }
-				/>
-				<IconButton
-					className="save-button"
-					tooltip='save'
-					onClick={ this.stopEditingName }>
-					<span className="glyphicon glyphicon-ok"></span>
-				</IconButton>
-			</div>)
-		: (<div className='row sidebar-action name-edit-action'>
-				<div className="sidebar-action-title col-xs-12"> Posting As... </div>
+		? (
+			<div className='sidebar-action name-edit-action'>
+				<div className="sidebar-action-title"> Posting As... </div>
+				<div className='sidebar-action-deets'>
+					<Uploader
+						onUploadComplete={ this.onAliasUploadComplete }
+						className="alias-image-dropzone"
+						style={ aliasImageStyle }
+						dropzoneOptions={ aliasDropzoneOptions }
+					/>
+					<TextField
+							type='text'
+							ref='displayName'
+							defaultValue={ this.state.displayName }
+					/>
+					<IconButton
+						className="save-button"
+						tooltip='save'
+						onClick={ this.stopEditingName }>
+						<span className="glyphicon glyphicon-ok"></span>
+					</IconButton>
+				</div>
+			</div>
+		)
+		: (
+			<div className='sidebar-action name-edit-action'>
+				<div className="sidebar-action-title"> Posting As... </div>
 				<div className='sidebar-action-deets'>
 					<div className='alias-img' style={ aliasImageStyle }/>
 					<span className='sidebar-posting-name'>
@@ -286,26 +291,26 @@ var BevyPanel = React.createClass({
 
 		if(this.state.activeMember) {
 			var bottomActions = (this.state.activeMember.role == 'admin')
-			? (<div className='row sidebar-bottom'>
-					<div className='col-xs-6'>
+			? (<div className='sidebar-bottom'>
+					<div>
 						<ModalTrigger modal={<BevySettingsModal activeBevy={this.props.activeBevy} />}>
 							<Button className="sidebar-action-link-bottom">
 								Bevy Settings
 							</Button>
 						</ModalTrigger>
 					</div>
-					<div className='col-xs-6'>
+					<div>
 							<Button className="sidebar-action-link-bottom"
 								onClick={ this.destroy }>
 								Delete Bevy
 							</Button>
 					</div>
 				</div>)
-			: (<div className='row sidebar-bottom'>
-					<div className='col-xs-6'>
+			: (<div className='sidebar-bottom'>
+					<div>
 						{/* user settings */}
 					</div>
-					<div className='col-xs-6'>
+					<div>
 						 <Button className="sidebar-action-link-bottom"
 							onClick={ this.leave }>
 							Leave Bevy
@@ -316,38 +321,33 @@ var BevyPanel = React.createClass({
 
 
 		return (
-			<ButtonGroup className="btn-group right-sidebar panel">
+			<div className="bevy-panel panel">
 				<BevyPanelHeader {...this.props}/>
-				<div className='row sidebar-links'>
-					<ButtonGroup className="col-xs-12" role="group">
-						<ModalTrigger modal={
-							<InviteModal
-								activeBevy={ this.props.activeBevy }
-							/>
-						}>
-							<Button type='button' className="sidebar-link">
-								Invite People
-							</Button>
-						</ModalTrigger>
-						•
-						<ModalTrigger modal={
-							<MemberModal
-								activeBevy={ this.props.activeBevy }
-								activeMember={ this.props.activeMember }
-								contacts={ members }
-								title={ <span className='member-modal-title'>Members of <b>{ name }</b></span> } />
-						}>
+				<div className='sidebar-links'>
+					<ModalTrigger modal={ <InviteModal activeBevy={ this.props.activeBevy } />	}>
+						<Button type='button' className="sidebar-link">
+							Invite People
+						</Button>
+					</ModalTrigger>
+					•
+					<ModalTrigger modal={
+						<MemberModal
+							activeBevy={ this.props.activeBevy }
+							activeMember={ this.props.activeMember }
+							contacts={ members }
+							title={ <span className='member-modal-title'>Members of <b>{ name }</b></span> }
+						/>
+					}>
 						<Button type='button' className="sidebar-link">
 							{ members.length + ' Members' }
 						</Button>
-						</ModalTrigger>
-					</ButtonGroup>
+					</ModalTrigger>
 				</div>
 
 				{ nameEditAction }
 
-				<div className='row sidebar-action'>
-					<div className="sidebar-action-title col-xs-12"> Notifications </div>
+				<div className='sidebar-action'>
+					<div className="sidebar-action-title"> Notifications </div>
 					<DropDownMenu
 						className='sidebar-action-dropdown'
 						menuItems={ notificationMenuItems }
@@ -358,7 +358,8 @@ var BevyPanel = React.createClass({
 
 				{bottomActions}
 
-			 </ButtonGroup>);
+			</div>
+		);
 	}
 });
 module.exports = BevyPanel;

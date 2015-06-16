@@ -28,9 +28,11 @@
 			}
 		}
 	}
-	.row.sidebar-top {
+	.sidebar-top {
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
 		margin-top: 20px;
-		margin-right: -35px;
 		.sidebar-picture {
 			.profile-img, .bevy-image-dropzone {
 				border-radius: 50px;
@@ -53,7 +55,6 @@
 		.sidebar-title {
 			display: inline-block;
 			font-size: 1.3em;
-			padding-left: 20px;
 			color: black;
 			width: 65%;
 			.edit-button {
@@ -101,12 +102,14 @@
 		}
 	}
 
-	.row.sidebar-links {
+	.sidebar-links {
 		color: @light-font;
 		font-size: .9em;
-		padding-left: 85px;
 		margin-bottom: 20px;
 		margin-top: 5px;
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
 		span {
 			float: left;
 			padding: 0 5px;
@@ -132,13 +135,18 @@
 		}
 	}
 
-	.row.sidebar-action {
+	.sidebar-action {
 		margin-top: 0px;
 		margin-left: 5px;
 		.sidebar-action-title {
 			margin-left: 10px;
 			color: black;
 			font-size: 1.1em;
+		}
+		.sidebar-action-deets {
+			display: flex;
+			justify-content: flex-start;
+			align-items: center;
 		}
 		button.sidebar-action-link {
 			margin-left: 60px;
@@ -205,8 +213,10 @@
 			}
 		}
 	}
-	.row.sidebar-bottom {
-		text-align: center;
+	.sidebar-bottom {
+		display: flex;
+		justify-content: space-between;
+		padding: 0px 15px;
 		.sidebar-action-link-bottom {
 			margin-top: 20px;
 			margin-bottom: 15px;

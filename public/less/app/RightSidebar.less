@@ -1,53 +1,59 @@
 @import '../variables.less';
 
 
-.right-sidebar-col {
-	padding-left: 15px;
-	.right-sidebar-wrapper {
+.right-sidebar {
+	display: inline-block;
+	float: right;
+	flex-grow: 1;
+	order: 3;
+	width: 105%;
+	max-width: 275px;
 
-		height: 80%;
+	.fixed {
+		position: fixed;
+		width: 100%;
+		max-width: 275px;
+		top: 85px;
 		overflow-x: hidden;
 		overflow-y: auto;
 		visibility: hidden; // hide scrollbar
+		height: ~"calc(100% - 95px)";
+	}
+	.hide-scroll {
+		visibility: visible;
+		width: 100%;
+		max-width: 275px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.panel {
+		display: inline-block;
+		width: 100%;
+	}
+	.panel.frontpage {
+		margin-bottom: 10px;
+		padding-bottom: 15px;
 
-		&.fixed {
-			position: fixed;
-			width: inherit;
-			max-width: 280px;
-			top: 85px;
-		}
-		.hide-scroll {
-			visibility: visible;
-		}
-		.right-sidebar {
-			float: right;
-			display: inline-block;
-			width: 100%;
-		}
-		.right-sidebar.frontpage {
+		hr {
+			margin-top: 10px;
 			margin-bottom: 10px;
-			padding-bottom: 15px;
+		}
 
-			hr {
-				margin-top: 10px;
-				margin-bottom: 10px;
+		.announcements {
+			padding: 5px 10px;
+			.announcements-title {
+				text-align: center;
+				font-size: 1.25em;
 			}
+		}
 
-			.announcements {
-				padding: 5px 10px;
-				.announcements-title {
-					text-align: center;
-					font-size: 1.25em;
-				}
-			}
-
-			.feedback{
-				padding: 5px 10px;
-				.feedback-title {
-					text-align: center;
-					font-size: 1.25em;
-					margin-bottom: 5px;
-				}
+		.feedback{
+			padding: 5px 10px;
+			.feedback-title {
+				text-align: center;
+				font-size: 1.25em;
+				margin-bottom: 5px;
 			}
 		}
 	}
@@ -59,7 +65,6 @@
 .btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child {
 	background: rgba(0,0,0,0);
 	border: 0px;
-	-webkit-box-shadow: none;
 	box-shadow: none;
 	color: @light-font;
 	font-size: inherit;
@@ -82,8 +87,12 @@
 }
 
 @media(max-width: 1200px) {
-	.right-sidebar-wrapper {
-		&.fixed {
+	.right-sidebar {
+		max-width: 212px !important;
+		.fixed {
+			max-width: 212px !important;
+		}
+		.hide-scroll {
 			max-width: 212px !important;
 		}
 	}
@@ -91,11 +100,11 @@
 
 @media(max-width: 991px) {
 	.right-sidebar {
-		display: inline-block;
-		float: right;
-	}
-	.right-sidebar-wrapper {
-		&.fixed {
+		max-width: 157px !important;
+		.fixed {
+			max-width: 157px !important;
+		}
+		.hide-scroll {
 			max-width: 157px !important;
 		}
 	}

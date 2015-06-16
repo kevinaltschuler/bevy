@@ -54,7 +54,7 @@ var FourOhFour = require('./app/components/FourOhFour.jsx');
 var App = React.createClass({
 	render: function() {
 		return (
-			<div className='container'>
+			<div>
 				<InterfaceComponent />
 			</div>
 		);
