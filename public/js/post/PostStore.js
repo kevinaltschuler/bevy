@@ -169,6 +169,7 @@ _.extend(PostStore, {
 
 				// this requires a visual update
 				this.trigger(POST.CHANGE_ALL);
+				this.trigger(POST.POSTED_POST);
 
 				break;
 
