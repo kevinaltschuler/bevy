@@ -57,7 +57,7 @@ _.extend(PostStore, {
 
 				this.posts.comparator = this.sortByTop;
 
-				this.posts.fetch({
+				/*this.posts.fetch({
 					reset: true,
 					success: function(posts, response, options) {
 
@@ -65,7 +65,11 @@ _.extend(PostStore, {
 
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
-				});
+				});*/
+				var posts = window.bootstrap.posts;
+				this.posts.reset(posts);
+				this.postsNestComments(this.posts);
+				this.trigger(POST.CHANGE_ALL);
 
 				break;
 

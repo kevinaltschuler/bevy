@@ -41,6 +41,8 @@ module.exports = function(app) {
 
 	var Bevy = mongoose.model('Bevy');
 	var Notification = mongoose.model('Notification');
+	var Post = mongoose.model('Post');
+	var Comment = mongoose.model('Comment');
 
 	// for everything else - pass it off to the react router
 	// on the front end
@@ -72,17 +74,99 @@ module.exports = function(app) {
 						if(err || _.isEmpty(notifications)) return callback(null, []);
 						callback(null, notifications);
 					});
+				},
+				function(callback) {
+					var path = req.path;
+					var postRegex = /(?:b)\/(.+)/;
+					var bevy_id = path.match(postRegex)[1];
+
+					if(bevy_id == 'frontpage') {
+						// get frontpage posts
+						async.waterfall([
+							function(done) {
+								var user_id = user._id;
+								var bevy_promise = Bevy.find({ members: { $elemMatch: { user: user_id } } }).exec();
+								bevy_promise.then(function(bevies) {
+									done(null, bevies);
+								}, function(err) { return callback(null, []); });
+							},
+							function(bevies, done) {
+								var bevy_id_list = _.pluck(bevies, '_id');
+								var post_query = { bevy: { $in: bevy_id_list } };
+								var post_promise = Post.find(post_query)
+									.populate('bevy author')
+									.exec();
+								post_promise.then(function(posts) {
+									done(null, posts);
+								}, function(err) { return callback(null, []); });
+							},
+							function(posts, done) {
+
+								if(posts.length <= 0) return callback(null, []);
+
+								var _posts = [];
+
+								posts.forEach(function(post) {
+									Comment.find({ postId: post._id }, function(err, comments) {
+										post = post.toObject();
+										post.comments = comments;
+										_posts.push(post);
+										if(_posts.length == posts.length) return callback(null, _posts);
+									}).populate('author');
+								});
+							}
+						]);
+					} else {
+						// get bevy posts
+						async.waterfall([
+							function(done) {
+								var user_id = user._id;
+								var bevy_promise = Bevy.find({ members: { $elemMatch: { user: user_id } } }, function(err, bevies) {
+									if(err) return callback(null, []);
+									var bevy_id_list = _.map(bevies, function(bevy) {
+										return bevy._id.toString();
+									});
+									if(bevy_id_list.indexOf(bevy_id) > -1) {
+										done(null);
+									} else {
+										return callback(null, []);
+									}
+								});
+							},
+							function(done) {
+								var promise = Post.find({ bevy: bevy_id }, function(err, posts) {
+									if(err) return callback(null, []);
+									if(posts.length <= 0) return callback(null, []);
+									var _posts = [];
+									posts.forEach(function(post) {
+										var comment_promise = Comment.find({ postId: post._id }, function(err, comments) {
+											if(err) return callback(null, []);
+											post = post.toJSON();
+											post.comments = comments;
+											_posts.push(post);
+											if(_posts.length == posts.length) return callback(null, _posts);
+										}).populate('author');
+									});
+								}).populate('bevy author');
+							}
+						]);
+					}//,
+					//function(callback) {
+
+					//}
 				}
 			], function(err, results) {
 				var bevies =  results[0];
 				var notifications = results[1];
+				var posts = results[2];
 
 				res.render('app', {
 					env: process.env.NODE_ENV,
 					hostname: req.hostname,
 					user: user,
 					bevies: bevies,
-					notifications: notifications
+					notifications: notifications,
+					posts: posts
 				});
 			});
 		}
