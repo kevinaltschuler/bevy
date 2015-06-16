@@ -16,9 +16,7 @@ var RightSidebar = React.createClass({
 	},
 
 	getInitialState: function () {
-	    return {
-	        wrapperClass: 'right-sidebar-wrapper' 
-	    };
+		return {};
 	},
 
 	render: function() {
@@ -33,16 +31,16 @@ var RightSidebar = React.createClass({
 				activeMember={ this.props.activeMember }
 			/>);
 
-		return <div className= "col-xs-3 right-sidebar-col">
-					<div className='right-sidebar-wrapper fixed' id='right-sidebar-wrapper' onScroll={this.componentDidUpdate}>
-						<div className="row">
-							{ panel }
-						</div>
-						<div className="row">
-							<Footer />
-						</div>
+		return (
+			<div className= "col-xs-3 right-sidebar-col">
+				<div className='right-sidebar-wrapper fixed' id='right-sidebar-wrapper'>
+					<div className='hide-scroll'>
+						{ panel }
+						<Footer />
 					</div>
-				 </div>
+				</div>
+			 </div>
+		);
 	}
 });
 module.exports = RightSidebar;

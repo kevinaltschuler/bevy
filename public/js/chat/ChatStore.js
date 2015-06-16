@@ -34,8 +34,6 @@ _.extend(ChatStore, {
 					thread.messages.fetch({
 						reset: true,
 						success: function(collection, response, options) {
-
-
 							/*var openThreads = localStorage.getItem('openThreads') || '';
 							openThreads = openThreads.split(' ');
 							openThreads.forEach(function(thread) {
