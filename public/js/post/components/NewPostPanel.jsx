@@ -17,7 +17,6 @@ var classNames = require('classnames');
 var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
-var CollapsibleMixin = rbs.CollapsibleMixin;
 var Tooltip = rbs.Tooltip;
 var Input = rbs.Input;
 var Panel = rbs.Panel;
@@ -52,8 +51,6 @@ var user = window.bootstrap.user;
 
 // React class
 var NewPostPanel = React.createClass({
-
-	mixins: [CollapsibleMixin],
 
 	propTypes: {
 		activeBevy: React.PropTypes.object.isRequired,
@@ -94,33 +91,7 @@ var NewPostPanel = React.createClass({
 
 		this.setState({
 			bevies: bevies,
-			selectedIndex: selectedIndex,
-			expanded: true
-		});
-	},
-
-	getCollapsibleDOMNode: function(){
-		return React.findDOMNode(this.refs.collapse);
-	},
-
-	getCollapsibleDimensionValue: function(){
-		return React.findDOMNode(this.refs.collapse).scrollHeight;
-	},
-
-	open: function() {
-		this.setState({
-			expanded: true
-		});
-	},
-
-	close: function() {
-
-		PostActions.cancel();
-
-		this.setState({
-			expanded: false,
-			title: '',
-			images: []
+			selectedIndex: selectedIndex
 		});
 	},
 
@@ -184,9 +155,6 @@ var NewPostPanel = React.createClass({
 
 	render: function() {
 
-		var styles = this.getCollapsibleClassSet();
-		//var classSet = React.addons.classSet;
-		//console.log(styles);
 		var dropzoneOptions = {
 			acceptedFiles: 'image/*',
 			thumbnailWidth: 500,
@@ -222,23 +190,20 @@ var NewPostPanel = React.createClass({
 					/>
 				</div>
 
-				<div ref='collapse' className={ classNames(styles) }>
+				<Uploader
+					onUploadComplete={ this.onUploadComplete }
+					dropzoneOptions={ dropzoneOptions }
+					className="dropzone"
+				/>
 
-					<Uploader
-						onUploadComplete={ this.onUploadComplete }
-						dropzoneOptions={ dropzoneOptions }
-						className="dropzone"
-					/>
-
-					<div className="panel-bottom row">
-						<div className="panel-controls-left">
-								<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
-								{beviesDropdown}
-						</div>
-						<div className="panel-controls-right ">
-							<div className='row'>
-								<RaisedButton label="post" onClick={this.submit} />
-							</div>
+				<div className="panel-bottom row">
+					<div className="panel-controls-left">
+							<FloatingActionButton iconClassName="glyphicon glyphicon-paperclip" onClick= { this.preventDefault }/>
+							{beviesDropdown}
+					</div>
+					<div className="panel-controls-right ">
+						<div className='row'>
+							<RaisedButton label="post" onClick={this.submit} />
 						</div>
 					</div>
 				</div>
