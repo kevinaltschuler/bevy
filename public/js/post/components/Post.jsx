@@ -63,8 +63,29 @@ var Post = React.createClass({
 	getInitialState: function() {
 		return {
 			isEditing: false,
-			title: this.props.post.title
+			title: this.props.post.title,
+			post: this.props.post
 		};
+	},
+
+	/*componentWillReceiveProps: function(nextProps) {
+		this.setState({
+			post: nextProps.post
+		});
+	},*/
+
+	componentWillMount: function() {
+		PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
+	},
+
+	componentDidUnmount: function() {
+		PostStore.off(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
+	},
+
+	_onPostChange: function() {
+		this.setState({
+			post: PostStore.getPost(this.props.post._id)
+		});
 	},
 
 	getCollapsibleDOMNode: function(){
@@ -110,14 +131,14 @@ var Post = React.createClass({
 	 */
 	countVotes: function() {
 		var sum = 0;
-		this.props.post.votes.forEach(function(vote) {
+		this.state.post.votes.forEach(function(vote) {
 			sum += vote.score;
 		});
 		return sum;
 	},
 
 	findMember: function(user_id) {
-		var members = this.props.post.bevy.members;
+		var members = this.state.post.bevy.members;
 		return _.find(members, function(member) {
 			if(_.isEmpty(member.user)) return false;
 			return member.user == user_id;
@@ -176,14 +197,14 @@ var Post = React.createClass({
 
 	render: function() {
 
-		var bevy = this.props.post.bevy;
+		var post = this.state.post;
+		var bevy = post.bevy;
 		var activeMember = this.findMember(user._id) || {};
-		var post = this.props.post;
-		var author = this.props.post.author;
+		var author = post.author;
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
-		var profileImage = (this.props.post.author.image_url)
-		? this.props.post.author.image_url
+		var profileImage = (post.author.image_url)
+		? post.author.image_url
 		: defaultProfileImage;
 
 		var authorName;
@@ -195,7 +216,7 @@ var Post = React.createClass({
 				authorName = author.email;
 		}
 
-		var authorMember = this.findMember(this.props.post.author._id);
+		var authorMember = this.findMember(post.author._id);
 		if(authorMember) {
 			if(!_.isEmpty(authorMember.displayName) && bevy.settings.anonymise_users)
 				authorName = authorMember.displayName;
@@ -205,10 +226,10 @@ var Post = React.createClass({
 
 		var imageBody = (<div/>);
 		var images = [];
-		if(!_.isEmpty(this.props.post.images)) {
-			var allImages = this.props.post.images;
+		if(!_.isEmpty(post.images)) {
+			var allImages = post.images;
 			for(var key in allImages) {
-				var url = this.props.post.images[key] + '?w=150&h=150';
+				var url = post.images[key] + '?w=150&h=150';
 				images.push(
 					<div className='panel-body-image' key={ key } >
 						<ModalTrigger modal={ <ImageModal allImages={ allImages } index={ key } /> } >
@@ -223,29 +244,29 @@ var Post = React.createClass({
 				</div>);
 		}
 
-		var ago = timeAgo(Date.parse(this.props.post.created));
-		var left = (this.props.post.expires && !this.props.post.pinned)
-		? (' • expires ' + timeLeft(Date.parse(this.props.post.expires)))
+		var ago = timeAgo(Date.parse(post.created));
+		var left = (this.props.post.expires && !post.pinned)
+		? (' • expires ' + timeLeft(Date.parse(post.expires)))
 		: '';
 
 		if(!_.isEmpty(this.state.title)) {
 			var words = this.state.title.split(' ');
 			var $words = [];
-			var tags = this.props.post.tags;
-			var urls = _.pluck(this.props.post.links, 'url');
+			var tags = post.tags;
+			var urls = _.pluck(post.links, 'url');
 			var videos = youtubeRegex.exec(this.state.title);
 			words.forEach(function(word) {
 				// take off the hashtag
 				var tag = word.slice(1, word.length);
 				var index = tags.indexOf(tag);
 				if(index > -1) {
-					return $words.push(<a href={ '/s/' + tag } key={ this.props.post._id + index + 'hash'} id={ tag } onClick={ this.onTag }>{ word } </a>);
+					return $words.push(<a href={ '/s/' + tag } key={ post._id + index + 'hash'} id={ tag } onClick={ this.onTag }>{ word } </a>);
 				}
 				// if this word is in the urls array
 				if(!_.isEmpty(urls)) {
 					index = urls.indexOf(word);
 					if(index > -1) {
-						return $words.push(<a href={ word } key={ this.props.post._id + index } target='_blank'>{ word + ' '}</a>);
+						return $words.push(<a href={ word } key={ post._id + index } target='_blank'>{ word + ' '}</a>);
 					}
 				}
 				return $words.push(word + ' ');
@@ -288,21 +309,21 @@ var Post = React.createClass({
 				</div>);
 		}
 
-		var commentList = (this.props.post.comments)
+		var commentList = (post.comments)
 		? (<CommentList
-				comments={ this.props.post.comments }
-				post={ this.props.post }
+				comments={ post.comments }
+				post={ post }
 				activeMember={ activeMember }
 			/>)
 		: '';
 
-		var commentCount = (this.props.post.comments)
-		? this.props.post.commentCount
+		var commentCount = (post.comments)
+		? post.commentCount
 		: 0;
 
 		var deleteButton = '';
 		if(!_.isEmpty(activeMember)) {
-			if(activeMember.role == 'admin' || this.props.post.author._id == user._id)
+			if(activeMember.role == 'admin' || post.author._id == user._id)
 				deleteButton = (
 					<MenuItem onClick={ this.destroy } >
 						Delete Post
@@ -312,7 +333,7 @@ var Post = React.createClass({
 
 		var editButton = '';
 		if(!_.isEmpty(activeMember)) {
-			if(activeMember.role == 'admin' || this.props.post.author._id == user._id)
+			if(activeMember.role == 'admin' || post.author._id == user._id)
 				editButton = (
 					<MenuItem onClick={ this.startEdit } >
 						Edit Post
@@ -321,7 +342,7 @@ var Post = React.createClass({
 		}
 
 		var pinButton = '';
-		var pinButtonText = (this.props.post.pinned) ? 'Unpin Post' : 'Pin Post';
+		var pinButtonText = (post.pinned) ? 'Unpin Post' : 'Pin Post';
 		if(!_.isEmpty(activeMember)) {
 			if(activeMember.role == 'admin') {
 				pinButton = (
@@ -341,7 +362,7 @@ var Post = React.createClass({
 			</MenuItem>
 		);
 
-		var pinnedBadge = (this.props.post.pinned)
+		var pinnedBadge = (post.pinned)
 		? <span className='badge pinned'>Pinned</span>
 		: '';
 
@@ -389,7 +410,7 @@ var Post = React.createClass({
 
 					<CommentSubmit
 						postId={ this.props.id }
-						author={ this.props.post.author }
+						author={ post.author }
 						activeMember={ activeMember }
 						bevy={ bevy }
 					/>
@@ -425,7 +446,7 @@ var Post = React.createClass({
 			</div>)
 		: <div>{postBody}</div>;
 
-		return <div className="post panel" postId={ this.props.post._id }>
+		return <div className="post panel" postId={ post._id }>
 					{collapsibleDiv}
 				</div>;
 	}

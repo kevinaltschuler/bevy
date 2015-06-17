@@ -59,7 +59,9 @@ _.extend(PostStore, {
 
 				var posts = window.bootstrap.posts;
 				this.posts.reset(posts);
-				this.postsNestComments(this.posts);
+				this.posts.forEach(function(post) {
+					this.postsNestComment(post);
+				}.bind(this));
 				this.trigger(POST.CHANGE_ALL);
 
 				break;
@@ -82,7 +84,9 @@ _.extend(PostStore, {
 					reset: true,
 					success: function(posts, response, options) {
 
-						this.postsNestComments(posts);
+						posts.forEach(function(post) {
+							this.postsNestComment(post);
+						}.bind(this));
 
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
@@ -230,7 +234,7 @@ _.extend(PostStore, {
 
 				this.vote(post_id, voter, 1);
 
-				this.trigger(POST.CHANGE_ALL);
+				this.trigger(POST.CHANGE_ONE + post_id);
 				break;
 
 			case POST.DOWNVOTE:
@@ -239,7 +243,7 @@ _.extend(PostStore, {
 
 				this.vote(post_id, voter, -1);
 
-				this.trigger(POST.CHANGE_ALL);
+				this.trigger(POST.CHANGE_ONE + post_id);
 				break;
 
 			case POST.SORT:
@@ -470,11 +474,8 @@ _.extend(PostStore, {
 	},
 
 	vote: function(post_id, voter, value) {
-
 		var MAX_VOTES = 5;
-
 		var post = this.posts.get(post_id);
-
 		var votes = post.get('votes');
 
 		if(_.isEmpty(votes)) {
@@ -495,21 +496,17 @@ _.extend(PostStore, {
 				// check if they've exceeded their max votes
 				if(Math.abs(vote.score + value) > MAX_VOTES)
 					return;
-
 				// add score to existing voter
 				vote.score += value;
 			}
 		}
-
 		post.set('votes', votes);
-
 		// save to server
 		post.save({
 			votes: votes
 		}, {
 			patch: true
 		});
-
 		// sort posts
 		this.posts.sort();
 	},
@@ -550,19 +547,17 @@ _.extend(PostStore, {
 		}.bind(this));
 	},
 
-	postsNestComments: function(posts) {
-		posts.forEach(function(post) {
-			var comments = post.get('comments');
-			// create deep clone to avoid reference hell
-			comments = _.map(comments, function(comment) {
-				return comment;
-			});
-			post.set('all_comments', comments);
-			post.set('commentCount', comments.length);
-			// recurse through comments
-			comments = this.nestComments(comments);
-			post.set('comments', comments);
-		}.bind(this));
+	postsNestComment: function(post) {
+		var comments = post.get('comments');
+		// create deep clone to avoid reference hell
+		comments = _.map(comments, function(comment) {
+			return comment;
+		});
+		post.set('all_comments', comments);
+		post.set('commentCount', comments.length);
+		// recurse through comments
+		comments = this.nestComments(comments);
+		post.set('comments', comments);
 	},
 
 	nestComments: function(comments, parentId, depth) {
@@ -585,6 +580,16 @@ _.extend(PostStore, {
 		}.bind(this));
 
 		return $comments;
+	}
+});
+
+PostStore.posts.on('sync', function(obj, response, options) {
+	if(obj instanceof Backbone.Model) {
+		PostStore.postsNestComment(obj);
+	} else {
+		obj.forEach(function(post) {
+			PostStore.postsNestComment(post);
+		});
 	}
 });
 

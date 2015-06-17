@@ -17,8 +17,6 @@ var _ = require('underscore');
 var router = require('./../router');
 var constants = require('./../constants');
 
-var constants = require('./../constants');
-
 // backbone model
 var Post = Backbone.Model.extend({
 	defaults: {
@@ -60,4 +58,5 @@ var Post = Backbone.Model.extend({
 		return sum;
 	}
 });
+
 module.exports = Post;
