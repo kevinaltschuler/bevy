@@ -119,13 +119,11 @@ var BevyPanelHeader = React.createClass({
 		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
 		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png')
 		? {
-			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '100px auto',
+			backgroundImage: 'url(' + bevyImage + ')'
 
 		}
 		: {
-			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '50px 50px',
+			backgroundImage: 'url(' + bevyImage + ')'
 		}
 
 		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
