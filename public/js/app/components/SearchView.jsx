@@ -19,7 +19,17 @@ var SearchView = React.createClass({
 	},
 
 	getInitialState: function() {
-		return {};
+		this.onRoute();
+		return {
+			posts: this.props.allPosts
+		};
+	},
+
+	componentWillMount : function() {
+		router.on('route', this.onRoute);
+	},
+	componentWillUnmount : function() {
+		router.off('route', this.onRoute);
 	},
 
 	onRoute: function() {
@@ -40,24 +50,22 @@ var SearchView = React.createClass({
 
 	render: function() {
 
-		var postContainer = <PostContainer allPosts={ this.props.allPosts } />;
-
 		return (
 			<div className='main-section'>
-				<div className='row'>
-					<LeftSidebar
-						allBevies={ this.props.allBevies }
-						activeBevy={ this.props.activeBevy }
-					/>
-					<div className="col-xs-6">
-						<div className='message' style={{marginBottom: '20px'}}>
-							Search for #{router.search_query}
-						</div>
-						{ postContainer }
+				<LeftSidebar
+					allBevies={ this.props.allBevies }
+					activeBevy={ this.props.activeBevy }
+					allThreads={ this.props.allThreads }
+				/>
+				<div className="search-body">
+					<div className='message' style={{marginBottom: '20px'}}>
+						Search for #{router.search_query}
 					</div>
+					<PostContainer
+						allPosts={ this.state.posts }
+					/>
 				</div>
-
-				
+				<div className='right-sidebar' />
 			</div>
 		);
 	}
