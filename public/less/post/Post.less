@@ -42,9 +42,17 @@
 			vertical-align: top;
 			display: inline-block;
 			.top {
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
 			}
 			.bottom {
-				margin-top: -10px;
+				display: flex;
+				align-items: center;
+				justify-content: flex-start;
+				.middot {
+					padding: 0px 5px;
+				}
 			}
 			.details, .detail-time, .dot {
 				font-size: .6em;
@@ -61,10 +69,13 @@
 				font-size: .4em;
 				color: #1A1A1A;
 				vertical-align: super;
+				padding: 0px 5px;
 			}
 		}
 		.badges {
-			display: inline-block;
+			display: flex;
+			align-items: center;
+			justify-content: flex-end;
 			float: right;
 			margin-top: -6px;
 			text-align: -webkit-right;

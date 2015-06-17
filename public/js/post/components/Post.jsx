@@ -246,7 +246,7 @@ var Post = React.createClass({
 
 		var ago = timeAgo(Date.parse(post.created));
 		var left = (this.props.post.expires && !post.pinned)
-		? (' • expires ' + timeLeft(Date.parse(post.expires)))
+		? (<span><span className='middot'>•</span>{ 'expires ' + timeLeft(Date.parse(post.expires)) }</span>)
 		: '';
 
 		if(!_.isEmpty(this.state.title)) {
@@ -375,10 +375,10 @@ var Post = React.createClass({
 					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
 					<div className='post-details'>
 						<div className='top'>
-							<span className="details">{ authorName } </span>
+							<span className="details">{ authorName }</span>
 							<span className="glyphicon glyphicon-triangle-right"/>
 							<span className="details">
-								<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }> { bevy.name }</a>
+								<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }>{ bevy.name }</a>
 							</span>
 						</div>
 						<div className="bottom">
