@@ -91,17 +91,18 @@ var PublicBevyPanel = React.createClass({
 		var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
 		if(_.isEmpty(description)) description = 'no description';
 
-		var header = (<div className="row sidebar-top">
-				<div className="col-xs-3 sidebar-picture">
+		var header = (
+			<div className="sidebar-top">
+				<div className="sidebar-picture">
 					<div className='profile-img' style={ bevyImageStyle }/>
 				</div>
-				<div className="col-xs-9 sidebar-title">
-					<div className='row'>
+				<div className="sidebar-title">
+					<div>
 						<span className='sidebar-title-name'>
 							{ name }
 						</span>
 					</div>
-					<div className='row'>
+					<div>
 						<span className='sidebar-title-description' >
 							{ description }
 						</span>
@@ -111,10 +112,10 @@ var PublicBevyPanel = React.createClass({
 		);
 
 		return (
-			<div className= "col-sm-3 right-sidebar-col panel public-bevy-panel">
-				<ButtonGroup className="btn-group right-sidebar">
+			<div className= "panel public-bevy-panel">
+				<div className="right-sidebar btn-group">
 					{ header }
-					<div className='row sidebar-links'>
+					<div className='sidebar-links'>
 						<ButtonGroup role="group">
 							<span type='button' className="sidebar-link">
 								12 Members
@@ -125,7 +126,7 @@ var PublicBevyPanel = React.createClass({
 						</ButtonGroup>
 					</div>
 
-					<div className='row sidebar-action'>
+					<div className='sidebar-action'>
 						<RaisedButton
 							className='request-button'
 							onClick={ this.onRequestJoin }
@@ -133,8 +134,9 @@ var PublicBevyPanel = React.createClass({
 						/>
 					</div>
 
-				 </ButtonGroup>
-			 </div>);
+				 </div>
+			</div>
+		);
 	}
 });
 module.exports = PublicBevyPanel;

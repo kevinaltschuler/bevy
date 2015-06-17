@@ -1,6 +1,6 @@
 /**
 *
-* public bevy panel 
+* public bevy panel
 * made by kevin
 */
 'use strict';
@@ -31,12 +31,8 @@ var PublicBevyRequest = React.createClass({
 		};
 
 		return (
-			<div className="col-xs-6">
-				<div className='public-bevy-panel'>
-					<div className='row'>
-						<div className='message'>This bevy requires an invitation</div>
-					</div>
-				</div>
+			<div className='public-bevy-request'>
+				<div className='message'>This bevy requires an invitation</div>
 			</div>
 		)
 	},

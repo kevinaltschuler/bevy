@@ -65,6 +65,7 @@ var PublicView = React.createClass({
 				<LeftSidebar
 					allBevies={ this.props.allBevies }
 					activeBevy={ this.props.activeBevy }
+					allThreads={ this.props.allThreads }
 				/>
 				<PublicBevyRequest bevy={bevy}/>
 				<PublicBevyPanel activeBevy={bevy} />
