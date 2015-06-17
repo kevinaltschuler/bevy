@@ -95,7 +95,8 @@ exports.update = function(req, res, next) {
 		update.settings = req.body['settings'];
 		if(update.settings.group_chat) {
 			// group chat was enabled, create thread
-			ChatThread.create({ bevy: id }, function(err, thread) {
+			// use update func so we dont create one if it already exists
+			ChatThread.update({ bevy: id }, { bevy: id }, { upsert: true }, function(err, thread) {
 
 			});
 		} else {
