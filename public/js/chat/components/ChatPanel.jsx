@@ -97,17 +97,15 @@ var ChatPanel = React.createClass({
 		};
 
 		var header = (
-			<div className='row chat-panel-header'>
+			<div className='chat-panel-header'>
 				<div className='chat-panel-background-wrapper'>
 					<div className='chat-panel-background-image' style={ backgroundStyle } />
 				</div>
-				<a href='#' className='bevy-name col-xs-8' title={ expandTitle } onClick={ this.handleToggle }>
-					{ bevy.name }
-				</a>
-				<div className='col-xs-2'>
+				<div className='chat-panel-head'>
+					<a href='#' className='bevy-name' title={ expandTitle } onClick={ this.handleToggle }>
+						{ bevy.name }
+					</a>
 					<span className={ 'glyphicon ' + expandGlyph + ' btn' } title={ expandTitle } onClick={ this.handleToggle }></span>
-				</div>
-				<div className='col-xs-2'>
 					<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
 				</div>
 			</div>
@@ -130,7 +128,7 @@ var ChatPanel = React.createClass({
 		if(!this.state.isOpen) input = <div />;
 
 		var body = (
-			<div className='row chat-panel-body'>
+			<div className='chat-panel-body'>
 				<MessageList
 					thread={ thread }
 					messages={ this.state.messages }
