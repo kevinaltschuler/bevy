@@ -44,6 +44,41 @@ _.extend(ChatStore, {
 
 			case CHAT.THREAD_OPEN:
 				var thread_id = payload.thread_id;
+				var user_id = payload.user_id;
+
+				if(user_id && !thread_id) {
+					// just clicked on a user's name
+					// is it yourself?
+					if(user_id == user._id) break;
+					// first look for a preexisting thread
+					var thread = this.threads.find(function(thread) {
+						return _.contains(thread.get('users'), user_id) && _.contains(thread.get('users'), user._id);
+					});
+					if(thread == undefined) {
+						// still not found
+						// let's create a thread
+						var thread = this.threads.add({
+							users: [user_id, user._id]
+						});
+						// save it to the server
+						thread.save(null, {
+							success: function(model, response, options) {
+								thread.set('_id', model.get('_id'));
+								thread.set('users', model.get('users'));
+								thread.set('bevy', model.get('bevy'));
+
+								// add to open threads
+								this.openThreads.push(thread.id);
+
+								this.trigger(CHAT.CHANGE_ALL);
+							}
+						});
+
+						break;
+					} else {
+						thread_id = thread.get('_id');
+					}
+				}
 
 				if(this.openThreads.indexOf(thread_id) > -1) {
 					// already found it
@@ -163,6 +198,29 @@ _.extend(ChatStore, {
 	addMessage: function(message) {
 		var thread = this.threads.get(message.thread);
 		if(thread == undefined) {
+			// fetch new threads - it was probably just created
+			this.threads.fetch({
+				reset: true,
+				success: function(threads, response, options) {
+
+					thread = this.threads.get(message.thread);
+
+					if(thread == undefined) {
+						// now it doesn't exist
+						return;
+					} else {
+						// open the panel
+						this.openThreads.push(message.thread);
+
+						// add the message
+						thread.messages.add(message);
+
+						this.trigger(CHAT.CHANGE_ALL);
+						this.trigger(CHAT.MESSAGE_FETCH + message.thread);
+					}
+				}
+			});
+
 			return;
 		} else {
 			// dont get the message you just added

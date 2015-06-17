@@ -14,6 +14,7 @@ exports.index = function(req, res, next) {
 	var thread_id = req.params.threadid;
 	var skip = req.query['skip'] || 0;
 	Message.find({ thread: thread_id }, function(err, messages) {
+		if(err) return next(err);
 		return res.json(messages);
 	})
 		.populate('author')

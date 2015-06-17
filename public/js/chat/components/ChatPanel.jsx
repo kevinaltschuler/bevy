@@ -16,6 +16,8 @@ var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
 
+var user = window.bootstrap.user;
+
 var ChatPanel = React.createClass({
 
 	propTypes: {
@@ -90,11 +92,20 @@ var ChatPanel = React.createClass({
 		var expandGlyph = (this.state.isOpen) ? 'glyphicon-minus' : 'glyphicon-plus';
 		var expandTitle = (this.state.isOpen) ? 'Minimize' : 'Maximize';
 
-		var backgroundStyle = (_.isEmpty(bevy.image_url))
-		? {}
-		: {
+		var backgroundStyle = (bevy && !_.isEmpty(bevy.image_url))
+		? {
 			backgroundImage: 'url(' + bevy.image_url + ')'
-		};
+		}
+		: {};
+
+		var otherUser = {};
+		if(!bevy && thread.users.length > 1) {
+			otherUser = _.find(thread.users, function($user) {
+				return $user._id != user._id;
+			});
+		}
+
+		var name = (bevy) ? bevy.name : otherUser.displayName;
 
 		var header = (
 			<div className='chat-panel-header'>
@@ -103,7 +114,7 @@ var ChatPanel = React.createClass({
 				</div>
 				<div className='chat-panel-head'>
 					<a href='#' className='bevy-name' title={ expandTitle } onClick={ this.handleToggle }>
-						{ bevy.name }
+						{ name }
 					</a>
 					<span className={ 'glyphicon ' + expandGlyph + ' btn' } title={ expandTitle } onClick={ this.handleToggle }></span>
 					<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>

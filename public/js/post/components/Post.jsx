@@ -33,6 +33,7 @@ var ImageModal  = require('./ImageModal.jsx');
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
+var ChatActions = require('./../../chat/ChatActions');
 
 var POST = require('./../../constants').POST;
 
@@ -193,6 +194,12 @@ var Post = React.createClass({
 		var bevy_id = ev.target.parentNode.getAttribute('id');
 
 		router.navigate('/b/' + bevy_id, { trigger: true });
+	},
+
+	onOpenThread: function(ev) {
+		ev.preventDefault();
+		var author_id = this.state.post.author._id;
+		ChatActions.openThread(null, author_id);
 	},
 
 	render: function() {
@@ -375,7 +382,9 @@ var Post = React.createClass({
 					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
 					<div className='post-details'>
 						<div className='top'>
-							<span className="details">{ authorName }</span>
+							<span className="details">
+								<a href='#' onClick={ this.onOpenThread }>{ authorName }</a>
+							</span>
 							<span className="glyphicon glyphicon-triangle-right"/>
 							<span className="details">
 								<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }>{ bevy.name }</a>

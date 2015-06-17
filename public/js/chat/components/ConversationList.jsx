@@ -43,29 +43,49 @@ var ConversationList = React.createClass({
 			var message = '';
 			if(!_.isEmpty(latestMessage)) {
 
-				var messageMember = this.findMember(bevy.members, latestMessage.author._id);
+				if(bevy) {
+					var messageMember = this.findMember(bevy.members, latestMessage.author._id);
 
-				var messageAuthor = latestMessage.author.displayName;
-				if(messageMember != undefined) messageAuthor = messageMember.displayName;
-				if(latestMessage.author._id == user._id) messageAuthor = 'Me';
+					var messageAuthor = latestMessage.author.displayName;
+					if(messageMember != undefined) messageAuthor = messageMember.displayName;
+					if(latestMessage.author._id == user._id) messageAuthor = 'Me';
 
-				message = (
-					<span className='latest-message'>
-						{ messageAuthor + ': ' + latestMessage.body }
-					</span>
-				);
+					message = (
+						<span className='latest-message'>
+							{ messageAuthor + ': ' + latestMessage.body }
+						</span>
+					);
+				} else {
+					message = (
+						<span className='latest-message'>
+							{ latestMessage.author.displayName + ': ' + latestMessage.body }
+						</span>
+					);
+				}
 			}
+
+			var otherUser = {};
+			if(!bevy && thread.users.length > 1) {
+				otherUser = _.find(thread.users, function($user) {
+					return $user._id != user._id;
+				});
+			}
+
+			var image_url = (bevy) ? bevy.image_url : otherUser.image_url;
+			var name = (bevy) ? bevy.name : otherUser.displayName;
 
 			threads.push(
 				<Button className='conversation-item' key={ 'thread' + thread._id } id={ thread._id } onClick={ this.openThread } onFocus={ this.openThread }>
-					<img className='bevy-img' src={ bevy.image_url } />
+					<img className='bevy-img' src={ image_url } />
 					<div className='conversation-details'>
-						<span className='bevy-name'>{ bevy.name }</span>
+						<span className='bevy-name'>{ name }</span>
 						{ message }
 					</div>
 				</Button>
 			);
 		}
+
+		if(threads.length == 0) threads = 'No conversations active';
 
 		return (
 			<div className='conversation-list panel'>

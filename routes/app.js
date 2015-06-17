@@ -171,7 +171,7 @@ module.exports = function(app) {
 								if(err) return callback(null, []);
 								return callback(null, threads);
 							}).or([{ users: { $elemMatch: { $eq: user._id } } }, { bevy: { $in: bevy_id_list } }])
-							.populate('bevy');
+							.populate('bevy users');
 						}
 					]);
 				}

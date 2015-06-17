@@ -17,7 +17,7 @@ var MessageItem = React.createClass({
 	},
 
 	findMember: function(id) {
-		var members = this.props.bevy.members;
+		var members = (this.props.bevy) ? this.props.bevy.members : [];
 		var member = _.find(members, function($member) {
 			return id == $member.user;
 		});
@@ -52,13 +52,17 @@ var MessageItem = React.createClass({
 		};
 
 		var authorImage = (_.isEmpty(author.image_url)) ? '//ssl.gstatic.com/accounts/ui/avatar_2x.png' : author.image_url;
-		if(bevy.settings.anonymise_users && member.image_url) {
-			authorImage = member.image_url;
+		if(bevy) {
+			if(bevy.settings.anonymise_users && member.image_url) {
+				authorImage = member.image_url;
+			}
 		}
 
 		var authorName = author.displayName;
-		if(bevy.settings.anonymise_users) {
-			authorName = member.displayName;
+		if(bevy) {
+			if(bevy.settings.anonymise_users) {
+				authorName = member.displayName;
+			}
 		}
 
 		var createDate = new Date(message.created);
@@ -77,7 +81,11 @@ var MessageItem = React.createClass({
 
 		return (
 			<div className='message-item' style={ messageStyle }>
-				<img className='message-author-img' title={ authorName } alt={ authorName } src={ authorImage } />
+				<div className='message-author-img'
+					title={ authorName }
+					alt={ authorName }
+					style={ { backgroundImage: 'url(' + authorImage + ')' } }
+				/>
 				<div className='arrow' style={ arrowStyle }/>
 				<div>
 					<div className='message-body' style={ bodyStyle }>
