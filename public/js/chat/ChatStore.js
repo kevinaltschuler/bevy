@@ -210,8 +210,9 @@ _.extend(ChatStore, {
 						// now it doesn't exist
 						return;
 					} else {
-						// open the panel
-						this.openThreads.push(message.thread);
+						// open the panel if it isn't already
+						if(this.openThreads.indexOf(message.thread._id) == -1)
+							this.openThreads.push(message.thread);
 
 						// add the message
 						thread.messages.add(message);
