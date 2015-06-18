@@ -25,6 +25,42 @@
 	.panel-header {
 		padding-left: 25px;
 	}
+	.chat-tabs {
+		border: none;
+		li {
+			background-color: #f8f8f8;
+			width: 50%;
+			border: none;
+			border-radius: 0px;
+			text-align: center;
+			a {
+				margin-right: 0px;
+				margin-left: 0px;
+				border-radius: 0px;
+				border: none;
+				color: @light-font;
+				&:focus, &:active, &:hover {
+					border: none;
+					outline: none;
+				}
+			}
+			&.active {
+
+			}
+			&:first-child {
+				border-radius: 5px 0px 0px 0px;
+				a {
+					border-radius: 5px 0px 0px 0px;
+				}
+			}
+			&:last-child {
+				border-radius: 0px 5px 0px 0px;
+				a {
+					border-radius: 0px 5px 0px 0px;
+				}
+			}
+		}
+	}
 }
 
 @media(max-width: 1200px) {

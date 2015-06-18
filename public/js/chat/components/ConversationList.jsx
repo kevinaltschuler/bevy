@@ -6,6 +6,9 @@ var _ = require('underscore');
 var rbs = require('react-bootstrap');
 var Button = rbs.Button;
 
+var mui = require('material-ui');
+var TextField = mui.TextField;
+
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
 
@@ -90,7 +93,10 @@ var ConversationList = React.createClass({
 		return (
 			<div className='conversation-list panel'>
 				<div className='conversation-list-header'>
-					<span>Conversations</span>
+					<TextField
+						className='conversation-search'
+						hintText='Search Conversations'
+					/>
 				</div>
 				<div className='list-links'>
 					{ threads }

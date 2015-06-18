@@ -1,58 +1,52 @@
 @import './../variables.less';
 
-.conversation-list.panel {
-	padding-bottom: 15px;
+.contact-list.panel {
 	max-height: 400px;
 	overflow-y: scroll;
 	overflow-x: hidden;
-	.conversation-list-header {
-		.conversation-search {
+	padding-bottom: 10px;
+	.contact-list-header {
+		.contact-search {
 			width: 100%;
 			padding: 0px 10px;
 			.mui-text-field-focus-underline {
 				border-color: #aaa;
 			}
 		}
-		span {
-			font-size: 1.25em;
-			color: #000;
-		}
 	}
 	.list-links {
-		.conversation-item {
+		.contact-item {
+			width: 100%;
 			display: flex;
 			justify-content: flex-start;
-			padding-top: 5px;
-			padding-bottom: 5px;
-			padding-left: 0px;
-			color: @light-font;
+			align-items: center;
 			border-radius: 0px;
-			width: 100%;
-			text-align: left;
 			border: none;
 			transition: 0.2s ease-in-out;
-			img.bevy-img {
+			.contact-img {
 				min-width: 30px;
 				max-width: 30px;
 				height: 30px;
-				border-radius: 20px;
-				margin-right: 10px;
-				margin-left: 15px;
+				border-radius: 30px;
 				float: left;
+				margin-right: 15px;
+				#image-icon;
 			}
-			.conversation-details {
+			.contact-name {
+				color: @light-font;
+				overflow-x: hidden;
+				text-align: left;
+				min-height: 30px;
 				display: flex;
 				flex-direction: column;
-				span.bevy-name {
-					overflow-x: hidden;
-				}
-				span.latest-message {
-					font-size: 0.8em;
-					overflow-x: hidden;
-				}
+				justify-content: center;
 			}
 			&:hover, &:active {
 				text-decoration: none;
+				background-color: #f8f8f8;
+				box-shadow: none;
+			}
+			&:focus {
 				background-color: #f8f8f8;
 			}
 		}

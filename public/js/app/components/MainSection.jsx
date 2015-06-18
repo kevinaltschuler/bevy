@@ -27,6 +27,7 @@ var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 var UserStore = require('./../../profile/UserStore');
 var ChatStore = require('./../../chat/ChatStore');
+var ContactStore = require('./../../contact/ContactStore');
 
 var AppActions = require('./../../app/AppActions');
 
@@ -99,13 +100,20 @@ var MainSection = React.createClass({
 		};
 	},
 
+	getContactState: function() {
+		return {
+			allContacts: ContactStore.getAll()
+		};
+	},
+
 	collectState: function() {
 		var state = {};
 		_.extend(state,
 			this.getPostState(),
 			this.getBevyState(),
 			this.getNotificationState(),
-			this.getChatState()
+			this.getChatState(),
+			this.getContactState()
 		);
 		return state;
 	},
