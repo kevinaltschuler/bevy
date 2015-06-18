@@ -2,6 +2,8 @@
 
 .conversation-list.panel {
 	padding-bottom: 15px;
+	max-height: 400px;
+	overflow-y: scroll;
 	.conversation-list-header {
 		text-align: left;
 		padding-left: 20px;
@@ -13,8 +15,6 @@
 		}
 	}
 	.list-links {
-		padding-left: 30px;
-		padding-right: 15px;
 		.conversation-item {
 			display: flex;
 			justify-content: flex-start;
@@ -22,9 +22,7 @@
 			padding-bottom: 5px;
 			padding-left: 0px;
 			color: @light-font;
-			background-color: #f8f8f8;
-			border-radius: 3px;
-			margin-bottom: 10px;
+			border-radius: 0px;
 			width: 100%;
 			text-align: left;
 			border: none;
@@ -51,7 +49,7 @@
 			}
 			&:hover, &:active {
 				text-decoration: none;
-				background-color: #eee;
+				background-color: #f8f8f8;
 			}
 		}
 	}
