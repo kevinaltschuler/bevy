@@ -52,7 +52,8 @@ _.extend(ChatStore, {
 					if(user_id == user._id) break;
 					// first look for a preexisting thread
 					var thread = this.threads.find(function(thread) {
-						return _.contains(thread.get('users'), user_id) && _.contains(thread.get('users'), user._id);
+						var thread_users = _.pluck(thread.get('users'), '_id');
+						return _.contains(thread_users, user_id) && _.contains(thread_users, user._id);
 					});
 					if(thread == undefined) {
 						// still not found
@@ -71,7 +72,7 @@ _.extend(ChatStore, {
 								this.openThreads.push(thread.id);
 
 								this.trigger(CHAT.CHANGE_ALL);
-							}
+							}.bind(this)
 						});
 
 						break;
