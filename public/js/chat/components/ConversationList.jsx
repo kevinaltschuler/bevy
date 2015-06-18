@@ -59,6 +59,10 @@ var ConversationList = React.createClass({
 						</span>
 					);
 				} else {
+
+					var messageAuthor = latestMessage.author.displayName;
+					if(latestMessage.authr._id == user._id) messageAuthor = 'Me';
+
 					message = (
 						<span className='latest-message'>
 							{ latestMessage.author.displayName + ': ' + latestMessage.body }
