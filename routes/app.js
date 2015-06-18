@@ -68,7 +68,7 @@ module.exports = function(app) {
 					Bevy.find({ members: { $elemMatch: { user: user._id } } }, function(err, bevies) {
 						if(err || _.isEmpty(bevies)) return callback(null, []);
 						callback(null, bevies);
-					}).populate('member.user');
+					}).populate('members.user');
 				},
 				function(callback) {
 					// get notifications
