@@ -18,6 +18,8 @@ var Badge = rbs.Badge;
 var Button = rbs.Button;
 var ButtonGroup = rbs.ButtonGroup;
 var ModalTrigger = rbs.ModalTrigger;
+var Tooltip = rbs.Tooltip;
+var OverlayTrigger = rbs.OverlayTrigger;
 
 var mui = require('material-ui');
 var FontIcon = mui.FontIcon;
@@ -72,19 +74,18 @@ var BevyList = React.createClass({
 			<div className='bevy-list panel'>
 				<div className='panel-header'>
 					<p>Bevies</p>
+					<ModalTrigger modal={
+						<CreateNewBevy	/>
+					}>
+						<OverlayTrigger placement='bottom' overlay={ <Tooltip>Create a New Bevy</Tooltip> }>
+							<Button className='new-bevy-btn'>
+								<FontIcon className="glyphicon glyphicon-plus"/>
+							</Button>
+						</OverlayTrigger>
+					</ModalTrigger>
 				</div>
 				<ButtonGroup className='bevy-list-btns' role="group">
-					<text>
-						{bevies}
-						<ModalTrigger modal={
-							<CreateNewBevy	/>
-						}>
-							<button className='bevy-btn new-bevy-btn'>
-								<FontIcon className="glyphicon glyphicon-plus"/> &nbsp;
-								<span className="mui-flat-button-label">Create New Bevy</span>
-							</button>
-						</ModalTrigger>
-					</text>
+					{bevies}
 				</ButtonGroup>
 			</div>
 		);

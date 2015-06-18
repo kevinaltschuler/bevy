@@ -1,15 +1,31 @@
 @import '../variables.less';
 
-.bevy-list {
+.bevy-list.panel {
+	padding-bottom: 15px;
+	.panel-header {
+		display: flex;
+		justify-content: flex-start;
+		align-items: center;
+		p {
+			flex-grow: 1;
+		}
+		.new-bevy-btn {
+			background-color: @clear;
+			color: @light-font;
+			transition: all 0.15s linear;
+			border: none;
+			.glyphicon {
+				font-size: 1em;
+			}
+		}
+	}
 	.bevy-list-btns {
 		padding-left: 10%;
 
-		.badge {
-			background-color: #777777;
-		}
-		.glyphicon {
-			font-size: 1em;
-		}
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+
 		.bevy-btn {
 			background-color: @clear;
 			color: @light-font;
@@ -28,9 +44,9 @@
 				background-color: @clear;
 			}
 		}
-		.new-bevy-btn {
-			margin-bottom: 15px;
-			margin-top: 5px;
+
+		.badge {
+			background-color: #777777;
 		}
 	}
 }
