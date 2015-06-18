@@ -48,10 +48,10 @@ var ContactList = React.createClass({
 		return (
 			<div className='contact-list panel'>
 				<div className='contact-list-header'>
-					<TextField
+					{/*<TextField
 						className='contact-search'
 						hintText='Search Contacts'
-					/>
+					/>*/}
 				</div>
 				<div className='list-links'>
 					{ contacts }

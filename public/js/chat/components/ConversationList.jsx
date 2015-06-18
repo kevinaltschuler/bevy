@@ -93,10 +93,10 @@ var ConversationList = React.createClass({
 		return (
 			<div className='conversation-list panel'>
 				<div className='conversation-list-header'>
-					<TextField
+					{/*<TextField
 						className='conversation-search'
 						hintText='Search Conversations'
-					/>
+					/>*/}
 				</div>
 				<div className='list-links'>
 					{ threads }
