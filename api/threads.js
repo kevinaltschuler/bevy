@@ -43,6 +43,10 @@ exports.create = function(req, res, next) {
 		if(err) return next(err);
 		Thread.populate($thread, { path: 'bevy users' }, function(err, pop_thread) {
 			if(err) return next(err);
+
+			pop_thread = JSON.parse(JSON.stringify(pop_thread));
+			pop_thread._id = $thread._id;
+			pop_thread.created = $thread.created;
 			return res.json(pop_thread);
 		});
 	});
