@@ -65,7 +65,7 @@ var ConversationList = React.createClass({
 
 					message = (
 						<span className='latest-message'>
-							{ latestMessage.author.displayName + ': ' + latestMessage.body }
+							{ messageAuthor + ': ' + latestMessage.body }
 						</span>
 					);
 				}
