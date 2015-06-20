@@ -53,7 +53,9 @@ var PublicView = React.createClass({
 			<div className='main-section not-in-bevy'>
 				<LeftSidebar
 					allBevies={ this.props.allBevies }
-					activeBevy={this.props.activeBevy}
+					activeBevy={this.props.activeBevy }
+					allThreads={ this.props.allThreads }
+					allContacts={ this.props.allContacts }
 				/>
 				<div className='bevy-message'>Bevy Not Found</div>
 			</div>
@@ -66,6 +68,7 @@ var PublicView = React.createClass({
 					allBevies={ this.props.allBevies }
 					activeBevy={ this.props.activeBevy }
 					allThreads={ this.props.allThreads }
+					allContacts={ this.props.allContacts }
 				/>
 				<PublicBevyRequest bevy={bevy}/>
 				<PublicBevyPanel activeBevy={bevy} />

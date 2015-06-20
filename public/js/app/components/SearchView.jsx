@@ -56,6 +56,7 @@ var SearchView = React.createClass({
 					allBevies={ this.props.allBevies }
 					activeBevy={ this.props.activeBevy }
 					allThreads={ this.props.allThreads }
+					allContacts={ this.props.allContacts }
 				/>
 				<div className="search-body">
 					<div className='message' style={{marginBottom: '20px'}}>

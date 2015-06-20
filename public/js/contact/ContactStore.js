@@ -65,7 +65,7 @@ _.extend(ContactStore, {
 					}.bind(this));
 				}.bind(this));
 
-				console.log(this.contacts);
+				//console.log(this.contacts);
 
 				break;
 		}
