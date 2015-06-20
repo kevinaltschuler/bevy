@@ -4,8 +4,8 @@ var React = require('react');
 var $ = require('jquery');
 
 var rbs = require('react-bootstrap');
-var TabbedArea = rbs.TabbedArea;
-var TabPane = rbs.TabPane;
+var OverlayTrigger = rbs.OverlayTrigger;
+var Tooltip = rbs.Tooltip;
 
 var BevyList = require('./../../bevy/components/BevyList.jsx');
 var ContactList = require('./../../contact/components/ContactList.jsx');
@@ -22,17 +22,42 @@ var LeftSidebar = React.createClass({
 
 	getInitialState: function() {
 		return {
-			key: 1
+			key: '1'
 		};
 	},
 
-	onTab: function(key) {
+	onTab: function(ev) {
+		ev.preventDefault();
+
+		var key = ev.target.getAttribute('id');
+
 		this.setState({
 			key: key
 		});
 	},
 
 	render: function() {
+
+		var tabContent = '';
+		switch(this.state.key) {
+			case '1':
+			case 1:
+				tabContent = (
+					<ConversationList
+						allThreads={ this.props.allThreads }
+					/>
+				);
+				break;
+			case '2':
+			case 2:
+				tabContent = (
+					<ContactList
+						allContacts={ this.props.allContacts }
+					/>
+				);
+				break;
+		}
+
 		return (
 			<div className='left-sidebar'>
 				<div className='fixed'>
@@ -41,18 +66,32 @@ var LeftSidebar = React.createClass({
 							allBevies={ this.props.allBevies }
 							activeBevy={ this.props.activeBevy }
 						/>
-						<TabbedArea className='chat-tabs' activeKey={ this.state.key } onSelect={ this.onTab } animation={ false }>
-							<TabPane eventKey={ 1 } tab='Conversations'>
-								<ConversationList
-									allThreads={ this.props.allThreads }
-								/>
-							</TabPane>
-							<TabPane eventKey={ 2 } tab='Contacts'>
-								<ContactList
-									allContacts={ this.props.allContacts }
-								/>
-							</TabPane>
-						</TabbedArea>
+
+						<nav className='chat-tabs'>
+							<ul className='chat-tabs nav nav-tabs'>
+								<li className={ (this.state.key == 1) ? 'active' : '' }>
+									<OverlayTrigger placement='top' overlay={ <Tooltip>Conversations</Tooltip> }>
+										<a role='button' href='#' id='1' onClick={ this.onTab }>
+											<div className='tab-title' id='1'>
+												<span className='glyphicon glyphicon-comment' id='1'></span>
+											</div>
+										</a>
+									</OverlayTrigger>
+								</li>
+								<li className={ (this.state.key == 2) ? 'active' : '' }>
+									<OverlayTrigger placement='top' overlay={ <Tooltip>Contacts</Tooltip> }>
+										<a role='button' href='#' id='2' onClick={ this.onTab }>
+											<div className='tab-title' id='2'>
+												<span className='glyphicon glyphicon-user' id='2'></span>
+											</div>
+										</a>
+									</OverlayTrigger>
+								</li>
+							</ul>
+						</nav>
+						<div className='tab-content'>
+							{ tabContent }
+						</div>
 					</div>
 				</div>
 			</div>
