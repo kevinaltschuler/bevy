@@ -60,9 +60,13 @@ var FrontpagePanel = React.createClass({
 					</div>
 				</div>
 
-				<div className='row announcements'>
-					<span className='col-xs-12 announcements-title'>Announcements</span>
-					<div className='col-xs-12'>
+				<div className='announcements'>
+					<span className='announcements-title'>Announcements</span>
+					<div className='announcements-body'>
+						<p className='announcement'>
+							<b>Jun 20, 2015</b><br />
+							Version 0.2.3 has arrived! We&#39;ve added group bevy chat (which admins can enable in their bevy settings) as well as 1 to 1 chat. As always submit feedback and bug reports via the form below.
+						</p>
 						<p className='announcement'>
 							<b>Jun 10, 2015</b><br />
 							Thanks for testing Bevy&#39;s Alpha! Please submit any questions or suggestions via. the form below, or email us at <a href='mailto:contact@joinbevy.com'>contact@joinbevy.com</a>.
