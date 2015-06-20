@@ -11,6 +11,8 @@ var TextField = mui.TextField;
 
 var ChatActions = require('./../../chat/ChatActions');
 
+var ContactStore = require('./../ContactStore');
+
 var ContactList = React.createClass({
 
 	propTypes: {
@@ -31,18 +33,26 @@ var ContactList = React.createClass({
 		var contacts = [];
 		allContacts.forEach(function(contact) {
 
+			var $contact = ContactStore.getContact(contact.user._id);
+
+			var image_url = ($contact.anonymous) ? $contact.image_url : $contact.user.image_url;
+			var displayName = ($contact.anonymous) ? $contact.displayName : $contact.user.displayName;
+
 			var contactImageStyle = {
-				backgroundImage: 'url(' + contact.user.image_url + ')'
+				backgroundImage: 'url(' + image_url + ')'
 			}
 
 			contacts.push(
 				<Button className='contact-item' key={ 'contact:' + contact.user._id } id={ contact.user._id } onClick={ this.openThread } onFocus={ this.openThread }>
 					<div className='contact-img' style={ contactImageStyle }></div>
 					<div className='contact-name'>
-						<span>{ contact.user.displayName }</span>
+						<span>{ displayName }</span>
 					</div>
 				</Button>
 			);
+
+			if(contacts.length <= 0) contacts = 'No Contacts Yet';
+
 		}.bind(this));
 
 		return (
