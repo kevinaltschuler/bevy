@@ -359,6 +359,7 @@ _.extend(PostStore, {
 
 							if(!comment.comments) comment.comments = [];
 							comment.comments.push(new_comment);
+							comments.push(new_comment);
 
 							// increment comment count
 							var commentCount = post.get('commentCount');
@@ -409,6 +410,7 @@ _.extend(PostStore, {
 						);
 
 						this.trigger(POST.CHANGE_ALL);
+						this.trigger(POST.CHANGE_ONE + post_id);
 					}.bind(this)
 				);
 
@@ -443,6 +445,7 @@ _.extend(PostStore, {
 				post.set('commentCount', --commentCount);
 
 				this.trigger(POST.CHANGE_ALL);
+				this.trigger(POST.CHANGE_ONE + post_id);
 
 				break;
 		}
