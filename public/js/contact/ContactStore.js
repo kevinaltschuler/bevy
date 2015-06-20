@@ -42,6 +42,7 @@ _.extend(ContactStore, {
 							// keep track of anonymous users
 							if(bevy.settings.anonymise_users) {
 								member.anonymous = true;
+								return; // for now, dont add anonymous members
 							} else {
 								member.anonymous = false;
 							}
@@ -60,7 +61,6 @@ _.extend(ContactStore, {
 									this.contacts.add(member);
 								}
 							}
-
 						}
 					}.bind(this));
 				}.bind(this));
@@ -73,6 +73,13 @@ _.extend(ContactStore, {
 
 	getAll: function() {
 		return this.contacts.toJSON();
+	},
+
+	getContact: function(user_id) {
+		var contact = this.contacts.find(function($contact) {
+			return $contact.get('user')._id == user_id;
+		});
+		return (contact) ? contact.toJSON() : {};
 	}
 });
 
