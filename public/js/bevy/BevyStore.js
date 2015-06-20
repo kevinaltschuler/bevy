@@ -24,6 +24,8 @@ var Bevies = require('./BevyCollection');
 var constants = require('./../constants');
 var BEVY = constants.BEVY;
 var POST = constants.POST;
+var CONTACT = constants.CONTACT;
+var CHAT = constants.CHAT;
 var APP = constants.APP;
 
 var BevyActions = require('./BevyActions');
@@ -144,8 +146,10 @@ _.extend(BevyStore, {
 
 				this.trigger(BEVY.CHANGE_ALL);
 				this.trigger(BEVY.UPDATED_IMAGE);
-				// update posts
+				// update more stuff
 				this.trigger(POST.CHANGE_ALL);
+				this.trigger(CHAT.CHANGE_ALL);
+				this.trigger(CONTACT.CHANGE_ALL);
 
 				break;
 

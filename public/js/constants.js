@@ -96,3 +96,7 @@ exports.CHAT = {
 
 	CHANGE_ALL: 'chat_change_all'
 };
+
+exports.CONTACT = {
+	CHANGE_ALL: 'contact_change_all'
+};

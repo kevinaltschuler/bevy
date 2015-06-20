@@ -37,6 +37,15 @@ var POST = constants.POST;
 var BEVY = constants.BEVY;
 var NOTIFICATION = constants.NOTIFICATION;
 var CHAT = constants.CHAT;
+var CONTACT = constants.CONTACT;
+
+var change_all_events = [
+	POST.CHANGE_ALL,
+	BEVY.CHANGE_ALL,
+	NOTIFICATION.CHANGE_ALL,
+	CHAT.CHANGE_ALL,
+	CONTACT.CHANGE_ALL
+].join(' ');
 
 // create app
 var MainSection = React.createClass({
@@ -51,18 +60,20 @@ var MainSection = React.createClass({
 
 	// mount event listeners
 	componentDidMount: function() {
-		PostStore.on(POST.CHANGE_ALL, this._onPostChange);
-		BevyStore.on(BEVY.CHANGE_ALL, this._onBevyChange);
-		NotificationStore.on(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
-		ChatStore.on(CHAT.CHANGE_ALL, this._onChatChange);
+		PostStore.on(change_all_events, this._onPostChange);
+		BevyStore.on(change_all_events, this._onBevyChange);
+		NotificationStore.on(change_all_events, this._onNotificationChange);
+		ChatStore.on(change_all_events, this._onChatChange);
+		ContactStore.on(change_all_events, this._onContactChange);
 	},
 
 	// unmount event listeners
 	componentWillUnmount: function() {
-		PostStore.off(POST.CHANGE_ALL, this._onPostChange);
-		BevyStore.off(BEVY.CHANGE_ALL, this._onBevyChange);
-		NotificationStore.off(NOTIFICATION.CHANGE_ALL, this._onNotificationChange);
-		ChatStore.off(CHAT.CHANGE_ALL, this._onChatChange);
+		PostStore.off(change_all_events, this._onPostChange);
+		BevyStore.off(change_all_events, this._onBevyChange);
+		NotificationStore.off(change_all_events, this._onNotificationChange);
+		ChatStore.off(change_all_events, this._onChatChange);
+		ContactStore.off(change_all_events, this._onContactChange);
 	},
 
 	getPostState: function() {
@@ -131,6 +142,9 @@ var MainSection = React.createClass({
 	},
 	_onChatChange: function() {
 		this.setState(_.extend(this.state, this.getChatState()));
+	},
+	_onContactChange: function() {
+		this.setState(_.extend(this.state, this.getContactState()));
 	},
 
 	componentWillReceiveProps: function(nextProps) {
