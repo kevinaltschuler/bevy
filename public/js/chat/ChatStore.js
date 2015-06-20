@@ -229,6 +229,12 @@ _.extend(ChatStore, {
 			// TODO: do this on the server?
 			if(message.author._id == user._id) return;
 
+			// open the panel if it isn't already
+			if(this.openThreads.indexOf(message.thread._id) == -1) {
+				this.openThreads.push(message.thread);
+				this.trigger(CHAT.CHANGE_ALL);
+			}
+
 			thread.messages.add(message);
 			this.trigger(CHAT.MESSAGE_FETCH + message.thread);
 		}
