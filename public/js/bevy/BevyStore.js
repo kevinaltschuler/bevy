@@ -144,6 +144,8 @@ _.extend(BevyStore, {
 
 				this.trigger(BEVY.CHANGE_ALL);
 				this.trigger(BEVY.UPDATED_IMAGE);
+				// update posts
+				this.trigger(POST.CHANGE_ALL);
 
 				break;
 
