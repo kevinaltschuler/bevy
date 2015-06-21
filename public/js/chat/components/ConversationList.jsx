@@ -79,6 +79,7 @@ var ConversationList = React.createClass({
 			}
 
 			var image_url = (bevy) ? bevy.image_url : otherUser.image_url;
+			if(_.isEmpty(image_url)) image_url = '/img/logo_100.png';
 			var name = (bevy) ? bevy.name : otherUser.displayName;
 
 			threads.push(
