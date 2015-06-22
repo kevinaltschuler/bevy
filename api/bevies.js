@@ -50,7 +50,6 @@ exports.index = function(req, res, next) {
 			}).populate('user');
 		}, function(err) {
 			if(err) return next(err);
-			console.log(_bevies);
 			return res.json(_bevies);
 		});
 	}).populate('bevy');

@@ -4,10 +4,14 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 var $ = require('jquery');
 var Dispatcher = require('./../shared/dispatcher');
+var router = require('./../router');
 
 var constants = require('./../constants');
 var APP = constants.APP;
-var CHAT = constants.CHAT
+var CHAT = constants.CHAT;
+var BEVY = constants.BEVY;
+
+var BevyStore = require('./../bevy/BevyStore');
 
 var ThreadCollection = require('./ThreadCollection');
 
@@ -25,6 +29,8 @@ _.extend(ChatStore, {
 		switch(payload.actionType) {
 			case APP.LOAD:
 
+				Dispatcher.waitFor([BevyStore.dispatchToken]);
+
 				// fetch threads
 				var threads = window.bootstrap.threads;
 				this.threads.reset(threads);
@@ -39,6 +45,13 @@ _.extend(ChatStore, {
 						}.bind(this)
 					});
 				}.bind(this));
+
+				break;
+
+			case BEVY.JOIN:
+
+				break;
+			case BEVY.LEAVE:
 
 				break;
 
@@ -159,6 +172,27 @@ _.extend(ChatStore, {
 
 				break;
 		}
+	},
+
+	reload: function() {
+		// reload all threads
+		// this will hopefully only get called when a bevy is added or deleted
+		this.threads.fetch({
+			reset: true,
+			success: function(collection, response, options) {
+				this.threads.forEach(function(thread) {
+					// fetch messages
+					// TODO: only get one
+					thread.messages.fetch({
+						reset: true,
+						success: function(collection, response, options) {
+							thread.messages.sort();
+							this.trigger(CHAT.CHANGE_ALL);
+						}.bind(this)
+					});
+				}.bind(this));
+			}.bind(this)
+		});
 	},
 
 	getAllThreads: function() {

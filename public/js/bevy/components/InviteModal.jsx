@@ -115,15 +115,17 @@ var InviteModal = React.createClass({
 		var allMembers = this.state.members;
 		for(var key in allMembers) {
 			var member = allMembers[key];
-			members.push(<div key={ key }>
-							<span className='member-item'>
-								{ member }
-							</span>
-							<Button className="member-remove-btn">
-								<span className="glyphicon glyphicon-remove"/>
-							</Button>
-							<br/>
-						</div>);
+			members.push(
+				<div key={ key }>
+					<span className='member-item'>
+						{ member }
+					</span>
+					<Button className="member-remove-btn">
+						<span className="glyphicon glyphicon-remove"/>
+					</Button>
+					<br/>
+				</div>
+			);
 		}
 
 		return <Modal className="invite-modal" { ...this.props }>

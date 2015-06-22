@@ -30,6 +30,8 @@ var APP = constants.APP;
 
 var BevyActions = require('./BevyActions');
 
+//var ChatStore = require('./../chat/ChatStore');
+
 var user = window.bootstrap.user;
 
 // inherit event class first
@@ -245,9 +247,7 @@ _.extend(BevyStore, {
 						this.bevies.remove(bevy.id);
 						// switch to frontpage
 						router.navigate('/b/frontpage', { trigger: true });
-
 						this.trigger(BEVY.CHANGE_ALL);
-						this.trigger(CHAT.CHANGE_ALL);
 					}.bind(this)
 				});
 
@@ -338,7 +338,6 @@ _.extend(BevyStore, {
 						this.bevies.fetch({
 							reset: true,
 							success: function(collection, response, options) {
-								console.log(collection);
 								// add frontpage
 								this.bevies.unshift({
 									_id: '-1',
@@ -346,7 +345,6 @@ _.extend(BevyStore, {
 								});
 								// switch to new bevy
 								this.trigger(BEVY.CHANGE_ALL);
-								this.trigger(CHAT.CHANGE_ALL);
 								router.navigate('/b/' + bevy_id, { trigger: true });
 							}.bind(this)
 						});
