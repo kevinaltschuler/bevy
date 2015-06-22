@@ -8,6 +8,7 @@ var emitter = require('./notifications').emitter;
 var Message = mongoose.model('ChatMessage');
 var Thread = mongoose.model('ChatThread');
 var Bevy = mongoose.model('Bevy');
+var Member = mongoose.model('BevyMember');
 
 // GET /threads/:threadid/messages
 exports.index = function(req, res, next) {
@@ -41,8 +42,9 @@ exports.create = function(req, res, next) {
 			Thread.findOne({ _id: thread_id }, function(err, thread) {
 				if(_.isEmpty(thread.users)) {
 					// send to bevy members
-					Bevy.findOne({ _id: thread.bevy }, function(err, bevy) {
-						bevy.members.forEach(function(member) {
+					Member.find({ bevy: thread.bevy }, function(err, members) {
+						if(err) return next(err);
+						members.forEach(function(member) {
 							emitter.emit(member.user + ':chat', $pop_message);
 						});
 					});

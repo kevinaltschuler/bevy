@@ -104,7 +104,7 @@ var InviteModal = React.createClass({
 				return member.email == user.email;
 			} else {
 				// match user id
-				return member.user == user._id;
+				return member.user._id == user._id;
 			}
 		});
 	},

@@ -18,6 +18,7 @@ var http = require('http');
 var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
 var Comment = mongoose.model('Comment');
+var Member = mongoose.model('BevyMember');
 
 var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var urlPartsRegex = /(.*:)\/\/([A-Za-z0-9\-\.]+)(:[0-9]+)?(.+)/i;
@@ -68,7 +69,6 @@ exports.index = function(req, res, next) {
 }
 
 // CREATE
-// GET /bevies/:bevyid/posts/create
 // POST /bevies/:bevyid/posts
 exports.create = function(req, res, next) {
 	var update = collectPostParams(req);
@@ -116,21 +116,19 @@ exports.show = function(req, res, next) {
 }
 
 // UPDATE
-// GET /bevies/:bevyid/posts/:id/update
-// GET /bevies/:bevyid/posts/:id/edit
 // PUT/PATCH /bevies/:bevyid/posts/:id
 exports.update = function(req, res, next) {
 	var id = req.params.id;
 	var update = collectPostParams(req);
+	if(req.body['pinned'] != undefined) {
+		update.pinned = req.body['pinned'];
+	}
 
 	async.waterfall([
 		function(done) {
 			populateLinks(update, done);
 		},
 		function($update, done) {
-			if(req.body['pinned'])
-				$update.pinned = req.body['pinned'];
-
 			var query = { _id: id };
 			var promise = Post.findOneAndUpdate(query, $update, { new: true, upsert: true })
 				.populate('bevy author')
@@ -155,7 +153,6 @@ exports.update = function(req, res, next) {
 }
 
 // DESTROY
-// GET /bevies/:bevyid/posts/:id/destroy
 // DELETE /bevies/:bevyid/posts/:id
 exports.destroy = function(req, res, next) {
 	var id = req.params.id;
@@ -184,15 +181,21 @@ exports.destroy = function(req, res, next) {
 // FRONTPAGE
 // GET /users/:userid/posts
 exports.frontpage = function(req, res, next) {
+	var user_id = req.params.userid;
 
 	async.waterfall([
 		function(done) {
-			var user_id = req.params.userid;
-			var bevy_query = { members: { $elemMatch: { user: user_id } } };
-			var bevy_promise = Bevy.find(bevy_query).exec();
-			bevy_promise.then(function(bevies) {
-				done(null, bevies);
-			}, function(err) { return next(err) });
+			Member.find({ user: user_id }, function(err, members) {
+				if(err) return next(err);
+				var _bevies = [];
+				async.each(members, function(member, callback) {
+					_bevies.push(member.bevy);
+					callback();
+				}, function(err) {
+					if(err) return next(err);
+					done(null, _bevies);
+				});
+			}).populate('bevy');
 		},
 		function(bevies, done) {
 			var bevy_id_list = _.pluck(bevies, '_id');
@@ -233,12 +236,17 @@ exports.search = function(req, res, next) {
 
 	async.waterfall([
 		function(done) {
-			// find bevies user is a member of
-			var bevy_query = { members: { $elemMatch: { user: user_id } } };
-			var bevy_promise = Bevy.find(bevy_query).exec();
-			bevy_promise.then(function(bevies) {
-				done(null, bevies);
-			}, function(err) { return next(err) });
+			Member.find({ user: user_id }, function(err, members) {
+				if(err) return next(err);
+				var _bevies = [];
+				async.each(members, function(member, callback) {
+					_bevies.push(member.bevy);
+					callback();
+				}, function(err) {
+					if(err) return next(err);
+					done(null, _bevies);
+				});
+			}).populate('bevy');
 		},
 		function(bevies, done) {
 			// find posts in all bevies with matching tags
@@ -373,25 +381,4 @@ function getMeta(link, callback) {
 			callback(meta);
 		}
 	});
-}
-
-function nestComments(comments, parentId, depth) {
-	if(typeof depth === 'number')
-		depth++;
-	else
-		depth = 1;
-
-	if(comments.length < 0) return [];
-	var $comments = [];
-
-	comments.forEach(function(comment, index) {
-		if(comment.parentId == parentId) {
-			comment = JSON.parse(JSON.stringify(comment));
-			comment.depth = depth;
-			comment.comments = nestComments(comments, comment._id, depth);
-			$comments.push(comment);
-		}
-	});
-
-	return $comments;
 }

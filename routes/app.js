@@ -45,6 +45,7 @@ module.exports = function(app) {
 	var Comment = mongoose.model('Comment');
 	var Thread = mongoose.model('ChatThread');
 	var Message = mongoose.model('ChatMessage');
+	var Member = mongoose.model('BevyMember');
 
 	// for everything else - pass it off to the react router
 	// on the front end
@@ -65,10 +66,22 @@ module.exports = function(app) {
 			async.parallel([
 				function(callback) {
 					// get bevies
-					Bevy.find({ members: { $elemMatch: { user: user._id } } }, function(err, bevies) {
-						if(err || _.isEmpty(bevies)) return callback(null, []);
-						callback(null, bevies);
-					}).populate('members.user');
+					Member.find({ user: user._id }, function(err, members) {
+						if(err) return next(err);
+						var _bevies = [];
+						async.each(members, function(member, callback) {
+							var bevy_id = member.bevy._id;
+							var bevy = JSON.parse(JSON.stringify(member.bevy));
+							Member.find({ bevy: bevy_id }, function(err, $members) {
+								bevy.members = $members;
+								_bevies.push(bevy);
+								callback();
+							}).populate('user');
+						}, function(err) {
+							if(err) return next(err);
+							callback(null, _bevies);
+						});
+					}).populate('bevy');
 				},
 				function(callback) {
 					// get notifications
@@ -89,11 +102,17 @@ module.exports = function(app) {
 						// get frontpage posts
 						async.waterfall([
 							function(done) {
-								var user_id = user._id;
-								var bevy_promise = Bevy.find({ members: { $elemMatch: { user: user_id } } }).exec();
-								bevy_promise.then(function(bevies) {
-									done(null, bevies);
-								}, function(err) { return callback(null, []); });
+								Member.find({ user: user._id }, function(err, members) {
+									if(err) return callback(null, []);
+									var _bevies = [];
+									async.each(members, function(member, $callback) {
+										_bevies.push(member.bevy);
+										$callback();
+									}, function(err) {
+										if(err) return callback(null, []);
+										done(null, _bevies);
+									});
+								}).populate('bevy');
 							},
 							function(bevies, done) {
 								var bevy_id_list = _.pluck(bevies, '_id');
@@ -125,18 +144,23 @@ module.exports = function(app) {
 						// get bevy posts
 						async.waterfall([
 							function(done) {
-								var user_id = user._id;
-								var bevy_promise = Bevy.find({ members: { $elemMatch: { user: user_id } } }, function(err, bevies) {
+								Member.find({ user: user._id }, function(err, members) {
 									if(err) return callback(null, []);
-									var bevy_id_list = _.map(bevies, function(bevy) {
-										return bevy._id.toString();
+									var _bevies = [];
+									async.each(members, function(member, $callback) {
+										_bevies.push(member.bevy);
+										$callback();
+									}, function(err) {
+										if(err) return callback(null, []);
+										var bevy_id_list = _.map(_bevies, function(bevy) {
+											return bevy._id.toString();
+										});
+										if(bevy_id_list.indexOf(bevy_id) > -1) {
+											done(null);
+										} else return callback(null, []);
+										//done(null, _bevies);
 									});
-									if(bevy_id_list.indexOf(bevy_id) > -1) {
-										done(null);
-									} else {
-										return callback(null, []);
-									}
-								});
+								}).populate('bevy');
 							},
 							function(done) {
 								var promise = Post.find({ bevy: bevy_id }, function(err, posts) {
@@ -158,11 +182,20 @@ module.exports = function(app) {
 					}
 				},
 				function(callback) {
+					// get threads
 					async.waterfall([
 						function(done) {
-							Bevy.find({ members: { $elemMatch: { user: user._id } } }, function(err, bevies) {
-								done(null, bevies);
-							});
+							Member.find({ user: user._id }, function(err, members) {
+								if(err) return callback(null, []);
+								var _bevies = [];
+								async.each(members, function(member, $callback) {
+									_bevies.push(member.bevy);
+									$callback();
+								}, function(err) {
+									if(err) return callback(null, []);
+									done(null, _bevies);
+								});
+							}).populate('bevy');
 						},
 						function(bevies, done) {
 							var bevy_id_list = _.pluck(bevies, '_id');

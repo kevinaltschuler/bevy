@@ -14,9 +14,17 @@ exports.index = function(req, res, next) {
 
 	async.waterfall([
 		function(done) {
-			Bevy.find({ members: { $elemMatch: { user: id } } }, function(err, bevies) {
-				done(null, bevies);
-			});
+			Member.find({ user: id }, function(err, members) {
+				if(err) return next(err);
+				var _bevies = [];
+				async.each(members, function(member, $callback) {
+					_bevies.push(member.bevy);
+					$callback();
+				}, function(err) {
+					if(err) return next(err);
+					done(null, _bevies);
+				});
+			}).populate('bevy');
 		},
 		function(bevies, done) {
 			var bevy_id_list = _.pluck(bevies, '_id');

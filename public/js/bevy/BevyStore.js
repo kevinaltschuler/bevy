@@ -88,6 +88,7 @@ _.extend(BevyStore, {
 					success: function(model, response, options) {
 						// success
 						newBevy.set('_id', model.id);
+						newBevy.set('members', model.get('members'));
 
 						// switch to bevy
 						router.navigate('/b/' + model.id, { trigger: true });
@@ -155,42 +156,37 @@ _.extend(BevyStore, {
 
 			case BEVY.EDIT_MEMBER:
 				var bevy_id = payload.bevy_id;
-
 				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
 
-				var user_id = payload.user_id ;
+				var user_id = payload.user_id;
 				var displayName = payload.displayName;
 				var notificationLevel = payload.notificationLevel;
 				var role = payload.role;
 				var image_url = payload.image_url;
 
-				members = _.map(members, function(member) {
-					if(!_.isObject(member.user)) return member;
-					if(member.user._id == user_id) {
-						member.displayName = displayName;
-						member.notificationLevel = notificationLevel;
-						member.role = role;
-						member.image_url = image_url;
-						return member;
-					} else return member;
+				var memberIndex;
+				var member = _.find(members, function($member, index) {
+					if($member.user._id == user_id) {
+						memberIndex = index;
+						return true;
+					} else return false;
 				});
 
-				// unpopulate member aliasid
-				var unpopulated_members = _.map(members, function(member) {
-					if(_.isObject(member.user))
-						member.user = member.user._id;
-					return member;
+				$.ajax({
+					method: 'PATCH',
+					url: constants.apiurl + '/bevies/' + bevy_id + '/members/' + member._id,
+					data: {
+						displayName: displayName,
+						notificationLevel: notificationLevel,
+						role: role,
+						image_url: image_url
+					},
+					success: function(response) {
+
+					}
 				});
 
-				// save to server
-				bevy.save({
-					members: unpopulated_members
-				}, {
-					patch: true
-				});
-
-				bevy.set('members', members);
 
 				this.trigger(BEVY.CHANGE_ALL);
 
@@ -204,37 +200,22 @@ _.extend(BevyStore, {
 				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
 
-				if(_.isEmpty(user_id)) {
-					// member is invited but has not joined
-					// just cancel the invite
-					members = _.reject(members, function(member) {
-						return (member.email == email && !_.isObject(member.user));
-					});
-				} else {
-					// remove the specific user
-					members = _.reject(members, function(member) {
-						if(_.isObject(member.user)) {
-							return member.user._id == user_id;
-						} else {
-							return member.user == user_id;
-						}
-					});
-				}
-
-				// need to create a deep clone
-				var unpopulated_members = _.map(members, function(member, key) {
-					if(_.isObject(member.user))
-						member.user = member.user._id;
-					return member;
+				var memberIndex;
+				var member = _.find(members, function($member, index) {
+					if(email == $member.email || user_id == $member.user._id) {
+						memberIndex = index;
+						return true;
+					} else return false;
 				});
 
-				// save to server
-				bevy.save({
-					members: unpopulated_members
-				}, {
-					patch: true
+				if(member == undefined || memberIndex == undefined) break;
+
+				$.ajax({
+					method: 'DELETE',
+					url: constants.apiurl + '/bevies/' + bevy_id + '/members/' + member._id
 				});
 
+				members.splice(memberIndex, 1);
 				bevy.set('members', members);
 
 				this.trigger(BEVY.CHANGE_ALL);
@@ -247,33 +228,29 @@ _.extend(BevyStore, {
 				var members = bevy.get('members');
 
 				var user = window.bootstrap.user;
+				var user_id = user._id;
+				var email = user.email;
 
-				// remove the specific user
-				members = _.reject(members, function(member) {
-					if(_.isObject(member.user)) {
-						return member.user._id == user._id;
-					} else {
-						return member.user == user._id;
-					}
+				var memberIndex;
+				var member = _.find(members, function($member, index) {
+					if(email == $member.email || user_id == $member.user._id) {
+						memberIndex = index;
+						return true;
+					} else return false;
 				});
 
-				// need to create a deep clone
-				var unpopulated_members = _.map(members, function(member, key) {
-					if(_.isObject(member.user))
-						member.user = member.user._id;
-					return member;
-				});
+				if(member == undefined || memberIndex == undefined) break;
 
-				// save to server
-				bevy.save({
-					members: unpopulated_members
-				}, {
-					patch: true,
-					success: function(model, response, options) {
+				$.ajax({
+					method: 'DELETE',
+					url: constants.apiurl + '/bevies/' + bevy_id + '/members/' + member._id,
+					success: function(response) {
 						BevyActions.switchBevy();
 					}
 				});
+
 				// apply change
+				members.splice(memberIndex, 1);
 				bevy.set('members', members);
 
 				// ok, now remove the bevy from the local list
@@ -299,22 +276,16 @@ _.extend(BevyStore, {
 				var members = $bevy.get('members');
 
 				emails.forEach(function(email) {
+					$.ajax({
+						method: 'POST',
+						url: constants.apiurl + '/bevies/' + bevy._id + '/members',
+						data: {
+							email: email
+						}
+					});
 					members.push({
 						email: email
 					});
-				});
-
-				var unpopulated_members = _.map(members, function(member, key) {
-					if(_.isObject(member.user))
-						member.user = member.user._id;
-					return member;
-				});
-
-				// save changes
-				$bevy.save({
-					members: unpopulated_members
-				}, {
-					patch: true
 				});
 
 				$bevy.set('members', members);
@@ -452,7 +423,6 @@ _.extend(BevyStore, {
 		var members = bevy.members;
 		var member = _.find(members, function(m) {
 			if(!m.user) return false;
-			if(!_.isObject(m.user)) return m.user == user._id;
 			return m.user._id == user._id;
 		});
 		return (member == undefined)

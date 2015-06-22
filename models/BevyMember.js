@@ -9,6 +9,10 @@ var fruits = 'Apple Banana Cherry Chili Corn Drumstick Egg Grape Mushroom Onion 
 var fruit = null;
 
 var BevyMemberSchema = new Schema({
+	bevy: {
+		type: Schema.Types.ObjectId,
+		ref: 'Bevy'
+	},
 	email: {
 		type: String
 	},
@@ -38,7 +42,7 @@ var BevyMemberSchema = new Schema({
 		enum: roles,
 		default: 'user'
 	}
-}, { _id: false });
+});
 
 BevyMemberSchema.set('toObject', {
 	getters: true,

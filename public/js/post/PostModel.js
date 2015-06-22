@@ -17,6 +17,8 @@ var _ = require('underscore');
 var router = require('./../router');
 var constants = require('./../constants');
 
+var BevyStore = require('./../bevy/BevyStore');
+
 // backbone model
 var Post = Backbone.Model.extend({
 	defaults: {
@@ -31,6 +33,13 @@ var Post = Backbone.Model.extend({
 	},
 
 	initialize: function() {
+		var bevy = BevyStore.getBevy(this.get('bevy')._id);
+		this.set('bevy', bevy);
+
+		this.on('sync', function(model, response, options) {
+			var bevy = BevyStore.getBevy(this.get('bevy')._id);
+			this.set('bevy', bevy);
+		}.bind(this));
 	},
 
 	sync: function(method, model, options) {

@@ -8,3 +8,4 @@ exports.notifications = require('./notifications');
 exports.files = require('./files');
 exports.threads = require('./threads');
 exports.messages = require('./messages');
+exports.members = require('./members');

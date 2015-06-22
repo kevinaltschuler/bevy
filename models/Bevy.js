@@ -11,15 +11,12 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var Member = require('./BevyMember');
-
 var BevySchema = new Schema({
 	name: String,
 	description: String,
 	image_url: {
 		type: String
 	},
-	members: [ Member ],
 	settings: {
 		posts_expire_in: {
 			type: Number,
@@ -52,6 +49,5 @@ BevySchema.set('toJSON', {
 	getters: true,
 	virtuals: true
 });
-
 
 module.exports = BevySchema;

@@ -91,8 +91,8 @@ var CommentItem = React.createClass({
 	findMember: function(user_id) {
 		var members = this.props.post.bevy.members;
 		return _.find(members, function(member) {
-			if(_.isEmpty(member.user)) return false;
-			return user_id == member.user;
+			if(!_.isObject(member.user)) return false;
+			return user_id == member.user._id;
 		});
 	},
 
