@@ -124,7 +124,7 @@ _.extend(PostStore, {
 					expires: posts_expire_in
 				};
 				var newPost = this.posts.add(newPost);
-				var tempBevy = bevy.get('bevy');
+				var tempBevy = newPost.get('bevy');
 				newPost.set('bevy', bevy._id);
 
 				// save to server
