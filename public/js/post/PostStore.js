@@ -67,7 +67,6 @@ _.extend(PostStore, {
 				break;
 
 			case BEVY.SWITCH:
-			case BEVY.JOIN:
 
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
@@ -79,6 +78,8 @@ _.extend(PostStore, {
 					this.posts.reset();
 					break;
 				}
+
+				console.log('fetching posts', bevy_id);
 
 				this.posts.fetch({
 					reset: true,
@@ -112,7 +113,7 @@ _.extend(PostStore, {
 					return tag.slice(1, tag.length); // remove the hashtag
 				});
 
-				var newPost = this.posts.add({
+				var newPost = {
 					title: title,
 					tags: tags,
 					comments: [],
@@ -121,7 +122,10 @@ _.extend(PostStore, {
 					bevy: bevy._id,
 					created: Date.now(),
 					expires: posts_expire_in
-				});
+				};
+				var newPost = this.posts.add(newPost);
+				var tempBevy = bevy.get('bevy');
+				newPost.set('bevy', bevy._id);
 
 				// save to server
 				newPost.save(null, {
@@ -169,7 +173,7 @@ _.extend(PostStore, {
 				// simulate server population
 				newPost.set('_id', String(Date.now()));
 				newPost.set('author', author);
-				newPost.set('bevy', bevy);
+				newPost.set('bevy', tempBevy);
 
 				// this requires a visual update
 				this.trigger(POST.CHANGE_ALL);

@@ -22,6 +22,7 @@ var Comment = mongoose.model('Comment');
 var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
 var Notification = mongoose.model('Notification');
+var Member = mongoose.model('BevyMember');
 
 var paramNames = 'event message email bevy user members';
 
@@ -175,7 +176,6 @@ exports.create = function(req, res, next) {
 		case 'bevy:requestjoin':
 
 			var bevy_id = req.body['bevy_id'];
-			var bevy_members = req.body['bevy_members'];
 			var bevy_name = req.body['bevy_name'];
 			var user_id = req.body['user_id'];
 			var user_name = req.body['user_name'];
@@ -183,34 +183,38 @@ exports.create = function(req, res, next) {
 			var user_email = req.body['user_email'];
 
 			// send to all admins
-			var admins = _.where(bevy_members, { role: 'admin' });
-			var notifications = [];
-			admins.forEach(function(admin) {
-				notifications.push({
-					user: admin.user,
-					event: 'bevy:requestjoin',
-					data: {
-						bevy_id: bevy_id,
-						bevy_name: bevy_name,
-						user_id: user_id,
-						user_name: user_name,
-						user_image: user_image,
-						user_email: user_email
+			Member.find({ bevy: bevy_id }, function(err, members) {
+				if(err) return next(err);
+				console.log(bevy_id, members);
+				var admins = _.where(members, { role: 'admin' });
+				var notifications = [];
+				admins.forEach(function(admin) {
+					notifications.push({
+						user: admin.user,
+						event: 'bevy:requestjoin',
+						data: {
+							bevy_id: bevy_id,
+							bevy_name: bevy_name,
+							user_id: user_id,
+							user_name: user_name,
+							user_image: user_image,
+							user_email: user_email
+						}
+					});
+				});
+
+				Notification.create(notifications, function(err, $notifications) {
+					if(err) return next(err);
+					// emit event
+					if(_.isArray($notifications)) {
+						$notifications.forEach(function(notification) {
+							emitter.emit(notification.user, notification);
+						});
+					} else {
+						emitter.emit($notifications.user, $notifications);
 					}
 				});
-			});
-
-			Notification.create(notifications, function(err, $notifications) {
-				if(err) return next(err);
-				// emit event
-				if(_.isArray($notifications)) {
-					$notifications.forEach(function(notification) {
-						emitter.emit(notification.user, notification);
-					});
-				} else {
-					emitter.emit($notifications.user, $notifications);
-				}
-			});
+			}).lean();
 
 			break;
 

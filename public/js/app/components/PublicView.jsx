@@ -15,12 +15,14 @@ var LeftSidebar = require('./LeftSidebar.jsx');
 var PublicBevyRequest = require('./PublicBevyRequest.jsx');
 var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
 
+var user = window.bootstrap.user;
+
 var PublicView = React.createClass({
 
 	getInitialState: function() {
 
 		$.ajax({
-			url: constants.apiurl + '/bevies/' + router.bevy_id,
+			url: constants.apiurl + '/users/' + user._id + '/bevies/' + router.bevy_id,
 			method: 'GET',
 			success: function(bevy) {
 				this.setState({

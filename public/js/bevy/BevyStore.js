@@ -231,34 +231,25 @@ _.extend(BevyStore, {
 				var user_id = user._id;
 				var email = user.email;
 
-				var memberIndex;
 				var member = _.find(members, function($member, index) {
-					if(email == $member.email || user_id == $member.user._id) {
-						memberIndex = index;
-						return true;
-					} else return false;
+					return (email == $member.email || user_id == $member.user._id);
 				});
 
-				if(member == undefined || memberIndex == undefined) break;
+				if(member == undefined) break;
 
 				$.ajax({
 					method: 'DELETE',
 					url: constants.apiurl + '/bevies/' + bevy_id + '/members/' + member._id,
 					success: function(response) {
-						BevyActions.switchBevy();
-					}
+						// ok, now remove the bevy from the local list
+						this.bevies.remove(bevy.id);
+						// switch to frontpage
+						router.navigate('/b/frontpage', { trigger: true });
+
+						this.trigger(BEVY.CHANGE_ALL);
+						this.trigger(CHAT.CHANGE_ALL);
+					}.bind(this)
 				});
-
-				// apply change
-				members.splice(memberIndex, 1);
-				bevy.set('members', members);
-
-				// ok, now remove the bevy from the local list
-				this.bevies.remove(bevy);
-				// switch to frontpage
-				router.navigate('/b/frontpage', { trigger: true });
-
-				this.trigger(BEVY.CHANGE_ALL);
 
 				break;
 
@@ -343,20 +334,20 @@ _.extend(BevyStore, {
 						email: email,
 						user: user._id
 					},
-					function(data) {
-						//console.log(data);
+					function(member) {
 						this.bevies.fetch({
 							reset: true,
-							success: function(data) {
-								// add frontpage - and put it at the top of the list
+							success: function(collection, response, options) {
+								console.log(collection);
+								// add frontpage
 								this.bevies.unshift({
 									_id: '-1',
 									name: 'Frontpage'
 								});
-
 								// switch to new bevy
-								router.navigate('/b/' + bevy_id, { trigger: true });
 								this.trigger(BEVY.CHANGE_ALL);
+								this.trigger(CHAT.CHANGE_ALL);
+								router.navigate('/b/' + bevy_id, { trigger: true });
 							}.bind(this)
 						});
 					}.bind(this)
@@ -371,20 +362,11 @@ _.extend(BevyStore, {
 				var bevy = payload.bevy;
 				var $user = payload.user;
 
-				var stripped_members = _.map(bevy.members, function(member) {
-					var new_member = {};
-					new_member.role = member.role;
-					if(_.isObject(member.user))
-						new_member.user = member.user._id;
-					return new_member;
-				});
-
 				$.post(
 					constants.apiurl + '/notifications',
 					{
 						event: 'bevy:requestjoin',
 						bevy_id: bevy._id,
-						bevy_members: stripped_members,
 						bevy_name: bevy.name,
 						user_id: $user._id,
 						user_name: $user.displayName,
@@ -444,7 +426,7 @@ BevyStore.dispatchToken = dispatchToken;
 BevyStore.bevies.on('sync', function() {
 	//console.log('synced');
 
-	BevyStore.trigger(BEVY.CHANGE_ALL);
+	//BevyStore.trigger(BEVY.CHANGE_ALL);
 });
 
 module.exports = BevyStore;

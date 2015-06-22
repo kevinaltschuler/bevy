@@ -118,7 +118,7 @@ var PublicBevyPanel = React.createClass({
 					<div className='sidebar-links'>
 						<ButtonGroup role="group">
 							<span type='button' className="sidebar-link">
-								12 Members
+								{ bevy.members.length + ' Members'}
 							</span>
 							<span type='button' className="sidebar-link">
 								Created by: {bevyAdmin}

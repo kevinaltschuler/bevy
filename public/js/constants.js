@@ -47,7 +47,9 @@ exports.POST = {
 	CHANGE_ALL: 'post_change_all',
 	CHANGE_ONE: 'post_change_one:',
 	POSTED_POST: 'post_posted_post',
-	CANCELED_POST: 'post_canceled_post'
+	CANCELED_POST: 'post_canceled_post',
+
+	LOAD: 'post_load'
 };
 
 exports.COMMENT = {

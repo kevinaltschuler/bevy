@@ -44,7 +44,7 @@ exports.index = function(req, res, next) {
 
 	var query = { bevy: bevy_id };
 	var promise = Post.find(query)
-		.populate('bevy author')
+		.populate('author')
 		.exec();
 	promise.then(function(posts) {
 

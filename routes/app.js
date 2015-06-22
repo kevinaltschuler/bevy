@@ -118,7 +118,7 @@ module.exports = function(app) {
 								var bevy_id_list = _.pluck(bevies, '_id');
 								var post_query = { bevy: { $in: bevy_id_list } };
 								var post_promise = Post.find(post_query)
-									.populate('bevy author')
+									.populate('author')
 									.exec();
 								post_promise.then(function(posts) {
 									done(null, posts);
@@ -176,7 +176,7 @@ module.exports = function(app) {
 											if(_posts.length == posts.length) return callback(null, _posts);
 										}).populate('author');
 									});
-								}).populate('bevy author');
+								}).populate('author');
 							}
 						]);
 					}

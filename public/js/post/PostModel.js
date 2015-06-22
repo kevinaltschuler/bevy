@@ -33,11 +33,11 @@ var Post = Backbone.Model.extend({
 	},
 
 	initialize: function() {
-		var bevy = BevyStore.getBevy(this.get('bevy')._id);
+		var bevy = BevyStore.getBevy(this.get('bevy'));
 		this.set('bevy', bevy);
 
 		this.on('sync', function(model, response, options) {
-			var bevy = BevyStore.getBevy(this.get('bevy')._id);
+			var bevy = BevyStore.getBevy(this.get('bevy'));
 			this.set('bevy', bevy);
 		}.bind(this));
 	},

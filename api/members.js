@@ -30,9 +30,13 @@ exports.create = function(req, res, next) {
 
 	Member.create(update, function(err, member) {
 		if(err) return next(err);
-		Member.populate(member, { path: 'user' }, function(err, $member) {
+		Member.populate(member, { path: 'user bevy' }, function(err, $member) {
 			if(err) return next(err);
-			return res.json($member);
+			$member = JSON.parse(JSON.stringify($member));
+			Member.find({ bevy: bevy_id }, function(err, members) {
+				$member.bevy.members = members;
+				return res.json($member);
+			});
 		});
 	});
 }
@@ -64,6 +68,7 @@ exports.update = function(req, res, next) {
 exports.destroy = function(req, res, next) {
 	var id = req.params.id
 	var promise = Member.findOneAndRemove({ _id: id })
+		.populate('bevy')
 		.exec();
 	promise.then(function(member) {
 		return res.json(member);

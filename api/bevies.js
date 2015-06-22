@@ -50,6 +50,7 @@ exports.index = function(req, res, next) {
 			}).populate('user');
 		}, function(err) {
 			if(err) return next(err);
+			console.log(_bevies);
 			return res.json(_bevies);
 		});
 	}).populate('bevy');
@@ -90,16 +91,15 @@ exports.create = function(req, res, next) {
 exports.show = function(req, res, next) {
 	var id = req.params.id;
 
-	var query = { _id: id };
-	var promise = Bevy.findOne(query)
-		.populate('members.user')
-		.exec();
-	promise.then(function(bevy) {
-		if(!bevy) throw error.gen('bevy not found', req);
-		return bevy;
-	}).then(function(bevy) {
-		res.json(bevy);
-	}, function(err) { next(err);	});
+	Bevy.findOne({ _id: id }, function(err, bevy) {
+		if(err) return next(err);
+		Member.find({ bevy: id }, function(err, members) {
+			if(err) return next(err);
+			bevy = JSON.parse(JSON.stringify(bevy));
+			bevy.members = members;
+			return res.json(bevy);
+		}).populate('user');
+	});
 }
 
 // UPDATE
