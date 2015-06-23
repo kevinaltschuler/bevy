@@ -21,6 +21,8 @@ var PublicView = React.createClass({
 
 	getInitialState: function() {
 
+		if(router.bevy_id == -1) return { bevy: -1 };
+
 		$.ajax({
 			url: constants.apiurl + '/users/' + user._id + '/bevies/' + router.bevy_id,
 			method: 'GET',

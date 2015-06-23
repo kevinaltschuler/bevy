@@ -5,6 +5,14 @@ var _ = require('underscore');
 
 var BevyActions = require('./bevy/BevyActions');
 
+// include these just to register the dispatchers immediately
+var PostStore = require('./post/PostStore');
+var BevyStore = require('./bevy/BevyStore');
+var NotificationStore = require('./notification/NotificationStore');
+var UserStore = require('./profile/UserStore');
+var ChatStore = require('./chat/ChatStore');
+var ContactStore = require('./contact/ContactStore');
+
 var Router = Backbone.Router.extend({
 	routes: {
 		'' : 'home',
@@ -25,7 +33,7 @@ var Router = Backbone.Router.extend({
 
 		if(!checkUser()) return;
 
-		this.navigate('b/frontpage', { trigger: true });
+		this.navigate('/b/frontpage', { trigger: true });
 	},
 
 	login: function() {
@@ -46,17 +54,17 @@ var Router = Backbone.Router.extend({
 
 	bevy: function(bevy_id) {
 		this.current = 'bevy';
+		this.bevy_id = bevy_id;
 
 		if(bevy_id == '') {
 			this.bevy_id = -1;
-			this.navigate('/b/frontpage');
+			this.navigate('/b/frontpage', { trigger: true });
 			return;
 		}
 
-		this.bevy_id = bevy_id;
 		if(bevy_id == 'frontpage') this.bevy_id = -1;
 
-		BevyActions.switchBevy();
+		BevyActions.switchBevy(this.bevy_id);
 	},
 
 	search: function(query) {
@@ -90,7 +98,8 @@ function checkUser() {
 }
 
 var router = new Router();
+module.exports = router;
 
 Backbone.history.start({ pushState: true });
 
-module.exports = router;
+

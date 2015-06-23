@@ -384,7 +384,7 @@ _.extend(BevyStore, {
 	},
 
 	getActive: function() {
-		var bevy = this.bevies.get(router.bevy_id)
+		var bevy = this.bevies.get(router.bevy_id || -1);
 		return (bevy)
 		? bevy.toJSON()
 		: {};
@@ -420,6 +420,14 @@ _.extend(BevyStore, {
 
 var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
 BevyStore.dispatchToken = dispatchToken;
+
+var bevies = window.bootstrap.bevies || [];
+BevyStore.bevies.reset(bevies);
+BevyStore.bevies.unshift({
+	_id: '-1',
+	name: 'Frontpage'
+});
+BevyStore.trigger(BEVY.CHANGE_ALL);
 
 BevyStore.bevies.on('sync', function() {
 	//console.log('synced');

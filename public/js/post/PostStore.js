@@ -73,13 +73,11 @@ _.extend(PostStore, {
 
 				// dont load posts in a public bevy
 				// also reset the posts
-				var bevy_id = router.bevy_id;
+				var bevy_id = payload.bevy_id;
 				if(_.isEmpty(BevyStore.bevies.get(bevy_id))) {
 					this.posts.reset();
 					break;
 				}
-
-				console.log('fetching posts', bevy_id);
 
 				this.posts.fetch({
 					reset: true,

@@ -21,6 +21,8 @@ var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var FlatButton = mui.FlatButton;
 
+var router = require('./../../router');
+
 var LoginPanel = React.createClass({
 
 	getInitialState: function() {
@@ -61,7 +63,7 @@ var LoginPanel = React.createClass({
 				console.log(data);
 				// success
 				// let's redirect to the app
-				window.location.href = constants.siteurl;
+				router.navigate('/b/frontpage', { trigger: true });
 			}
 		).fail(function(jqXHR) {
 			// a server-side error has occured (500 internal error)

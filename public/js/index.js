@@ -31,6 +31,7 @@ var Backbone = require('backbone');
 }*/
 
 var React = require('react');
+var router = require('./router');
 
 // load components
 var MainSection = require('./app/components/MainSection.jsx');
@@ -60,8 +61,6 @@ var App = React.createClass({
 		);
 	}
 });
-
-var router = require('./router');
 
 var InterfaceComponent = React.createClass({
 	componentWillMount : function() {
