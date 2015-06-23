@@ -234,6 +234,7 @@ _.extend(BevyStore, {
 				var email = user.email;
 
 				var member = _.find(members, function($member, index) {
+					if(!$member.user) return false; // skip members who haven't joined yet
 					return (email == $member.email || user_id == $member.user._id);
 				});
 
