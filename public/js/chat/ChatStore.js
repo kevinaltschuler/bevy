@@ -48,13 +48,16 @@ _.extend(ChatStore, {
 
 				break;
 
-			case BEVY.JOIN:
+			case BEVY.SWITCH:
+
+				this.threads.fetch({
+					reset: true,
+					success: function(collection, response, options) {
+						this.trigger(CHAT.CHANGE_ALL);
+					}.bind(this)
+				});
 
 				break;
-			case BEVY.LEAVE:
-
-				break;
-
 			case CHAT.THREAD_OPEN:
 				var thread_id = payload.thread_id;
 				var user_id = payload.user_id;
