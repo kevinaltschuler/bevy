@@ -98,7 +98,7 @@ exports.CHAT = {
 
 	CHANGE_ALL: 'chat_change_all',
 
-	RELOAD: 'chat_reload'
+	PANEL_TOGGLE: 'chat_panel_toggle:'
 };
 
 exports.CONTACT = {

@@ -69,18 +69,20 @@ _.extend(NotificationStore, {
 	$.ajax({
 		url: constants.apiurl + '/users/' + user._id + '/notifications/poll',
 		dataType: 'json',
-		success: function(data) {
-			switch(data.type) {
+		complete: function(jqXHR) {
+			var response = jqXHR.responseJSON;
+			console.log(response);
+			switch(response.type) {
 				case 'notification':
-					NotificationStore.notifications.add(data.data);
+					NotificationStore.notifications.add(response.data);
 					NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
 					break;
 				case 'message':
-					ChatStore.addMessage(data.data);
+					ChatStore.addMessage(response.data);
 					break;
 			}
+			poll();
 		},
-		complete: poll,
 		timeout: 30000
 	});
 })();

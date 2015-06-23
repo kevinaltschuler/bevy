@@ -34,15 +34,23 @@ var ChatPanel = React.createClass({
 
 	componentDidMount: function() {
 		ChatStore.on(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
+		ChatStore.on(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
 	},
 
 	componentWillUnmount: function() {
 		ChatStore.off(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
+		ChatStore.off(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
 	},
 
 	_onMessageFetch: function() {
 		this.setState({
 			messages: ChatStore.getMessages(this.props.thread._id)
+		});
+	},
+
+	_onPanelToggle: function() {
+		this.setState({
+			isOpen: true
 		});
 	},
 

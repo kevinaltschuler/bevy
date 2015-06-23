@@ -31,20 +31,7 @@ _.extend(ChatStore, {
 
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
-				// fetch threads
-				var threads = window.bootstrap.threads;
-				this.threads.reset(threads);
-				this.threads.forEach(function(thread) {
-					// fetch messages
-					// TODO: only get one
-					thread.messages.fetch({
-						reset: true,
-						success: function(collection, response, options) {
-							thread.messages.sort();
-							this.trigger(CHAT.CHANGE_ALL);
-						}.bind(this)
-					});
-				}.bind(this));
+
 
 				break;
 
@@ -53,7 +40,17 @@ _.extend(ChatStore, {
 				this.threads.fetch({
 					reset: true,
 					success: function(collection, response, options) {
-						this.trigger(CHAT.CHANGE_ALL);
+						this.threads.forEach(function(thread) {
+							// fetch messages
+							// TODO: only get one
+							thread.messages.fetch({
+								reset: true,
+								success: function(collection, response, options) {
+									thread.messages.sort();
+									this.trigger(CHAT.CHANGE_ALL);
+								}.bind(this)
+							});
+						}.bind(this));
 					}.bind(this)
 				});
 
@@ -61,6 +58,13 @@ _.extend(ChatStore, {
 			case CHAT.THREAD_OPEN:
 				var thread_id = payload.thread_id;
 				var user_id = payload.user_id;
+
+				if(this.openThreads.indexOf(thread_id) > -1) {
+					// already found it
+					// just open the panel
+					this.trigger(CHAT.PANEL_TOGGLE + thread_id);
+					break;
+				}
 
 				if(user_id && !thread_id) {
 					// just clicked on a user's name
@@ -95,12 +99,6 @@ _.extend(ChatStore, {
 					} else {
 						thread_id = thread.get('_id');
 					}
-				}
-
-				if(this.openThreads.indexOf(thread_id) > -1) {
-					// already found it
-					// just open the panel
-					break;
 				}
 
 				var thread = this.threads.get(thread_id);
@@ -177,27 +175,6 @@ _.extend(ChatStore, {
 		}
 	},
 
-	reload: function() {
-		// reload all threads
-		// this will hopefully only get called when a bevy is added or deleted
-		this.threads.fetch({
-			reset: true,
-			success: function(collection, response, options) {
-				this.threads.forEach(function(thread) {
-					// fetch messages
-					// TODO: only get one
-					thread.messages.fetch({
-						reset: true,
-						success: function(collection, response, options) {
-							thread.messages.sort();
-							this.trigger(CHAT.CHANGE_ALL);
-						}.bind(this)
-					});
-				}.bind(this));
-			}.bind(this)
-		});
-	},
-
 	getAllThreads: function() {
 		return (_.isEmpty(this.threads.models))
 			? []
@@ -234,6 +211,7 @@ _.extend(ChatStore, {
 	},
 
 	addMessage: function(message) {
+		console.log('adding message', message, this.threads);
 		var thread = this.threads.get(message.thread);
 		if(thread == undefined) {
 			// fetch new threads - it was probably just created
@@ -247,17 +225,29 @@ _.extend(ChatStore, {
 						// now it doesn't exist
 						return;
 					} else {
-						// open the panel if it isn't already
-						if(this.openThreads.indexOf(message.thread._id) == -1)
+						// fetch messages
+						thread.messages.fetch({
+							reset: true,
+							success: function(collection, response, options) {
+								thread.messages.sort();
+								this.trigger(CHAT.MESSAGE_FETCH + message.thread);
+							}.bind(this)
+						});
+
+						// push to open threads if it isn't already
+						if(this.openThreads.indexOf(message.thread._id) == -1) {
 							this.openThreads.push(message.thread);
+						}
 
 						// add the message
 						thread.messages.add(message);
 
 						this.trigger(CHAT.CHANGE_ALL);
 						this.trigger(CHAT.MESSAGE_FETCH + message.thread);
+						// toggle the panel
+						this.trigger(CHAT.PANEL_TOGGLE + message.thread);
 					}
-				}
+				}.bind(this)
 			});
 
 			return;
@@ -266,17 +256,46 @@ _.extend(ChatStore, {
 			// TODO: do this on the server?
 			if(message.author._id == user._id) return;
 
+			console.log(message);
+
 			// open the panel if it isn't already
-			if(this.openThreads.indexOf(message.thread._id) == -1) {
+			if(this.openThreads.indexOf(message.thread) == -1) {
 				this.openThreads.push(message.thread);
 				this.trigger(CHAT.CHANGE_ALL);
 			}
 
+			if(thread.messages.length <= 0) {
+				thread.messages.fetch({
+					reset: true,
+					success: function(collection, response, options) {
+						thread.messages.sort();
+						this.trigger(CHAT.MESSAGE_FETCH + message.thread);
+					}.bind(this)
+				});
+			}
+
 			thread.messages.add(message);
 			this.trigger(CHAT.MESSAGE_FETCH + message.thread);
+			// toggle the panel
+			this.trigger(CHAT.PANEL_TOGGLE + message.thread);
 		}
 	}
 });
+
+// fetch threads
+var threads = window.bootstrap.threads;
+ChatStore.threads.reset(threads);
+ChatStore.threads.forEach(function(thread) {
+	// fetch messages
+	// TODO: only get one
+	thread.messages.fetch({
+		reset: true,
+		success: function(collection, response, options) {
+			thread.messages.sort();
+			this.trigger(CHAT.CHANGE_ALL);
+		}.bind(this)
+	});
+}.bind(ChatStore));
 
 Dispatcher.register(ChatStore.handleDispatch.bind(ChatStore));
 module.exports = ChatStore;
