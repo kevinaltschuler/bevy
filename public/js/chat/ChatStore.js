@@ -211,7 +211,6 @@ _.extend(ChatStore, {
 	},
 
 	addMessage: function(message) {
-		console.log('adding message', message, this.threads);
 		var thread = this.threads.get(message.thread);
 		if(thread == undefined) {
 			// fetch new threads - it was probably just created
@@ -255,8 +254,6 @@ _.extend(ChatStore, {
 			// dont get the message you just added
 			// TODO: do this on the server?
 			if(message.author._id == user._id) return;
-
-			console.log(message);
 
 			// open the panel if it isn't already
 			if(this.openThreads.indexOf(message.thread) == -1) {
