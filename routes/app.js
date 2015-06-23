@@ -50,7 +50,7 @@ module.exports = function(app) {
 	// for everything else - pass it off to the react router
 	// on the front end
 	// this should be the last route ever checked
-	app.get('/*', function(req, res, next) {
+	app.get('/**', function(req, res, next) {
 
 		if(_.isEmpty(req.user)) {
 			res.render('app', {
@@ -214,7 +214,7 @@ module.exports = function(app) {
 				var posts = results[2];
 				var threads = results[3];
 
-				res.render('app', {
+				return res.render('app', {
 					env: process.env.NODE_ENV,
 					hostname: req.hostname,
 					user: user,

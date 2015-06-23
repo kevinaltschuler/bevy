@@ -30,7 +30,7 @@ module.exports = Backbone.Collection.extend({
 
 	url: function() {
 
-		if((router.bevy_id == -1 || router.bevy_id == undefined) && (router.current == 'bevy' || router.current == undefined))
+		if((router.bevy_id == -1) && (router.current == 'bevy'))
 			return constants.apiurl + '/users/' + user._id + '/posts';
 
 		if(router.current == 'search' && !_.isEmpty(router.search_query))
