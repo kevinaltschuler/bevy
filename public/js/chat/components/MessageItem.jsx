@@ -19,6 +19,7 @@ var MessageItem = React.createClass({
 	findMember: function(id) {
 		var members = (this.props.bevy) ? this.props.bevy.members : [];
 		var member = _.find(members, function($member) {
+			if(!$member.user) return false;
 			return id == $member.user._id;
 		});
 		return (member == undefined) ? {} : member;
