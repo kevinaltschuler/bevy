@@ -132,7 +132,11 @@ _.extend(PostStore, {
 						newPost.set('_id', post.id);
 						newPost.set('images', post.get('images'));
 						newPost.set('links', post.get('links'));
+						newPost.set('author', author);
+						newPost.set('bevy', tempBevy);
+
 						this.trigger(POST.CHANGE_ALL);
+						this.trigger(POST.POSTED_POST);
 
 						var stripped_members = _.map(bevy.members, function(member) {
 							var new_member = {};
@@ -167,15 +171,6 @@ _.extend(PostStore, {
 
 					}.bind(this)
 				});
-
-				// simulate server population
-				newPost.set('_id', String(Date.now()));
-				newPost.set('author', author);
-				newPost.set('bevy', tempBevy);
-
-				// this requires a visual update
-				this.trigger(POST.CHANGE_ALL);
-				this.trigger(POST.POSTED_POST);
 
 				break;
 
