@@ -45,7 +45,7 @@ require('./gridfs');
 require('./db');
 
 // pretty print json by default
-app.set('json spaces', 2);
+//app.set('json spaces', 2);
 
 // MIDDLEWARE
 
