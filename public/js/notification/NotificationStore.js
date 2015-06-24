@@ -71,6 +71,8 @@ _.extend(NotificationStore, {
 		dataType: 'json',
 		complete: function(jqXHR) {
 			var response = jqXHR.responseJSON;
+			console.log(response);
+			if(response == undefined) return poll();
 			switch(response.type) {
 				case 'notification':
 					NotificationStore.notifications.add(response.data);
