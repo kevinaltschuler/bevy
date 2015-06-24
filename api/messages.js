@@ -40,6 +40,8 @@ exports.create = function(req, res, next) {
 		Message.populate(message, { path: 'author' }, function(err, $pop_message) {
 			// now lets push it to everybody
 			Thread.findOne({ _id: thread_id }, function(err, thread) {
+				if(err) return next(err);
+				if(!thread) return next('thread not found');
 				if(_.isEmpty(thread.users)) {
 					// send to bevy members
 					Member.find({ bevy: thread.bevy }, function(err, members) {
