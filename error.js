@@ -1,9 +1,15 @@
 'use strict';
 
+var fs = require('fs');
 var _ = require('underscore');
 
 exports.log_errors = function(err, req, res, next) {
-	console.error('log_errors', JSON.stringify(err));
+	//console.error('log_errors', JSON.stringify(err));
+	var stream = fs.createWriteStream('./log/error.log');
+	stream.once('open', function(fd) {
+		stream.write(JSON.stringify(err, null, 2) + '\n');
+		stream.end();
+	});
 	next(err);
 }
 exports.client_error_handler = function(err, req, res, next) {
