@@ -107,13 +107,13 @@ var ChatPanel = React.createClass({
 		: {};
 
 		var otherUser = {};
-		if(!bevy && thread.users.length > 1) {
-			otherUser = _.find(thread.users, function($user) {
-				return $user._id != user._id;
+		if(!bevy && thread.members.length > 1) {
+			otherUser = _.find(thread.members, function(member) {
+				return member.user._id != user._id;
 			});
 		}
 
-		var name = (bevy) ? bevy.name : otherUser.displayName;
+		var name = (bevy) ? bevy.name : otherUser.user.displayName;
 
 		var header = (
 			<div className='chat-panel-header'>

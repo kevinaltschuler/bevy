@@ -73,14 +73,18 @@ _.extend(ChatStore, {
 					if(user_id == user._id) break;
 					// first look for a preexisting thread
 					var thread = this.threads.find(function(thread) {
-						var thread_users = _.pluck(thread.get('users'), '_id');
+						var thread_users = _.pluck(thread.get('members'), 'user');
+						thread_users = _.pluck(thread_users, '_id');
 						return _.contains(thread_users, user_id) && _.contains(thread_users, user._id);
 					});
 					if(thread == undefined) {
 						// still not found
 						// let's create a thread
 						var thread = this.threads.add({
-							users: [user_id, user._id]
+							members: [
+								{ user: user_id },
+								{ user: user._id}
+							]
 						});
 						// save it to the server
 						thread.save(null, {

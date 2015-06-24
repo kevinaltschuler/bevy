@@ -203,8 +203,8 @@ module.exports = function(app) {
 							Thread.find(function(err, threads) {
 								if(err) return callback(null, []);
 								return callback(null, threads);
-							}).or([{ users: { $elemMatch: { $eq: user._id } } }, { bevy: { $in: bevy_id_list } }])
-							.populate('bevy users');
+							}).or([{ members: { $elemMatch: { user: user._id } } }, { bevy: { $in: bevy_id_list } }])
+							.populate('bevy members.user members.member');
 						}
 					]);
 				}

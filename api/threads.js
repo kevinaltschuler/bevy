@@ -35,8 +35,8 @@ exports.index = function(req, res, next) {
 				if(err) return next(err);
 				return res.json(threads);
 			})
-			.or([{ users: { $elemMatch: { $eq: id } } }, { bevy: { $in: bevy_id_list } }])
-			.populate('bevy users');
+			.or([{ members: { $elemMatch: { user: id } } }, { bevy: { $in: bevy_id_list } }])
+			.populate('bevy members.user members.member');
 		}
 	]);
 }
@@ -44,16 +44,16 @@ exports.index = function(req, res, next) {
 // POST /users/:id/threads
 exports.create = function(req, res, next) {
 	var id = req.params.id;
-	var users = req.body['users'] || [];
+	var members = req.body['members'] || [];
 	var bevy = req.body['bevy'] || null;
 
 	var thread = {
-		users: users,
+		members: members,
 		bevy: bevy
 	};
 	Thread.create(thread, function(err, $thread) {
 		if(err) return next(err);
-		Thread.populate($thread, { path: 'bevy users' }, function(err, pop_thread) {
+		Thread.populate($thread, { path: 'bevy members.user members.member' }, function(err, pop_thread) {
 			if(err) return next(err);
 
 			pop_thread = JSON.parse(JSON.stringify(pop_thread));
@@ -79,7 +79,7 @@ exports.update = function(req, res, next) {
 	Thread.findOneAndUpdate({ _id: thread_id }, thread, { upsert: true }, function(err, thread) {
 		if(err) return next(err);
 		return res.json(thread);
-	}).populate('bevy users');
+	}).populate('bevy members.user members.member');
 }
 
 // DELETE /users/:id/threads/:threadid
@@ -90,5 +90,5 @@ exports.destroy = function(req, res, next) {
 	Thread.findOneAndRemove({ _id: thread_id }, function(err, thread) {
 		if(err) return next(err);
 		return res.json(thread);
-	}).populate('bevy users');
+	}).populate('bevy members.user members.member');
 }

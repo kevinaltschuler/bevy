@@ -8,10 +8,16 @@ var ChatThread = new Schema({
 		type: Schema.Types.ObjectId,
 		ref: 'Bevy'
 	},
-	users: [{
-		type: Schema.Types.ObjectId,
-		ref: 'User'
-	}]
+	members: [Schema({
+		user: {
+			type: Schema.Types.ObjectId,
+			ref: 'User'
+		},
+		member: {
+			type: Schema.Types.ObjectId,
+			ref: 'BevyMember'
+		}
+	}, { _id: false })]
 });
 
 module.exports = ChatThread;
