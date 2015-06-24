@@ -43,7 +43,7 @@ var ContactList = React.createClass({
 			}
 
 			contacts.push(
-				<Button className='contact-item' key={ 'contact:' + contact.user._id } id={ contact.user._id } onClick={ this.openThread } onFocus={ this.openThread }>
+				<Button className='contact-item' key={ 'contact:' + contact.user._id } id={ contact.user._id } onFocus={ this.openThread }>
 					<div className='contact-img' style={ contactImageStyle }></div>
 					<div className='contact-name'>
 						<span>{ displayName }</span>

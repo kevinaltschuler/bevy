@@ -79,11 +79,15 @@ var ConversationList = React.createClass({
 			}
 
 			var image_url = (bevy) ? bevy.image_url : otherUser.image_url;
-			if(_.isEmpty(image_url)) image_url = '/img/logo_100.png';
+			if(_.isEmpty(image_url)) {
+				if(bevy) image_url = '/img/logo_100.png';
+				else image_url = '/img/user-profile-icon.png';
+			}
+
 			var name = (bevy) ? bevy.name : otherUser.displayName;
 
 			threads.push(
-				<Button className='conversation-item' key={ 'thread' + thread._id } id={ thread._id } onClick={ this.openThread } onFocus={ this.openThread }>
+				<Button className='conversation-item' key={ 'thread' + thread._id } id={ thread._id } onFocus={ this.openThread }>
 					<img className='bevy-img' src={ image_url } />
 					<div className='conversation-details'>
 						<span className='bevy-name'>{ name }</span>
