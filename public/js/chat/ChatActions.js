@@ -10,7 +10,7 @@ var ChatActions = {
 
 	openThread: function(thread_id, user_id) {
 		dispatch(CHAT.THREAD_OPEN, {
-			thread_id: thread_id,
+			thread_id: (thread_id == undefined) ? null : thread_id,
 			user_id: (user_id == undefined) ? null : user_id
 		});
 	},

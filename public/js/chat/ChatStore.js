@@ -35,7 +35,8 @@ _.extend(ChatStore, {
 
 				break;
 
-			case BEVY.SWITCH:
+			case BEVY.JOIN:
+			case BEVY.LEAVE:
 
 				this.threads.fetch({
 					reset: true,
