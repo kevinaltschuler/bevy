@@ -29,9 +29,13 @@ exports.index = function(req, res, next) {
 		function(bevies, done) {
 			var bevy_id_list = _.pluck(bevies, '_id');
 
+			id = mongoose.Types.ObjectId(id);
+
 			Thread.find(function(err, threads) {
+				if(err) return next(err);
 				return res.json(threads);
-			}).or([{ users: { $elemMatch: { $eq: id } } }, { bevy: { $in: bevy_id_list } }])
+			})
+			.or([{ users: { $elemMatch: { $eq: id } } }, { bevy: { $in: bevy_id_list } }])
 			.populate('bevy users');
 		}
 	]);
