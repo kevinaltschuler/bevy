@@ -62,6 +62,7 @@ _.extend(PostStore, {
 				this.posts.forEach(function(post) {
 					this.postsNestComment(post);
 				}.bind(this));
+
 				this.trigger(POST.CHANGE_ALL);
 
 				break;
@@ -340,7 +341,7 @@ _.extend(PostStore, {
 
 						if(comment_id) {
 							// replied to a comment
-							var comments = post.get('all_comments');
+							var comments = post.get('allComments');
 							var comment = _.findWhere(comments, { _id: comment_id });
 							var new_comment = {
 								_id: id,
@@ -356,6 +357,7 @@ _.extend(PostStore, {
 							if(!comment.comments) comment.comments = [];
 							comment.comments.push(new_comment);
 							comments.push(new_comment);
+							//this.postsNestComment(post);
 
 							// increment comment count
 							var commentCount = post.get('commentCount');
@@ -365,7 +367,7 @@ _.extend(PostStore, {
 							// replied to a post
 
 							var comments = post.get('comments') || [];
-							var allComments = post.get('all_comments') || [];
+							var allComments = post.get('allComments') || [];
 							var new_comment = {
 								_id: id,
 								postId: post_id,
@@ -376,6 +378,7 @@ _.extend(PostStore, {
 							};
 							comments.push(new_comment);
 							allComments.push(new_comment);
+							//this.postsNestComment(post);
 						}
 
 						var stripped_members = _.map(post.get('bevy').members, function(member) {
@@ -405,7 +408,7 @@ _.extend(PostStore, {
 							}
 						);
 
-						this.trigger(POST.CHANGE_ALL);
+						//this.trigger(POST.CHANGE_ALL);
 						this.trigger(POST.CHANGE_ONE + post_id);
 					}.bind(this)
 				);
@@ -439,8 +442,9 @@ _.extend(PostStore, {
 
 				var commentCount = post.get('commentCount');
 				post.set('commentCount', --commentCount);
+				//this.postsNestComment(post);
 
-				this.trigger(POST.CHANGE_ALL);
+				//this.trigger(POST.CHANGE_ALL);
 				this.trigger(POST.CHANGE_ONE + post_id);
 
 				break;
@@ -552,11 +556,12 @@ _.extend(PostStore, {
 		comments = _.map(comments, function(comment) {
 			return comment;
 		});
-		post.set('all_comments', comments);
+
+		post.set('allComments', comments);
 		post.set('commentCount', comments.length);
+
 		// recurse through comments
-		comments = this.nestComments(comments);
-		post.set('comments', comments);
+		post.set('comments', this.nestComments(comments));
 	},
 
 	nestComments: function(comments, parentId, depth) {
@@ -582,7 +587,7 @@ _.extend(PostStore, {
 	}
 });
 
-PostStore.posts.on('sync', function(obj, response, options) {
+/*PostStore.posts.on('sync', function(obj, response, options) {
 	if(obj instanceof Backbone.Model) {
 		PostStore.postsNestComment(obj);
 	} else {
@@ -590,7 +595,7 @@ PostStore.posts.on('sync', function(obj, response, options) {
 			PostStore.postsNestComment(post);
 		});
 	}
-});
+});*/
 
 var dispatchToken = Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
 PostStore.dispatchToken = dispatchToken;

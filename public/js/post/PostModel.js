@@ -23,7 +23,6 @@ var BevyStore = require('./../bevy/BevyStore');
 var Post = Backbone.Model.extend({
 	defaults: {
 		_id: null,
-		body: null,
 		images: [],
 		author: null,
 		bevy: null,
