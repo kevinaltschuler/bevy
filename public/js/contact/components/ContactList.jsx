@@ -28,6 +28,7 @@ var ContactList = React.createClass({
 	},
 
 	render: function() {
+		// asdf
 
 		var allContacts = this.props.allContacts;
 		var contacts = [];
