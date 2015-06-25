@@ -196,15 +196,15 @@ _.extend(BevyStore, {
 
 			case BEVY.REMOVE_USER:
 				var bevy_id = payload.bevy_id;
-				var email = payload.email || '';
-				var user_id = payload.user_id || '';
+				var email = payload.email || null;
+				var user_id = payload.user_id || null;
 
 				var bevy = this.bevies.get(bevy_id);
 				var members = bevy.get('members');
 
 				var memberIndex;
 				var member = _.find(members, function($member, index) {
-					if(email == $member.email || user_id == $member.user._id) {
+					if(email == $member.email) {
 						memberIndex = index;
 						return true;
 					} else return false;
