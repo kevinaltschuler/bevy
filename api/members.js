@@ -28,17 +28,34 @@ exports.create = function(req, res, next) {
 
 	update.bevy = bevy_id;
 
-	Member.create(update, function(err, member) {
-		if(err) return next(err);
-		Member.populate(member, { path: 'user bevy' }, function(err, $member) {
-			if(err) return next(err);
-			$member = JSON.parse(JSON.stringify($member));
-			Member.find({ bevy: bevy_id }, function(err, members) {
-				$member.bevy.members = members;
-				return res.json($member);
+	async.waterfall([
+		function(done) {
+			Member.find({ $and: [{ user: update.user }, { bevy: bevy_id }] }, function(err, member) {
+				if(err) return next(err);
+				if(!_.isEmpty(member)) done('Member already exists');
+				else done(null);
 			});
-		});
+		},
+		function(done) {
+			Member.create(update, function(err, member) {
+				if(err) return next(err);
+				Member.populate(member, { path: 'user bevy' }, function(err, $member) {
+					if(err) return next(err);
+					$member = JSON.parse(JSON.stringify($member));
+					Member.find({ bevy: bevy_id }, function(err, members) {
+						$member.bevy.members = members;
+						return res.json($member);
+					});
+				});
+			});
+		}
+	], function(err, result) {
+		return next(err);
 	});
+
+
+
+
 }
 
 // PUT/PATCH /bevies/:bevyid/members/:id

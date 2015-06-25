@@ -309,18 +309,19 @@ _.extend(BevyStore, {
 				var user_id = payload.user_id;
 				var email = payload.email;
 
-				$.post(
-					constants.apiurl + '/bevies/' + bevy_id + '/members/',
-					{
+				$.ajax({
+					method: 'post',
+					url: constants.apiurl + '/bevies/' + bevy_id + '/members/',
+					data: {
 						email: email,
 						user: user_id
 					},
-					function(data) {
+					success: function(data) {
 						var bevy = this.bevies.get(bevy_id);
 						bevy.set('members', data);
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
-				);
+				});
 
 				break;
 
@@ -329,13 +330,14 @@ _.extend(BevyStore, {
 				var user = window.bootstrap.user;
 				var email = payload.email;
 
-				$.post(
-					constants.apiurl + '/bevies/' + bevy_id + '/members/',
-					{
+				$.ajax({
+					method: 'post',
+					url: constants.apiurl + '/bevies/' + bevy_id + '/members/',
+					data: {
 						email: email,
 						user: user._id
 					},
-					function(member) {
+					success: function(member) {
 						this.bevies.fetch({
 							reset: true,
 							success: function(collection, response, options) {
@@ -349,10 +351,10 @@ _.extend(BevyStore, {
 								router.navigate('/b/' + bevy_id, { trigger: true });
 							}.bind(this)
 						});
-					}.bind(this)
-				).fail(function(jqXHR) {
-					var response = jqXHR.responseJSON;
-					console.log(response);
+					}.bind(this),
+					error: function(message) {
+						// do nothing
+					}
 				});
 
 				break;
