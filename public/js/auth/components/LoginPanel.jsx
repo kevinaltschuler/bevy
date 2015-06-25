@@ -60,9 +60,9 @@ var LoginPanel = React.createClass({
 				, password: this.refs.password.getValue()
 			},
 			function(data) {
-				console.log(data);
 				// success
 				// let's redirect to the app
+				window.bootstrap.user = data;
 				router.navigate('/b/frontpage', { trigger: true });
 			}
 		).fail(function(jqXHR) {

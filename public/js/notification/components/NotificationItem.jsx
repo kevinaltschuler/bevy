@@ -72,31 +72,30 @@ var NotificationItem = React.createClass({
 				var bevy_name = data.bevy_name;
 				var bevy_img = data.bevy_img;
 				var inviter_name = data.inviter_name;
+				console.log(data);
 
-				body = <div className="notification-body">
-							<div className="col-xs-3 sidebar-picture">
+				body = <Button className="notification-body">
+							<div className="sidebar-picture">
 								<img src={ bevy_img }/>
 							</div>
-							<div className="col-xs-5">
-								<div className="row">
+							<div className=" notification-text-col">
+								<div className="notification-text">
 									<div className="name">
 										{ inviter_name }
 									</div>
 								</div>
-								<div className="row">
+								<div className="notification-text">
 									<div className="content">
 										Invite to { bevy_name }
 									</div>
 								</div>
 							</div>
-							<div className='col-xs-2'>
-							 	<Button
-							 		className="accept-btn"
-									onClick={ this.join } >
-							 		Join
-							 	</Button>
-							</div>
-						</div>
+						 	<Button
+						 		className="accept-btn"
+								onClick={ this.join } >
+						 		Join
+						 	</Button>
+						</Button>
 
 				break;
 
@@ -108,11 +107,16 @@ var NotificationItem = React.createClass({
 				var post_title = data.post_title;
 
 				body = (
-					<div className="notification-body col-xs-10">
-						<span>Post to <b>{ bevy_name }</b> by <b>{ author_name }</b></span>
-						<br />
-						<span><i>{ post_title }</i></span>
-					</div>
+					<Button className="notification-body">
+						<div className="sidebar-picture">
+							<img src={ author_img }/>
+						</div>
+						<div className=" notification-text-col">
+							<span>Post to <b>{ bevy_name }</b> by <b>{ author_name }</b></span>
+							<br />
+							<span><i>{ post_title }</i></span>
+						</div>
+					</Button>
 				);
 
 				break;
@@ -126,11 +130,11 @@ var NotificationItem = React.createClass({
 				var bevy_name = data.bevy_name;
 
 				body = (
-					<div className='notification-body'>
-						<div className='col-xs-2 sidebar-picture'>
+					<Button className='notification-body'>
+						<div className=' sidebar-picture'>
 							<img src={ user_image } />
 						</div>
-						<div className='col-xs-6'>
+						<div className=' notification-text-col'>
 							<div className='row'>
 								<span>Request to join <b>{ bevy_name }</b></span>
 							</div>
@@ -138,14 +142,12 @@ var NotificationItem = React.createClass({
 								<span>From <i>{ user_name }</i></span>
 							</div>
 						</div>
-						<div className='col-xs-2'>
-							<Button
-								className="accept-btn"
-								onClick={ this.acceptJoin } >
-								Accept
-							</Button>
-						</div>
-					</div>
+						<Button
+							className="accept-btn"
+							onClick={ this.acceptJoin } >
+							Accept
+						</Button>
+					</Button>
 				);
 
 				break;
@@ -158,11 +160,14 @@ var NotificationItem = React.createClass({
 				var bevy_name = data.bevy_name;
 
 				body = (
-					<div className='notification-body'>
-						<div className='col-xs-9'>
+					<Button className='notification-body'>
+						<div className='sidebar-picture'>
+							<img src={ author_image } />
+						</div>
+						<div className='notification-text-col'>
 							<b>{ author_name }</b> replied to your post <i>{ post_title }</i> in <b>{ bevy_name }</b>
 						</div>
-					</div>
+					</Button>
 				);
 
 				break;
@@ -175,11 +180,14 @@ var NotificationItem = React.createClass({
 				var bevy_name = data.bevy_name;
 
 				body = (
-					<div className='notification-body'>
-						<div className='col-xs-9'>
+					<Button className='notification-body'>
+						<div className='sidebar-picture'>
+							<img src={ author_image } />
+						</div>
+						<div className='notification-text-col'>
 							<b>{ author_name }</b> commented on a post you commented on
 						</div>
-					</div>
+					</Button>
 				);
 
 				break;
@@ -192,15 +200,13 @@ var NotificationItem = React.createClass({
 		}
 
 		return <Panel className="notification-item">
-					<div className='row'>
 						{ body }
 
-						<div className='col-xs-2 dismiss-btn'>
+						<div className='dismiss-btn'>
 							<IconButton onClick={ this.dismiss } tooltip='dismiss' >
 								<span className="glyphicon glyphicon-remove" />
 							</IconButton>
 						</div>
-					</div>
 				 </Panel>
 	}
 });

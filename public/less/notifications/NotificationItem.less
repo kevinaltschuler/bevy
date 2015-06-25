@@ -1,34 +1,63 @@
 .notification-item {
-	.row {
-		.notification-body {
-			padding-left: 0px;
-			.sidebar-picture {
-				img {
-					display: inline-block;
-					border-radius: 50px;
-					width: 50px;
-					height: 50px;
-				}
+	.panel-body {
+		padding-top: 0px;
+		padding-bottom: 0px;
+		padding-left: 0px;
+		display: flex;
+		flex-direction: row;
+		justify-content: flex-start;
+		width: 100%;
+		height: 110%;
+		margin-left: -2px;
+	}
+	.notification-body {
+		border-color: rgba(0,0,0,0);
+		border-top-right-radius: 0;
+		border-bottom-right-radius: 0;
+		display: flex;
+		padding-left: 8px;
+		flex-direction: row;
+		justify-content: flex-start;
+		flex-grow: 2;
+		margin-top: -2px;
+		&:hover {
+			border-color: rgba(0,0,0,0);
+		}
+		.sidebar-picture {
+			img {
+				display: inline-block;
+				border-radius: 50px;
+				width: 50px;
+				height: 50px;
+			}
+		}
+		.notification-text-col {
+			text-align: left;
+			margin-left: 10px;
+			font-size: .9em;
+			align-self: center;
+			.notification-text {
 			}
 			.name {
-				font-size: 1.3em;
-				float: left;
-				display: inline-block;
+				font-size: 1.1em;
 			}
 			.content {
-				float: left;
-				display: inline-block;
 			}
 		}
-		.accept-btn {
-				float: right;
-				display: inline-block;
-				margin-top: 5px;
+	}
+	.accept-btn {
+		align-self: center;
+		border-color: rgba(0,0,0,0);
+		border-radius: 0;
+		&:hover {
+			border-color: rgba(0,0,0,0);
 		}
-		.dismiss-btn {
-			.glyphicon {
-				color: @light-font;
-			}
+	}
+	.dismiss-btn {
+		.glyphicon {
+			color: @light-font;
 		}
+		float: right;
+		align-self: center;
 	}
 }

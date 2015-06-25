@@ -73,13 +73,18 @@ _.extend(NotificationStore, {
 			var response = jqXHR.responseJSON;
 			console.log(response);
 			if(response == undefined) return poll();
+
+			ChatStore.addMessage(response.data);
+			var audio = document.createElement("audio");
+			audio.src = "./../../../audio/notification.mp3";
+
 			switch(response.type) {
 				case 'notification':
 					NotificationStore.notifications.add(response.data);
 					NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
 					break;
 				case 'message':
-					ChatStore.addMessage(response.data);
+					audio.play();
 					break;
 			}
 			poll();
