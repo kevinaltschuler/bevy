@@ -74,7 +74,7 @@ _.extend(NotificationStore, {
 
 			ChatStore.addMessage(response.data);
 			var audio = document.createElement("audio");
-			audio.src = "./../../../audio/notification.mp3";
+			audio.src = "/audio/notification.mp3";
 
 			switch(response.type) {
 				case 'notification':

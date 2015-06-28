@@ -42,18 +42,24 @@ exports.create = function(req, res, next) {
 			Thread.findOne({ _id: thread_id }, function(err, thread) {
 				if(err) return next(err);
 				if(!thread) return next('thread not found');
-				if(_.isEmpty(thread.users)) {
+				if(_.isEmpty(thread.members)) {
 					// send to bevy members
 					Member.find({ bevy: thread.bevy }, function(err, members) {
 						if(err) return next(err);
 						members.forEach(function(member) {
-							emitter.emit(member.user + ':chat', $pop_message);
+							if(member.user) {
+								if(member.user.toString() == author) return; // dont send chat to yourself
+								emitter.emit(member.user + ':chat', $pop_message);
+							}
 						});
 					});
 				} else {
 					// send to each user
-					thread.users.forEach(function(user) {
-						emitter.emit(user + ':chat', $pop_message);
+					thread.members.forEach(function(member) {
+						if(member.user) {
+							if(member.user.toString() == author) return; // dont send chat to yourself
+							emitter.emit(member.user + ':chat', $pop_message);
+						}
 					});
 				}
 			});
