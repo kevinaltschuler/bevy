@@ -84,6 +84,8 @@ _.extend(PostStore, {
 
 						this.activeBevy = bevy_id;
 
+						this.posts.sort();
+
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
 				});
@@ -102,6 +104,8 @@ _.extend(PostStore, {
 							posts.forEach(function(post) {
 								this.postsNestComment(post);
 							}.bind(this));
+
+							this.posts.sort();
 
 							this.trigger(POST.CHANGE_ALL);
 						}.bind(this)
