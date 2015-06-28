@@ -15,6 +15,10 @@ var Router = Backbone.Router.extend({
 		'b' : 'home',
 		'b/' : 'home',
 		'b/:bevyid' : 'bevy',
+		'b/:bevyid/' : 'bevy',
+		'b/:bevyid/post' : 'bevy',
+		'b/:bevyid/post/' : 'bevy',
+		'b/:bevyid/post/:postid' : 'bevy',
 		's' : 'search',
 		's/:query' : 'search',
 		'*nuts' : 'not_found'
@@ -44,9 +48,10 @@ var Router = Backbone.Router.extend({
 		this.current = 'reset';
 	},
 
-	bevy: function(bevy_id) {
+	bevy: function(bevy_id, post_id) {
 		this.current = 'bevy';
 		this.bevy_id = bevy_id;
+		this.post_id = post_id;
 
 		if(bevy_id == '') {
 			this.bevy_id = -1;

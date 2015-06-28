@@ -92,7 +92,7 @@ module.exports = function(app) {
 				},
 				function(callback) {
 					var path = req.path;
-					var postRegex = /(?:b)\/(.+)/;
+					var postRegex = /(?:b)\/(.{1,24})(?:(?:\/post)(?:.+))?/;
 					var $bevy_id = path.match(postRegex);
 					var bevy_id;
 					if($bevy_id == null) return callback(null, []);

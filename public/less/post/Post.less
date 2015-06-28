@@ -58,6 +58,17 @@
 				font-size: .6em;
 				color: #1A1A1A;
 				vertical-align: super;
+				button {
+					border: none;
+					padding: 0px;
+					border-radius: 0px;
+					&:active, &:hover, &:focus {
+						background-color: white;
+						border: none;
+						outline: none;
+						box-shadow: none;
+					}
+				}
 			}
 			.details:focus, .details:hover {
 				text-decoration: underline;

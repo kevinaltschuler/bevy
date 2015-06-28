@@ -9,6 +9,8 @@ var React = require('react');
 var $ = require('jquery');
 var _ = require('underscore');
 
+var router = require('./../../router');
+
 var rbs = require('react-bootstrap');
 var ButtonGroup = rbs.ButtonGroup;
 var Button = rbs.Button;
@@ -103,11 +105,24 @@ var NotificationItem = React.createClass({
 
 				var author_name = data.author_name;
 				var author_img = data.author_img;
+				var bevy_id = data.bevy_id;
 				var bevy_name = data.bevy_name;
 				var post_title = data.post_title;
+				var post_id = data.post_id;
+
+				var goToPost = function(ev) {
+					ev.preventDefault();
+					router.navigate('/b/' + bevy_id + '/post/' + post_id, { trigger: true });
+
+					if(post_id) {
+						var post = document.getElementById('post:' + post_id);
+						if(post)
+							post.scrollIntoView();
+					}
+				}
 
 				body = (
-					<Button className="notification-body">
+					<Button href={ '/b/' + bevy_id + '/post/' + post_id } className="notification-body" onClick={ goToPost }>
 						<div className="sidebar-picture">
 							<img src={ author_img }/>
 						</div>

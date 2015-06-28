@@ -33,6 +33,21 @@ var Backbone = require('backbone');
 var React = require('react');
 var router = require('./router');
 
+document.onreadystatechange = function() {
+	if(document.readyState == 'complete') {
+		console.log('asdfasdf');
+		setTimeout(function() {
+			console.log('asdf');
+			if(router.post_id) {
+				var post = document.getElementById('post:' + router.post_id);
+				if(post)
+					post.scrollIntoView();
+			}
+		}, 50);
+	}
+};
+
+
 // load components
 var MainSection = require('./app/components/MainSection.jsx');
 

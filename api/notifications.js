@@ -367,3 +367,59 @@ exports.poll = function(req, res, next) {
 		else return res.end();
 	});
 }
+
+
+
+exports.make = function(type, payload) {
+	switch(type) {
+		case 'post:create':
+			var post = JSON.parse(JSON.stringify(payload.post));
+			var author = post.author;
+			var bevy = post.bevy;
+
+			var notifications = [];
+			// get members of the bevy
+			// see if they want the notification
+			Member.find({ bevy: bevy._id }, function(err, members) {
+				if(err) return;
+				if(_.isEmpty(members)) return;
+				members = _.filter(members, function(member) {
+					return member.notificationLevel == 'all';
+				});
+				members.forEach(function(member) {
+					if(_.isEmpty(member.user)) return;
+					notifications.push({
+						user: member.user,
+						event: 'post:create',
+						data: {
+							author_name: (bevy.settings.anonymise_users) ? member.displayName : author.displayName,
+							author_img: (bevy.settings.anonymise_users) ? member.image_url : author.image_url,
+							bevy_id: bevy._id,
+							bevy_name: bevy.name,
+							post_title: post.title,
+							post_id: post._id
+						}
+					});
+				});
+				pushNotifications(notifications);
+			});
+			break;
+	}
+}
+
+function pushNotifications(notifications) {
+	Notification.create(notifications, function(err, $notifications) {
+		if(err) return;
+		if(_.isEmpty($notifications)) return;
+		// emit event
+		if(_.isArray($notifications)) {
+			$notifications.forEach(function(notification) {
+				if(!_.isEmpty(notification.user))
+					emitter.emit(notification.user, notification);
+			});
+		} else {
+			if(!_.isEmpty($notifications.user))
+				emitter.emit($notifications.user, $notifications);
+		}
+	});
+}

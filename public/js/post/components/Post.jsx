@@ -69,12 +69,6 @@ var Post = React.createClass({
 		};
 	},
 
-	/*componentWillReceiveProps: function(nextProps) {
-		this.setState({
-			post: nextProps.post
-		});
-	},*/
-
 	componentWillMount: function() {
 		PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
 	},
@@ -383,7 +377,7 @@ var Post = React.createClass({
 					<div className='post-details'>
 						<div className='top'>
 							<span className="details">
-								<a href='#' onClick={ this.onOpenThread }>{ authorName }</a>
+								<Button onClick={ this.onOpenThread }>{ authorName }</Button>
 							</span>
 							<span className="glyphicon glyphicon-triangle-right"/>
 							<span className="details">
@@ -455,7 +449,7 @@ var Post = React.createClass({
 			</div>)
 		: <div>{postBody}</div>;
 
-		return <div className="post panel" postId={ post._id }>
+		return <div className="post panel" postId={ post._id } id={ 'post:' + post._id }>
 					{collapsibleDiv}
 				</div>;
 	}

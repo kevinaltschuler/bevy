@@ -29,14 +29,25 @@ var PostContainer = React.createClass({
 		return {};
 	},
 
+	componentDidUpdate: function() {
+		var post_id = router.post_id;
+		if(post_id) {
+			var post = document.getElementById('post:' + post_id);
+			if(post)
+				post.scrollIntoView();
+		}
+	},
+
 	render: function() {
 
 		if(Object.keys(this.props.allPosts).length < 1) {
 			// no posts
 			// still return column so the app retains its structure
-			return	<div className="col-xs-6 post-container">
-							Nothing to see here...
-						</div>;
+			return(
+				<div className="col-xs-6 post-container">
+					Nothing to see here...
+				</div>
+			);
 		}
 
 		// load props into local vars
@@ -59,9 +70,11 @@ var PostContainer = React.createClass({
 			);
 		}
 
-		return	<div className='post-container'>
-						{posts}
-				</div>
+		return (
+			<div className='post-container'>
+				{posts}
+			</div>
+		);
 	}
 });
 

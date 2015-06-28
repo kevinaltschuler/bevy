@@ -45,6 +45,8 @@ _.extend(PostStore, {
 
 	posts: new PostCollection,
 
+	activeBevy: router.bevy_id,
+
 	// handle calls from the dispatcher
 	// these are created from PostActions.js
 	handleDispatch: function(payload) {
@@ -54,16 +56,6 @@ _.extend(PostStore, {
 
 				// wait for bevies
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
-
-				this.posts.comparator = this.sortByTop;
-
-				var posts = window.bootstrap.posts;
-				this.posts.reset(posts);
-				this.posts.forEach(function(post) {
-					this.postsNestComment(post);
-				}.bind(this));
-
-				this.trigger(POST.CHANGE_ALL);
 
 				break;
 
@@ -80,6 +72,8 @@ _.extend(PostStore, {
 					break;
 				}
 
+				if(bevy_id == this.activeBevy) break;
+
 				this.posts.fetch({
 					reset: true,
 					success: function(posts, response, options) {
@@ -87,6 +81,8 @@ _.extend(PostStore, {
 						posts.forEach(function(post) {
 							this.postsNestComment(post);
 						}.bind(this));
+
+						this.activeBevy = bevy_id;
 
 						this.trigger(POST.CHANGE_ALL);
 					}.bind(this)
@@ -138,38 +134,6 @@ _.extend(PostStore, {
 
 						this.trigger(POST.CHANGE_ALL);
 						this.trigger(POST.POSTED_POST);
-
-						var stripped_members = _.map(bevy.members, function(member) {
-							var new_member = {};
-							new_member.role = member.role;
-							new_member.notificationLevel = member.notificationLevel;
-							if(_.isObject(member.user))
-								new_member.user = member.user._id;
-							return new_member;
-						});
-
-						var author_name = (active_member.displayName && bevy.settings.anonymise_users)
-						? active_member.displayName
-						: author.displayName;
-
-						var author_img = (active_member.image_url && bevy.settings.anonymise_users)
-						? active_member.image_url
-						: author.image_url;
-
-						// send notification
-						$.post(
-							constants.apiurl + '/notifications',
-							{
-								event: 'post:create',
-								//post: post.toJSON()
-								author_name: author_name,
-								author_img: author_img,
-								bevy_name: bevy.name,
-								bevy_members: stripped_members,
-								post_title: title
-							}
-						);
-
 					}.bind(this)
 				});
 
@@ -587,15 +551,15 @@ _.extend(PostStore, {
 	}
 });
 
-/*PostStore.posts.on('sync', function(obj, response, options) {
-	if(obj instanceof Backbone.Model) {
-		PostStore.postsNestComment(obj);
-	} else {
-		obj.forEach(function(post) {
-			PostStore.postsNestComment(post);
-		});
-	}
-});*/
+PostStore.posts.comparator = PostStore.sortByTop;
+
+var posts = window.bootstrap.posts;
+PostStore.posts.reset(posts);
+PostStore.posts.forEach(function(post) {
+	PostStore.postsNestComment(post);
+});
+
+//PostStore.trigger(POST.CHANGE_ALL);
 
 var dispatchToken = Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
 PostStore.dispatchToken = dispatchToken;

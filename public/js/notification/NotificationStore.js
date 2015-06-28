@@ -38,9 +38,7 @@ _.extend(NotificationStore, {
 
 			case APP.LOAD:
 
-				var notifications = window.bootstrap.notifications;
-				this.notifications.reset(notifications);
-				this.trigger(NOTIFICATION.CHANGE_ALL);
+
 
 				break;
 
@@ -92,6 +90,10 @@ _.extend(NotificationStore, {
 		timeout: 30000
 	});
 })();
+
+var notifications = window.bootstrap.notifications;
+NotificationStore.notifications.reset(notifications);
+//this.trigger(NOTIFICATION.CHANGE_ALL);
 
 
 Dispatcher.register(NotificationStore.handleDispatch.bind(NotificationStore));

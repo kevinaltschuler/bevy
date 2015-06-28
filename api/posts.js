@@ -15,6 +15,8 @@ var async = require('async');
 var og = require('open-graph');
 var http = require('http');
 
+var notifications = require('./notifications');
+
 var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
 var Comment = mongoose.model('Comment');
@@ -79,10 +81,13 @@ exports.create = function(req, res, next) {
 		},
 		function($update, done) {
 			Post.create($update, function(err, post) {
-				if(err) throw err;
+				if(err) return next(err);
 				// populate bevy
 				Post.populate(post, { path: 'bevy author' }, function(err, pop_post) {
-					res.json(pop_post);
+					// create notification
+					notifications.make('post:create', { post: pop_post });
+
+					return res.json(pop_post);
 				});
 			});
 		}
