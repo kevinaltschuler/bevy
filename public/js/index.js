@@ -33,6 +33,9 @@ var Backbone = require('backbone');
 var React = require('react');
 var router = require('./router');
 
+// chrome and maybe other browsers like to remember the scroll position on a page reload
+// when theres a specified post in the url we need to override this by delaying this action a bit
+// very jenk. will change later.
 document.onreadystatechange = function() {
 	if(document.readyState == 'complete') {
 		setTimeout(function() {
