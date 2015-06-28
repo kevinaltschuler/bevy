@@ -182,7 +182,7 @@ var CommentItem = React.createClass({
 				<div className='comment-submit'>
 					{ submit }
 				</div>
-				<div className='comment-list'>
+				<div>
 					{ commentList }
 				</div>
 			</div>);
