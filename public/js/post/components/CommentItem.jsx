@@ -150,8 +150,8 @@ var CommentItem = React.createClass({
 				<span className="glyphicon glyphicon-remove btn" onClick={ this.destroy }></span>);
 
 		var collapseBody = (this.state.collapsed)
-		? (<div className="row comment">
-				<div className='col-xs-12 comment-col' >
+		? (<div className="comment">
+				<div className='comment-col' >
 					<span className="comment-name collapsed">{ authorName }</span>
 					<span>&nbsp;</span>
 					<span className="detail-time collapsed">{ timeAgo(Date.parse(comment.created)) }</span>
@@ -162,8 +162,8 @@ var CommentItem = React.createClass({
 				</div>
 
 			</div>)
-		: (<div className="row comment">
-				<div className='col-xs-12 comment-col' >
+		: (<div className="comment">
+				<div className='comment-col' >
 					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 					<div className="comment-text">
 						<div className="comment-title">
@@ -179,10 +179,10 @@ var CommentItem = React.createClass({
 						{ deleteButton }
 					</div>
 				</div>
-				<div className='col-xs-12'>
+				<div className='comment-submit'>
 					{ submit }
 				</div>
-				<div className='col-xs-12'>
+				<div className='comment-list'>
 					{ commentList }
 				</div>
 			</div>);
