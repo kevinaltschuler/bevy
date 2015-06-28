@@ -388,6 +388,7 @@ exports.make = function(type, payload) {
 				});
 				members.forEach(function(member) {
 					if(_.isEmpty(member.user)) return;
+					if(member.user.toString() == author._id) return; // dont send a notification to the post's author
 					notifications.push({
 						user: member.user,
 						event: 'post:create',
