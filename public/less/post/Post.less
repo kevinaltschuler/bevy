@@ -27,6 +27,8 @@
 		box-shadow: none;
 	}
 	.panel-header {
+		display: flex;
+		justify-content: flex-start;
 		font-size: 1.6em;
 		padding-top: 15px;
 		padding-bottom: 0px;
@@ -39,8 +41,8 @@
 			#image-icon;
 		}
 		.post-details {
-			vertical-align: top;
-			display: inline-block;
+			display: flex;
+			flex-direction: column;
 			.top {
 				display: flex;
 				align-items: center;
@@ -57,7 +59,7 @@
 			.details, .detail-time, .dot {
 				font-size: .6em;
 				color: #1A1A1A;
-				vertical-align: super;
+				line-height: initial;
 				button {
 					border: none;
 					padding: 0px;
@@ -84,6 +86,7 @@
 			}
 		}
 		.badges {
+			flex-grow: 1;
 			display: flex;
 			align-items: center;
 			justify-content: flex-end;
