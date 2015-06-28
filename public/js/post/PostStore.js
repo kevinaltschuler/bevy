@@ -131,6 +131,9 @@ _.extend(PostStore, {
 						newPost.set('links', post.get('links'));
 						newPost.set('author', author);
 						newPost.set('bevy', tempBevy);
+						newPost.set('commentCount', 0);
+
+						this.posts.sort();
 
 						this.trigger(POST.CHANGE_ALL);
 						this.trigger(POST.POSTED_POST);

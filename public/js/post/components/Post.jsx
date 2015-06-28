@@ -391,7 +391,7 @@ var Post = React.createClass({
 					</div>
 					<div className='badges'>
 						<div>
-							<span className="comment-count"> { commentCount } Comments •&nbsp;</span>
+							<span className="comment-count"> { post.commentCount } Comments •&nbsp;</span>
 							<span className="points"> { this.countVotes() } Points</span>
 						</div>
 						<div>
