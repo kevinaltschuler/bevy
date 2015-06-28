@@ -90,6 +90,26 @@ _.extend(PostStore, {
 
 				break;
 
+			case POST.FETCH:
+				var bevy_id = payload.bevy_id;
+				//var bevy = this.bevies.get(bevy_id);
+
+				if(bevy_id == this.activeBevy && bevy_id != -1) {
+					// load the new post
+					this.posts.fetch({
+						success: function(posts, response, options) {
+
+							posts.forEach(function(post) {
+								this.postsNestComment(post);
+							}.bind(this));
+
+							this.trigger(POST.CHANGE_ALL);
+						}.bind(this)
+					});
+				}
+
+				break;
+
 			case POST.CREATE: // create a post
 
 				// collect payload vars

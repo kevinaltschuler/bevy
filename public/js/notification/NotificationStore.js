@@ -19,6 +19,7 @@ var APP = require('./../constants').APP;
 var Notifications = require('./NotificationCollection');
 
 var ChatStore = require('./../chat/ChatStore');
+var PostActions = require('./../post/PostActions');
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
@@ -62,6 +63,15 @@ _.extend(NotificationStore, {
 
 });
 
+NotificationStore.notifications.on('add', function(notification) {
+	switch(notification.get('event')) {
+		case 'post:create':
+			// reload posts to get the latest
+			PostActions.fetch(notification.get('data').bevy_id);
+			break;
+	}
+});
+
 // set up long poll
 (function poll() {
 	$.ajax({
@@ -69,7 +79,7 @@ _.extend(NotificationStore, {
 		dataType: 'json',
 		complete: function(jqXHR) {
 			var response = jqXHR.responseJSON;
-			console.log(response);
+			//console.log(response);
 			if(response == undefined) return poll();
 
 			ChatStore.addMessage(response.data);
