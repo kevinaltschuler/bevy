@@ -62,8 +62,9 @@ var LoginPanel = React.createClass({
 			function(data) {
 				// success
 				// let's redirect to the app
-				window.bootstrap.user = data;
-				router.navigate('/b/frontpage', { trigger: true });
+				//window.bootstrap.user = data;
+				//router.navigate('/b/frontpage', { trigger: true });
+				window.location.href = '/b/frontpage';
 			}
 		).fail(function(jqXHR) {
 			// a server-side error has occured (500 internal error)
