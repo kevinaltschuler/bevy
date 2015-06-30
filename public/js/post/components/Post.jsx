@@ -449,7 +449,10 @@ var Post = React.createClass({
 			</div>)
 		: <div>{postBody}</div>;
 
-		return <div className="post panel" postId={ post._id } id={ 'post:' + post._id }>
+		var postClassName = 'post panel';
+		if(router.post_id == post._id) postClassName += ' active';
+
+		return <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
 					{collapsibleDiv}
 				</div>;
 	}
