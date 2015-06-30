@@ -129,50 +129,6 @@ exports.create = function(req, res, next) {
 
 			break;
 
-		case 'post:create':
-			var author_name = req.body['author_name'];
-			var author_img = req.body['author_img'];
-			var bevy_name = req.body['bevy_name'];
-			var bevy_members = req.body['bevy_members'];
-			var post_title = req.body['post_title'];
-
-			var members = [];
-			members = _.filter(bevy_members, function(member) {
-				return member.notificationLevel == 'all';
-			});
-
-			var notifications = [];
-			members.forEach(function(member) {
-				if(_.isEmpty(member.user)) return;
-				notifications.push({
-					user: member.user,
-					event: 'post:create',
-					data: {
-						author_name: author_name,
-						author_img: author_img,
-						bevy_name: bevy_name,
-						post_title: post_title
-					}
-				});
-			});
-
-			Notification.create(notifications, function(err, $notifications) {
-				if(err) return next(err);
-				if(_.isEmpty($notifications)) return next();
-				// emit event
-				if(_.isArray($notifications)) {
-					$notifications.forEach(function(notification) {
-						if(!_.isEmpty(notification.user))
-							emitter.emit(notification.user, notification);
-					});
-				} else {
-					if(!_.isEmpty($notifications.user))
-						emitter.emit($notifications.user, $notifications);
-				}
-			});
-
-			break;
-
 		case 'bevy:requestjoin':
 
 			var bevy_id = req.body['bevy_id'];
@@ -215,101 +171,6 @@ exports.create = function(req, res, next) {
 					}
 				});
 			}).lean();
-
-			break;
-
-		case 'comment:create':
-			var author_id = req.body['author_id'];
-			var author_name = req.body['author_name'];
-			var author_image = req.body['author_image'];
-			var post_id = req.body['post_id'];
-			var post_title = req.body['post_title'];
-			var post_author_id = req.body['post_author_id'];
-			var post_muted_by = req.body['post_muted_by'];
-			var bevy_name = req.body['bevy_name'];
-			var bevy_members = req.body['bevy_members'];
-
-			var notifications = [];
-
-			// dont do anything for users who've muted this post
-			bevy_members = _.reject(bevy_members, function(member) {
-				return _.contains(post_muted_by, member);
-			});
-
-			// send reply notification to post author
-			//	get member - match post author id
-			var post_author_member = _.findWhere(bevy_members, { user: post_author_id });
-
-			if(post_author_member) {
-				// check if notification level is 'my' or 'all'
-				if(post_author_member.notificationLevel == 'none') {
-				} else {
-					// send reply notification
-					notifications.push({
-						user: post_author_id,
-						event: 'post:reply',
-						data: {
-							author_name: author_name,
-							author_image: author_image,
-							post_title: post_title,
-							bevy_name: bevy_name
-						}
-					});
-				}
-			}
-
-			//	send comment notification to all commentators
-			async.waterfall([
-				function(done) {
-					// loop thru comments and collect authors
-					var commentators = [];
-					Comment.find({ postId: post_id }, function(err, comments) {
-						comments.forEach(function(comment) {
-							commentators.push(comment.author);
-						});
-						// remove dupes
-						commentators = _.uniq(commentators);
-						done(null, commentators);
-					}).lean();
-				},
-				function(commentators, done) {
-					commentators.forEach(function(commentator) {
-						var commentator_member = _.findWhere(bevy_members, { user: commentator.toString() });
-
-						if(commentator_member) {
-							// TODO: (see if they muted the post)
-							// check if notification level is 'none'
-							if(commentator_member.notificationLevel == 'none') {
-								return;
-							} else {
-								// send commented notification
-								notifications.push({
-									user: commentator,
-									event: 'post:commentedon',
-									data: {
-										author_name: author_name,
-										author_image: author_image,
-										post_title: post_title,
-										bevy_name: bevy_name
-									}
-								});
-							}
-						}
-					});
-				}
-			]);
-
-			Notification.create(notifications, function(err, $notifications) {
-				if(err) return next(err);
-				// emit event
-				if(_.isArray($notifications)) {
-					$notifications.forEach(function(notification) {
-						emitter.emit(notification.user, notification);
-					});
-				} else {
-					emitter.emit($notifications.user, $notifications);
-				}
-			});
 
 			break;
 	}
@@ -405,6 +266,80 @@ exports.make = function(type, payload) {
 				});
 				pushNotifications(notifications);
 			});
+			break;
+
+		case 'comment:create':
+			var comment = JSON.parse(JSON.stringify(payload.comment));
+			var post = comment.postId;
+			var author = comment.author;
+
+			Member.find({ bevy: post.bevy }, function(err, members) {
+				if(err) return;
+
+				var notifications = [];
+
+				// collect author member information
+				var author_member = _.find(members, function(member) {
+					return member.user == author._id;
+				});
+				var author_name = (author_member.bevy.settings.anonymise_users)
+				? author_member.displayName
+				: author.displayName;
+				var author_image = (author_member.bevy.settings.anonymise_users)
+				? author_member.image_url
+				: author.image_url;
+
+				// dont do anything for users who've muted this post
+				members = _.reject(members, function(member) {
+					return _.contains(post.muted_by, member.user);
+				});
+				// dont send it to author if he/she was the one commenting
+				members = _.reject(members, function(member) {
+					return member.user == author._id;
+				});
+
+				// send post reply
+				notifications.push({
+					user: post.author,
+					event: 'post:reply',
+					data: {
+						author_name: author_name,
+						author_image: author_image,
+						post_title: post.title,
+						bevy_name: author_member.bevy.name,
+						comment_id: comment._id,
+						comment_created: comment.created
+					}
+				});
+
+				Comment.find({ postId: post._id }, function(err, comments) {
+					if(err) return;
+
+					var commentators = _.pluck(comments, 'author');
+					commentators.forEach(function(commentator) {
+						var commentator_member = _.find(members, function(member) {
+							return member.user == commentator;
+						});
+						if(commentator_member == undefined) return;
+						if(commentator_member.notificationLevel == 'none') return;
+						notifications.push({
+							user: commentator,
+							event: 'post:commentedon',
+							data: {
+								author_name: author_name,
+								author_image: author_image,
+								post_title: post.title,
+								bevy_name: author_member.bevy.name,
+								comment_id: comment._id,
+								comment_created: comment.created
+							}
+						});
+					});
+
+					pushNotifications(notifications);
+				});
+			}).populate('bevy');
+
 			break;
 	}
 }

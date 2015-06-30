@@ -14,6 +14,8 @@ var async = require('async');
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
 
+var notifications = require('./notifications');
+
 function collectCommentParams(req) {
 	var update = {};
 	// dynamically load schema values from request object
@@ -51,6 +53,9 @@ exports.create = function(req, res, next) {
 
 	Comment.create(update, function(err, comment) {
 		if(err) return next(err);
+		Comment.populate(comment, { path: 'postId author' }, function(err, pop_comment) {
+			notifications.make('comment:create', { comment: pop_comment });
+		});
 		return res.json(comment);
 	});
 }
@@ -95,7 +100,7 @@ exports.destroy = function(req, res, next) {
 	var promise = Comment.findOneAndRemove(query).exec();
 	promise.then(function(comment) {
 		if(!comment) return next(error.gen('comment not found'));
-		done(null, comment);
+		return res.json(comment);
 	}, function(err) {
 		return next(err);
 	});
