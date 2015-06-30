@@ -116,8 +116,11 @@ var NotificationItem = React.createClass({
 
 					if(post_id) {
 						var post = document.getElementById('post:' + post_id);
-						if(post)
+						if(post) {
 							post.scrollIntoView();
+							if($(document).scrollTop() != ($(document).height() - $(window).height()))
+								$(document).scrollTop($(document).scrollTop() - 68);
+						}
 					}
 				}
 

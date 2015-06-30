@@ -12,6 +12,7 @@
 'use strict';
 
 var _ = require('underscore');
+var $ = require('jquery');
 
 // load globals
 var Backbone = require('backbone');
@@ -41,8 +42,11 @@ document.onreadystatechange = function() {
 		setTimeout(function() {
 			if(router.post_id) {
 				var post = document.getElementById('post:' + router.post_id);
-				if(post)
+				if(post) {
 					post.scrollIntoView();
+					if($(document).scrollTop() != ($(document).height() - $(window).height()))
+						$(document).scrollTop($(document).scrollTop() - 68);
+				}
 			}
 		}, 50);
 	}
