@@ -383,7 +383,9 @@ _.extend(PostStore, {
 					url: constants.apiurl + '/comments/' + comment_id,
 					method: 'DELETE',
 					success: function(data) {
-					}
+						this.trigger(POST.CHANGE_ALL);
+						this.trigger(POST.CHANGE_ONE + post_id);
+					}.bind(this)
 				});
 
 				var post = this.posts.get(post_id);
@@ -404,7 +406,7 @@ _.extend(PostStore, {
 				post.set('commentCount', --commentCount);
 				//this.postsNestComment(post);
 
-				//this.trigger(POST.CHANGE_ALL);
+				this.trigger(POST.CHANGE_ALL);
 				this.trigger(POST.CHANGE_ONE + post_id);
 
 				break;

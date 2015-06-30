@@ -273,10 +273,10 @@ exports.make = function(type, payload) {
 			var post = comment.postId;
 			var author = comment.author;
 
+			var notifications = [];
+
 			Member.find({ bevy: post.bevy }, function(err, members) {
 				if(err) return;
-
-				var notifications = [];
 
 				// collect author member information
 				var author_member = _.find(members, function(member) {
@@ -298,19 +298,22 @@ exports.make = function(type, payload) {
 					return member.user == author._id;
 				});
 
-				// send post reply
-				notifications.push({
-					user: post.author,
-					event: 'post:reply',
-					data: {
-						author_name: author_name,
-						author_image: author_image,
-						post_title: post.title,
-						bevy_name: author_member.bevy.name,
-						comment_id: comment._id,
-						comment_created: comment.created
-					}
-				});
+				if(post.author != author._id) { // dont send to self
+					// send post reply
+					notifications.push({
+						user: post.author,
+						event: 'post:reply',
+						data: {
+							author_name: author_name,
+							author_image: author_image,
+							post_title: post.title,
+							bevy_name: author_member.bevy.name,
+							bevy_id: author_member.bevy._id,
+							comment_id: comment._id,
+							comment_created: comment.created
+						}
+					});
+				}
 
 				Comment.find({ postId: post._id }, function(err, comments) {
 					if(err) return;
@@ -318,7 +321,8 @@ exports.make = function(type, payload) {
 					var commentators = _.pluck(comments, 'author');
 					commentators.forEach(function(commentator) {
 						var commentator_member = _.find(members, function(member) {
-							return member.user == commentator;
+							if(!member.user) return false;
+							else return member.user.toString() == commentator.toString();
 						});
 						if(commentator_member == undefined) return;
 						if(commentator_member.notificationLevel == 'none') return;
@@ -330,6 +334,7 @@ exports.make = function(type, payload) {
 								author_image: author_image,
 								post_title: post.title,
 								bevy_name: author_member.bevy.name,
+								bevy_id: author_member.bevy._id,
 								comment_id: comment._id,
 								comment_created: comment.created
 							}
