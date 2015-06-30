@@ -18,6 +18,7 @@ var router = require('./../router');
 var constants = require('./../constants');
 
 var BevyStore = require('./../bevy/BevyStore');
+var PostStore = require('./PostStore');
 
 // backbone model
 var Post = Backbone.Model.extend({
@@ -38,6 +39,9 @@ var Post = Backbone.Model.extend({
 		this.on('sync', function(model, response, options) {
 			var bevy = BevyStore.getBevy(this.get('bevy'));
 			this.set('bevy', bevy);
+
+			PostStore.postsNestComment(this);
+
 		}.bind(this));
 	},
 

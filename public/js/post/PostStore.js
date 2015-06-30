@@ -223,7 +223,6 @@ _.extend(PostStore, {
 
 				this.vote(post_id, voter, 1);
 
-				this.trigger(POST.CHANGE_ONE + post_id);
 				break;
 
 			case POST.DOWNVOTE:
@@ -232,7 +231,6 @@ _.extend(PostStore, {
 
 				this.vote(post_id, voter, -1);
 
-				this.trigger(POST.CHANGE_ONE + post_id);
 				break;
 
 			case POST.SORT:
@@ -494,15 +492,19 @@ _.extend(PostStore, {
 				vote.score += value;
 			}
 		}
-		post.set('votes', votes);
+		//post.set('votes', votes);
 		// save to server
 		post.save({
 			votes: votes
 		}, {
-			patch: true
+			patch: true,
+			success: function(post, response, options) {
+				// sort posts
+				this.posts.sort();
+
+				this.trigger(POST.CHANGE_ONE + post_id);
+			}.bind(this)
 		});
-		// sort posts
-		this.posts.sort();
 	},
 
 	sortByTop: function(post) {
@@ -583,6 +585,11 @@ PostStore.posts.comparator = PostStore.sortByTop;
 var posts = window.bootstrap.posts;
 PostStore.posts.reset(posts);
 PostStore.posts.forEach(function(post) {
+	PostStore.postsNestComment(post);
+});
+
+PostStore.posts.on('sync', function(post) {
+	if(typeof post.length === 'number') return; // get out if its a collection
 	PostStore.postsNestComment(post);
 });
 
