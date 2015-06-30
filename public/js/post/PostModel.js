@@ -18,7 +18,10 @@ var router = require('./../router');
 var constants = require('./../constants');
 
 var BevyStore = require('./../bevy/BevyStore');
-var PostStore = require('./PostStore');
+
+
+var constants = require('./../constants');
+var POST = constants.POST;
 
 // backbone model
 var Post = Backbone.Model.extend({
@@ -40,7 +43,11 @@ var Post = Backbone.Model.extend({
 			var bevy = BevyStore.getBevy(this.get('bevy'));
 			this.set('bevy', bevy);
 
+			var PostStore = require('./PostStore');
+
 			PostStore.postsNestComment(this);
+
+			PostStore.trigger(POST.CHANGE_ONE + this.id);
 
 		}.bind(this));
 	},

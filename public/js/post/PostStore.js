@@ -501,8 +501,6 @@ _.extend(PostStore, {
 			success: function(post, response, options) {
 				// sort posts
 				this.posts.sort();
-
-				this.trigger(POST.CHANGE_ONE + post_id);
 			}.bind(this)
 		});
 	},
@@ -587,13 +585,6 @@ PostStore.posts.reset(posts);
 PostStore.posts.forEach(function(post) {
 	PostStore.postsNestComment(post);
 });
-
-PostStore.posts.on('sync', function(post) {
-	if(typeof post.length === 'number') return; // get out if its a collection
-	PostStore.postsNestComment(post);
-});
-
-//PostStore.trigger(POST.CHANGE_ALL);
 
 var dispatchToken = Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
 PostStore.dispatchToken = dispatchToken;
