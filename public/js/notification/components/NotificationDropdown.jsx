@@ -68,8 +68,9 @@ var ProfileDropdown = React.createClass({
 				<div className='notification-backdrop' onClick={ this.handleToggle } />
 				<Popover className="notification-dropdown" placement='bottom'>
 					<div className="title">
-						Notifications
-						<IconButton iconClassName="glyphicon glyphicon-minus" tooltip='clear all' onClick={this.dismissAll}/>
+						<span className='title-text'>Notifications</span>
+						{/*<IconButton iconClassName="glyphicon glyphicon-minus" tooltip='clear all' onClick={this.dismissAll}/>*/}
+						<Button className='title-clear-all' onClick={ this.dismissAll }>Clear All Notifications</Button>
 					</div>
 					<NotificationList
 						allNotifications={ notifications }

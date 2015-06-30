@@ -1,3 +1,5 @@
+@import './../variables.less';
+
 .notification-backdrop {
 	z-index: 6;
 	position: fixed;
@@ -10,7 +12,7 @@
 	margin-left: 55px;
 	text-align: center;
 	height: auto;
-	background-color: #EEE;
+	//background-color: #EEE;
 	.popover.bottom {
 		//overflow-y: scroll;
 
@@ -22,10 +24,27 @@
 	.title {
 		font-size: 1.2em;
 		color: #777777;
-		margin-bottom: 10px;
-		.mui-icon-button {
+		display: flex;
+		align-items: center;
+		span.title-text {
+			flex-grow: 1;
+			text-align: left;
+			color: @dark-font;
+			padding-left: 10px;
+		}
+		/*.mui-icon-button {
 			float: right;
 			margin-top: -12px;
+		}*/
+		.title-clear-all {
+			background-color: @clear;
+			border: none;
+			color: @light-font;
+			&:active, &:hover, &:focus {
+				background-color: @clear;
+				border: none;
+				box-shadow: none;
+			}
 		}
 	}
 }

@@ -22,6 +22,8 @@ var IconButton = mui.IconButton;
 var NotificationActions = require('./../NotificationActions');
 var BevyActions = require('./../../bevy/BevyActions');
 
+var timeAgo = require('./../../shared/helpers/timeAgo');
+
 var user = window.bootstrap.user;
 
 var NotificationItem = React.createClass({
@@ -109,6 +111,7 @@ var NotificationItem = React.createClass({
 				var bevy_name = data.bevy_name;
 				var post_title = data.post_title;
 				var post_id = data.post_id;
+				var post_created = data.post_created;
 
 				var goToPost = function(ev) {
 					ev.preventDefault();
@@ -130,7 +133,7 @@ var NotificationItem = React.createClass({
 							<img src={ author_img }/>
 						</div>
 						<div className=" notification-text-col">
-							<span>Post to <b>{ bevy_name }</b> by <b>{ author_name }</b></span>
+							<span><b>{ author_name }</b> posted to <b>{ bevy_name }</b> - { timeAgo(Date.parse(post_created)) }</span>
 							<br />
 							<span><i>{ post_title }</i></span>
 						</div>

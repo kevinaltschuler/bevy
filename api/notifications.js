@@ -398,7 +398,8 @@ exports.make = function(type, payload) {
 							bevy_id: bevy._id,
 							bevy_name: bevy.name,
 							post_title: post.title,
-							post_id: post._id
+							post_id: post._id,
+							post_created: post.created
 						}
 					});
 				});
