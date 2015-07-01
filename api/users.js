@@ -190,7 +190,7 @@ exports.getContacts = function(req, res, next) {
 exports.getGoogle = function(req, res, next) {
 	var id = req.params.id;
 
-	User.findOne({ google.id: id }, function(err, user) {
+	User.findOne({ 'google.id': id }, function(err, user) {
 		if(err) return next(err);
 		return res.json(user);
 	});
