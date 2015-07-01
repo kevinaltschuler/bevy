@@ -7,6 +7,9 @@ var api = require('./../../api');
 
 module.exports = function(router) {
 
+	// GET FROM GOOGLE ID (mobile)
+	router.get('/users/google/:id', api.users.getGoogle);
+
 	// INDEX
 	router.get('/users', api.users.index);
 
@@ -35,7 +38,6 @@ module.exports = function(router) {
 	// CONTACTS
 	router.get('/users/:id/contacts', api.users.getContacts);
 
-	// GET FROM GOOGLE ID (mobile)
-	router.get('/users/google/:id', api.users.getGoogle);
+
 
 };
