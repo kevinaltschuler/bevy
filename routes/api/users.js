@@ -35,4 +35,7 @@ module.exports = function(router) {
 	// CONTACTS
 	router.get('/users/:id/contacts', api.users.getContacts);
 
+	// GET FROM GOOGLE ID (mobile)
+	router.get('/users/google/:id', api.users.getGoogle);
+
 };
