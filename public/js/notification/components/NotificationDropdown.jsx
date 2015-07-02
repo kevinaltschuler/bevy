@@ -70,7 +70,7 @@ var ProfileDropdown = React.createClass({
 					<div className="title">
 						<span className='title-text'>Notifications</span>
 						{/*<IconButton iconClassName="glyphicon glyphicon-minus" tooltip='clear all' onClick={this.dismissAll}/>*/}
-						<Button className='title-clear-all' onClick={ this.dismissAll }>Clear All Notifications</Button>
+						<Button className='title-clear-all' onClick={ this.dismissAll }>Clear All</Button>
 					</div>
 					<NotificationList
 						allNotifications={ notifications }

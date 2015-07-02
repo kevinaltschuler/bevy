@@ -222,12 +222,6 @@ var NotificationItem = React.createClass({
 
 		return <Panel className="notification-item">
 						{ body }
-
-						<div className='dismiss-btn'>
-							<IconButton onClick={ this.dismiss } tooltip='dismiss' >
-								<span className="glyphicon glyphicon-remove" />
-							</IconButton>
-						</div>
 				 </Panel>
 	}
 });

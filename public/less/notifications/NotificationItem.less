@@ -1,8 +1,13 @@
 .notification-item {
+	 box-shadow: 0 0px 0px rgba(0,0,0,0),0 0px 0px rgba(0,0,0,0);
+  	border-radius: 0px;
+  	margin-bottom: 0px;
+  	background-color: rgba(0,0,0,.1);
+  	.btn:active {
+  		box-shadow: none;
+  	}
 	.panel-body {
-		padding-top: 0px;
-		padding-bottom: 0px;
-		padding-left: 0px;
+		padding: 0px;
 		display: flex;
 		flex-direction: row;
 		justify-content: flex-start;
@@ -12,22 +17,22 @@
 	}
 	.notification-body {
 		border-color: rgba(0,0,0,0);
-		border-top-right-radius: 0;
-		border-bottom-right-radius: 0;
+		border-radius: 0px;
 		display: flex;
-		padding-left: 8px;
+		padding-left: 15px;
 		flex-direction: row;
 		justify-content: flex-start;
 		flex-grow: 2;
+		margin-left: -15px;
 		&:hover {
 			border-color: rgba(0,0,0,0);
 		}
 		.sidebar-picture {
 			img {
 				display: inline-block;
-				border-radius: 50px;
-				width: 50px;
-				height: 50px;
+				border-radius: 40px;
+				width: 40px;
+				height: 40px;
 			}
 		}
 		.notification-text-col {
@@ -45,18 +50,27 @@
 		}
 	}
 	.accept-btn {
-		align-self: center;
+		align-self: stretch;
 		border-color: rgba(0,0,0,0);
 		border-radius: 0;
+		margin-right: -17px;
+		padding-right: 20px;
+  		padding-left: 20px;
 		&:hover {
 			border-color: rgba(0,0,0,0);
 		}
 	}
 	.dismiss-btn {
+		align-self: stretch;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin-right: -3px;
 		.glyphicon {
 			color: @light-font;
 		}
-		float: right;
-		align-self: center;
+		&:hover {
+			background-color: #e6e6e6;
+		}
 	}
 }
