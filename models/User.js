@@ -20,6 +20,7 @@ var UserSchema = new Schema({
 		unique: true
 	},
 	image_url: String,
+	points: String,
 	google: {
 		provider: String,
 		id: String,

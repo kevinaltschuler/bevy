@@ -97,7 +97,11 @@ var ConversationList = React.createClass({
 			);
 		}
 
-		if(threads.length == 0) threads = 'No conversations active';
+		if(threads.length == 0) threads = (
+			<div className='chat-list-msg'>
+				No conversations active
+			</div>
+			);
 
 		return (
 			<div className='conversation-list panel'>

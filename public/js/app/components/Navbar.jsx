@@ -91,7 +91,7 @@ var Navbar = React.createClass({
 		?	(<div>
 				<div className='col-xs-4'>
 					<div className="navbar-header pull-left">
-						<span className="navbar-brand navbar-brand-text"> Log In </span>
+						<a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>
 					</div>
 				</div>
 

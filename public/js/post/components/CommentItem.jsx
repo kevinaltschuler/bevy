@@ -152,11 +152,14 @@ var CommentItem = React.createClass({
 		var collapseBody = (this.state.collapsed)
 		? (<div className="comment">
 				<div className='comment-col' >
-					<span className="comment-name collapsed">{ authorName }</span>
+					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
+					<span className="comment-name collapsed">
+						<span className="glyphicon glyphicon-plus btn collapse-btn" onClick={this.onCollapse}></span>
+						{ authorName }
+					</span>
 					<span>&nbsp;</span>
 					<span className="detail-time collapsed">{ timeAgo(Date.parse(comment.created)) }</span>
 					<div className="comment-actions">
-						<span className="glyphicon glyphicon-plus btn" onClick={this.onCollapse}></span>
 						<span className="glyphicon btn" onClick={this.onCollapse}></span>
 					</div>
 				</div>
@@ -167,6 +170,7 @@ var CommentItem = React.createClass({
 					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 					<div className="comment-text">
 						<div className="comment-title">
+							<span className="glyphicon glyphicon-minus btn collapse-btn" onClick={this.onCollapse}></span>
 							<a className="comment-name">{ authorName }</a>
 							<span>&nbsp;</span>
 							<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
@@ -175,7 +179,6 @@ var CommentItem = React.createClass({
 						<a className="reply-link" href="#" onClick={ this.onReply }>{ replyText }</a>
 					</div>
 					<div className="comment-actions">
-						<span className="glyphicon glyphicon-minus btn" onClick={this.onCollapse}></span>
 						{ deleteButton }
 					</div>
 				</div>
