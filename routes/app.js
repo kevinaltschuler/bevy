@@ -70,6 +70,9 @@ module.exports = function(app) {
 						if(err) return next(err);
 						var _bevies = [];
 						async.each(members, function(member, callback) {
+							if(_.isEmpty(member.bevy)) {
+								return;
+							}
 							var bevy_id = member.bevy._id;
 							var bevy = JSON.parse(JSON.stringify(member.bevy));
 							Member.find({ bevy: bevy_id }, function(err, $members) {
