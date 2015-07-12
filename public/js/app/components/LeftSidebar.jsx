@@ -7,7 +7,7 @@ var rbs = require('react-bootstrap');
 var OverlayTrigger = rbs.OverlayTrigger;
 var Tooltip = rbs.Tooltip;
 
-var BevyList = require('./../../bevy/components/BevyList.jsx');
+var SubBevyPanel = require('./../../bevy/components/SubBevyPanel.jsx');
 var ContactList = require('./../../contact/components/ContactList.jsx');
 var ConversationList = require('./../../chat/components/ConversationList.jsx');
 
@@ -62,7 +62,7 @@ var LeftSidebar = React.createClass({
 			<div className='left-sidebar'>
 				<div className='fixed'>
 					<div className='hide-scroll'>
-						<BevyList
+						<SubBevyPanel
 							allBevies={ this.props.allBevies }
 							activeBevy={ this.props.activeBevy }
 						/>

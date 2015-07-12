@@ -85,7 +85,7 @@ var ProfileDropdown = React.createClass({
 		return (
 			<div>
 				<Button className="notification-dropdown-btn" onClick={ this.handleToggle }>
-					<img src="/img/notification-icon.png"/>
+					<div className='notification-img'/>
 				</Button>
 				{ this.renderOverlay() }
 			</div>

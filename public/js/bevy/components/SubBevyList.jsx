@@ -29,7 +29,7 @@ var CreateNewBevy = require('./CreateNewBevy.jsx');
 
 var BevyActions = require('./../BevyActions');
 
-var BevyList = React.createClass({
+var SubBevyList = React.createClass({
 
 	propTypes: {
 		allBevies: React.PropTypes.array.isRequired,
@@ -75,7 +75,7 @@ var BevyList = React.createClass({
 				<div className='panel-header'>
 					<p>Bevies</p>
 					<ModalTrigger modal={
-						<CreateNewBevy	/>
+						<CreateNewBevy parent={this.props.activeBevy}/>
 					}>
 						<OverlayTrigger placement='bottom' overlay={ <Tooltip>Create a New Bevy</Tooltip> }>
 							<Button className='new-bevy-btn'>
@@ -93,4 +93,4 @@ var BevyList = React.createClass({
 
 });
 
-module.exports = BevyList;
+module.exports = SubBevyList;

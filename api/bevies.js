@@ -55,6 +55,17 @@ exports.index = function(req, res, next) {
 	}).populate('bevy');
 }
 
+//INDEX
+//GET /bevies
+exports.indexPublic = function(req, res, next) {
+	Bevy.find({parent: null}, function(err, bevies) {
+		if(err) 
+			return next(err);
+		else
+			return res.json(bevies);
+	});
+}
+
 // CREATE
 // POST /bevies
 exports.create = function(req, res, next) {

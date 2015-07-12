@@ -30,7 +30,7 @@ var user = window.bootstrap.user;
 var CreateNewBevy = React.createClass({
 
 	propTypes: {
-
+		parent: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -38,6 +38,7 @@ var CreateNewBevy = React.createClass({
 			name: '',
 			description: '',
 			image_url: '',
+			parent_id: undefined
 		};
 	},
 
@@ -55,6 +56,7 @@ var CreateNewBevy = React.createClass({
 		var name = this.refs.name.getValue();
 		var description = this.refs.description.getValue();
 		var image_url = this.state.image_url;
+		var parent_id = this.state.parent_id;
 
 		if(_.isEmpty(name)) {
 			this.refs.name.setErrorText('Please enter a name for your bevy');
@@ -87,7 +89,11 @@ var CreateNewBevy = React.createClass({
 			backgroundSize: '50px 50px',
 		}
 
-		return <Modal className="create-bevy" {...this.props} title="Create a New Bevy">
+		var title = (this.props.parent )
+		? 'Create a new Sub Bevy of' + this.props.parent.name
+		: 'Create a New Bevy'
+
+		return <Modal className="create-bevy" {...this.props} title={title}>
 
 					<div className="row">
 						<div className="col-xs-3 new-bevy-picture">
@@ -115,14 +121,16 @@ var CreateNewBevy = React.createClass({
 					<div className='row'>
 						<div className='col-xs-12'>
 							<div className="panel-bottom">
-								<RaisedButton
-									onClick={ this.create }
-									label="Create"
-								/>
-								<FlatButton
-									onClick={ this.props.onRequestHide }
-									label="Cancel"
-								/>
+								<div className='right'>
+									<RaisedButton
+										onClick={ this.create }
+										label="Create"
+									/>
+									<FlatButton
+										onClick={ this.props.onRequestHide }
+										label="Cancel"
+									/>
+								</div>
 							</div>
 						</div>
 					</div>

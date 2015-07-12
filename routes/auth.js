@@ -60,7 +60,7 @@ module.exports = function(app) {
 		//if(!req.user) res.redirect('/login');
 
 		req.logout();
-		res.redirect('/login');
+		res.redirect('/');
 	});
 
 	app.post('/forgot', function(req, res, next) {

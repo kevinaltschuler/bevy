@@ -55,6 +55,7 @@ var NewPostPanel = React.createClass({
 	propTypes: {
 		activeBevy: React.PropTypes.object.isRequired,
 		allBevies: React.PropTypes.array.isRequired,
+		disabled: React.PropTypes.bool
 	},
 
 	// start with an empty title
@@ -64,7 +65,8 @@ var NewPostPanel = React.createClass({
 			title: '',
 			images: [],
 			bevies: [],
-			selectedIndex: 0
+			selectedIndex: 0,
+			diabled: this.props.disabled
 		};
 	},
 
@@ -183,6 +185,7 @@ var NewPostPanel = React.createClass({
 						multiLine={ true }
 						value={ this.state.title }
 						onChange={ this.handleChange }
+						disabled={ this.state.disabled }
 					/>
 				</div>
 
@@ -198,10 +201,15 @@ var NewPostPanel = React.createClass({
 							title="Attach Media"
 							iconClassName="glyphicon glyphicon-paperclip"
 							onClick={ this.preventDefault }
+							disabled={ this.state.disabled }
 						/>
 					</div>
 					{ beviesDropdown }
-					<RaisedButton label="post" onClick={this.submit} />
+					<RaisedButton 
+						label="post" 
+						onClick={this.submit} 
+						disabled={ this.state.disabled }
+					/>
 				</div>
 			</Panel>
 		);

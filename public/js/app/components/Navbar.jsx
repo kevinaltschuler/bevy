@@ -28,6 +28,8 @@ var ModalTrigger = rbs.ModalTrigger;
 var Button = rbs.Button;
 var DropdownButton = rbs.DropdownButton;
 var Badge = rbs.Badge;
+var MenuItem = rbs.MenuItem;
+var SplitButton = rbs.SplitButton;
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
@@ -42,6 +44,7 @@ var user = window.bootstrap.user;
 var Navbar = React.createClass({
 
 	propTypes: {
+		allBevies: React.PropTypes.array.isRequired,
 		activeBevy: React.PropTypes.object,
 		allNotifications: React.PropTypes.array
 	},
@@ -59,6 +62,15 @@ var Navbar = React.createClass({
 		var query = this.refs.search.getValue();
 
 		router.navigate('s/' + query, { trigger: true });
+	},
+
+	switchBevy: function( ev, href, target) {
+		console.log('ev: ', ev,'href: ', href,'target: ', target);
+		// get the bevy ids
+		var id = ev || null;
+		if(id == -1) id = 'Bevies';
+		// call action
+		router.navigate('/b/' + id, { trigger: true });
 	},
 
 	render: function() {
@@ -79,6 +91,27 @@ var Navbar = React.createClass({
 			bevyName = this.props.activeBevy.name;
 		}
 
+		var allBevies = this.props.allBevies;
+		var bevies = [];
+
+		for(var key in allBevies) {
+			var bevy = allBevies[key];
+
+			if(bevy != this.props.activeBevy && key != -1) {
+				bevies.push(
+					<MenuItem
+						eventKey={ bevy._id }
+						id={ bevy._id }
+						target={ bevy._id }
+						onSelect={ this.switchBevy } 
+					>
+						{ bevy.name }
+					</MenuItem>
+				);
+			}
+		}
+		
+
 		var backgroundStyle = (_.isEmpty(this.props.activeBevy))
 		? {}
 		: {
@@ -87,62 +120,53 @@ var Navbar = React.createClass({
 
 		var searchQuery = router.search_query || '';
 
-		var navContent = (_.isEmpty(window.bootstrap.user))
-		?	(<div>
-				<div className='col-xs-4'>
-					<div className="navbar-header pull-left">
-						<a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>
-					</div>
-				</div>
-
-				<div className='col-xs-4'>
-					<div className="nav navbar-brand-text nav-center">
-						{ bevyName }
-					</div>
-				</div>
-			</div>)
-		:	(<div>
-				<div className='background-wrapper'>
-					<div className="background-image" style= { backgroundStyle } />
-				</div>
-				<div className='col-xs-4'>
-					<div className="navbar-header pull-left">
-						<ProfileDropdown />
-						<NotificationDropdown
-							allNotifications={ this.props.allNotifications }
-						/>
-						{ counter }
-						<span className="navbar-brand navbar-brand-text">{ name }</span>
-					</div>
-				</div>
-
-				<div className='col-xs-4'>
-					<div className="nav navbar-brand-text nav-center">
-						{ bevyName }
-					</div>
-				</div>
+		var userContent = (_.isEmpty(window.bootstrap.user))
+		?	(<a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>)
+		:	(<div className='profile-buttons'>
+				<NotificationDropdown
+					allNotifications={ this.props.allNotifications }
+				/>
+				{ counter }
+				<ProfileDropdown />
 			</div>);
 
+		var bevyDropdown = (_.isEmpty(window.bootstrap.user))
+		? (<Button className='bevies-dropdown'>Bevies</Button>)
+		: (<SplitButton className='bevies-dropdown' title='Bevies' href='/publicbevies'>
+				{bevies}
+			</SplitButton>)
+
 		return <div className="navbar navbar-fixed-top row" style = { navbarStyle }>
+					<div className="navbar-header pull-left">
+						<Button className="bevy-logo-btn" href='/'>
+							<div className='bevy-logo-img'/>
+						</Button>
+						{bevyDropdown}
+					</div>
 
-					{ navContent }
+					<div className="nav navbar-brand-text nav-center">
+						{bevyName}
+					</div>
 
-					<div className='col-xs-4'>
-						<div className="navbar-header pull-right">
-							<form className="navbar-form navbar-right" role="search">
-								<TextField
-									type='text'
-									className='search-input'
-									ref='search'
-									onKeyUp={ this.onKeyUp }
-									defaultValue={ searchQuery }
-								/>
-								<IconButton
-									iconClassName='glyphicon glyphicon-search'
-									onClick={ this.onSearch }
-								/>
-							</form>
-						</div>
+					<div className="navbar-header pull-right">
+						<form className="navbar-form navbar-right" role="search">
+							<TextField
+								type='text'
+								className='search-input'
+								ref='search'
+								onKeyUp={ this.onKeyUp }
+								defaultValue={ searchQuery }
+							/>
+							<IconButton
+								iconClassName='glyphicon glyphicon-search'
+								onClick={ this.onSearch }
+							/>
+						</form>
+						{ userContent }
+					</div>
+
+					<div className='background-wrapper'>
+						<div className="background-image" style= { backgroundStyle } />
 					</div>
 
 				</div>;

@@ -44,97 +44,92 @@ var user = window.bootstrap.user;
 var PublicBevyPanel = React.createClass({
 
 	propTypes: {
-		activeBevy: React.PropTypes.object,
+		bevy: React.PropTypes.object,
+		allBevies: React.PropTypes.array.isRequired
 	},
 
 	getInitialState: function() {
 
-		var bevy = this.props.activeBevy;
+		var bevy = this.props.bevy;
+
+		var joined = _.find(this.props.allBevies, function(_bevy) { return (_bevy._id == bevy._id)});
 
 		return {
 			name: bevy.name || '',
 			description: bevy.description || '',
 			image_url: bevy.image_url || '',
+			joined: joined
 		};
 	},
 
 	onRequestJoin: function(ev) {
 		ev.preventDefault();
 
-		BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
+		BevyActions.addUser(this.props.bevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
+
+		var bevy = this.props.bevy;
+		var joined = _.find(this.props.allBevies, function(_bevy) { return (_bevy._id == bevy._id)});
+
+		this.setState({
+			joined: joined
+		});
+	},
+
+	onRequestLeave: function(ev) {
+		ev.preventDefault();
+
+		BevyActions.removeUser(this.props.bevy._id, window.bootstrap.user.email, window.bootstrap.user._id);
+
+		var bevy = this.props.bevy;
+		var joined = _.find(this.props.allBevies, function(_bevy) { return (_bevy._id == bevy._id)});
+
+		this.setState({
+			joined: joined
+		});
 	},
 
 	render: function() {
 
-		var bevy = this.props.activeBevy;
-		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
-		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png')
-		? {
-			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '100px auto',
-
-		}
-		: {
-			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '50px 50px',
-		}
+		var bevy = this.props.bevy;
+		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
+		var bevyImageStyle = {backgroundImage: 'url(' + bevyImage + ')'};
+		var members = (_.isEmpty(bevy)) ? [] : bevy.members;
 
 		var bevyAdmin = (_.isEmpty(_.findWhere(bevy.members, {role: 'admin'})))
 		? ''
 		: _.findWhere(bevy.members, {role: 'admin'}).displayName
 
-		var imgStyle = (this.state.image_url === '/img/logo_100.png')
-		? { minWidth: '50px', height: 'auto' }
-		: { minWidth: '100px', height: 'auto' };
-
 		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
 		var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
 		if(_.isEmpty(description)) description = 'no description';
 
-		var header = (
-			<div className="sidebar-top">
-				<div className="sidebar-picture">
-					<div className='profile-img' style={ bevyImageStyle }/>
-				</div>
-				<div className="sidebar-title">
-					<div>
-						<span className='sidebar-title-name'>
-							{ name }
-						</span>
-					</div>
-					<div>
-						<span className='sidebar-title-description' >
-							{ description }
-						</span>
-					</div>
-				</div>
-			</div>
-		);
+		var _joinButton = (this.state.joined)
+		? <RaisedButton label='leave' onClick={this.onRequestLeave} />
+		: <RaisedButton label='join' onClick={this.onRequestJoin} /> 
+
+		var joinButton = (_.isEmpty(window.bootstrap.user))
+		? <div/>
+		: {_joinButton}
 
 		return (
-			<div className= "panel public-bevy-panel">
-				<div className="right-sidebar btn-group">
-					{ header }
-					<div className='sidebar-links'>
-						<ButtonGroup role="group">
-							<span type='button' className="sidebar-link">
-								{ bevy.members.length + ' Members'}
-							</span>
-							<span type='button' className="sidebar-link">
-								Created by: {bevyAdmin}
-							</span>
-						</ButtonGroup>
+			<div className="panel public-bevy-panel">
+					<Button className="bevy-panel-top" href={'/b/' + this.props.bevy._id} style={bevyImageStyle}/>
+					<div className='panel-info'>
+						<div className='panel-info-left'>
+								<a className='title' onClick={this.SwitchBevy}>
+									{name}
+								</a>
+								<div>
+									{ members.length + ' Members'}
+								</div>
+								<div>
+									Created by: {bevyAdmin}
+								</div>
+						</div>
+						<div className='panel-info-right'>
+							{joinButton}
+						</div>
 					</div>
-
-					<div className='sidebar-action'>
-						<RaisedButton
-							className='request-button'
-							onClick={ this.onRequestJoin }
-							label = {'Request Invite'}
-						/>
-					</div>
-
-				 </div>
 			</div>
 		);
 	}

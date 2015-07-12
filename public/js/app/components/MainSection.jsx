@@ -16,10 +16,12 @@ var _ = require('underscore');
 var router = require('./../../router');
 
 var Navbar = require('./Navbar.jsx');
+var HomeView = require('./../../homepage/components/HomeView.jsx');
 var PostView = require('./PostView.jsx');
 var SearchView = require('./SearchView.jsx');
 var PublicView = require('./PublicView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
+var PublicBevyList = require('./PublicBevyList.jsx');
 var ChatDock = require('./../../chat/components/ChatDock.jsx');
 
 var PostStore = require('./../../post/PostStore');
@@ -88,13 +90,15 @@ var MainSection = React.createClass({
 		var active = BevyStore.getActive();
 		var activeMember = BevyStore.getActiveMember();
 		var members = BevyStore.getMembers();
+		var publicBevies = BevyStore.getPublicBevies();
 
 		return {
 			// later, load this from session/cookies
 			allBevies: all,
 			activeBevy: active,
 			activeMember: activeMember,
-			members: members
+			members: members,
+			publicBevies: publicBevies
 		}
 	},
 
@@ -129,7 +133,6 @@ var MainSection = React.createClass({
 		return state;
 	},
 
-
 	// event listener callbacks
 	_onPostChange: function() {
 		this.setState(_.extend(this.state, this.getPostState()));
@@ -151,17 +154,15 @@ var MainSection = React.createClass({
 		this.setState(this.collectState());
 	},
 
-	render: function(){
+	render: function() {
 		return (
 			<div>
 				<Navbar
 					activeBevy={ this.state.activeBevy }
 					allNotifications={ this.state.allNotifications }
+					allBevies={ this.state.allBevies }
 				/>
 				<InterfaceComponent {...this.state} />
-				<ChatDock
-					openThreads={ this.state.openThreads }
-				/>
 			</div>
 		);
 	}
@@ -178,19 +179,22 @@ var InterfaceComponent = React.createClass({
 		router.off('route', this.callback);
 	},
 	render : function() {
+
 		switch(router.current) {
+			case 'home': 
+				return <HomeView />
+				break;
 			case 'search':
 				return <SearchView {...this.props} />
 				break;
 			case 'bevy':
-				var bevy = this.props.activeBevy;
-				if(_.isEmpty(bevy))
-					return <PublicView {...this.props} />
-				else
-					return <PostView {...this.props} />
+				return <PostView {...this.props} />
+				break;
+			case 'publicbevies':
+				return <PublicBevyList {...this.props} />
 				break;
 			default:
-				return <FourOhFour />
+				return <FourOhFour {...this.props} />
 				break;
 		}
 	}

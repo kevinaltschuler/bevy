@@ -110,9 +110,6 @@ var InterfaceComponent = React.createClass({
 			case 'reset':
 				return <ResetPage />
 				break;
-			case '404':
-				return <FourOhFour />
-				break;
 			default:
 				return <MainSection />
 				break;

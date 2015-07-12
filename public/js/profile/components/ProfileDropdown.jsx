@@ -102,64 +102,64 @@ var ProfileDropdown = React.createClass({
 
 		return (
 			<div className='profile-dropdown'>
-			<div className='profile-backdrop' onClick={ this.handleToggle }></div>
-			<Popover placement='bottom'>
-				<div className="row profile-top">
-					<div className="col-xs-3 profile-picture overlay">
-						<Uploader
-							onUploadComplete={ this.onUploadComplete }
-							className="profile-image-dropzone"
-							style={ profileImageStyle }
-							dropzoneOptions={ dropzoneOptions }
-						/>
+				<div className='profile-backdrop' onClick={ this.handleToggle }></div>
+				<Popover placement='bottom' container={this} >
+					<div className="row profile-top">
+						<div className="col-xs-3 profile-picture overlay">
+							<Uploader
+								onUploadComplete={ this.onUploadComplete }
+								className="profile-image-dropzone"
+								style={ profileImageStyle }
+								dropzoneOptions={ dropzoneOptions }
+							/>
+						</div>
+						<div className="col-xs-6 profile-details">
+							<span className='profile-name'>{ name }</span>
+							{ email }
+							<span className='profile-points'>123 points</span>
+						</div>
+						<div className="col-xs-3">
+							<DropdownButton
+								noCaret
+								pullRight
+								className="profile-settings"
+								title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+								<MenuItem>
+									Delete Account
+								</MenuItem>
+							</DropdownButton>
+						</div>
 					</div>
-					<div className="col-xs-6 profile-details">
-						<span className='profile-name'>{ name }</span>
-						{ email }
-						<span className='profile-points'>123 points</span>
-					</div>
-					<div className="col-xs-3">
-						<DropdownButton
-							noCaret
-							pullRight
-							className="profile-settings"
-							title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-							<MenuItem>
-								Delete Account
-							</MenuItem>
-						</DropdownButton>
-					</div>
-				</div>
-				{/* <div className='row profile-links'>
-					<ButtonGroup className="col-xs-12" role="group">
-						<ModalTrigger modal = { <SavedPostsModal /> } >
-							<Button type='button' className="profile-link">
-								Saved Posts
-							</Button>
-						</ModalTrigger>
-						•
-						<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
-							<Button type='button' className="profile-link">
-								Contacts
-							</Button>
-						</ModalTrigger>
-					</ButtonGroup>
-				</div>*/}
+					{/* <div className='row profile-links'>
+						<ButtonGroup className="col-xs-12" role="group">
+							<ModalTrigger modal = { <SavedPostsModal /> } >
+								<Button type='button' className="profile-link">
+									Saved Posts
+								</Button>
+							</ModalTrigger>
+							•
+							<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
+								<Button type='button' className="profile-link">
+									Contacts
+								</Button>
+							</ModalTrigger>
+						</ButtonGroup>
+					</div>*/}
 
-				<hr />
+					<hr />
 
-				<div className="profile-buttons">
-					<div className="profile-btn-left">
+					<div className="profile-dropdown-buttons">
+						<div className="profile-btn-left">
 
+						</div>
+						<div className="profile-btn-right">
+							<FlatButton
+								label="Logout"
+								linkButton={ true }
+								href='/logout' />
+						</div>
 					</div>
-					<div className="profile-btn-right">
-						<FlatButton
-							label="Logout"
-							linkButton={ true }
-							href='/logout' />
-					</div>
-				</div>
-			</Popover>
+				</Popover>
 			</div>
 		);
 	},
@@ -185,7 +185,7 @@ var ProfileDropdown = React.createClass({
 		};
 
 		return (
-			<div>
+			<div className='profile-dropdown-wrapper' id='profile-dropdown-wrapper'>
 				<Button className="profile-btn" onClick={ this.handleToggle } style={ buttonStyle } />
 				{ this.renderOverlay() }
 			</div>

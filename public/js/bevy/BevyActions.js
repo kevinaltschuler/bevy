@@ -21,12 +21,13 @@ var PostActions = {
 		});
 	},
 
-	create: function(name, description, image_url, members) {
+	create: function(name, description, image_url, members, parent) {
 		dispatch(BEVY.CREATE, {
 			name: (name == undefined) ? '' : name,
 			description: (description == undefined) ? '' : description,
 			image_url: (image_url == undefined) ? '' : image_url,
-			members: (members == undefined) ? [] : members
+			members: (members == undefined) ? [] : members,
+			parent_id: (parent_id == undefined) ? null : parent_id
 		});
 	},
 
@@ -102,7 +103,6 @@ var PostActions = {
 			user: (user == undefined) ? {} : user
 		});
 	},
-
 	/**
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to

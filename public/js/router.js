@@ -12,6 +12,8 @@ var Router = Backbone.Router.extend({
 		'register' : 'register',
 		'forgot' : 'forgot',
 		'reset/:token' : 'reset',
+		'home' : 'home',
+		'publicbevies' : 'publicbevies',
 		'b' : 'home',
 		'b/' : 'home',
 		'b/:bevyid' : 'bevy',
@@ -26,10 +28,6 @@ var Router = Backbone.Router.extend({
 
 	home: function() {
 		this.current = 'home';
-
-		if(!checkUser()) return;
-
-		this.navigate('/b/frontpage', { trigger: true });
 	},
 
 	login: function() {
@@ -48,20 +46,14 @@ var Router = Backbone.Router.extend({
 		this.current = 'reset';
 	},
 
+	publicbevies: function() {
+		this.current = 'publicbevies';
+	},
+
 	bevy: function(bevy_id, post_id) {
-		this.current = 'bevy';
 		this.bevy_id = bevy_id;
-		this.post_id = post_id;
-
-		if(bevy_id == '') {
-			this.bevy_id = -1;
-			this.navigate('/b/frontpage', { trigger: true });
-			return;
-		}
-
-		if(bevy_id == 'frontpage') this.bevy_id = -1;
-
 		BevyActions.switchBevy(this.bevy_id);
+		this.current = 'bevy';
 	},
 
 	search: function(query) {

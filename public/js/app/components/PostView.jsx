@@ -1,6 +1,7 @@
 'use strict';
 
 var React = require('react');
+var _ = require('underscore');
 
 var router = require('./../../router');
 
@@ -23,48 +24,52 @@ var PostView = React.createClass({
 		allPosts: React.PropTypes.array
 	},
 
-	getInitialState: function() {
-		return {};
-	},
-
 	render: function() {
 
-		var body = (this.props.allBevies.length > 1)
-		? (
-			<div>
-				<NewPostPanel
-					activeBevy={ this.props.activeBevy }
-					allBevies={ this.props.allBevies }
-				/>
-				<PostSort />
-				<PostContainer
-					allPosts={ this.props.allPosts }
-					activeMember={ this.props.activeMember }
-					activeBevy={ this.props.activeBevy }
-				/>
-			</div>
-		)
-		: (
-			<Lonesome />
-		);
+		var activeBevy = this.props.activeBevy;
+		var joined = _.find(this.props.allBevies, function(_bevy) { return (_bevy._id == activeBevy._id)});
 
-		return (
+		if(this.props.activeBevy._id === undefined) {
+			return (
 			<div className='main-section'>
-				<LeftSidebar
-					allBevies={ this.props.allBevies }
-					activeBevy={ this.props.activeBevy }
-					allThreads={ this.props.allThreads }
-					allContacts={ this.props.allContacts }
-				/>
-				<div className='post-view-body'>
-					{ body }
+				<h1>404: Not Found</h1>
+			</div>);
+		}
+		else {
+			var body = (
+				<div>
+					<NewPostPanel
+						activeBevy={ this.props.activeBevy }
+						allBevies={ this.props.allBevies }
+						disabled={ joined }
+					/>
+					<PostSort />
+					<PostContainer
+						allPosts={ this.props.allPosts }
+						activeMember={ this.props.activeMember }
+						activeBevy={ this.props.activeBevy }
+					/>
 				</div>
-				<RightSidebar
-					activeBevy={ this.props.activeBevy }
-					activeMember={ this.props.activeMember }
-				/>
-			</div>
-		);
+			);
+
+			return (
+				<div className='main-section'>
+					<LeftSidebar
+						allBevies={ this.props.allBevies }
+						activeBevy={ this.props.activeBevy }
+						allThreads={ this.props.allThreads }
+						allContacts={ this.props.allContacts }
+					/>
+					<div className='post-view-body'>
+						{ body }
+					</div>
+					<RightSidebar
+						activeBevy={ this.props.activeBevy }
+						activeMember={ this.props.activeMember }
+					/>
+				</div>
+			);
+		}
 	}
 });
 

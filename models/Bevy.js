@@ -17,6 +17,10 @@ var BevySchema = new Schema({
 	image_url: {
 		type: String
 	},
+	parent_id: {
+		type: Schema.Types.ObjectId,
+		ref: 'Bevy'
+	},
 	settings: {
 		posts_expire_in: {
 			type: Number,

@@ -4,7 +4,7 @@
 	padding-bottom: 15px;
 	.panel-header {
 		display: flex;
-		justify-content: flex-start;
+		justify-content: space-between;
 		align-items: center;
 		p {
 			flex-grow: 1;
@@ -18,7 +18,27 @@
 				font-size: 1em;
 			}
 		}
+		.super-bevy-btn {
+			background-color: @clear;
+			color: @light-font;
+			font-size: 1.3em;
+			transition: all 0.15s linear;
+			border: none;
+			display: block;
+			margin-left: -15px;
+			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+				outline: none;
+				text-decoration: underline;
+				color: @dark-font;
+				box-shadow: none;
+				background-color: @clear;
+			}
+			&:hover {
+				background-color: @clear;
+			}
+		}
 	}
+
 	.bevy-list-btns {
 		padding-left: 10%;
 

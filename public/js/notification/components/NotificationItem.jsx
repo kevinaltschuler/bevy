@@ -78,10 +78,12 @@ var NotificationItem = React.createClass({
 				var inviter_name = data.inviter_name;
 				console.log(data);
 
+				var imgStyle = {
+				  backgroundImage: 'url(' + bevy_img + ')',
+				};
+
 				body = <Button className="notification-body">
-							<div className="sidebar-picture">
-								<img src={ bevy_img }/>
-							</div>
+							<div className="sidebar-picture" style={imgStyle}/>
 							<div className=" notification-text-col">
 								<div className="notification-text">
 									<div className="name">
@@ -112,6 +114,9 @@ var NotificationItem = React.createClass({
 				var post_title = data.post_title;
 				var post_id = data.post_id;
 				var post_created = data.post_created;
+				var imgStyle = {
+				  backgroundImage: 'url(' + author_img + ')',
+				};
 
 				var goToPost = function(ev) {
 					ev.preventDefault();
@@ -129,9 +134,7 @@ var NotificationItem = React.createClass({
 
 				body = (
 					<Button href={ '/b/' + bevy_id + '/post/' + post_id } className="notification-body" onClick={ goToPost }>
-						<div className="sidebar-picture">
-							<img src={ author_img }/>
-						</div>
+						<div className="sidebar-picture" style={imgStyle}/>
 						<div className=" notification-text-col">
 							<span><b>{ author_name }</b> posted to <b>{ bevy_name }</b> - { timeAgo(Date.parse(post_created)) }</span>
 							<br />
@@ -149,12 +152,13 @@ var NotificationItem = React.createClass({
 				var user_image = data.user_image;
 				var bevy_id = data.bevy_id;
 				var bevy_name = data.bevy_name;
+				var imgStyle = {
+				  backgroundImage: 'url(' + user_image + ')',
+				};
 
 				body = (
 					<Button className='notification-body'>
-						<div className=' sidebar-picture'>
-							<img src={ user_image } />
-						</div>
+						<div className=' sidebar-picture' style={img_style}/>
 						<div className=' notification-text-col'>
 							<div className='row'>
 								<span>Request to join <b>{ bevy_name }</b></span>
@@ -179,12 +183,13 @@ var NotificationItem = React.createClass({
 				var author_image = data.author_image;
 				var post_title = data.post_title;
 				var bevy_name = data.bevy_name;
+				var imgStyle = {
+				  backgroundImage: 'url(' + author_image + ')',
+				};
 
 				body = (
 					<Button className='notification-body'>
-						<div className='sidebar-picture'>
-							<img src={ author_image } />
-						</div>
+						<div className='sidebar-picture' style={imgStyle}/>
 						<div className='notification-text-col'>
 							<b>{ author_name }</b> replied to your post <i>{ post_title }</i> in <b>{ bevy_name }</b>
 						</div>
@@ -199,12 +204,13 @@ var NotificationItem = React.createClass({
 				var author_image = data.author_image;
 				var post_title = data.post_title;
 				var bevy_name = data.bevy_name;
+				var imgStyle = {
+				  backgroundImage: 'url(' + author_image + ')',
+				};
 
 				body = (
 					<Button className='notification-body'>
-						<div className='sidebar-picture'>
-							<img src={ author_image } />
-						</div>
+						<div className='sidebar-picture' style={imgStyle}/>
 						<div className='notification-text-col'>
 							<b>{ author_name }</b> commented on a post you commented on
 						</div>

@@ -43,6 +43,8 @@ var BevyStore = _.extend({}, Backbone.Events);
 _.extend(BevyStore, {
 
 	bevies: new Bevies,
+	active: new Bevy,
+	publicBevies: new Bevies,
 
 	// handle calls from the dispatcher
 	// these are created from BevyActions.js
@@ -54,12 +56,17 @@ _.extend(BevyStore, {
 				var bevies = window.bootstrap.bevies || [];
 				this.bevies.reset(bevies);
 
-				this.bevies.unshift({
-					_id: '-1',
-					name: 'Frontpage'
+				$.ajax({
+					method: 'get',
+					url: constants.apiurl + '/bevies',
+					success: function(data) {
+						//console.log('success: ', data);
+						this.publicBevies.reset(data);
+						this.trigger(BEVY.CHANGE_ALL);
+					}.bind(this)
 				});
 
-				this.trigger(BEVY.CHANGE_ALL);
+				//this.trigger(BEVY.CHANGE_ALL);
 
 				break;
 
@@ -72,6 +79,8 @@ _.extend(BevyStore, {
 
 				var members = [];
 
+				var parent_id = payload.parent_id;
+
 				// add yerself
 				members.push({
 					email: user.email,
@@ -83,7 +92,8 @@ _.extend(BevyStore, {
 					name: name,
 					description: description,
 					members: members,
-					image_url: image_url
+					image_url: image_url,
+					parent: parent
 				});
 
 				newBevy.save(null, {
@@ -94,6 +104,8 @@ _.extend(BevyStore, {
 
 						// switch to bevy
 						router.navigate('/b/' + model.id, { trigger: true });
+
+						this.publicBevies.add(model);
 
 						// update posts
 						BevyActions.switchBevy();
@@ -210,7 +222,9 @@ _.extend(BevyStore, {
 					} else return false;
 				});
 
-				if(member == undefined || memberIndex == undefined) break;
+				if(member == undefined || memberIndex == undefined) {
+					break;
+				}
 
 				$.ajax({
 					method: 'DELETE',
@@ -255,6 +269,19 @@ _.extend(BevyStore, {
 				break;
 
 			case BEVY.SWITCH:
+
+				$.ajax({
+					url: constants.apiurl + '/bevies/' + router.bevy_id,
+					method: 'GET',
+					success: function(bevy) {
+						this.active = bevy;
+						router.navigate('/b/' + bevy._id, { trigger: true });
+					}.bind(this),
+					error: function(jqXHR) {
+						router.navigate('404', { trigger: true });
+					}.bind(this)
+				});
+
 				this.trigger(BEVY.CHANGE_ALL);
 				break;
 
@@ -386,11 +413,14 @@ _.extend(BevyStore, {
 		: this.bevies.toJSON();
 	},
 
+	getPublicBevies: function() {
+		return (this.publicBevies.models.length <= 0)
+		? []
+		: this.publicBevies.toJSON();
+	},
+
 	getActive: function() {
-		var bevy = this.bevies.get(router.bevy_id || -1);
-		return (bevy)
-		? bevy.toJSON()
-		: {};
+		return this.active;
 	},
 
 	getBevy: function(bevy_id) {
