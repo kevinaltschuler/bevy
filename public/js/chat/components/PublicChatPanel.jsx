@@ -21,36 +21,24 @@ var user = window.bootstrap.user;
 var PublicChatPanel = React.createClass({
 
 	propTypes: {
-		thread: React.PropTypes.object
+		activeBevy: React.PropTypes.object
 	},
 
 	getInitialState: function() {
 		return {
-			isOpen: true,
 			body: '',
-			messages: ChatStore.getMessages(this.props.thread._id)
 		};
 	},
 
 	componentDidMount: function() {
-		ChatStore.on(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
-		ChatStore.on(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
 	},
 
 	componentWillUnmount: function() {
-		ChatStore.off(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
-		ChatStore.off(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
 	},
 
 	_onMessageFetch: function() {
 		this.setState({
 			messages: ChatStore.getMessages(this.props.thread._id)
-		});
-	},
-
-	_onPanelToggle: function() {
-		this.setState({
-			isOpen: true
 		});
 	},
 
@@ -71,7 +59,7 @@ var PublicChatPanel = React.createClass({
 			var thread = this.props.thread;
 			var author = window.bootstrap.user;
 			var body = this.refs.body.getValue();
-			ChatActions.createMessage(thread._id, author, body);
+			//ChatActions.createMessage(thread._id, author, body);
 
 			// reset input field
 			this.setState({
@@ -80,25 +68,11 @@ var PublicChatPanel = React.createClass({
 		}
 	},
 
-	handleToggle: function(ev) {
-		ev.preventDefault();
-		this.setState({
-			isOpen: !this.state.isOpen
-		});
-	},
-
-	closePanel: function(ev) {
-		ev.preventDefault();
-		ChatActions.closePanel(this.props.thread._id);
-	},
-
 	render: function() {
 
+		var bevy = this.props.activeBevy;
 		var thread = this.props.thread;
-		var bevy = thread.bevy;
-
-		var expandGlyph = (this.state.isOpen) ? 'glyphicon-minus' : 'glyphicon-plus';
-		var expandTitle = (this.state.isOpen) ? 'Minimize' : 'Maximize';
+		var name = bevy.name;
 
 		var backgroundStyle = (bevy && !_.isEmpty(bevy.image_url))
 		? {
@@ -107,13 +81,11 @@ var PublicChatPanel = React.createClass({
 		: {};
 
 		var otherUser = {};
-		if(!bevy && thread.members.length > 1) {
+		/*if(!bevy && thread.members.length > 1) {
 			otherUser = _.find(thread.members, function(member) {
 				return member.user._id != user._id;
 			});
-		}
-
-		var name = (bevy) ? bevy.name : otherUser.user.displayName;
+		}*/
 
 		var header = (
 			<div className='chat-panel-header'>
@@ -121,11 +93,9 @@ var PublicChatPanel = React.createClass({
 					<div className='chat-panel-background-image' style={ backgroundStyle } />
 				</div>
 				<div className='chat-panel-head'>
-					<a href='#' className='bevy-name' title={ expandTitle } onClick={ this.handleToggle }>
+					<div className='bevy-name' title={ name }>
 						{ name }
-					</a>
-					<span className={ 'glyphicon ' + expandGlyph + ' btn' } title={ expandTitle } onClick={ this.handleToggle }></span>
-					<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
+					</div>
 				</div>
 			</div>
 		);
@@ -148,18 +118,17 @@ var PublicChatPanel = React.createClass({
 
 		var body = (
 			<div className='chat-panel-body'>
-				<MessageList
+				{/*<MessageList
 					thread={ thread }
 					messages={ this.state.messages }
 					bevy={ bevy }
-				/>
+				/>*/}
 				{ input }
 			</div>
 		);
-		if(!this.state.isOpen) body = <div />;
 
 		return (
-			<div className='chat-panel'>
+			<div className='chat-panel public-chat-panel'>
 				{ header }
 				{ body }
 			</div>
@@ -167,4 +136,4 @@ var PublicChatPanel = React.createClass({
 	}
 });
 
-module.exports = ChatPanel;
+module.exports = PublicChatPanel;

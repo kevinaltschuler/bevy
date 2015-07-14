@@ -70,7 +70,7 @@ var LeftSidebar = React.createClass({
 							superBevy={ this.props.superBevy }
 							subBevies={ this.props.subBevies }
 						/>
-						/* OLD CHAT
+						{/* OLD CHAT
 						<nav className='chat-tabs'>
 							<ul className='chat-tabs nav nav-tabs'>
 								<li className={ (this.state.key == 1) ? 'active' : '' }>
@@ -95,7 +95,7 @@ var LeftSidebar = React.createClass({
 						</nav>
 						<div className='tab-content'>
 							{ tabContent }
-						</div>*/
+						</div>*/}
 						<PublicChatPanel activeBevy={ this.props.activeBevy }/>
 					</div>
 				</div>
