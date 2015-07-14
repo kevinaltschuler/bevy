@@ -55,24 +55,39 @@ _.extend(PostStore, {
 			case APP.LOAD:
 
 				// wait for bevies
-				Dispatcher.waitFor([BevyStore.dispatchToken]);
+				//Dispatcher.waitFor([BevyStore.dispatchToken]);
+
+				/*this.posts.fetch({
+					reset: true,
+					success: function(collection, response, options) {
+						this.posts.forEach(function(post) {
+							this.postsNestComment(post);
+						}.bind(this));
+						this.trigger(POST.CHANGE_ALL);
+					}.bind(this)
+				})*/
+				//PostStore.posts.forEach(function(post) {
+				//	PostStore.postsNestComment(post);
+				//});
 
 				break;
 
 			case BEVY.SWITCH:
+			case BEVY.SWITCH_SUPER:
+			case BEVY.SWITCH_SUB:
 
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
 				// dont load posts in a public bevy
 				// also reset the posts
-				var bevy_id = payload.bevy_id;
-				if(_.isEmpty(BevyStore.bevies.get(bevy_id))) {
+				//var bevy_id = payload.bevy_id;
+				/*if(_.isEmpty(BevyStore.myBevies.get(bevy_id))) {
 					this.posts.reset();
 					break;
-				}
+				}*/
 
-				if(bevy_id == this.activeBevy) break;
+				//if(bevy_id == this.activeBevy) break;
 
 				this.posts.fetch({
 					reset: true,
@@ -554,6 +569,7 @@ _.extend(PostStore, {
 PostStore.posts.comparator = PostStore.sortByTop;
 
 var posts = window.bootstrap.posts;
+console.log(posts);
 PostStore.posts.reset(posts);
 PostStore.posts.forEach(function(post) {
 	PostStore.postsNestComment(post);

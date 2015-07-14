@@ -22,4 +22,7 @@ module.exports = function(router) {
 
 	// DESTROY
 	router.delete('/users/:userid/bevies/:id', api.bevies.destroy);
+
+	// GET SUBBEVIES
+	router.get('/bevies/:id/subbevies', api.bevies.getSubbevies);
 };

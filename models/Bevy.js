@@ -17,7 +17,7 @@ var BevySchema = new Schema({
 	image_url: {
 		type: String
 	},
-	parent_id: {
+	parent: {
 		type: Schema.Types.ObjectId,
 		ref: 'Bevy'
 	},

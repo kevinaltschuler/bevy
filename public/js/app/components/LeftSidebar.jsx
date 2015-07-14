@@ -10,14 +10,16 @@ var Tooltip = rbs.Tooltip;
 var SubBevyPanel = require('./../../bevy/components/SubBevyPanel.jsx');
 var ContactList = require('./../../contact/components/ContactList.jsx');
 var ConversationList = require('./../../chat/components/ConversationList.jsx');
+var PublicChatPanel = require('./../../chat/components/PublicChatPanel.jsx');
 
 var LeftSidebar = React.createClass({
 
 	propTypes: {
-		allBevies: React.PropTypes.array.isRequired,
+		myBevies: React.PropTypes.array.isRequired,
 		activeBevy: React.PropTypes.object.isRequired,
 		allThreads: React.PropTypes.array.isRequired,
-		allContacts: React.PropTypes.array.isRequired
+		allContacts: React.PropTypes.array.isRequired,
+		superBevy: React.PropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -63,10 +65,12 @@ var LeftSidebar = React.createClass({
 				<div className='fixed'>
 					<div className='hide-scroll'>
 						<SubBevyPanel
-							allBevies={ this.props.allBevies }
+							myBevies={ this.props.myBevies }
 							activeBevy={ this.props.activeBevy }
+							superBevy={ this.props.superBevy }
+							subBevies={ this.props.subBevies }
 						/>
-
+						/* OLD CHAT
 						<nav className='chat-tabs'>
 							<ul className='chat-tabs nav nav-tabs'>
 								<li className={ (this.state.key == 1) ? 'active' : '' }>
@@ -91,7 +95,8 @@ var LeftSidebar = React.createClass({
 						</nav>
 						<div className='tab-content'>
 							{ tabContent }
-						</div>
+						</div>*/
+						<PublicChatPanel activeBevy={ this.props.activeBevy }/>
 					</div>
 				</div>
 			</div>

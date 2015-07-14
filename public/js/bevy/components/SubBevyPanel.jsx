@@ -32,8 +32,9 @@ var BevyActions = require('./../BevyActions');
 var SubBevyPanel = React.createClass({
 
 	propTypes: {
-		allBevies: React.PropTypes.array.isRequired,
-		activeBevy: React.PropTypes.object.isRequired
+		myBevies: React.PropTypes.array.isRequired,
+		activeBevy: React.PropTypes.object.isRequired,
+		superBevy: React.PropTypes.object.isRequired,
 	},
 
 	getInitialState: function() {
@@ -45,32 +46,45 @@ var SubBevyPanel = React.createClass({
 		// get the bevy id
 		var id = ev.target.getAttribute('id') || null;
 		if(id == -1) id = 'frontpage';
-		// call action
-		router.navigate('/b/' + id, { trigger: true });
+		if(id == this.props.superBevy._id) {
+			router.navigate('/b/' + this.props.superBevy._id, { trigger: true });
+		} else {
+			router.navigate('/b/' + this.props.superBevy._id + '/' + id, { trigger: true });
+		}	
 	},
 
 	render: function() {
-		var allBevies = this.props.allBevies;
-		var bevies = [];
+		var subBevies = this.props.subBevies;
 
-		for(var key in allBevies) {
-			var bevy = allBevies[key];
-			var className = 'bevy-btn';
-			if(bevy._id == this.props.activeBevy.id) className += ' active';
+		var bevies = (
+			<div>
+				you have no subbevies :(
+			</div>
+		);
 
-			bevies.push(
-				<Button
-					key={ bevy._id }
-					id={ bevy._id }
-					type="button"
-					className={ className }
-					onClick={ this.switchBevy } >
-					{ bevy.name }
-				</Button>
-			);
+		if(subBevies.length > 0) {
+			var bevies = [];
+			for(var key in subBevies) {
+				var bevy = subBevies[key];
+				var className = 'bevy-btn';
+				if(bevy._id == this.props.activeBevy.id) className += ' active';
+					
+					bevies.push(
+						<Button
+							key={ bevy._id }
+							id={ bevy._id }
+							type="button"
+							className={ className }
+							onClick={ this.switchBevy } >
+							{ bevy.name }
+						</Button>
+					);
+			}
 		}
 
-		var superBevy = this.props.activeBevy;
+		var superBevy = this.props.superBevy;
+
+		console.log('superBevy: ', superBevy);
 
 		return (
 			<div className='bevy-list panel'>
@@ -85,7 +99,7 @@ var SubBevyPanel = React.createClass({
 						{superBevy.name}
 					</Button>
 					<ModalTrigger modal={
-						<CreateNewBevy parent={this.props.activeBevy}/>
+						<CreateNewBevy parent={this.props.superBevy}/>
 					}>
 						<OverlayTrigger placement='bottom' overlay={ <Tooltip>Create a New Bevy</Tooltip> }>
 							<Button className='new-bevy-btn'>

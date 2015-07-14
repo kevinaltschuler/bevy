@@ -41,6 +41,7 @@ exports.index = function(req, res, next) {
 		if(err) return next(err);
 		var _bevies = [];
 		async.each(members, function(member, callback) {
+			console.log(member);
 			var bevy_id = member.bevy._id;
 			var bevy = JSON.parse(JSON.stringify(member.bevy));
 			Member.find({ bevy: bevy_id }, function(err, $members) {
@@ -63,7 +64,9 @@ exports.indexPublic = function(req, res, next) {
 			return next(err);
 		else
 			return res.json(bevies);
-	});
+	})
+		.populate('parent')
+		.limit(20);
 }
 
 // CREATE
@@ -73,6 +76,7 @@ exports.create = function(req, res, next) {
 	update.name = req.body['name'] || null;
 	update.description = req.body['description'] || '';
 	update.image_url = req.body['image_url'] || '';
+	update.parent = req.body['parent'] || null;
 	var members = req.body['members'] || [];
 
 	if(!update.name) throw error.gen('bevy name not specified', req);
@@ -159,3 +163,13 @@ exports.destroy = function(req, res, next) {
 		res.json(bevy);
 	}, function(err) { next(err); })
 }
+
+// GET /bevies/:id/subbevies
+exports.getSubbevies = function(req, res, next) {
+	var id = req.params.id;
+
+	Bevy.find({ parent: id }, function(err, bevies) {
+		if(err) return next(err);
+		return res.json(bevies);
+	});
+};

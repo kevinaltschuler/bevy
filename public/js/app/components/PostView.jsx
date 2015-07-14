@@ -17,31 +17,41 @@ var BevyActions = require('./../../bevy/BevyActions');
 var PostView = React.createClass({
 
 	propTypes: {
-		allBevies: React.PropTypes.array,
+		myBevies: React.PropTypes.array,
 		activeBevy: React.PropTypes.object,
 		allThreads: React.PropTypes.array,
 		activeMember: React.PropTypes.object,
-		allPosts: React.PropTypes.array
+		allPosts: React.PropTypes.array,
+		superBevy: React.PropTypes.object.isRequired,
+		subBevies: React.PropTypes.array
 	},
 
 	render: function() {
 
 		var activeBevy = this.props.activeBevy;
-		var joined = _.find(this.props.allBevies, function(_bevy) { return (_bevy._id == activeBevy._id)});
+		var joined = undefined;
+		if (_.isEmpty(this.props.myBevies)) {
+			joined = false;
+		}
+		else {
+			joined = _.find(this.props.myBevies, function(_bevy) { 
+				return _bevy._id == activeBevy._id;
+			});
+			joined = (joined == undefined) ? false : true;
+		}
 
 		if(this.props.activeBevy._id === undefined) {
 			return (
-			<div className='main-section'>
-				<h1>404: Not Found</h1>
-			</div>);
+				<div />
+			);
 		}
 		else {
 			var body = (
 				<div>
 					<NewPostPanel
 						activeBevy={ this.props.activeBevy }
-						allBevies={ this.props.allBevies }
-						disabled={ joined }
+						myBevies={ this.props.myBevies }
+						disabled={ !joined }
 					/>
 					<PostSort />
 					<PostContainer
@@ -55,10 +65,12 @@ var PostView = React.createClass({
 			return (
 				<div className='main-section'>
 					<LeftSidebar
-						allBevies={ this.props.allBevies }
+						myBevies={ this.props.myBevies }
 						activeBevy={ this.props.activeBevy }
 						allThreads={ this.props.allThreads }
 						allContacts={ this.props.allContacts }
+						superBevy={ this.props.superBevy }
+						subBevies={ this.props.subBevies }
 					/>
 					<div className='post-view-body'>
 						{ body }

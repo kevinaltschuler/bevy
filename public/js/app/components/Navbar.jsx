@@ -44,7 +44,7 @@ var user = window.bootstrap.user;
 var Navbar = React.createClass({
 
 	propTypes: {
-		allBevies: React.PropTypes.array.isRequired,
+		myBevies: React.PropTypes.array.isRequired,
 		activeBevy: React.PropTypes.object,
 		allNotifications: React.PropTypes.array
 	},
@@ -65,7 +65,7 @@ var Navbar = React.createClass({
 	},
 
 	switchBevy: function( ev, href, target) {
-		console.log('ev: ', ev,'href: ', href,'target: ', target);
+		//console.log('ev: ', ev,'href: ', href,'target: ', target);
 		// get the bevy ids
 		var id = ev || null;
 		if(id == -1) id = 'Bevies';
@@ -91,11 +91,11 @@ var Navbar = React.createClass({
 			bevyName = this.props.activeBevy.name;
 		}
 
-		var allBevies = this.props.allBevies;
+		var myBevies = this.props.myBevies;
 		var bevies = [];
 
-		for(var key in allBevies) {
-			var bevy = allBevies[key];
+		for(var key in myBevies) {
+			var bevy = myBevies[key];
 
 			if(bevy != this.props.activeBevy && key != -1) {
 				bevies.push(

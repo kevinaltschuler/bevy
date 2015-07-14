@@ -64,7 +64,7 @@ module.exports = function(app) {
 			var user = req.user;
 
 			async.parallel([
-				function(callback) {
+				/*function(callback) {
 					// get bevies
 					Member.find({ user: user._id }, function(err, members) {
 						if(err) return next(err);
@@ -85,7 +85,7 @@ module.exports = function(app) {
 							callback(null, _bevies);
 						});
 					}).populate('bevy');
-				},
+				},*/
 				function(callback) {
 					// get notifications
 					Notification.find({ user: user._id }, function(err, notifications) {
@@ -121,7 +121,7 @@ module.exports = function(app) {
 								var bevy_id_list = _.pluck(bevies, '_id');
 								var post_query = { bevy: { $in: bevy_id_list } };
 								var post_promise = Post.find(post_query)
-									.populate('author')
+									.populate('bevy author')
 									.exec();
 								post_promise.then(function(posts) {
 									done(null, posts);
@@ -156,6 +156,7 @@ module.exports = function(app) {
 									}, function(err) {
 										if(err) return callback(null, []);
 										var bevy_id_list = _.map(_bevies, function(bevy) {
+											if(!bevy) { return; }
 											return bevy._id.toString();
 										});
 										if(bevy_id_list.indexOf(bevy_id) > -1) {
@@ -179,7 +180,7 @@ module.exports = function(app) {
 											if(_posts.length == posts.length) return callback(null, _posts);
 										}).populate('author');
 									});
-								}).populate('author');
+								}).populate('bevy author');
 							}
 						]);
 					}
@@ -212,16 +213,16 @@ module.exports = function(app) {
 					]);
 				}
 			], function(err, results) {
-				var bevies =  results[0];
-				var notifications = results[1];
-				var posts = results[2];
-				var threads = results[3];
+				//var bevies =  results[0];
+				var notifications = results[0];
+				var posts = results[1];
+				var threads = results[2];
 
 				return res.render('app', {
 					env: process.env.NODE_ENV,
 					hostname: req.hostname,
 					user: user,
-					bevies: bevies,
+					//myBevies: bevies,
 					notifications: notifications,
 					posts: posts,
 					threads: threads

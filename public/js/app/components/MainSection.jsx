@@ -86,19 +86,23 @@ var MainSection = React.createClass({
 
 	getBevyState: function() {
 
-		var all = BevyStore.getAll();
+		var myBevies = BevyStore.getMyBevies();
 		var active = BevyStore.getActive();
 		var activeMember = BevyStore.getActiveMember();
 		var members = BevyStore.getMembers();
 		var publicBevies = BevyStore.getPublicBevies();
+		var superBevy = BevyStore.getSuperBevy();
+		var subBevies = BevyStore.getSubBevies();
 
 		return {
 			// later, load this from session/cookies
-			allBevies: all,
+			myBevies: myBevies,
 			activeBevy: active,
 			activeMember: activeMember,
 			members: members,
-			publicBevies: publicBevies
+			publicBevies: publicBevies,
+			superBevy: superBevy,
+			subBevies: subBevies
 		}
 	},
 
@@ -158,9 +162,10 @@ var MainSection = React.createClass({
 		return (
 			<div>
 				<Navbar
+					superBevy= { this.state.superBevy }
 					activeBevy={ this.state.activeBevy }
 					allNotifications={ this.state.allNotifications }
-					allBevies={ this.state.allBevies }
+					myBevies={ this.state.myBevies }
 				/>
 				<InterfaceComponent {...this.state} />
 			</div>
@@ -179,6 +184,7 @@ var InterfaceComponent = React.createClass({
 		router.off('route', this.callback);
 	},
 	render : function() {
+		console.log('route', router.current);
 
 		switch(router.current) {
 			case 'home': 
@@ -187,7 +193,10 @@ var InterfaceComponent = React.createClass({
 			case 'search':
 				return <SearchView {...this.props} />
 				break;
-			case 'bevy':
+			case 'superBevy':
+				return <PostView {...this.props} />
+				break;
+			case 'subBevy':
 				return <PostView {...this.props} />
 				break;
 			case 'publicbevies':

@@ -58,7 +58,7 @@ var Post = React.createClass({
 
 	propTypes: {
 		id: React.PropTypes.string.isRequired,
-		post: React.PropTypes.object
+		post: React.PropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -199,6 +199,7 @@ var Post = React.createClass({
 	render: function() {
 
 		var post = this.state.post;
+		console.log(post);
 		var bevy = post.bevy;
 		var activeMember = this.findMember(user._id) || {};
 		var author = post.author;

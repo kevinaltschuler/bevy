@@ -27,7 +27,7 @@ _.extend(ContactStore, {
 
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
 
-				var bevies = BevyStore.getAll();
+				var bevies = BevyStore.getMyBevies();
 				bevies.forEach(function(bevy) {
 					if(bevy.settings.anonymise_users) {
 						// for now... skip anonymous users

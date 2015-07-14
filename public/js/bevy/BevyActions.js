@@ -22,12 +22,13 @@ var PostActions = {
 	},
 
 	create: function(name, description, image_url, members, parent) {
+
 		dispatch(BEVY.CREATE, {
 			name: (name == undefined) ? '' : name,
 			description: (description == undefined) ? '' : description,
 			image_url: (image_url == undefined) ? '' : image_url,
 			members: (members == undefined) ? [] : members,
-			parent_id: (parent_id == undefined) ? null : parent_id
+			parent: (parent == undefined) ? null : parent
 		});
 	},
 
@@ -107,9 +108,23 @@ var PostActions = {
 	 * switch bevies and update posts accordingly
 	 * @param  {int} id  id of bevy being switched to
 	 */
-	switchBevy: function(bevy_id) {
-		dispatch(BEVY.SWITCH, {
+	switchSub: function(subbevy_id) {
+		//console.log('sub actions');
+		dispatch(BEVY.SWITCH_SUB, {
+			subbevy_id: (subbevy_id == undefined) ? null : subbevy_id
+		});
+	},
+
+	switchSuper: function(bevy_id) {
+		//console.log('super actions');
+		dispatch(BEVY.SWITCH_SUPER, {
 			bevy_id: (bevy_id == undefined) ? null : bevy_id
+		});
+	},
+
+	switchBevy: function() {
+		dispatch(BEVY.SWITCH, {
+
 		});
 	}
 };

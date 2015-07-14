@@ -32,7 +32,7 @@ var BevyActions = require('./../BevyActions');
 var SubBevyList = React.createClass({
 
 	propTypes: {
-		allBevies: React.PropTypes.array.isRequired,
+		myBevies: React.PropTypes.array.isRequired,
 		activeBevy: React.PropTypes.object.isRequired
 	},
 
@@ -50,30 +50,42 @@ var SubBevyList = React.createClass({
 	},
 
 	render: function() {
-		var allBevies = this.props.allBevies;
+		var myBevies = this.props.myBevies;
 		var bevies = [];
 
-		for(var key in allBevies) {
-			var bevy = allBevies[key];
+		for(var key in myBevies) {
+			var bevy = myBevies[key];
 			var className = 'bevy-btn';
 			if(bevy._id == this.props.activeBevy.id) className += ' active';
 
-			bevies.push(
-				<Button
-					key={ bevy._id }
-					id={ bevy._id }
-					type="button"
-					className={ className }
-					onClick={ this.switchBevy } >
-					{ bevy.name }
-				</Button>
-			);
+			if(bevy.parent == this.props.activeBevy) {
+				bevies.push(
+					<SubBevyList
+						key={ bevy._id }
+						id={ bevy._id }
+						type="button"
+						className={ className }
+						onClick={ this.switchBevy } >
+						{ bevy.name }
+					</SubBevyList>
+				);
+			}
 		}
 
+		var superBevy = this.props.activeBevy;
+
 		return (
-			<div className='bevy-list panel'>
+			<div className='bevy-list'>
 				<div className='panel-header'>
-					<p>Bevies</p>
+					<Button
+						key={ superBevy._id }
+						id={ superBevy._id }
+						type="button"
+						className='super-bevy-btn'
+						onClick={ this.switchBevy } 
+					>
+						{superBevy.name}
+					</Button>
 					<ModalTrigger modal={
 						<CreateNewBevy parent={this.props.activeBevy}/>
 					}>

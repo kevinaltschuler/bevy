@@ -60,7 +60,7 @@ var LoginPage = require('./auth/components/LoginPage.jsx');
 var RegisterPage = require('./auth/components/RegisterPage.jsx');
 var ForgotPage = require('./auth/components/ForgotPage.jsx');
 var ResetPage = require('./auth/components/ResetPage.jsx');
-var FourOhFour = require('./app/components/FourOhFour.jsx');
+//var FourOhFour = require('./app/components/FourOhFour.jsx');
 
 //Needed for onTouchTap - a feature of Material-UI
 //Can go away when react 1.0 release

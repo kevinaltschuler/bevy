@@ -16,11 +16,15 @@ var Router = Backbone.Router.extend({
 		'publicbevies' : 'publicbevies',
 		'b' : 'home',
 		'b/' : 'home',
-		'b/:bevyid' : 'bevy',
-		'b/:bevyid/' : 'bevy',
-		'b/:bevyid/post' : 'bevy',
-		'b/:bevyid/post/' : 'bevy',
-		'b/:bevyid/post/:postid' : 'bevy',
+		'b/:bevyid' : 'superBevy',
+		'b/:bevyid/' : 'superBevy',
+		'b/:bevyid/post' : 'superBevy',
+		'b/:bevyid/post/' : 'superBevy',
+		'b/:bevyid/post/:postid' : 'superBevy',
+		'b/:bevyid/:subbevyid' : 'subBevy',
+		'b/:bevyid/:subbevyid/post' : 'subBevy',
+		'b/:bevyid/:subbevyid/post/' : 'subBevy',
+		'b/:bevyid/:subbevyid/post/:postid' : 'subBevy',
 		's' : 'search',
 		's/:query' : 'search',
 		'*nuts' : 'not_found'
@@ -50,10 +54,24 @@ var Router = Backbone.Router.extend({
 		this.current = 'publicbevies';
 	},
 
-	bevy: function(bevy_id, post_id) {
+	superBevy: function(bevy_id, post_id) {
+		this.current = 'superBevy';
 		this.bevy_id = bevy_id;
-		BevyActions.switchBevy(this.bevy_id);
-		this.current = 'bevy';
+		this.superBevy_id = bevy_id;
+		this.subbevy_id = null;
+		//console.log('router super');
+		//BevyActions.switchSuper(this.bevy_id);
+		BevyActions.switchBevy();
+	},
+
+	subBevy: function(bevy_id, subbevy_id, post_id) {
+		this.superBevy_id = bevy_id;
+		this.bevy_id = bevy_id;
+		this.subbevy_id = subbevy_id;
+		//console.log('router sub');
+		//BevyActions.switchSub(this.subbevy_id);
+		BevyActions.switchBevy();
+		this.current = 'subBevy';
 	},
 
 	search: function(query) {
@@ -98,5 +116,3 @@ var ChatStore = require('./chat/ChatStore');
 var ContactStore = require('./contact/ContactStore');
 
 Backbone.history.start({ pushState: true });
-
-

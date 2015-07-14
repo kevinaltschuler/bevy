@@ -38,7 +38,7 @@ var CreateNewBevy = React.createClass({
 			name: '',
 			description: '',
 			image_url: '',
-			parent_id: undefined
+			parent_id: (this.props.parent == undefined) ? undefined : this.props.parent._id
 		};
 	},
 
@@ -63,7 +63,7 @@ var CreateNewBevy = React.createClass({
 			return;
 		}
 
-		BevyActions.create(name, description, image_url);
+		BevyActions.create(name, description, image_url, [], parent_id);
 
 		// after, close the window
 		this.props.onRequestHide();
@@ -90,7 +90,7 @@ var CreateNewBevy = React.createClass({
 		}
 
 		var title = (this.props.parent )
-		? 'Create a new Sub Bevy of' + this.props.parent.name
+		? 'Create a new Sub Bevy of ' + this.props.parent.name
 		: 'Create a New Bevy'
 
 		return <Modal className="create-bevy" {...this.props} title={title}>

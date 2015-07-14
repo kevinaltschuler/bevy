@@ -43,9 +43,15 @@ var hintTexts = [
 	"Drop some knowledge buddy",
 	"What would your mother think?",
 	"Drop a line",
-	"What's good?"
+	"What's good?",
+	"Tell us about last night",
+	"What's gucci with the homies?",
+	"What do you have to say?",
+	"spit a verse",
+	"Matt is waiting",
+	"Can you dig it?"
 ]
-var hintText = hintTexts[Math.floor(Math.random() * 4)];
+var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 
 var user = window.bootstrap.user;
 
@@ -54,7 +60,7 @@ var NewPostPanel = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object.isRequired,
-		allBevies: React.PropTypes.array.isRequired,
+		myBevies: React.PropTypes.array.isRequired,
 		disabled: React.PropTypes.bool
 	},
 
@@ -66,7 +72,7 @@ var NewPostPanel = React.createClass({
 			images: [],
 			bevies: [],
 			selectedIndex: 0,
-			diabled: this.props.disabled
+			disabled: this.props.disabled
 		};
 	},
 
@@ -74,9 +80,9 @@ var NewPostPanel = React.createClass({
 
 		// load bevies
 		var bevies = [];
-		var allBevies = nextProps.allBevies;
-		for(var key in allBevies) {
-			var bevy = allBevies[key];
+		var myBevies = nextProps.myBevies;
+		for(var key in myBevies) {
+			var bevy = myBevies[key];
 			if(bevy._id != -1) {
 				bevies.push({
 					payload: key,
@@ -118,7 +124,7 @@ var NewPostPanel = React.createClass({
 			this.state.title, // title
 			this.state.images, // image_url
 			window.bootstrap.user, // author
-			this.props.allBevies[this.state.selectedIndex + 1], // bevy
+			this.props.activeBevy, // bevy
 			this.findMember());
 
 		// reset fields
@@ -175,6 +181,10 @@ var NewPostPanel = React.createClass({
 				onChange={ this.onBevyChange }
 			/>);
 
+		hintText = (this.props.disabled)
+		? 'only members of ' + this.props.activeBevy.name + ' may post'
+		: hintText
+
 		return (
 			<Panel className="panel new-post-panel" postId={ this.state.id }>
 				<div className="new-post-title">
@@ -185,7 +195,7 @@ var NewPostPanel = React.createClass({
 						multiLine={ true }
 						value={ this.state.title }
 						onChange={ this.handleChange }
-						disabled={ this.state.disabled }
+						disabled={ this.props.disabled }
 					/>
 				</div>
 
@@ -201,14 +211,14 @@ var NewPostPanel = React.createClass({
 							title="Attach Media"
 							iconClassName="glyphicon glyphicon-paperclip"
 							onClick={ this.preventDefault }
-							disabled={ this.state.disabled }
+							disabled={ this.props.disabled }
 						/>
 					</div>
 					{ beviesDropdown }
 					<RaisedButton 
 						label="post" 
 						onClick={this.submit} 
-						disabled={ this.state.disabled }
+						disabled={ this.props.disabled }
 					/>
 				</div>
 			</Panel>
