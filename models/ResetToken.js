@@ -11,10 +11,16 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 module.exports = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	user: {
-	  	type: Schema.Types.ObjectId,
+	  	type: String,
 	  	ref: 'User'
 	},
 	token: String,

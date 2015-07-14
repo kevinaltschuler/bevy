@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var roles = 'admin mod user'.split(' ');
 
@@ -9,15 +10,20 @@ var fruits = 'Apple Banana Cherry Chili Corn Drumstick Egg Grape Mushroom Onion 
 var fruit = null;
 
 var BevyMemberSchema = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	bevy: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'Bevy'
 	},
 	email: {
 		type: String
 	},
 	user: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'User'
 	},
 	displayName: {

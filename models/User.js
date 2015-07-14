@@ -11,8 +11,14 @@
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var UserSchema = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	token: String,
 	password: String,
 	email: {

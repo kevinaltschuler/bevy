@@ -10,15 +10,21 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var BevySchema = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	name: String,
 	description: String,
 	image_url: {
 		type: String
 	},
 	parent: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'Bevy'
 	},
 	settings: {
