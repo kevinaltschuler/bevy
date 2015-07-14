@@ -29,16 +29,6 @@ var PostView = React.createClass({
 	render: function() {
 
 		var activeBevy = this.props.activeBevy;
-		var joined = undefined;
-		if (_.isEmpty(this.props.myBevies)) {
-			joined = false;
-		}
-		else {
-			joined = _.find(this.props.myBevies, function(_bevy) { 
-				return _bevy._id == activeBevy._id;
-			});
-			joined = (joined == undefined) ? false : true;
-		}
 
 		if(this.props.activeBevy._id === undefined) {
 			return (
@@ -51,7 +41,7 @@ var PostView = React.createClass({
 					<NewPostPanel
 						activeBevy={ this.props.activeBevy }
 						myBevies={ this.props.myBevies }
-						disabled={ !joined }
+						disabled={ _.isEmpty(window.bootstrap.user) }
 					/>
 					<PostSort />
 					<PostContainer
