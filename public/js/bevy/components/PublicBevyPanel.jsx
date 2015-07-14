@@ -109,7 +109,7 @@ var PublicBevyPanel = React.createClass({
 
 		var joinButton = (_.isEmpty(window.bootstrap.user))
 		? <div/>
-		: {_joinButton}
+		: _joinButton
 
 		return (
 			<div className="panel public-bevy-panel">

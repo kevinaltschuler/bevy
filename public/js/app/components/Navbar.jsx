@@ -137,6 +137,10 @@ var Navbar = React.createClass({
 			</SplitButton>)
 
 		return <div className="navbar navbar-fixed-top row" style = { navbarStyle }>
+		
+					<div className='background-wrapper'>
+						<div className="background-image" style= { backgroundStyle } />
+					</div>
 					<div className="navbar-header pull-left">
 						<Button className="bevy-logo-btn" href='/'>
 							<div className='bevy-logo-img'/>
@@ -163,10 +167,6 @@ var Navbar = React.createClass({
 							/>
 						</form>
 						{ userContent }
-					</div>
-
-					<div className='background-wrapper'>
-						<div className="background-image" style= { backgroundStyle } />
 					</div>
 
 				</div>;
