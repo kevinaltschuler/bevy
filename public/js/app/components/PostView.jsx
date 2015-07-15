@@ -61,6 +61,7 @@ var PostView = React.createClass({
 						allContacts={ this.props.allContacts }
 						superBevy={ this.props.superBevy }
 						subBevies={ this.props.subBevies }
+						activeThread={ this.props.activeThread }
 					/>
 					<div className='post-view-body'>
 						{ body }

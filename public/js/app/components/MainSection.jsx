@@ -115,7 +115,8 @@ var MainSection = React.createClass({
 	getChatState: function() {
 		return {
 			allThreads: ChatStore.getAllThreads(),
-			openThreads: ChatStore.getOpenThreads()
+			openThreads: ChatStore.getOpenThreads(),
+			activeThread: ChatStore.getActiveThread()
 		};
 	},
 

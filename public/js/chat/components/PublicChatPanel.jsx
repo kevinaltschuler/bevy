@@ -21,12 +21,14 @@ var user = window.bootstrap.user;
 var PublicChatPanel = React.createClass({
 
 	propTypes: {
-		activeBevy: React.PropTypes.object
+		activeBevy: React.PropTypes.object,
+		activeThread: React.PropTypes.object
 	},
 
 	getInitialState: function() {
 		return {
 			body: '',
+			messages: []
 		};
 	},
 
@@ -56,7 +58,7 @@ var PublicChatPanel = React.createClass({
 			if(_.isEmpty(this.state.body)) return;
 
 			// create message
-			var thread = this.props.thread;
+			var thread = this.props.activeThread;
 			var author = window.bootstrap.user;
 			var body = this.refs.body.getValue();
 			//ChatActions.createMessage(thread._id, author, body);
@@ -71,8 +73,9 @@ var PublicChatPanel = React.createClass({
 	render: function() {
 
 		var bevy = this.props.activeBevy;
-		var thread = this.props.thread;
-		var name = bevy.name;
+		var thread = this.props.activeThread;
+		console.log(thread);
+		var name = (bevy == undefined) ? '' : bevy.name;
 
 		var backgroundStyle = (bevy && !_.isEmpty(bevy.image_url))
 		? {
@@ -116,13 +119,14 @@ var PublicChatPanel = React.createClass({
 		);
 		if(!this.state.isOpen) input = <div />;
 
-		var body = (
-			<div className='chat-panel-body'>
-				{/*<MessageList
+		var body = (_.isEmpty(this.props.activeThread))
+		? (<div/>)
+		: (	<div className='chat-panel-body'>
+				<MessageList
 					thread={ thread }
 					messages={ this.state.messages }
 					bevy={ bevy }
-				/>*/}
+				/>
 				{ input }
 			</div>
 		);

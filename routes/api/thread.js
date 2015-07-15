@@ -8,6 +8,9 @@ module.exports = function(router) {
 	// INDEX
 	router.get('/users/:id/threads', api.threads.index);
 
+	//SHOW
+	router.get('/threads/:id', api.threads.show);
+
 	// CREATE
 	router.post('/users/:id/threads/', api.threads.create);
 

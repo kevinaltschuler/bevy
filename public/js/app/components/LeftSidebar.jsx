@@ -19,7 +19,8 @@ var LeftSidebar = React.createClass({
 		activeBevy: React.PropTypes.object.isRequired,
 		allThreads: React.PropTypes.array.isRequired,
 		allContacts: React.PropTypes.array.isRequired,
-		superBevy: React.PropTypes.object.isRequired
+		superBevy: React.PropTypes.object.isRequired,
+		activeThread: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -96,7 +97,7 @@ var LeftSidebar = React.createClass({
 						<div className='tab-content'>
 							{ tabContent }
 						</div>*/}
-						<PublicChatPanel activeBevy={ this.props.activeBevy }/>
+						<PublicChatPanel activeThread={ this.props.activeThread }/>
 					</div>
 				</div>
 			</div>
