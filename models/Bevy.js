@@ -27,6 +27,10 @@ var BevySchema = new Schema({
 		type: String,
 		ref: 'Bevy'
 	},
+	admins: [{
+		type: String,
+		ref: 'User'
+	}],
 	settings: {
 		posts_expire_in: {
 			type: Number,

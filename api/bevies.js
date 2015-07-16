@@ -36,12 +36,12 @@ function collectBevyParams(req) {
 // GET /users/:userid/bevies
 exports.index = function(req, res, next) {
 	var userid = req.params.userid;
+	console.log(req.user);
 
 	Member.find({ user: userid }, function(err, members) {
 		if(err) return next(err);
 		var _bevies = [];
 		async.each(members, function(member, callback) {
-			console.log(member);
 			var bevy_id = member.bevy._id;
 			var bevy = JSON.parse(JSON.stringify(member.bevy));
 			Member.find({ bevy: bevy_id }, function(err, $members) {
@@ -60,7 +60,7 @@ exports.index = function(req, res, next) {
 //GET /bevies
 exports.indexPublic = function(req, res, next) {
 	Bevy.find({parent: null}, function(err, bevies) {
-		if(err) 
+		if(err)
 			return next(err);
 		else
 			return res.json(bevies);
@@ -105,6 +105,7 @@ exports.create = function(req, res, next) {
 exports.show = function(req, res, next) {
 	var id = req.params.id;
 
+	//Bevy.findOne({ $or: [{ _id: id }, { name: id }] }, function(err, bevy) {
 	Bevy.findOne({ _id: id }, function(err, bevy) {
 		if(err) return next(err);
 		Member.find({ bevy: id }, function(err, members) {
