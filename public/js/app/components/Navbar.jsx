@@ -97,7 +97,7 @@ var Navbar = React.createClass({
 		for(var key in myBevies) {
 			var bevy = myBevies[key];
 
-			if(bevy != this.props.activeBevy && key != -1) {
+			if(bevy != this.props.activeBevy && bevy.parent == undefined) {
 				bevies.push(
 					<MenuItem
 						eventKey={ bevy._id }
@@ -137,7 +137,6 @@ var Navbar = React.createClass({
 			</SplitButton>)
 
 		return <div className="navbar navbar-fixed-top row" style = { navbarStyle }>
-		
 					<div className='background-wrapper'>
 						<div className="background-image" style= { backgroundStyle } />
 					</div>

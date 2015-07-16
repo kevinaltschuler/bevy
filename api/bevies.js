@@ -41,7 +41,7 @@ exports.index = function(req, res, next) {
 		if(err) return next(err);
 		var _bevies = [];
 		async.each(members, function(member, callback) {
-			console.log(member);
+			//console.log(member);
 			var bevy_id = member.bevy._id;
 			var bevy = JSON.parse(JSON.stringify(member.bevy));
 			Member.find({ bevy: bevy_id }, function(err, $members) {

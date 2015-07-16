@@ -19,18 +19,43 @@
 	.modal-dialog {
 		width: 400px;
 		.modal-content {
-			.new-bevy-picture {
-				.bevy-image-dropzone {
-					width: 50px;
-					height: 50px;
-					border-radius: 50px;
-					margin-top: 27px;
-					background-repeat: no-repeat;
-					  margin-left: 15px;
+			.modal-header {
+
+			}
+			.bevy-info {
+				display: flex;
+				flex-direction: column;
+				.new-bevy-picture {
+					margin-left: -15px;
+ 					margin-right: -15px;
+					.bevy-image-dropzone {
+						width: 100%;
+						height: 100px;
+						background-repeat: no-repeat;
+						border-radius: 0px;
+						.dropzone-button-container {
+							width: 100%;
+  							height: 100%;
+							.dropzone-panel-button {
+								width: 100%;
+								height: 100%;
+								margin: 0px;
+								.glyphicon {
+									height: 100%;
+									width: 100%;
+									border-radius: 0px;
+									padding-top: 40px;
+								}
+							}
+						}
+					}
+				}
+				.text-fields {
+					margin-top: 10px;
 				}
 			}
 			.panel-bottom {
-				margin-top: 10px;
+				margin-top: 0px;
 				.mui-raised-button {
 					.mui-paper-container {
 						.mui-raised-button-container {

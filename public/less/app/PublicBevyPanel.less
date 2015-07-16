@@ -1,67 +1,162 @@
-.main-section {
-	.public-bevy-list {
-		flex: 1;
-		flex-direction: row;
-	 	flex-wrap: wrap;
-	 	justify-content: flex-start;
-	 	display: flex;
-	 	margin-left: auto;
- 		margin-right: auto;
-		.message {
-			text-align: center;
-			font-size: 28px;
-			margin-left: 10px;
-			margin-right: 10px;
+.public-bevy-wrapper {
+	display: flex;
+	flex-direction: column;
+	height: 100vh;
+	justify-content: space-between;
+	.mid-section {
+		max-width: 970px;
+		min-width: 970px;
+		padding-top: 85px;
+		display: flex;
+		justify-content: space-between;
+		padding-left: 50px;
+		padding-right: 50px;
+		margin-left: auto;
+		margin-right: auto;
+		.public-bevy-list {
+			display: flex;
+			flex-direction: column;
+			justify-content: flex-start;
+			align-items: center;
+			max-width: 900px;
+			width: 100%;
+			margin-left: auto;
+			margin-right: auto;
+			.public-bevy-header {
+				display: flex;
+				width: 100%;
+				flex-direction: row;
+				justify-content: space-between;
+				align-items: center;
+				margin-top: 10px;
+				padding-bottom: 10px;
+				h2 {
+					margin-top: 0px;
+	  				margin-bottom: 0px;
+	  				padding-top: 0px;
+				}
+				.panel {
+					margin-bottom: 0px;
+					margin-right: 15px;
+				}
+			}
+			.panel-list {
+				width: 100%;
+				flex: 1;
+				flex-direction: row;
+			 	flex-wrap: wrap;
+			 	justify-content: flex-start;
+			 	display: flex;
+			 	margin-left: auto;
+		 		margin-right: auto;
+		 		padding-top: 20px;
+	  			padding-left: 0px;
+				.message {
+					text-align: center;
+					font-size: 28px;
+					margin-left: 10px;
+					margin-right: 10px;
+				}
+				.public-bevy-request {
+					order: 2;
+					flex-grow: 2;
+				}
+				.public-bevy-panel {
+					order: 3;
+					max-width: 275px;
+		  			min-width: 275px;
+		  			padding: 0px;
+		  			margin-right: 15px;
+		  			.bevy-panel-top {
+		  				width: 100%;
+		  				height: 100px;
+		  				background-size: 100% auto;
+		  				background-repeat: no-repeat;
+		  				background-position: center;
+		  				border-radius: 0px;
+		  				border-color: rgba(0,0,0,0);
+		  				background-color: rgba(0,0,0,0);
+		  				border: none;
+		  				transition: all 0.2s ease;
+		  				&:active {
+		  					box-shadow: @shadow2;
+		  				}
+		  			}
+		  			.panel-info {
+		  				display: flex;
+		  				flex-direction: row;
+		  				justify-content: space-between;
+		  				.panel-info-left {
+			  				margin-left: 15px;
+			  				color: @light-font;
+			  				margin-bottom: 15px;
+			  				margin-top: 10px;
+			  				font-size: .85em;
+			  				.title {
+			  					color: black;
+			  					font-size: 1.5em;
+			  				}
+			  			}
+			  			.panel-info-right {
+			  				margin-bottom: 15px;
+			  				margin-right: 15px;
+			  				display: flex;
+			  				flex-direction: column;
+			  				justify-content: flex-end;
+			  			}
+		  			}
+				}
+			}
 		}
-		.public-bevy-request {
-			order: 2;
-			flex-grow: 2;
+	}
+}
+
+.footer-public-bevies {
+	display: flex;
+	height: 80px;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+	max-width: 970px;
+	min-width: 970px;
+	margin-left: auto;
+	margin-right: auto;
+	padding-left: 50px;
+	padding-right: 50px;
+	font-size: 1em;
+	.bevy-logo-btn {
+		width: 25px;
+		height: 25px;
+		padding: 0px;
+		background-color: rgba(0,0,0,0) !important;
+		border: none;
+		outline: 0;
+		box-shadow: none;
+		z-index: 2;
+		margin-right: 15px;
+		.bevy-logo-img {
+			background-repeat: no-repeat;
+			background-position: center;
+			background-size: 25px 25px;
+			width: 25px;
+			height: 25px;
 		}
-		.public-bevy-panel {
-			order: 3;
-			max-width: 275px;
-			margin-left: 10px;
-  			margin-right: 10px;
-  			min-width: 275px;
-  			padding: 0px;
-  			.bevy-panel-top {
-  				width: 100%;
-  				height: 100px;
-  				background-size: 100% auto;
-  				background-repeat: no-repeat;
-  				background-position: center;
-  				border-radius: 0px;
-  				border-color: rgba(0,0,0,0);
-  				background-color: rgba(0,0,0,0);
-  				border: none;
-  				transition: all 0.4s ease;
-  				&:active {
-  					box-shadow: @shadow2;
-  				}
-  			}
-  			.panel-info {
-  				display: flex;
-  				flex-direction: row;
-  				justify-content: space-between;
-  				.panel-info-left {
-	  				margin-left: 15px;
-	  				color: @light-font;
-	  				margin-bottom: 15px;
-	  				margin-top: 10px;
-	  				font-size: .85em;
-	  				.title {
-	  					color: black;
-	  					font-size: 1.5em;
-	  				}
-	  			}
-	  			.panel-info-right {
-	  				margin-bottom: 15px;
-	  				margin-right: 15px;
-	  				display: flex;
-	  				flex-direction: column;
-	  				justify-content: flex-end;
-	  			}
-  			}
+	}
+}
+
+@media (max-width:970px) {
+	.mid-section {
+		max-width: 550px;
+		min-width: 400px;
+		.public-bevy-list {
+			.panel-list {
+				flex-direction: column;
+				align-items: center;
+			}
 		}
+	}
+	.footer-public-bevies {
+		max-width: 550px;
+		min-width: 400px;
 	}
 }

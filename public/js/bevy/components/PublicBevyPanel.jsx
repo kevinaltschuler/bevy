@@ -116,7 +116,7 @@ var PublicBevyPanel = React.createClass({
 					<Button className="bevy-panel-top" href={'/b/' + this.props.bevy._id} style={bevyImageStyle}/>
 					<div className='panel-info'>
 						<div className='panel-info-left'>
-								<a className='title' onClick={this.SwitchBevy}>
+								<a className='title' href={'/b/' + this.props.bevy._id}>
 									{name}
 								</a>
 								<div>
