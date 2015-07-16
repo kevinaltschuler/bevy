@@ -102,7 +102,7 @@ var HomeView = React.createClass({
 				</div>
 			</div>
 			<div className='landing-div div4'/>
-			<div className="footer">
+			<div className="footer-home">
 				<div className='footer-left'>
 					Bevy © 2015 
 				</div>
