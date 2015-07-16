@@ -99,6 +99,11 @@ app.set('views', './views');
 // TODO: user auth
 // TODO: multi level api (v1, v2, etc)
 var api_router = express.Router();
+
+config.passport(api_router);
+api_router.use(passport.initialize());
+api_router.use(passport.session());
+
 api_router.use(middleware.cors);
 require('./routes/api')(api_router);
 app.use(subdomain('api', api_router));

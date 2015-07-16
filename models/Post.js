@@ -10,14 +10,20 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var PostSchema = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	bevy: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'Bevy'
 	},
 	author: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'User'
 	},
 	title: String,
@@ -36,7 +42,7 @@ var PostSchema = new Schema({
 		default: false
 	},
 	muted_by: [{
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'User'
 	}],
 	expires: {

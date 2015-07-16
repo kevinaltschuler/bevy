@@ -2,14 +2,20 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var ChatMessage = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	thread: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'ChatThread'
 	},
 	author: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'User'
 	},
 	body: String,

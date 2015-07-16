@@ -11,8 +11,14 @@
 var mongoose = require('mongoose');
 var _ = require('underscore');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var UserSchema = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	token: String,
 	password: String,
 	email: {
@@ -45,10 +51,10 @@ var UserSchema = new Schema({
 			_id: false
 		})]
 	},
-	notifications: [Schema({
-		event: String,
-	  	data: {}
-	})],
+	bevies: [{
+		type: String,
+		ref: 'Bevy'
+	}],
 	created: {
 		type: Date,
 		default: Date.now

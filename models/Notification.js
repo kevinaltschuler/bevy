@@ -2,10 +2,16 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var NotificationSchema = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	user: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'User'
 	},
 	email: String,

@@ -11,18 +11,24 @@
 // imports
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var CommentSchema = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	postId: { // post comment is under
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'Post'
 	},
 	parentId: { // parent comment, if one exists
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'Comment'
 	},
 	author: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'User'
 	},
 	body: String,

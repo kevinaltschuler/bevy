@@ -2,19 +2,25 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+var shortid = require('shortid');
 
 var ChatThread = new Schema({
+	_id: {
+		type: String,
+		unique: true,
+		default: shortid.generate()
+	},
 	bevy: {
-		type: Schema.Types.ObjectId,
+		type: String,
 		ref: 'Bevy'
 	},
 	members: [Schema({
 		user: {
-			type: Schema.Types.ObjectId,
+			type: String,
 			ref: 'User'
 		},
 		member: {
-			type: Schema.Types.ObjectId,
+			type: String,
 			ref: 'BevyMember'
 		}
 	}, { _id: false })]
