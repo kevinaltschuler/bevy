@@ -62,30 +62,16 @@ module.exports = function(app) {
 			// try to get as much stuff as possible
 			// so we don't have to ajax for it later
 			var user = req.user;
+			console.log(user);
 
 			async.parallel([
-				/*function(callback) {
+				function(callback) {
 					// get bevies
-					Member.find({ user: user._id }, function(err, members) {
-						if(err) return next(err);
-						var _bevies = [];
-						async.each(members, function(member, callback) {
-							if(_.isEmpty(member.bevy)) {
-								return;
-							}
-							var bevy_id = member.bevy._id;
-							var bevy = JSON.parse(JSON.stringify(member.bevy));
-							Member.find({ bevy: bevy_id }, function(err, $members) {
-								bevy.members = $members;
-								_bevies.push(bevy);
-								callback();
-							}).populate('user');
-						}, function(err) {
-							if(err) return next(err);
-							callback(null, _bevies);
-						});
-					}).populate('bevy');
-				},*/
+					Bevy.find({ _id: { $in: user.bevies } }, function(err, bevies) {
+						if(err) return callback(null, []);
+						callback(null, bevies);
+					});
+				},
 				function(callback) {
 					// get notifications
 					Notification.find({ user: user._id }, function(err, notifications) {
@@ -213,16 +199,16 @@ module.exports = function(app) {
 					]);
 				}
 			], function(err, results) {
-				//var bevies =  results[0];
-				var notifications = results[0];
-				var posts = results[1];
-				var threads = results[2];
+				var bevies = results[0];
+				var notifications = results[1];
+				var posts = results[2];
+				var threads = results[3];
 
 				return res.render('app', {
 					env: process.env.NODE_ENV,
 					hostname: req.hostname,
 					user: user,
-					//myBevies: bevies,
+					myBevies: bevies,
 					notifications: notifications,
 					posts: posts,
 					threads: threads

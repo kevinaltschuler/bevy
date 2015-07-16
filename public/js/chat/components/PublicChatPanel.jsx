@@ -7,6 +7,9 @@ var rbs = require('react-bootstrap');
 var Button = rbs.Button;
 var Input = rbs.Input;
 
+var mui = require('material-ui');
+var FloatingActionButton = mui.FloatingActionButton;
+
 var MessageList = require('./MessageList.jsx');
 
 var ChatActions = require('./../ChatActions');
@@ -22,7 +25,8 @@ var PublicChatPanel = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object,
-		activeThread: React.PropTypes.object
+		activeThread: React.PropTypes.object,
+		disabled: React.PropTypes.bool
 	},
 
 	getInitialState: function() {
@@ -61,7 +65,7 @@ var PublicChatPanel = React.createClass({
 			var thread = this.props.activeThread;
 			var author = window.bootstrap.user;
 			var body = this.refs.body.getValue();
-			//ChatActions.createMessage(thread._id, author, body);
+			ChatActions.createMessage(thread._id, author, body);
 
 			// reset input field
 			this.setState({
@@ -70,16 +74,37 @@ var PublicChatPanel = React.createClass({
 		}
 	},
 
+	openPanel: function(ev) {
+		ev.preventDefault();
+		document.getElementById("public-chat-panel").style.height = "400px";
+		document.getElementById("public-chat-btn").style.display = "none";
+	},
+
+	closePanel: function(ev) {
+		ev.preventDefault();
+		document.getElementById("public-chat-panel").style.height = "0px";
+		document.getElementById("public-chat-btn").style.display = "inherit";
+	},
+
 	render: function() {
 
 		var bevy = this.props.activeBevy;
 		var thread = this.props.activeThread;
-		console.log(thread);
+		console.log('activeThread: ', thread);
 		var name = (bevy == undefined) ? '' : bevy.name;
 
 		var backgroundStyle = (bevy && !_.isEmpty(bevy.image_url))
 		? {
 			backgroundImage: 'url(' + bevy.image_url + ')'
+		}
+		: {};
+
+		var floatingBtnStyle = (bevy && !_.isEmpty(bevy.image_url))
+		? {
+			backgroundImage: 'url(' + bevy.image_url + ')',
+			backgroundPosition: 'center',
+			backgroundSize: '100% auto',
+			textShadow: '1px 3px 3px rgba(0,0,0,.4)',
 		}
 		: {};
 
@@ -99,6 +124,7 @@ var PublicChatPanel = React.createClass({
 					<div className='bevy-name' title={ name }>
 						{ name }
 					</div>
+					<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
 				</div>
 			</div>
 		);
@@ -117,7 +143,6 @@ var PublicChatPanel = React.createClass({
 				</div>
 			</div>
 		);
-		if(!this.state.isOpen) input = <div />;
 
 		var body = (_.isEmpty(this.props.activeThread))
 		? (<div/>)
@@ -132,9 +157,12 @@ var PublicChatPanel = React.createClass({
 		);
 
 		return (
-			<div className='chat-panel public-chat-panel'>
-				{ header }
-				{ body }
+			<div>
+				<div id='public-chat-panel' className='chat-panel public-chat-panel'>
+					{ header }
+					{ body }
+				</div>
+				<FloatingActionButton id='public-chat-btn' style={floatingBtnStyle} onClick={this.openPanel} className='floating-chat-btn' iconClassName="glyphicon glyphicon-comment"/>
 			</div>
 		);
 	}

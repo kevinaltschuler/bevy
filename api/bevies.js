@@ -108,12 +108,13 @@ exports.show = function(req, res, next) {
 	//Bevy.findOne({ $or: [{ _id: id }, { name: id }] }, function(err, bevy) {
 	Bevy.findOne({ _id: id }, function(err, bevy) {
 		if(err) return next(err);
-		Member.find({ bevy: id }, function(err, members) {
+		return res.json(bevy);
+		/*Member.find({ bevy: id }, function(err, members) {
 			if(err) return next(err);
 			bevy = JSON.parse(JSON.stringify(bevy));
 			bevy.members = members;
 			return res.json(bevy);
-		}).populate('user');
+		}).populate('user');*/
 	});
 }
 

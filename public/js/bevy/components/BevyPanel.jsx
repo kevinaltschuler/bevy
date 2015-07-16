@@ -46,22 +46,23 @@ var BevyPanel = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		activeMember: React.PropTypes.object,
+		myBevies: React.PropTypes.array.isRequired
 	},
 
 	getInitialState: function() {
 
-		var bevy = this.props.activeBevy;
+		var activeBevy = this.props.activeBevy;
 		var member = this.props.activeMember;
+		var joined = _.findWhere(this.props.myBevies, { _id: activeBevy._id }) != undefined;
 
 		return {
-			name: bevy.name || '',
-			description: bevy.description || '',
-			image_url: bevy.image_url || '',
-			displayName: member.displayName || 'no display name',
-			activeMember: member || null,
+			name: activeBevy.name || '',
+			description: activeBevy.description || '',
+			image_url: activeBevy.image_url || '',
 			isEditing: false,
 			isEditingName: false,
+			joined: joined
 		};
 	},
 
@@ -72,10 +73,6 @@ var BevyPanel = React.createClass({
 			name: bevy.name,
 			description: bevy.description,
 			image_url: bevy.image_url,
-			activeMember: nextProps.activeMember,
-			displayName: (nextProps.activeMember && nextProps.activeMember.displayName)
-				? nextProps.activeMember.displayName
-				: 'no display name'
 		});
 	},
 
@@ -110,8 +107,7 @@ var BevyPanel = React.createClass({
 		activeMember.displayName = displayName;
 		this.setState({
 			isEditingName: false,
-			displayName: displayName,
-			activeMember: activeMember
+			displayName: displayName
 		});
 	},
 
@@ -163,16 +159,30 @@ var BevyPanel = React.createClass({
 		});
 	},
 
-	leave: function(ev) {
+	onRequestJoin: function(ev) {
 		ev.preventDefault();
 
-		if(!window.confirm('Are you sure?')) return;
+		BevyActions.join(this.props.activeBevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
 
-		if(!this.props.activeBevy) return;
+		var bevy = this.props.bevy;
+		var joined = true;
 
-		var bevy_id = this.props.activeBevy.id;
+		this.setState({
+			joined: joined
+		});
+	},
 
-		BevyActions.leave(bevy_id);
+	onRequestLeave: function(ev) {
+		ev.preventDefault();
+
+		BevyActions.leave(this.props.activeBevy._id);
+
+		var bevy = this.props.bevy;
+		var joined = false;
+
+		this.setState({
+			joined: joined
+		});
 	},
 
 	destroy: function(ev) {
@@ -200,13 +210,13 @@ var BevyPanel = React.createClass({
 			backgroundImage: 'url(' + bevyImage + ')'
 		};
 
-		var aliasImage = (this.state.activeMember.image_url)
+		/*var aliasImage = (this.state.activeMember.image_url)
 		? this.state.activeMember.image_url
 		: '/img/logo_100.png';
 
 		var aliasImageStyle = {
 			backgroundImage: 'url(' + aliasImage + ')'
-		};
+		};*/
 
 		var imgStyle = (this.state.image_url === '/img/logo_100.png')
 		? { minWidth: '50px', height: 'auto' }
@@ -224,15 +234,15 @@ var BevyPanel = React.createClass({
 
 		var members = (_.isEmpty(bevy)) ? [] : bevy.members;
 
-		var member = this.state.activeMember
+		//var member = this.state.activeMember
 		var itemIndex = 0;
-		if(!_.isEmpty(member)) {
+		/*if(!_.isEmpty(member)) {
 			var level = member.notificationLevel;
 
 			// swap so the level from the db is the selected one
 			var item = _.findWhere(notificationMenuItems, { payload: level });
 			itemIndex = item.defaultIndex;
-		}
+		}*/
 
 		var aliasDropzoneOptions = {
 			maxFiles: 1,
@@ -241,7 +251,7 @@ var BevyPanel = React.createClass({
 			dictDefaultMessage: ' ',
 		};
 
-		var nameEditAction = (this.state.isEditingName)
+		/*var nameEditAction = (this.state.isEditingName)
 		? (
 			<div className='sidebar-action name-edit-action'>
 				<div className="sidebar-action-title"> Posting As... </div>
@@ -282,11 +292,11 @@ var BevyPanel = React.createClass({
 					</IconButton>
 				</div>
 			</div>
-		);
+		);*/
 
-		if(!bevy.settings.anonymise_users) nameEditAction = '';
+		//if(!bevy.settings.anonymise_users) nameEditAction = '';
 
-		if(this.state.activeMember) {
+		/*if(this.state.activeMember) {
 			var bottomActions = (this.state.activeMember.role == 'admin')
 			? (<div className='sidebar-bottom'>
 					<div>
@@ -305,13 +315,42 @@ var BevyPanel = React.createClass({
 				</div>)
 			: (<div className='sidebar-bottom'>
 					<div>
-						{/* user settings */}
-					</div>
+						{/* user settings }
+		/*			</div>
 					<div>
 						 <Button className="sidebar-action-link-bottom"
 							onClick={ this.leave }>
 							Leave Bevy
 						  </Button>
+					</div>
+				</div>)
+		}*/
+
+		var _joinButton = (this.state.joined)
+		? <RaisedButton label='leave' onClick={this.onRequestLeave} />
+		: <RaisedButton label='join' onClick={this.onRequestJoin} /> 
+
+		var joinButton = (_.isEmpty(window.bootstrap.user))
+		? <div/>
+		: _joinButton
+
+		if(window.bootstrap.user) {
+			var bottomActions = (_.find(bevy.admins, function(admin) { window.bootstrap.user._id == admin }))
+			? (<div className='sidebar-bottom'>
+					<div>
+						<ModalTrigger modal={<BevySettingsModal activeBevy={this.props.activeBevy} />}>
+							<RaisedButton label='Settings' />
+						</ModalTrigger>
+					</div>
+					<div>
+						{ joinButton }
+					</div>
+				</div>)
+			: (<div className='sidebar-bottom'>
+					<div>
+					</div>
+					<div>
+						{ joinButton }
 					</div>
 				</div>)
 		}
@@ -320,7 +359,7 @@ var BevyPanel = React.createClass({
 		return (
 			<div className="bevy-panel panel">
 				<BevyPanelHeader {...this.props}/>
-				<div className='sidebar-links'>
+				{/*<div className='sidebar-links'>
 					<ModalTrigger modal={ <InviteModal activeBevy={ this.props.activeBevy } />	}>
 						<Button type='button' className="sidebar-link">
 							Invite People
@@ -339,11 +378,11 @@ var BevyPanel = React.createClass({
 							{ members.length + ' Members' }
 						</Button>
 					</ModalTrigger>
-				</div>
+				</div>*/}
 
-				{ nameEditAction }
+				{/* nameEditAction */}
 
-				<div className='sidebar-action'>
+				{/*<div className='sidebar-action'>
 					<div className="sidebar-action-title"> Notifications </div>
 					<DropDownMenu
 						className='sidebar-action-dropdown'
@@ -351,9 +390,9 @@ var BevyPanel = React.createClass({
 						onChange={ this.setNotificationLevel }
 						selectedIndex={ itemIndex }
 					/>
-				</div>
+				</div>*/}
 
-				{bottomActions}
+				{ bottomActions }
 
 			</div>
 		);

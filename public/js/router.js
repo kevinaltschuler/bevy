@@ -16,6 +16,7 @@ var Router = Backbone.Router.extend({
 		'publicbevies' : 'publicbevies',
 		'b' : 'home',
 		'b/' : 'home',
+		'b/frontpage': 'home',
 		'b/:bevyid' : 'superBevy',
 		'b/:bevyid/' : 'superBevy',
 		'b/:bevyid/post' : 'superBevy',
@@ -61,7 +62,7 @@ var Router = Backbone.Router.extend({
 		this.subbevy_id = null;
 		//console.log('router super');
 		//BevyActions.switchSuper(this.bevy_id);
-		BevyActions.switchBevy();
+		BevyActions.switchBevy(this.superBevy_id, this.subbevy_id);
 	},
 
 	subBevy: function(bevy_id, subbevy_id, post_id) {
@@ -70,7 +71,7 @@ var Router = Backbone.Router.extend({
 		this.subbevy_id = subbevy_id;
 		//console.log('router sub');
 		//BevyActions.switchSub(this.subbevy_id);
-		BevyActions.switchBevy();
+		BevyActions.switchBevy(this.superBevy_id, this.subbevy_id);
 		this.current = 'subBevy';
 	},
 

@@ -101,7 +101,6 @@ var MainSection = React.createClass({
 			// later, load this from session/cookies
 			myBevies: myBevies,
 			activeBevy: active,
-			activeMember: activeMember,
 			members: members,
 			publicBevies: publicBevies,
 			superBevy: superBevy,
@@ -188,7 +187,8 @@ var InterfaceComponent = React.createClass({
 		router.off('route', this.callback);
 	},
 	render : function() {
-		console.log('route', router.current);
+
+		console.log('active thread: ', this.props.activeThread);
 
 		switch(router.current) {
 			case 'home': 

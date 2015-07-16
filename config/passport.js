@@ -9,7 +9,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 
 var bcrypt = require('bcryptjs');
 
@@ -101,13 +100,13 @@ module.exports = function(app) {
 			//console.log('no user passed to serialize func');
 			//done('woops', null);
 		} else {
-			console.log('Serializing: ', user);
+			//console.log('Serializing: ', user);
 			done(null, user._id);
 		}
 	});
 
 	passport.deserializeUser(function(id, done) {
-		console.log('Deserializing: ', id);
+		//console.log('Deserializing: ', id);
 		var query = { _id: id };
 		User.findOne(query).exec(function(err, user) {
 			if(err) done(err, null);

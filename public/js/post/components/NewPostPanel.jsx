@@ -166,7 +166,7 @@ var NewPostPanel = React.createClass({
 			thumbnailHeight: 500,
 			dictDefaultMessage: 'Upload a Picture',
 			addRemoveLinks: true,
-			clickable: '.mui-floating-action-button',
+			clickable: '.paperclip',
 		};
 
 		var bevies = this.state.bevies;

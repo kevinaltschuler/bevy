@@ -34,11 +34,14 @@ var CreateNewBevy = React.createClass({
 	},
 
 	getInitialState: function() {
+		var parent_id = (this.props.parent == undefined) ? undefined : this.props.parent._id;
+		var disabled = _.isEmpty(window.bootstrap.user);
+
 		return {
 			name: '',
 			description: '',
 			image_url: '',
-			parent_id: (this.props.parent == undefined) ? undefined : this.props.parent._id
+			parent_id: parent_id
 		};
 	},
 

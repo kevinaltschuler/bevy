@@ -45,14 +45,15 @@ var PublicBevyPanel = React.createClass({
 
 	propTypes: {
 		bevy: React.PropTypes.object,
-		allBevies: React.PropTypes.array.isRequired
+		myBevies: React.PropTypes.array.isRequired
 	},
 
 	getInitialState: function() {
 
 		var bevy = this.props.bevy;
-
-		var joined = _.find(this.props.allBevies, function(_bevy) { return (_bevy._id == bevy._id)});
+		console.log(bevy._id, this.props.myBevies);
+		//var joined = _.find(this.props.myBevies, function(_bevy) { return (_bevy._id == bevy._id)});
+		var joined = _.findWhere(this.props.myBevies, { _id: bevy._id }) != undefined;
 
 		return {
 			name: bevy.name || '',
@@ -65,10 +66,9 @@ var PublicBevyPanel = React.createClass({
 	onRequestJoin: function(ev) {
 		ev.preventDefault();
 
-		BevyActions.addUser(this.props.bevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
+		BevyActions.join(this.props.bevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
 
-		var bevy = this.props.bevy;
-		var joined = _.find(this.props.allBevies, function(_bevy) { return (_bevy._id == bevy._id)});
+		var joined = true;
 
 		this.setState({
 			joined: joined
@@ -78,10 +78,9 @@ var PublicBevyPanel = React.createClass({
 	onRequestLeave: function(ev) {
 		ev.preventDefault();
 
-		BevyActions.removeUser(this.props.bevy._id, window.bootstrap.user.email, window.bootstrap.user._id);
+		BevyActions.leave(this.props.bevy._id);
 
-		var bevy = this.props.bevy;
-		var joined = _.find(this.props.allBevies, function(_bevy) { return (_bevy._id == bevy._id)});
+		var joined = false;
 
 		this.setState({
 			joined: joined

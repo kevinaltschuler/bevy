@@ -49,7 +49,7 @@ var HomeView = React.createClass({
 					<ModalTrigger modal={
 						<CreateNewBevy	/>
 					}>
-						<RaisedButton label='New Bevy'/>
+						<RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='New Bevy'/>
 					</ModalTrigger>
 				</div>
 			</div>

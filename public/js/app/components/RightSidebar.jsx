@@ -28,7 +28,7 @@ var RightSidebar = React.createClass({
 		? (<FrontpagePanel />)
 		: (<BevyPanel
 				activeBevy={ this.props.activeBevy }
-				activeMember={ this.props.activeMember }
+				myBevies={ this.props.myBevies }
 			/>);
 
 		return (

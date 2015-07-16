@@ -34,19 +34,19 @@ var SearchView = React.createClass({
 
 	propTypes: {
 		publicBevies: React.PropTypes.array.isRequired,
-		allBevies: React.PropTypes.array.isRequired,
+		myBevies: React.PropTypes.array
 	},
 
 	render: function() {
 		var publicBevies = this.props.publicBevies;
-		var allBevies = this.props.allBevies;
+		var myBevies = this.props.myBevies;
 
 		var publicBevyPanels = [];
 
 		for(var key in publicBevies) {
 			var bevy = publicBevies[key];
 			publicBevyPanels.push(
-				<PublicBevyPanel bevy={bevy} allBevies={this.props.allBevies} />
+				<PublicBevyPanel bevy={bevy} myBevies={this.props.myBevies} />
 			);
 		};
 
@@ -61,7 +61,7 @@ var SearchView = React.createClass({
 							<ModalTrigger modal={
 								<CreateNewBevy	/>
 							}>
-								<RaisedButton label='new bevy' className='public-bevy-panel panel'>
+								<RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='new bevy' className='public-bevy-panel panel'>
 									<FontIcon className="glyphicon glyphicon-plus"/>
 								</RaisedButton>
 							</ModalTrigger>

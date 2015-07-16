@@ -97,7 +97,6 @@ var LeftSidebar = React.createClass({
 						<div className='tab-content'>
 							{ tabContent }
 						</div>*/}
-						<PublicChatPanel activeThread={ this.props.activeThread }/>
 					</div>
 				</div>
 			</div>

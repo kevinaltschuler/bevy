@@ -8,6 +8,7 @@ var router = require('./../../router');
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
+var PublicChatPanel = require('./../../chat/components/PublicChatPanel.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx');
 var Lonesome = require('./Lonesome.jsx');
@@ -20,7 +21,6 @@ var PostView = React.createClass({
 		myBevies: React.PropTypes.array,
 		activeBevy: React.PropTypes.object,
 		allThreads: React.PropTypes.array,
-		activeMember: React.PropTypes.object,
 		allPosts: React.PropTypes.array,
 		superBevy: React.PropTypes.object.isRequired,
 		subBevies: React.PropTypes.array
@@ -30,7 +30,8 @@ var PostView = React.createClass({
 
 		var activeBevy = this.props.activeBevy;
 
-		if(this.props.activeBevy._id === undefined) {
+		if(this.props.activeBevy.name == null) {
+			console.log('undefined active bevy.');
 			return (
 				<div />
 			);
@@ -41,7 +42,7 @@ var PostView = React.createClass({
 					<NewPostPanel
 						activeBevy={ this.props.activeBevy }
 						myBevies={ this.props.myBevies }
-						disabled={ _.isEmpty(window.bootstrap.user) }
+						disabled={ _.isEmpty(window.bootstrap.user)}
 					/>
 					<PostSort />
 					<PostContainer
@@ -54,21 +55,23 @@ var PostView = React.createClass({
 
 			return (
 				<div className='main-section'>
+					<PublicChatPanel 
+						activeThread={ this.props.activeThread }
+						activeBevy={ this.props.activeBevy }
+					/>
 					<LeftSidebar
 						myBevies={ this.props.myBevies }
 						activeBevy={ this.props.activeBevy }
-						allThreads={ this.props.allThreads }
-						allContacts={ this.props.allContacts }
 						superBevy={ this.props.superBevy }
 						subBevies={ this.props.subBevies }
-						activeThread={ this.props.activeThread }
 					/>
 					<div className='post-view-body'>
 						{ body }
 					</div>
 					<RightSidebar
 						activeBevy={ this.props.activeBevy }
-						activeMember={ this.props.activeMember }
+						disabled={ _.isEmpty(window.bootstrap.user) }
+						myBevies={ this.props.myBevies }
 					/>
 				</div>
 			);

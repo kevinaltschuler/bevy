@@ -122,9 +122,10 @@ var PostActions = {
 		});
 	},
 
-	switchBevy: function() {
+	switchBevy: function(super_id, sub_id) {
 		dispatch(BEVY.SWITCH, {
-
+			super_id: (super_id == undefined) ? null : super_id,
+			sub_id: (sub_id == undefined) ? null : sub_id
 		});
 	}
 };

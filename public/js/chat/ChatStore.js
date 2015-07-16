@@ -61,7 +61,7 @@ _.extend(ChatStore, {
 
 				$.ajax({
 					method: 'get',
-					url: constants.apiurl + '/bevies/' + BevyStore.activeBevy._id,
+					url: constants.apiurl + '/bevies/' + BevyStore.getActive()._id,
 					success: function(data) {
 						this.activeThread = data;
 					}.bind(this)
@@ -151,7 +151,7 @@ _.extend(ChatStore, {
 				var author = payload.author;
 				var body = payload.body;
 
-				var thread = this.threads.get(thread_id);
+				var thread = this.activeThread;
 				var message = thread.messages.add({
 					thread: thread_id,
 					author: author._id,

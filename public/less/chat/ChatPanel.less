@@ -90,6 +90,33 @@
 }
 
 .public-chat-panel {
-	margin: 0px;
-	width: 100%;
+	margin: 0;
+	width: 250px;
+	position: fixed;
+	right: 0px;
+	height: 0px;
+	transition: all .2s ease;
+	.chat-panel-header {
+		.chat-panel-background-wrapper {
+			width: 100%;
+		}
+	}
+	.chat-panel-body {
+		height: 330px;
+		.message-list {
+			height: 100%;
+		}
+		.chat-panel-input {
+		}
+	}
+}
+.floating-chat-btn {
+	position: fixed;
+	right: 40px;
+	bottom: 30px;
+	.mui-floating-action-button-inner {
+		.mui-floating-action-button-container {
+			background-color: rgba(0,0,0,.8);
+		}
+	}
 }

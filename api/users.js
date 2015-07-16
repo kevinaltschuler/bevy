@@ -20,7 +20,6 @@ var mailgun = require('./../config').mailgun();
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
-var ObjectId = mongoose.Types.ObjectId;
 
 var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
@@ -118,27 +117,23 @@ exports.show = function(req, res, next) {
 }
 
 // UPDATE
-// GET /users/:id/edit
-// GET /users/:id/update
 // PUT/PATCH /users/:id
 exports.update = function(req, res, next) {
+	console.log('update');
 	var id = req.params.id;
 
-	var update = collectUserParams(req);
+	var update = {};
 	update.updated = new Date();
+	update.bevies = req.body['bevies'] || [];
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
-	var query = { _id: id };
-	var promise = User.findOneAndUpdate(query, update)
-		.populate('aliases')
-		.exec();
-	promise.then(function(user) {
-		if(!user) throw error.gen('user not found', req);
-		return user;
-	}).then(function(user) {
-		res.json(user);
-	}, function(err) { next(err); });
+	console.log(update);
+
+	User.findOneAndUpdate({ _id: id }, update, { new: true, upsert: true }, function(err, user) {
+		if(err) return next(err);
+		return res.json(user);
+	}).populate('bevies');
 }
 
 // DESTROY

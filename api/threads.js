@@ -13,7 +13,7 @@ var Member = mongoose.model('BevyMember');
 exports.index = function(req, res, next) {
 	var id = req.params.id;
 
-	async.waterfall([
+	/*async.waterfall([
 		function(done) {
 			Member.find({ user: id }, function(err, members) {
 				if(err) return next(err);
@@ -30,8 +30,6 @@ exports.index = function(req, res, next) {
 		function(bevies, done) {
 			var bevy_id_list = _.pluck(bevies, '_id');
 
-			id = mongoose.Types.ObjectId(id);
-
 			Thread.find(function(err, threads) {
 				if(err) return next(err);
 				return res.json(threads);
@@ -39,7 +37,8 @@ exports.index = function(req, res, next) {
 			.or([{ members: { $elemMatch: { user: id } } }, { bevy: { $in: bevy_id_list } }])
 			.populate('bevy members.user members.member');
 		}
-	]);
+	]);*/
+	return res.json([]);
 }
 
 // GET /threads/:id

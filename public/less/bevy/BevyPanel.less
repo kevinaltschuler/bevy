@@ -30,18 +30,23 @@
 	}
 	.sidebar-top {
 		display: flex;
-		flex-direction: row;
+		flex-direction: column;
 		justify-content: flex-start;
-		margin-top: 20px;
-		padding: 0px 20px;
+		padding: 0px;
+		margin-bottom: 10px;
 		.sidebar-picture {
+			width: 100%;
+			.profile-img {
+				background-size: 100% auto !important;
+			}
 			.profile-img, .bevy-image-dropzone {
-				border-radius: 50px;
-				overflow: hidden;
 				display: inline-block;
-				margin-top: 0px;
+				margin-top: 0;
 				height: 50px;
+				width: 100%;
 				min-width: 50px;
+				background-repeat: no-repeat;
+				background-position: center;
 				#image-icon;
 			}
 			&.frontpage {
@@ -70,11 +75,14 @@
 			span.sidebar-title-name {
 				display: inline-block;
 				margin-left: 15px;
+				margin-top: 5px;
 			}
 			span.sidebar-title-description {
 				font-size: 0.7em;
 				color: #4c4c4c;
 				margin-left: 15px;
+				margin-top: 5px;
+				width: 100%;
 			}
 			&.frontpage {
 				margin-top: 5px;
@@ -212,6 +220,7 @@
 		display: flex;
 		justify-content: space-between;
 		padding: 0px 15px;
+		margin-bottom: 10px;
 		.sidebar-action-link-bottom {
 			margin-top: 20px;
 			margin-bottom: 15px;
