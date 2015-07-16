@@ -182,7 +182,7 @@ var NewPostPanel = React.createClass({
 			/>);
 
 		hintText = (this.props.disabled)
-		? 'only members of ' + this.props.activeBevy.name + ' may post'
+		? 'you must be logged in to post'
 		: hintText
 
 		return (

@@ -324,64 +324,8 @@ _.extend(BevyStore, {
 					this.trigger(BEVY.CHANGE_ALL);
 				}.bind(this));
 
-				break;
+				this.trigger(BEVY.SWITCHED);
 
-			case BEVY.SWITCH_SUB:
-				//console.log('caught sub');
-
-				$.ajax({
-					url: constants.apiurl + '/bevies/' + router.subbevy_id,
-					method: 'GET',
-					success: function(bevy) {
-						this.active = bevy;
-						//console.log('switched sub: ', bevy);
-						//router.navigate('/b/' + this.superBevy._id + '/' + bevy._id, { trigger: true });
-					}.bind(this),
-					error: function(jqXHR) {
-						router.navigate('404', { trigger: true });
-					}.bind(this)
-				});
-
-				this.trigger(BEVY.CHANGE_ALL);
-				break;
-
-			case BEVY.SWITCH_SUPER:
-				//console.log('caught super');
-
-				//set superbevy
-				$.ajax({
-					url: constants.apiurl + '/bevies/' + router.superBevy_id,
-					method: 'GET',
-					success: function(bevy) {
-						this.active = bevy;
-						this.superBevy = bevy;
-						//console.log('switched super: ', this.superBevy);
-						//router.navigate('/b/' + bevy._id, { trigger: true });
-					}.bind(this),
-					error: function(jqXHR) {
-						router.navigate('404', { trigger: true });
-					}.bind(this)
-				});
-
-				//filter subbevies out of all bevies
-				/*$.ajax({
-					method: 'GET',
-					url: constants.apiurl + '/bevies',
-					success: function(data) {
-						this.subBevies = _.filter(data, function(_bevy) { 
-							return _bevy.parent == this.superBevy; 
-						}.bind(this));
-					}.bind(this)
-				});*/
-				this.subBevies.url = constants.apiurl + '/bevies/' + router.superBevy_id + '/subbevies';
-				this.subBevies.fetch({
-					reset: true,
-					success: function(collection, response, options) {
-
-					}.bind(this)
-				});
-
-				this.trigger(BEVY.CHANGE_ALL);
 				break;
 
 			case BEVY.INVITE:

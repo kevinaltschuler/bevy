@@ -11,9 +11,24 @@ var router = require('./../../router');
 
 var user = window.bootstrap.user;
 
+var rbs = require('react-bootstrap');
+var Badge = rbs.Badge;
+var ButtonGroup = rbs.ButtonGroup;
+var MenuItem = rbs.MenuItem;
+var Accordion = rbs.Accordion;
+var Panel = rbs.Panel;
+var Button = rbs.Button;
+var Input = rbs.Input;
+var ModalTrigger = rbs.ModalTrigger;
+
+var mui = require('material-ui');
+var RaisedButton = mui.RaisedButton;
+var FontIcon = mui.FontIcon;
+
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
+var CreateNewBevy = require('./../../bevy/components/CreateNewBevy.jsx');
 
 var SearchView = React.createClass({
 
@@ -36,9 +51,35 @@ var SearchView = React.createClass({
 		};
 
 		return (
-			<div className='main-section'>
-				<div className='public-bevy-list'>
-					{publicBevyPanels}
+			<div className='public-bevy-wrapper'>
+				<div className='mid-section'>
+					<div className='public-bevy-list'>
+						<div className='public-bevy-header'>
+							<h2>
+								Bevies
+							</h2>
+							<ModalTrigger modal={
+								<CreateNewBevy	/>
+							}>
+								<RaisedButton label='new bevy' className='public-bevy-panel panel'>
+									<FontIcon className="glyphicon glyphicon-plus"/>
+								</RaisedButton>
+							</ModalTrigger>
+						</div>
+						<div className='panel-list'>
+								{publicBevyPanels}
+						</div>
+					</div>
+				</div>
+				<div className="footer-public-bevies">
+					<div className='footer-left'>
+						Bevy © 2015 
+					</div>
+					<div className='footer-right'>
+						<Button className="bevy-logo-btn" href='/'>
+							<div className='bevy-logo-img' style={{backgroundImage: 'url(/img/logo_100.png)'}}/>
+						</Button>
+					</div>
 				</div>
 			</div>
 		);

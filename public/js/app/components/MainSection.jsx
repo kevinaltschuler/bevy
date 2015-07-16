@@ -15,6 +15,9 @@ var _ = require('underscore');
 
 var router = require('./../../router');
 
+var rbs = require('react-bootstrap');
+var Button = rbs.Button;
+
 var Navbar = require('./Navbar.jsx');
 var HomeView = require('./../../homepage/components/HomeView.jsx');
 var PostView = require('./PostView.jsx');
@@ -115,7 +118,8 @@ var MainSection = React.createClass({
 	getChatState: function() {
 		return {
 			allThreads: ChatStore.getAllThreads(),
-			openThreads: ChatStore.getOpenThreads()
+			openThreads: ChatStore.getOpenThreads(),
+			activeThread: ChatStore.getActiveThread()
 		};
 	},
 

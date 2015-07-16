@@ -85,7 +85,7 @@ var Uploader = React.createClass({
 			|| this.props.className === 'alias-image-dropzone')
 		? <div className='dropzone-button-container'>
 			 <button className="btn btn-lg dropzone-panel-button" onClick={this.preventDefault}>
-				<span className='glyphicon glyphicon-picture'/>
+				<span className='glyphicon glyphicon-pencil'/>
 			 </button>
 		 </div>
 		: ' '

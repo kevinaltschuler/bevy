@@ -1,7 +1,7 @@
 @import '../variables.less';
 
 .navbar {
-	z-index: 5;
+	z-index: 1;
 	background-color: @bevy-green;
 	border-color: rgba(0,0,0,0);
 	border-radius: 0px;
@@ -13,7 +13,7 @@
 	flex-direction: row;
 	justify-content: space-between;
 	align-items: center;
-
+	text-shadow: 0 0 5px rgba(0,0,0,.5);
 	.navbar-brand-text {
 		font-size: 1.2em;
 		height: 20px;
@@ -21,7 +21,7 @@
 		background-color: rgba(0,0,0,0);
 		border: none;
 		padding-left: 10px;
-		z-index: 1;
+		z-index: 2;
 	}
 	.background-wrapper {
 		height: 68px;
@@ -48,7 +48,7 @@
 		flex-direction: row;
 		align-items: center;
 		justify-content: flex-start;
-		z-index: 1;
+		z-index: 2;
 		.bevy-logo-btn {
 			width: 35px;
 			height: 35px;
@@ -57,7 +57,7 @@
 			border: none;
 			outline: 0;
 			box-shadow: none;
-			z-index: 1;
+			z-index: 2;
 			.bevy-logo-img {
 				background-image: url(/img/logo_100_reversed.png);
 				background-repeat: no-repeat;
@@ -84,6 +84,10 @@
 				outline: 0;
 				box-shadow: none;
 				color: white;
+				text-shadow: 0 0 5px rgba(0,0,0,.5);
+			}
+			.dropdown-menu {
+				text-shadow: none;
 			}
 		}
 	}
@@ -103,7 +107,7 @@
 
 	.navbar-header.pull-right {
 		width: 120%;
-		z-index: 1;
+		z-index: 2;
 		padding-right: 30px;
 		display: flex;
 		flex-direction: row;
@@ -147,7 +151,7 @@
 			.mui-icon-button {
 				width: 20%;
 				padding: 5px;
-
+				text-shadow: 0 0 5px rgba(0,0,0,.5);
 				.glyphicon-search {
 					color: white;
 					font-size: 1em;

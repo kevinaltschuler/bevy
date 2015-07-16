@@ -77,17 +77,12 @@ var CreateNewBevy = React.createClass({
 			clickable: '.dropzone-panel-button',
 			dictDefaultMessage: ' ',
 		};
-		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
-		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png')
-		? {
+		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
+		var bevyImageStyle = {
 			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '100px auto',
+			backgroundSize: '100% auto'
 
-		}
-		: {
-			backgroundImage: 'url(' + bevyImage + ')',
-			backgroundSize: '50px 50px',
-		}
+		};
 
 		var title = (this.props.parent )
 		? 'Create a new Sub Bevy of ' + this.props.parent.name
@@ -95,8 +90,8 @@ var CreateNewBevy = React.createClass({
 
 		return <Modal className="create-bevy" {...this.props} title={title}>
 
-					<div className="row">
-						<div className="col-xs-3 new-bevy-picture">
+					<div className="bevy-info">
+						<div className="new-bevy-picture">
 							<Uploader
 								onUploadComplete={ this.onUploadComplete }
 								className="bevy-image-dropzone"
@@ -104,7 +99,7 @@ var CreateNewBevy = React.createClass({
 								dropzoneOptions={ dropzoneOptions }
 							/>
 						</div>
-						<div className='col-xs-6'>
+						<div className='text-fields'>
 							<TextField
 								type='text'
 								ref='name'
@@ -117,21 +112,16 @@ var CreateNewBevy = React.createClass({
 							/>
 						</div>
 					</div>
-
-					<div className='row'>
-						<div className='col-xs-12'>
-							<div className="panel-bottom">
-								<div className='right'>
-									<RaisedButton
-										onClick={ this.create }
-										label="Create"
-									/>
-									<FlatButton
-										onClick={ this.props.onRequestHide }
-										label="Cancel"
-									/>
-								</div>
-							</div>
+					<div className="panel-bottom">
+						<div className='right'>
+							<RaisedButton
+								onClick={ this.create }
+								label="Create"
+							/>
+							<FlatButton
+								onClick={ this.props.onRequestHide }
+								label="Cancel"
+							/>
 						</div>
 					</div>
 				 </Modal>

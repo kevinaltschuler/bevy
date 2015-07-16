@@ -14,6 +14,7 @@ var BEVY = constants.BEVY;
 var BevyStore = require('./../bevy/BevyStore');
 
 var ThreadCollection = require('./ThreadCollection');
+var Thread = require('./ThreadModel');
 
 var ChatStore = _.extend({}, Backbone.Events);
 
@@ -24,14 +25,13 @@ _.extend(ChatStore, {
 
 	threads: new ThreadCollection,
 	openThreads: [],
+	activeThread: new Thread,
 
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
 			case APP.LOAD:
 
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
-
-
 
 				break;
 
@@ -52,6 +52,18 @@ _.extend(ChatStore, {
 								}.bind(this)
 							});
 						}.bind(this));
+					}.bind(this)
+				});
+
+				break;
+
+			case BEVY.SWITCHED:
+
+				$.ajax({
+					method: 'get',
+					url: constants.apiurl + '/bevies/' + BevyStore.activeBevy._id,
+					success: function(data) {
+						this.activeThread = data;
 					}.bind(this)
 				});
 
@@ -184,6 +196,10 @@ _.extend(ChatStore, {
 		return (_.isEmpty(this.threads.models))
 			? []
 			: this.threads.toJSON();
+	},
+
+	getActiveThread: function() {
+		return this.activeThread;
 	},
 
 	getOpenThreads: function() {

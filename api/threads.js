@@ -8,6 +8,7 @@ var Thread = mongoose.model('ChatThread');
 var Bevy = mongoose.model('Bevy');
 var Member = mongoose.model('BevyMember');
 
+
 // GET /users/:id/threads
 exports.index = function(req, res, next) {
 	var id = req.params.id;
@@ -40,6 +41,16 @@ exports.index = function(req, res, next) {
 		}
 	]);
 }
+
+// GET /threads/:id
+exports.show = function(req, res, next) {
+	var id = req.params.id;
+	Thread.findOne({ bevy: id }, function(err, thread) {
+		if(err) return next(err);
+		return thread;
+	}).populate('bevy');
+}
+
 
 // POST /users/:id/threads
 exports.create = function(req, res, next) {
