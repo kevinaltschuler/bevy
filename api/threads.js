@@ -41,12 +41,12 @@ exports.index = function(req, res, next) {
 	return res.json([]);
 }
 
-// GET /threads/:id
+// GET /bevies/:id/thread
 exports.show = function(req, res, next) {
 	var id = req.params.id;
 	Thread.findOne({ bevy: id }, function(err, thread) {
 		if(err) return next(err);
-		return thread;
+		return res.json(thread);
 	}).populate('bevy');
 }
 

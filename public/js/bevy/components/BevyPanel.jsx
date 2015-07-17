@@ -28,6 +28,7 @@ var DropDownMenu = mui.DropDownMenu;
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var RaisedButton = mui.RaisedButton;
+var FlatButton = mui.FlatButton;
 
 var InviteModal = require('./InviteModal.jsx');
 var MemberModal = require('./MemberModal.jsx');
@@ -200,8 +201,8 @@ var BevyPanel = React.createClass({
 	render: function() {
 
 		var bevy = this.props.activeBevy;
-		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/logo_100.png' : this.state.image_url;
-		var bevyImageStyle = (this.state.image_url === '/img/logo_100.png')
+		var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
+		var bevyImageStyle = (this.state.image_url === '/img/default_group_img.png')
 		? {
 			backgroundImage: 'url(' + bevyImage + ')'
 
@@ -218,7 +219,7 @@ var BevyPanel = React.createClass({
 			backgroundImage: 'url(' + aliasImage + ')'
 		};*/
 
-		var imgStyle = (this.state.image_url === '/img/logo_100.png')
+		var imgStyle = (this.state.image_url === '/img/default_group_img.png')
 		? { minWidth: '50px', height: 'auto' }
 		: { minWidth: '100px', height: 'auto' };
 
@@ -327,19 +328,19 @@ var BevyPanel = React.createClass({
 		}*/
 
 		var _joinButton = (this.state.joined)
-		? <RaisedButton label='leave' onClick={this.onRequestLeave} />
-		: <RaisedButton label='join' onClick={this.onRequestJoin} /> 
+		? <FlatButton label='leave' onClick={this.onRequestLeave} />
+		: <FlatButton label='join' onClick={this.onRequestJoin} /> 
 
 		var joinButton = (_.isEmpty(window.bootstrap.user))
 		? <div/>
 		: _joinButton
 
 		if(window.bootstrap.user) {
-			var bottomActions = (_.find(bevy.admins, function(admin) { window.bootstrap.user._id == admin }))
+			var bottomActions = (_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; }))
 			? (<div className='sidebar-bottom'>
 					<div>
 						<ModalTrigger modal={<BevySettingsModal activeBevy={this.props.activeBevy} />}>
-							<RaisedButton label='Settings' />
+							<FlatButton label='Settings' />
 						</ModalTrigger>
 					</div>
 					<div>

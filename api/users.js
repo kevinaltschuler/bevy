@@ -119,7 +119,7 @@ exports.show = function(req, res, next) {
 // UPDATE
 // PUT/PATCH /users/:id
 exports.update = function(req, res, next) {
-	console.log('update');
+	//console.log('update');
 	var id = req.params.id;
 
 	var update = {};
@@ -128,7 +128,7 @@ exports.update = function(req, res, next) {
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
-	console.log(update);
+	//console.log(update);
 
 	User.findOneAndUpdate({ _id: id }, update, { new: true, upsert: true }, function(err, user) {
 		if(err) return next(err);

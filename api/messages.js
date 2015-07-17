@@ -2,6 +2,7 @@
 
 var mongoose = require('mongoose');
 var _ = require('underscore');
+var shortid = require('shortid');
 
 var emitter = require('./notifications').emitter;
 
@@ -9,6 +10,7 @@ var Message = mongoose.model('ChatMessage');
 var Thread = mongoose.model('ChatThread');
 var Bevy = mongoose.model('Bevy');
 var Member = mongoose.model('BevyMember');
+var User = mongoose.model('User');
 
 // GET /threads/:threadid/messages
 exports.index = function(req, res, next) {
@@ -31,42 +33,41 @@ exports.create = function(req, res, next) {
 	var body = req.body['body'];
 
 	var message = {
+		_id: shortid.generate(),
 		thread: thread_id,
 		author: author,
 		body: body
 	};
 
 	Message.create(message, function(err, $message) {
+		if(err) return next(err);
 		Message.populate(message, { path: 'author' }, function(err, $pop_message) {
+			if(err) return next(err);
 			// now lets push it to everybody
 			Thread.findOne({ _id: thread_id }, function(err, thread) {
 				if(err) return next(err);
 				if(!thread) return next('thread not found');
-				if(_.isEmpty(thread.members)) {
+				if(!_.isEmpty(thread.bevy)) { // if its a bevy chat
 					// send to bevy members
-					Member.find({ bevy: thread.bevy }, function(err, members) {
+					User.find({ bevies: thread.bevy }, function(err, users) {
 						if(err) return next(err);
-						members.forEach(function(member) {
-							if(member.user) {
-								if(member.user.toString() == author) return; // dont send chat to yourself
-								emitter.emit(member.user + ':chat', $pop_message);
+						users.forEach(function(user) {
+							if(user) {
+								if(user == author) return; // dont send chat to yourself
+								emitter.emit(user + ':chat', $pop_message);
 							}
 						});
 					});
-				} else {
-					// send to each user
-					thread.members.forEach(function(member) {
-						if(member.user) {
-							if(member.user.toString() == author) return; // dont send chat to yourself
-							emitter.emit(member.user + ':chat', $pop_message);
-						}
-					});
 				}
+				// send to each user
+				thread.users.forEach(function(user) {
+					if(user) {
+						if(user == author) return; // dont send chat to yourself
+						emitter.emit(user + ':chat', $pop_message);
+					}
+				});
 			});
 
-			$pop_message = JSON.parse(JSON.stringify($pop_message));
-			$pop_message._id = $message._id;
-			$pop_message.created = $message.created;
 			return res.json($pop_message);
 		});
 	});

@@ -141,7 +141,7 @@ exports.create = function(req, res, next) {
 			// send to all admins
 			Member.find({ bevy: bevy_id }, function(err, members) {
 				if(err) return next(err);
-				console.log(bevy_id, members);
+				//console.log(bevy_id, members);
 				var admins = _.where(members, { role: 'admin' });
 				var notifications = [];
 				admins.forEach(function(admin) {

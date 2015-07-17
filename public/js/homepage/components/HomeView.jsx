@@ -34,6 +34,7 @@ var constants = require('./../../constants');
 
 var HomeView = React.createClass({
 	render: function() {
+
 		return (
 		<div className='landing-page'>
 			<div className='landing-div div1'>

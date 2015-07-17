@@ -9,7 +9,7 @@ module.exports = function(router) {
 	router.get('/users/:id/threads', api.threads.index);
 
 	//SHOW
-	router.get('/threads/:id', api.threads.show);
+	router.get('/bevies/:id/thread', api.threads.show);
 
 	// CREATE
 	router.post('/users/:id/threads/', api.threads.create);

@@ -25,13 +25,13 @@ _.extend(ChatStore, {
 
 	threads: new ThreadCollection,
 	openThreads: [],
-	activeThread: new Thread,
+	activeThread: '',
 
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
 			case APP.LOAD:
 
-				Dispatcher.waitFor([BevyStore.dispatchToken]);
+				Dispatcher.waitFor([BevyStore.dispatchToken]);  
 
 				break;
 
@@ -57,15 +57,20 @@ _.extend(ChatStore, {
 
 				break;
 
-			case BEVY.SWITCHED:
+			case BEVY.SWITCH:
 
-				$.ajax({
-					method: 'get',
-					url: constants.apiurl + '/bevies/' + BevyStore.getActive()._id,
-					success: function(data) {
-						this.activeThread = data;
-					}.bind(this)
-				});
+				BevyStore.on(BEVY.SWITCHED, function() {
+
+					$.ajax({
+						method: 'get',
+						url: constants.apiurl + '/bevies/' + BevyStore.getActive()._id + '/thread',
+						success: function(data) {
+							this.activeThread = data._id;
+							this.threads.add(data);
+							this.trigger(CHAT.CHANGE_ALL);
+						}.bind(this)
+					});
+				}.bind(this));
 
 				break;
 			case CHAT.THREAD_OPEN:
@@ -151,7 +156,7 @@ _.extend(ChatStore, {
 				var author = payload.author;
 				var body = payload.body;
 
-				var thread = this.activeThread;
+				var thread = this.threads.get(thread_id);
 				var message = thread.messages.add({
 					thread: thread_id,
 					author: author._id,
@@ -159,6 +164,7 @@ _.extend(ChatStore, {
 				});
 				message.save(null, {
 					success: function(model, response, options) {
+						console.log('model: ', model.toJSON());
 						message.set('_id', model.id);
 						message.set('author', model.get('author'));
 						message.set('created', model.get('created'));
@@ -199,7 +205,11 @@ _.extend(ChatStore, {
 	},
 
 	getActiveThread: function() {
-		return this.activeThread;
+		var thread = this.threads.get(this.activeThread);
+		if(thread == undefined) {
+			return {};
+		}
+		return thread.toJSON();
 	},
 
 	getOpenThreads: function() {

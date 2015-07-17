@@ -36,15 +36,25 @@ var PublicChatPanel = React.createClass({
 		};
 	},
 
-	componentDidMount: function() {
+	componentWillReceiveProps: function(nextProps) {
+		console.log(nextProps.activeThread._id);
+		ChatStore.off(CHAT.MESSAGE_FETCH + this.props.activeThread._id, this._onMessageFetch);
+		ChatStore.on(CHAT.MESSAGE_FETCH + nextProps.activeThread._id, this._onMessageFetch);
+	},
+
+	/*componentDidMount: function() {
+		console.log(this.props.activeThread._id);
+		ChatStore.on(CHAT.MESSAGE_FETCH + this.props.activeThread._id, this._onMessageFetch);
 	},
 
 	componentWillUnmount: function() {
-	},
+
+	},*/
 
 	_onMessageFetch: function() {
+		console.log('got to here');
 		this.setState({
-			messages: ChatStore.getMessages(this.props.thread._id)
+			messages: ChatStore.getMessages(this.props.activeThread)
 		});
 	},
 
@@ -65,6 +75,7 @@ var PublicChatPanel = React.createClass({
 			var thread = this.props.activeThread;
 			var author = window.bootstrap.user;
 			var body = this.refs.body.getValue();
+			console.log(thread._id);
 			ChatActions.createMessage(thread._id, author, body);
 
 			// reset input field
@@ -90,7 +101,6 @@ var PublicChatPanel = React.createClass({
 
 		var bevy = this.props.activeBevy;
 		var thread = this.props.activeThread;
-		console.log('activeThread: ', thread);
 		var name = (bevy == undefined) ? '' : bevy.name;
 
 		var backgroundStyle = (bevy && !_.isEmpty(bevy.image_url))
@@ -101,10 +111,32 @@ var PublicChatPanel = React.createClass({
 
 		var floatingBtnStyle = (bevy && !_.isEmpty(bevy.image_url))
 		? {
-			backgroundImage: 'url(' + bevy.image_url + ')',
+			textShadow: '1px 3px 3px rgba(0,0,0,.4)',
+			backgroundColor: 'rgba(0,0,0,0)'
+		}
+		: {};
+
+		var btnWrapperStyle = (bevy && !_.isEmpty(bevy.image_url))
+		? {
+  			height: '56px',
+  			width: '56px',
+  			borderRadius: '50%',
+  			padding: '0',
+  			overflow: 'hidden',
+			position: 'fixed',
+			right: '40px',
+			bottom: '30px'
+		}
+		: {};
+
+		var btnBgStyle = (bevy && !_.isEmpty(bevy.image_url))
+		? {
+  			height: '150%',
+  			width: '150%',
+  			'-webkit-filter': 'blur(3px)',
+  			backgroundImage: 'url(' + bevy.image_url + ')',
 			backgroundPosition: 'center',
 			backgroundSize: '100% auto',
-			textShadow: '1px 3px 3px rgba(0,0,0,.4)',
 		}
 		: {};
 
@@ -156,15 +188,29 @@ var PublicChatPanel = React.createClass({
 			</div>
 		);
 
-		return (
-			<div>
-				<div id='public-chat-panel' className='chat-panel public-chat-panel'>
-					{ header }
-					{ body }
+		if(this.props.activeThread == undefined) {
+			return <div/>
+		}
+		else {
+			return (
+				<div>
+					<div id='public-chat-panel' className='chat-panel public-chat-panel'>
+						{ header }
+						{ body }
+					</div>
+					<div className='btn-background' style={btnWrapperStyle}>
+						<div style={btnBgStyle}/>
+					</div>
+					<FloatingActionButton 
+						id='public-chat-btn' 
+						style={floatingBtnStyle} 
+						onClick={this.openPanel} 
+						className='floating-chat-btn' 
+						iconClassName="glyphicon glyphicon-comment"
+					/>
 				</div>
-				<FloatingActionButton id='public-chat-btn' style={floatingBtnStyle} onClick={this.openPanel} className='floating-chat-btn' iconClassName="glyphicon glyphicon-comment"/>
-			</div>
-		);
+			);
+		}
 	}
 });
 

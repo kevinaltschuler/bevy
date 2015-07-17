@@ -62,7 +62,7 @@ module.exports = function(app) {
 			// try to get as much stuff as possible
 			// so we don't have to ajax for it later
 			var user = req.user;
-			console.log(user);
+			//console.log(user);
 
 			async.parallel([
 				function(callback) {

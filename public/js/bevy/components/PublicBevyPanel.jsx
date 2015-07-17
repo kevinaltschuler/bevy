@@ -119,7 +119,7 @@ var PublicBevyPanel = React.createClass({
 									{name}
 								</a>
 								<div>
-									{ members.length + ' Members'}
+									{ '0' + ' Members'}
 								</div>
 								<div>
 									Created by: {bevyAdmin}

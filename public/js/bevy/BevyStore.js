@@ -58,13 +58,11 @@ _.extend(BevyStore, {
 				var user = window.bootstrap.user;
 				this.myBevies.reset(window.bootstrap.myBevies);
 
+				this.publicBevies.url = constants.apiurl + '/bevies';
+
 				//load public bevies
-				$.ajax({
-					method: 'GET',
-					url: constants.apiurl + '/bevies',
-					success: function(data) {
-						//console.log('success: ', data);
-						this.publicBevies.reset(data);
+				this.publicBevies.fetch({
+					success: function(collection, response, options) {
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
 				});
@@ -86,6 +84,8 @@ _.extend(BevyStore, {
 					parent: parent,
 					admins: [user._id]
 				});
+
+				console.log(newBevy);
 
 				newBevy.save(null, {
 					success: function(model, response, options) {
@@ -350,7 +350,6 @@ _.extend(BevyStore, {
 					} else {
 						this.active = this.superBevy;
 					}
-
 					this.trigger(BEVY.SWITCHED);
 					this.trigger(BEVY.CHANGE_ALL);
 				}.bind(this));

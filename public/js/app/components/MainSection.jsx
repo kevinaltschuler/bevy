@@ -188,7 +188,7 @@ var InterfaceComponent = React.createClass({
 	},
 	render : function() {
 
-		console.log('active thread: ', this.props.activeThread);
+		console.log(this.props.activeThread);
 
 		switch(router.current) {
 			case 'home': 

@@ -83,6 +83,8 @@ var Navbar = React.createClass({
 		var navbarStyle;
 		if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image_url))
 			navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'};
+		if(router.current == 'home')
+			navbarStyle = { boxShadow: 'none'};
 
 		var name = user.displayName;
 
@@ -111,7 +113,6 @@ var Navbar = React.createClass({
 			}
 		}
 		
-
 		var backgroundStyle = (_.isEmpty(this.props.activeBevy))
 		? {}
 		: {
@@ -136,7 +137,7 @@ var Navbar = React.createClass({
 				{bevies}
 			</SplitButton>)
 
-		return <div className="navbar navbar-fixed-top row" style = { navbarStyle }>
+		return <div id='navbar' className="navbar navbar-fixed-top row" style = { navbarStyle }>
 					<div className='background-wrapper'>
 						<div className="background-image" style= { backgroundStyle } />
 					</div>

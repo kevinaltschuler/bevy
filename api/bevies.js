@@ -36,7 +36,7 @@ function collectBevyParams(req) {
 // GET /users/:userid/bevies
 exports.index = function(req, res, next) {
 	var userid = req.params.userid;
-	console.log(req.user);
+	//console.log(req.user);
 
 	Member.find({ user: userid }, function(err, members) {
 		if(err) return next(err);
@@ -77,26 +77,17 @@ exports.create = function(req, res, next) {
 	update.description = req.body['description'] || '';
 	update.image_url = req.body['image_url'] || '';
 	update.parent = req.body['parent'] || null;
-	var members = req.body['members'] || [];
+	update.admins = req.body['admins'] || [];
 
 	if(!update.name) throw error.gen('bevy name not specified', req);
 
 	Bevy.create(update, function(err, bevy) {
 		if(err) throw err;
-		bevy = bevy.toJSON();
-		members.forEach(function(member) {
-			member.bevy = bevy._id;
-		});
-		Member.create(members, function(err, $members) {
-			if(err) return next(err);
-			bevy.members = $members;
-			return res.json(bevy);
-		});
-
 		// create chat thread
 		ChatThread.create({ bevy: bevy._id }, function(err, thread) {
 
 		});
+		return res.json(bevy);
 	});
 }
 
