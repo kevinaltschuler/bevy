@@ -12,6 +12,7 @@
 var mongoose = require('mongoose');
 var error = require('./../error');
 var _ = require('underscore');
+var shortid = require('shortid'); 
 var async = require('async');
 
 var Bevy = mongoose.model('Bevy');
@@ -73,6 +74,7 @@ exports.indexPublic = function(req, res, next) {
 // POST /bevies
 exports.create = function(req, res, next) {
 	var update = {};
+	update._id = shortid.generate();
 	update.name = req.body['name'] || null;
 	update.description = req.body['description'] || '';
 	update.image_url = req.body['image_url'] || '';

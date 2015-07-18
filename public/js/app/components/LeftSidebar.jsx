@@ -20,7 +20,8 @@ var LeftSidebar = React.createClass({
 		allThreads: React.PropTypes.array.isRequired,
 		allContacts: React.PropTypes.array.isRequired,
 		superBevy: React.PropTypes.object.isRequired,
-		activeThread: React.PropTypes.object
+		activeThread: React.PropTypes.object,
+		subBevies: React.PropTypes.array.isRequired
 	},
 
 	getInitialState: function() {

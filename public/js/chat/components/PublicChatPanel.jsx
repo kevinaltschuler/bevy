@@ -89,12 +89,14 @@ var PublicChatPanel = React.createClass({
 		ev.preventDefault();
 		document.getElementById("public-chat-panel").style.height = "400px";
 		document.getElementById("public-chat-btn").style.display = "none";
+		document.getElementById("btn-background").style.display = "none";
 	},
 
 	closePanel: function(ev) {
 		ev.preventDefault();
 		document.getElementById("public-chat-panel").style.height = "0px";
 		document.getElementById("public-chat-btn").style.display = "inherit";
+		document.getElementById("btn-background").style.display = "inherit";
 	},
 
 	render: function() {
@@ -198,7 +200,7 @@ var PublicChatPanel = React.createClass({
 						{ header }
 						{ body }
 					</div>
-					<div className='btn-background' style={btnWrapperStyle}>
+					<div id='btn-background' className='btn-background' style={btnWrapperStyle}>
 						<div style={btnBgStyle}/>
 					</div>
 					<FloatingActionButton 

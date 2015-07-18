@@ -81,9 +81,6 @@ var CommentSubmit = React.createClass({
 		? user.image_url
 		: defaultProfileImage;
 
-		if(bevy.settings.anonymise_users && !_.isEmpty(activeMember.image_url))
-			profileImage = activeMember.image_url;
-
 		return (<div className="panel-comment-input">
 						<div className="profile-overlay"/>
 						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>

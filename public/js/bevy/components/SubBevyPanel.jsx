@@ -35,6 +35,7 @@ var SubBevyPanel = React.createClass({
 		myBevies: React.PropTypes.array.isRequired,
 		activeBevy: React.PropTypes.object.isRequired,
 		superBevy: React.PropTypes.object.isRequired,
+		subBevies: React.PropTypes.array.isRequired
 	},
 
 	getInitialState: function() {
@@ -55,20 +56,25 @@ var SubBevyPanel = React.createClass({
 
 	render: function() {
 		var subBevies = this.props.subBevies;
+		var superBevy = this.props.superBevy;
 
-		var bevies = (
-			<div>
-				you have no subbevies :(
-			</div>
+		var bevies = [];
+		bevies.push(
+			<Button
+				key={ superBevy._id }
+				id={ superBevy._id }
+				type="button"
+				className='bevy-btn'
+				onClick={ this.switchBevy } >
+				{ superBevy.name }
+			</Button>
 		);
-
 		if(subBevies.length > 0) {
-			var bevies = [];
 			for(var key in subBevies) {
 				var bevy = subBevies[key];
 				var className = 'bevy-btn';
 				if(bevy._id == this.props.activeBevy.id) className += ' active';
-					
+
 					bevies.push(
 						<Button
 							key={ bevy._id }
@@ -82,22 +88,12 @@ var SubBevyPanel = React.createClass({
 			}
 		}
 
-		var superBevy = this.props.superBevy;
-
-		console.log('superBevy: ', superBevy);
-
 		return (
 			<div className='bevy-list panel'>
 				<div className='panel-header'>
-					<Button
-						key={ superBevy._id }
-						id={ superBevy._id }
-						type="button"
-						className='super-bevy-btn'
-						onClick={ this.switchBevy } 
-					>
-						{superBevy.name}
-					</Button>
+					<div className='super-bevy-btn'>
+						sub bevies
+					</div>
 					<ModalTrigger modal={
 						<CreateNewBevy parent={this.props.superBevy}/>
 					}>

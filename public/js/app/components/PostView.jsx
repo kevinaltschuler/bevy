@@ -43,6 +43,8 @@ var PostView = React.createClass({
 						activeBevy={ this.props.activeBevy }
 						myBevies={ this.props.myBevies }
 						disabled={ _.isEmpty(window.bootstrap.user)}
+						subBevies={ this.props.subBevies }
+						superBevy={ this.props.superBevy }
 					/>
 					<PostSort />
 					<PostContainer

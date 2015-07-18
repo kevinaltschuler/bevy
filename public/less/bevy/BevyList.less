@@ -17,19 +17,23 @@
 			.glyphicon {
 				font-size: 1em;
 			}
+			&:hover {
+				color: rgba(0,0,0,.8);
+			}
 		}
 		.super-bevy-btn {
 			background-color: @clear;
 			color: @light-font;
-			font-size: 1.3em;
+			font-size: 1em;
 			transition: all 0.15s linear;
 			border: none;
 			display: block;
-			margin-left: -15px;
+			font-weight: 600;
+			padding-left: 12px;
 			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
 				outline: none;
-				text-decoration: underline;
-				color: @dark-font;
+				//text-decoration: underline;
+				//color: @dark-font;
 				box-shadow: none;
 				background-color: @clear;
 			}
@@ -62,6 +66,7 @@
 			}
 			&:hover {
 				background-color: @clear;
+				color: @dark-font;
 			}
 		}
 

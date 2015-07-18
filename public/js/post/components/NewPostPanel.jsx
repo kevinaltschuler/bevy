@@ -60,6 +60,8 @@ var NewPostPanel = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object.isRequired,
+		superBevy: React.PropTypes.object.isRequired,
+		subBevies: React.PropTypes.array.isRequired,
 		myBevies: React.PropTypes.array.isRequired,
 		disabled: React.PropTypes.bool
 	},
@@ -80,12 +82,17 @@ var NewPostPanel = React.createClass({
 
 		// load bevies
 		var bevies = [];
-		var myBevies = nextProps.myBevies;
-		for(var key in myBevies) {
-			var bevy = myBevies[key];
+		bevies.push({
+			payload: 0,
+			text: nextProps.superBevy.name,
+			id: nextProps.superBevy._id
+		});
+		var subBevies = nextProps.subBevies;
+		for(var key in subBevies) {
+			var bevy = subBevies[key];
 			if(bevy._id != -1) {
 				bevies.push({
-					payload: key,
+					payload: key + 1,
 					text: bevy.name,
 					id: bevy._id
 				});
