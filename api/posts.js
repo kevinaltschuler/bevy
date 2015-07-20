@@ -14,6 +14,7 @@ var _ = require('underscore');
 var async = require('async');
 var og = require('open-graph');
 var http = require('http');
+var shortid = require('shortid');
 
 var notifications = require('./notifications');
 
@@ -74,6 +75,7 @@ exports.index = function(req, res, next) {
 // POST /bevies/:bevyid/posts
 exports.create = function(req, res, next) {
 	var update = collectPostParams(req);
+	update._id = shortid.generate();
 
 	async.waterfall([
 		function(done) {

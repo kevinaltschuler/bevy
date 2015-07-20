@@ -5,6 +5,7 @@ var config = require('./../config');
 var _ = require('underscore');
 
 var passport = require('passport');
+var shortid = require('shortid');
 var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
@@ -79,6 +80,7 @@ module.exports = function(app) {
 					// user not found. let's create an account
 					//console.log('User', emails[0], 'doesnt exist. Creating new user...');
 					User.create({
+						_id: shortid.generate,
 						token: accessToken,
 						image_url: (profile.photos) ? profile.photos[0].value : undefined,
 						email: emails[0], // use the first email as default.

@@ -16,6 +16,7 @@ var error = require('./../error');
 var bcrypt = require('bcryptjs');
 var async = require('async');
 
+var shortid = require('shortid')
 var mailgun = require('./../config').mailgun();
 
 var mongoose = require('mongoose');
@@ -56,6 +57,7 @@ exports.create = function(req, res, next) {
 	//TODO: check for dupes
 	//TODO: verify email
 	var update = collectUserParams(req);
+	update._id = shortid.generate();
 
 	// check for required fields
 	if(_.isEmpty(update.email))

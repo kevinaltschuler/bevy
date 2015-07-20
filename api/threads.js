@@ -59,7 +59,8 @@ exports.create = function(req, res, next) {
 
 	var thread = {
 		members: members,
-		bevy: bevy
+		bevy: bevy,
+		_id: shortid.generate
 	};
 	Thread.create(thread, function(err, $thread) {
 		if(err) return next(err);

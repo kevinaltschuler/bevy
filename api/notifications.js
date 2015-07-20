@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
 var error = require('./../error');
+var shortid = require('shortid');
 
 var mailgun = require('./../config/mailgun')();
 var User = mongoose.model('User');
@@ -79,7 +80,8 @@ exports.create = function(req, res, next) {
                     bevy_id: bevy_id,
                     bevy_name: bevy_name,
                     bevy_img: bevy_img,
-                    inviter_name: inviter_name
+                    inviter_name: inviter_name,
+                    _id: shortid.generate
                   }
                 });
               } else {
@@ -90,7 +92,8 @@ exports.create = function(req, res, next) {
                     bevy_id: bevy_id,
                     bevy_name: bevy_name,
                     bevy_img: bevy_img,
-                    inviter_name: inviter_name
+                    inviter_name: inviter_name,
+                    _id: shortid.generate
                   }
                 });
               }
@@ -141,7 +144,8 @@ exports.create = function(req, res, next) {
                 user_id: user_id,
                 user_name: user_name,
                 user_image: user_image,
-                user_email: user_email
+                user_email: user_email,
+                _id: shortid.generate
               }
             });
           });

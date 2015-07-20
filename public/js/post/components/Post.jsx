@@ -18,6 +18,7 @@ var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var FlatButton = mui.FlatButton;
+var RaisedButton = mui.RaisedButton;
 
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
@@ -214,6 +215,9 @@ var Post = React.createClass({
 		var bevy = post.bevy;
 		var activeMember = this.findMember(user._id) || {};
 		var author = post.author;
+		var commentCount = (post.allComments)
+		?	post.allComments.length
+		:   0;
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (post.author.image_url)
@@ -227,14 +231,6 @@ var Post = React.createClass({
 				authorName = author.google.name.givenName + ' ' + author.google.name.familyName;
 			else
 				authorName = author.email;
-		}
-
-		var authorMember = this.findMember(post.author._id);
-		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName) && bevy.settings.anonymise_users)
-				authorName = authorMember.displayName;
-			if(bevy.settings.anonymise_users && !_.isEmpty(authorMember.image_url))
-				profileImage = authorMember.image_url;
 		}
 
 		var imageBody = (<div/>);
@@ -301,19 +297,19 @@ var Post = React.createClass({
 			panelBodyText = (
 				<div className='panel-body-text'>
 					<TextField
+						className='edit-field'
 						type='text'
 						ref='title'
+						multiLine={true}
 						defaultValue={ this.state.title  }
 						value={ this.state.title  }
 						placeholder=' '
 						onChange={ this.onChange }
 					/>
-					<IconButton
-						className="save-button"
-						tooltip='save changes'
-						onClick={ this.stopEdit }>
-						<span className="glyphicon glyphicon-heart-empty"></span>
-					</IconButton>
+					<RaisedButton
+						label='save'
+						onClick={ this.stopEdit }
+					/>
 				</div>);
 		} else {
 			panelBodyText = (
@@ -322,15 +318,9 @@ var Post = React.createClass({
 				</div>);
 		}
 
-
-
-		var commentCount = (post.comments)
-		? post.commentCount
-		: 0;
-
 		var deleteButton = '';
-		if(!_.isEmpty(activeMember)) {
-			if(activeMember.role == 'admin' || post.author._id == user._id)
+		if(window.bootstrap.user) {
+			if(window.bootstrap.user._id == author._id)
 				deleteButton = (
 					<MenuItem onClick={ this.destroy } >
 						Delete Post
@@ -339,8 +329,8 @@ var Post = React.createClass({
 		}
 
 		var editButton = '';
-		if(!_.isEmpty(activeMember)) {
-			if(activeMember.role == 'admin' || post.author._id == user._id)
+		if(window.bootstrap.user) {
+			if(window.bootstrap.user._id == author._id)
 				editButton = (
 					<MenuItem onClick={ this.startEdit } >
 						Edit Post
@@ -350,8 +340,8 @@ var Post = React.createClass({
 
 		var pinButton = '';
 		var pinButtonText = (post.pinned) ? 'Unpin Post' : 'Pin Post';
-		if(!_.isEmpty(activeMember)) {
-			if(activeMember.role == 'admin') {
+		if(window.bootstrap.user) {
+			if(window.bootstrap.user._id == author._id) {
 				pinButton = (
 					<MenuItem onClick={ this.pin }>
 						{ pinButtonText }
@@ -422,7 +412,7 @@ var Post = React.createClass({
 						</FlatButton>
 						<FlatButton className='comment' onClick={ this.expandComments }>
 							<span className="glyphicon glyphicon-comment btn"></span>
-							&nbsp;{ post.allComments.length } comments
+							&nbsp;{ commentCount } comments
 						</FlatButton>
 					</div>
 				</div>
