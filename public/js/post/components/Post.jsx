@@ -17,8 +17,10 @@ var classNames = require('classnames');
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
+var FlatButton = mui.FlatButton;
 
 var rbs = require('react-bootstrap');
+var Panel = rbs.Panel;
 var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
 var ModalTrigger = rbs.ModalTrigger;
@@ -28,6 +30,7 @@ var CollapsibleMixin = rbs.CollapsibleMixin;
 
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
+var CommentPanel = require('./CommentPanel.jsx');
 
 var ImageModal  = require('./ImageModal.jsx');
 
@@ -65,7 +68,8 @@ var Post = React.createClass({
 		return {
 			isEditing: false,
 			title: this.props.post.title,
-			post: this.props.post
+			post: this.props.post,
+			showComments: false,
 		};
 	},
 
@@ -196,10 +200,17 @@ var Post = React.createClass({
 		ChatActions.openThread(null, author_id);
 	},
 
+	expandComments: function(ev) {
+		ev.preventDefault();
+		this.setState({
+			showComments: !this.state.showComments
+		});
+	},
+
 	render: function() {
 
 		var post = this.state.post;
-		console.log(post);
+		//console.log(post);
 		var bevy = post.bevy;
 		var activeMember = this.findMember(user._id) || {};
 		var author = post.author;
@@ -311,13 +322,7 @@ var Post = React.createClass({
 				</div>);
 		}
 
-		var commentList = (post.comments)
-		? (<CommentList
-				comments={ post.comments }
-				post={ post }
-				activeMember={ activeMember }
-			/>)
-		: '';
+
 
 		var commentCount = (post.comments)
 		? post.commentCount
@@ -391,38 +396,6 @@ var Post = React.createClass({
 						</div>
 					</div>
 					<div className='badges'>
-						<div>
-							<span className="comment-count"> { post.commentCount } Comments •&nbsp;</span>
-							<span className="points"> { this.countVotes() } Points</span>
-						</div>
-					</div>
-				</div>
-
-				<div className='panel-body'>
-					{ panelBodyText }
-				</div>
-
-				{ imageBody }
-
-				<div className="panel-comments">
-					{ commentList }
-				</div>
-				<div className="panel-bottom">
-
-					<CommentSubmit
-						postId={ this.props.id }
-						author={ post.author }
-						activeMember={ activeMember }
-						bevy={ bevy }
-					/>
-
-					<div className="panel-controls-right">
-						<IconButton tooltip='upvote' onClick={ this.upvote }>
-							<span className="glyphicon glyphicon-menu-up btn"></span>
-						</IconButton>
-						<IconButton tooltip='downvote' onClick={ this.downvote }>
-							<span className="glyphicon glyphicon-menu-down btn"></span>
-						</IconButton>
 						<DropdownButton
 							noCaret
 							pullRight
@@ -434,6 +407,33 @@ var Post = React.createClass({
 							{ muteButton }
 						</DropdownButton>
 					</div>
+				</div>
+
+				<div className='panel-body'>
+					{ panelBodyText }
+				</div>
+
+				{ imageBody }
+				<div className="panel-bottom">
+					<div className='left'>
+						<FlatButton className='upvote' onClick={ this.upvote }>
+							<span className="glyphicon glyphicon-thumbs-up btn"></span>
+							&nbsp;{ this.countVotes() } upvotes
+						</FlatButton>
+						<FlatButton className='comment' onClick={ this.expandComments }>
+							<span className="glyphicon glyphicon-comment btn"></span>
+							&nbsp;{ post.commentCount } comments
+						</FlatButton>
+					</div>
+				</div>
+				<CommentPanel expanded={this.state.showComments} post={post} />
+				<div className='panel-comment-submit'>
+					<CommentSubmit
+						postId={ this.props.id }
+						author={ post.author }
+						activeMember={ activeMember }
+						bevy={ bevy }
+					/>
 				</div>
 			</div>
 		);

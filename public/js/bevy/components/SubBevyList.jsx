@@ -72,6 +72,19 @@ var SubBevyList = React.createClass({
 			}
 		}
 
+		var createButton = (_.isEmpty(window.bootstrap.user))
+		? <div/>
+		: 	(				
+			<ModalTrigger modal={
+				<CreateNewBevy parent={this.props.activeBevy}/>
+			}>
+				<OverlayTrigger placement='bottom' overlay={ <Tooltip>Create a New Bevy</Tooltip> }>
+					<Button className='new-bevy-btn'>
+						<FontIcon className="glyphicon glyphicon-plus"/>
+					</Button>
+				</OverlayTrigger>
+			</ModalTrigger>)
+
 		var superBevy = this.props.activeBevy;
 
 		return (
@@ -86,15 +99,7 @@ var SubBevyList = React.createClass({
 					>
 						{superBevy.name}
 					</Button>
-					<ModalTrigger modal={
-						<CreateNewBevy parent={this.props.activeBevy}/>
-					}>
-						<OverlayTrigger placement='bottom' overlay={ <Tooltip>Create a New Bevy</Tooltip> }>
-							<Button className='new-bevy-btn'>
-								<FontIcon className="glyphicon glyphicon-plus"/>
-							</Button>
-						</OverlayTrigger>
-					</ModalTrigger>
+					{ createButton }
 				</div>
 				<ButtonGroup className='bevy-list-btns' role="group">
 					{bevies}

@@ -132,7 +132,7 @@ var Navbar = React.createClass({
 			</div>);
 
 		var bevyDropdown = (_.isEmpty(window.bootstrap.user))
-		? (<Button className='bevies-dropdown'>Bevies</Button>)
+		? (<Button href='/publicbevies' className='bevies-dropdown'>Bevies</Button>)
 		: (<SplitButton className='bevies-dropdown' title='Bevies' href='/publicbevies'>
 				{bevies}
 			</SplitButton>)

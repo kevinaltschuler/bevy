@@ -29,6 +29,24 @@
 	.form-control {
 		box-shadow: none;
 	}
+	.post-settings {
+		padding: 0px;
+		background-color: rgba(0,0,0,0);
+		.btn {
+			padding: 1px 5px;
+			border: none;
+			background-color: rgba(0,0,0,0);
+			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open, &:hover {
+				outline: none;
+				box-shadow: none;
+				background-color: rgba(0,0,0,0);
+			}
+		}
+
+		&:active, &.active, .btn.active, .btn:active {
+			color: black;
+		}
+	}
 	.panel-header {
 		display: flex;
 		justify-content: flex-start;
@@ -163,7 +181,63 @@
 			}
 		}
 	}
+	.panel-bottom {
+		display: flex;
+		padding: 0px 10px 5px 10px;
+		width: 100%;
+		color: @light-font;
+		flex-direction: row;
+		justify-content: space-between;
+		.left {
+			display: flex;
+			flex-direction: row;
+		}
+		.upvote {
+			padding: 0px 10px 0px 10px;
+			display: flex;
+			flex-direction: row;
+		}
+		.downvote {
+			padding: 0px 10px 0px 10px;
+			display: flex;
+			flex-direction: row;
+		}
+		.comment {
+			padding: 0px 10px 0px 10px;
+			display: flex;
+			flex-direction: row;
+		}
+		.panel-controls-left {
+			font-size: .8em;
+			float: left;
+			display: inline-block;
+			position: relative;
+			top: 50%;
+			padding-top: 1%;
+			padding-left: 1.5%;
+		}
+		.mui-icon-button {
+			padding: 0px;
+			height: 40px;
+			width: 40px;
+		}
+		.mui-tooltip {
+			// override material-ui roboto
+			font-family: Lucida Sans Unicode !important;
+		}
+		.btn {
+			background-color: @clear;
+			color: @light-font;
+			font-size: inherit;
+			transition: all 0.15s linear;
+			padding: 0px 0px;
 
+			&:active {
+				color: @dark-font;
+				text-decoration: none;
+			}
+		}
+	}
 	.panel-comments {
 		width: 95%;
 		margin-left: auto;
@@ -173,7 +247,7 @@
 			color: #1A1A1A;
 		}
 		.comment-list .comment-list {
-			margin-left: 2em;
+			margin-left: 1.35em;
 			border-left: 1px solid #d2d3d3;
 		}
 		.comment-list .comment-list::before {
@@ -183,6 +257,26 @@
 		}
 
 		.comment {
+			.comment-col.collapsed {
+				.comment-title {
+					display: flex;
+					flex-direction: row;
+					width: 100%;
+					justify-content: space-between;
+					text-decoration: none;
+					vertical-align: -webkit-baseline-middle;
+					color: @light-font;
+					//margin-left: 43px;
+					.comment-name {
+						color: @light-font;
+						font-size: .9em;
+						margin-left: 10px;
+					}
+					.comment-collapse {
+						
+					}
+				}
+			}
 			.collapse-btn {
 				color: @light-font;
 				background: none;
@@ -202,6 +296,7 @@
 					text-decoration: none;
 					vertical-align: -webkit-baseline-middle;
 					color: @light-font;
+					//margin-left: 43px;
 				}
 				.detail-time.collapsed {
 					font-size: 10px;
@@ -214,15 +309,20 @@
 				margin-left: 7px;
 				margin-right: 10px;
 				border-radius: 40px;
-				margin-top: 7px;
 				vertical-align: top;
 				height: 25px;
 				width: 25px;
 				#image-icon;
 			}
 			.comment-text {
-				display: inline-block;
+				margin-left: 10px;
+				display: flex;
+  				flex-direction: column;
 				.comment-title {
+					display: flex;
+ 			 		flex-direction: row;
+  					justify-content: space-between;
+  					width: 100%;
 					.btn {
 						color: @light-font;
 						background: none;
@@ -232,6 +332,8 @@
 						margin-left: -8px;
 						padding-left: 4px;
 						padding-right: 6px;
+						padding-top: 0px;
+  						padding-bottom: 0px;
 					}
 					.comment-name {
 						color: black;
@@ -245,22 +347,29 @@
 				.comment-body {
 					color: @light-font;
 					font-size: 13px;
+					margin-top: -4px;
+					display: inline-block;
 				}
 				.reply-link {
 					color: #4a4a4a;
 					text-decoration: underline;
 					font-size: .7em;
+					//margin-left: 43px;
+				}
+				.detail-time {
+					font-size: .7em;
+					color: @light-font;
 				}
 			}
 			.comment-actions {
 				float: right;
-				font-size: 10px;
+				font-size: 12px;
 				.btn {
 					color: @light-font;
 					background: none;
 					border: none;
 					box-shadow: none;
-					font-size: 10px;
+					font-size: 12px;
 				}
 				&.open {
 					.btn {
@@ -302,15 +411,10 @@
 			}
 		}
 	}
-	.panel-bottom {
-		display: inline-block;
-		padding: 0px 10px 5px 10px;
-		width: 100%;
-		color: @light-font;
-
+	.panel-comment-submit {
+		padding-left: 15px;
 		.panel-comment-input {
 			width: 75%;
-			float: left;
 			.profile-img {
 				margin-left: 13px;
 				margin-right: 5px;
@@ -318,7 +422,7 @@
 				height: 25px;
 				width: 25px;
 				border-radius: 40px;
-				margin-bottom: -15px;
+				margin-bottom: -10px;
 				#image-icon;
 			}
 			.panel-comment-textfield {
@@ -337,57 +441,6 @@
 				.mui-text-field-focus-underline {
 					border-color: #4c4c4c;
 					border-bottom-width: 1px;
-				}
-			}
-		}
-
-		.panel-controls-left {
-			font-size: .8em;
-			float: left;
-			display: inline-block;
-			position: relative;
-			top: 50%;
-			padding-top: 1%;
-			padding-left: 1.5%;
-		}
-
-		.panel-controls-right {
-			float: right;
-			display: inline-block;
-			font-size: 1.2em;
-			.mui-icon-button {
-				padding: 0px;
-				height: 40px;
-				width: 40px;
-			}
-			.post-settings {
-				.btn {
-					border: none;
-					&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open {
-						outline: none;
-						box-shadow: none;
-						background-color: rgba(0,0,0,0);
-					}
-				}
-
-				&:active, &.active, .btn.active, .btn:active {
-					color: black;
-				}
-			}
-			.mui-tooltip {
-				// override material-ui roboto
-				font-family: Lucida Sans Unicode !important;
-			}
-			.btn {
-				background-color: @clear;
-				color: @light-font;
-				font-size: inherit;
-				transition: all 0.15s linear;
-				padding: 0px 0px;
-
-				&:active {
-					color: @dark-font;
-					text-decoration: none;
 				}
 			}
 		}

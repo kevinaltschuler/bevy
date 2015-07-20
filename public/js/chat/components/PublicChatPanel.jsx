@@ -190,7 +190,7 @@ var PublicChatPanel = React.createClass({
 			</div>
 		);
 
-		if(this.props.activeThread == undefined) {
+		if(this.props.activeThread == undefined || _.isEmpty(window.bootstrap.user)) {
 			return <div/>
 		}
 		else {

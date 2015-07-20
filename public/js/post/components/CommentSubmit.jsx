@@ -25,7 +25,6 @@ var CommentSubmit = React.createClass({
 		postId: React.PropTypes.string,
 		commentId: React.PropTypes.string,
 		author: React.PropTypes.object,
-		activeMember: React.PropTypes.object,
 		bevy: React.PropTypes.object,
 		onReply: React.PropTypes.func
 	},
@@ -72,7 +71,6 @@ var CommentSubmit = React.createClass({
 	render: function() {
 
 		var bevy = this.props.bevy;
-		var activeMember = this.props.activeMember;
 
 		var user = window.bootstrap.user;
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
@@ -81,18 +79,20 @@ var CommentSubmit = React.createClass({
 		? user.image_url
 		: defaultProfileImage;
 
-		return (<div className="panel-comment-input">
-						<div className="profile-overlay"/>
-						<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
-						<TextField
-							className="panel-comment-textfield"
-							hintText="Write a Comment"
-							ref='body'
-							value={ this.state.body }
-							onKeyPress={ this.onKeyPress }
-							onChange={ this.onChange }
-						/>
-					</div>);
+		if(_.isEmpty(window.bootstrap.user)) {
+			return <div />;
+		} else {
+			return (<div className="panel-comment-input">
+							<TextField
+								className="panel-comment-textfield"
+								hintText="Write a Comment"
+								ref='body'
+								value={ this.state.body }
+								onKeyPress={ this.onKeyPress }
+								onChange={ this.onChange }
+							/>
+						</div>);
+		}
 	}
 
 });

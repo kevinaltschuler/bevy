@@ -277,17 +277,9 @@ exports.make = function(type, payload) {
 
 			Member.find({ bevy: post.bevy }, function(err, members) {
 				if(err) return;
-
-				// collect author member information
-				var author_member = _.find(members, function(member) {
-					return member.user == author._id;
-				});
-				var author_name = (author_member.bevy.settings.anonymise_users)
-				? author_member.displayName
-				: author.displayName;
-				var author_image = (author_member.bevy.settings.anonymise_users)
-				? author_member.image_url
-				: author.image_url;
+				
+				var author_name = author.displayName;
+				var author_image = author.image_url;
 
 				// dont do anything for users who've muted this post
 				members = _.reject(members, function(member) {

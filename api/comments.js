@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var error = require('./../error');
 var _ = require('underscore');
 var async = require('async');
+var shortid = require('shortid'); 
 
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
@@ -48,6 +49,7 @@ exports.index = function(req, res, next) {
 // POST /posts/:postid/comments/
 exports.create = function(req, res, next) {
 	var update = collectCommentParams(req);
+	update._id = shortid.generate();
 
 	if(!update.body) return next(error.gen('comment body not specified'));
 

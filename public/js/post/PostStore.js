@@ -454,7 +454,7 @@ _.extend(PostStore, {
 	},
 
 	vote: function(post_id, voter, value) {
-		var MAX_VOTES = 5;
+		var MAX_VOTES = 1;
 		var post = this.posts.get(post_id);
 		var votes = post.get('votes');
 

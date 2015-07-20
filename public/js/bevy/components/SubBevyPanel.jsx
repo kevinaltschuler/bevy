@@ -10,6 +10,7 @@
 
 // imports
 var React = require('react');
+var _ = require('underscore');
 
 var router = require('./../../router');
 
@@ -88,21 +89,27 @@ var SubBevyPanel = React.createClass({
 			}
 		}
 
+		var createButton = (_.isEmpty(window.bootstrap.user))
+		? <div/>
+		: 	(				
+			<ModalTrigger modal={
+				<CreateNewBevy parent={this.props.activeBevy}/>
+			}>
+				<OverlayTrigger placement='bottom' overlay={ <Tooltip>Create a New Bevy</Tooltip> }>
+					<Button className='new-bevy-btn'>
+						<FontIcon className="glyphicon glyphicon-plus"/>
+					</Button>
+				</OverlayTrigger>
+			</ModalTrigger>)
+
+
 		return (
 			<div className='bevy-list panel'>
 				<div className='panel-header'>
 					<div className='super-bevy-btn'>
 						sub bevies
 					</div>
-					<ModalTrigger modal={
-						<CreateNewBevy parent={this.props.superBevy}/>
-					}>
-						<OverlayTrigger placement='bottom' overlay={ <Tooltip>New Sub Bevy</Tooltip> }>
-							<Button className='new-bevy-btn'>
-								<FontIcon className="glyphicon glyphicon-plus"/>
-							</Button>
-						</OverlayTrigger>
-					</ModalTrigger>
+					{ createButton }
 				</div>
 				<ButtonGroup className='bevy-list-btns' role="group">
 					{bevies}

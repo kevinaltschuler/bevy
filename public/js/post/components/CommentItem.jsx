@@ -26,8 +26,7 @@ var CommentList = React.createClass({
 
 	propTypes: {
 		comments: React.PropTypes.array,
-		post: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		post: React.PropTypes.object
 	},
 
 	render: function() {
@@ -104,21 +103,12 @@ var CommentItem = React.createClass({
 		var author = comment.author;
 		var bevy = this.props.post.bevy;
 		var post = this.props.post;
-		var activeMember = this.findMember(user._id);
 
 		var authorName = author.displayName || 'placeholder author';
 
 		var profileImage = (author.image_url)
 		? author.image_url
 		: defaultProfileImage;
-
-		var authorMember = this.findMember(author._id);
-		if(authorMember) {
-			if(!_.isEmpty(authorMember.displayName) && this.props.post.bevy.settings.anonymise_users)
-				authorName = authorMember.displayName;
-			if(bevy.settings.anonymise_users && !_.isEmpty(authorMember.image_url))
-				profileImage = authorMember.image_url;
-		}
 
 		var replyText = (this.state.isReplying)
 		? 'close'
@@ -129,7 +119,6 @@ var CommentItem = React.createClass({
 				postId={ post._id }
 				commentId={ comment._id }
 				author={ post.author }
-				activeMember={ activeMember }
 				bevy={ bevy }
 				onReply={ this.onReply }
 			/>)
@@ -139,47 +128,41 @@ var CommentItem = React.createClass({
 		? (<CommentList
 				comments={ comment.comments }
 				post={ post }
-				activeMember={ activeMember }
 			/>)
 		: '';
 
 		var deleteButton = '';
-		var activeMember = this.findMember(user._id);
+		/*var activeMember = this.findMember(user._id);
 		if(activeMember.role == 'admin' || comment.author._id == user._id)
 			deleteButton = (
-				<span className="glyphicon glyphicon-remove btn" onClick={ this.destroy }></span>);
+				<span className="glyphicon glyphicon-remove btn" onClick={ this.destroy }></span>);*/
 
 		var collapseBody = (this.state.collapsed)
 		? (<div className="comment">
-				<div className='comment-col' >
-					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
-					<span className="comment-name collapsed">
-						<span className="glyphicon glyphicon-plus btn collapse-btn" onClick={this.onCollapse}></span>
-						{ authorName }
-					</span>
-					<span>&nbsp;</span>
-					<span className="detail-time collapsed">{ timeAgo(Date.parse(comment.created)) }</span>
-					<div className="comment-actions">
-						<span className="glyphicon btn" onClick={this.onCollapse}></span>
+				<div className='comment-col collapsed' >
+					<div className="comment-title" onClick={this.onCollapse}>
+						<a className="comment-name">{ authorName }</a>
+						<div className="comment-collapse">
+							<span className="glyphicon glyphicon-plus btn collapse-btn" onClick={this.onCollapse}></span>
+						</div>
 					</div>
 				</div>
-
 			</div>)
 		: (<div className="comment">
 				<div className='comment-col' >
-					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}}/>
 					<div className="comment-text">
 						<div className="comment-title">
-							<span className="glyphicon glyphicon-minus btn collapse-btn" onClick={this.onCollapse}></span>
 							<a className="comment-name">{ authorName }</a>
-							<span>&nbsp;</span>
-							<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }</text>
+							<div className="comment-collapse">
+								<span className="glyphicon glyphicon-minus btn collapse-btn" onClick={this.onCollapse}></span>
+							</div>
 						</div>
 						<div className="comment-body">{ comment.body }</div>
-						<a className="reply-link" href="#" onClick={ this.onReply }>{ replyText }</a>
-					</div>
-					<div className="comment-actions">
-						{ deleteButton }
+						<div className='comment-actions'>
+							<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }&nbsp;&nbsp;</text>
+							<a className="reply-link" href="#" onClick={ this.onReply }>{ replyText }</a>
+							{ deleteButton }
+						</div>
 					</div>
 				</div>
 				<div className='comment-submit'>
