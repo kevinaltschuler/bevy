@@ -66,8 +66,7 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('displayName').get(function() {
-	var name;
-	var maxLength = 30; // max length, in characters, of someone's name
+	var name = 'nameless';
 	if(_.isEmpty(this.google.emails)) {
 		name = this.email;
 	} else {
@@ -77,13 +76,7 @@ UserSchema.virtual('displayName').get(function() {
 			name = this.google.name.givenName + ' ' + this.google.name.familyName;
 		}
 	}
-	if(name.length > 30) {
-		name = name.slice(26);
-		name += '...';
-		return name;
-	} else {
-		return name;
-	}
+	return name;
 });
 
 UserSchema.set('toObject', {
