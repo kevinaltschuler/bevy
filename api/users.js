@@ -132,10 +132,16 @@ exports.update = function(req, res, next) {
 
 	//console.log(update);
 
-	User.findOneAndUpdate({ _id: id }, update, { new: true, upsert: true }, function(err, user) {
+	/*User.findOneAndUpdate({ _id: id }, update, { new: true, upsert: true }, function(err, user) {
 		if(err) return next(err);
 		return res.json(user);
-	}).populate('bevies');
+	}).populate('bevies');*/
+	var promise = User.findOneAndUpdate({ _id: id }, update, { new: true }).populate('bevies');
+	promise.then(function(user) {
+		return res.json(user);
+	}, function(err) {
+		return next(err);
+	});
 }
 
 // DESTROY
