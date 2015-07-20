@@ -390,7 +390,7 @@ _.extend(BevyStore, {
 					constants.apiurl + '/notifications',
 					{
 						event: 'invite:email',
-						members: emails,
+						emails: emails,
 						bevy_id: bevy._id,
 						bevy_name: bevy.name,
 						bevy_img: bevy.image_url,
