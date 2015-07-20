@@ -44,7 +44,7 @@ var CommentPanel = React.createClass({
 
 	render: function() {
 
-		console.log(this.state.expanded);
+		//console.log(this.state.expanded);
 
 		var post = this.props.post;
 		var commentList = (post.comments)

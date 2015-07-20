@@ -242,6 +242,13 @@
 		width: 95%;
 		margin-left: auto;
 		margin-right: auto;
+		.comment-list {
+			display: flex;
+  			flex-direction: column;
+  			.panel-comment-input {
+  				margin-left: 25px;
+  			}
+		}
 		.comment-count {
 			font-size: .85em;
 			color: #1A1A1A;
@@ -378,8 +385,11 @@
 				}
 			}
 			.panel-comment-input {
-				width: 75%;
 				float: left;
+				display: flex;
+				flex-direction: row;
+				justify-content: space-between;
+				width: 94%;
 				.profile-img {
 					margin-left: 13px;
 					margin-right: 5px;
@@ -389,6 +399,9 @@
 					border-radius: 40px;
 					margin-bottom: -15px;
 					#image-icon;
+				}
+				.mui-text-field .mui-text-field-textarea {
+					box-shadow: none;
 				}
 				.panel-comment-textfield {
 					background-color: rgba(0,0,0,0);
@@ -401,8 +414,10 @@
 					color: #fff;
 					padding-left: 4px;
 					padding-bottom: 2px;
+					width: 70%;
 					font-size: 1em;
 					display: inline-block;
+					margin-right: 25px;
 					.mui-text-field-focus-underline {
 						border-color: #4c4c4c;
 						border-bottom-width: 1px;
@@ -414,7 +429,13 @@
 	.panel-comment-submit {
 		padding-left: 15px;
 		.panel-comment-input {
-			width: 75%;
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			width: 97%;
+			.mui-text-field .mui-text-field-textarea {
+				box-shadow: none;
+			}
 			.profile-img {
 				margin-left: 13px;
 				margin-right: 5px;
@@ -432,6 +453,7 @@
 				border-top: 0px;
 				border-right: 0px;
 				box-shadow: none;
+				width: 70%;
 				border-radius: 0px;
 				color: #fff;
 				padding-left: 4px;

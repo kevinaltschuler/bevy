@@ -422,7 +422,7 @@ var Post = React.createClass({
 						</FlatButton>
 						<FlatButton className='comment' onClick={ this.expandComments }>
 							<span className="glyphicon glyphicon-comment btn"></span>
-							&nbsp;{ post.commentCount } comments
+							&nbsp;{ post.allComments.length } comments
 						</FlatButton>
 					</div>
 				</div>

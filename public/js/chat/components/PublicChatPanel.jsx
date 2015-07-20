@@ -138,7 +138,7 @@ var PublicChatPanel = React.createClass({
   			'-webkit-filter': 'blur(3px)',
   			backgroundImage: 'url(' + bevy.image_url + ')',
 			backgroundPosition: 'center',
-			backgroundSize: '100% auto',
+			backgroundSize: '400% auto',
 		}
 		: {};
 

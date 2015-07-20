@@ -382,6 +382,7 @@ _.extend(PostStore, {
 							};
 							comments.push(new_comment);
 							allComments.push(new_comment);
+							post.set('commentCount', ++commentCount);
 							//this.postsNestComment(post);
 						}
 						this.trigger(POST.CHANGE_ONE + post_id);

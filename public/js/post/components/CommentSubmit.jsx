@@ -12,6 +12,7 @@ var _ = require('underscore');
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
+var RaisedButton = mui.RaisedButton;
 
 var rbs = require('react-bootstrap');
 var Button = rbs.Button;
@@ -56,9 +57,6 @@ var CommentSubmit = React.createClass({
 	},
 
 	onKeyPress: function(ev) {
-		if(ev.which == 13) { // enter key
-			this.submit();
-		}
 	},
 
 	onChange: function() {
@@ -87,9 +85,14 @@ var CommentSubmit = React.createClass({
 								className="panel-comment-textfield"
 								hintText="Write a Comment"
 								ref='body'
+								multiLine={ true }
 								value={ this.state.body }
 								onKeyPress={ this.onKeyPress }
 								onChange={ this.onChange }
+							/>
+							<RaisedButton
+								label='post'
+								onClick={this.submit}
 							/>
 						</div>);
 		}
