@@ -18,6 +18,7 @@ var shortid = require('shortid');
 
 var notifications = require('./notifications');
 
+var User = mongoose.model('User');
 var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
 var Comment = mongoose.model('Comment');
@@ -192,36 +193,23 @@ exports.frontpage = function(req, res, next) {
 
 	async.waterfall([
 		function(done) {
-			Member.find({ user: user_id }, function(err, members) {
+			User.findOne({ _id: user_id }, function(err, user) {
 				if(err) return next(err);
-				var _bevies = [];
-				async.each(members, function(member, callback) {
-					_bevies.push(member.bevy);
-					callback();
-				}, function(err) {
-					if(err) return next(err);
-					done(null, _bevies);
-				});
-			}).populate('bevy');
+				done(null, user);
+			});
 		},
-		function(bevies, done) {
-			var bevy_id_list = _.pluck(bevies, '_id');
-			var post_query = { bevy: { $in: bevy_id_list } };
-			var post_promise = Post.find(post_query)
-				.populate('bevy author')
-				.exec();
-			post_promise.then(function(posts) {
+		function(user, done) {
+			Post.find({ bevy: { $in: user.bevies } }, function(err, posts) {
+				if(err) return next(err);
 				done(null, posts);
-			}, function(err) { return next(err) });
+			}).populate('bevy author');
 		},
 		function(posts, done) {
-
 			if(posts.length <= 0) return res.json(posts);
-
 			var _posts = [];
-
 			posts.forEach(function(post) {
 				Comment.find({ postId: post._id }, function(err, comments) {
+					if(err) return next(err);
 					post = post.toObject();
 					post.comments = comments;
 					_posts.push(post);
@@ -243,24 +231,15 @@ exports.search = function(req, res, next) {
 
 	async.waterfall([
 		function(done) {
-			Member.find({ user: user_id }, function(err, members) {
+			User.findOne({ _id: user_id }, function(err, user) {
 				if(err) return next(err);
-				var _bevies = [];
-				async.each(members, function(member, callback) {
-					_bevies.push(member.bevy);
-					callback();
-				}, function(err) {
-					if(err) return next(err);
-					done(null, _bevies);
-				});
-			}).populate('bevy');
+				done(null, user);
+			});
 		},
-		function(bevies, done) {
+		function(user, done) {
 			// find posts in all bevies with matching tags
-			var bevy_id_list = _.pluck(bevies, '_id');
-			var post_query = { bevy: { $in: bevy_id_list } };
 			var post_promise = Post.find()
-				.where('bevy').in(bevy_id_list)
+				.where('bevy').in(user.bevies)
 				.where('tags').equals(tag_query)
 				.populate('bevy author')
 				.exec();
@@ -269,13 +248,11 @@ exports.search = function(req, res, next) {
 			}, function(err) { return next(err) });
 		},
 		function(posts, done) {
-
 			if(posts.length <= 0) return res.json(posts);
-
 			var _posts = [];
-
 			posts.forEach(function(post) {
 				Comment.find({ postId: post._id }, function(err, comments) {
+					if(err) return next(err);
 					post = post.toObject();
 					post.comments = comments;
 					_posts.push(post);
