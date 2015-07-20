@@ -15,8 +15,8 @@ var _ = require('underscore');
 var shortid = require('shortid'); 
 var async = require('async');
 
+var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
-var Member = mongoose.model('BevyMember');
 var ChatThread = mongoose.model('ChatThread');
 
 function collectBevyParams(req) {
@@ -38,23 +38,13 @@ function collectBevyParams(req) {
 exports.index = function(req, res, next) {
 	var userid = req.params.userid;
 	//console.log(req.user);
-
-	Member.find({ user: userid }, function(err, members) {
+	User.findOne({ _id: userid }, function(err, user) {
 		if(err) return next(err);
-		var _bevies = [];
-		async.each(members, function(member, callback) {
-			var bevy_id = member.bevy._id;
-			var bevy = JSON.parse(JSON.stringify(member.bevy));
-			Member.find({ bevy: bevy_id }, function(err, $members) {
-				bevy.members = $members;
-				_bevies.push(bevy);
-				callback();
-			}).populate('user');
-		}, function(err) {
+		Bevy.find({ _id: { $in: user.bevies } }, function(err, bevies) {
 			if(err) return next(err);
-			return res.json(_bevies);
+			return res.json(bevies);
 		});
-	}).populate('bevy');
+	});	
 }
 
 //INDEX
