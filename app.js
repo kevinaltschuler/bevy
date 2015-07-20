@@ -117,7 +117,6 @@ var routes = require('./routes')(app);
 // error handling
 var error = require('./error');
 app.use(error.log_errors);
-app.use(error.client_error_handler);
 app.use(error.error_handler);
 
 
