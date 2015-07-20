@@ -80,7 +80,7 @@ module.exports = function(app) {
 					// user not found. let's create an account
 					//console.log('User', emails[0], 'doesnt exist. Creating new user...');
 					User.create({
-						_id: shortid.generate,
+						_id: shortid.generate(),
 						token: accessToken,
 						image_url: (profile.photos) ? profile.photos[0].value : undefined,
 						email: emails[0], // use the first email as default.
