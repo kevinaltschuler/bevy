@@ -22,6 +22,9 @@ module.exports = function(router) {
 	// LONG POLL
 	router.get('/users/:userid/notifications/poll', api.notifications.poll);
 
+	// leaving page
+	router.get('/users/:userid/offline', api.notifications.offline);
+
 	// SHOW
 	//router.get('/users/:userid/notifications/:id', api.notifications.show);
 

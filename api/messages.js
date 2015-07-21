@@ -29,20 +29,21 @@ exports.index = function(req, res, next) {
 // POST /threads/:threadid/messages
 exports.create = function(req, res, next) {
 	var thread_id = req.params.threadid;
-	var author = req.body['author'];
+	var author_id = req.body['author'];
 	var body = req.body['body'];
 
 	var message = {
 		_id: shortid.generate(),
 		thread: thread_id,
-		author: author,
+		author: author_id,
 		body: body
 	};
 
 	Message.create(message, function(err, $message) {
 		if(err) return next(err);
-		Message.populate(message, { path: 'author' }, function(err, $pop_message) {
+		Message.populate($message, { path: 'author' }, function(err, $pop_message) {
 			if(err) return next(err);
+			console.log($pop_message);
 			// now lets push it to everybody
 			Thread.findOne({ _id: thread_id }, function(err, thread) {
 				if(err) return next(err);
@@ -52,19 +53,15 @@ exports.create = function(req, res, next) {
 					User.find({ bevies: thread.bevy }, function(err, users) {
 						if(err) return next(err);
 						users.forEach(function(user) {
-							if(user) {
-								if(user == author) return; // dont send chat to yourself
-								emitter.emit(user + ':chat', $pop_message);
-							}
+							if(user._id == author_id) return; // dont send chat to yourself
+							emitter.emit(user._id + ':chat', $pop_message);
 						});
 					});
 				}
 				// send to each user
-				thread.users.forEach(function(user) {
-					if(user) {
-						if(user == author) return; // dont send chat to yourself
-						emitter.emit(user + ':chat', $pop_message);
-					}
+				thread.users.forEach(function(user_id) {
+					if(user_id == author_id) return; // dont send chat to yourself
+					emitter.emit(user_id + ':chat', $pop_message);
 				});
 			});
 

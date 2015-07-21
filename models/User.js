@@ -55,6 +55,10 @@ var UserSchema = new Schema({
 		type: String,
 		ref: 'Bevy'
 	}],
+	activeBevies: [{
+		type: String,
+		ref: 'Bevy'
+	}],
 	created: {
 		type: Date,
 		default: Date.now

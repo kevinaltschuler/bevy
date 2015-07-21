@@ -114,19 +114,23 @@ var PublicBevyPanel = React.createClass({
 			<div className="panel public-bevy-panel">
 					<Button className="bevy-panel-top" href={'/b/' + this.props.bevy._id} style={bevyImageStyle}/>
 					<div className='panel-info'>
-						<div className='panel-info-left'>
+						<div className='panel-info-top'>
 								<a className='title' href={'/b/' + this.props.bevy._id}>
 									{name}
 								</a>
-								<div>
+						</div>
+						<div className='panel-info-bottom'>
+							<div className='left'>
+									<div>
 									{ '0' + ' Members'}
 								</div>
 								<div>
 									Created by: {bevyAdmin}
 								</div>
-						</div>
-						<div className='panel-info-right'>
-							{joinButton}
+							</div>
+							<div className='right'>
+								{joinButton}
+							</div>
 						</div>
 					</div>
 			</div>

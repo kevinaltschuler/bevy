@@ -5,6 +5,7 @@ var React = require('react');
 var $ = require('jquery');
 
 var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
+var PublicChatPanel = require('./../../chat/components/PublicChatPanel.jsx');
 var FrontpagePanel = require('./../../bevy/components/FrontpagePanel.jsx');
 var Footer = require('./Footer.jsx');
 
@@ -12,7 +13,8 @@ var RightSidebar = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object,
-		activeMember: React.PropTypes.object
+		activeMember: React.PropTypes.object,
+		activeThread: React.PropTypes.object
 	},
 
 	getInitialState: function () {
@@ -24,18 +26,14 @@ var RightSidebar = React.createClass({
 		var bevy = this.props.activeBevy;
 		var bevy_id = bevy._id;
 
-		var panel = (bevy_id == -1)
-		? (<FrontpagePanel />)
-		: (<BevyPanel
-				activeBevy={ this.props.activeBevy }
-				myBevies={ this.props.myBevies }
-			/>);
-
 		return (
 			<div className='right-sidebar'>
 				<div className='fixed'>
 					<div className='hide-scroll'>
-						{ panel }
+						<BevyPanel
+							activeBevy={ this.props.activeBevy }
+							myBevies={ this.props.myBevies }
+						/>
 						<Footer />
 					</div>
 				</div>

@@ -188,8 +188,16 @@ exports.destroy = function(req, res, next) {
   });
 }
 
+// GET /users/:userid/notifications/poll
 exports.poll = function(req, res, next) {
   var user_id = req.params.userid;
+
+    // user started polling
+    // check if theyre in the online users list
+    // if not add.
+
+    // set a timer - 40 seconds - if this isnt hit again then set them as offline
+
   emitter.on(user_id, function(notification) {
     if(!res.headersSent)
       return res.json({
@@ -208,7 +216,11 @@ exports.poll = function(req, res, next) {
   });
 }
 
-
+exports.offline = function(req, res, next) {
+  // check if in the online users list
+  // if yes, remove
+  console.log('caught offline');
+}
 
 exports.make = function(type, payload) {
   switch(type) {

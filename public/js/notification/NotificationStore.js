@@ -81,7 +81,7 @@ NotificationStore.notifications.on('add', function(notification) {
 		dataType: 'json',
 		complete: function(jqXHR) {
 			var response = jqXHR.responseJSON;
-			//console.log(response);
+			console.log(response);
 			if(response == undefined) return poll();
 
 			ChatStore.addMessage(response.data);

@@ -38,7 +38,7 @@ _.extend(ChatStore, {
 			case BEVY.JOIN:
 			case BEVY.LEAVE:
 
-				this.threads.fetch({
+				/*this.threads.fetch({
 					reset: true,
 					success: function(collection, response, options) {
 						this.threads.forEach(function(thread) {
@@ -53,14 +53,13 @@ _.extend(ChatStore, {
 							});
 						}.bind(this));
 					}.bind(this)
-				});
+				});*/
 
 				break;
 
 			case BEVY.SWITCH:
 
 				BevyStore.on(BEVY.SWITCHED, function() {
-
 					$.ajax({
 						method: 'get',
 						url: constants.apiurl + '/bevies/' + BevyStore.getActive()._id + '/thread',
