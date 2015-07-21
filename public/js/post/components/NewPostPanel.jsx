@@ -205,7 +205,7 @@ var NewPostPanel = React.createClass({
 		}
 
 		if(this.state.type == 'event') {
-			hintText = 'Event Title';
+			hintText = 'event title';
 		}
 
 		var eventDiv = (this.state.type == 'event')

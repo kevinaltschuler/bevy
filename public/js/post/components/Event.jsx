@@ -196,6 +196,14 @@ var Event = React.createClass({
 		?	post.allComments.length
 		:   0;
 
+		if(post.event) {
+			var event = post.event;
+			var startDate = event.startDate;
+			var endDate = event.endDate;
+			var location = event.location;
+			var description = event.description;
+		}
+
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (post.author.image_url)
 		? post.author.image_url
@@ -327,6 +335,9 @@ var Event = React.createClass({
 		var postBody = (
 			<div>
 				<div className='panel-header'>
+					<div className='panel-body'>
+						{ panelBodyText }
+					</div>
 					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
 					<div className='post-details'>
 						<div className='top'>
@@ -356,11 +367,18 @@ var Event = React.createClass({
 					</div>
 				</div>
 
-				<div className='panel-body'>
-					{ panelBodyText }
+				<div className='panel-body-text'>
+					{ description }
 				</div>
 
 				{ imageBody }
+
+				<div className='panel-body-date'>
+					{date}
+				</div>
+				<div className='panel-body-location'>
+					{location}
+				</div>
 				<div className="panel-bottom">
 					<div className='left'>
 						<FlatButton className='upvote' onClick={ this.upvote }>
