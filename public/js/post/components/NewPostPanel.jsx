@@ -173,7 +173,7 @@ var NewPostPanel = React.createClass({
 			thumbnailHeight: 500,
 			dictDefaultMessage: 'Upload a Picture',
 			addRemoveLinks: true,
-			clickable: '.paperclip',
+			clickable: '.attach-picture',
 		};
 
 		var bevies = this.state.bevies;
@@ -188,9 +188,16 @@ var NewPostPanel = React.createClass({
 				onChange={ this.onBevyChange }
 			/>);
 
-		hintText = (this.props.disabled)
+		var disabled = this.props.disabled;
+
+		hintText = (disabled)
 		? 'you must be logged in to post'
 		: hintText
+
+		if(this.props.activeBevy.admin_only) {
+			disabled = true;
+			hintText = 'only admins may post in this bevy';
+		}
 
 		return (
 			<Panel className="panel new-post-panel" postId={ this.state.id }>
@@ -202,7 +209,7 @@ var NewPostPanel = React.createClass({
 						multiLine={ true }
 						value={ this.state.title }
 						onChange={ this.handleChange }
-						disabled={ this.props.disabled }
+						disabled={ disabled }
 					/>
 				</div>
 
@@ -213,19 +220,25 @@ var NewPostPanel = React.createClass({
 				/>
 
 				<div className="panel-bottom">
-					<div className='paperclip'>
+					<div className='paperclip action'>
 						<FloatingActionButton
 							title="Attach Media"
-							iconClassName="glyphicon glyphicon-paperclip"
+							iconClassName="attach-picture glyphicon glyphicon-picture"
 							onClick={ this.preventDefault }
-							disabled={ this.props.disabled }
+							disabled={ disabled }
+						/>
+						<FloatingActionButton
+							title="New Event"
+							iconClassName="glyphicon glyphicon-calendar"
+							onClick={ this.preventDefault }
+							disabled={ disabled }
 						/>
 					</div>
 					{ beviesDropdown }
 					<RaisedButton 
 						label="post" 
 						onClick={this.submit} 
-						disabled={ this.props.disabled }
+						disabled={ disabled }
 					/>
 				</div>
 			</Panel>

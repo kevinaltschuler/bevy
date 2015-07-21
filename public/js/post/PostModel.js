@@ -32,7 +32,7 @@ var Post = Backbone.Model.extend({
 		bevy: null,
 		votes: [],
 		created: new Date(),
-		updated: new Date()
+		updated: new Date(),
 	},
 
 	initialize: function() {

@@ -46,13 +46,17 @@ var BevySettingsModal = React.createClass({
 	},
 
 	save: function(ev) {
-		var anonymise_users = this.refs.anonymise_users.isToggled();
+		//var anonymise_users = this.refs.anonymise_users.isToggled();
 		var group_chat = this.refs.group_chat.isToggled();
+		var admin_only = this.refs.admin_only.isToggled();
+		var default_events = this.refs.default_events.isToggled();
 
 		BevyActions.update(this.props.activeBevy._id, null, null, null, {
-			anonymise_users: anonymise_users,
+			//anonymise_users: anonymise_users,
 			posts_expire_in: this.state.posts_expire_in,
-			group_chat: group_chat
+			group_chat: group_chat,
+			admin_only: admin_only,
+			default_events: default_events
 		});
 
 		this.props.onRequestHide();
@@ -91,9 +95,17 @@ var BevySettingsModal = React.createClass({
 
 					<div className='bevy-setting'>
 						<Toggle
-						  label="Anonymise Users?"
-						  defaultToggled={ settings.anonymise_users }
-						  ref='anonymise_users'
+						  label="Show Events by default?"
+						  defaultToggled={ settings.default_events }
+						  ref='default_events'
+						/>
+					</div>
+
+					<div className='bevy-setting'>
+						<Toggle
+						  label="admin posting only?"
+						  defaultToggled={ settings.admin_only }
+						  ref='admin_only'
 						/>
 					</div>
 

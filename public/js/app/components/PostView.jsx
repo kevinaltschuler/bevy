@@ -46,7 +46,9 @@ var PostView = React.createClass({
 						subBevies={ this.props.subBevies }
 						superBevy={ this.props.superBevy }
 					/>
-					<PostSort />
+					<PostSort 
+						activeBevy={ this.props.activeBevy}
+					/>
 					<PostContainer
 						allPosts={ this.props.allPosts }
 						activeMember={ this.props.activeMember }

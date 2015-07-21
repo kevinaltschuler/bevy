@@ -88,6 +88,14 @@ _.extend(PostStore, {
 				}*/
 
 				//if(bevy_id == this.activeBevy) break;
+				if(this.activeBevy) {
+					if(this.activeBevy.settings.default_events) {
+						PostStore.posts.comparator = PostStore.sortByEvents;
+					} 
+				} 
+				else {
+					PostStore.posts.comparator = PostStore.sortByNew;
+				}
 
 				this.posts.fetch({
 					reset: true,
@@ -255,11 +263,14 @@ _.extend(PostStore, {
 				by = by.trim(); // trim whitespace - it sometimes makes it in there
 				switch(by) {
 					case 'new':
+						default:
 						this.posts.comparator = this.sortByNew;
 						break;
 					case 'top':
-					default:
 						this.posts.comparator = this.sortByTop;
+						break;
+					case 'events':
+						this.posts.comparator = this.sortByEvents;
 						break;
 				}
 				this.posts.sort();
@@ -506,6 +517,11 @@ _.extend(PostStore, {
 		return -date;
 	},
 
+	sortByEvents: function(post) {
+		var date = Date.parse(post.get('date'));
+		return -date;
+	},
+
 	/**
 	 * recursively remove a comment
 	 */
@@ -566,8 +582,6 @@ _.extend(PostStore, {
 		return $comments;
 	}
 });
-
-PostStore.posts.comparator = PostStore.sortByTop;
 
 var posts = window.bootstrap.posts;
 console.log(posts);

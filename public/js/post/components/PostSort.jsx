@@ -33,6 +33,10 @@ function getSortState() {
 // React class
 var PostSort = React.createClass({
 
+	propTypes: {
+		activeBevy: React.PropTypes.object
+	},
+
 	// grab initial sorting mechanism
 	// should default to 'top' and 'asc'
 	getInitialState: function() {
@@ -64,7 +68,10 @@ var PostSort = React.createClass({
 
 		// add to this string to add more types to the top
 		// split function turns this string into an array
-		var sort_types = 'top new'.split(' ');
+		var sort_types = 'new top events'.split(' ');
+		if (this.props.activeBevy.settings.default_events) {
+			sort_types = 'events new top'.split(' ');
+		}
 		// array of react components to inject
 		var sorts = [];
 
@@ -77,7 +84,7 @@ var PostSort = React.createClass({
 			var className = 'sort-btn btn';
 			// if this type matches the current sorting mechanism (stored in the state)
 			// make it active
-			if(type === this.state.by.trim()) className += ' active';
+			if(type == this.state.by) className += ' active';
 
 			// the dot that separates types
 			// don't generate for the last one
