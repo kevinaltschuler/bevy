@@ -91,8 +91,8 @@ _.extend(PostStore, {
 				if(this.activeBevy) {
 					if(this.activeBevy.settings.default_events) {
 						PostStore.posts.comparator = PostStore.sortByEvents;
-					} 
-				} 
+					}
+				}
 				else {
 					PostStore.posts.comparator = PostStore.sortByNew;
 				}
@@ -144,11 +144,17 @@ _.extend(PostStore, {
 				var images = payload.images;
 				var author = payload.author;
 				var bevy = payload.bevy;
-				var active_member = payload.active_member;
+				var event = payload.event;
 
-				var posts_expire_in = bevy.settings.posts_expire_in || 7;
-				posts_expire_in *= (1000 * 60 * 60 * 24);
-				posts_expire_in += Date.now();
+				var posts_expire_in;
+				if(bevy.settings.posts_expire_in) {
+					posts_expire_in = bevy.settings.posts_expire_in // in days
+					posts_expire_in *= (1000 * 60 * 60 * 24); // convert to seconds
+					posts_expire_in += Date.now(); // add now
+				} else {
+					// by default, dont expire
+					posts_expire_in = new Date('2035', '1', '1');
+				}
 
 				var tags = title.match(tagRegex);
 				tags = _.map(tags, function(tag) {
@@ -163,7 +169,8 @@ _.extend(PostStore, {
 					author: author._id,
 					bevy: bevy._id,
 					created: Date.now(),
-					expires: posts_expire_in
+					expires: posts_expire_in,
+					event: event
 				};
 				var newPost = this.posts.add(newPost);
 				var tempBevy = newPost.get('bevy');

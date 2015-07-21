@@ -132,7 +132,8 @@ var NewPostPanel = React.createClass({
 			this.state.images, // image_url
 			window.bootstrap.user, // author
 			this.props.activeBevy, // bevy
-			this.findMember());
+			null // event
+		);
 
 		// reset fields
 		this.setState(this.getInitialState());
@@ -235,9 +236,9 @@ var NewPostPanel = React.createClass({
 						/>
 					</div>
 					{ beviesDropdown }
-					<RaisedButton 
-						label="post" 
-						onClick={this.submit} 
+					<RaisedButton
+						label="post"
+						onClick={this.submit}
 						disabled={ disabled }
 					/>
 				</div>

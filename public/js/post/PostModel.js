@@ -31,6 +31,8 @@ var Post = Backbone.Model.extend({
 		author: null,
 		bevy: null,
 		votes: [],
+		type: 'default',
+		event: null,
 		created: new Date(),
 		updated: new Date(),
 	},

@@ -12,6 +12,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
+var post_types = 'default event'.split(' ');
+
 var PostSchema = new Schema({
 	_id: {
 		type: String,
@@ -50,6 +52,25 @@ var PostSchema = new Schema({
 		default: new Date('2035', '1', '1'), // expires in a long time
 		index: {
 			expireAfterSeconds: 5
+		}
+	},
+	type: {
+		type: String,
+		enum: post_types,
+		default: 'default'
+	},
+	event: {
+		startDate: {
+			type: Date
+		},
+		endDate: {
+			type: Date
+		},
+		location: {
+			type: String
+		},
+		description: {
+			type: String
 		}
 	},
 	created: {
