@@ -71,7 +71,11 @@ var PostSchema = new Schema({
 		},
 		description: {
 			type: String
-		}
+		},
+		attendees: [{
+			type: String,
+			ref: 'User'
+		}]
 	},
 	created: {
 		type: Date,
