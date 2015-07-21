@@ -28,6 +28,7 @@ var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var DropDownMenu = mui.DropDownMenu;
 var FloatingActionButton = mui.FloatingActionButton;
+var DatePicker = mui.DatePicker;
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
@@ -142,7 +143,10 @@ var NewPostPanel = React.createClass({
 	// updates the state
 	handleChange: function() {
 		this.setState({
-			title: this.refs.title.getValue()
+			title: this.refs.title.getValue(),
+			description: this.refs.description.getValue(),
+			location: this.refs.location.getValue(),
+			date: this.refs.date.getValue()
 		});
 	},
 
@@ -152,17 +156,17 @@ var NewPostPanel = React.createClass({
 		});
 	},
 
-	findMember: function() {
-		var members = this.props.activeBevy.members;
-		return _.find(members, function(member) {
-			if(_.isEmpty(member.user)) {
-				// match email
-				return member.email == user.email;
-			} else {
-				// match user id
-				return member.user._id == user._id;
-			}
-		});
+	eventToggle: function(ev) {
+		ev.preventDefault();
+		if(this.state.type == 'event') {
+			this.setState({
+				type: null,
+			});
+		} else {
+			this.setState({
+				type: 'event'
+			});
+		}
 	},
 
 	render: function() {
@@ -199,6 +203,40 @@ var NewPostPanel = React.createClass({
 			hintText = 'only admins may post in this bevy';
 		}
 
+		if(this.state.type == 'event') {
+			hintText = 'Event Title';
+		}
+
+		var eventDiv = (this.state.type == 'event')
+		? 	(<div className='event-fields'>
+				<TextField
+					className="title-field"
+					hintText='event description'
+					ref='description'
+					multiLine={ true }
+					value={ this.state.description }
+					onChange={ this.handleChange }
+					disabled={ disabled }
+				/>
+				<TextField
+					className="title-field"
+					hintText='location'
+					ref='location'
+					value={ this.state.location }
+					onChange={ this.handleChange }
+					disabled={ disabled }
+				/>
+				<TextField
+					className="title-field"
+					hintText='date'
+					ref='date'
+					value={ this.state.date }
+					onChange={ this.handleChange }
+					disabled={ disabled }
+				/>
+			</div>)
+		: 	(<div/>);
+
 		return (
 			<Panel className="panel new-post-panel" postId={ this.state.id }>
 				<div className="new-post-title">
@@ -212,6 +250,8 @@ var NewPostPanel = React.createClass({
 						disabled={ disabled }
 					/>
 				</div>
+
+				{eventDiv}
 
 				<Uploader
 					onUploadComplete={ this.onUploadComplete }
@@ -230,7 +270,7 @@ var NewPostPanel = React.createClass({
 						<FloatingActionButton
 							title="New Event"
 							iconClassName="glyphicon glyphicon-calendar"
-							onClick={ this.preventDefault }
+							onClick={ this.eventToggle }
 							disabled={ disabled }
 						/>
 					</div>

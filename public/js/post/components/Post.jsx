@@ -406,7 +406,7 @@ var Post = React.createClass({
 				{ imageBody }
 				<div className="panel-bottom">
 					<div className='left'>
-						<FlatButton className='upvote' onClick={ this.upvote }>
+						<FlatButton className='upvote' onClick={ this.upvote } disabled={window.bootstrap.user}>
 							<span className="glyphicon glyphicon-thumbs-up btn"></span>
 							&nbsp;{ this.countVotes() } upvotes
 						</FlatButton>
