@@ -75,7 +75,12 @@ var NewPostPanel = React.createClass({
 			images: [],
 			bevies: [],
 			selectedIndex: 0,
-			disabled: this.props.disabled
+			disabled: this.props.disabled,
+			startDate: '',
+			endDate: '',
+			location: '',
+			description: '',
+			attendees: ''
 		};
 	},
 
@@ -126,6 +131,20 @@ var NewPostPanel = React.createClass({
 	// TODO: pass in the rest of the state attributes needed
 	submit: function(ev) {
 		ev.preventDefault();
+		var event = null;
+
+		if(this.state.type == 'event') {
+			event = 
+				{
+					startDate: this.state.date,
+					endDate: this.state.date,
+					location: this.state.location,
+					description: this.state.description,
+					attendees: null
+				};
+		}
+
+		console.log(event);
 
 		// send the create action
 		PostActions.create(
@@ -133,7 +152,8 @@ var NewPostPanel = React.createClass({
 			this.state.images, // image_url
 			window.bootstrap.user, // author
 			this.props.activeBevy, // bevy
-			null // event
+			event
+ // event
 		);
 
 		// reset fields
@@ -147,7 +167,7 @@ var NewPostPanel = React.createClass({
 			title: this.refs.title.getValue(),
 			description: this.refs.description.getValue(),
 			location: this.refs.location.getValue(),
-			date: this.refs.date.getValue()
+			startDate: this.refs.date.getValue()
 		});
 	},
 
@@ -231,7 +251,7 @@ var NewPostPanel = React.createClass({
 					className="title-field"
 					hintText='date'
 					ref='date'
-					value={ this.state.date }
+					value={ this.state.startDate }
 					onChange={ this.handleChange }
 					disabled={ disabled }
 				/>

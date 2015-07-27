@@ -335,9 +335,6 @@ var Event = React.createClass({
 		var postBody = (
 			<div>
 				<div className='panel-header'>
-					<div className='panel-body'>
-						{ panelBodyText }
-					</div>
 					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
 					<div className='post-details'>
 						<div className='top'>
@@ -367,16 +364,21 @@ var Event = React.createClass({
 					</div>
 				</div>
 
-				<div className='panel-body-text'>
+				<div className='event-title'>
+					{ panelBodyText }
+				</div>
+
+				<div className='event-description'>
 					{ description }
 				</div>
 
 				{ imageBody }
 
-				<div className='panel-body-date'>
-					{date}
+				<div className='event-date'>
+					{startDate}
+					{endDate}
 				</div>
-				<div className='panel-body-location'>
+				<div className='event-location'>
 					{location}
 				</div>
 				<div className="panel-bottom">
@@ -396,7 +398,6 @@ var Event = React.createClass({
 					<CommentSubmit
 						postId={ this.props.id }
 						author={ post.author }
-						activeMember={ activeMember }
 						bevy={ bevy }
 					/>
 				</div>

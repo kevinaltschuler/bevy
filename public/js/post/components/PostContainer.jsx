@@ -9,10 +9,12 @@
 
 // imports
 var React = require('react');
+var _ = require('underscore');
 
 var router = require('./../../router');
 
 var Post = require('./Post.jsx');
+var Event = require('./Event.jsx');
 var PostStore = require('./../PostStore');
 
 
@@ -61,13 +63,23 @@ var PostContainer = React.createClass({
 			if(((router.bevy_id == -1) && post.pinned)) {
 				continue;
 			}
-			posts.push(
-				<Post
-					id={ post._id }
-					key={ post._id }
-					post={ post }
-				/>
-			);
+			if(_.isEmpty(post.event)) {
+				posts.push(
+					<Post
+						id={ post._id }
+						key={ post._id }
+						post={ post }
+					/>
+				);
+			} else {
+				posts.push(
+					<Event
+						id={ post._id }
+						key={ post._id }
+						post={ post }
+					/>
+				);
+			}
 		}
 
 		return (
