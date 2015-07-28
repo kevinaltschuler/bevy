@@ -12,17 +12,19 @@
 			.top {
 				justify-content: space-between;
 				align-items: flex-end;
+				margin-bottom: 10px;
 				.main-text {
-					font-size: 1.3em;
+					font-size: 1.1em;
 					.title {
 						color: black;
 					}
 					.description {
 						color: @light-font;
+						font-size: .7em;
 					}
 				}
 				.glyphicon {
-					font-size: 1em;
+					font-size: 1.0em;
 				}
 			}
 			.bottom {
@@ -33,13 +35,20 @@
 				.glyphicon {
 					font-size: 1.2em;
 				}
-				.detail-time {
-					padding-top: 10px;
-					padding-bottom: 0px;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					padding-right: 20px;
+				.detail-button {
+					margin-right: 10px;
+					line-height: 1.5;
+					.text {
+						line-height: 1.5;
+						margin-left: 5px;
+					}
+					> div {
+						display: flex;
+						flex-direction: row;
+						.glyphicon {
+							align-self: center;
+						}
+					}
 				}
 			}
 			.details, .detail-time, .dot {
@@ -62,6 +71,44 @@
 			.points, .comment-count {
 			}
 			.badge {
+			}
+		}
+	}
+}
+
+.create-event {
+	.modal-dialog {
+		.modal-content {
+			.bevy-info {
+				.text-fields {
+					.input-group.date {
+						margin-bottom: 10px;
+						display: flex;
+    					flex-direction: row-reverse;
+						.input-group-addon {
+							border: none;
+						    border-radius: 20px;
+						    width: 35px;
+						    height: 35px;
+						    display: flex;
+						    box-shadow: @shadow1;
+						    transition: all 450ms cubic-bezier(.23,1,.32,1) 0ms;
+						    &:active {
+						    	box-shadow: @shadow2;
+						    }
+						    .glyphicon {
+						    	align-self: center;
+						    	box-shadow: none;
+						    }
+						}
+						.form-control {
+							box-shadow: none;
+							box-shadow: none;
+						    border: none;
+						    margin-left: 5px;
+						}
+					}
+				}
 			}
 		}
 	}

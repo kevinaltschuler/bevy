@@ -9,6 +9,7 @@
 
 var React = require('react');
 var _ = require('underscore');
+var $ = require('jquery');
 var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
@@ -17,10 +18,13 @@ var Input = rbs.Input;
 var Button = rbs.Button;
 var Modal = rbs.Modal;
 
+var DateTimeField = require('react-bootstrap-datetimepicker');
+
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
+var DatePicker = mui.DatePicker;
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
@@ -41,11 +45,10 @@ var CreateNewEvent = React.createClass({
 	getInitialState: function() {
 		return {
 			title: '',
-			image: '/img/default_group_img.png',
+			image: '/img/default_event_img.png',
 			bevies: [],
 			selectedIndex: 0,
 			date: '',
-			time: '',
 			location: '',
 			description: '',
 			attendees: ''
@@ -65,7 +68,6 @@ var CreateNewEvent = React.createClass({
 		
 		event = {
 				date: this.state.date,
-				time: this.state.time,
 				location: this.state.location,
 				description: this.state.description,
 				attendees: null
@@ -92,9 +94,13 @@ var CreateNewEvent = React.createClass({
 		this.setState({
 			title: this.refs.title.getValue(),
 			description: this.refs.description.getValue(),
-			location: this.refs.location.getValue(),
-			date: this.refs.date.getValue(),
-			time: this.refs.time.getValue()
+			location: this.refs.location.getValue()
+		});
+	},
+
+	handleDate: function(x) {
+		this.setState({
+			date: x     
 		});
 	},
 
@@ -112,7 +118,7 @@ var CreateNewEvent = React.createClass({
 
 		};
 
-		return <Modal className="create-bevy" {...this.props} title='Create a new Event'>
+		return <Modal className="create-bevy create-event" {...this.props} title='Create a new Event'>
 
 					<div className="bevy-info">
 						<div className="new-bevy-picture">
@@ -146,19 +152,11 @@ var CreateNewEvent = React.createClass({
 								value={ this.state.location }
 								onChange={ this.handleChange }
 							/>
-							<TextField
-								className="title-field"
-								hintText='date'
+							<DateTimeField
+								className='date-picker'
 								ref='date'
-								value={ this.state.date }
-								onChange={ this.handleChange }
-							/>
-							<TextField
-								className="title-field"
-								hintText='time'
-								ref='time'
-								value={ this.state.time }
-								onChange={ this.handleChange }
+								dateTime={ Date.now() }
+								onChange={this.handleDate}
 							/>
 						</div>
 					</div>
@@ -166,6 +164,7 @@ var CreateNewEvent = React.createClass({
 						<div className='right'>
 							<RaisedButton
 								onClick={ this.submit }
+								disabled={!(this.state.date && this.state.title && this.state.location)}
 								label="Create"
 							/>
 							<FlatButton

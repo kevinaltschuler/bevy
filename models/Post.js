@@ -63,9 +63,6 @@ var PostSchema = new Schema({
 		date: {
 			type: Date
 		},
-		time: {
-			type: String
-		},
 		location: {
 			type: String
 		},

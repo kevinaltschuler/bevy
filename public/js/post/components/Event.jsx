@@ -19,6 +19,7 @@ var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
+var FontIcon = mui.FontIcon;
 
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
@@ -190,9 +191,14 @@ var Event = React.createClass({
 		:   0;
 		var event = post.event;
 		var date = event.date;
-		var time = event.time;
 		var location = event.location;
-		var description = event.description;
+		var description = (event.description)
+		? event.description
+		: '';
+
+		var $date = new Date(date)
+		var dateString = ($date) ? $date.toDateString() : '';
+		var timeString = ($date) ? $date.toTimeString() : '';
 
 		console.log(event);
 
@@ -247,6 +253,14 @@ var Event = React.createClass({
 
 		};
 
+		var locationLink = (location) 
+		? 'https://www.google.com/maps/search/' + location.replace(/ /g, '+')
+		: 'https://www.google.com/maps';
+
+		var eventLink = (title && date && location)
+		? 'http://www.google.com/calendar/event?action=TEMPLATE&text=' + title + '&dates=' + date +'&details=' + description +'&location=' + location + '&trp=false&sprop=&sprop=name:'
+		: 'http://www.google.com/calendar/event';
+
 		var postBody = (
 			<div>
 				<div className='event-image' style={eventImageStyle}/>
@@ -274,28 +288,28 @@ var Event = React.createClass({
 							</div>
 						</div>
 						<div className="bottom">
-							<div className='detail-time'>
+							<FlatButton 
+								href={eventLink}
+								className='detail-button'
+								target='_blank'
+								linkButton={true}
+							>
 								<span className="glyphicon glyphicon-time"></span>
-								<div className='text'>
-									<div className='primary'>
-										{date}
+									<div className='text'>
+										<div className='primary'>
+											{dateString}
+										</div>
+										<div className='secondary'>
+											{timeString}
+										</div>
 									</div>
-									<div className='secondary'>
-										{time}
-									</div>
+							</FlatButton>
+							<FlatButton className='detail-button' href={locationLink} linkButton={true} target="_blank">
+								<FontIcon className="glyphicon glyphicon-map-marker"/>
+								<div className='primary'>
+									{location}
 								</div>
-							</div>
-							<div className='detail-time'>
-								<span className="glyphicon glyphicon-map-marker"></span>
-								<div className='text'>
-									<div className='primary'>
-										{location}
-									</div>
-									<div className='secondary'>
-										the details
-									</div>
-								</div>
-							</div>
+							</FlatButton>
 						</div>
 					</div>
 				</div>
