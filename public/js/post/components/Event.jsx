@@ -198,7 +198,7 @@ var Event = React.createClass({
 
 		var $date = new Date(date)
 		var dateString = ($date) ? $date.toDateString() : '';
-		var timeString = ($date) ? $date.toTimeString() : '';
+		var timeString = ($date) ? $date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}) : '';
 
 		console.log(event);
 
@@ -258,7 +258,7 @@ var Event = React.createClass({
 		: 'https://www.google.com/maps';
 
 		var eventLink = (title && date && location)
-		? 'http://www.google.com/calendar/event?action=TEMPLATE&text=' + title + '&dates=' + date +'&details=' + description +'&location=' + location + '&trp=false&sprop=&sprop=name:'
+		? 'http://www.google.com/calendar/event?action=TEMPLATE&text=' + title.replace(/ /g, '+') + '&dates=' + date + '/' + date +'&details=' + description.replace(/ /g, '+') +'&location=' + location.replace(/ /g, '+') + '&trp=false&sprop=&sprop=name:'
 		: 'http://www.google.com/calendar/event';
 
 		var postBody = (
@@ -293,6 +293,7 @@ var Event = React.createClass({
 								className='detail-button'
 								target='_blank'
 								linkButton={true}
+								rel="nofollow"
 							>
 								<span className="glyphicon glyphicon-time"></span>
 									<div className='text'>
