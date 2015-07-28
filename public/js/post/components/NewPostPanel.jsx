@@ -20,6 +20,7 @@ var rbs = require('react-bootstrap');
 var Tooltip = rbs.Tooltip;
 var Input = rbs.Input;
 var Panel = rbs.Panel;
+var ModalTrigger = rbs.ModalTrigger;
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
@@ -31,6 +32,7 @@ var FloatingActionButton = mui.FloatingActionButton;
 var DatePicker = mui.DatePicker;
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
+var CreateNewEvent = require('./CreateNewEvent.jsx');
 
 var PostActions = require('./../PostActions');
 
@@ -75,12 +77,7 @@ var NewPostPanel = React.createClass({
 			images: [],
 			bevies: [],
 			selectedIndex: 0,
-			disabled: this.props.disabled,
-			startDate: '',
-			endDate: '',
-			location: '',
-			description: '',
-			attendees: ''
+			disabled: this.props.disabled
 		};
 	},
 
@@ -131,20 +128,6 @@ var NewPostPanel = React.createClass({
 	// TODO: pass in the rest of the state attributes needed
 	submit: function(ev) {
 		ev.preventDefault();
-		var event = null;
-
-		if(this.state.type == 'event') {
-			event = 
-				{
-					startDate: this.state.date,
-					endDate: this.state.date,
-					location: this.state.location,
-					description: this.state.description,
-					attendees: null
-				};
-		}
-
-		console.log(event);
 
 		// send the create action
 		PostActions.create(
@@ -152,8 +135,6 @@ var NewPostPanel = React.createClass({
 			this.state.images, // image_url
 			window.bootstrap.user, // author
 			this.props.activeBevy, // bevy
-			event
- // event
 		);
 
 		// reset fields
@@ -165,9 +146,7 @@ var NewPostPanel = React.createClass({
 	handleChange: function() {
 		this.setState({
 			title: this.refs.title.getValue(),
-			description: this.refs.description.getValue(),
-			location: this.refs.location.getValue(),
-			startDate: this.refs.date.getValue()
+			description: this.refs.description.getValue()
 		});
 	},
 
@@ -175,19 +154,6 @@ var NewPostPanel = React.createClass({
 		this.setState({
 			selectedIndex: selectedIndex
 		});
-	},
-
-	eventToggle: function(ev) {
-		ev.preventDefault();
-		if(this.state.type == 'event') {
-			this.setState({
-				type: null,
-			});
-		} else {
-			this.setState({
-				type: 'event'
-			});
-		}
 	},
 
 	render: function() {
@@ -224,40 +190,6 @@ var NewPostPanel = React.createClass({
 			hintText = 'only admins may post in this bevy';
 		}
 
-		if(this.state.type == 'event') {
-			hintText = 'event title';
-		}
-
-		var eventDiv = (this.state.type == 'event')
-		? 	(<div className='event-fields'>
-				<TextField
-					className="title-field"
-					hintText='event description'
-					ref='description'
-					multiLine={ true }
-					value={ this.state.description }
-					onChange={ this.handleChange }
-					disabled={ disabled }
-				/>
-				<TextField
-					className="title-field"
-					hintText='location'
-					ref='location'
-					value={ this.state.location }
-					onChange={ this.handleChange }
-					disabled={ disabled }
-				/>
-				<TextField
-					className="title-field"
-					hintText='date'
-					ref='date'
-					value={ this.state.startDate }
-					onChange={ this.handleChange }
-					disabled={ disabled }
-				/>
-			</div>)
-		: 	(<div/>);
-
 		return (
 			<Panel className="panel new-post-panel" postId={ this.state.id }>
 				<div className="new-post-title">
@@ -271,8 +203,6 @@ var NewPostPanel = React.createClass({
 						disabled={ disabled }
 					/>
 				</div>
-
-				{eventDiv}
 
 				<Uploader
 					onUploadComplete={ this.onUploadComplete }
@@ -288,12 +218,16 @@ var NewPostPanel = React.createClass({
 							onClick={ this.preventDefault }
 							disabled={ disabled }
 						/>
-						<FloatingActionButton
-							title="New Event"
-							iconClassName="glyphicon glyphicon-calendar"
-							onClick={ this.eventToggle }
-							disabled={ disabled }
-						/>
+						<ModalTrigger modal={
+							<CreateNewEvent {...this.props}/>
+						}>
+							<FloatingActionButton
+								title="New Event"
+								iconClassName="glyphicon glyphicon-calendar"
+								onClick={ this.eventToggle }
+								disabled={ disabled }
+							/>
+						</ModalTrigger>
 					</div>
 					{ beviesDropdown }
 					<RaisedButton

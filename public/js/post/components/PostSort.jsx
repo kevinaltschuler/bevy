@@ -19,28 +19,20 @@ var Well = rbs.Well;
 var Button = rbs.Button;
 var ButtonGroup = rbs.ButtonGroup;
 
-
-/**
- * grab the current sort mechanism from the store
- * defaults to 'top' and 'asc'
- * see PostStore#getSort() for more details
- * @return {object} by:String, direction:String
- */
-function getSortState() {
-	return PostStore.getSort();
-}
-
 // React class
 var PostSort = React.createClass({
 
 	propTypes: {
-		activeBevy: React.PropTypes.object
+		activeBevy: React.PropTypes.object,
+		sortType: React.PropTypes.string
 	},
 
 	// grab initial sorting mechanism
 	// should default to 'top' and 'asc'
 	getInitialState: function() {
-		return getSortState();
+		return {
+			sortType: this.props.sortType
+		}
 	},
 
 	/**
@@ -56,8 +48,7 @@ var PostSort = React.createClass({
 		// update the state immediately
 		// should trigger a rerender
 		this.setState({
-			by: by,
-			direction: 'asc'
+			sortType: by
 		});
 
 		// now call action
@@ -84,7 +75,7 @@ var PostSort = React.createClass({
 			var className = 'sort-btn btn';
 			// if this type matches the current sorting mechanism (stored in the state)
 			// make it active
-			if(type == this.state.by) className += ' active';
+			if(type == this.state.sortType) className += ' active';
 
 			// the dot that separates types
 			// don't generate for the last one

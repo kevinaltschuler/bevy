@@ -213,7 +213,6 @@ var Post = React.createClass({
 		var post = this.state.post;
 		//console.log(post);
 		var bevy = post.bevy;
-		var activeMember = this.findMember(user._id) || {};
 		var author = post.author;
 		var commentCount = (post.allComments)
 		?	post.allComments.length
@@ -421,7 +420,6 @@ var Post = React.createClass({
 					<CommentSubmit
 						postId={ this.props.id }
 						author={ post.author }
-						activeMember={ activeMember }
 						bevy={ bevy }
 					/>
 				</div>

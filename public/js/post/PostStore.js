@@ -44,6 +44,7 @@ var PostStore = _.extend({}, Backbone.Events);
 _.extend(PostStore, {
 
 	posts: new PostCollection,
+	sortType: 'new',
 
 	activeBevy: router.bevy_id,
 
@@ -144,6 +145,7 @@ _.extend(PostStore, {
 				var images = payload.images;
 				var author = payload.author;
 				var bevy = payload.bevy;
+				var type = payload.type;
 				var event = payload.event;
 
 				var posts_expire_in;
@@ -170,6 +172,7 @@ _.extend(PostStore, {
 					bevy: bevy._id,
 					created: Date.now(),
 					expires: posts_expire_in,
+					type: type,
 					event: event
 				};
 				var newPost = this.posts.add(newPost);
@@ -185,7 +188,9 @@ _.extend(PostStore, {
 						newPost.set('links', post.get('links'));
 						newPost.set('author', author);
 						newPost.set('bevy', tempBevy);
+						newPost.set('type', type);
 						newPost.set('commentCount', 0);
+						newPost.set('event', event);
 
 						this.posts.sort();
 
@@ -271,12 +276,15 @@ _.extend(PostStore, {
 				switch(by) {
 					case 'new':
 						default:
+						this.sortType = 'new';
 						this.posts.comparator = this.sortByNew;
 						break;
 					case 'top':
+						this.sortType = 'top';
 						this.posts.comparator = this.sortByTop;
 						break;
 					case 'events':
+						this.sortType = 'events';
 						this.posts.comparator = this.sortByEvents;
 						break;
 				}
@@ -466,10 +474,7 @@ _.extend(PostStore, {
 	 * @return {[type]}
 	 */
 	getSort: function() {
-		return {
-			by: this.posts._meta.sort.by,
-			direction: this.posts._meta.sort.direction
-		};
+		return this.sortType;
 	},
 
 	vote: function(post_id, voter, value) {
@@ -525,7 +530,12 @@ _.extend(PostStore, {
 	},
 
 	sortByEvents: function(post) {
-		var date = Date.parse(post.get('date'));
+		if(post.get('type') != 'event') {
+			date = new Date('2035', '1', '1');
+		} 
+		else {
+			var date = Date.parse(post.get('date'));
+		}
 		return -date;
 	},
 

@@ -87,14 +87,6 @@ var Event = React.createClass({
 		});
 	},
 
-	getCollapsibleDOMNode: function(){
-		return React.findDOMNode(this.refs.postBody);
-	},
-
-	getCollapsibleDimensionValue: function(){
-		return React.findDOMNode(this.refs.postBody).scrollHeight;
-	},
-
 	onHandleToggle: function(ev){
     	ev.preventDefault();
     	this.setState({
@@ -190,19 +182,19 @@ var Event = React.createClass({
 
 		var post = this.state.post;
 		//console.log(post);
+		var title = post.title;
 		var bevy = post.bevy;
 		var author = post.author;
 		var commentCount = (post.allComments)
 		?	post.allComments.length
 		:   0;
+		var event = post.event;
+		var date = event.date;
+		var time = event.time;
+		var location = event.location;
+		var description = event.description;
 
-		if(post.event) {
-			var event = post.event;
-			var startDate = event.startDate;
-			var endDate = event.endDate;
-			var location = event.location;
-			var description = event.description;
-		}
+		console.log(event);
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (post.author.image_url)
@@ -216,91 +208,6 @@ var Event = React.createClass({
 				authorName = author.google.name.givenName + ' ' + author.google.name.familyName;
 			else
 				authorName = author.email;
-		}
-
-		var imageBody = (<div/>);
-		var images = [];
-		if(!_.isEmpty(post.images)) {
-			var allImages = post.images;
-			for(var key in allImages) {
-				var url = post.images[key] + '?w=150&h=150';
-				images.push(
-					<div className='panel-body-image' key={ key } >
-						<ModalTrigger modal={ <ImageModal allImages={ allImages } index={ key } /> } >
-							<button className="image-thumbnail" style={{backgroundImage: 'url(' + url + ')'}}/>
-						</ModalTrigger>
-					</div>
-				);
-			}
-			imageBody = (
-				<div className="panel-body">
-					{ images }
-				</div>);
-		}
-
-		var ago = timeAgo(Date.parse(post.created));
-		var left = (this.props.post.expires && !post.pinned)
-		? (<span><span className='middot'>•</span>{ 'expires ' + timeLeft(Date.parse(post.expires)) }</span>)
-		: '';
-
-		if(!_.isEmpty(this.state.title)) {
-			var words = this.state.title.split(' ');
-			var $words = [];
-			var tags = post.tags;
-			var urls = _.pluck(post.links, 'url');
-			var videos = youtubeRegex.exec(this.state.title);
-			words.forEach(function(word) {
-				// take off the hashtag
-				var tag = word.slice(1, word.length);
-				var index = tags.indexOf(tag);
-				if(index > -1) {
-					return $words.push(<a href={ '/s/' + tag } key={ post._id + index + 'hash'} id={ tag } onClick={ this.onTag }>{ word } </a>);
-				}
-				// if this word is in the urls array
-				if(!_.isEmpty(urls)) {
-					index = urls.indexOf(word);
-					if(index > -1) {
-						return $words.push(<a href={ word } key={ post._id + index } target='_blank'>{ word + ' '}</a>);
-					}
-				}
-				return $words.push(word + ' ');
-			}.bind(this));
-
-			// check for youtube videos
-			if(!_.isEmpty(videos)) {
-				videos.forEach(function(video, index) {
-					if((index % 2) == 0) return;
-					$words.push(<iframe width="60%" height="200px" src={"https://www.youtube.com/embed/" + video} frameborder="0" allowfullscreen={true}></iframe>);
-				});
-			}
-
-			var bodyText = (<p>{ $words }</p>);
-		} else bodyText = '';
-
-		var panelBodyText;
-		if(this.state.isEditing) {
-			panelBodyText = (
-				<div className='panel-body-text'>
-					<TextField
-						className='edit-field'
-						type='text'
-						ref='title'
-						multiLine={true}
-						defaultValue={ this.state.title  }
-						value={ this.state.title  }
-						placeholder=' '
-						onChange={ this.onChange }
-					/>
-					<RaisedButton
-						label='save'
-						onClick={ this.stopEdit }
-					/>
-				</div>);
-		} else {
-			panelBodyText = (
-				<div className='panel-body-text'>
-					{ bodyText }
-				</div>);
 		}
 
 		var deleteButton = '';
@@ -332,55 +239,67 @@ var Event = React.createClass({
 			</MenuItem>
 		);
 
+		var eventImage = (_.isEmpty(post.images[0])) ? '/img/default_group_img.png' : this.state.image_url;
+		var eventImageStyle = {
+			backgroundImage: 'url(' + post.images[0] + ')',
+			backgroundSize: '100% auto',
+			backgroundPosition: 'center'
+
+		};
+
 		var postBody = (
 			<div>
+				<div className='event-image' style={eventImageStyle}/>
 				<div className='panel-header'>
-					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
 					<div className='post-details'>
 						<div className='top'>
-							<span className="details">
-								<Button onClick={ this.onOpenThread }>{ authorName }</Button>
-							</span>
-							<span className="glyphicon glyphicon-triangle-right"/>
-							<span className="details">
-								<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }>{ bevy.name }</a>
-							</span>
+							<div className="main-text">
+								<div className='title'>
+									{ title }
+								</div>
+								<div className='description'>
+									{ description }
+								</div>
+							</div>
+							<div className='badges'>
+								<DropdownButton
+									noCaret
+									pullRight
+									className="post-settings"
+									title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+									{ deleteButton }
+									{ editButton }
+									{ muteButton }
+								</DropdownButton>
+							</div>
 						</div>
 						<div className="bottom">
-							<span className="detail-time">{ ago }</span>
-							<span className='detail-time'>{ left }</span>
+							<div className='detail-time'>
+								<span className="glyphicon glyphicon-time"></span>
+								<div className='text'>
+									<div className='primary'>
+										{date}
+									</div>
+									<div className='secondary'>
+										{time}
+									</div>
+								</div>
+							</div>
+							<div className='detail-time'>
+								<span className="glyphicon glyphicon-map-marker"></span>
+								<div className='text'>
+									<div className='primary'>
+										{location}
+									</div>
+									<div className='secondary'>
+										the details
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
-					<div className='badges'>
-						<DropdownButton
-							noCaret
-							pullRight
-							className="post-settings"
-							title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-							{ deleteButton }
-							{ editButton }
-							{ muteButton }
-						</DropdownButton>
-					</div>
 				</div>
 
-				<div className='event-title'>
-					{ panelBodyText }
-				</div>
-
-				<div className='event-description'>
-					{ description }
-				</div>
-
-				{ imageBody }
-
-				<div className='event-date'>
-					{startDate}
-					{endDate}
-				</div>
-				<div className='event-location'>
-					{location}
-				</div>
 				<div className="panel-bottom">
 					<div className='left'>
 						<FlatButton className='upvote' onClick={ this.upvote }>
@@ -404,7 +323,7 @@ var Event = React.createClass({
 			</div>
 		);
 
-		var postClassName = 'post panel';
+		var postClassName = 'post panel event';
 		if(router.post_id == post._id) postClassName += ' active';
 
 		return <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>

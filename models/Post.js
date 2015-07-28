@@ -60,11 +60,11 @@ var PostSchema = new Schema({
 		default: 'default'
 	},
 	event: {
-		startDate: {
+		date: {
 			type: Date
 		},
-		endDate: {
-			type: Date
+		time: {
+			type: String
 		},
 		location: {
 			type: String

@@ -1,0 +1,68 @@
+.post.panel.event {
+	.event-image {
+		width: 100%;
+		height: 100px;
+	}
+	.panel-header {
+		padding-top: 5px;
+		a {
+		}
+		.post-details {
+			width: 100%;
+			.top {
+				justify-content: space-between;
+				align-items: flex-end;
+				.main-text {
+					font-size: 1.3em;
+					.title {
+						color: black;
+					}
+					.description {
+						color: @light-font;
+					}
+				}
+				.glyphicon {
+					font-size: 1em;
+				}
+			}
+			.bottom {
+				flex-direction: row;
+				font-size: 1em;
+				align-items: center;
+				width: 100%;
+				.glyphicon {
+					font-size: 1.2em;
+				}
+				.detail-time {
+					padding-top: 10px;
+					padding-bottom: 0px;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					padding-right: 20px;
+				}
+			}
+			.details, .detail-time, .dot {
+				button {
+					&:active, &:hover, &:focus {
+					}
+				}
+			}
+			.details:focus, .details:hover {
+			}
+			.details:active {
+				color: #4a4a4a;
+			}
+			.glyphicon {	
+			}
+		}
+		.badges {
+			align-self: flex-start;
+			padding-top: 10px;
+			.points, .comment-count {
+			}
+			.badge {
+			}
+		}
+	}
+}

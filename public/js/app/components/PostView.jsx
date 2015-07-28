@@ -48,11 +48,13 @@ var PostView = React.createClass({
 					/>
 					<PostSort 
 						activeBevy={ this.props.activeBevy}
+						sortType={ this.props.sortType }
 					/>
 					<PostContainer
 						allPosts={ this.props.allPosts }
 						activeMember={ this.props.activeMember }
 						activeBevy={ this.props.activeBevy }
+						sortType={ this.props.sortType }
 					/>
 				</div>
 			);
