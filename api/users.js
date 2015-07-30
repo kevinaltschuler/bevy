@@ -69,7 +69,7 @@ exports.create = function(req, res, next) {
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
 	var promise = User.findOne({ email: update.email })
-		.populate('aliases')
+		.populate('bevies')
 		.exec();
 	promise.then(function(user) {
 		if(user) {
@@ -108,7 +108,7 @@ exports.show = function(req, res, next) {
 	var id = req.params.id;
 	var query = { _id: id };
 	var promise = User.findOne(query)
-		.populate('aliases')
+		.populate('bevies')
 		.exec();
 	promise.then(function(user) {
 		if(!user) throw error.gen('user not found', req);
