@@ -196,5 +196,5 @@ exports.getGoogle = function(req, res, next) {
 	User.findOne({ 'google.id': id }, function(err, user) {
 		if(err) return next(err);
 		return res.json(user);
-	});
+	}).populate('bevies');
 }
