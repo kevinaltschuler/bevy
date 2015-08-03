@@ -13,32 +13,24 @@ var Member = mongoose.model('BevyMember');
 exports.index = function(req, res, next) {
 	var id = req.params.id;
 
-	/*async.waterfall([
+	async.waterfall([
 		function(done) {
-			Member.find({ user: id }, function(err, members) {
+			User.find({ _id: id }, function(err, user) {
 				if(err) return next(err);
-				var _bevies = [];
-				async.each(members, function(member, $callback) {
-					_bevies.push(member.bevy);
-					$callback();
-				}, function(err) {
-					if(err) return next(err);
-					done(null, _bevies);
-				});
-			}).populate('bevy');
+				return done(null, user);
+			}).populate('bevies');
 		},
-		function(bevies, done) {
-			var bevy_id_list = _.pluck(bevies, '_id');
+		function(user, done) {
+			var bevy_id_list = _.pluck(user.bevies, '_id');
 
 			Thread.find(function(err, threads) {
 				if(err) return next(err);
 				return res.json(threads);
 			})
 			.or([{ members: { $elemMatch: { user: id } } }, { bevy: { $in: bevy_id_list } }])
-			.populate('bevy members.user members.member');
+			.populate('bevy users');
 		}
-	]);*/
-	return res.json([]);
+	]);
 }
 
 // GET /bevies/:id/thread
