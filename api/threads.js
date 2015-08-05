@@ -7,6 +7,7 @@ var _ = require('underscore');
 var Thread = mongoose.model('ChatThread');
 var Bevy = mongoose.model('Bevy');
 var Member = mongoose.model('BevyMember');
+var User = mongoose.model('User');
 
 
 // GET /users/:id/threads
