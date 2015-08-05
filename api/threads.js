@@ -16,7 +16,7 @@ exports.index = function(req, res, next) {
 
 	async.waterfall([
 		function(done) {
-			User.find({ _id: id }, function(err, user) {
+			User.findOne({ _id: id }, function(err, user) {
 				if(err) return next(err);
 				return done(null, user);
 			}).populate('bevies');
