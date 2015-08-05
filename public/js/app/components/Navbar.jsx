@@ -38,6 +38,7 @@ var TextField = mui.TextField;
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
+var ChatDock = require('./../../chat/components/ChatDock.jsx');
 
 var user = window.bootstrap.user;
 
@@ -50,7 +51,8 @@ var Navbar = React.createClass({
 		allNotifications: React.PropTypes.array,
 		allThreads: React.PropTypes.array,
 		activeThread: React.PropTypes.object,
-		allContacts: React.PropTypes.array
+		allContacts: React.PropTypes.array,
+		openThreads: React.PropTypes.array
 	},
 
 	onKeyUp: function(ev) {
@@ -135,6 +137,7 @@ var Navbar = React.createClass({
 					allThreads={ this.props.allThreads } 
 					activeThread={ this.props.activeThread }
 				/>
+				<ChatDock openThreads={ this.props.openThreads } />
 				<NotificationDropdown
 					allNotifications={ this.props.allNotifications }
 				/>

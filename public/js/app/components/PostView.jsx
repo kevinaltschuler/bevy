@@ -66,11 +66,11 @@ var PostView = React.createClass({
 
 			return (
 				<div className='main-section'>
-					<PublicChatPanel 
+					{/*<PublicChatPanel 
 						activeThread={ this.props.activeThread }
 						activeBevy={ this.props.activeBevy }
 						allThreads={this.props.allThreads}
-					/>
+					/>*/}
 					<LeftSidebar
 						myBevies={ this.props.myBevies }
 						activeBevy={ this.props.activeBevy }

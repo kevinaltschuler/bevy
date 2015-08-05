@@ -12,6 +12,7 @@ var _ = require('underscore');
 
 var router = require('./../../router');
 var BevyActions = require('./../../bevy/BevyActions');
+var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
@@ -50,6 +51,15 @@ var FilterSidebar = React.createClass({
 			collection: this.props.collection,
 			filter: 'top'
 		};
+	},
+
+	componentWillMount: function() {
+		if(_.isEmpty(BevyStore.getMyBevies()) && this.state.collection == 'my') {
+			BevyActions.changeCollection('all');
+			this.setState({
+				collection: 'all'
+			});
+		}
 	},
 
 	onSearch: function(ev) {

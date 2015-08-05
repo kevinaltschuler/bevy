@@ -176,6 +176,7 @@ var MainSection = React.createClass({
 					allContacts={ this.state.allContacts }
 					allThreads={ this.state.allThreads }
 					activeThread={ this.state.activeThread }
+					openThreads={ this.state.openThreads }
 				/>
 				<InterfaceComponent {...this.state} />
 			</div>

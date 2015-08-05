@@ -57,7 +57,6 @@ _.extend(BevyStore, {
 
 			case APP.LOAD:
 				var user = window.bootstrap.user;
-				this.myBevies.reset(window.bootstrap.myBevies);
 
 				this.publicBevies.url = constants.apiurl + '/bevies';
 
@@ -67,6 +66,11 @@ _.extend(BevyStore, {
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
 				});
+
+				if(_.isEmpty(user)) {
+					break;
+				}
+				this.myBevies.reset(window.bootstrap.myBevies);
 
 				break;
 
