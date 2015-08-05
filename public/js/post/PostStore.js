@@ -44,6 +44,7 @@ var PostStore = _.extend({}, Backbone.Events);
 _.extend(PostStore, {
 
 	posts: new PostCollection,
+	sortType: 'new',
 
 	activeBevy: router.bevy_id,
 
@@ -88,6 +89,14 @@ _.extend(PostStore, {
 				}*/
 
 				//if(bevy_id == this.activeBevy) break;
+				if(this.activeBevy) {
+					if(this.activeBevy.settings.default_events) {
+						PostStore.posts.comparator = PostStore.sortByEvents;
+					}
+				}
+				else {
+					PostStore.posts.comparator = PostStore.sortByNew;
+				}
 
 				this.posts.fetch({
 					reset: true,
@@ -136,11 +145,18 @@ _.extend(PostStore, {
 				var images = payload.images;
 				var author = payload.author;
 				var bevy = payload.bevy;
-				var active_member = payload.active_member;
+				var type = payload.type;
+				var event = payload.event;
 
-				var posts_expire_in = bevy.settings.posts_expire_in || 7;
-				posts_expire_in *= (1000 * 60 * 60 * 24);
-				posts_expire_in += Date.now();
+				var posts_expire_in;
+				if(bevy.settings.posts_expire_in) {
+					posts_expire_in = bevy.settings.posts_expire_in // in days
+					posts_expire_in *= (1000 * 60 * 60 * 24); // convert to seconds
+					posts_expire_in += Date.now(); // add now
+				} else {
+					// by default, dont expire
+					posts_expire_in = new Date('2035', '1', '1');
+				}
 
 				var tags = title.match(tagRegex);
 				tags = _.map(tags, function(tag) {
@@ -155,7 +171,9 @@ _.extend(PostStore, {
 					author: author._id,
 					bevy: bevy._id,
 					created: Date.now(),
-					expires: posts_expire_in
+					expires: posts_expire_in,
+					type: type,
+					event: event
 				};
 				var newPost = this.posts.add(newPost);
 				var tempBevy = newPost.get('bevy');
@@ -170,7 +188,9 @@ _.extend(PostStore, {
 						newPost.set('links', post.get('links'));
 						newPost.set('author', author);
 						newPost.set('bevy', tempBevy);
+						newPost.set('type', type);
 						newPost.set('commentCount', 0);
+						newPost.set('event', event);
 
 						this.posts.sort();
 
@@ -255,11 +275,17 @@ _.extend(PostStore, {
 				by = by.trim(); // trim whitespace - it sometimes makes it in there
 				switch(by) {
 					case 'new':
+						default:
+						this.sortType = 'new';
 						this.posts.comparator = this.sortByNew;
 						break;
 					case 'top':
-					default:
+						this.sortType = 'top';
 						this.posts.comparator = this.sortByTop;
+						break;
+					case 'events':
+						this.sortType = 'events';
+						this.posts.comparator = this.sortByEvents;
 						break;
 				}
 				this.posts.sort();
@@ -448,10 +474,7 @@ _.extend(PostStore, {
 	 * @return {[type]}
 	 */
 	getSort: function() {
-		return {
-			by: this.posts._meta.sort.by,
-			direction: this.posts._meta.sort.direction
-		};
+		return this.sortType;
 	},
 
 	vote: function(post_id, voter, value) {
@@ -503,6 +526,16 @@ _.extend(PostStore, {
 	sortByNew: function(post) {
 		var date = Date.parse(post.get('created'));
 		if(post.get('pinned') && router.bevy_id != -1) date = new Date('2035', '1', '1');
+		return -date;
+	},
+
+	sortByEvents: function(post) {
+		if(post.get('type') != 'event') {
+			date = new Date('2035', '1', '1');
+		} 
+		else {
+			var date = Date.parse(post.get('date'));
+		}
 		return -date;
 	},
 
@@ -566,8 +599,6 @@ _.extend(PostStore, {
 		return $comments;
 	}
 });
-
-PostStore.posts.comparator = PostStore.sortByTop;
 
 var posts = window.bootstrap.posts;
 console.log(posts);

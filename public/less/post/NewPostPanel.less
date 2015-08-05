@@ -6,33 +6,35 @@
 	.panel-body {
 		padding: 0px;
 	}
-	.new-post-title {
-		.title-field.mui-text-field {
-			padding: 0 15px;
-			width: 90%;
-			font-size: 1.2em;
+	.title-field.mui-text-field {
+		padding: 0 15px;
+		width: 90%;
+		font-size: 1.2em;
 
-			margin-bottom: 5px;
-			box-shadow: none;
+		margin-bottom: 5px;
+		box-shadow: none;
+		margin-left: 5px;
+		.mui-text-field-input {
 			margin-left: 5px;
-			.mui-text-field-input {
-				margin-left: 5px;
-				box-shadow: none;
-				font-size: .85em;
-			}
-			&:focus {
-				box-shadow: none;
-			}
-			.mui-text-field-underline{
-			}
-			.mui-text-field-focus-underline {
-				border-color: rgba(0,0,0,.5);
-			}
-
-			textarea {
-				box-shadow: none !important;
-			}
+			box-shadow: none;
+			font-size: .85em;
 		}
+		&:focus {
+			box-shadow: none;
+		}
+		.mui-text-field-underline{
+		}
+		.mui-text-field-focus-underline {
+			border-color: rgba(0,0,0,.5);
+		}
+
+		textarea {
+			box-shadow: none !important;
+		}
+	}
+	.event-fields {
+		margin-left: 0px;
+		margin-bottom: 10px;
 	}
 	.media {
 		overflow: hidden;
@@ -81,12 +83,13 @@
 		justify-content: flex-end;
 		padding: 0 20px;
 		padding-bottom: 10px;
-		.paperclip {
+		.action {
 			flex-grow: 1;
 			.mui-floating-action-button {
 				width: 35px;
 				height: 35px;
 				display: inline-block;
+				margin-right: 15px;
 			}
 			.mui-floating-action-button {
 				.mui-floating-action-button-inner {
@@ -105,7 +108,7 @@
 				.mui-floating-action-button-icon {
 					line-height: 23px;
 					font-size: 18px;
-					color: black;
+					color: rgba(0,0,0,.7);
 				}
 			}
 		}

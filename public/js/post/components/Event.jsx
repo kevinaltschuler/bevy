@@ -1,6 +1,6 @@
 /**
- * Post.jsx
- * React class for an individual post
+ * Event.jsx
+ * React class for an individual event
  * Created en masse by PostContainer.jsx
  * @author albert
  */
@@ -19,6 +19,7 @@ var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
+var FontIcon = mui.FontIcon;
 
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
@@ -57,8 +58,7 @@ function getPostState(id) {
 }
 
 // React class
-var Post = React.createClass({
-	mixins: [CollapsibleMixin],
+var Event = React.createClass({
 
 	propTypes: {
 		id: React.PropTypes.string.isRequired,
@@ -88,14 +88,6 @@ var Post = React.createClass({
 		});
 	},
 
-	getCollapsibleDOMNode: function(){
-		return React.findDOMNode(this.refs.postBody);
-	},
-
-	getCollapsibleDimensionValue: function(){
-		return React.findDOMNode(this.refs.postBody).scrollHeight;
-	},
-
 	onHandleToggle: function(ev){
     	ev.preventDefault();
     	this.setState({
@@ -112,11 +104,6 @@ var Post = React.createClass({
 	upvote: function(ev) {
 		ev.preventDefault();
 		PostActions.upvote(this.props.post._id, window.bootstrap.user);
-	},
-
-	downvote: function(ev) {
-		ev.preventDefault();
-		PostActions.downvote(this.props.post._id, window.bootstrap.user);
 	},
 
 	destroy: function(ev) {
@@ -137,14 +124,6 @@ var Post = React.createClass({
 		return sum;
 	},
 
-	findMember: function(user_id) {
-		var members = this.state.post.bevy.members;
-		return _.find(members, function(member) {
-			if(!_.isObject(member.user)) return false;
-			return member.user._id == user_id;
-		});
-	},
-
 	startEdit: function(ev) {
 		ev.preventDefault();
 
@@ -163,14 +142,6 @@ var Post = React.createClass({
 		this.setState({
 			isEditing: false
 		});
-	},
-
-	pin: function(ev) {
-		ev.preventDefault();
-
-		var post_id = this.props.post._id;
-
-		PostActions.pin(post_id);
 	},
 
 	mute: function(ev) {
@@ -212,11 +183,24 @@ var Post = React.createClass({
 
 		var post = this.state.post;
 		//console.log(post);
+		var title = post.title;
 		var bevy = post.bevy;
 		var author = post.author;
 		var commentCount = (post.allComments)
 		?	post.allComments.length
 		:   0;
+		var event = post.event;
+		var date = event.date;
+		var location = event.location;
+		var description = (event.description)
+		? event.description
+		: '';
+
+		var $date = new Date(date)
+		var dateString = ($date) ? $date.toDateString() : '';
+		var timeString = ($date) ? $date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}) : '';
+
+		console.log(event);
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (post.author.image_url)
@@ -230,91 +214,6 @@ var Post = React.createClass({
 				authorName = author.google.name.givenName + ' ' + author.google.name.familyName;
 			else
 				authorName = author.email;
-		}
-
-		var imageBody = (<div/>);
-		var images = [];
-		if(!_.isEmpty(post.images)) {
-			var allImages = post.images;
-			for(var key in allImages) {
-				var url = post.images[key] + '?w=150&h=150';
-				images.push(
-					<div className='panel-body-image' key={ key } >
-						<ModalTrigger modal={ <ImageModal allImages={ allImages } index={ key } /> } >
-							<button className="image-thumbnail" style={{backgroundImage: 'url(' + url + ')'}}/>
-						</ModalTrigger>
-					</div>
-				);
-			}
-			imageBody = (
-				<div className="panel-body">
-					{ images }
-				</div>);
-		}
-
-		var ago = timeAgo(Date.parse(post.created));
-		var left = (this.props.post.expires && !post.pinned)
-		? (<span><span className='middot'>•</span>{ 'expires ' + timeLeft(Date.parse(post.expires)) }</span>)
-		: '';
-
-		if(!_.isEmpty(this.state.title)) {
-			var words = this.state.title.split(' ');
-			var $words = [];
-			var tags = post.tags;
-			var urls = _.pluck(post.links, 'url');
-			var videos = youtubeRegex.exec(this.state.title);
-			words.forEach(function(word) {
-				// take off the hashtag
-				var tag = word.slice(1, word.length);
-				var index = tags.indexOf(tag);
-				if(index > -1) {
-					return $words.push(<a href={ '/s/' + tag } key={ post._id + index + 'hash'} id={ tag } onClick={ this.onTag }>{ word } </a>);
-				}
-				// if this word is in the urls array
-				if(!_.isEmpty(urls)) {
-					index = urls.indexOf(word);
-					if(index > -1) {
-						return $words.push(<a href={ word } key={ post._id + index } target='_blank'>{ word + ' '}</a>);
-					}
-				}
-				return $words.push(word + ' ');
-			}.bind(this));
-
-			// check for youtube videos
-			if(!_.isEmpty(videos)) {
-				videos.forEach(function(video, index) {
-					if((index % 2) == 0) return;
-					$words.push(<iframe width="60%" height="200px" src={"https://www.youtube.com/embed/" + video} frameborder="0" allowfullscreen={true}></iframe>);
-				});
-			}
-
-			var bodyText = (<p>{ $words }</p>);
-		} else bodyText = '';
-
-		var panelBodyText;
-		if(this.state.isEditing) {
-			panelBodyText = (
-				<div className='panel-body-text'>
-					<TextField
-						className='edit-field'
-						type='text'
-						ref='title'
-						multiLine={true}
-						defaultValue={ this.state.title  }
-						value={ this.state.title  }
-						placeholder=' '
-						onChange={ this.onChange }
-					/>
-					<RaisedButton
-						label='save'
-						onClick={ this.stopEdit }
-					/>
-				</div>);
-		} else {
-			panelBodyText = (
-				<div className='panel-body-text'>
-					{ bodyText }
-				</div>);
 		}
 
 		var deleteButton = '';
@@ -337,18 +236,6 @@ var Post = React.createClass({
 				);
 		}
 
-		var pinButton = '';
-		var pinButtonText = (post.pinned) ? 'Unpin Post' : 'Pin Post';
-		if(window.bootstrap.user) {
-			if(window.bootstrap.user._id == author._id) {
-				pinButton = (
-					<MenuItem onClick={ this.pin }>
-						{ pinButtonText }
-					</MenuItem>
-				);
-			}
-		}
-
 		var muteButtonText = (_.find(post.muted_by, function(muter) { return muter == user._id }))
 		? 'Unmute Post'
 		: 'Mute Post';
@@ -358,54 +245,79 @@ var Post = React.createClass({
 			</MenuItem>
 		);
 
-		var pinnedBadge = (post.pinned)
-		? <span className='badge pinned'>Pinned</span>
-		: '';
+		var eventImage = (_.isEmpty(post.images[0])) ? '/img/default_group_img.png' : this.state.image_url;
+		var eventImageStyle = {
+			backgroundImage: 'url(' + post.images[0] + ')',
+			backgroundSize: '100% auto',
+			backgroundPosition: 'center'
 
-		var styles = this.getCollapsibleClassSet();
-		var text = this.isExpanded() ? 'Hide' : 'Show';
+		};
+
+		var locationLink = (location) 
+		? 'https://www.google.com/maps/search/' + location.replace(/ /g, '+')
+		: 'https://www.google.com/maps';
+
+		var eventLink = (title && date && location)
+		? 'http://www.google.com/calendar/event?action=TEMPLATE&text=' + title.replace(/ /g, '+') + '&dates=' + date + '/' + date +'&details=' + description.replace(/ /g, '+') +'&location=' + location.replace(/ /g, '+') + '&trp=false&sprop=&sprop=name:'
+		: 'http://www.google.com/calendar/event';
 
 		var postBody = (
 			<div>
+				<div className='event-image' style={eventImageStyle}/>
 				<div className='panel-header'>
-					<div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
 					<div className='post-details'>
 						<div className='top'>
-							<span className="details">
-								<Button onClick={ this.onOpenThread }>{ authorName }</Button>
-							</span>
-							<span className="glyphicon glyphicon-triangle-right"/>
-							<span className="details">
-								<a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }>{ bevy.name }</a>
-							</span>
+							<div className="main-text">
+								<div className='title'>
+									{ title }
+								</div>
+								<div className='description'>
+									{ description }
+								</div>
+							</div>
+							<div className='badges'>
+								<DropdownButton
+									noCaret
+									pullRight
+									className="post-settings"
+									title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+									{ deleteButton }
+									{ editButton }
+									{ muteButton }
+								</DropdownButton>
+							</div>
 						</div>
 						<div className="bottom">
-							<span className="detail-time">{ ago }</span>
-							<span className='detail-time'>{ left }</span>
+							<FlatButton 
+								href={eventLink}
+								className='detail-button'
+								target='_blank'
+								linkButton={true}
+								rel="nofollow"
+							>
+								<span className="glyphicon glyphicon-time"></span>
+									<div className='text'>
+										<div className='primary'>
+											{dateString}
+										</div>
+										<div className='secondary'>
+											{timeString}
+										</div>
+									</div>
+							</FlatButton>
+							<FlatButton className='detail-button' href={locationLink} linkButton={true} target="_blank">
+								<FontIcon className="glyphicon glyphicon-map-marker"/>
+								<div className='primary'>
+									{location}
+								</div>
+							</FlatButton>
 						</div>
 					</div>
-					<div className='badges'>
-						<DropdownButton
-							noCaret
-							pullRight
-							className="post-settings"
-							title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-							{ deleteButton }
-							{ editButton }
-							{ pinButton }
-							{ muteButton }
-						</DropdownButton>
-					</div>
 				</div>
 
-				<div className='panel-body'>
-					{ panelBodyText }
-				</div>
-
-				{ imageBody }
 				<div className="panel-bottom">
 					<div className='left'>
-						<FlatButton className='upvote' onClick={ this.upvote } disabled={_.isEmpty(window.bootstrap.user)}>
+						<FlatButton className='upvote' onClick={ this.upvote }>
 							<span className="glyphicon glyphicon-thumbs-up btn"></span>
 							&nbsp;{ this.countVotes() } upvotes
 						</FlatButton>
@@ -426,22 +338,13 @@ var Post = React.createClass({
 			</div>
 		);
 
-		var collapsibleDiv = (this.props.post.pinned)
-		? (<div className='collapse-post'>
-				<Button className="collapse-button" onClick={this.onHandleToggle}>{text} pinned post</Button>
-				<div ref='postBody' className={classNames(styles)}>
-					{postBody}
-				</div>
-			</div>)
-		: <div>{postBody}</div>;
-
-		var postClassName = 'post panel';
+		var postClassName = 'post panel event';
 		if(router.post_id == post._id) postClassName += ' active';
 
 		return <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
-					{collapsibleDiv}
+					<div>{postBody}</div>
 				</div>;
 	}
 });
 
-module.exports = Post;
+module.exports = Event;

@@ -9,10 +9,12 @@
 
 // imports
 var React = require('react');
+var _ = require('underscore');
 
 var router = require('./../../router');
 
 var Post = require('./Post.jsx');
+var Event = require('./Event.jsx');
 var PostStore = require('./../PostStore');
 
 
@@ -22,7 +24,8 @@ var PostContainer = React.createClass({
 	// expects App.jsx to pass in Posts collection
 	// see App.jsx and PostStore.js for more details
 	propTypes: {
-		allPosts: React.PropTypes.array
+		allPosts: React.PropTypes.array,
+		sortType: React.PropTypes.string
 	},
 
 	getInitialState: function() {
@@ -53,6 +56,7 @@ var PostContainer = React.createClass({
 		// load props into local vars
 		var allPosts = this.props.allPosts;
 		var posts = [];
+		var sortType = this.props.sortType;
 
 		// for each post
 		for(var key in allPosts) {
@@ -61,13 +65,29 @@ var PostContainer = React.createClass({
 			if(((router.bevy_id == -1) && post.pinned)) {
 				continue;
 			}
-			posts.push(
-				<Post
-					id={ post._id }
-					key={ post._id }
-					post={ post }
-				/>
-			);
+			switch(post.type) {
+				case 'event':
+					posts.push(
+						<Event
+							id={ post._id }
+							key={ post._id }
+							post={ post }
+						/>
+					);
+					break;
+				default:
+					if(sortType == 'events')
+						break;
+					console.log('sortType: ', sortType);
+					posts.push(
+						<Post
+							id={ post._id }
+							key={ post._id }
+							post={ post }
+						/>
+					);
+				break;
+			}
 		}
 
 		return (

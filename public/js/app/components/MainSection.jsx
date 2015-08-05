@@ -83,7 +83,8 @@ var MainSection = React.createClass({
 
 	getPostState: function() {
 		return {
-			allPosts: PostStore.getAll()
+			allPosts: PostStore.getAll(),
+			sortType: PostStore.getSort()
 		}
 	},
 

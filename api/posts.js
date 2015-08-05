@@ -76,6 +76,7 @@ exports.index = function(req, res, next) {
 // POST /bevies/:bevyid/posts
 exports.create = function(req, res, next) {
 	var update = collectPostParams(req);
+	update.event = req.body['event'] || {};
 	update._id = shortid.generate();
 
 	async.waterfall([

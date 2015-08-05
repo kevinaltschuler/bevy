@@ -178,18 +178,6 @@ var PublicChatPanel = React.createClass({
 			</div>
 		);
 
-		var body = (_.isEmpty(this.props.activeThread))
-		? (<div/>)
-		: (	<div className='chat-panel-body'>
-				<MessageList
-					thread={ thread }
-					messages={ this.state.messages }
-					bevy={ bevy }
-				/>
-				{ input }
-			</div>
-		);
-
 		if(this.props.activeThread == undefined || _.isEmpty(window.bootstrap.user)) {
 			return <div/>
 		}
@@ -198,7 +186,14 @@ var PublicChatPanel = React.createClass({
 				<div>
 					<div id='public-chat-panel' className='chat-panel public-chat-panel'>
 						{ header }
-						{ body }
+						<div className='chat-panel-body'>
+							<MessageList
+								thread={ thread }
+								messages={ this.state.messages }
+								bevy={ bevy }
+							/>
+						</div>
+						{ input }
 					</div>
 					<div id='btn-background' className='btn-background' style={btnWrapperStyle}>
 						<div style={btnBgStyle}/>

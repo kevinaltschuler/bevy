@@ -20,6 +20,7 @@ var rbs = require('react-bootstrap');
 var Tooltip = rbs.Tooltip;
 var Input = rbs.Input;
 var Panel = rbs.Panel;
+var ModalTrigger = rbs.ModalTrigger;
 
 var mui = require('material-ui');
 var IconButton = mui.IconButton;
@@ -28,8 +29,10 @@ var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var DropDownMenu = mui.DropDownMenu;
 var FloatingActionButton = mui.FloatingActionButton;
+var DatePicker = mui.DatePicker;
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
+var CreateNewEvent = require('./CreateNewEvent.jsx');
 
 var PostActions = require('./../PostActions');
 
@@ -132,7 +135,7 @@ var NewPostPanel = React.createClass({
 			this.state.images, // image_url
 			window.bootstrap.user, // author
 			this.props.activeBevy, // bevy
-			this.findMember());
+		);
 
 		// reset fields
 		this.setState(this.getInitialState());
@@ -142,26 +145,14 @@ var NewPostPanel = React.createClass({
 	// updates the state
 	handleChange: function() {
 		this.setState({
-			title: this.refs.title.getValue()
+			title: this.refs.title.getValue(),
+			description: this.refs.description.getValue()
 		});
 	},
 
 	onBevyChange: function(e, selectedIndex, menuItem) {
 		this.setState({
 			selectedIndex: selectedIndex
-		});
-	},
-
-	findMember: function() {
-		var members = this.props.activeBevy.members;
-		return _.find(members, function(member) {
-			if(_.isEmpty(member.user)) {
-				// match email
-				return member.email == user.email;
-			} else {
-				// match user id
-				return member.user._id == user._id;
-			}
 		});
 	},
 
@@ -173,7 +164,7 @@ var NewPostPanel = React.createClass({
 			thumbnailHeight: 500,
 			dictDefaultMessage: 'Upload a Picture',
 			addRemoveLinks: true,
-			clickable: '.paperclip',
+			clickable: '.attach-picture',
 		};
 
 		var bevies = this.state.bevies;
@@ -188,9 +179,16 @@ var NewPostPanel = React.createClass({
 				onChange={ this.onBevyChange }
 			/>);
 
-		hintText = (this.props.disabled)
+		var disabled = this.props.disabled;
+
+		hintText = (disabled)
 		? 'you must be logged in to post'
 		: hintText
+
+		if(this.props.activeBevy.admin_only) {
+			disabled = true;
+			hintText = 'only admins may post in this bevy';
+		}
 
 		return (
 			<Panel className="panel new-post-panel" postId={ this.state.id }>
@@ -202,7 +200,7 @@ var NewPostPanel = React.createClass({
 						multiLine={ true }
 						value={ this.state.title }
 						onChange={ this.handleChange }
-						disabled={ this.props.disabled }
+						disabled={ disabled }
 					/>
 				</div>
 
@@ -213,19 +211,29 @@ var NewPostPanel = React.createClass({
 				/>
 
 				<div className="panel-bottom">
-					<div className='paperclip'>
+					<div className='paperclip action'>
 						<FloatingActionButton
 							title="Attach Media"
-							iconClassName="glyphicon glyphicon-paperclip"
+							iconClassName="attach-picture glyphicon glyphicon-picture"
 							onClick={ this.preventDefault }
-							disabled={ this.props.disabled }
+							disabled={ disabled }
 						/>
+						<ModalTrigger modal={
+							<CreateNewEvent {...this.props}/>
+						}>
+							<FloatingActionButton
+								title="New Event"
+								iconClassName="glyphicon glyphicon-calendar"
+								onClick={ this.eventToggle }
+								disabled={ disabled }
+							/>
+						</ModalTrigger>
 					</div>
 					{ beviesDropdown }
-					<RaisedButton 
-						label="post" 
-						onClick={this.submit} 
-						disabled={ this.props.disabled }
+					<RaisedButton
+						label="post"
+						onClick={this.submit}
+						disabled={ disabled }
 					/>
 				</div>
 			</Panel>
