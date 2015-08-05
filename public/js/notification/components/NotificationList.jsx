@@ -29,7 +29,7 @@ var NotificationList = React.createClass({
 		if(allNotifications.length < 1) {
 			return <div>
 					 	No Notifications!
-					 </div>
+					</div>
 		}
 
 		var notifications = [];
@@ -38,6 +38,7 @@ var NotificationList = React.createClass({
 			var id = notification._id || Date.now();
 			var event = notification.event;
 			var data = notification.data;
+			var read = notification.read;
 
 			notifications.push(
 				<NotificationItem
@@ -45,6 +46,7 @@ var NotificationList = React.createClass({
 					id={ id }
 					event={ event }
 					data={ data }
+					read= { read }
 				/>
 			);
 		}

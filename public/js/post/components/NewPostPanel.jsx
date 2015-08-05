@@ -145,8 +145,7 @@ var NewPostPanel = React.createClass({
 	// updates the state
 	handleChange: function() {
 		this.setState({
-			title: this.refs.title.getValue(),
-			description: this.refs.description.getValue()
+			title: this.refs.title.getValue()
 		});
 	},
 

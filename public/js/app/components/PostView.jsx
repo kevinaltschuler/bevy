@@ -37,6 +37,16 @@ var PostView = React.createClass({
 			);
 		}
 		else {
+			var postContainer = (this.props.allPosts == undefined)
+			?	<div>
+					loading
+				</div>
+			:	<PostContainer
+					allPosts={ this.props.allPosts }
+					activeMember={ this.props.activeMember }
+					activeBevy={ this.props.activeBevy }
+					sortType={ this.props.sortType }
+				/>;
 			var body = (
 				<div>
 					<NewPostPanel
@@ -50,12 +60,7 @@ var PostView = React.createClass({
 						activeBevy={ this.props.activeBevy}
 						sortType={ this.props.sortType }
 					/>
-					<PostContainer
-						allPosts={ this.props.allPosts }
-						activeMember={ this.props.activeMember }
-						activeBevy={ this.props.activeBevy }
-						sortType={ this.props.sortType }
-					/>
+					{postContainer}
 				</div>
 			);
 
@@ -64,6 +69,7 @@ var PostView = React.createClass({
 					<PublicChatPanel 
 						activeThread={ this.props.activeThread }
 						activeBevy={ this.props.activeBevy }
+						allThreads={this.props.allThreads}
 					/>
 					<LeftSidebar
 						myBevies={ this.props.myBevies }

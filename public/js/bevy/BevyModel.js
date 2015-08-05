@@ -24,7 +24,8 @@ var BevyModel = Backbone.Model.extend({
 		admins: [],
 		settings: {},
 		created: 0,
-		updated: 0
+		updated: 0,
+		subs: 0,
 	},
 
 	idAttribute: '_id'

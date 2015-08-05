@@ -48,6 +48,7 @@ _.extend(BevyStore, {
 	publicBevies: new Bevies,
 	superBevy: new Bevy,
 	subBevies: new Bevies,
+	collection: 'my',
 
 	// handle calls from the dispatcher
 	// these are created from BevyActions.js
@@ -422,8 +423,6 @@ _.extend(BevyStore, {
 
 				break;
 
-
-
 			case BEVY.REQUEST_JOIN:
 				var bevy = payload.bevy;
 				var $user = payload.user;
@@ -441,6 +440,32 @@ _.extend(BevyStore, {
 					}
 				);
 
+				break;
+			case BEVY.SORT:
+				var filter = payload.filter;
+				
+				var collection = (this.collection == 'my') ? this.myBevies : this.publicBevies;
+				collection.filter == filter;
+				switch(filter) {
+					case 'top':
+						collection.comparator = this.sortByTop;
+						break;
+					case 'bottom':
+						collection.comparator = this.sortByBottom;
+						break;
+					case 'new':
+						collection.comparator = this.sortByNew;
+						break;
+					case 'old':
+						collection.comparator = this.sortByOld;
+						break;
+				}
+
+				this.trigger(BEVY.CHANGE_ALL);
+				break;
+			case BEVY.CHANGE_COLLECTION:
+				this.collection = payload.collection;
+				this.trigger(BEVY.CHANGE_ALL);
 				break;
 		}
 	},
@@ -492,6 +517,28 @@ _.extend(BevyStore, {
 		if(_.isEmpty(bevy)) return [];
 		var members = bevy.members;
 		return members;
+	},
+
+	getCollection: function() {
+		return this.collection;
+	},
+
+	sortByTop: function(bevy) {
+		var subs = bevy.subs;
+		return -subs;
+	},
+	sortByBottom: function(bevy) {
+		var subs = bevy.subs;
+		return subs;
+	},
+	sortByNew: function(bevy) {
+		var date = Date.parse(bevy.get('created'));
+		return -date;
+	},
+	sortByOld: function(bevy) {
+		var date = Date.parse(bevy.get('created'));
+		console.log(date);
+		return date;
 	}
 });
 

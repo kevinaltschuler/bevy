@@ -37,6 +37,7 @@ var TextField = mui.TextField;
 
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
+var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
 
 var user = window.bootstrap.user;
 
@@ -46,7 +47,10 @@ var Navbar = React.createClass({
 	propTypes: {
 		myBevies: React.PropTypes.array.isRequired,
 		activeBevy: React.PropTypes.object,
-		allNotifications: React.PropTypes.array
+		allNotifications: React.PropTypes.array,
+		allThreads: React.PropTypes.array,
+		activeThread: React.PropTypes.object,
+		allContacts: React.PropTypes.array
 	},
 
 	onKeyUp: function(ev) {
@@ -121,9 +125,16 @@ var Navbar = React.createClass({
 
 		var searchQuery = router.search_query || '';
 
+		var frontpageUrl = (window.bootstrap.user) ? '/bevies' : '/';
+
 		var userContent = (_.isEmpty(window.bootstrap.user))
 		?	(<a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>)
 		:	(<div className='profile-buttons'>
+				<ChatDropdown
+					allContacts={ this.props.allContacts }  
+					allThreads={ this.props.allThreads } 
+					activeThread={ this.props.activeThread }
+				/>
 				<NotificationDropdown
 					allNotifications={ this.props.allNotifications }
 				/>
@@ -132,7 +143,7 @@ var Navbar = React.createClass({
 			</div>);
 
 		var bevyDropdown = (_.isEmpty(window.bootstrap.user))
-		? (<Button href='/publicbevies' className='bevies-dropdown'>Bevies</Button>)
+		? (<Button href='/bevies' className='bevies-dropdown'>Bevies</Button>)
 		: (<SplitButton className='bevies-dropdown' title='Bevies' href='/publicbevies'>
 				{bevies}
 			</SplitButton>)
@@ -142,7 +153,7 @@ var Navbar = React.createClass({
 						<div className="background-image" style= { backgroundStyle } />
 					</div>
 					<div className="navbar-header pull-left">
-						<Button className="bevy-logo-btn" href='/'>
+						<Button className="bevy-logo-btn" href={frontpageUrl}>
 							<div className='bevy-logo-img'/>
 						</Button>
 						{bevyDropdown}

@@ -126,7 +126,9 @@ exports.update = function(req, res, next) {
 
 	var update = {};
 	update.updated = new Date();
-	update.bevies = req.body['bevies'] || [];
+	if(req.body['bevies'] != undefined) {
+		update.bevies = req.body['bevies'];
+	}
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 

@@ -11,6 +11,7 @@ var mui = require('material-ui');
 var FloatingActionButton = mui.FloatingActionButton;
 
 var MessageList = require('./MessageList.jsx');
+var ConversationList = require('./ConversationList.jsx');
 
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
@@ -26,7 +27,8 @@ var PublicChatPanel = React.createClass({
 	propTypes: {
 		activeBevy: React.PropTypes.object,
 		activeThread: React.PropTypes.object,
-		disabled: React.PropTypes.bool
+		disabled: React.PropTypes.bool,
+		allThreads: React.PropTypes.array
 	},
 
 	getInitialState: function() {
@@ -37,7 +39,7 @@ var PublicChatPanel = React.createClass({
 	},
 
 	componentWillReceiveProps: function(nextProps) {
-		console.log(nextProps.activeThread._id);
+		//console.log(nextProps.activeThread._id);
 		ChatStore.off(CHAT.MESSAGE_FETCH + this.props.activeThread._id, this._onMessageFetch);
 		ChatStore.on(CHAT.MESSAGE_FETCH + nextProps.activeThread._id, this._onMessageFetch);
 	},
@@ -52,7 +54,7 @@ var PublicChatPanel = React.createClass({
 	},*/
 
 	_onMessageFetch: function() {
-		console.log('got to here');
+		//console.log('got to here');
 		this.setState({
 			messages: ChatStore.getMessages(this.props.activeThread)
 		});
@@ -75,7 +77,7 @@ var PublicChatPanel = React.createClass({
 			var thread = this.props.activeThread;
 			var author = window.bootstrap.user;
 			var body = this.refs.body.getValue();
-			console.log(thread._id);
+			//console.log(thread._id);
 			ChatActions.createMessage(thread._id, author, body);
 
 			// reset input field
@@ -87,7 +89,7 @@ var PublicChatPanel = React.createClass({
 
 	openPanel: function(ev) {
 		ev.preventDefault();
-		document.getElementById("public-chat-panel").style.height = "400px";
+		document.getElementById("public-chat-panel").style.height = "700px";
 		document.getElementById("public-chat-btn").style.display = "none";
 		document.getElementById("btn-background").style.display = "none";
 	},
@@ -149,43 +151,19 @@ var PublicChatPanel = React.createClass({
 			});
 		}*/
 
-		var header = (
-			<div className='chat-panel-header'>
-				<div className='chat-panel-background-wrapper'>
-					<div className='chat-panel-background-image' style={ backgroundStyle } />
-				</div>
-				<div className='chat-panel-head'>
-					<div className='bevy-name' title={ name }>
-						{ name }
-					</div>
-					<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
-				</div>
-			</div>
-		);
-
-		var input = (
-			<div className='chat-panel-input'>
-				<div className='chat-text-field'>
-					<Input
-						type='text'
-						ref='body'
-						placeholder='Chat'
-						onKeyPress={ this.onKeyPress }
-						onChange={ this.onChange }
-						value={ this.state.body }
-					/>
-				</div>
-			</div>
-		);
-
-		if(this.props.activeThread == undefined || _.isEmpty(window.bootstrap.user)) {
-			return <div/>
-		}
-		else {
-			return (
-				<div>
+		var chatView = (
 					<div id='public-chat-panel' className='chat-panel public-chat-panel'>
-						{ header }
+						<div className='chat-panel-header'>
+							<div className='chat-panel-background-wrapper'>
+								<div className='chat-panel-background-image' style={ backgroundStyle } />
+							</div>
+							<div className='chat-panel-head'>
+								<div className='bevy-name' title={ name }>
+									{ name }
+								</div>
+								<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
+							</div>
+						</div>
 						<div className='chat-panel-body'>
 							<MessageList
 								thread={ thread }
@@ -193,7 +171,36 @@ var PublicChatPanel = React.createClass({
 								bevy={ bevy }
 							/>
 						</div>
-						{ input }
+						<div className='chat-panel-input'>
+							<div className='chat-text-field'>
+								<Input
+									type='text'
+									ref='body'
+									placeholder='Chat'
+									onKeyPress={ this.onKeyPress }
+									onChange={ this.onChange }
+									value={ this.state.body }
+								/>
+							</div>
+						</div>
+					</div>);
+
+		if(this.props.activeThread == undefined || _.isEmpty(window.bootstrap.user)) {
+			return <div/>
+		}
+		else {
+			return (
+				<div className='chat-wrapper'>
+					<div id='public-chat-panel' className='chat-panel public-chat-panel'>
+						<div className='chat-panel-header' onClick={ this.closePanel }>
+							<div className='chat-panel-head'>
+								<div className='bevy-name' title={ name }>
+									{ name }
+								</div>
+								<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
+							</div>
+						</div>
+						<ConversationList allThreads={this.props.allThreads} />
 					</div>
 					<div id='btn-background' className='btn-background' style={btnWrapperStyle}>
 						<div style={btnBgStyle}/>

@@ -51,7 +51,8 @@ var CreateNewEvent = React.createClass({
 			date: '',
 			location: '',
 			description: '',
-			attendees: ''
+			attendees: '',
+			error: ''
 		};
 	},
 
@@ -65,6 +66,13 @@ var CreateNewEvent = React.createClass({
 
 	submit: function(ev) {
 		ev.preventDefault();
+
+		if(!(this.state.date && this.state.location && this.state.title)) {
+			this.setState({
+				error: 'please complete all required fields'
+			});
+			return;
+		}
 		
 		event = {
 				date: this.state.date,
@@ -117,6 +125,9 @@ var CreateNewEvent = React.createClass({
 			backgroundSize: '100% auto'
 
 		};
+		var error = this.state.error;
+		console.log(error);
+		var errorStyle = (error = '') ? {display: 'none'} : {marginTop: '10px', color: 'red'};
 
 		return <Modal className="create-bevy create-event" {...this.props} title='Create a new Event'>
 
@@ -129,6 +140,7 @@ var CreateNewEvent = React.createClass({
 								dropzoneOptions={ dropzoneOptions }
 							/>
 						</div>
+						<div className='error' style={errorStyle}>{error}</div>
 						<div className='text-fields'>
 							<TextField
 								className="title-field"
@@ -155,8 +167,7 @@ var CreateNewEvent = React.createClass({
 							<DateTimeField
 								className='date-picker'
 								ref='date'
-								dateTime={ Date.now() }
-								onChange={this.handleDate}
+								defaultText='set a date'
 							/>
 						</div>
 					</div>
@@ -164,7 +175,6 @@ var CreateNewEvent = React.createClass({
 						<div className='right'>
 							<RaisedButton
 								onClick={ this.submit }
-								disabled={!(this.state.date && this.state.title && this.state.location)}
 								label="Create"
 							/>
 							<FlatButton

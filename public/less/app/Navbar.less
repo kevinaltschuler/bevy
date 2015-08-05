@@ -192,6 +192,28 @@
 				margin-top: 15px;
 				background-color: #FF0000;
 			}
+			.chat-dropdown-btn {
+				text-shadow: none;
+				padding: 10px;
+				&:hover, &:active, &:focus {
+					background-color: rgba(0,0,0,0);
+					box-shadow: none;
+				}
+				.chat-img {
+					background-image: url(/img/chat-icon.png);
+					background-repeat: no-repeat;
+					background-position: center;
+					background-size: 25px 25px;
+					width: 25px;
+					height: 25px;
+					border-radius: 10px;
+					transition: all 0.4s ease;
+					box-shadow: @shadow1;
+					&:active {
+						box-shadow: @shadow3;
+					}
+				}
+			}
 			.profile-btn {
 				text-shadow: none;
 				margin-top: 14px;

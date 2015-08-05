@@ -56,21 +56,21 @@ var HomeView = React.createClass({
 			</div>
 			<div className='landing-div div2'>
 				<div className='sub-title-text'>
-					Inspired by Reddit, Forums, and Facebook Groups, Bevy is the logical progression of modern forums
+					Bevy is the logical progression of modern forums
 				</div>
 			</div>
 			<div className='landing-div div3'>
 				<div className='features-title'>
-					The Feature Set For Your Community 
+					The Feature Set Built For Your Community 
 				</div>
 				<div className='features'>
 					<div className='feature'>
 						<span className='glyphicon glyphicon-user'/>
 						<div className='title'>
-							Focused on Leaders
+							Any Size
 						</div>
 						<div className='description'>
-							Admin tools allow community leaders to easily manage their communities online presence.
+							Tagging and sorting allows bevy to handle any volume of posts and users.
 						</div>
 					</div>
 					<div className='feature'>
@@ -85,10 +85,10 @@ var HomeView = React.createClass({
 					<div className='feature'>
 						<span className='glyphicon glyphicon-modal-window'/>
 						<div className='title'>
-							Nested Bevies
+							Associations
 						</div>
 						<div className='description'>
-							Bevy allows you to nest communities and enjoy all of them with less management.
+							Link your bevies to similar ones to form a network of groups.
 						</div>
 					</div>
 					<div className='feature'>

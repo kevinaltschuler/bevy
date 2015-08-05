@@ -25,5 +25,6 @@ module.exports = Backbone.Collection.extend({
 	},
 	_meta: {
 		active: null
-	}
+	},
+	filter: 'top'
 });

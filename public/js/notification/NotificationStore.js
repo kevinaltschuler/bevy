@@ -32,15 +32,15 @@ var user = window.bootstrap.user;
 _.extend(NotificationStore, {
 
 	notifications: new Notifications,
+	unread: 0,
 
 	// handle calls from the dispatcher
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
 
 			case APP.LOAD:
-
-
-
+					this.unread = this.notifications.filter(function(notification){ return notification.read == false; })
+						.length; // count all notifications that are unread
 				break;
 
 			case NOTIFICATION.DISMISS:
@@ -51,6 +51,14 @@ _.extend(NotificationStore, {
 
 				this.trigger(NOTIFICATION.CHANGE_ALL);
 
+				break;
+			case NOTIFICATION.READ:
+				var id = payload.notification_id;
+				var notification = this.notifications.get(id);
+				notification.read = true;
+				this.unread -= 1;
+				notification.save({read: true},{patch: true});
+				this.trigger(NOTIFICATION.CHANGE_ALL);
 				break;
 		}
 	},
