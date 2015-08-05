@@ -134,7 +134,7 @@ var NewPostPanel = React.createClass({
 			this.state.title, // title
 			this.state.images, // image_url
 			window.bootstrap.user, // author
-			this.props.activeBevy, // bevy
+			this.props.activeBevy // bevy
 		);
 
 		// reset fields
