@@ -28,7 +28,7 @@ exports.index = function(req, res, next) {
 				if(err) return next(err);
 				return res.json(threads);
 			})
-			.or([{ members: { $elemMatch: { user: id } } }, { bevy: { $in: bevy_id_list } }])
+			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
 			.populate('bevy users');
 		}
 	]);
