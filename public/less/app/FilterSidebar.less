@@ -1,0 +1,102 @@
+.bevy-panel.panel.filter-sidebar {
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+	.actions {
+		display: flex;
+		flex-direction: column;
+		.action {
+			display: flex;
+    		justify-content: center;
+    		padding: 10px 10px 0px 10px;
+			&.sort {
+				padding-top: 20px;
+				display: flex;
+				justify-content: flex-end;
+				align-items: center;
+				.action-name {
+					font-size: 15px;
+   					padding-bottom: 4px;
+				}
+				.mui-drop-down-menu {
+					width: 110px !important;
+				}
+				.mui-raised-button {
+					width: 100%;
+					margin-bottom: 10px;
+				}
+			}
+			.btn-group {
+				width: 100%;
+				.btn {
+					width: 50%;
+					z-index: 0 !important;
+				}
+			}
+			.title {
+				display: flex;
+				flex-direction: row;
+				.btn {
+
+				}
+				.title-btn {
+					border: none;
+					background-color: rgba(0,0,0,0);
+					color: @light-font;
+					&:active, &:focus {
+						background-color: none;
+						box-shadow: none;
+					}
+					&:active {
+						color: black;
+						text-decoration: underline;
+					}
+				}
+				.divider {
+					margin-top: 8px;
+				}
+			}
+			form.bevy-search {
+				width: 100%;
+				padding-top: 0px;
+				border-top: none;
+				border-bottom: none;
+				box-shadow: none;
+				//SEARCH
+				.search-input.mui-text-field {
+					width: 78%;
+					background-color: rgba(0,0,0,0);
+					border-bottom: none;
+					border-left: 0px;
+					border-top: 0px;
+					border-right: 0px;
+					box-shadow: none;
+					border-radius: 0px;
+					color: @light-font;
+					padding-left: 4px;
+					padding-bottom: 2px;
+
+					hr.mui-text-field-focus-underline {
+						border-color: black;
+					}
+					hr.mui-text-field-underline {
+						border-top: 1px solid rgba(0,0,0,.5);
+					}
+					.mui-text-field-input, .mui-text-field-textarea {
+						box-shadow: none !important;
+						color: @light-font;
+					}
+				}
+				.mui-icon-button {
+					width: 38px;
+					height: 38px;
+					padding: 5px;
+					.glyphicon-search {
+						color: @light-font;
+						font-size: 1em;
+					}
+				}
+			}
+		}
+	}
+}

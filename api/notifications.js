@@ -23,7 +23,6 @@ var Comment = mongoose.model('Comment');
 var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
 var Notification = mongoose.model('Notification');
-var Member = mongoose.model('BevyMember');
 
 var paramNames = 'event message email bevy user members';
 
@@ -213,6 +212,20 @@ exports.poll = function(req, res, next) {
         data: message
       });
     else return res.end();
+  });
+}
+
+// PATCH /users/:userid/notifications/:id
+exports.update = function(req, res, next) {
+  console.log('got to here');
+  var id = req.params.id;
+  var update = collectBevyParams(req);
+  var query = { _id: id };
+  var promise = Notification.findOneAndUpdate(query, update, { new: true})   
+    .exec();
+  promise.then(function(notification) {
+    if(!notification) next('notification not found');
+    return notification;
   });
 }
 

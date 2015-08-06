@@ -75,7 +75,7 @@ var ResetPage = require('./auth/components/ResetPage.jsx');
 var App = React.createClass({
 	render: function() {
 		return (
-			<div>
+			<div className='app-wrapper'>
 				<InterfaceComponent />
 			</div>
 		);

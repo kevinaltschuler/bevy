@@ -88,7 +88,7 @@ var CreateNewBevy = React.createClass({
 		};
 
 		var title = (this.props.parent )
-		? 'Create a new Sub Bevy of ' + this.props.parent.name
+		? 'Create a new Board of' + this.props.parent.name
 		: 'Create a New Bevy'
 
 		return <Modal className="create-bevy" {...this.props} title={title}>

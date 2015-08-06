@@ -9,7 +9,7 @@
 
 'use strict';
 
-exports.version = '0.2.3';
+exports.version = '0.3.0';
 
 var hostname = window.location.hostname;
 var protocol = location.protocol;
@@ -71,6 +71,8 @@ exports.BEVY = {
 	JOIN: 'bevy_join',
 	REQUEST_JOIN: 'bevy_request_join',
 	EDIT_MEMBER: 'bevy_edit_member',
+	SORT: 'bevy_sort',
+	CHANGE_COLLECTION: 'bevy_change_collection',
 
 	FETCH: 'bevy_fetch',
 
@@ -85,6 +87,7 @@ exports.USER = {
 
 exports.NOTIFICATION = {
 	  DISMISS: 'notification_dismiss',
+	  READ: 'notification_read',
 
 	  CHANGE_ALL: 'notification_change_all'
 };

@@ -33,6 +33,15 @@ _.extend(ChatStore, {
 
 				Dispatcher.waitFor([BevyStore.dispatchToken]);  
 
+				var user = window.bootstrap.user;
+
+				if(_.isEmpty(user)) {
+					break;
+				}
+
+				this.threads.url = constants.apiurl + '/users/' + user._id + '/threads';
+				this.threads.fetch();
+
 				break;
 
 			case BEVY.JOIN:

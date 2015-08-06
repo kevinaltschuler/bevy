@@ -14,6 +14,11 @@ var NotificationActions = {
 		dispatch(NOTIFICATION.DISMISS, {
 			notification_id: (notification_id == undefined) ? '0' : notification_id
 		});
+	},
+	read: function(notification_id) {
+		dispatch(NOTIFICATION.READ, {
+			notification_id: (notification_id == undefined) ? '0' : notification_id
+		});
 	}
 };
 module.exports = NotificationActions;

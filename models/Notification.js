@@ -16,7 +16,11 @@ var NotificationSchema = new Schema({
 	},
 	email: String,
 	event: String,
-	data: {}
+	data: {},
+	read: {
+		type: Boolean,
+		default: false
+	}
 });
 
 NotificationSchema.set('toObject', {

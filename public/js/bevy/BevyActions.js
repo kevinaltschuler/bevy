@@ -127,7 +127,19 @@ var PostActions = {
 			super_id: (super_id == undefined) ? null : super_id,
 			sub_id: (sub_id == undefined) ? null : sub_id
 		});
-	}
+	},
+
+	changeCollection: function(collection) {
+		dispatch(BEVY.CHANGE_COLLECTION, {
+			collection: (collection == undefined) ? null : collection
+		});
+	},
+
+	filterBevies: function(filter) {
+		dispatch(BEVY.SORT, {
+			filter: (filter == undefined) ? null : filter
+		});
+	} 
 };
 
 module.exports = PostActions;
