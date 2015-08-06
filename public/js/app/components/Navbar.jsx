@@ -39,6 +39,7 @@ var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
 var ChatDock = require('./../../chat/components/ChatDock.jsx');
+var ChatSidebar = require('./../../chat/components/ChatSidebar.jsx');
 
 var user = window.bootstrap.user;
 
@@ -132,7 +133,7 @@ var Navbar = React.createClass({
 		var userContent = (_.isEmpty(window.bootstrap.user))
 		?	(<a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>)
 		:	(<div className='profile-buttons'>
-				<ChatDropdown
+				<ChatSidebar
 					allContacts={ this.props.allContacts }  
 					allThreads={ this.props.allThreads } 
 					activeThread={ this.props.activeThread }

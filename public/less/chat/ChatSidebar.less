@@ -1,0 +1,64 @@
+@import './../variables.less';
+
+.chat-sidebar {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	padding-top: 69px;
+	width: 55px;
+	height: calc(100% - 69px);
+	text-shadow: none;
+	transition: all .2s ease-in-out;
+	&:hover {
+		width: 130px;
+	}
+	.conversation-list {
+		box-shadow: @shadow1;
+		width: 100%;
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		background-color: #edeeee;
+		align-items: flex-end;
+		overflow: hidden;
+		.conversation-item {
+			background-color: rgba(0,0,0,0);
+			border-radius: 0px;
+			padding: 5px 5px 5px 0px;
+			display: flex;
+			flex-direction: row;
+			box-shadow: none;
+			border: none;
+			height: 50px;
+			align-items: center;
+			justify-content: flex-end;
+			width: 130px;
+		    &:hover {
+		    	box-shadow: @shadow1;
+		    }
+		    &:active {
+		    	box-shadow: @shadow2;
+		    }
+		    .image {
+		    	width: 40px;
+			    height: 40px;
+			    padding: 0px;
+			    overflow: hidden;
+			    margin-left: 10px;
+			    border-radius: 50px;
+			    box-shadow: none;
+			    transition: all .2s ease-in-out; 
+		    	.bevy-img {
+			    	width: auto;
+				    height: 100%;
+				    margin-left: -45%;
+		    	}
+		    }
+
+		    .conversation-details {
+		    	max-width: 60px;
+    			overflow: hidden;
+		    }
+		}
+	}
+}
