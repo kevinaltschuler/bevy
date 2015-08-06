@@ -124,8 +124,10 @@ var ChatPanel = React.createClass({
 					<a href='#' className='bevy-name' title={ expandTitle } onClick={ this.handleToggle }>
 						{ name }
 					</a>
-					<span className={ 'glyphicon ' + expandGlyph + ' btn' } title={ expandTitle } onClick={ this.handleToggle }></span>
-					<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
+					<div className='actions'>
+						<span className={ 'glyphicon ' + expandGlyph + ' btn' } title={ expandTitle } onClick={ this.handleToggle }></span>
+						<span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
+					</div>
 				</div>
 			</div>
 		);

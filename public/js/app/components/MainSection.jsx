@@ -24,6 +24,7 @@ var PostView = require('./PostView.jsx');
 var SearchView = require('./SearchView.jsx');
 var PublicView = require('./PublicView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
+var FrontPage = require('./FrontPage.jsx');
 var PublicBevyList = require('./PublicBevyList.jsx');
 var ChatDock = require('./../../chat/components/ChatDock.jsx');
 
@@ -97,6 +98,7 @@ var MainSection = React.createClass({
 		var publicBevies = BevyStore.getPublicBevies();
 		var superBevy = BevyStore.getSuperBevy();
 		var subBevies = BevyStore.getSubBevies();
+		var collection = BevyStore.getCollection();
 
 		return {
 			// later, load this from session/cookies
@@ -105,7 +107,8 @@ var MainSection = React.createClass({
 			members: members,
 			publicBevies: publicBevies,
 			superBevy: superBevy,
-			subBevies: subBevies
+			subBevies: subBevies,
+			collection: collection
 		}
 	},
 
@@ -164,12 +167,16 @@ var MainSection = React.createClass({
 
 	render: function() {
 		return (
-			<div>
+			<div className='main-section-wrapper'>
 				<Navbar
 					superBevy= { this.state.superBevy }
 					activeBevy={ this.state.activeBevy }
 					allNotifications={ this.state.allNotifications }
 					myBevies={ this.state.myBevies }
+					allContacts={ this.state.allContacts }
+					allThreads={ this.state.allThreads }
+					activeThread={ this.state.activeThread }
+					openThreads={ this.state.openThreads }
 				/>
 				<InterfaceComponent {...this.state} />
 			</div>
@@ -189,14 +196,14 @@ var InterfaceComponent = React.createClass({
 	},
 	render : function() {
 
-		console.log(this.props.activeThread);
+		//console.log(this.props.activeThread);
 
 		switch(router.current) {
 			case 'home': 
-				return <HomeView />
+				return <HomeView {...this.props}  />
 				break;
 			case 'search':
-				return <SearchView {...this.props} />
+				return <PublicBevyList {...this.props} />
 				break;
 			case 'superBevy':
 				return <PostView {...this.props} />

@@ -130,19 +130,6 @@ var BevyPanelHeader = React.createClass({
 		var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
 		if(_.isEmpty(description)) description = 'no description';
 
-
-		var editButton = '';
-		if(this.state.activeMember) {
-			editButton = (this.state.activeMember.role == 'admin')
-			? (<IconButton
-					className="edit-button"
-					tooltip='edit name'
-					onClick={ this.startEditing }>
-					<span className="glyphicon glyphicon-pencil btn"></span>
-				</IconButton>)
-			: '';
-		}
-
 		var dropzoneOptions = {
 			maxFiles: 1,
 			acceptedFiles: 'image/*',
@@ -150,19 +137,34 @@ var BevyPanelHeader = React.createClass({
 			dictDefaultMessage: ' ',
 		};
 
+		var editButton = '';
+		var sidebarPicture = (<div className="sidebar-picture">
+						<div className='profile-img' style={ bevyImageStyle }/>
+					</div>);
+		if(window.bootstrap.user) {
+			if(_.contains(bevy.admins, window.bootstrap.user._id)) {
+				editButton = (<IconButton
+						className="edit-button"
+						tooltip='edit name'
+						onClick={ this.startEditing }>
+						<span className="glyphicon glyphicon-pencil btn"></span>
+					</IconButton>);
+				sidebarPicture = (<div className="sidebar-picture">
+					<Uploader
+						onUploadComplete={ this.onUploadComplete }
+						className="bevy-image-dropzone"
+						style={ bevyImageStyle }
+						dropzoneOptions={ dropzoneOptions }
+					/>
+				</div>);
+			}
+		}
 
 		if (this.state.isEditing) {
 			return (
 				<div>
 					<div className="sidebar-top">
-						<div className="sidebar-picture">
-							<Uploader
-								onUploadComplete={ this.onUploadComplete }
-								className="bevy-image-dropzone"
-								style={ bevyImageStyle }
-								dropzoneOptions={ dropzoneOptions }
-							/>
-						</div>
+						{sidebarPicture}
 						<div className="sidebar-title">
 							<TextField
 								type='text'
@@ -192,9 +194,7 @@ var BevyPanelHeader = React.createClass({
 		else {
 			return (
 				<div className="sidebar-top">
-					<div className="sidebar-picture">
-						<div className='profile-img' style={ bevyImageStyle }/>
-					</div>
+					{sidebarPicture}
 					<div className="sidebar-title">
 						<div>
 							<span

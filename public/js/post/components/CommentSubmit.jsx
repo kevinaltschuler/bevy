@@ -13,6 +13,7 @@ var mui = require('material-ui');
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var RaisedButton = mui.RaisedButton;
+var FlatButton = mui.FlatButton;
 
 var rbs = require('react-bootstrap');
 var Button = rbs.Button;
@@ -77,6 +78,18 @@ var CommentSubmit = React.createClass({
 		? user.image_url
 		: defaultProfileImage;
 
+		var submitButton = (_.isEmpty(this.state.body)) 
+		? 	<FlatButton
+				className='submit-button'
+				label='post'
+				onClick={this.submit}
+			/> 
+		:	<RaisedButton
+				className='submit-button'
+				label='post'
+				onClick={this.submit}
+			/>
+
 		if(_.isEmpty(window.bootstrap.user)) {
 			return <div />;
 		} else {
@@ -90,10 +103,7 @@ var CommentSubmit = React.createClass({
 								onKeyPress={ this.onKeyPress }
 								onChange={ this.onChange }
 							/>
-							<RaisedButton
-								label='post'
-								onClick={this.submit}
-							/>
+							{submitButton}
 						</div>);
 		}
 	}

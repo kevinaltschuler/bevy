@@ -10,6 +10,7 @@
 // imports
 var React = require('react');
 var _ = require('underscore');
+var CTG = React.addons.CSSTransitionGroup;
 
 var router = require('./../../router');
 
@@ -41,6 +42,11 @@ var PostContainer = React.createClass({
 		}
 	},
 
+	componentWillRecieveProps: function(nextProps) {
+		console.log('rerendring');
+		this.forceUpdate();
+	},
+
 	render: function() {
 
 		if(Object.keys(this.props.allPosts).length < 1) {
@@ -62,38 +68,37 @@ var PostContainer = React.createClass({
 		for(var key in allPosts) {
 			var post = allPosts[key];
 			// load post into array
-			if(((router.bevy_id == -1) && post.pinned)) {
-				continue;
-			}
 			switch(post.type) {
 				case 'event':
-					posts.push(
-						<Event
-							id={ post._id }
-							key={ post._id }
-							post={ post }
-						/>
-					);
+					if(sortType == 'events') {
+						posts.push(
+							<Event
+								id={ post._id }
+								key={Math.random()}
+								post={ post }
+							/>
+						);
+					}
 					break;
 				default:
-					if(sortType == 'events')
-						break;
-					console.log('sortType: ', sortType);
-					posts.push(
-						<Post
-							id={ post._id }
-							key={ post._id }
-							post={ post }
-						/>
-					);
-				break;
+					if(sortType != 'events') {
+						posts.push(
+							<Post
+								id={ post._id }
+								key={Math.random()}
+								post={ post }
+							/>
+						);
+					}
+					break;
 			}
 		}
 
-		return (
-			<div className='post-container'>
-				{posts}
-			</div>
+		return (<div className='post-container'>
+					<CTG transitionName="fadeIn">
+						{posts}
+					</CTG>
+				</div>
 		);
 	}
 });

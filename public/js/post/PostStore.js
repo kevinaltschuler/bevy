@@ -530,11 +530,9 @@ _.extend(PostStore, {
 	},
 
 	sortByEvents: function(post) {
-		if(post.get('type') != 'event') {
-			date = new Date('2035', '1', '1');
-		} 
-		else {
-			var date = Date.parse(post.get('date'));
+		var date = new Date('2035', '1', '1');
+		if(post.get('type') == 'event') {
+			date = Date.parse(post.get('date'));
 		}
 		return -date;
 	},

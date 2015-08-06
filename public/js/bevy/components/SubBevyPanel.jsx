@@ -95,7 +95,7 @@ var SubBevyPanel = React.createClass({
 			<ModalTrigger modal={
 				<CreateNewBevy parent={this.props.superBevy}/>
 			}>
-				<OverlayTrigger placement='bottom' overlay={ <Tooltip>Create a New Bevy</Tooltip> }>
+				<OverlayTrigger placement='bottom' overlay={ <Tooltip>Create a New Board</Tooltip> }>
 					<Button className='new-bevy-btn'>
 						<FontIcon className="glyphicon glyphicon-plus"/>
 					</Button>
@@ -107,7 +107,7 @@ var SubBevyPanel = React.createClass({
 			<div className='bevy-list panel'>
 				<div className='panel-header'>
 					<div className='super-bevy-btn'>
-						sub bevies
+						boards
 					</div>
 					{ createButton }
 				</div>

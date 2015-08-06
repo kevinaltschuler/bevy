@@ -6,8 +6,6 @@ var React = require('react');
 var _ = require('underscore');
 var $ = require('jquery');
 
-var CTG = React.addons.CSSTransitionGroup;
-
 var constants = require('./../../constants');
 var router = require('./../../router');
 
@@ -22,13 +20,10 @@ var Panel = rbs.Panel;
 var Button = rbs.Button;
 var Input = rbs.Input;
 var ModalTrigger = rbs.ModalTrigger;
-var OverlayTrigger = rbs.OverlayTrigger;
-var Tooltip = rbs.Tooltip;
 
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var FontIcon = mui.FontIcon;
-var FloatingActionButton = mui.FloatingActionButton;
 
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
@@ -37,63 +32,30 @@ var CreateNewBevy = require('./../../bevy/components/CreateNewBevy.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 var PublicBevyList = require('./PublicBevyList.jsx');
 
-var PublicBevyList = React.createClass({
+var FrontPage = React.createClass({
 
 	propTypes: {
 		publicBevies: React.PropTypes.array.isRequired,
-		myBevies: React.PropTypes.array,
-		collection: React.PropTypes.string.isRequired
-	},
-
-	getInitialState: function() {
-		return {
-		};
+		myBevies: React.PropTypes.array
 	},
 
 	render: function() {
 		var publicBevies = this.props.publicBevies;
 		var myBevies = this.props.myBevies;
-		var collection = this.props.collection;
-		var bevies = (collection == 'my') ? myBevies : publicBevies;
-		console.log(collection);
 
 		var publicBevyPanels = [];
 
-		console.log(bevies);
-
-		for(var key in bevies) {
-			var bevy = bevies[key];
+		for(var key in publicBevies) {
+			var bevy = publicBevies[key];
 			publicBevyPanels.push(
-				<PublicBevyPanel bevy={bevy} myBevies={this.props.myBevies} key={Math.random()} />
+				<PublicBevyPanel bevy={bevy} myBevies={this.props.myBevies} />
 			);
 		};
 
-
-		return (<div className='public-bevy-wrapper'>
+		return (
+			<div className='public-bevy-wrapper'>
 					<div className='mid-section'>
-						<div className='public-bevy-list'>
-							{/*<div className='public-bevy-header'>
-								<div className='title'>
-									<Button className='title-btn'>
-										<h2>my bevies</h2>
-									</Button>
-									<h2 className='divider'>&nbsp;•&nbsp;</h2>
-									<Button className='title-btn'>
-										<h2>all bevies</h2>
-									</Button>
-								</div>
-								<ModalTrigger modal={
-									<CreateNewBevy	/>
-								}>
-									<RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='new bevy' className='public-bevy-panel panel'>
-										<FontIcon className="glyphicon glyphicon-plus"/>
-									</RaisedButton>
-								</ModalTrigger>
-							</div>*/}
-								<CTG className='panel-list' transitionName="fadeIn">
-									{publicBevyPanels}
-								</CTG>
-						</div>
+						
 						<FilterSidebar {...this.props} />
 					</div>
 				<div className="footer-public-bevies">
@@ -106,8 +68,9 @@ var PublicBevyList = React.createClass({
 						</Button>
 					</div>
 				</div>
-			</div>);
+			</div>
+		);
 	}
 });
 
-module.exports = PublicBevyList;
+module.exports = FrontPage;

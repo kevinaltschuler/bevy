@@ -28,6 +28,7 @@ var DropDownMenu = mui.DropDownMenu;
 var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var RaisedButton = mui.RaisedButton;
+var FlatButton = mui.FlatButton;
 
 var InviteModal = require('./InviteModal.jsx');
 var MemberModal = require('./MemberModal.jsx');
@@ -103,7 +104,7 @@ var PublicBevyPanel = React.createClass({
 		if(_.isEmpty(description)) description = 'no description';
 
 		var _joinButton = (this.state.joined)
-		? <RaisedButton label='leave' onClick={this.onRequestLeave} />
+		? <FlatButton label='leave' onClick={this.onRequestLeave} />
 		: <RaisedButton label='join' onClick={this.onRequestJoin} /> 
 
 		var joinButton = (_.isEmpty(window.bootstrap.user))

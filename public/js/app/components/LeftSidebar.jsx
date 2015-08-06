@@ -72,8 +72,7 @@ var LeftSidebar = React.createClass({
 							superBevy={ this.props.superBevy }
 							subBevies={ this.props.subBevies }
 						/>
-						{/* OLD CHAT
-						<nav className='chat-tabs'>
+						{/*<nav className='chat-tabs'>
 							<ul className='chat-tabs nav nav-tabs'>
 								<li className={ (this.state.key == 1) ? 'active' : '' }>
 									<OverlayTrigger placement='top' overlay={ <Tooltip>Conversations</Tooltip> }>

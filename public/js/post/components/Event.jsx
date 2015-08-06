@@ -74,6 +74,11 @@ var Event = React.createClass({
 		};
 	},
 
+	componentWillRecieveProps: function(nextProps) {
+		console.log('rerendering');
+		this.forceUpdate();
+	},
+
 	componentWillMount: function() {
 		PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
 	},
@@ -200,7 +205,7 @@ var Event = React.createClass({
 		var dateString = ($date) ? $date.toDateString() : '';
 		var timeString = ($date) ? $date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}) : '';
 
-		console.log(event);
+		//console.log(event);
 
 		var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 		var profileImage = (post.author.image_url)
@@ -341,7 +346,7 @@ var Event = React.createClass({
 		var postClassName = 'post panel event';
 		if(router.post_id == post._id) postClassName += ' active';
 
-		return <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
+		return <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id } key={Math.random()}>
 					<div>{postBody}</div>
 				</div>;
 	}

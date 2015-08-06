@@ -25,11 +25,14 @@ module.exports = function(router) {
 	// leaving page
 	router.get('/users/:userid/offline', api.notifications.offline);
 
+	//UPDATE
+	router.put('users/:userid/notifications/:id', api.notifications.update);
+	router.patch('users/:userid/notifications/:id', api.notifications.update);
+
 	// SHOW
 	//router.get('/users/:userid/notifications/:id', api.notifications.show);
 
 	// DESTROY
-	router.get('/users/:userid/notifications/:id/destroy', api.notifications.destroy);
 	router.delete('/users/:userid/notifications/:id', api.notifications.destroy);
 
 

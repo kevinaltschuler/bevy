@@ -10,6 +10,7 @@
 // imports
 var React = require('react');
 var _ = require('underscore');
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 
 var router = require('./../../router');
 var classNames = require('classnames');
@@ -76,6 +77,11 @@ var Post = React.createClass({
 
 	componentWillMount: function() {
 		PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
+	},
+
+	componentWillRecieveProps: function(nextProps) {
+		console.log('rerendering');
+		this.forceUpdate();
 	},
 
 	componentDidUnmount: function() {
@@ -438,9 +444,9 @@ var Post = React.createClass({
 		var postClassName = 'post panel';
 		if(router.post_id == post._id) postClassName += ' active';
 
-		return <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
-					{collapsibleDiv}
-				</div>;
+		return  <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
+						{collapsibleDiv}
+					</div>;
 	}
 });
 

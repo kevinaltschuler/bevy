@@ -14,6 +14,7 @@ var Router = Backbone.Router.extend({
 		'reset/:token' : 'reset',
 		'home' : 'home',
 		'publicbevies' : 'publicbevies',
+		'bevies': 'publicbevies',
 		'b' : 'home',
 		'b/' : 'home',
 		'b/frontpage': 'home',
@@ -86,8 +87,6 @@ var Router = Backbone.Router.extend({
 		}
 
 		this.search_query = query;
-
-		BevyActions.switchBevy();
 	},
 
 	not_found: function(nuts) {

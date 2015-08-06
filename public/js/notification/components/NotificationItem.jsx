@@ -32,6 +32,7 @@ var NotificationItem = React.createClass({
 		id: React.PropTypes.string,
 		event: React.PropTypes.string,
 		data: React.PropTypes.object,
+		read: React.PropTypes.bool
 	},
 
 	dismiss: function(ev) {
@@ -46,6 +47,7 @@ var NotificationItem = React.createClass({
 		var bevy_id = data.bevy_id;
 		var email = user.email;
 
+		NotificationActions.read(this.props.id);
 		BevyActions.join(bevy_id, window.bootstrap.user, email);
 		//BevyActions.switchBevy();
 	},
@@ -58,6 +60,7 @@ var NotificationItem = React.createClass({
 		var user_id = data.user_id;
 		var user_email = data.user_email;
 
+		NotificationActions.read(this.props.id);
 		BevyActions.addUser(bevy_id, user_id, user_email);
 	},
 
@@ -65,7 +68,15 @@ var NotificationItem = React.createClass({
 
 		var event = this.props.event;
 		var data = this.props.data;
+		var read = this.props.read;
+		var id = this.props.id;
 		var defaultNotificationImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+		var itemStyle = (read)
+		? {}
+		: { 
+			position: 'relative',
+			boxShadow: '0 1px 6px rgba(0,0,0,.12),0 1px 4px rgba(0,0,0,.24)'
+		};
 
 		var body;
 
@@ -78,7 +89,9 @@ var NotificationItem = React.createClass({
 				var inviter_name = data.inviter_name;
 				console.log(data);
 
-				var imgStyle = {
+				var imgStyle = (bevy_img == undefined)
+				? {display: 'none'}
+				: {
 				  backgroundImage: 'url(' + bevy_img + ')',
 				};
 
@@ -114,12 +127,15 @@ var NotificationItem = React.createClass({
 				var post_title = data.post_title;
 				var post_id = data.post_id;
 				var post_created = data.post_created;
-				var imgStyle = {
+				var imgStyle = (author_img == undefined)
+				? {display: 'none'}
+				: {
 				  backgroundImage: 'url(' + author_img + ')',
 				};
 
 				var goToPost = function(ev) {
 					ev.preventDefault();
+					NotificationActions.read(id);
 					router.navigate('/b/' + bevy_id + '/post/' + post_id, { trigger: true });
 
 					if(post_id) {
@@ -152,8 +168,10 @@ var NotificationItem = React.createClass({
 				var user_image = data.user_image;
 				var bevy_id = data.bevy_id;
 				var bevy_name = data.bevy_name;
-				var imgStyle = {
-				  backgroundImage: 'url(' + user_image + ')',
+				var imgStyle = (user_img == undefined)
+				? {display: 'none'}
+				: {
+				  backgroundImage: 'url(' + user_img + ')',
 				};
 
 				body = (
@@ -183,12 +201,14 @@ var NotificationItem = React.createClass({
 				var author_image = data.author_image;
 				var post_title = data.post_title;
 				var bevy_name = data.bevy_name;
-				var imgStyle = {
-				  backgroundImage: 'url(' + author_image + ')',
+				var imgStyle = (author_img == undefined)
+				? {display: 'none'}
+				: {
+				  backgroundImage: 'url(' + author_img + ')',
 				};
 
 				body = (
-					<Button className='notification-body'>
+					<Button className='notification-body' >
 						<div className='sidebar-picture' style={imgStyle}/>
 						<div className='notification-text-col'>
 							<b>{ author_name }</b> replied to your post <i>{ post_title }</i> in <b>{ bevy_name }</b>
@@ -204,8 +224,10 @@ var NotificationItem = React.createClass({
 				var author_image = data.author_image;
 				var post_title = data.post_title;
 				var bevy_name = data.bevy_name;
-				var imgStyle = {
-				  backgroundImage: 'url(' + author_image + ')',
+				var imgStyle = (author_img == undefined)
+				? {display: 'none'}
+				: {
+				  backgroundImage: 'url(' + author_img + ')',
 				};
 
 				body = (
@@ -226,7 +248,7 @@ var NotificationItem = React.createClass({
 				break;
 		}
 
-		return <Panel className="notification-item">
+		return <Panel className="notification-item" style={itemStyle}>
 						{ body }
 				 </Panel>
 	}
