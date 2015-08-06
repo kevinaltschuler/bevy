@@ -32,6 +32,9 @@ module.exports = function(router) {
 	// SEARCH
 	router.get('/users/:userid/posts/search/:query', api.posts.search);
 
+	// posts by that user
+	router.get('/users/:userid/posts', api.posts.userPosts);
+
 	// frontpage
-	router.get('/users/:userid/posts', api.posts.frontpage);
+	router.get('/users/:userid/frontpage', api.posts.frontpage);
 }

@@ -188,7 +188,7 @@ exports.destroy = function(req, res, next) {
 }
 
 // FRONTPAGE
-// GET /users/:userid/posts
+// GET /users/:userid/frontpage
 exports.frontpage = function(req, res, next) {
 	var user_id = req.params.userid;
 
@@ -220,6 +220,27 @@ exports.frontpage = function(req, res, next) {
 			});
 		}
 	]);
+}
+	
+// get posts by this user
+// GET /users/:userid/posts
+exports.userPosts = function(req, res, next) {
+	var user_id = req.params.userid;
+
+	Post.find({ author: user_id }, function(err, posts) {
+		if(err) return next(err);
+		if(posts.length <= 0) return res.json(posts);
+		var _posts = [];
+		posts.forEach(function(post) {
+			Comment.find({ postId: post._id }, function(err, comments) {
+				if(err) return next(err);
+				post = post.toObject();
+				post.comments = comments;
+				_posts.push(post);
+				if(_posts.length == posts.length) return res.json(_posts);
+			}).populate('author');
+		});
+	}).populate('bevy author');
 }
 
 // SEARCH
