@@ -34,7 +34,10 @@ var PostSchema = new Schema({
 	comments: [{}],
 	links: [{}],
 	votes: [Schema({
-		voter: String,
+		voter: {
+			type: String,
+			ref: 'User'
+		},
 		score: Number
 	}, {
 		_id: false
