@@ -215,7 +215,7 @@ exports.points = function(req, res, next) {
 				sum += vote.score;
 			});
 		});
-		return res.send(score);
+		return res.send(sum);
 	});
 }
 
