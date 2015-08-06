@@ -167,8 +167,9 @@ exports.destroy = function(req, res, next) {
 // GET /users/:id/contacts
 exports.getContacts = function(req, res, next) {
 	var id = req.params.id;
+	return res.json([]);
 
-	async.waterfall([
+	/*async.waterfall([
 		function(done) {
 			// get bevies the user is a member of
 			Bevy.find({ members: { $elemMatch: { user: id } } }, function(err, bevies) {
@@ -189,7 +190,7 @@ exports.getContacts = function(req, res, next) {
 
 			return res.json(members);
 		}
-	]);
+	]);*/
 }
 
 // GET /users/google/:id
