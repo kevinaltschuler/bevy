@@ -498,10 +498,13 @@ _.extend(PostStore, {
 				});
 			} else {
 				// check if they've exceeded their max votes
-				if(Math.abs(vote.score + value) > MAX_VOTES)
-					return;
-				// add score to existing voter
-				vote.score += value;
+				if(Math.abs(vote.score + value) > MAX_VOTES) {
+					vote.score -= value; //trying to unvote :(
+					votes = _.reject(votes, function(vote){ return vote.voter == window.bootstrap.user._id; });
+				}
+				else
+					// add score to existing voter
+					vote.score += value;
 			}
 		}
 		//post.set('votes', votes);

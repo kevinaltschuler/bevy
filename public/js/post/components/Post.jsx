@@ -371,6 +371,14 @@ var Post = React.createClass({
 		var styles = this.getCollapsibleClassSet();
 		var text = this.isExpanded() ? 'Hide' : 'Show';
 
+		var user_id = (window.bootstrap.user)
+		? window.bootstrap.user._id
+		: '';
+
+		var upvoteStyle = (_.find(post.votes, function(vote){ return vote.voter == user_id; }))
+		? {color: 'black'}
+		: {};
+
 		var postBody = (
 			<div>
 				<div className='panel-header'>
@@ -412,7 +420,7 @@ var Post = React.createClass({
 				<div className="panel-bottom">
 					<div className='left'>
 						<FlatButton className='upvote' onClick={ this.upvote } disabled={_.isEmpty(window.bootstrap.user)}>
-							<span className="glyphicon glyphicon-thumbs-up btn"></span>
+							<span className="glyphicon glyphicon-thumbs-up btn" style={upvoteStyle}></span>
 							&nbsp;{ this.countVotes() } upvotes
 						</FlatButton>
 						<FlatButton className='comment' onClick={ this.expandComments }>

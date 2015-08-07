@@ -129,6 +129,8 @@ var NewPostPanel = React.createClass({
 	submit: function(ev) {
 		ev.preventDefault();
 
+		console.log(this.state.bevies);
+
 		// send the create action
 		PostActions.create(
 			this.state.title, // title

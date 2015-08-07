@@ -75,10 +75,8 @@ var ChatSidebar = React.createClass({
 			if(!_.isEmpty(latestMessage)) {
 
 				if(bevy) {
-					var messageMember = this.findMember(bevy.members, latestMessage.author._id);
 
 					var messageAuthor = latestMessage.author.displayName;
-					if(messageMember != undefined) messageAuthor = messageMember.displayName;
 					if(latestMessage.author._id == user._id) messageAuthor = 'Me';
 
 					message = (

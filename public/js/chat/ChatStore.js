@@ -73,6 +73,7 @@ _.extend(ChatStore, {
 						method: 'get',
 						url: constants.apiurl + '/bevies/' + BevyStore.getActive()._id + '/thread',
 						success: function(data) {
+							if(data == undefined) return;
 							this.activeThread = data._id;
 							this.threads.add(data);
 							this.trigger(CHAT.CHANGE_ALL);
@@ -119,7 +120,7 @@ _.extend(ChatStore, {
 								thread.set('bevy', model.get('bevy'));
 
 								// add to open threads
-								this.openThreads.push(thread.id);
+								this.openThreads.unshift(thread.id);
 
 								this.trigger(CHAT.CHANGE_ALL);
 							}.bind(this)

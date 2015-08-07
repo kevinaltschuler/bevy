@@ -130,15 +130,22 @@ var Navbar = React.createClass({
 
 		var frontpageUrl = (window.bootstrap.user) ? '/bevies' : '/';
 
+		var chatSidebar = <ChatSidebar
+				allContacts={ this.props.allContacts }  
+				allThreads={ this.props.allThreads } 
+				activeThread={ this.props.activeThread }
+			  />;
+		var chatDock = <ChatDock openThreads={ this.props.openThreads } />;
+		if(router.current == 'home' || this.props.allThreads.length < 0) {
+			chatSidebar = <div />;
+			chatDock = <div />;
+		}
+
 		var userContent = (_.isEmpty(window.bootstrap.user))
 		?	(<a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>)
 		:	(<div className='profile-buttons'>
-				<ChatSidebar
-					allContacts={ this.props.allContacts }  
-					allThreads={ this.props.allThreads } 
-					activeThread={ this.props.activeThread }
-				/>
-				<ChatDock openThreads={ this.props.openThreads } />
+				{chatSidebar}
+				{chatDock}
 				<NotificationDropdown
 					allNotifications={ this.props.allNotifications }
 				/>

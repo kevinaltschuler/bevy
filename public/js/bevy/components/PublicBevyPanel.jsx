@@ -52,7 +52,7 @@ var PublicBevyPanel = React.createClass({
 	getInitialState: function() {
 
 		var bevy = this.props.bevy;
-		console.log(bevy._id, this.props.myBevies);
+		//console.log(bevy._id, this.props.myBevies);
 		//var joined = _.find(this.props.myBevies, function(_bevy) { return (_bevy._id == bevy._id)});
 		var joined = _.findWhere(this.props.myBevies, { _id: bevy._id }) != undefined;
 
@@ -122,12 +122,15 @@ var PublicBevyPanel = React.createClass({
 						</div>
 						<div className='panel-info-bottom'>
 							<div className='left'>
-									<div>
+								<div>
+									{description}
+								</div>
+								{/*<div>
 									{ '0' + ' Members'}
 								</div>
 								<div>
 									Created by: {bevyAdmin}
-								</div>
+								</div>*/}
 							</div>
 							<div className='right'>
 								{joinButton}

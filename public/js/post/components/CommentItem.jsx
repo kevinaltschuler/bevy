@@ -134,7 +134,7 @@ var CommentItem = React.createClass({
 		var deleteButton = '';
 		if(window.bootstrap.user) {
 			if(author._id == window.bootstrap.user._id)
-				deleteButton = (<a className='reply-link' onClick={ this.destroy }>delete</a>);
+				deleteButton = (<a className='reply-link' href='#' onClick={ this.destroy }>delete</a>);
 		}
 
 		var collapseBody = (this.state.collapsed)
@@ -152,17 +152,24 @@ var CommentItem = React.createClass({
 				<div className='comment-col' >
 					<div className="comment-text">
 						<div className="comment-title">
-							<a className="comment-name">{ authorName }</a>
+							<div className="comment-name">
+								{ authorName }&nbsp;
+								<div className="detail-time">
+									{ timeAgo(Date.parse(comment.created)) }&nbsp;&nbsp;
+								</div>
+								<a className="reply-link" href="#" onClick={ this.onReply }>
+									{ replyText }
+								</a>
+								&nbsp;&nbsp;
+								{ deleteButton }
+							</div>
 							<div className="comment-collapse">
 								<span className="glyphicon glyphicon-minus btn collapse-btn" onClick={this.onCollapse}></span>
 							</div>
 						</div>
 						<div className="comment-body">{ comment.body }</div>
 						<div className='comment-actions'>
-							<text className="detail-time">{ timeAgo(Date.parse(comment.created)) }&nbsp;&nbsp;</text>
-							<a className="reply-link" href="#" onClick={ this.onReply }>{ replyText }</a>
-							&nbsp;&nbsp;
-							{ deleteButton }
+
 						</div>
 					</div>
 				</div>

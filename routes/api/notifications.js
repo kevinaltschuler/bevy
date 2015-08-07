@@ -26,8 +26,8 @@ module.exports = function(router) {
 	router.get('/users/:userid/offline', api.notifications.offline);
 
 	//UPDATE
-	router.put('users/:userid/notifications/:id', api.notifications.update);
-	router.patch('users/:userid/notifications/:id', api.notifications.update);
+	router.put('/users/:userid/notifications/:id', api.notifications.update);
+	router.patch('/users/:userid/notifications/:id', api.notifications.update);
 
 	// SHOW
 	//router.get('/users/:userid/notifications/:id', api.notifications.show);
