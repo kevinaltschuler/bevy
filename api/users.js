@@ -24,6 +24,7 @@ var Schema = mongoose.Schema;
 
 var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
+var Post = mongoose.model('Post');
 var Notification = mongoose.model('Notification');
 
 function collectUserParams(req) {
@@ -166,8 +167,9 @@ exports.destroy = function(req, res, next) {
 // GET /users/:id/contacts
 exports.getContacts = function(req, res, next) {
 	var id = req.params.id;
+	return res.json([]);
 
-	async.waterfall([
+	/*async.waterfall([
 		function(done) {
 			// get bevies the user is a member of
 			Bevy.find({ members: { $elemMatch: { user: id } } }, function(err, bevies) {
@@ -188,7 +190,7 @@ exports.getContacts = function(req, res, next) {
 
 			return res.json(members);
 		}
-	]);
+	]);*/
 }
 
 // GET /users/google/:id
@@ -200,3 +202,23 @@ exports.getGoogle = function(req, res, next) {
 		return res.json(user);
 	});
 }
+
+// GET /users/:id/points
+exports.points = function(req, res, next) {
+	var id = req.params.id;
+	Post.find({ votes: { $elemMatch: { voter: id } } }, function(err, posts) {
+		if(err) return next(err);
+		// add up the points
+		var sum = 0;
+		posts.forEach(function(post) {
+			post.votes.forEach(function(vote) {
+				sum += vote.score;
+			});
+		});
+		return res.json({
+			score: sum
+		});
+	});
+}
+
+
