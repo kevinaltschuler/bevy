@@ -158,3 +158,8 @@ exports.getSubbevies = function(req, res, next) {
 		return res.json(bevies);
 	});
 };
+
+exports.countSubscribers = function(req, res, next) {
+	var id = req.params.id;
+	return User.count({bevies: [id]});
+};

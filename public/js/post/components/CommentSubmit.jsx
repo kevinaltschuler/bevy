@@ -83,6 +83,7 @@ var CommentSubmit = React.createClass({
 				className='submit-button'
 				label='post'
 				onClick={this.submit}
+				disabled={true}
 			/> 
 		:	<RaisedButton
 				className='submit-button'

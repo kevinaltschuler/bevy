@@ -4,9 +4,8 @@
 	position: fixed;
 	right: 0;
 	bottom: 0;
-	padding-top: 69px;
 	width: 55px;
-	height: calc(100% - 69px);
+	height: calc(~'100% - 69px');
 	text-shadow: none;
 	transition: all .2s ease-in-out;
 	&:hover {
@@ -32,6 +31,7 @@
 			height: 50px;
 			align-items: center;
 			justify-content: flex-end;
+			transitiion: all .2s ease-in-out;
 			width: 130px;
 		    &:hover {
 		    	box-shadow: @shadow1;
@@ -51,7 +51,6 @@
 		    	.bevy-img {
 			    	width: auto;
 				    height: 100%;
-				    margin-left: -45%;
 		    	}
 		    }
 

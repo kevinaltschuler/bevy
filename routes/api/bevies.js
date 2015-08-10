@@ -25,4 +25,7 @@ module.exports = function(router) {
 
 	// GET SUBBEVIES
 	router.get('/bevies/:id/subbevies', api.bevies.getSubbevies);
+
+	//get subscribers
+	router.get('/bevies/:id/subscribers', api.bevies.countSubscribers);
 };

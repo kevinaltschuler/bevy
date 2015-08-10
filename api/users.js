@@ -130,6 +130,7 @@ exports.update = function(req, res, next) {
 	if(req.body['bevies'] != undefined) {
 		update.bevies = req.body['bevies'];
 	}
+	if(req.body['image_url'] != undefined) update.image_url = req.body['image_url'];
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 

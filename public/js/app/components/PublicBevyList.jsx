@@ -55,11 +55,11 @@ var PublicBevyList = React.createClass({
 		var myBevies = this.props.myBevies;
 		var collection = this.props.collection;
 		var bevies = (collection == 'my') ? myBevies : publicBevies;
-		console.log(collection);
+		//console.log(collection);
 
 		var publicBevyPanels = [];
 
-		console.log(bevies);
+		//console.log(bevies);
 
 		for(var key in bevies) {
 			var bevy = bevies[key];
