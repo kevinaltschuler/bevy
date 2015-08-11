@@ -1,8 +1,6 @@
 /**
  * User.js
- *
  * Mongoose models for bevy users
- *
  * @author albert
  */
 
@@ -62,6 +60,17 @@ var UserSchema = new Schema({
     type: String,
     ref: 'Bevy'
   }],
+  devices: [Schema({
+    id: {
+      type: String
+    },
+    platform: {
+      type: String,
+      enum: ['ios', 'android']
+    }
+  }, {
+    _id: false
+  })],
   created: {
     type: Date,
     default: Date.now

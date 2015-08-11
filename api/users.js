@@ -1,11 +1,6 @@
-//TODO: AUTH
-//TODO: PAGINATION
-
 /**
  * users.js
- *
  * API for users
- *
  * @author albert
  */
 

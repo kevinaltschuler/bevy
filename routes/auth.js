@@ -1,3 +1,8 @@
+/**
+ * auth.js
+ * @author albert
+ */
+
 'use strict';
 
 var async = require('async');
