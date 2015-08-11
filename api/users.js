@@ -70,7 +70,7 @@ exports.create = function(req, res, next) {
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
 	var promise = User.findOne({ email: update.email })
-		.populate('aliases')
+		.populate('bevies')
 		.exec();
 	promise.then(function(user) {
 		if(user) {
@@ -109,7 +109,7 @@ exports.show = function(req, res, next) {
 	var id = req.params.id;
 	var query = { _id: id };
 	var promise = User.findOne(query)
-		.populate('aliases')
+		.populate('bevies')
 		.exec();
 	promise.then(function(user) {
 		if(!user) throw error.gen('user not found', req);
@@ -130,6 +130,7 @@ exports.update = function(req, res, next) {
 	if(req.body['bevies'] != undefined) {
 		update.bevies = req.body['bevies'];
 	}
+	if(req.body['image_url'] != undefined) update.image_url = req.body['image_url'];
 	// hash password if it exists
 	if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
@@ -200,7 +201,7 @@ exports.getGoogle = function(req, res, next) {
 	User.findOne({ 'google.id': id }, function(err, user) {
 		if(err) return next(err);
 		return res.json(user);
-	});
+	}).populate('bevies');
 }
 
 // GET /users/:id/points
