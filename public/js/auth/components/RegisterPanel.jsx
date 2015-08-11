@@ -22,177 +22,146 @@ var Button = rbs.Button;
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 
-// helper function to validate whether an email is valid
-function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
-}
-
 var RegisterPanel = React.createClass({
 
-	getInitialState: function() {
-		return {
-			emailBsStyle: '',
-			confirmEmailBsStyle: '',
-			passwordBsStyle: '',
-			validInput: false,
-			errorText: '',
-			showError: false
-		};
-	},
+  getInitialState() {
+    return {
+      usernameBsStyle: '',
+      passwordBsStyle: '',
+      validInput: false,
+      errorText: 'Please enter a username',
+      showError: false
+    };
+  },
 
-	onChange: function() {
-		// grab input values for processing
-		var emailVal = this.refs.email.getValue();
-		var confirmEmailVal = this.refs.confirmEmail.getValue();
-		var passwordVal = this.refs.password.getValue();
+  onChange() {
+    // grab input values for processing
+    var username = this.refs.username.getValue();
+    var password = this.refs.password.getValue();
 
-		// first check if the email is valid
-		// TODO: validate this on the server as well
-		if(!validateEmail(emailVal)) {
-			// invalid email
-			this.setState({
-				emailBsStyle: 'error',
-				errorText: 'Please enter a valid email address',
-				confirmEmailBsStyle: '',
-				validInput: false
-			});
-		} else {
-			// valid email
-			this.setState({
-				emailBsStyle: 'success'
-			});
+    // then lets see if confirm email matches the email field
+    if(!_.isEmpty(username)) {
+      this.setState({
+        usernameBsStyle: 'success'
+      });
+    }
+    // and finally, check if the password is set
+    // TODO: password strength
+    if(!_.isEmpty(password)) {
+      // valid password
+      this.setState({
+        passwordBsStyle: 'success',
+        validInput: true
+      });
+    } else {
+      // invalid/nonexistent password
+      this.setState({
+        passwordBsStyle: 'error',
+        errorText: 'Please enter a valid password',
+        validInput: false
+      });
+    }
+  },
 
-			// then lets see if confirm email matches the email field
-			if(emailVal == confirmEmailVal
-				&& !_.isEmpty(emailVal) && !_.isEmpty(confirmEmailVal)) {
+  submit(e) {
+    // prevent immediate form submission
+    e.preventDefault();
 
-				this.setState({
-					confirmEmailBsStyle: 'success'
-				});
+    var username = this.refs.username.getValue();
+    var password = this.refs.password.getValue();
+    var email = this.refs.email.getValue();
 
-				// and finally, check if the password is set
-				// TODO: password strength
-				if(!_.isEmpty(passwordVal)) {
-					// valid password
-					this.setState({
-						passwordBsStyle: 'success',
-						validInput: true
-					});
-				} else {
-					// invalid/nonexistent password
-					this.setState({
-						passwordBsStyle: 'error',
-						errorText: 'Please enter a valid password',
-						validInput: false
-					})
-				}
+    if(this.state.validInput) {
+      // send api request
+      $.post(
+        constants.apiurl + '/users/',
+        {
+          username: username,
+          password: password,
+          email: (_.isEmpty(email)) ? undefined : email
+        },
+        function(data, textStatus, jqXHR) {
+          //success
+          // login the new user immediately
+          $.post(
+            constants.siteurl + '/login',
+            {
+              username: username,
+              password: password
+            },
+            function(response) {
+              // assume the login ajax worked
+              // and redirect to the main app
+              window.location.href = constants.siteurl;
+            }
+          );
+        }
+      ).fail(function(jqXHR) {
+        // failure
+        var response = jqXHR.responseJSON;
+        // set error message to the one that
+        // was returned from the server
+        this.setState({
+          errorText: response.message,
+          showError: true
+        });
+      }.bind(this));
 
-			} else {
-				// email and confirm email dont match
-				this.setState({
-					confirmEmailBsStyle: 'error',
-					errorText: 'Please ensure that the given emails match',
-					validInput: false
-				});
-			}
-		}
-	},
+    } else {
+      // TODO: more specific error messages
+      this.setState({
+        showError: true
+      });
+    }
+  },
 
-	submit: function(e) {
-		// prevent immediate form submission
-		e.preventDefault();
+  render() {
 
-		var email = this.refs.email.getValue();
-		var password = this.refs.password.getValue()
+    var error;
+    if(this.state.showError) {
+      error = (
+        <div className='register-error'>
+          <span>{ this.state.errorText }</span>
+        </div>
+      );
+    }
 
-		if(this.state.validInput) {
-			// send api request
-			$.post(
-				constants.apiurl + '/users/',
-				{
-					email: email,
-					password: password,
-					send_email: true
-				},
-				function(data, textStatus, jqXHR) {
-					//success
-					// login the new user immediately
-					$.post(
-						constants.siteurl + '/login',
-						{
-							email: email,
-							password: password
-						},
-						function(response) {
-							// assume the login ajax worked
-							// and redirect to the main app
-							window.location.href = constants.siteurl;
-						}
-					);
-				}
-			).fail(function(jqXHR) {
-				// failure
-				var response = jqXHR.responseJSON;
-				// set error message to the one that
-				// was returned from the server
-				this.setState({
-					errorText: response.message,
-					showError: true
-				});
-			}.bind(this));
-
-		} else {
-			// TODO: more specific error messages
-			this.setState({
-				showError: true
-			});
-		}
-	},
-
-	render: function() {
-
-		var error;
-		if(this.state.showError) {
-			error = <div className='register-error'>
-							<span>{ this.state.errorText }</span>
-						</div>;
-		}
-
-		return <Panel className="register-panel">
-					<img className="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Avatar"/>
-					{ error }
-					<form method='post' action='/register'>
-						<Input
-							type="text"
-							name='email'
-							placeholder="Email"
-							ref='email'
-							hasFeedback
-							bsStyle={ this.state.emailBsStyle }
-							onChange={ this.onChange } />
-	  					<Input
-	  						type="text"
-	  						placeholder="Confirm Email"
-	  						ref='confirmEmail'
-	  						hasFeedback
-	  						bsStyle={ this.state.confirmEmailBsStyle }
-	  						onChange={ this.onChange } />
-	  					<Input
-	  						type="password"
-	  						name='password'
-	  						ref='password'
-	  						hasFeedback
-	  						placeholder="New Password"
-	  						bsStyle={ this.state.passwordBsStyle }
-	  						onChange={ this.onChange }/>
-						<RaisedButton
-							className='register-submit'
-							label="Register"
-							ref='submit'
-							onClick={ this.submit }/>
-					</form>
-				 </Panel>;
-	}
+    return (
+      <Panel className="register-panel">
+        <img className="profile-img" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" alt="Avatar"/>
+        { error }
+        <form method='post' action='/register'>
+          <Input
+            type='text'
+            name='username'
+            placeholder='Username'
+            ref='username'
+            hasFeedback
+            bsStyle={ this.state.usernameBsStyle }
+            onChange={ this.onChange } />
+          <Input
+            type='password'
+            name='password'
+            ref='password'
+            hasFeedback
+            placeholder='Password'
+            bsStyle={ this.state.passwordBsStyle }
+            onChange={ this.onChange }/>
+          <Input
+            type='text'
+            name='email'
+            ref='email'
+            hasFeedback
+            placeholder='Email - Optional'
+            onChange={ this.onChange }/>
+          <RaisedButton
+            className='register-submit'
+            label='Register'
+            ref='submit'
+            onClick={ this.submit }/>
+        </form>
+      </Panel>
+    );
+  }
 });
 module.exports = RegisterPanel;

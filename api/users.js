@@ -50,54 +50,45 @@ exports.index = function(req, res, next) {
 }
 
 // CREATE
-// GET /users/create
 // POST /users
 exports.create = function(req, res, next) {
   //TODO: check for dupes
   //TODO: verify email
-  var update = collectUserParams(req);
-  update._id = shortid.generate();
+  var update = {
+    _id: shortid.generate(),
+    username: req.body['username'],
+    password: req.body['password'],
+    email: req.body['email']
+  }
 
   // check for required fields
-  if(_.isEmpty(update.email))
-    throw error.gen('missing identifier - email', req);
+  if(_.isEmpty(update.username))
+    return next(error.gen('Missing Identifier - Username', req));
   else if(_.isEmpty(update.password))
-    throw error.gen('missing verification - password', req);
+    return next(error.gen('Missing Verification - Password', req));
 
   // hash password if it exists
   if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
-  var promise = User.findOne({ email: update.email })
-    .exec();
-  promise.then(function(user) {
-    if(user) {
-      // duplicate exists
-      throw error.gen('another user with the same email exists', req);
-    }
-  }).then(function() {
+  User.create(update, function(err, user) {
+    if(err) return next(err);
 
-    User.create(update, function(err, user) {
-      if(err) throw err;
-
-      // send a welcome email
-      if(req.query['send_email'] == true || req.body['send_email'] == true) {
-        mailgun.messages().send({
-            from: 'Bevy Team <contact@joinbevy.com>'
-          , to: user.email
-          , subject: 'Welcome to Bevy!'
-          , text: 'Thanks for signing up for bevy! A prettier template is coming soon.'
-        });
-      }
-
-      // push existing notifications
-      Notification.update({ email: user.email }, { user: user._id }, { multi: true }, function(err, raw) {
-
+    // send a welcome email
+    if(!_.isEmpty(user.email)) {
+      mailgun.messages().send({
+          from: 'Bevy Team <contact@joinbevy.com>'
+        , to: user.email
+        , subject: 'Welcome to Bevy!'
+        , text: 'Thanks for signing up for bevy! A prettier template is coming soon.'
       });
+    }
 
-      res.json(user);
-    });
-  },
-  function(err) { next(err); });
+    // push existing notifications
+    //Notification.update({ email: user.email }, { user: user._id }, { multi: true }, function(err, raw) {
+    //});
+
+    return res.json(user);
+  });
 }
 
 // SHOW
