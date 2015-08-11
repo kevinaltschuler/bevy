@@ -109,6 +109,11 @@ var ChatSidebar = React.createClass({
 				if(bevy) image_url = '/img/logo_100.png';
 				else image_url = '/img/user-profile-icon.png';
 			}
+			var imageStyle = {
+				backgroundImage: 'url(' + image_url + ')',
+				backgroundSize: 'auto 100%',
+				backgroundPosition: 'center'
+			};
 
 			var name = (bevy) ? bevy.name : otherUser.user.displayName;
 
@@ -118,16 +123,14 @@ var ChatSidebar = React.createClass({
 						<span className='bevy-name'>{ name }</span>
 						{ message }
 					</div>
-					<div className='image'>
-						<img className='bevy-img' src={ image_url } />
-					</div>
+					<div className='image' style={imageStyle}/>
 				</Button>
 			);
 		}
 
 		if(threads.length == 0) threads = (
 			<div className='chat-list-msg'>
-				No conversations active
+				
 			</div>
 			);
 

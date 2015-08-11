@@ -48,7 +48,8 @@ _.extend(BevyStore, {
 	publicBevies: new Bevies,
 	superBevy: new Bevy,
 	subBevies: new Bevies,
-	collection: 'my',
+	searchQuery: '',
+	searchList: new Bevies,
 
 	// handle calls from the dispatcher
 	// these are created from BevyActions.js
@@ -448,7 +449,7 @@ _.extend(BevyStore, {
 			case BEVY.SORT:
 				var filter = payload.filter;
 				
-				var collection = (this.collection == 'my') ? this.myBevies : this.publicBevies;
+				var collection = (!_.isEmpty(this.searchQuery)) ? this.searchList : this.publicBevies;
 				collection.filter == filter;
 				switch(filter) {
 					case 'top':
@@ -470,6 +471,16 @@ _.extend(BevyStore, {
 			case BEVY.CHANGE_COLLECTION:
 				this.collection = payload.collection;
 				this.trigger(BEVY.CHANGE_ALL);
+				break;
+			case BEVY.SEARCH:
+				var query = payload.query;
+				this.searchQuery = query;
+				this.searchList.url = constants.apiurl + '/bevies/search/' + query;
+				this.searchList.fetch({
+					success: function(collection, response, options) {
+						this.trigger(BEVY.CHANGE_ALL);
+					}.bind(this)
+				});
 				break;
 		}
 	},
@@ -521,6 +532,14 @@ _.extend(BevyStore, {
 		if(_.isEmpty(bevy)) return [];
 		var members = bevy.members;
 		return members;
+	},
+
+	getSearchList: function() {
+		return this.searchList;
+	},
+
+	getSearchQuery: function() {
+		return this.searchQuery;
 	},
 
 	getCollection: function() {

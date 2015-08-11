@@ -17,6 +17,8 @@ var async = require('async');
 
 var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
+Bevy.collection.ensureIndex({name: 'text'}, function(err) { return err });
+
 var ChatThread = mongoose.model('ChatThread');
 
 function collectBevyParams(req) {
@@ -99,6 +101,21 @@ exports.show = function(req, res, next) {
 			return res.json(bevy);
 		}).populate('user');*/
 	});
+}
+
+// SEARCH
+// GET /bevies/search/:query
+exports.search = function(req, res, next) {
+	var query = req.params.query;
+	Bevy.find(
+		{ $text: { $search: query, $language: "english" }},
+		{ score: { $meta: "textScore"}}
+	)
+	.sort({ score : { $meta : "textScore" } })
+    .exec(function(err, results) {
+        if(err) return next(err);
+        return res.json(results);
+    });
 }
 
 // UPDATE

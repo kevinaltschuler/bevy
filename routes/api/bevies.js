@@ -15,6 +15,8 @@ module.exports = function(router) {
 	router.get('/users/:userid/bevies/:id', api.bevies.show);
 	router.get('/bevies/:id', api.bevies.show);
 
+	// SEARCH
+	router.get('/bevies/search/:query', api.bevies.search);
 
 	// UPDATE
 	router.put('/users/:userid/bevies/:id', api.bevies.update);

@@ -98,7 +98,8 @@ var MainSection = React.createClass({
 		var publicBevies = BevyStore.getPublicBevies();
 		var superBevy = BevyStore.getSuperBevy();
 		var subBevies = BevyStore.getSubBevies();
-		var collection = BevyStore.getCollection();
+		var searchList = BevyStore.getSearchList();
+		var searchQuery = BevyStore.getSearchQuery();
 
 		return {
 			// later, load this from session/cookies
@@ -108,7 +109,8 @@ var MainSection = React.createClass({
 			publicBevies: publicBevies,
 			superBevy: superBevy,
 			subBevies: subBevies,
-			collection: collection
+			searchList: searchList,
+			searchQuery: searchQuery
 		}
 	},
 

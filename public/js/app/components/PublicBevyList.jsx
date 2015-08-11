@@ -42,7 +42,8 @@ var PublicBevyList = React.createClass({
 	propTypes: {
 		publicBevies: React.PropTypes.array.isRequired,
 		myBevies: React.PropTypes.array,
-		collection: React.PropTypes.string.isRequired
+		searchList: React.PropTypes.array,
+		searchQuery: React.PropTypes.string
 	},
 
 	getInitialState: function() {
@@ -53,13 +54,18 @@ var PublicBevyList = React.createClass({
 	render: function() {
 		var publicBevies = this.props.publicBevies;
 		var myBevies = this.props.myBevies;
-		var collection = this.props.collection;
-		var bevies = (collection == 'my') ? myBevies : publicBevies;
+		var searchList = this.props.searchList;
+		var searchQuery = this.props.searchQuery;
+		var bevies = publicBevies;
+		if(!_.isEmpty(searchQuery)) {
+			console.log('searching');
+			bevies = searchList;
+		}
 		//console.log(collection);
 
 		var publicBevyPanels = [];
 
-		//console.log(bevies);
+		console.log('THE BEVIES', bevies);
 
 		for(var key in bevies) {
 			var bevy = bevies[key];
