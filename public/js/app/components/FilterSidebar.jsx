@@ -41,26 +41,24 @@ var CreateNewBevy = require('./../../bevy/components/CreateNewBevy.jsx');
 
 var FilterSidebar = React.createClass({
 	propTypes: {
-		collection: React.PropTypes.string.isRequired
+		searchQuery: React.PropTypes.string
 	},
 
 	getInitialState: function() {
-		this.handleFilter(this.props.collection.filter);
 		return {
-			search: router.search_query || '',
-			collection: this.props.collection,
+			search: this.props.searchQuery || '',
 			filter: 'top'
 		};
 	},
 
-	componentWillMount: function() {
+	/*componentWillMount: function() {
 		if(_.isEmpty(BevyStore.getMyBevies()) && this.state.collection == 'my') {
 			BevyActions.changeCollection('all');
 			this.setState({
 				collection: 'all'
 			});
 		}
-	},
+	},*/
 
 	onSearch: function(ev) {
 		ev.preventDefault();
@@ -77,7 +75,7 @@ var FilterSidebar = React.createClass({
 		}
 	},
 
-	onCollectionChange: function(ev) {
+	/*onCollectionChange: function(ev) {
 		ev.preventDefault();
 
 		var collection = ev.target.textContent.split(' ');
@@ -90,7 +88,7 @@ var FilterSidebar = React.createClass({
 		} else {
 			console.log('invalid collection');
 		}
-	},
+	},*/
 
 	handleFilter: function(filter) {
 		var selectedIndex = 0;
@@ -135,33 +133,15 @@ var FilterSidebar = React.createClass({
 			{payload: '2', text: 'new'},
 			{payload: '3', text: 'old'}
 		];
-		
+
+		var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
+		? 'all'
+		: 'searching for ' + searchQuery;
+
 		var bevyContent = (
 				<div className='actions'>
 					<div className='action'>
-						<form className="bevy-search" role="search">
-							<TextField
-								type='text'
-								className='search-input'
-								ref='search'
-								onKeyUp={ this.onKeyUp }
-								defaultValue={ searchQuery }
-							/>
-							<IconButton
-								iconClassName='glyphicon glyphicon-search'
-								onClick={ this.onSearch }
-							/>
-						</form>
-					</div>
-					<div className='action bevies'>
-						<ButtonGroup>
-							<Button className={myClass} onClick={this.onCollectionChange}>
-								my bevies
-							</Button>
-							<Button className={allClass} onClick={this.onCollectionChange}>
-								all bevies
-							</Button>
-						</ButtonGroup>
+						{searchTitle}
 					</div>
 					<div className='action sort'>
 						<div className='action-name'>

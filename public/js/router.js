@@ -27,6 +27,7 @@ var Router = Backbone.Router.extend({
 		'b/:bevyid/:subbevyid/post' : 'subBevy',
 		'b/:bevyid/:subbevyid/post/' : 'subBevy',
 		'b/:bevyid/:subbevyid/post/:postid' : 'subBevy',
+		's/' : 'search',
 		's' : 'search',
 		's/:query' : 'search',
 		'*nuts' : 'not_found'
@@ -87,6 +88,7 @@ var Router = Backbone.Router.extend({
 		}
 
 		this.search_query = query;
+		BevyActions.search(query);
 	},
 
 	not_found: function(nuts) {

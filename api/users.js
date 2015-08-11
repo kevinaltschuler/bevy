@@ -178,7 +178,7 @@ exports.getContacts = function(req, res, next) {
 // GET /users/google/:id
 exports.getGoogle = function(req, res, next) {
   var id = req.params.id;
-
+  
   User.findOne({ 'google.id': id }, function(err, user) {
     if(err) return next(err);
     return res.json(user);

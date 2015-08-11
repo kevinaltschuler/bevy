@@ -129,17 +129,17 @@ var PostActions = {
 		});
 	},
 
-	changeCollection: function(collection) {
-		dispatch(BEVY.CHANGE_COLLECTION, {
-			collection: (collection == undefined) ? null : collection
-		});
-	},
-
 	filterBevies: function(filter) {
 		dispatch(BEVY.SORT, {
 			filter: (filter == undefined) ? null : filter
 		});
-	} 
+	},
+
+	search: function(query) {
+		dispatch(BEVY.SEARCH, {
+			query: (query == undefined) ? null : query
+		});
+	},
 };
 
 module.exports = PostActions;

@@ -73,6 +73,7 @@ exports.BEVY = {
 	EDIT_MEMBER: 'bevy_edit_member',
 	SORT: 'bevy_sort',
 	CHANGE_COLLECTION: 'bevy_change_collection',
+	SEARCH: 'bevy_search',
 
 	FETCH: 'bevy_fetch',
 
