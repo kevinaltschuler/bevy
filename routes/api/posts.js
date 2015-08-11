@@ -37,4 +37,7 @@ module.exports = function(router) {
 
 	// frontpage
 	router.get('/users/:userid/frontpage', api.posts.frontpage);
+
+	// public frontpage
+	router.get('/frontpage', api.posts.publicFrontpage);
 }
