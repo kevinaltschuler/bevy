@@ -185,22 +185,4 @@ exports.getGoogle = function(req, res, next) {
   });
 }
 
-// GET /users/:id/points
-exports.points = function(req, res, next) {
-  var id = req.params.id;
-  Post.find({ votes: { $elemMatch: { voter: id } } }, function(err, posts) {
-    if(err) return next(err);
-    // add up the points
-    var sum = 0;
-    posts.forEach(function(post) {
-      post.votes.forEach(function(vote) {
-        sum += vote.score;
-      });
-    });
-    return res.json({
-      score: sum
-    });
-  });
-}
-
 

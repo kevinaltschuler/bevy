@@ -29,7 +29,4 @@ module.exports = function(router) {
 	// CONTACTS
 	router.get('/users/:id/contacts', api.users.getContacts);
 
-	// POINTS
-	router.get('/users/:id/points', api.users.points);
-
 };
