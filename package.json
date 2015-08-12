@@ -34,6 +34,7 @@
     "mongoose-text-search": "0.0.2",
     "morgan": "^1.5.1",
     "multer": "^0.1.7",
+    "node-schedule": "^0.2.9",
     "object-assign": "^2.0.0",
     "open-graph": "^0.1.5",
     "passport": "^0.2.1",

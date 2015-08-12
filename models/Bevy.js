@@ -23,6 +23,10 @@ var BevySchema = new Schema({
 	image_url: {
 		type: String
 	},
+	subCount: {
+		type: Number,
+		default: 0
+	},
 	admins: [{
 		type: String,
 		ref: 'User'

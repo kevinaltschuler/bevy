@@ -44,6 +44,9 @@ require('./gridfs');
 // connect to db
 require('./db');
 
+// set up schedules
+require('./schedule')
+
 // pretty print json by default
 //app.set('json spaces', 2);
 
