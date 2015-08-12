@@ -23,9 +23,9 @@ var BevySchema = new Schema({
 	image_url: {
 		type: String
 	},
-	parent: {
-		type: String,
-		ref: 'Bevy'
+	subCount: {
+		type: Number,
+		default: 0
 	},
 	admins: [{
 		type: String,

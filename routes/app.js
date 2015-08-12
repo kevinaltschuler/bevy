@@ -38,14 +38,13 @@ module.exports = function(app) {
 		});
 	});
 
-
+	var User = mongoose.model('User');
 	var Bevy = mongoose.model('Bevy');
 	var Notification = mongoose.model('Notification');
 	var Post = mongoose.model('Post');
 	var Comment = mongoose.model('Comment');
 	var Thread = mongoose.model('ChatThread');
 	var Message = mongoose.model('ChatMessage');
-	var Member = mongoose.model('BevyMember');
 
 	// for everything else - pass it off to the react router
 	// on the front end
@@ -91,21 +90,13 @@ module.exports = function(app) {
 						// get frontpage posts
 						async.waterfall([
 							function(done) {
-								Member.find({ user: user._id }, function(err, members) {
+								User.findOne({ _id: user._id }, function(err, user) {
 									if(err) return callback(null, []);
-									var _bevies = [];
-									async.each(members, function(member, $callback) {
-										_bevies.push(member.bevy);
-										$callback();
-									}, function(err) {
-										if(err) return callback(null, []);
-										done(null, _bevies);
-									});
-								}).populate('bevy');
+									done(null, user.bevies);
+								});
 							},
 							function(bevies, done) {
-								var bevy_id_list = _.pluck(bevies, '_id');
-								var post_query = { bevy: { $in: bevy_id_list } };
+								var post_query = { bevy: { $in: bevies } };
 								var post_promise = Post.find(post_query)
 									.populate('bevy author')
 									.exec();
@@ -131,70 +122,37 @@ module.exports = function(app) {
 						]);
 					} else {
 						// get bevy posts
-						async.waterfall([
-							function(done) {
-								Member.find({ user: user._id }, function(err, members) {
+						var promise = Post.find({ bevy: bevy_id }, function(err, posts) {
+							if(err) return callback(null, []);
+							if(posts.length <= 0) return callback(null, []);
+							var _posts = [];
+							posts.forEach(function(post) {
+								var comment_promise = Comment.find({ postId: post._id }, function(err, comments) {
 									if(err) return callback(null, []);
-									var _bevies = [];
-									async.each(members, function(member, $callback) {
-										_bevies.push(member.bevy);
-										$callback();
-									}, function(err) {
-										if(err) return callback(null, []);
-										var bevy_id_list = _.map(_bevies, function(bevy) {
-											if(!bevy) { return; }
-											return bevy._id.toString();
-										});
-										if(bevy_id_list.indexOf(bevy_id) > -1) {
-											done(null);
-										} else return callback(null, []);
-										//done(null, _bevies);
-									});
-								}).populate('bevy');
-							},
-							function(done) {
-								var promise = Post.find({ bevy: bevy_id }, function(err, posts) {
-									if(err) return callback(null, []);
-									if(posts.length <= 0) return callback(null, []);
-									var _posts = [];
-									posts.forEach(function(post) {
-										var comment_promise = Comment.find({ postId: post._id }, function(err, comments) {
-											if(err) return callback(null, []);
-											post = post.toJSON();
-											post.comments = comments;
-											_posts.push(post);
-											if(_posts.length == posts.length) return callback(null, _posts);
-										}).populate('author');
-									});
-								}).populate('bevy author');
-							}
-						]);
+									post = post.toJSON();
+									post.comments = comments;
+									_posts.push(post);
+									if(_posts.length == posts.length) return callback(null, _posts);
+								}).populate('author');
+							});
+						}).populate('bevy author');
 					}
 				},
 				function(callback) {
 					// get threads
 					async.waterfall([
 						function(done) {
-							Member.find({ user: user._id }, function(err, members) {
+							User.findOne({ _id: user._id }, function(err, user) {
 								if(err) return callback(null, []);
-								var _bevies = [];
-								async.each(members, function(member, $callback) {
-									_bevies.push(member.bevy);
-									$callback();
-								}, function(err) {
-									if(err) return callback(null, []);
-									done(null, _bevies);
-								});
-							}).populate('bevy');
+								return done(null, user.bevies);
+							});
 						},
 						function(bevies, done) {
-							var bevy_id_list = _.pluck(bevies, '_id');
-
 							Thread.find(function(err, threads) {
 								if(err) return callback(null, []);
 								return callback(null, threads);
-							}).or([{ members: { $elemMatch: { user: user._id } } }, { bevy: { $in: bevy_id_list } }])
-							.populate('bevy members.user members.member');
+							}).or([{ users: user._id }, { bevy: { $in: bevies } }])
+							.populate('bevy users');
 						}
 					]);
 				}

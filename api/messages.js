@@ -9,7 +9,6 @@ var emitter = require('./notifications').emitter;
 var Message = mongoose.model('ChatMessage');
 var Thread = mongoose.model('ChatThread');
 var Bevy = mongoose.model('Bevy');
-var Member = mongoose.model('BevyMember');
 var User = mongoose.model('User');
 
 // GET /threads/:threadid/messages

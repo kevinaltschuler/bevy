@@ -52,13 +52,10 @@ exports.index = function(req, res, next) {
 //INDEX
 //GET /bevies
 exports.indexPublic = function(req, res, next) {
-	Bevy.find({parent: null}, function(err, bevies) {
-		if(err)
-			return next(err);
-		else
-			return res.json(bevies);
+	Bevy.find(function(err, bevies) {
+		if(err) return next(err);
+		return res.json(bevies);
 	})
-		.populate('parent')
 		.limit(20);
 }
 
@@ -70,7 +67,6 @@ exports.create = function(req, res, next) {
 	update.name = req.body['name'] || null;
 	update.description = req.body['description'] || '';
 	update.image_url = req.body['image_url'] || '';
-	update.parent = req.body['parent'] || null;
 	update.admins = req.body['admins'] || [];
 
 	if(!update.name) throw error.gen('bevy name not specified', req);
@@ -142,7 +138,6 @@ exports.update = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update, { new: true, upsert: true })
-		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -159,24 +154,8 @@ exports.destroy = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndRemove(query)
-		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		res.json(bevy);
 	}, function(err) { next(err); })
 }
-
-// GET /bevies/:id/subbevies
-exports.getSubbevies = function(req, res, next) {
-	var id = req.params.id;
-
-	Bevy.find({ parent: id }, function(err, bevies) {
-		if(err) return next(err);
-		return res.json(bevies);
-	});
-};
-
-exports.countSubscribers = function(req, res, next) {
-	var id = req.params.id;
-	return User.count({bevies: [id]});
-};

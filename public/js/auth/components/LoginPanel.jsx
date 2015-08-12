@@ -25,98 +25,101 @@ var router = require('./../../router');
 
 var LoginPanel = React.createClass({
 
-	getInitialState: function() {
-		return {
-			  errorText: ''
-			, showError: false
-		};
-	},
+  getInitialState() {
+    return {
+      errorText: '',
+      showError: false
+    };
+  },
 
-	submit: function(e) {
-		// prevent default form submission
-		e.preventDefault();
+  submit(e) {
+    // prevent default form submission
+    e.preventDefault();
 
-		if(_.isEmpty(this.refs.email.getValue())) {
-			this.setState({
-				  errorText: 'Please enter your email address'
-				, showError: true
-			});
-			return;
-		}
-		// dont need to check for valid email address - if they
-		// used the register form it should be valid anyways
-		if(_.isEmpty(this.refs.password.getValue())) {
-			this.setState({
-				  errorText: 'Please enter your password'
-				, showError: true
-			});
-			return;
-		}
+    var username = this.refs.username.getValue();
+    var password = this.refs.password.getValue();
 
-		$.post(
-			constants.siteurl + '/login',
-			{
-				  email: this.refs.email.getValue()
-				, password: this.refs.password.getValue()
-			},
-			function(data) {
-				// success
-				// let's redirect to the app
-				//window.bootstrap.user = data;
-				//router.navigate('/b/frontpage', { trigger: true });
-				window.location.href = '/b/frontpage';
-			}
-		).fail(function(jqXHR) {
-			// a server-side error has occured (500 internal error)
-			// load response from jqXHR
-			var response = jqXHR.responseJSON;
-			// show error
-			this.setState({
-				  errorText: response.message
-				, showError: true
-			});
-		}.bind(this));
-	},
+    if(_.isEmpty(username)) {
+      this.setState({
+        errorText: 'Please enter your username',
+        showError: true
+      });
+      return;
+    }
+    // dont need to check for valid email address - if they
+    // used the register form it should be valid anyways
+    if(_.isEmpty(password)) {
+      this.setState({
+        errorText: 'Please enter your password',
+        showError: true
+      });
+      return;
+    }
 
-	render: function() {
+    $.post(
+      constants.siteurl + '/login',
+      {
+        username: username,
+        password: password
+      },
+      function(data) {
+        // success
+        // let's redirect to the app
+        window.location.href = '/b/frontpage';
+      }
+    ).fail(function(jqXHR) {
+      // a server-side error has occured (500 internal error)
+      // load response from jqXHR
+      var response = jqXHR.responseJSON;
+      // show error
+      this.setState({
+        errorText: response.message,
+        showError: true
+      });
+    }.bind(this));
+  },
 
-		var error;
-		if(this.state.showError) {
-			error = <div className='login-error'>
-							<span>{ this.state.errorText }</span>
-						</div>;
-		}
+  render() {
 
-		return	<Panel className="login-panel">
-					<img className="profile-img" src="/img/user-profile-icon.png" alt="Avatar"/>
-					{ error }
-					<form method='post' action='/login'>
-						<Input
-							type='text'
-							name='email'
-							ref='email'
-							placeholder='Email' />
-						<Input
-							type='password'
-							name='password'
-							ref='password'
-							placeholder='Password' />
-						<RaisedButton
-							className='login-submit'
-							label='Sign In'
-							onClick={ this.submit }/>
-					</form>
-					<RaisedButton
-						className='login-google-submit'
-						label='Sign In With Google'
-						linkButton={true}
-						href={ constants.siteurl + '/auth/google' } />
-					<FlatButton
-						className='register-button'
-						label='Create an Account'
-						linkButton={true}
-						href={ constants.siteurl + '/register'} />
-				</Panel>;
-	}
+    var error;
+    if(this.state.showError) {
+      error = (
+        <div className='login-error'>
+          <span>{ this.state.errorText }</span>
+        </div>
+      );
+    }
+
+    return  <Panel className="login-panel">
+          <img className="profile-img" src="/img/user-profile-icon.png" alt="Avatar"/>
+          { error }
+          <form method='post' action='/login'>
+            <Input
+              type='text'
+              name='username'
+              ref='username'
+              placeholder='Username' />
+            <Input
+              type='password'
+              name='password'
+              ref='password'
+              placeholder='Password' />
+            <RaisedButton
+              className='login-submit'
+              label='Sign In'
+              onClick={ this.submit }/>
+          </form>
+          <RaisedButton
+            className='login-google-submit'
+            label='Sign In With Google'
+            linkButton={true}
+            href={ constants.siteurl + '/auth/google' } />
+          <FlatButton
+            className='register-button'
+            label='Create an Account'
+            linkButton={true}
+            href={ constants.siteurl + '/register'} />
+        </Panel>;
+  }
 });
 module.exports = LoginPanel;
