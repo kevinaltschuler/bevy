@@ -30,8 +30,6 @@ var TextField = mui.TextField;
 var RaisedButton = mui.RaisedButton;
 var FlatButton = mui.FlatButton;
 
-var InviteModal = require('./InviteModal.jsx');
-var MemberModal = require('./MemberModal.jsx');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
 
 var BevyActions = require('./../BevyActions');
@@ -52,8 +50,6 @@ var PublicBevyPanel = React.createClass({
 	getInitialState: function() {
 
 		var bevy = this.props.bevy;
-		//console.log(bevy._id, this.props.myBevies);
-		//var joined = _.find(this.props.myBevies, function(_bevy) { return (_bevy._id == bevy._id)});
 		var joined = _.findWhere(this.props.myBevies, { _id: bevy._id }) != undefined;
 
 		return {
@@ -95,9 +91,6 @@ var PublicBevyPanel = React.createClass({
 		var bevyImageStyle = {backgroundImage: 'url(' + bevyImage + ')'};
 		var members = (_.isEmpty(bevy)) ? [] : bevy.members;
 
-		var bevyAdmin = (_.isEmpty(_.findWhere(bevy.members, {role: 'admin'})))
-		? ''
-		: _.findWhere(bevy.members, {role: 'admin'}).displayName
 
 		var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
 		var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;

@@ -23,8 +23,6 @@ var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 var TextField = mui.TextField;
 
-var SavedPostsModal = require('./../../profile/components/SavedPostsModal.jsx');
-var ContactsModal = require('./../../profile/components/ContactsModal.jsx');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var UserActions = require('./../UserActions');
@@ -130,22 +128,6 @@ var ProfileDropdown = React.createClass({
 							</DropdownButton>
 						</div>
 					</div>
-					{/* <div className='row profile-links'>
-						<ButtonGroup className="col-xs-12" role="group">
-							<ModalTrigger modal = { <SavedPostsModal /> } >
-								<Button type='button' className="profile-link">
-									Saved Posts
-								</Button>
-							</ModalTrigger>
-							•
-							<ModalTrigger modal = { <ContactsModal  title="Your Contacts" /> } >
-								<Button type='button' className="profile-link">
-									Contacts
-								</Button>
-							</ModalTrigger>
-						</ButtonGroup>
-					</div>*/}
-
 					<hr />
 
 					<div className="profile-dropdown-buttons">

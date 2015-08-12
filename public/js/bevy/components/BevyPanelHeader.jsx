@@ -29,8 +29,6 @@ var IconButton = mui.IconButton;
 var TextField = mui.TextField;
 var RaisedButton = mui.RaisedButton;
 
-var InviteModal = require('./InviteModal.jsx');
-var MemberModal = require('./MemberModal.jsx');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
 
 var BevyActions = require('./../BevyActions');
@@ -45,7 +43,6 @@ var BevyPanelHeader = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object,
-		activeMember: React.PropTypes.object
 	},
 
 	getInitialState: function() {
@@ -57,7 +54,6 @@ var BevyPanelHeader = React.createClass({
 			name: bevy.name || '',
 			description: bevy.description || '',
 			image_url: bevy.image_url || '',
-			activeMember: member || null,
 			isEditing: false
 		};
 	},

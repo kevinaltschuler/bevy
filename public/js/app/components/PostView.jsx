@@ -10,7 +10,6 @@ var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx');
-var Lonesome = require('./Lonesome.jsx');
 
 var BevyActions = require('./../../bevy/BevyActions');
 
