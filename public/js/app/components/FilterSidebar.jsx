@@ -15,164 +15,126 @@ var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
 
-var rbs = require('react-bootstrap');
-var Badge = rbs.Badge;
-var ButtonGroup = rbs.ButtonGroup;
-var MenuItem = rbs.MenuItem;
-var Accordion = rbs.Accordion;
-var Panel = rbs.Panel;
-var Button = rbs.Button;
-var Input = rbs.Input;
-var ModalTrigger = rbs.ModalTrigger;
-var TabbedArea = rbs.TabbedArea;
-var TabPane = rbs.TabPane;
-
 var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;
-var IconButton = mui.IconButton;
-var TextField = mui.TextField;
 var RaisedButton = mui.RaisedButton;
-var FlatButton = mui.FlatButton;
 var FontIcon = mui.FontIcon;
-var Tabs = mui.Tabs;
-var Tab = mui.Tab;
 
-var CreateNewBevy = require('./../../bevy/components/CreateNewBevy.jsx');
+var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 
 var FilterSidebar = React.createClass({
-	propTypes: {
-		searchQuery: React.PropTypes.string
-	},
+  propTypes: {
+    searchQuery: React.PropTypes.string
+  },
 
-	getInitialState: function() {
-		return {
-			search: this.props.searchQuery || '',
-			filter: 'top'
-		};
-	},
+  getInitialState() {
+    return {
+      search: this.props.searchQuery || '',
+      filter: 'top',
+      showNewBevyModal: false
+    };
+  },
 
-	/*componentWillMount: function() {
-		if(_.isEmpty(BevyStore.getMyBevies()) && this.state.collection == 'my') {
-			BevyActions.changeCollection('all');
-			this.setState({
-				collection: 'all'
-			});
-		}
-	},*/
+  onSearch(ev) {
+    ev.preventDefault();
 
-	onSearch: function(ev) {
-		ev.preventDefault();
+    var query = this.refs.search.getValue();
 
-		var query = this.refs.search.getValue();
+    router.navigate('s/' + query, { trigger: true });
+  },
 
-		router.navigate('s/' + query, { trigger: true });
-	},
+  onKeyUp(ev) {
+    if(ev.which == 13) {
+      // trigger search
+      this.onSearch(ev);
+    }
+  },
 
-	onKeyUp: function(ev) {
-		if(ev.which == 13) {
-			// trigger search
-			this.onSearch(ev);
-		}
-	},
+  handleFilter(filter) {
+    var selectedIndex = 0;
+    switch(filter) {
+      case 'top':
+        selectedIndex = 0;
+        break;
+      case 'bottom':
+        selectedIndex = 1;
+        break;
+      case 'new':
+        selectedIndex = 2;
+        break;
+      case 'old':
+        selectedIndex = 3;
+        break;
+    };
 
-	/*onCollectionChange: function(ev) {
-		ev.preventDefault();
+    this.setState({
+      selectedIndex: selectedIndex
+    });
 
-		var collection = ev.target.textContent.split(' ');
+    BevyActions.filterBevies(filter);
+  },
 
-		if(collection[0] == 'my' || collection[0] == 'all') {
-			this.setState({
-				collection: collection[0]
-			});
-			BevyActions.changeCollection(collection[0]);
-		} else {
-			console.log('invalid collection');
-		}
-	},*/
+  onFilterChange(ev, selectedIndex, menuItem) {
+    ev.preventDefault();
+    var filter = ev.target.textContent;
+    this.handleFilter(filter);
+  },
 
-	handleFilter: function(filter) {
-		var selectedIndex = 0;
-		switch(filter) {
-			case 'top':
-				selectedIndex = 0;
-				break;
-			case 'bottom':
-				selectedIndex = 1;
-				break;
-			case 'new':
-				selectedIndex = 2;
-				break;
-			case 'old':
-				selectedIndex = 3;
-				break;
-		};
+  render() {
+    var searchQuery = this.state.search;
+    var selectedIndex = this.state.selectedIndex;
 
-		this.setState({
-			selectedIndex: selectedIndex
-		});
+    var myClass = (this.state.collection == 'my') ? 'active' : '';
+    var allClass = (this.state.collection == 'all') ? 'active' : '';
 
-		BevyActions.filterBevies(filter);
-	},
+    var filterItems = [
+      {payload: '0', text: 'top'},
+      {payload: '1', text: 'bottom'},
+      {payload: '2', text: 'new'},
+      {payload: '3', text: 'old'}
+    ];
 
-	onFilterChange: function(ev, selectedIndex, menuItem) {
-		ev.preventDefault();
-		var filter = ev.target.textContent;
-		this.handleFilter(filter);
-	},
+    var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
+    ? 'all'
+    : 'searching for ' + searchQuery;
 
-	render: function() {
-		var searchQuery = this.state.search;
-		var selectedIndex = this.state.selectedIndex;
-
-		var myClass = (this.state.collection == 'my') ? 'active' : '';
-		var allClass = (this.state.collection == 'all') ? 'active' : '';
-
-		var filterItems = [
-			{payload: '0', text: 'top'},
-			{payload: '1', text: 'bottom'},
-			{payload: '2', text: 'new'},
-			{payload: '3', text: 'old'}
-		];
-
-		var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
-		? 'all'
-		: 'searching for ' + searchQuery;
-
-		var bevyContent = (
-				<div className='actions'>
-					<div className='action'>
-						{searchTitle}
-					</div>
-					<div className='action sort'>
-						<div className='action-name'>
-							filter by
-						</div> 
-						<DropDownMenu 
-							menuItems={filterItems}
-							selectedIndex={selectedIndex}
-							onChange={this.onFilterChange}
-						/>
-					</div>
-					<div className='action sort'>
-							<ModalTrigger modal={
-								<CreateNewBevy	/>
-							}>
-								<RaisedButton 
-									disabled={_.isEmpty(window.bootstrap.user)} 
-									label='new bevy' 
-									className='public-bevy-panel panel'
-								>
-									<FontIcon className="glyphicon glyphicon-plus"/>
-								</RaisedButton>
-							</ModalTrigger>
-					</div>
-				</div>
-			);
-		return (
-			<div className="bevy-panel panel filter-sidebar">
-				{bevyContent}
-			</div>
-		);
-	}
+    var bevyContent = (
+      <div className='actions'>
+        <div className='action'>
+          {searchTitle}
+        </div>
+        <div className='action sort'>
+          <div className='action-name'>
+            filter by
+          </div> 
+          <DropDownMenu 
+            menuItems={ filterItems }
+            selectedIndex={ selectedIndex }
+            onChange={ this.onFilterChange }
+          />
+        </div>
+        <div className='action sort'>
+          <CreateNewBevyModal 
+            show={ this.state.showNewBevyModal } 
+            onHide={() => { this.setState({ showNewBevyModal: false }) }}
+          />
+          <RaisedButton 
+            disabled={_.isEmpty(window.bootstrap.user)} 
+            label='new bevy' 
+            className='public-bevy-panel panel'
+            onClick={() => { this.setState({ showNewBevyModal: true }); }}
+          >
+            <FontIcon className="glyphicon glyphicon-plus"/>
+          </RaisedButton>
+        </div>
+      </div>
+    );
+    return (
+      <div className="bevy-panel panel filter-sidebar">
+        { bevyContent }
+      </div>
+    );
+  }
 });
+
 module.exports = FilterSidebar;

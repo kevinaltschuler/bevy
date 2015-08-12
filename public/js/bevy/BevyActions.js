@@ -21,14 +21,12 @@ var PostActions = {
 		});
 	},
 
-	create: function(name, description, image_url, members, parent) {
+	create: function(name, description, image_url) {
 
 		dispatch(BEVY.CREATE, {
 			name: (name == undefined) ? '' : name,
 			description: (description == undefined) ? '' : description,
-			image_url: (image_url == undefined) ? '' : image_url,
-			members: (members == undefined) ? [] : members,
-			parent: (parent == undefined) ? null : parent
+			image_url: (image_url == undefined) ? '' : image_url
 		});
 	},
 

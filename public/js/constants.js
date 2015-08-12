@@ -65,7 +65,6 @@ exports.BEVY = {
 	LEAVE: 'bevy_leave',
 	SWITCH: 'bevy_switch',
 	SORT: 'bevy_sort',
-	CHANGE_COLLECTION: 'bevy_change_collection',
 	SEARCH: 'bevy_search',
 
 	FETCH: 'bevy_fetch',

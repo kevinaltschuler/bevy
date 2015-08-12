@@ -73,14 +73,12 @@ _.extend(BevyStore, {
 				var description = payload.description;
 				var image_url = payload.image_url;
 				var user = window.bootstrap.user;
-				var parent = payload.parent;
 
 				var newBevy = this.myBevies.add({
 					name: name,
 					description: description,
 					members: members,
 					image_url: image_url,
-					parent: parent,
 					admins: [user._id]
 				});
 
@@ -93,15 +91,8 @@ _.extend(BevyStore, {
 
 						this.publicBevies.add(model);
 
-						// update posts
-						if(parent == undefined) {
-							// switch to bevy
-							router.navigate('/b/' + model.id, { trigger: true });
-						}
-						else {
-							// switch to bevy
-							router.navigate('/b/' + parent + '/' + model.id, { trigger: true });
-						}
+						// switch to bevy
+						router.navigate('/b/' + model.id, { trigger: true });
 
 						this.trigger(BEVY.CHANGE_ALL);
 
@@ -294,10 +285,7 @@ _.extend(BevyStore, {
 
 				this.trigger(BEVY.CHANGE_ALL);
 				break;
-			case BEVY.CHANGE_COLLECTION:
-				this.collection = payload.collection;
-				this.trigger(BEVY.CHANGE_ALL);
-				break;
+
 			case BEVY.SEARCH:
 				var query = payload.query;
 				this.searchQuery = query;

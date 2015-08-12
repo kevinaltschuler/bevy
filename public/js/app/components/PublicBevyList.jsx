@@ -33,7 +33,7 @@ var FloatingActionButton = mui.FloatingActionButton;
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
-var CreateNewBevy = require('./../../bevy/components/CreateNewBevy.jsx');
+var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 var PublicBevyList = require('./PublicBevyList.jsx');
 
@@ -48,6 +48,7 @@ var PublicBevyList = React.createClass({
 
 	getInitialState: function() {
 		return {
+			showNewBevyModal: false
 		};
 	},
 
@@ -88,13 +89,17 @@ var PublicBevyList = React.createClass({
 										<h2>all bevies</h2>
 									</Button>
 								</div>
-								<ModalTrigger modal={
-									<CreateNewBevy	/>
-								}>
-									<RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='new bevy' className='public-bevy-panel panel'>
-										<FontIcon className="glyphicon glyphicon-plus"/>
-									</RaisedButton>
-								</ModalTrigger>
+								<RaisedButton 
+									disabled={_.isEmpty(window.bootstrap.user)} 
+									label='new bevy' 
+									className='public-bevy-panel panel'
+									onClick={() => { this.setState({ showNewBevyModal: true }); }}>
+									<FontIcon className="glyphicon glyphicon-plus"/>
+								</RaisedButton>
+								<CreateNewBevyModal
+									show={ this.state.showNewBevyModal }
+									onHide={() => { this.setState({ showNewBevyModal: false }); }}
+								/>
 							</div>*/}
 								<CTG className='panel-list' transitionName="fadeIn">
 									{publicBevyPanels}
