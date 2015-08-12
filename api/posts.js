@@ -22,7 +22,6 @@ var User = mongoose.model('User');
 var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
 var Comment = mongoose.model('Comment');
-var Member = mongoose.model('BevyMember');
 
 var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var urlPartsRegex = /(.*:)\/\/([A-Za-z0-9\-\.]+)(:[0-9]+)?(.+)/i;
@@ -52,8 +51,7 @@ exports.index = function(req, res, next) {
 
     var _posts = [];
     posts.forEach(function(post) {
-      var comment_query = { postId: post._id };
-      var comment_promise = Comment.find(comment_query)
+      var comment_promise = Comment.find({ postId: post._id })
         .populate('author')
         .exec();
       comment_promise.then(function(comments) {

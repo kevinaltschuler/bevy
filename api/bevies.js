@@ -58,7 +58,6 @@ exports.indexPublic = function(req, res, next) {
 		else
 			return res.json(bevies);
 	})
-		.populate('parent')
 		.limit(20);
 }
 
@@ -142,7 +141,6 @@ exports.update = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndUpdate(query, update, { new: true, upsert: true })
-		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);
@@ -159,7 +157,6 @@ exports.destroy = function(req, res, next) {
 
 	var query = { _id: id };
 	var promise = Bevy.findOneAndRemove(query)
-		.populate('members.user')
 		.exec();
 	promise.then(function(bevy) {
 		res.json(bevy);
