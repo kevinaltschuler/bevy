@@ -12,14 +12,15 @@ var constants = require('./../../constants');
 var version = constants.version;
 
 var Footer = React.createClass({
-	render: function() {
-		return (
-			<span className="footer">
-				English (US) · Bevy © 2015
-				<br />
-				Version { version } <b>ALPHA</b>
-			</span>
-		);
-	}
+  render() {
+    return (
+      <span className="footer">
+        English (US) · Bevy © 2015
+        <br />
+        Version { version } <b>ALPHA</b>
+      </span>
+    );
+  }
 });
+
 module.exports = Footer;

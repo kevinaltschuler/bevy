@@ -14,62 +14,62 @@ var LeftSidebar = require('./LeftSidebar.jsx');
 
 var SearchView = React.createClass({
 
-	propTypes: {
-		allPosts: React.PropTypes.array
-	},
+  propTypes: {
+    allPosts: React.PropTypes.array
+  },
 
-	getInitialState: function() {
-		this.onRoute();
-		return {
-			posts: this.props.allPosts
-		};
-	},
+  getInitialState() {
+    this.onRoute();
+    return {
+      posts: this.props.allPosts
+    };
+  },
 
-	componentWillMount : function() {
-		router.on('route', this.onRoute);
-	},
-	componentWillUnmount : function() {
-		router.off('route', this.onRoute);
-	},
+  componentWillMount() {
+    router.on('route', this.onRoute);
+  },
+  componentWillUnmount() {
+    router.off('route', this.onRoute);
+  },
 
-	onRoute: function() {
-		var query = router.search_query;
+  onRoute() {
+    var query = router.search_query;
 
-		$.ajax({
-			url: constants.apiurl + '/users/' + user._id + '/posts/search/' + query,
-			method: 'GET',
-			success: function(data) {
-				this.setState({
-					posts: data,
-					query: query
-				});
-			}.bind(this)
-		});
-	},
+    $.ajax({
+      url: constants.apiurl + '/users/' + user._id + '/posts/search/' + query,
+      method: 'GET',
+      success: function(data) {
+        this.setState({
+          posts: data,
+          query: query
+        });
+      }.bind(this)
+    });
+  },
 
 
-	render: function() {
+  render() {
 
-		return (
-			<div className='main-section'>
-				<LeftSidebar
-					allBevies={ this.props.allBevies }
-					activeBevy={ this.props.activeBevy }
-					allThreads={ this.props.allThreads }
-					allContacts={ this.props.allContacts }
-				/>
-				<div className="search-body">
-					<div className='message' style={{marginBottom: '20px'}}>
-						Search for #{router.search_query}
-					</div>
-					<PostContainer
-						allPosts={ this.state.posts }
-					/>
-				</div>
-				<div className='right-sidebar' />
-			</div>
-		);
-	}
+    return (
+      <div className='main-section'>
+        <LeftSidebar
+          allBevies={ this.props.allBevies }
+          activeBevy={ this.props.activeBevy }
+          allThreads={ this.props.allThreads }
+          allContacts={ this.props.allContacts }
+        />
+        <div className="search-body">
+          <div className='message' style={{ marginBottom: '20px' }}>
+            Search for #{ router.search_query }
+          </div>
+          <PostContainer
+            allPosts={ this.state.posts }
+          />
+        </div>
+        <div className='right-sidebar' />
+      </div>
+    );
+  }
 });
 
 module.exports = SearchView;
