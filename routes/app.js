@@ -38,7 +38,7 @@ module.exports = function(app) {
 		});
 	});
 
-
+	var User = mongoose.model('User');
 	var Bevy = mongoose.model('Bevy');
 	var Notification = mongoose.model('Notification');
 	var Post = mongoose.model('Post');
