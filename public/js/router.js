@@ -62,14 +62,12 @@ var Router = Backbone.Router.extend({
 	search: function(query) {
 		this.current = 'search';
 
-		if(!checkUser()) return;
+		this.search_query = query;
 
 		if(query == undefined) {
-			// get all posts
-			return;
+			this.search.query = '';
 		}
 
-		this.search_query = query;
 		BevyActions.search(query);
 	},
 

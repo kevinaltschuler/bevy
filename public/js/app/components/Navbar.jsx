@@ -153,9 +153,9 @@ var Navbar = React.createClass({
 
 		var bevyDropdown = (_.isEmpty(window.bootstrap.user))
 		? (<Button href='/bevies' className='bevies-dropdown'>Bevies</Button>)
-		: (<SplitButton className='bevies-dropdown' title='Bevies' href='/publicbevies'>
+		: (<DropdownButton className='bevies-dropdown' title='My Bevies'>
 				{bevies}
-			</SplitButton>)
+			</DropdownButton>)
 
 		return <div id='navbar' className="navbar navbar-fixed-top row" style = { navbarStyle }>
 					<div className='background-wrapper'>

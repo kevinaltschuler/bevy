@@ -75,6 +75,18 @@ var PublicBevyList = React.createClass({
 			);
 		};
 
+		var content = <CTG className='panel-list' transitionName="fadeIn">
+				{publicBevyPanels}
+			</CTG>;
+
+		if(_.isEmpty(publicBevyPanels)) {
+			content = <h2> no results :( </h2>
+		}
+
+		if(this.props.searchQuery == 'a8d27dc165db909fcd24560d62760868') {
+			content = <section className="loaders"><span className="loader loader-quart"> </span></section>
+		}
+
 
 		return (<div className='public-bevy-wrapper'>
 					<div className='mid-section'>
@@ -101,11 +113,9 @@ var PublicBevyList = React.createClass({
 									onHide={() => { this.setState({ showNewBevyModal: false }); }}
 								/>
 							</div>*/}
-								<CTG className='panel-list' transitionName="fadeIn">
-									{publicBevyPanels}
-								</CTG>
+							{content}
 						</div>
-						<FilterSidebar {...this.props} />
+						<FilterSidebar searchQuery={this.props.searchQuery} />
 					</div>
 				<div className="footer-public-bevies">
 					<div className='footer-left'>

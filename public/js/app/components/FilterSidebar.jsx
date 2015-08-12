@@ -14,6 +14,7 @@ var router = require('./../../router');
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
+var Footer = require('./Footer.jsx');
 
 var mui = require('material-ui');
 var DropDownMenu = mui.DropDownMenu;

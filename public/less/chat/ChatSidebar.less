@@ -9,16 +9,16 @@
 	text-shadow: none;
 	transition: all .2s ease-in-out;
 	&:hover {
-		width: 130px;
+		width: 150px;
 	}
 	.conversation-list {
 		box-shadow: @shadow1;
 		width: 100%;
-		height: 100%;
+		height: calc(~'100% - 40px');
 		display: flex;
 		flex-direction: column;
 		background-color: #edeeee;
-		align-items: flex-end;
+		align-items: flex-start;
 		overflow: hidden;
 		.conversation-item {
 			background-color: rgba(0,0,0,0);
@@ -30,9 +30,9 @@
 			border: none;
 			height: 50px;
 			align-items: center;
-			justify-content: flex-end;
+			justify-content: flex-start;
 			transitiion: all .2s ease-in-out;
-			width: 130px;
+			width: 150px;
 		    &:hover {
 		    	box-shadow: @shadow1;
 		    }
@@ -44,7 +44,7 @@
 			    height: 40px;
 			    padding: 0px;
 			    overflow: hidden;
-			    margin-left: 10px;
+			    margin: 0px 10px;
 			    border-radius: 50px;
 			    box-shadow: none;
 			    transition: all .2s ease-in-out; 
@@ -58,6 +58,72 @@
 		    	max-width: 60px;
     			overflow: hidden;
 		    }
+		}
+	}
+	.search-results {
+		width: 150px;
+		height: 0px;
+		position: absolute;
+		bottom: 40px;
+		transition: all .2s ease-in-out;
+		.topline-wrapper {
+			padding-top: 10px;
+			position: absolute;
+			top: 0px;
+			width: 100%;
+			height: 1px;
+			margin-top: -10px;
+			overflow: hidden;
+			.topline {
+				width: 100%;
+				height: 1px;
+				box-shadow: 0 3px 10px rgba(0,0,0,.5),0 3px 10px rgba(0,0,0,.5);
+			}
+		}
+		.content {
+			background-color: white;
+			z-index: 1;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+			.top {
+				width: 100%;
+				overflow: hidden;
+				height: 20px;
+			}
+			.results-list {
+				width: 100%;
+				flex-grow: 2;
+				overflow: hidden;
+			}
+		}
+	}
+	.chat-actions {
+		width: 100%;
+		height: 40px;
+		display: flex;
+		align-items: center;
+		background-color: white;
+		box-shadow: @shadow2;
+		padding-left: 10px;
+
+		.glyphicon {
+			color: #666;
+		}
+
+		.mui-text-field {
+			padding-left: 5px;
+			padding-right: 5px;
+			width: 100%;
+			.mui-text-field-underline {
+				width: 90%;
+				color: rgba(0,0,0,.2);
+			}
+			.mui-text-field-focus-underline {
+				border-color: #777;
+				width: 90%;
+			}
 		}
 	}
 }
