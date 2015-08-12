@@ -48,47 +48,12 @@ var PostActions = {
 		});
 	},
 
-	editMember: function(bevy_id, user_id, displayName, notificationLevel, role, image_url) {
-		dispatch(BEVY.EDIT_MEMBER, {
-			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
-			user_id: (user_id == undefined) ? '' : user_id,
-			displayName: (displayName == undefined) ? '' : displayName,
-			notificationLevel: (notificationLevel == undefined) ? 'all' : notificationLevel,
-			role: (role == undefined) ? 'user' : role,
-			image_url: (image_url == undefined) ? '' : image_url
-		});
-	},
-
 	leave: function(bevy_id) {
 		dispatch(BEVY.LEAVE, {
 			bevy_id: (bevy_id == undefined) ? '' : bevy_id
 		});
 	},
 
-	removeUser: function(bevy_id, email, user_id) {
-		dispatch(BEVY.REMOVE_USER, {
-			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
-			email: (email == undefined) ? '' : email,
-			user_id: (user_id == undefined) ? '' : user_id
-		});
-	},
-
-	invite: function(bevy, user, members, member_name) {
-		dispatch(BEVY.INVITE, {
-			bevy: (bevy == undefined) ? {} : bevy,
-			user: (user == undefined) ? {} : user,
-			members: (members == undefined) ? [] : members,
-			member_name: (member_name == undefined) ? null : member_name
-		});
-	},
-
-	addUser: function(bevy_id, user_id, email) {
-		dispatch(BEVY.ADD_USER, {
-			bevy_id: (bevy_id == undefined) ? '' : bevy_id,
-			user_id: (user_id == undefined) ? '' : user_id,
-			email: (email == undefined) ? '' : email
-		});
-	},
 
 	join: function(bevy_id, user, email) {
 		dispatch(BEVY.JOIN, {
@@ -98,34 +63,9 @@ var PostActions = {
 		});
 	},
 
-	requestJoin: function(bevy_id, user) {
-		dispatch(BEVY.REQUEST_JOIN, {
-			bevy: (bevy_id == undefined) ? {} : bevy_id,
-			user: (user == undefined) ? {} : user
-		});
-	},
-	/**
-	 * switch bevies and update posts accordingly
-	 * @param  {int} id  id of bevy being switched to
-	 */
-	switchSub: function(subbevy_id) {
-		//console.log('sub actions');
-		dispatch(BEVY.SWITCH_SUB, {
-			subbevy_id: (subbevy_id == undefined) ? null : subbevy_id
-		});
-	},
-
-	switchSuper: function(bevy_id) {
-		//console.log('super actions');
-		dispatch(BEVY.SWITCH_SUPER, {
-			bevy_id: (bevy_id == undefined) ? null : bevy_id
-		});
-	},
-
-	switchBevy: function(super_id, sub_id) {
+	switchBevy: function(bevy_id) {
 		dispatch(BEVY.SWITCH, {
-			super_id: (super_id == undefined) ? null : super_id,
-			sub_id: (sub_id == undefined) ? null : sub_id
+			bevy_id: bevy_id || -1
 		});
 	},
 

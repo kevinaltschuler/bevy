@@ -74,19 +74,9 @@ _.extend(PostStore, {
 				break;
 
 			case BEVY.SWITCH:
-			case BEVY.SWITCH_SUPER:
-			case BEVY.SWITCH_SUB:
 
 				// wait for bevy switch
 				Dispatcher.waitFor([BevyStore.dispatchToken]);
-
-				// dont load posts in a public bevy
-				// also reset the posts
-				//var bevy_id = payload.bevy_id;
-				/*if(_.isEmpty(BevyStore.myBevies.get(bevy_id))) {
-					this.posts.reset();
-					break;
-				}*/
 
 				//if(bevy_id == this.activeBevy) break;
 				if(this.activeBevy) {
@@ -602,7 +592,6 @@ _.extend(PostStore, {
 });
 
 var posts = window.bootstrap.posts;
-console.log(posts);
 PostStore.posts.reset(posts);
 PostStore.posts.forEach(function(post) {
 	PostStore.postsNestComment(post);

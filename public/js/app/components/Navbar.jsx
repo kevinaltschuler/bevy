@@ -52,7 +52,6 @@ var Navbar = React.createClass({
 		allNotifications: React.PropTypes.array,
 		allThreads: React.PropTypes.array,
 		activeThread: React.PropTypes.object,
-		allContacts: React.PropTypes.array,
 		openThreads: React.PropTypes.array
 	},
 
@@ -131,7 +130,6 @@ var Navbar = React.createClass({
 		var frontpageUrl = (window.bootstrap.user) ? '/bevies' : '/';
 
 		var chatSidebar = <ChatSidebar
-				allContacts={ this.props.allContacts }  
 				allThreads={ this.props.allThreads } 
 				activeThread={ this.props.activeThread }
 			  />;

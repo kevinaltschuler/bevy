@@ -26,9 +26,7 @@ var FlatButton = mui.FlatButton;
 var IconButton = mui.IconButton;
 
 var SubBevyPanel = require('./../../bevy/components/SubBevyPanel.jsx');
-var ContactList = require('./../../contact/components/ContactList.jsx');
 var ConversationList = require('./../../chat/components/ConversationList.jsx');
-var PublicChatPanel = require('./../../chat/components/PublicChatPanel.jsx');
 
 var user = window.bootstrap.user;
 var email = user.email;

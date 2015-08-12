@@ -56,8 +56,7 @@ var CommentItem = React.createClass({
 
 	propTypes: {
 		comment: React.PropTypes.object.isRequired,
-		post: React.PropTypes.object.isRequired,
-		activeMember: React.PropTypes.object.isRequired
+		post: React.PropTypes.object.isRequired
 	},
 
 	getInitialState: function() {
@@ -84,14 +83,6 @@ var CommentItem = React.createClass({
 	onCollapse: function(ev) {
 		this.setState({
 			collapsed: !this.state.collapsed
-		});
-	},
-
-	findMember: function(user_id) {
-		var members = this.props.post.bevy.members;
-		return _.find(members, function(member) {
-			if(!_.isObject(member.user)) return false;
-			return user_id == member.user._id;
 		});
 	},
 

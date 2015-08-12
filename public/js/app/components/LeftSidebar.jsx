@@ -8,9 +8,7 @@ var OverlayTrigger = rbs.OverlayTrigger;
 var Tooltip = rbs.Tooltip;
 
 var SubBevyPanel = require('./../../bevy/components/SubBevyPanel.jsx');
-var ContactList = require('./../../contact/components/ContactList.jsx');
 var ConversationList = require('./../../chat/components/ConversationList.jsx');
-var PublicChatPanel = require('./../../chat/components/PublicChatPanel.jsx');
 
 var LeftSidebar = React.createClass({
 
@@ -18,10 +16,7 @@ var LeftSidebar = React.createClass({
 		myBevies: React.PropTypes.array.isRequired,
 		activeBevy: React.PropTypes.object.isRequired,
 		allThreads: React.PropTypes.array.isRequired,
-		allContacts: React.PropTypes.array.isRequired,
-		superBevy: React.PropTypes.object.isRequired,
 		activeThread: React.PropTypes.object,
-		subBevies: React.PropTypes.array.isRequired
 	},
 
 	getInitialState: function() {
@@ -41,27 +36,6 @@ var LeftSidebar = React.createClass({
 	},
 
 	render: function() {
-
-		var tabContent = '';
-		switch(this.state.key) {
-			case '1':
-			case 1:
-				tabContent = (
-					<ConversationList
-						allThreads={ this.props.allThreads }
-					/>
-				);
-				break;
-			case '2':
-			case 2:
-				tabContent = (
-					<ContactList
-						allContacts={ this.props.allContacts }
-					/>
-				);
-				break;
-		}
-
 		return (
 			<div className='left-sidebar'>
 				<div className='fixed'>
@@ -69,34 +43,7 @@ var LeftSidebar = React.createClass({
 						<SubBevyPanel
 							myBevies={ this.props.myBevies }
 							activeBevy={ this.props.activeBevy }
-							superBevy={ this.props.superBevy }
-							subBevies={ this.props.subBevies }
 						/>
-						{/*<nav className='chat-tabs'>
-							<ul className='chat-tabs nav nav-tabs'>
-								<li className={ (this.state.key == 1) ? 'active' : '' }>
-									<OverlayTrigger placement='top' overlay={ <Tooltip>Conversations</Tooltip> }>
-										<a role='button' href='#' id='1' onClick={ this.onTab }>
-											<div className='tab-title' id='1'>
-												<span className='glyphicon glyphicon-comment' id='1'></span>
-											</div>
-										</a>
-									</OverlayTrigger>
-								</li>
-								<li className={ (this.state.key == 2) ? 'active' : '' }>
-									<OverlayTrigger placement='top' overlay={ <Tooltip>Contacts</Tooltip> }>
-										<a role='button' href='#' id='2' onClick={ this.onTab }>
-											<div className='tab-title' id='2'>
-												<span className='glyphicon glyphicon-user' id='2'></span>
-											</div>
-										</a>
-									</OverlayTrigger>
-								</li>
-							</ul>
-						</nav>
-						<div className='tab-content'>
-							{ tabContent }
-						</div>*/}
 					</div>
 				</div>
 			</div>

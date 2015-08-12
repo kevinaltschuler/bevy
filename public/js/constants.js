@@ -64,13 +64,6 @@ exports.BEVY = {
 	UPDATE: 'bevy_update',
 	LEAVE: 'bevy_leave',
 	SWITCH: 'bevy_switch',
-	SWITCHED: 'bevy_switched',
-	INVITE: 'bevy_invite',
-	ADD_USER: 'bevy_add_user',
-	REMOVE_USER: 'bevy_remove_user',
-	JOIN: 'bevy_join',
-	REQUEST_JOIN: 'bevy_request_join',
-	EDIT_MEMBER: 'bevy_edit_member',
 	SORT: 'bevy_sort',
 	CHANGE_COLLECTION: 'bevy_change_collection',
 	SEARCH: 'bevy_search',
@@ -104,8 +97,4 @@ exports.CHAT = {
 	CHANGE_ALL: 'chat_change_all',
 
 	PANEL_TOGGLE: 'chat_panel_toggle:'
-};
-
-exports.CONTACT = {
-	CHANGE_ALL: 'contact_change_all'
 };

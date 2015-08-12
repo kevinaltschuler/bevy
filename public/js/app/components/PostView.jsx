@@ -8,7 +8,6 @@ var router = require('./../../router');
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
-var PublicChatPanel = require('./../../chat/components/PublicChatPanel.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx');
 var Lonesome = require('./Lonesome.jsx');
@@ -22,8 +21,6 @@ var PostView = React.createClass({
 		activeBevy: React.PropTypes.object,
 		allThreads: React.PropTypes.array,
 		allPosts: React.PropTypes.array,
-		superBevy: React.PropTypes.object.isRequired,
-		subBevies: React.PropTypes.array
 	},
 
 	render: function() {
@@ -43,7 +40,6 @@ var PostView = React.createClass({
 				</div>
 			:	<PostContainer
 					allPosts={ this.props.allPosts }
-					activeMember={ this.props.activeMember }
 					activeBevy={ this.props.activeBevy }
 					sortType={ this.props.sortType }
 				/>;
@@ -53,8 +49,6 @@ var PostView = React.createClass({
 						activeBevy={ this.props.activeBevy }
 						myBevies={ this.props.myBevies }
 						disabled={ _.isEmpty(window.bootstrap.user)}
-						subBevies={ this.props.subBevies }
-						superBevy={ this.props.superBevy }
 					/>
 					<PostSort 
 						activeBevy={ this.props.activeBevy}
@@ -66,16 +60,10 @@ var PostView = React.createClass({
 
 			return (
 				<div className='main-section'>
-					{/*<PublicChatPanel 
-						activeThread={ this.props.activeThread }
-						activeBevy={ this.props.activeBevy }
-						allThreads={this.props.allThreads}
-					/>*/}
 					<LeftSidebar
 						myBevies={ this.props.myBevies }
 						activeBevy={ this.props.activeBevy }
-						superBevy={ this.props.superBevy }
-						subBevies={ this.props.subBevies }
+						allThreads={ this.props.allThreads }
 					/>
 					<div className='post-view-body'>
 						{ body }

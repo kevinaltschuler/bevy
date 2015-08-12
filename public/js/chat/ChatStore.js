@@ -67,19 +67,17 @@ _.extend(ChatStore, {
 				break;
 
 			case BEVY.SWITCH:
-
-				BevyStore.on(BEVY.SWITCHED, function() {
-					$.ajax({
-						method: 'get',
-						url: constants.apiurl + '/bevies/' + BevyStore.getActive()._id + '/thread',
-						success: function(data) {
-							if(data == undefined) return;
-							this.activeThread = data._id;
-							this.threads.add(data);
-							this.trigger(CHAT.CHANGE_ALL);
-						}.bind(this)
-					});
-				}.bind(this));
+				var bevy_id = payload.bevy_id;
+				$.ajax({
+					method: 'get',
+					url: constants.apiurl + '/bevies/' + bevy_id + '/thread',
+					success: function(data) {
+						if(data == undefined) return;
+						this.activeThread = data._id;
+						this.threads.add(data);
+						this.trigger(CHAT.CHANGE_ALL);
+					}.bind(this)
+				});
 
 				break;
 			case CHAT.THREAD_OPEN:
@@ -320,8 +318,7 @@ _.extend(ChatStore, {
 });
 
 // fetch threads
-var threads = window.bootstrap.threads;
-ChatStore.threads.reset(threads);
+ChatStore.threads.reset(window.bootstrap.threads);
 ChatStore.threads.forEach(function(thread) {
 	// fetch messages
 	// TODO: only get one

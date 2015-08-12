@@ -35,8 +35,6 @@ var SubBevyPanel = React.createClass({
 	propTypes: {
 		myBevies: React.PropTypes.array.isRequired,
 		activeBevy: React.PropTypes.object.isRequired,
-		superBevy: React.PropTypes.object.isRequired,
-		subBevies: React.PropTypes.array.isRequired
 	},
 
 	getInitialState: function() {
@@ -56,11 +54,10 @@ var SubBevyPanel = React.createClass({
 	},
 
 	render: function() {
-		var subBevies = this.props.subBevies;
-		var superBevy = this.props.superBevy;
+		var bevy = this.props.activeBevy;
 
 		var bevies = [];
-		bevies.push(
+		/*bevies.push(
 			<Button
 				key={ superBevy._id }
 				id={ superBevy._id }
@@ -69,27 +66,25 @@ var SubBevyPanel = React.createClass({
 				onClick={ this.switchBevy } >
 				{ superBevy.name }
 			</Button>
-		);
-		if(subBevies.length > 0) {
-			for(var key in subBevies) {
-				var bevy = subBevies[key];
-				var className = 'bevy-btn';
-				if(bevy._id == this.props.activeBevy.id) className += ' active';
+		);*/
+		/*for(var key in subBevies) {
+			var bevy = subBevies[key];
+			var className = 'bevy-btn';
+			if(bevy._id == activeBevy.id) className += ' active';
 
-					bevies.push(
-						<Button
-							key={ bevy._id }
-							id={ bevy._id }
-							type="button"
-							className={ className }
-							onClick={ this.switchBevy } >
-							{ bevy.name }
-						</Button>
-					);
-			}
-		}
+				bevies.push(
+					<Button
+						key={ bevy._id }
+						id={ bevy._id }
+						type="button"
+						className={ className }
+						onClick={ this.switchBevy } >
+						{ bevy.name }
+					</Button>
+				);
+		}*/
 
-		var createButton = (_.isEmpty(window.bootstrap.user))
+		/*var createButton = (_.isEmpty(window.bootstrap.user))
 		? <div/>
 		: 	(				
 			<ModalTrigger modal={
@@ -100,7 +95,7 @@ var SubBevyPanel = React.createClass({
 						<FontIcon className="glyphicon glyphicon-plus"/>
 					</Button>
 				</OverlayTrigger>
-			</ModalTrigger>)
+			</ModalTrigger>)*/
 
 
 		return (
@@ -109,7 +104,7 @@ var SubBevyPanel = React.createClass({
 					<div className='super-bevy-btn'>
 						boards
 					</div>
-					{ createButton }
+					{/** createButton **/}
 				</div>
 				<ButtonGroup className='bevy-list-btns' role="group">
 					{bevies}

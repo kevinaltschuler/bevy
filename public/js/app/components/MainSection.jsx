@@ -22,18 +22,14 @@ var Navbar = require('./Navbar.jsx');
 var HomeView = require('./../../homepage/components/HomeView.jsx');
 var PostView = require('./PostView.jsx');
 var SearchView = require('./SearchView.jsx');
-var PublicView = require('./PublicView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
-var FrontPage = require('./FrontPage.jsx');
 var PublicBevyList = require('./PublicBevyList.jsx');
-var ChatDock = require('./../../chat/components/ChatDock.jsx');
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 var UserStore = require('./../../profile/UserStore');
 var ChatStore = require('./../../chat/ChatStore');
-var ContactStore = require('./../../contact/ContactStore');
 
 var AppActions = require('./../../app/AppActions');
 
@@ -43,14 +39,12 @@ var POST = constants.POST;
 var BEVY = constants.BEVY;
 var NOTIFICATION = constants.NOTIFICATION;
 var CHAT = constants.CHAT;
-var CONTACT = constants.CONTACT;
 
 var change_all_events = [
 	POST.CHANGE_ALL,
 	BEVY.CHANGE_ALL,
 	NOTIFICATION.CHANGE_ALL,
-	CHAT.CHANGE_ALL,
-	CONTACT.CHANGE_ALL
+	CHAT.CHANGE_ALL
 ].join(' ');
 
 // create app
@@ -70,7 +64,6 @@ var MainSection = React.createClass({
 		BevyStore.on(change_all_events, this._onBevyChange);
 		NotificationStore.on(change_all_events, this._onNotificationChange);
 		ChatStore.on(change_all_events, this._onChatChange);
-		ContactStore.on(change_all_events, this._onContactChange);
 	},
 
 	// unmount event listeners
@@ -79,7 +72,6 @@ var MainSection = React.createClass({
 		BevyStore.off(change_all_events, this._onBevyChange);
 		NotificationStore.off(change_all_events, this._onNotificationChange);
 		ChatStore.off(change_all_events, this._onChatChange);
-		ContactStore.off(change_all_events, this._onContactChange);
 	},
 
 	getPostState: function() {
@@ -93,11 +85,7 @@ var MainSection = React.createClass({
 
 		var myBevies = BevyStore.getMyBevies();
 		var active = BevyStore.getActive();
-		var activeMember = BevyStore.getActiveMember();
-		var members = BevyStore.getMembers();
 		var publicBevies = BevyStore.getPublicBevies();
-		var superBevy = BevyStore.getSuperBevy();
-		var subBevies = BevyStore.getSubBevies();
 		var searchList = BevyStore.getSearchList();
 		var searchQuery = BevyStore.getSearchQuery();
 
@@ -105,10 +93,7 @@ var MainSection = React.createClass({
 			// later, load this from session/cookies
 			myBevies: myBevies,
 			activeBevy: active,
-			members: members,
 			publicBevies: publicBevies,
-			superBevy: superBevy,
-			subBevies: subBevies,
 			searchList: searchList,
 			searchQuery: searchQuery
 		}
@@ -128,20 +113,13 @@ var MainSection = React.createClass({
 		};
 	},
 
-	getContactState: function() {
-		return {
-			allContacts: ContactStore.getAll()
-		};
-	},
-
 	collectState: function() {
 		var state = {};
 		_.extend(state,
 			this.getPostState(),
 			this.getBevyState(),
 			this.getNotificationState(),
-			this.getChatState(),
-			this.getContactState()
+			this.getChatState()
 		);
 		return state;
 	},
@@ -159,9 +137,6 @@ var MainSection = React.createClass({
 	_onChatChange: function() {
 		this.setState(_.extend(this.state, this.getChatState()));
 	},
-	_onContactChange: function() {
-		this.setState(_.extend(this.state, this.getContactState()));
-	},
 
 	componentWillReceiveProps: function(nextProps) {
 		this.setState(this.collectState());
@@ -171,11 +146,9 @@ var MainSection = React.createClass({
 		return (
 			<div className='main-section-wrapper'>
 				<Navbar
-					superBevy= { this.state.superBevy }
 					activeBevy={ this.state.activeBevy }
 					allNotifications={ this.state.allNotifications }
 					myBevies={ this.state.myBevies }
-					allContacts={ this.state.allContacts }
 					allThreads={ this.state.allThreads }
 					activeThread={ this.state.activeThread }
 					openThreads={ this.state.openThreads }
@@ -207,10 +180,7 @@ var InterfaceComponent = React.createClass({
 			case 'search':
 				return <PublicBevyList {...this.props} />
 				break;
-			case 'superBevy':
-				return <PostView {...this.props} />
-				break;
-			case 'subBevy':
+			case 'bevy':
 				return <PostView {...this.props} />
 				break;
 			case 'publicbevies':

@@ -5,7 +5,6 @@ var React = require('react');
 var $ = require('jquery');
 
 var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
-var PublicChatPanel = require('./../../chat/components/PublicChatPanel.jsx');
 var FrontpagePanel = require('./../../bevy/components/FrontpagePanel.jsx');
 var Footer = require('./Footer.jsx');
 

@@ -30,7 +30,7 @@ module.exports = Backbone.Collection.extend({
 
 	url: function() {
 
-		var bevy_id = (router.subbevy_id) ? router.subbevy_id : router.superBevy_id;
+		var bevy_id = router.bevy_id;
 		
 		if((bevy_id == -1) && (router.current == 'bevy')) // frontpage
 			return constants.apiurl + '/users/' + user._id + '/frontpage';

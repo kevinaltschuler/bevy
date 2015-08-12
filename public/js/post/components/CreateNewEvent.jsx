@@ -36,8 +36,6 @@ var CreateNewEvent = React.createClass({
 
 	propTypes: {
 		activeBevy: React.PropTypes.object.isRequired,
-		superBevy: React.PropTypes.object.isRequired,
-		subBevies: React.PropTypes.array.isRequired,
 		myBevies: React.PropTypes.array.isRequired,
 		disabled: React.PropTypes.bool
 	},
