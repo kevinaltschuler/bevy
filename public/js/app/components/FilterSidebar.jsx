@@ -14,6 +14,7 @@ var router = require('./../../router');
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
+var Footer = require('./Footer.jsx');
 
 var rbs = require('react-bootstrap');
 var Badge = rbs.Badge;
@@ -46,7 +47,6 @@ var FilterSidebar = React.createClass({
 
 	getInitialState: function() {
 		return {
-			search: this.props.searchQuery || '',
 			filter: 'top'
 		};
 	},
@@ -121,7 +121,7 @@ var FilterSidebar = React.createClass({
 	},
 
 	render: function() {
-		var searchQuery = this.state.search;
+		var searchQuery = (this.props.searchQuery) ? this.props.searchQuery : '';
 		var selectedIndex = this.state.selectedIndex;
 
 		var myClass = (this.state.collection == 'my') ? 'active' : '';
@@ -134,15 +134,15 @@ var FilterSidebar = React.createClass({
 			{payload: '3', text: 'old'}
 		];
 
-		var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
-		? 'all'
+		var searchTitle = (searchQuery == 'a8d27dc165db909fcd24560d62760868' || _.isEmpty(searchQuery))
+		? 'all public bevies'
 		: 'searching for ' + searchQuery;
 
 		var bevyContent = (
 				<div className='actions'>
-					<div className='action'>
+					<h4 className='search-title'>
 						{searchTitle}
-					</div>
+					</h4>
 					<div className='action sort'>
 						<div className='action-name'>
 							filter by
@@ -153,7 +153,7 @@ var FilterSidebar = React.createClass({
 							onChange={this.onFilterChange}
 						/>
 					</div>
-					<div className='action sort'>
+					<div className='action new'>
 							<ModalTrigger modal={
 								<CreateNewBevy	/>
 							}>
@@ -169,8 +169,11 @@ var FilterSidebar = React.createClass({
 				</div>
 			);
 		return (
-			<div className="bevy-panel panel filter-sidebar">
-				{bevyContent}
+			<div>
+				<div className="bevy-panel panel filter-sidebar">
+					{bevyContent}
+				</div>
+				<Footer />
 			</div>
 		);
 	}

@@ -5,12 +5,19 @@
 	.actions {
 		display: flex;
 		flex-direction: column;
+		.search-title {
+			padding: 15px 20px 0px;
+			width: 100%;
+			text-align: center;
+		    margin: 0px;
+		    word-wrap: break-word;
+		}
 		.action {
 			display: flex;
     		justify-content: center;
-    		padding: 10px 10px 0px 10px;
+    		padding: 20px 10px 0px 10px;
 			&.sort {
-				padding-top: 20px;
+				padding-top: 10px;
 				display: flex;
 				justify-content: flex-end;
 				align-items: center;
@@ -21,6 +28,10 @@
 				.mui-drop-down-menu {
 					width: 110px !important;
 				}
+			}
+			&.new {
+				justify-content: flex-end;
+				align-items: center;	
 				.mui-raised-button {
 					width: 100%;
 					margin-bottom: 10px;

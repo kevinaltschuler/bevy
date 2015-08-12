@@ -8,6 +8,7 @@
 
 var React = require('react');
 var _ = require('underscore');
+var $ = require('jquery');
 
 var rbs = require('react-bootstrap');
 var OverlayTrigger = rbs.OverlayTrigger;
@@ -24,6 +25,7 @@ var ChatStore = require('./../ChatStore');
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 var IconButton = mui.IconButton;
+var TextField = mui.TextField;
 
 var SubBevyPanel = require('./../../bevy/components/SubBevyPanel.jsx');
 var ContactList = require('./../../contact/components/ContactList.jsx');
@@ -60,6 +62,14 @@ var ChatSidebar = React.createClass({
 		var thread_id = ev.target.getAttribute('id');
 
 		ChatActions.openThread(thread_id);
+	},
+
+	openSearchResults: function() {
+		document.getElementById("search-results").style.height = "300px";
+	},
+
+	closeSearchResults: function() {
+		document.getElementById("search-results").style.height = "0px";
 	},
 
 	render: function() {
@@ -119,20 +129,19 @@ var ChatSidebar = React.createClass({
 
 			threads.push(
 				<Button className='conversation-item' key={ 'thread' + thread._id } id={ thread._id } onFocus={ this.openThread }>
+					<div className='image' style={imageStyle}/>
 					<div className='conversation-details'>
 						<span className='bevy-name'>{ name }</span>
 						{ message }
 					</div>
-					<div className='image' style={imageStyle}/>
 				</Button>
 			);
 		}
 
-		if(threads.length == 0) threads = (
-			<div className='chat-list-msg'>
-				
-			</div>
-			);
+		if(threads.length <= 0) {
+			console.log('no threads');
+			return <div/>;
+		};
 
 		return (
 			<div className='chat-sidebar'>
@@ -140,6 +149,21 @@ var ChatSidebar = React.createClass({
 					<div className='title'>
 					</div>
 					{ threads }
+				</div>
+				<div className='search-results' id='search-results'>
+					<div className='content' >
+						<div className='top'>
+						</div>
+						<div className='results-list'>
+						</div>
+					</div>
+					<div className='topline-wrapper'>
+						<div className='topline'/>
+					</div>
+				</div>
+				<div className='chat-actions'>
+					<span className='glyphicon glyphicon-search' />
+					<TextField onFocus={this.openSearchResults} onBlur={this.closeSearchResults}/>
 				</div>
 			</div>
 		);

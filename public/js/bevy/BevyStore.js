@@ -474,10 +474,11 @@ _.extend(BevyStore, {
 				break;
 			case BEVY.SEARCH:
 				var query = payload.query;
-				this.searchQuery = query;
+				this.searchQuery = 'a8d27dc165db909fcd24560d62760868';
 				this.searchList.url = constants.apiurl + '/bevies/search/' + query;
 				this.searchList.fetch({
 					success: function(collection, response, options) {
+						this.searchQuery = query;
 						this.trigger(BEVY.CHANGE_ALL);
 					}.bind(this)
 				});
@@ -535,7 +536,9 @@ _.extend(BevyStore, {
 	},
 
 	getSearchList: function() {
-		return this.searchList;
+		return (this.searchList.models.length <= 0)
+		? []
+		: this.searchList.toJSON();
 	},
 
 	getSearchQuery: function() {
