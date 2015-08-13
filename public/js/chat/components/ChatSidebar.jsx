@@ -105,14 +105,7 @@ var ChatSidebar = React.createClass({
 				}
 			}
 
-			var otherUser = {};
-			if(!bevy && thread.members.length > 1) {
-				otherUser = _.find(thread.members, function(member) {
-					return member.user._id != user._id;
-				});
-			}
-
-			var image_url = (bevy) ? bevy.image_url : otherUser.user.image_url;
+			var image_url = (bevy) ? bevy.image_url : '';
 			if(_.isEmpty(image_url)) {
 				if(bevy) image_url = '/img/logo_100.png';
 				else image_url = '/img/user-profile-icon.png';
@@ -122,8 +115,6 @@ var ChatSidebar = React.createClass({
 				backgroundSize: 'auto 100%',
 				backgroundPosition: 'center'
 			};
-
-			var name = (bevy) ? bevy.name : otherUser.user.displayName;
 
 			threads.push(
 				<Button className='conversation-item' key={ 'thread' + thread._id } id={ thread._id } onFocus={ this.openThread }>
