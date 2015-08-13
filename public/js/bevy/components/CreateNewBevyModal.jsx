@@ -117,16 +117,14 @@ var CreateNewBevyModal = React.createClass({
           </div>
         </Modal.Body>
         <Modal.Footer className="panel-bottom">
-          <div className='right'>
-            <RaisedButton
-              onClick={ this.create }
-              label="Create"
-            />
-            <FlatButton
-              onClick={ this.props.onHide }
-              label="Cancel"
-            />
-          </div>
+          <RaisedButton
+            onClick={ this.create }
+            label="Create"
+          />
+          <FlatButton
+            onClick={ this.props.onHide }
+            label="Cancel"
+          />
         </Modal.Footer>
       </Modal>
     );
