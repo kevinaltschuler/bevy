@@ -16,52 +16,52 @@ var UserStore = _.extend({}, Backbone.Events);
 // now add some custom functions
 _.extend(UserStore, {
 
-	userSearchQuery: '',
-	userSearchResults: [],
+  userSearchQuery: '',
+  userSearchResults: [],
 
-	handleDispatch: function(payload) {
-		switch(payload.actionType) {
-			case USER.UPDATE:
-				var image_url = payload.image_url;
+  handleDispatch(payload) {
+    switch(payload.actionType) {
+      case USER.UPDATE:
+        var image_url = payload.image_url;
 
-				$.ajax({
-					url: constants.apiurl + '/users/' + user._id,
-					method: 'PATCH',
-					data: {
-						image_url: image_url
-					},
-					success: function(data) {
+        $.ajax({
+          url: constants.apiurl + '/users/' + user._id,
+          method: 'PATCH',
+          data: {
+            image_url: image_url
+          },
+          success: function(data) {
 
-					}
-				});
+          }
+        });
 
-				break;
-			case USER.SEARCH:
-				var query = payload.query;
-				if(query == '' || query == undefined) {
-					break;
-				}
-				this.userSearchQuery = 'a8d27dc165db909fcd24560d62760868';
-				$.ajax({
-					url: constants.apiurl + '/users/search/' + query,
-					method: 'GET',
-					success: function(data) {
-						this.userSearchQuery = query;
-						this.userSearchResults = data;
-						this.trigger(USER.CHANGE_ALL);
-					}.bind(this)
-				});
-				break;
-		}
-	},
+        break;
+      case USER.SEARCH:
+        var query = payload.query;
+        if(query == '' || query == undefined) {
+          break;
+        }
+        this.userSearchQuery = 'a8d27dc165db909fcd24560d62760868';
+        $.ajax({
+          url: constants.apiurl + '/users/search/' + query,
+          method: 'GET',
+          success: function(data) {
+            this.userSearchQuery = query;
+            this.userSearchResults = data;
+            this.trigger(USER.CHANGE_ALL);
+          }.bind(this)
+        });
+        break;
+    }
+  },
 
-	getUserSearchQuery: function() {
-		return this.userSearchQuery = (this.userSearchQuery) ? this.userSearchQuery : '';
-	},
+  getUserSearchQuery() {
+    return this.userSearchQuery = (this.userSearchQuery) ? this.userSearchQuery : '';
+  },
 
-	getUserSearchResults: function() {
-		return this.userSearchResults = (this.userSearchResults) ? this.userSearchResults : [];
-	},
+  getUserSearchResults() {
+    return this.userSearchResults = (this.userSearchResults) ? this.userSearchResults : [];
+  }
 });
 
 var dispatchToken = Dispatcher.register(UserStore.handleDispatch.bind(UserStore));

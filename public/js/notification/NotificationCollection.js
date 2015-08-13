@@ -1,3 +1,9 @@
+/**
+ * NotificationCollection.js
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var Backbone = require('backbone');
@@ -9,10 +15,10 @@ var constants = require('./../constants');
 var user = window.bootstrap.user;
 
 var NotificationCollection = Backbone.Collection.extend({
-	model: NotificationModel,
-	url: function() {
-		return constants.apiurl + '/users/' + user._id + '/notifications/';
-	}
+  model: NotificationModel,
+  url() {
+    return constants.apiurl + '/users/' + user._id + '/notifications/';
+  }
 });
 
 module.exports = NotificationCollection;

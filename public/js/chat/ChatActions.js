@@ -1,3 +1,9 @@
+/**
+ * ChatActions.js
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var dispatch = require('./../shared/helpers/dispatch');
@@ -8,20 +14,20 @@ var CHAT = constants.CHAT;
 
 var ChatActions = {
 
-	openThread: function(thread_id, user_id) {
+	openThread(thread_id, user_id) {
 		dispatch(CHAT.THREAD_OPEN, {
 			thread_id: (thread_id == undefined) ? null : thread_id,
 			user_id: (user_id == undefined) ? null : user_id
 		});
 	},
 
-	closePanel: function(thread_id) {
+	closePanel(thread_id) {
 		dispatch(CHAT.PANEL_CLOSE, {
 			thread_id: thread_id
 		});
 	},
 
-	createMessage: function(thread_id, author, body) {
+	createMessage(thread_id, author, body) {
 		dispatch(CHAT.MESSAGE_CREATE, {
 			thread_id: thread_id,
 			author: author,
@@ -29,7 +35,7 @@ var ChatActions = {
 		});
 	},
 
-	loadMore: function(thread_id) {
+	loadMore(thread_id) {
 		dispatch(CHAT.MESSAGE_FETCH_MORE, {
 			thread_id: thread_id
 		});

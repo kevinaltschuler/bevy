@@ -19,96 +19,95 @@ var POST = require('./../constants').POST;
 
 
 var PostActions = {
+  fetch(bevy_id) {
+    dispatch(POST.FETCH, {
+      bevy_id: (bevy_id == undefined) ? null : bevy_id
+    });
+  },
 
-	fetch: function(bevy_id) {
-		dispatch(POST.FETCH, {
-			bevy_id: (bevy_id == undefined) ? null : bevy_id
-		});
-	},
 
+  /**
+   * create a post
+   * @param  {string} title
+   * @param  {string} image_url
+   * @param  {string} author
+   * @param  {string} bevy
+   */
+  create(title, images, author, bevy, type, event) {
+    dispatch(POST.CREATE, {
+      title: (title == undefined) ? 'untitled' : title,
+      images: (images == undefined) ? null : images,
+      author: (author == undefined) ? null : author, // grab the current, logged in user?
+      bevy: (bevy == undefined) ? null : bevy, // grab the current, active bevy
+      type: (type == undefined) ? 'default' : type,
+      event: (event == undefined) ? null : event
+    });
+  },
 
-	/**
-	 * create a post
-	 * @param  {string} title
-	 * @param  {string} image_url
-	 * @param  {string} author
-	 * @param  {string} bevy
-	 */
-	create: function(title, images, author, bevy, type, event) {
-		dispatch(POST.CREATE, {
-			title: (title == undefined) ? 'untitled' : title,
-			images: (images == undefined) ? null : images,
-			author: (author == undefined) ? null : author, // grab the current, logged in user?
-			bevy: (bevy == undefined) ? null : bevy, // grab the current, active bevy
-			type: (type == undefined) ? 'default' : type,
-			event: (event == undefined) ? null : event
-		});
-	},
+  destroy(post_id) {
+    dispatch(POST.DESTROY, {
+      post_id: (post_id == undefined) ? '0' : post_id
+    });
+  },
 
-	destroy: function(post_id) {
-		dispatch(POST.DESTROY, {
-			post_id: (post_id == undefined) ? '0' : post_id
-		});
-	},
+  update(post_id, postTitle) {
+    dispatch(POST.UPDATE, {
+      post_id: (post_id == undefined) ? '0' : post_id,
+      postTitle: (postTitle == undefined) ? '' : postTitle
+    });
+  },
 
-	update: function(post_id, postTitle) {
-		dispatch(POST.UPDATE, {
-			post_id: (post_id == undefined) ? '0' : post_id,
-			postTitle: (postTitle == undefined) ? '' : postTitle
-		});
-	},
+  /**
+   * upvote a post
+   * @param  {string} post_id
+   * @param  {string} voter
+   */
+  upvote(post_id, voter) {
+    dispatch(POST.UPVOTE, {
+      post_id: (post_id == undefined) ? '' : post_id,
+      voter: (voter == undefined) ? '' : voter
+    });
+  },
 
-	/**
-	 * upvote a post
-	 * @param  {string} post_id
-	 * @param  {string} voter
-	 */
-	upvote: function(post_id, voter) {
-		dispatch(POST.UPVOTE, {
-			post_id: (post_id == undefined) ? '' : post_id,
-			voter: (voter == undefined) ? '' : voter
-		});
-	},
+  /**
+   * downvote a post
+   * @param  {string} post_id
+   * @param  {string} voter
+   */
+  downvote(post_id, voter) {
+    dispatch(POST.DOWNVOTE, {
+      post_id: (post_id == undefined) ? '' : post_id,
+      voter: (voter == undefined) ? '' : voter
+    });
+  },
 
-	/**
-	 * downvote a post
-	 * @param  {string} post_id
-	 * @param  {string} voter
-	 */
-	downvote: function(post_id, voter) {
-		dispatch(POST.DOWNVOTE, {
-			post_id: (post_id == undefined) ? '' : post_id,
-			voter: (voter == undefined) ? '' : voter
-		});
-	},
+  /**
+   * sort the list of posts
+   * @param  {string} by        the sorting method ('top', 'new')
+   * @param  {string} direction either 'asc' or 'desc'
+   */
+  sort(by, direction) {
+    dispatch(POST.SORT, {
+      by: (by == undefined) ? 'new' : by,
+      direction: (direction == undefined) ? 'asc' : direction
+    });
+  },
 
-	/**
-	 * sort the list of posts
-	 * @param  {string} by        the sorting method ('top', 'new')
-	 * @param  {string} direction either 'asc' or 'desc'
-	 */
-	sort: function(by, direction) {
-		dispatch(POST.SORT, {
-			by: (by == undefined) ? 'new' : by,
-			direction: (direction == undefined) ? 'asc' : direction
-		});
-	},
+  pin(post_id) {
+    dispatch(POST.PIN, {
+      post_id: (post_id == undefined) ? '' : post_id
+    });
+  },
 
-	pin: function(post_id) {
-		dispatch(POST.PIN, {
-			post_id: (post_id == undefined) ? '' : post_id
-		});
-	},
+  mute(post_id) {
+    dispatch(POST.MUTE, {
+      post_id: (post_id == undefined) ? '' : post_id
+    });
+  },
 
-	mute: function(post_id) {
-		dispatch(POST.MUTE, {
-			post_id: (post_id == undefined) ? '' : post_id
-		});
-	},
-
-	cancel: function() {
-		dispatch(POST.CANCEL, {});
-	}
+  cancel() {
+    dispatch(POST.CANCEL, {});
+  }
 };
 
 module.exports = PostActions;
