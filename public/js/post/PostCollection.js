@@ -21,30 +21,25 @@ var constants = require('./../constants');
 var user = window.bootstrap.user;
 
 // backbone collection
-module.exports = Backbone.Collection.extend({
-	model: Post,
+var PostCollection = Backbone.Collection.extend({
+  model: Post,
 
-	sync: function(method, model, options) {
-		Backbone.Collection.prototype.sync.apply(this, arguments); //continue using backbone's collection sync
-	},
+  sync(method, model, options) {
+    Backbone.Collection.prototype.sync.apply(this, arguments); //continue using backbone's collection sync
+  },
 
-	url: function() {
+  url() {
 
-		var bevy_id = router.bevy_id;
-		
-		if((bevy_id == -1) && (router.current == 'bevy')) // frontpage
-			return constants.apiurl + '/users/' + user._id + '/frontpage';
+    var bevy_id = router.bevy_id;
+    
+    if((bevy_id == -1) && (router.current == 'bevy')) // frontpage
+      return constants.apiurl + '/users/' + user._id + '/frontpage';
 
-		if(router.current == 'search' && !_.isEmpty(router.search_query))
-			return constants.apiurl + '/users/' + user._id + '/posts/search/' + router.search_query;
+    if(router.current == 'search' && !_.isEmpty(router.search_query))
+      return constants.apiurl + '/users/' + user._id + '/posts/search/' + router.search_query;
 
-		return constants.apiurl + '/bevies/' + bevy_id + '/posts';
-	},
-
-	_meta: {
-		sort: {
-			by: 'top',
-			direction: 'asc'
-		}
-	}
+    return constants.apiurl + '/bevies/' + bevy_id + '/posts';
+  }
 });
+
+module.exports = PostCollection;

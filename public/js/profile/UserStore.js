@@ -16,25 +16,25 @@ var UserStore = _.extend({}, Backbone.Events);
 // now add some custom functions
 _.extend(UserStore, {
 
-	handleDispatch: function(payload) {
-		switch(payload.actionType) {
-			case USER.UPDATE:
-				var image_url = payload.image_url;
+  handleDispatch(payload) {
+    switch(payload.actionType) {
+      case USER.UPDATE:
+        var image_url = payload.image_url;
 
-				$.ajax({
-					url: constants.apiurl + '/users/' + user._id,
-					method: 'PATCH',
-					data: {
-						image_url: image_url
-					},
-					success: function(data) {
+        $.ajax({
+          url: constants.apiurl + '/users/' + user._id,
+          method: 'PATCH',
+          data: {
+            image_url: image_url
+          },
+          success: function(data) {
 
-					}
-				});
+          }
+        });
 
-				break;
-		}
-	}
+        break;
+    }
+  }
 });
 
 var dispatchToken = Dispatcher.register(UserStore.handleDispatch.bind(UserStore));

@@ -6,84 +6,84 @@ var _ = require('underscore');
 var BevyActions = require('./bevy/BevyActions');
 
 var Router = Backbone.Router.extend({
-	routes: {
-		'' : 'home',
-		'login' : 'login',
-		'register' : 'register',
-		'forgot' : 'forgot',
-		'reset/:token' : 'reset',
-		'home' : 'home',
-		'publicbevies' : 'publicbevies',
-		'bevies': 'publicbevies',
-		'b' : 'home',
-		'b/' : 'home',
-		'b/frontpage': 'home',
-		'b/:bevyid' : 'bevy',
-		'b/:bevyid/' : 'bevy',
-		'b/:bevyid/post' : 'bevy',
-		'b/:bevyid/post/' : 'bevy',
-		'b/:bevyid/post/:postid' : 'bevy',
-		's/' : 'search',
-		's' : 'search',
-		's/:query' : 'search',
-		'*nuts' : 'not_found'
-	},
+  routes: {
+    '' : 'home',
+    'login' : 'login',
+    'register' : 'register',
+    'forgot' : 'forgot',
+    'reset/:token' : 'reset',
+    'home' : 'home',
+    'publicbevies' : 'publicbevies',
+    'bevies': 'publicbevies',
+    'b' : 'home',
+    'b/' : 'home',
+    'b/frontpage': 'home',
+    'b/:bevyid' : 'bevy',
+    'b/:bevyid/' : 'bevy',
+    'b/:bevyid/post' : 'bevy',
+    'b/:bevyid/post/' : 'bevy',
+    'b/:bevyid/post/:postid' : 'bevy',
+    's/' : 'search',
+    's' : 'search',
+    's/:query' : 'search',
+    '*nuts' : 'not_found'
+  },
 
-	home: function() {
-		this.current = 'home';
-	},
+  home() {
+    this.current = 'home';
+  },
 
-	login: function() {
-		this.current = 'login';
-	},
+  login() {
+    this.current = 'login';
+  },
 
-	register: function() {
-		this.current = 'register';
-	},
+  register() {
+    this.current = 'register';
+  },
 
-	forgot: function() {
-		this.current = 'forgot';
-	},
+  forgot() {
+    this.current = 'forgot';
+  },
 
-	reset: function(token) {
-		this.current = 'reset';
-	},
+  reset(token) {
+    this.current = 'reset';
+  },
 
-	publicbevies: function() {
-		this.current = 'publicbevies';
-	},
+  publicbevies() {
+    this.current = 'publicbevies';
+  },
 
-	bevy: function(bevy_id, post_id) {
-		this.current = 'bevy';
-		this.bevy_id = bevy_id;
-		BevyActions.switchBevy(this.bevy_id);
-	},
+  bevy(bevy_id, post_id) {
+    this.current = 'bevy';
+    this.bevy_id = bevy_id;
+    BevyActions.switchBevy(this.bevy_id);
+  },
 
-	search: function(query) {
-		this.current = 'search';
+  search(query) {
+    this.current = 'search';
 
-		this.search_query = query;
+    this.search_query = query;
 
-		if(query == undefined) {
-			this.search.query = '';
-		}
+    if(query == undefined) {
+      this.search.query = '';
+    }
 
-		BevyActions.search(query);
-	},
+    BevyActions.search(query);
+  },
 
-	not_found: function(nuts) {
-		this.current = '404';
+  not_found: function(nuts) {
+    this.current = '404';
 
-		if(!checkUser()) return;
-	}
+    if(!checkUser()) return;
+  }
 });
 
 function checkUser() {
-	if(_.isEmpty(window.bootstrap.user)) {
-		router.navigate('login', { trigger: true });
-		return false
-	}
-	return true
+  if(_.isEmpty(window.bootstrap.user)) {
+    router.navigate('login', { trigger: true });
+    return false
+  }
+  return true
 }
 
 var router = new Router();

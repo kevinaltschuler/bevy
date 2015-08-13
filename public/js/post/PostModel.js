@@ -19,68 +19,67 @@ var constants = require('./../constants');
 
 var BevyStore = require('./../bevy/BevyStore');
 
-
 var constants = require('./../constants');
 var POST = constants.POST;
 
 // backbone model
 var Post = Backbone.Model.extend({
-	defaults: {
-		_id: null,
-		images: [],
-		author: null,
-		bevy: null,
-		votes: [],
-		type: 'default',
-		event: null,
-		created: new Date(),
-		updated: new Date(),
-	},
+  defaults: {
+    _id: null,
+    images: [],
+    author: null,
+    bevy: null,
+    votes: [],
+    type: 'default',
+    event: null,
+    created: new Date(),
+    updated: new Date(),
+  },
 
-	initialize: function() {
-		//var bevy = BevyStore.getBevy(this.get('bevy'));
-		//this.set('bevy', bevy);
+  initialize() {
+    //var bevy = BevyStore.getBevy(this.get('bevy'));
+    //this.set('bevy', bevy);
 
-		this.on('sync', function(model, response, options) {
-			//var bevy = BevyStore.getBevy(this.get('bevy'));
-			//this.set('bevy', bevy);
+    this.on('sync', function(model, response, options) {
+      //var bevy = BevyStore.getBevy(this.get('bevy'));
+      //this.set('bevy', bevy);
 
-			var PostStore = require('./PostStore');
+      var PostStore = require('./PostStore');
 
-			PostStore.postsNestComment(this);
+      PostStore.postsNestComment(this);
 
-			PostStore.trigger(POST.CHANGE_ONE + this.id);
+      PostStore.trigger(POST.CHANGE_ONE + this.id);
 
-		}.bind(this));
-	},
+    }.bind(this));
+  },
 
-	sync: function(method, model, options) {
+  sync(method, model, options) {
 
-		if(method != 'read' && router.bevy_id == -1 && router.current == 'bevy') {
-			var bevy_id = model.get('bevy');
-			if(method == 'create')
-				model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/';
-			else
-				model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/' + model.id;
-		}
+    if(method != 'read' && router.bevy_id == -1 && router.current == 'bevy') {
+      var bevy_id = model.get('bevy');
+      if(method == 'create')
+        model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/';
+      else
+        model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/' + model.id;
+    }
 
-		if(method != 'read' && router.current == 'search') {
-			var bevy_id = model.get('bevy')._id;
-			model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/' + model.id;
-		}
+    if(method != 'read' && router.current == 'search') {
+      var bevy_id = model.get('bevy')._id;
+      model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/' + model.id;
+    }
 
-		Backbone.Model.prototype.sync.apply(this, arguments);
-	},
+    Backbone.Model.prototype.sync.apply(this, arguments);
+  },
 
-	idAttribute: '_id',
+  idAttribute: '_id',
 
-	countVotes: function() {
-		var sum = 0;
-		this.get('votes').forEach(function(vote) {
-			sum += vote.score;
-		});
-		return sum;
-	}
+  countVotes() {
+    var sum = 0;
+    this.get('votes').forEach(function(vote) {
+      sum += vote.score;
+    });
+    return sum;
+  }
 });
 
 module.exports = Post;
