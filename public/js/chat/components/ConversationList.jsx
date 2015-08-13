@@ -1,3 +1,9 @@
+/**
+ * ConversationList.jsx
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var React = require('react');
@@ -16,106 +22,93 @@ var user = window.bootstrap.user;
 
 var ConversationList = React.createClass({
 
-	propTypes: {
-		allThreads: React.PropTypes.array
-	},
+  propTypes: {
+    allThreads: React.PropTypes.array
+  },
 
-	openThread: function(ev) {
-		ev.preventDefault();
+  openThread(ev) {
+    ev.preventDefault();
 
-		var thread_id = ev.target.getAttribute('id');
+    var thread_id = ev.target.getAttribute('id');
 
-		ChatActions.openThread(thread_id);
-	},
+    ChatActions.openThread(thread_id);
+  },
 
-	findMember: function(members, id) {
-		return _.find(members, function(member) {
-			return member.user == id;
-		});
-	},
+  render() {
 
-	render: function() {
+    var threads = [];
+    var allThreads = (_.isEmpty(this.props.allThreads)) ? [] : this.props.allThreads;
+    for(var key in allThreads) {
+      var thread = allThreads[key];
+      var bevy = thread.bevy;
 
-		var threads = [];
-		var allThreads = (_.isEmpty(this.props.allThreads)) ? [] : this.props.allThreads;
-		for(var key in allThreads) {
-			var thread = allThreads[key];
-			var bevy = thread.bevy;
+      var latestMessage = ChatStore.getLatestMessage(thread._id);
+      var message = '';
+      if(!_.isEmpty(latestMessage)) {
 
-			var latestMessage = ChatStore.getLatestMessage(thread._id);
-			var message = '';
-			if(!_.isEmpty(latestMessage)) {
+        if(bevy) {
+          var messageAuthor = latestMessage.author.displayName;
+          if(latestMessage.author._id == user._id) messageAuthor = 'Me';
+          message = (
+            <span className='latest-message'>
+              { messageAuthor + ': ' + latestMessage.body }
+            </span>
+          );
+        } else {
+          var messageAuthor = latestMessage.author.displayName;
+          if(latestMessage.author._id == user._id) messageAuthor = 'Me';
+          message = (
+            <span className='latest-message'>
+              { messageAuthor + ': ' + latestMessage.body }
+            </span>
+          );
+        }
+      }
 
-				if(bevy) {
-					var messageMember = this.findMember(bevy.members, latestMessage.author._id);
+      var otherUser = {};
+      if(!bevy && thread.users.length > 1) {
+        otherUser = _.find(thread.users, function($user) {
+          return $user._id != user._id;
+        });
+      }
 
-					var messageAuthor = latestMessage.author.displayName;
-					if(messageMember != undefined) messageAuthor = messageMember.displayName;
-					if(latestMessage.author._id == user._id) messageAuthor = 'Me';
+      var image_url = (bevy) ? bevy.image_url : otherUser.user.image_url;
+      if(_.isEmpty(image_url)) {
+        if(bevy) image_url = '/img/logo_100.png';
+        else image_url = '/img/user-profile-icon.png';
+      }
 
-					message = (
-						<span className='latest-message'>
-							{ messageAuthor + ': ' + latestMessage.body }
-						</span>
-					);
-				} else {
+      var name = (bevy) ? bevy.name : otherUser.user.displayName;
 
-					var messageAuthor = latestMessage.author.displayName;
-					if(latestMessage.author._id == user._id) messageAuthor = 'Me';
+      threads.push(
+        <Button className='conversation-item' key={ 'thread' + thread._id } id={ thread._id } onFocus={ this.openThread }>
+          <img className='bevy-img' src={ image_url } />
+          <div className='conversation-details'>
+            <span className='bevy-name'>{ name }</span>
+            { message }
+          </div>
+        </Button>
+      );
+    }
 
-					message = (
-						<span className='latest-message'>
-							{ messageAuthor + ': ' + latestMessage.body }
-						</span>
-					);
-				}
-			}
+    if(threads.length == 0) threads = (
+      <div className='chat-list-msg' />
+    );
 
-			var otherUser = {};
-			if(!bevy && thread.members.length > 1) {
-				otherUser = _.find(thread.members, function(member) {
-					return member.user._id != user._id;
-				});
-			}
-
-			var image_url = (bevy) ? bevy.image_url : otherUser.user.image_url;
-			if(_.isEmpty(image_url)) {
-				if(bevy) image_url = '/img/logo_100.png';
-				else image_url = '/img/user-profile-icon.png';
-			}
-
-			var name = (bevy) ? bevy.name : otherUser.user.displayName;
-
-			threads.push(
-				<Button className='conversation-item' key={ 'thread' + thread._id } id={ thread._id } onFocus={ this.openThread }>
-					<img className='bevy-img' src={ image_url } />
-					<div className='conversation-details'>
-						<span className='bevy-name'>{ name }</span>
-						{ message }
-					</div>
-				</Button>
-			);
-		}
-
-		if(threads.length == 0) threads = (
-			<div className='chat-list-msg'>
-			</div>
-			);
-
-		return (
-			<div className='conversation-list panel'>
-				<div className='conversation-list-header'>
-					{/*<TextField
-						className='conversation-search'
-						hintText='Search Conversations'
-					/>*/}
-				</div>
-				<div className='list-links'>
-					{ threads }
-				</div>
-			</div>
-		);
-	}
+    return (
+      <div className='conversation-list panel'>
+        <div className='conversation-list-header'>
+          {/*<TextField
+            className='conversation-search'
+            hintText='Search Conversations'
+          />*/}
+        </div>
+        <div className='list-links'>
+          { threads }
+        </div>
+      </div>
+    );
+  }
 });
 
 module.exports = ConversationList;

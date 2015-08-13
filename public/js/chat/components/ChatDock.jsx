@@ -7,36 +7,33 @@ var ChatPanel = require('./ChatPanel.jsx');
 
 var ChatDock = React.createClass({
 
-	propTypes: {
-		openThreads: React.PropTypes.array
-	},
+  propTypes: {
+    openThreads: React.PropTypes.array
+  },
 
-	getInitialState: function() {
-		return {};
-	},
+  getInitialState() {
+    return {};
+  },
 
-	render: function() {
+  render() {
+    var threads = [];
+    var openThreads = (_.isEmpty(this.props.openThreads)) ? [] : this.props.openThreads;
+    for(var key in openThreads) {
+      var thread = openThreads[key];
+      threads.push(
+        <ChatPanel
+          key={ 'panel' + thread._id }
+          thread={ thread }
+        />
+      );
+    }
 
-		//console.log(this.props.openThreads);
-
-		var threads = [];
-		var openThreads = (_.isEmpty(this.props.openThreads)) ? [] : this.props.openThreads;
-		for(var key in openThreads) {
-			var thread = openThreads[key];
-			threads.push(
-				<ChatPanel
-					key={ 'panel' + thread._id }
-					thread={ thread }
-				/>
-			);
-		}
-
-		return (
-			<div className='chat-dock'>
-				{ threads }
-			</div>
-		);
-	}
+    return (
+      <div className='chat-dock'>
+        { threads }
+      </div>
+    );
+  }
 });
 
 module.exports = ChatDock;
