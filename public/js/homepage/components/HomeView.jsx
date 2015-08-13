@@ -1,4 +1,5 @@
-/* frontpage.js
+/* 
+* HomeView.jsx
 * what you see when you first login
 * ye
 * made by keivn altschuler
@@ -9,28 +10,15 @@
 // imports
 var React = require('react');
 var _ = require('underscore');
-
 var router = require('./../../router');
+
 var rbs = require('react-bootstrap');
-var ModalTrigger = rbs.ModalTrigger;
-var Tooltip = rbs.Tooltip;
-var OverlayTrigger = rbs.OverlayTrigger;
 var Button = rbs.Button;
 
 var mui = require('material-ui');
-var FontIcon = mui.FontIcon;
-var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
 
-var ChatDock = require('./../../chat/components/ChatDock.jsx');
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
-
-var BevyStore = require('./../../bevy/BevyStore');
-var UserStore = require('./../../profile/UserStore');
-
-var AppActions = require('./../../app/AppActions');
-
-var constants = require('./../../constants');
 
 var HomeView = React.createClass({
 
@@ -40,7 +28,7 @@ var HomeView = React.createClass({
     };
   },
 
-  render: function() {
+  render() {
 
     return (
       <div className='landing-page'>
