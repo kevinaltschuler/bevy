@@ -116,7 +116,7 @@ var MainSection = React.createClass({
     getUserState: function() {
         return {
             userSearchQuery: UserStore.getUserSearchQuery(),
-            userSearchResults: UserStore.getUserSearcResults()
+            userSearchResults: UserStore.getUserSearchResults()
         };
     },
 
@@ -126,7 +126,8 @@ var MainSection = React.createClass({
             this.getPostState(),
             this.getBevyState(),
             this.getNotificationState(),
-            this.getChatState()
+            this.getChatState(),
+            this.getUserState()       
         );
         return state;
     },

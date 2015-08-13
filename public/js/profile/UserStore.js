@@ -38,6 +38,9 @@ _.extend(UserStore, {
 				break;
 			case USER.SEARCH:
 				var query = payload.query;
+				if(query == '' || query == undefined) {
+					break;
+				}
 				this.userSearchQuery = 'a8d27dc165db909fcd24560d62760868';
 				$.ajax({
 					url: constants.apiurl + '/users/search/' + query,
@@ -53,11 +56,11 @@ _.extend(UserStore, {
 	},
 
 	getUserSearchQuery: function() {
-		return this.userSearchQuery;
+		return this.userSearchQuery = (this.userSearchQuery) ? this.userSearchQuery : '';
 	},
 
 	getUserSearchResults: function() {
-		return this.userSearchResults;
+		return this.userSearchResults = (this.userSearchResults) ? this.userSearchResults : [];
 	},
 });
 

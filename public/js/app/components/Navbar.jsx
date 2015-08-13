@@ -43,7 +43,9 @@ var Navbar = React.createClass({
     allNotifications: React.PropTypes.array,
     allThreads: React.PropTypes.array,
     activeThread: React.PropTypes.object,
-    openThreads: React.PropTypes.array
+    openThreads: React.PropTypes.array,
+    userSearchQuery: React.PropTypes.string,
+    userSearchResults: React.PropTypes.array
   },
 
   onKeyUp(ev) {
@@ -122,6 +124,8 @@ var Navbar = React.createClass({
       <ChatSidebar
         allThreads={ this.props.allThreads } 
         activeThread={ this.props.activeThread }
+        userSearchResults={ this.props.userSearchResults }
+        userSearchQuery={ this.props.userSearchQuery }
       />
     );
     var chatDock = <ChatDock openThreads={ this.props.openThreads } />;

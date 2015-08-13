@@ -21,7 +21,7 @@ var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
 var Post = mongoose.model('Post');
 var Notification = mongoose.model('Notification');
-User.collection.ensureIndex({username: 'text'}, function(err) { return err });
+User.collection.ensureIndex({displayName: 'text'}, function(err) { return err });
 
 function collectUserParams(req) {
   var update = {};
@@ -106,6 +106,7 @@ exports.show = function(req, res, next) {
 //GET /users/search/:query
 exports.search = function(req, res, next) {
 	var query = req.params.query;
+  console.log(query);
 	User.find(
 		{ $text: { $search: query, $language: "english" }},
 		{ score: { $meta: "textScore"}}
