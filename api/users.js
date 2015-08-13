@@ -114,6 +114,7 @@ exports.search = function(req, res, next) {
 	.sort({ score : { $meta : "textScore" } })
     .exec(function(err, results) {
         if(err) return next(err);
+        console.log(results);
         return res.json(results);
     });
 }
