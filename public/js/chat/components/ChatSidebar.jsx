@@ -15,6 +15,8 @@ var Button = rbs.Button;
 
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
+var UserActions = require('./../../profile/UserActions');
+var UserStore = require('./../../profile/UserStore');
 
 var mui = require('material-ui');
 var TextField = mui.TextField;
@@ -25,8 +27,11 @@ var email = user.email;
 var ChatSidebar = React.createClass({
 
   propTypes: {
+    allContacts: React.PropTypes.array,
     allThreads: React.PropTypes.array,
-    activeThread: React.PropTypes.object
+    activeThread: React.PropTypes.object,
+    userSearchResults: React.PropTypes.array,
+    userSearchQuery: React.PropTypes.string
   },
 
   getInitialState() {
@@ -50,6 +55,14 @@ var ChatSidebar = React.createClass({
     ChatActions.openThread(thread_id);
   },
 
+  openUserThread(ev) {
+    ev.preventDefault();
+
+    var thread_id = ev.target.getAttribute('id');
+
+    ChatActions.openThread(null, thread_id);
+  },
+
   openSearchResults() {
     document.getElementById("search-results").style.height = "300px";
   },
@@ -57,6 +70,11 @@ var ChatSidebar = React.createClass({
   closeSearchResults() {
     document.getElementById("search-results").style.height = "0px";
   },
+
+  onChange(ev) {
+    ev.preventDefault();
+      UserActions.search(this.refs.userSearch.getValue());
+    },
 
   render() {
 
@@ -69,7 +87,9 @@ var ChatSidebar = React.createClass({
       var latestMessage = ChatStore.getLatestMessage(thread._id);
       var message = '';
       if(!_.isEmpty(latestMessage)) {
+
         if(bevy) {
+
           var messageAuthor = latestMessage.author.displayName;
           if(latestMessage.author._id == user._id) messageAuthor = 'Me';
 
@@ -79,6 +99,7 @@ var ChatSidebar = React.createClass({
             </span>
           );
         } else {
+
           var messageAuthor = latestMessage.author.displayName;
           if(latestMessage.author._id == user._id) messageAuthor = 'Me';
 
@@ -116,6 +137,44 @@ var ChatSidebar = React.createClass({
       console.log('no threads');
       return <div/>;
     };
+    var searchResults = [];
+    var userSearchResults = this.props.userSearchResults;
+    for(var key in userSearchResults) {
+
+      var user = userSearchResults[key];
+
+      var image_url = (_.isEmpty(user.image_url)) ? '/img/user-profile-icon.png' : user.image_url;
+
+      var name = user.displayName;
+
+      var imageStyle = {
+        backgroundImage: 'url(' + image_url + ')',
+        backgroundSize: 'auto 100%',
+        backgroundPosition: 'center'
+      };
+
+      searchResults.push(<Button className='conversation-item' key={ 'thread' + user._id } id={ user._id } onFocus={ this.openUserThread }>
+          <div className='image' style={imageStyle}/>
+          <div className='conversation-details'>
+            <span className='bevy-name'>{ name }</span>
+          </div>
+      </Button>);
+    }
+
+    if(_.isEmpty(searchResults) && !_.isEmpty(this.props.userSearchQuery)) {
+      searchResults = <div>
+        <h3>
+          no results :(
+        </h3>
+      </div>
+    }
+
+    if(this.props.userSearchQuery == 'a8d27dc165db909fcd24560d62760868') {
+      searchResults = <section className="loaders"><span className="loader loader-quart"> </span></section>
+    }
+
+    console.log(this.props.userSearchResults);
+    console.log(this.props.userSearchQuery);
 
     return (
       <div className='chat-sidebar'>
@@ -129,6 +188,7 @@ var ChatSidebar = React.createClass({
             <div className='top'>
             </div>
             <div className='results-list'>
+              { searchResults }
             </div>
           </div>
           <div className='topline-wrapper'>
@@ -137,7 +197,14 @@ var ChatSidebar = React.createClass({
         </div>
         <div className='chat-actions'>
           <span className='glyphicon glyphicon-search' />
-          <TextField onFocus={this.openSearchResults} onBlur={this.closeSearchResults}/>
+          <TextField 
+          onFocus={this.openSearchResults} 
+          onBlur={this.closeSearchResults}
+          type='text'
+                className='search-input'
+                ref='userSearch'
+                onChange={ this.onChange }
+                defaultValue={ this.props.searchQuery }/>
         </div>
       </div>
     );

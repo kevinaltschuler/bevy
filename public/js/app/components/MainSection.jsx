@@ -35,124 +35,141 @@ var POST = constants.POST;
 var BEVY = constants.BEVY;
 var NOTIFICATION = constants.NOTIFICATION;
 var CHAT = constants.CHAT;
+var USER = constants.USER;
 
 var change_all_events = [
   POST.CHANGE_ALL,
   BEVY.CHANGE_ALL,
   NOTIFICATION.CHANGE_ALL,
-  CHAT.CHANGE_ALL
+  CHAT.CHANGE_ALL,
+  USER.CHANGE_ALL
 ].join(' ');
 
 // create app
 var MainSection = React.createClass({
 
-  // called directly after mounting
-  getInitialState() {
+    // called directly after mounting
+    getInitialState: function() {
 
-    AppActions.load();
+        AppActions.load();
 
-    return this.collectState();
-  },
+        return this.collectState();
+    },
 
-  // mount event listeners
-  componentDidMount() {
-    PostStore.on(change_all_events, this._onPostChange);
-    BevyStore.on(change_all_events, this._onBevyChange);
-    NotificationStore.on(change_all_events, this._onNotificationChange);
-    ChatStore.on(change_all_events, this._onChatChange);
-  },
+    // mount event listeners
+    componentDidMount: function() {
+        PostStore.on(change_all_events, this._onPostChange);
+        BevyStore.on(change_all_events, this._onBevyChange);
+        NotificationStore.on(change_all_events, this._onNotificationChange);
+        ChatStore.on(change_all_events, this._onChatChange);
+        UserStore.on(change_all_events, this._onUserChange);
+    },
 
-  // unmount event listeners
-  componentWillUnmount() {
-    PostStore.off(change_all_events, this._onPostChange);
-    BevyStore.off(change_all_events, this._onBevyChange);
-    NotificationStore.off(change_all_events, this._onNotificationChange);
-    ChatStore.off(change_all_events, this._onChatChange);
-  },
+    // unmount event listeners
+    componentWillUnmount: function() {
+        PostStore.off(change_all_events, this._onPostChange);
+        BevyStore.off(change_all_events, this._onBevyChange);
+        NotificationStore.off(change_all_events, this._onNotificationChange);
+        ChatStore.off(change_all_events, this._onChatChange);
+        UserStore.off(change_all_events, this._onUserChange);
+    },
 
-  getPostState() {
-    return {
-      allPosts: PostStore.getAll(),
-      sortType: PostStore.getSort()
+    getPostState: function() {
+        return {
+            allPosts: PostStore.getAll(),
+            sortType: PostStore.getSort()
+        }
+    },
+
+    getBevyState: function() {
+
+        var myBevies = BevyStore.getMyBevies();
+        var active = BevyStore.getActive();
+        var publicBevies = BevyStore.getPublicBevies();
+        var searchList = BevyStore.getSearchList();
+        var searchQuery = BevyStore.getSearchQuery();
+
+        return {
+            // later, load this from session/cookies
+            myBevies: myBevies,
+            activeBevy: active,
+            publicBevies: publicBevies,
+            searchList: searchList,
+            searchQuery: searchQuery
+        }
+    },
+
+    getNotificationState: function() {
+        return {
+            allNotifications: NotificationStore.getAll()
+        };
+    },
+
+    getChatState: function() {
+        return {
+            allThreads: ChatStore.getAllThreads(),
+            openThreads: ChatStore.getOpenThreads(),
+            activeThread: ChatStore.getActiveThread()
+        };
+    },
+
+    getUserState: function() {
+        return {
+            userSearchQuery: UserStore.getUserSearchQuery(),
+            userSearchResults: UserStore.getUserSearchResults()
+        };
+    },
+
+    collectState: function() {
+        var state = {};
+        _.extend(state,
+            this.getPostState(),
+            this.getBevyState(),
+            this.getNotificationState(),
+            this.getChatState(),
+            this.getUserState()       
+        );
+        return state;
+    },
+
+    // event listener callbacks
+    _onPostChange: function() {
+        this.setState(_.extend(this.state, this.getPostState()));
+    },
+    _onBevyChange: function() {
+        this.setState(_.extend(this.state, this.getBevyState()));
+    },
+    _onNotificationChange: function() {
+        this.setState(_.extend(this.state, this.getNotificationState()));
+    },
+    _onChatChange: function() {
+        this.setState(_.extend(this.state, this.getChatState()));
+    },
+    _onUserChange: function() {
+        this.setState(_.extend(this.state, this.getUserState()));
+    },
+
+    componentWillReceiveProps: function(nextProps) {
+        this.setState(this.collectState());
+    },
+
+    render: function() {
+        return (
+            <div className='main-section-wrapper'>
+                <Navbar
+                    activeBevy={ this.state.activeBevy }
+                    allNotifications={ this.state.allNotifications }
+                    myBevies={ this.state.myBevies }
+                    allThreads={ this.state.allThreads }
+                    activeThread={ this.state.activeThread }
+                    openThreads={ this.state.openThreads }
+                    userSearchQuery={ this.state.userSearchQuery }
+                    userSearchResults={ this.state.userSearchResults }
+                />
+                <InterfaceComponent {...this.state} />
+            </div>
+        );
     }
-  },
-
-  getBevyState() {
-
-    var myBevies = BevyStore.getMyBevies();
-    var active = BevyStore.getActive();
-    var publicBevies = BevyStore.getPublicBevies();
-    var searchList = BevyStore.getSearchList();
-    var searchQuery = BevyStore.getSearchQuery();
-
-    return {
-      // later, load this from session/cookies
-      myBevies: myBevies,
-      activeBevy: active,
-      publicBevies: publicBevies,
-      searchList: searchList,
-      searchQuery: searchQuery
-    }
-  },
-
-  getNotificationState() {
-    return {
-      allNotifications: NotificationStore.getAll()
-    };
-  },
-
-  getChatState() {
-    return {
-      allThreads: ChatStore.getAllThreads(),
-      openThreads: ChatStore.getOpenThreads(),
-      activeThread: ChatStore.getActiveThread()
-    };
-  },
-
-  collectState() {
-    var state = {};
-    _.extend(state,
-      this.getPostState(),
-      this.getBevyState(),
-      this.getNotificationState(),
-      this.getChatState()
-    );
-    return state;
-  },
-
-  // event listener callbacks
-  _onPostChange() {
-    this.setState(_.extend(this.state, this.getPostState()));
-  },
-  _onBevyChange() {
-    this.setState(_.extend(this.state, this.getBevyState()));
-  },
-  _onNotificationChange() {
-    this.setState(_.extend(this.state, this.getNotificationState()));
-  },
-  _onChatChange() {
-    this.setState(_.extend(this.state, this.getChatState()));
-  },
-
-  componentWillReceiveProps(nextProps) {
-    this.setState(this.collectState());
-  },
-
-  render() {
-    return (
-      <div className='main-section-wrapper'>
-        <Navbar
-          activeBevy={ this.state.activeBevy }
-          allNotifications={ this.state.allNotifications }
-          myBevies={ this.state.myBevies }
-          allThreads={ this.state.allThreads }
-          activeThread={ this.state.activeThread }
-          openThreads={ this.state.openThreads }
-        />
-        <InterfaceComponent {...this.state} />
-      </div>
-    );
-  }
 });
 
 var InterfaceComponent = React.createClass({

@@ -10,6 +10,11 @@ var UserActions = {
     dispatch(USER.UPDATE, {
       image_url: (image_url == undefined) ? null : image_url
     });
+  },
+  search(query) {
+    dispatch(USER.SEARCH, {
+      query: (query == undefined) ? null : query
+    });
   }
 }
 

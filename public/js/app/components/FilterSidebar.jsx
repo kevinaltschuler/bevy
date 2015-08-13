@@ -30,7 +30,6 @@ var FilterSidebar = React.createClass({
 
   getInitialState() {
     return {
-      search: this.props.searchQuery || '',
       filter: 'top',
       showNewBevyModal: false
     };
@@ -82,7 +81,7 @@ var FilterSidebar = React.createClass({
   },
 
   render() {
-    var searchQuery = this.state.search;
+    var searchQuery = (_.isEmpty(this.props.searchQuery) || this.props.searchQuery == 'a8d27dc165db909fcd24560d62760868') ? '' : this.props.searchQuery;
     var selectedIndex = this.state.selectedIndex;
 
     var myClass = (this.state.collection == 'my') ? 'active' : '';
@@ -114,7 +113,7 @@ var FilterSidebar = React.createClass({
             onChange={ this.onFilterChange }
           />
         </div>
-        <div className='action sort'>
+        <div className='action new'>
           <CreateNewBevyModal 
             show={ this.state.showNewBevyModal } 
             onHide={() => { this.setState({ showNewBevyModal: false }) }}
