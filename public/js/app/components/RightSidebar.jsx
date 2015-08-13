@@ -1,43 +1,46 @@
+/**
+ * RightSidebar.jsx
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var React = require('react');
 
-var $ = require('jquery');
-
 var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
-var FrontpagePanel = require('./../../bevy/components/FrontpagePanel.jsx');
 var Footer = require('./Footer.jsx');
 
 var RightSidebar = React.createClass({
 
-	propTypes: {
-		activeBevy: React.PropTypes.object,
-		activeMember: React.PropTypes.object,
-		activeThread: React.PropTypes.object
-	},
+  propTypes: {
+    activeBevy: React.PropTypes.object,
+    activeThread: React.PropTypes.object
+  },
 
-	getInitialState: function () {
-		return {};
-	},
+  getInitialState() {
+    return {};
+  },
 
-	render: function() {
+  render() {
 
-		var bevy = this.props.activeBevy;
-		var bevy_id = bevy._id;
+    var bevy = this.props.activeBevy;
+    var bevy_id = bevy._id;
 
-		return (
-			<div className='right-sidebar'>
-				<div className='fixed'>
-					<div className='hide-scroll'>
-						<BevyPanel
-							activeBevy={ this.props.activeBevy }
-							myBevies={ this.props.myBevies }
-						/>
-						<Footer />
-					</div>
-				</div>
-			</div>
-		);
-	}
+    return (
+      <div className='right-sidebar'>
+        <div className='fixed'>
+          <div className='hide-scroll'>
+            <BevyPanel
+              activeBevy={ this.props.activeBevy }
+              myBevies={ this.props.myBevies }
+            />
+            <Footer />
+          </div>
+        </div>
+      </div>
+    );
+  }
 });
+
 module.exports = RightSidebar;

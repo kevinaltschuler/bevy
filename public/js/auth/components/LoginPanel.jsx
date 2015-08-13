@@ -80,7 +80,6 @@ var LoginPanel = React.createClass({
   },
 
   render() {
-
     var error;
     if(this.state.showError) {
       error = (
@@ -90,36 +89,39 @@ var LoginPanel = React.createClass({
       );
     }
 
-    return  <Panel className="login-panel">
-          <img className="profile-img" src="/img/user-profile-icon.png" alt="Avatar"/>
-          { error }
-          <form method='post' action='/login'>
-            <Input
-              type='text'
-              name='username'
-              ref='username'
-              placeholder='Username' />
-            <Input
-              type='password'
-              name='password'
-              ref='password'
-              placeholder='Password' />
-            <RaisedButton
-              className='login-submit'
-              label='Sign In'
-              onClick={ this.submit }/>
-          </form>
+    return (
+      <Panel className="login-panel">
+        <img className="profile-img" src="/img/user-profile-icon.png" alt="Avatar"/>
+        { error }
+        <form method='post' action='/login'>
+          <Input
+            type='text'
+            name='username'
+            ref='username'
+            placeholder='Username' />
+          <Input
+            type='password'
+            name='password'
+            ref='password'
+            placeholder='Password' />
           <RaisedButton
-            className='login-google-submit'
-            label='Sign In With Google'
-            linkButton={true}
-            href={ constants.siteurl + '/auth/google' } />
-          <FlatButton
-            className='register-button'
-            label='Create an Account'
-            linkButton={true}
-            href={ constants.siteurl + '/register'} />
-        </Panel>;
+            className='login-submit'
+            label='Sign In'
+            onClick={ this.submit }/>
+        </form>
+        <RaisedButton
+          className='login-google-submit'
+          label='Sign In With Google'
+          linkButton={true}
+          href={ constants.siteurl + '/auth/google' } />
+        <FlatButton
+          className='register-button'
+          label='Create an Account'
+          linkButton={true}
+          href={ constants.siteurl + '/register'} />
+      </Panel>
+    );
   }
 });
+
 module.exports = LoginPanel;

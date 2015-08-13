@@ -67,7 +67,7 @@ var CreateNewBevyModal = React.createClass({
     BevyActions.create(name, description, image_url, []);
 
     // after, close the window
-    this.props.onRequestHide();
+    this.props.onHide();
   },
 
   render: function() {

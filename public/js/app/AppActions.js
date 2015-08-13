@@ -13,11 +13,10 @@ var APP = require('./../constants').APP;
 
 var AppActions = {
 
-	load: function() {
-		dispatch(APP.LOAD, {
-
-		});
-	}
+  load() {
+    dispatch(APP.LOAD, {
+    });
+  }
 
 };
 module.exports = AppActions;
