@@ -1,9 +1,10 @@
 /**
- * BevyList.jsx
+ * SubBevyPanel.jsx
  *
  * List of bevies
  *
  * @author albert
+ * @author kevin
  */
 
 'use strict';
@@ -15,16 +16,8 @@ var _ = require('underscore');
 var router = require('./../../router');
 
 var rbs = require('react-bootstrap');
-var Badge = rbs.Badge;
 var Button = rbs.Button;
 var ButtonGroup = rbs.ButtonGroup;
-var ModalTrigger = rbs.ModalTrigger;
-var Tooltip = rbs.Tooltip;
-var OverlayTrigger = rbs.OverlayTrigger;
-
-var mui = require('material-ui');
-var FontIcon = mui.FontIcon;
-var FlatButton = mui.FlatButton;
 
 var BevyActions = require('./../BevyActions');
 
@@ -35,24 +28,24 @@ var SubBevyPanel = React.createClass({
     activeBevy: React.PropTypes.object.isRequired,
   },
 
-  getInitialState: function() {
+  getInitialState() {
     return {
     };
   },
 
-  switchBevy: function(ev) {
+  switchBevy(ev) {
     ev.preventDefault();
     // get the bevy id
     var id = ev.target.getAttribute('id') || null;
     if(id == -1) id = 'frontpage';
-    if(id == this.props.superBevy._id) {
-      router.navigate('/b/' + this.props.superBevy._id, { trigger: true });
+    if(id == this.props.activeBevy._id) {
+      router.navigate('/b/' + this.props.activeBevy._id, { trigger: true });
     } else {
-      router.navigate('/b/' + this.props.superBevy._id + '/' + id, { trigger: true });
+      router.navigate('/b/' + this.props.activeBevy._id + '/' + id, { trigger: true });
     } 
   },
 
-  render: function() {
+  render() {
     var bevy = this.props.activeBevy;
 
     var bevies = [];

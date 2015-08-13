@@ -43,316 +43,312 @@ var BevyStore = _.extend({}, Backbone.Events);
 // now add some custom functions
 _.extend(BevyStore, {
 
-	myBevies: new Bevies,
-	active: -1,
-	publicBevies: new Bevies,
-	searchQuery: '',
-	searchList: new Bevies,
+  myBevies: new Bevies,
+  active: -1,
+  publicBevies: new Bevies,
+  searchQuery: '',
+  searchList: new Bevies,
 
-	// handle calls from the dispatcher
-	// these are created from BevyActions.js
-	handleDispatch: function(payload) {
-		switch(payload.actionType) {
+  // handle calls from the dispatcher
+  // these are created from BevyActions.js
+  handleDispatch(payload) {
+    switch(payload.actionType) {
 
-			case APP.LOAD:
-				var user = window.bootstrap.user;
+      case APP.LOAD:
+        var user = window.bootstrap.user;
 
-				this.publicBevies.url = constants.apiurl + '/bevies';
+        this.publicBevies.url = constants.apiurl + '/bevies';
 
-				//load public bevies
-				this.publicBevies.fetch({
-					success: function(collection, response, options) {
-						this.trigger(BEVY.CHANGE_ALL);
-					}.bind(this)
-				});
+        //load public bevies
+        this.publicBevies.fetch({
+          success: function(collection, response, options) {
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
 
-				break;
+        break;
 
-			case BEVY.CREATE:
-				var name = payload.name;
-				var description = payload.description;
-				var image_url = payload.image_url;
-				var user = window.bootstrap.user;
+      case BEVY.CREATE:
+        var name = payload.name;
+        var description = payload.description;
+        var image_url = payload.image_url;
+        var user = window.bootstrap.user;
 
-				var newBevy = this.myBevies.add({
-					name: name,
-					description: description,
-					image_url: image_url,
-					admins: [user._id]
-				});
+        var newBevy = this.myBevies.add({
+          name: name,
+          description: description,
+          image_url: image_url,
+          admins: [user._id]
+        });
 
-				console.log(newBevy);
+        console.log(newBevy);
 
-				newBevy.save(null, {
-					success: function(model, response, options) {
-						// success
-						newBevy.set('_id', model.id);
+        newBevy.save(null, {
+          success: function(model, response, options) {
+            // success
+            newBevy.set('_id', model.id);
 
-						this.publicBevies.add(model);
+            this.publicBevies.add(model);
 
-						// switch to bevy
-						router.navigate('/b/' + model.id, { trigger: true });
+            // switch to bevy
+            router.navigate('/b/' + model.id, { trigger: true });
 
-						this.trigger(BEVY.CHANGE_ALL);
+            this.trigger(BEVY.CHANGE_ALL);
 
-						var bevy_ids = this.myBevies.pluck('_id');
-						bevy_ids.push(model.id);
+            var bevy_ids = this.myBevies.pluck('_id');
+            bevy_ids.push(model.id);
 
-						$.ajax({
-							method: 'PATCH',
-							url: constants.apiurl + '/users/' + user._id,
-							data: {
-								bevies: bevy_ids
-							},
-							success: function($user) {
-								this.trigger(BEVY.CHANGE_ALL);
-							}.bind(this)
-						});
-					}.bind(this)
-				});
+            $.ajax({
+              method: 'PATCH',
+              url: constants.apiurl + '/users/' + user._id,
+              data: {
+                bevies: bevy_ids
+              },
+              success: function($user) {
+                this.trigger(BEVY.CHANGE_ALL);
+              }.bind(this)
+            });
+          }.bind(this)
+        });
 
-				break;
+        break;
 
-			case BEVY.DESTROY:
-				var id = payload.id;
-				var bevy = this.myBevies.get(id);
-				bevy.destroy({
-					success: function(model, response) {
-						// switch to the frontpage
-						router.navigate('/b/frontpage', { trigger: true });
+      case BEVY.DESTROY:
+        var id = payload.id;
+        var bevy = this.myBevies.get(id);
+        bevy.destroy({
+          success: function(model, response) {
+            // switch to the frontpage
+            router.navigate('/b/frontpage', { trigger: true });
 
-						// update posts
-						BevyActions.switchBevy();
+            // update posts
+            BevyActions.switchBevy();
 
-						this.trigger(BEVY.CHANGE_ALL);
-					}.bind(this)
-				});
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
 
-				break;
+        break;
 
-			case BEVY.UPDATE:
-				var bevy_id = payload.bevy_id;
+      case BEVY.UPDATE:
+        var bevy_id = payload.bevy_id;
 
-				var bevy = this.myBevies.get(bevy_id);
+        var bevy = this.myBevies.get(bevy_id);
 
-				var name = payload.name || bevy.get('name');
-				var description = payload.description || bevy.get('description');
-				var image_url = payload.image_url || bevy.get('image_url');
-				var settings = payload.settings || bevy.get('settings');
+        var name = payload.name || bevy.get('name');
+        var description = payload.description || bevy.get('description');
+        var image_url = payload.image_url || bevy.get('image_url');
+        var settings = payload.settings || bevy.get('settings');
 
-				bevy.set({
-					name: name,
-					description: description,
-					image_url: image_url,
-					settings: settings
-				});
+        bevy.set({
+          name: name,
+          description: description,
+          image_url: image_url,
+          settings: settings
+        });
 
-				bevy.save({
-					name: name,
-					description: description,
-					image_url: image_url,
-					settings: settings
-				}, {
-					patch: true
-				});
+        bevy.save({
+          name: name,
+          description: description,
+          image_url: image_url,
+          settings: settings
+        }, {
+          patch: true
+        });
 
-				this.trigger(BEVY.CHANGE_ALL);
-				this.trigger(BEVY.UPDATED_IMAGE);
-				// update more stuff
-				this.trigger(POST.CHANGE_ALL);
-				this.trigger(CHAT.CHANGE_ALL);
-				this.trigger(CONTACT.CHANGE_ALL);
+        this.trigger(BEVY.CHANGE_ALL);
+        this.trigger(BEVY.UPDATED_IMAGE);
+        // update more stuff
+        this.trigger(POST.CHANGE_ALL);
+        this.trigger(CHAT.CHANGE_ALL);
+        this.trigger(CONTACT.CHANGE_ALL);
 
-				break;
+        break;
 
-			case BEVY.LEAVE:
-				var bevy_id = payload.bevy_id;
-				var bevy = this.myBevies.get(bevy_id);
-				var user = window.bootstrap.user;
-				var user_id = user._id;
+      case BEVY.LEAVE:
+        var bevy_id = payload.bevy_id;
+        var bevy = this.myBevies.get(bevy_id);
+        var user = window.bootstrap.user;
+        var user_id = user._id;
 
-				// if not joined
-				if(this.myBevies.get(bevy_id) == undefined) break;
+        // if not joined
+        if(this.myBevies.get(bevy_id) == undefined) break;
 
-				if(bevy == undefined) {
-					// not found
-					break;
-				}
-				var bevies = _.reject(user.bevies, function(bevy) {
-					return bevy_id == ((_.isObject(bevy)) ? bevy._id : bevy);
-				});
+        if(bevy == undefined) {
+          // not found
+          break;
+        }
+        var bevies = _.reject(user.bevies, function(bevy) {
+          return bevy_id == ((_.isObject(bevy)) ? bevy._id : bevy);
+        });
 
-				this.myBevies.remove(bevy_id);
+        this.myBevies.remove(bevy_id);
 
-				user.bevies = bevies;
+        user.bevies = bevies;
 
-				this.trigger(BEVY.CHANGE_ALL);
+        this.trigger(BEVY.CHANGE_ALL);
 
-				//if(bevy == undefined) break;
+        //if(bevy == undefined) break;
 
-				/*var members = bevy.get('members');
+        /*var members = bevy.get('members');
 
-				var user = window.bootstrap.user;
-				var user_id = user._id;
-				var email = user.email;*/
+        var user = window.bootstrap.user;
+        var user_id = user._id;
+        var email = user.email;*/
 
-				/*var member = _.find(members, function($member, index) {
-					if(!$member.user) return false; // skip members who haven't joined yet
-					return (email == $member.email || user_id == $member.user._id);
-				});
+        /*var member = _.find(members, function($member, index) {
+          if(!$member.user) return false; // skip members who haven't joined yet
+          return (email == $member.email || user_id == $member.user._id);
+        });
 
-				if(member == undefined) break;*/
+        if(member == undefined) break;*/
 
-				$.ajax({
-					method: 'PATCH',
-					url: constants.apiurl + '/users/' + user_id,
-					data: {
-						bevies: _.pluck(bevies, '_id')
-					},
-					success: function($user) {
-						// ok, now remove the bevy from the local list
-						//user.bevies = $user.bevies
-						this.trigger(BEVY.CHANGE_ALL);
-					}.bind(this)
-				});
+        $.ajax({
+          method: 'PATCH',
+          url: constants.apiurl + '/users/' + user_id,
+          data: {
+            bevies: _.pluck(bevies, '_id')
+          },
+          success: function($user) {
+            // ok, now remove the bevy from the local list
+            //user.bevies = $user.bevies
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
 
-				break;
+        break;
 
-			case BEVY.JOIN:
-				var bevy_id = payload.bevy_id;
-				var user = window.bootstrap.user;
+      case BEVY.JOIN:
+        var bevy_id = payload.bevy_id;
+        var user = window.bootstrap.user;
 
-				// if already joined, break
-				if(this.myBevies.get(bevy_id) != undefined) break;
+        // if already joined, break
+        if(this.myBevies.get(bevy_id) != undefined) break;
 
-				$.ajax({
-					method: 'GET',
-					url: constants.apiurl + '/bevies/' + bevy_id,
-					success: function(bevy) {
-						this.myBevies.add(bevy);
-						this.trigger(BEVY.CHANGE_ALL);
-					}.bind(this)
-				});
+        $.ajax({
+          method: 'GET',
+          url: constants.apiurl + '/bevies/' + bevy_id,
+          success: function(bevy) {
+            this.myBevies.add(bevy);
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
 
-				var bevy_ids = this.myBevies.pluck('_id');
-				bevy_ids.push(bevy_id);
+        var bevy_ids = this.myBevies.pluck('_id');
+        bevy_ids.push(bevy_id);
 
-				this.trigger(BEVY.CHANGE_ALL);
+        this.trigger(BEVY.CHANGE_ALL);
 
-				$.ajax({
-					method: 'PATCH',
-					url: constants.apiurl + '/users/' + user._id,
-					data: {
-						bevies: bevy_ids
-					},
-					success: function($user) {
-						console.log('joined');
-						this.trigger(BEVY.CHANGE_ALL);
-					}.bind(this)
-				});
+        $.ajax({
+          method: 'PATCH',
+          url: constants.apiurl + '/users/' + user._id,
+          data: {
+            bevies: bevy_ids
+          },
+          success: function($user) {
+            console.log('joined');
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
 
-				break;
+        break;
 
-			case BEVY.SWITCH:
-				var bevy_id = payload.bevy_id;
+      case BEVY.SWITCH:
+        var bevy_id = payload.bevy_id;
 
-				this.active = bevy_id;
+        this.active = bevy_id;
 
-				this.trigger(BEVY.CHANGE_ALL);
+        this.trigger(BEVY.CHANGE_ALL);
 
-				break;
+        break;
 
-			case BEVY.SORT:
-				var filter = payload.filter;
-				
-				var collection = (!_.isEmpty(this.searchQuery)) ? this.searchList : this.publicBevies;
-				collection.filter == filter;
-				switch(filter) {
-					case 'top':
-						collection.comparator = this.sortByTop;
-						break;
-					case 'bottom':
-						collection.comparator = this.sortByBottom;
-						break;
-					case 'new':
-						collection.comparator = this.sortByNew;
-						break;
-					case 'old':
-						collection.comparator = this.sortByOld;
-						break;
-				}
+      case BEVY.SORT:
+        var filter = payload.filter;
+        
+        var collection = (!_.isEmpty(this.searchQuery)) ? this.searchList : this.publicBevies;
+        collection.filter == filter;
+        switch(filter) {
+          case 'top':
+            collection.comparator = this.sortByTop;
+            break;
+          case 'bottom':
+            collection.comparator = this.sortByBottom;
+            break;
+          case 'new':
+            collection.comparator = this.sortByNew;
+            break;
+          case 'old':
+            collection.comparator = this.sortByOld;
+            break;
+        }
 
-				this.trigger(BEVY.CHANGE_ALL);
-				break;
+        this.trigger(BEVY.CHANGE_ALL);
+        break;
 
-			case BEVY.SEARCH:
-				var query = payload.query;
-				this.searchQuery = 'a8d27dc165db909fcd24560d62760868';
-				this.searchList.url = constants.apiurl + '/bevies/search/' + query;
-				this.searchList.fetch({
-					success: function(collection, response, options) {
-						this.searchQuery = query;
-						this.trigger(BEVY.CHANGE_ALL);
-					}.bind(this)
-				});
-				break;
-		}
-	},
+      case BEVY.SEARCH:
+        var query = payload.query;
+        this.searchQuery = 'a8d27dc165db909fcd24560d62760868';
+        this.searchList.url = constants.apiurl + '/bevies/search/' + query;
+        this.searchList.fetch({
+          success: function(collection, response, options) {
+            this.searchQuery = query;
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
+        break;
+    }
+  },
 
-	getMyBevies: function() {
-		return this.myBevies.toJSON();
-	},
+  getMyBevies() {
+    return this.myBevies.toJSON();
+  },
 
-	getPublicBevies: function() {
-		return (this.publicBevies.models.length <= 0)
-		? []
-		: this.publicBevies.toJSON();
-	},
+  getPublicBevies() {
+    return (this.publicBevies.models.length <= 0)
+    ? []
+    : this.publicBevies.toJSON();
+  },
 
-	getActive: function() {
-		var active = this.myBevies.get(this.active);
-		if(active == undefined) return {};
-		else return active.toJSON();
-	},
+  getActive() {
+    var active = this.myBevies.get(this.active);
+    if(active == undefined) return {};
+    else return active.toJSON();
+  },
 
-	getBevy: function(bevy_id) {
-		var bevy = this.myBevies.get(bevy_id);
-		return (bevy)
-		? bevy.toJSON()
-		: {};
-	},
+  getBevy(bevy_id) {
+    var bevy = this.myBevies.get(bevy_id);
+    return (bevy)
+    ? bevy.toJSON()
+    : {};
+  },
 
-	getSearchList: function() {
-		return (this.searchList.models.length <= 0)
-		? []
-		: this.searchList.toJSON();
-	},
+  getSearchList() {
+    return (this.searchList.models.length <= 0)
+    ? []
+    : this.searchList.toJSON();
+  },
 
-	getSearchQuery: function() {
-		return this.searchQuery;
-	},
+  getSearchQuery() {
+    return this.searchQuery;
+  },
 
-	getCollection: function() {
-		return this.collection;
-	},
-
-	sortByTop: function(bevy) {
-		var subs = bevy.subs;
-		return -subs;
-	},
-	sortByBottom: function(bevy) {
-		var subs = bevy.subs;
-		return subs;
-	},
-	sortByNew: function(bevy) {
-		var date = Date.parse(bevy.get('created'));
-		return -date;
-	},
-	sortByOld: function(bevy) {
-		var date = Date.parse(bevy.get('created'));
-		console.log(date);
-		return date;
-	}
+  sortByTop(bevy) {
+    var subs = bevy.subs;
+    return -subs;
+  },
+  sortByBottom(bevy) {
+    var subs = bevy.subs;
+    return subs;
+  },
+  sortByNew(bevy) {
+    var date = Date.parse(bevy.get('created'));
+    return -date;
+  },
+  sortByOld(bevy) {
+    var date = Date.parse(bevy.get('created'));
+    console.log(date);
+    return date;
+  }
 });
 
 var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
@@ -362,16 +358,16 @@ BevyStore.dispatchToken = dispatchToken;
 var myBevies = window.bootstrap.myBevies || [];
 BevyStore.myBevies.reset(myBevies);
 BevyStore.myBevies.unshift({
-	_id: '-1',
-	name: 'Frontpage'
+  _id: '-1',
+  name: 'Frontpage'
 });
 BevyStore.trigger(BEVY.CHANGE_ALL);
 
 
 BevyStore.myBevies.on('sync', function() {
-	//console.log('synced');
+  //console.log('synced');
 
-	//BevyStore.trigger(BEVY.CHANGE_ALL);
+  //BevyStore.trigger(BEVY.CHANGE_ALL);
 });
 
 module.exports = BevyStore;
