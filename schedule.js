@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 var Bevy = mongoose.model('Bevy');
 var User = mongoose.model('User');
 var Post = mongoose.model('Post');
+var Comment = mongoose.model('Comment');
 
 var bevySubCountJob = schedule.scheduleJob('* * * * *', function() {
   var limit = 20; // do 20 bevies at once
@@ -65,16 +66,39 @@ var userPointCountJob = schedule.scheduleJob('* * * * *', function() {
           async.each(users,
             function(user, $callback) {
               //console.log('counting points of', user._id);
-              Post.find({ votes: { $elemMatch: { voter: user._id } } }, function(err, posts) {
-                // add up the points
-                var sum = 0;
-                posts.forEach(function(post) {
-                  post.votes.forEach(function(vote) {
-                    sum += vote.score;
+              /**/
+              async.parallel([
+                function($$callback) {
+                  // count points
+                  Post.find({ votes: { $elemMatch: { voter: user._id } } }, function(err, posts) {
+                    // add up the points
+                    var sum = 0;
+                    posts.forEach(function(post) {
+                      post.votes.forEach(function(vote) {
+                        sum += vote.score;
+                      });
+                    });
+                    $$callback(null, sum);
                   });
-                });
-                User.update({ _id: user._id }, { points: sum }, function(err, $user) {
-                  //console.log(user._id, 'has', sum, 'points');
+                },
+                function($$callback) {
+                  // count posts
+                  Post.count({ author: user._id }, function(err, postCount) {
+                    $$callback(null, postCount);
+                  });
+                },
+                function($$callback) {
+                  Comment.count({ author: user._id }, function(err, commentCount) {
+                    $$callback(null, commentCount);
+                  });
+                }
+              ],
+              function(err, results) {
+                var pointCount = results[0];
+                var postCount = results[1];
+                var commentCount = results[2];
+
+                User.update({ _id: user._id }, { points: pointCount, postCount: postCount, commentCount: commentCount }, function(err, $user) {
                   $callback();
                 });
               });

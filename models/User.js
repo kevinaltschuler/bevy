@@ -31,6 +31,14 @@ var UserSchema = new Schema({
     type: Number,
     default: 0
   },
+  postCount: {
+    type: Number,
+    default: 0
+  },
+  commentCount: {
+    type: Number,
+    default: 0
+  },
   google: {
     provider: String,
     id: String,
