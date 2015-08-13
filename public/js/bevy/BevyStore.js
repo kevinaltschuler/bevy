@@ -77,7 +77,6 @@ _.extend(BevyStore, {
 				var newBevy = this.myBevies.add({
 					name: name,
 					description: description,
-					members: members,
 					image_url: image_url,
 					admins: [user._id]
 				});

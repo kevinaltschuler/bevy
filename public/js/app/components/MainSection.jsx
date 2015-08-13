@@ -39,12 +39,14 @@ var POST = constants.POST;
 var BEVY = constants.BEVY;
 var NOTIFICATION = constants.NOTIFICATION;
 var CHAT = constants.CHAT;
+var USER = constants.USER;
 
 var change_all_events = [
 	POST.CHANGE_ALL,
 	BEVY.CHANGE_ALL,
 	NOTIFICATION.CHANGE_ALL,
-	CHAT.CHANGE_ALL
+	CHAT.CHANGE_ALL,
+	USER.CHANGE_ALL
 ].join(' ');
 
 // create app
@@ -64,6 +66,7 @@ var MainSection = React.createClass({
 		BevyStore.on(change_all_events, this._onBevyChange);
 		NotificationStore.on(change_all_events, this._onNotificationChange);
 		ChatStore.on(change_all_events, this._onChatChange);
+		UserStore.on(change_all_events, this._onUserChange);
 	},
 
 	// unmount event listeners
@@ -72,6 +75,7 @@ var MainSection = React.createClass({
 		BevyStore.off(change_all_events, this._onBevyChange);
 		NotificationStore.off(change_all_events, this._onNotificationChange);
 		ChatStore.off(change_all_events, this._onChatChange);
+		UserStore.off(change_all_events, this._onUserChange);
 	},
 
 	getPostState: function() {
@@ -113,6 +117,13 @@ var MainSection = React.createClass({
 		};
 	},
 
+	getUserState: function() {
+		return {
+			userSearchQuery: UserStore.getUserSearchQuery(),
+			userSearchResults: UserStore.getUserSearcResults()
+		};
+	},
+
 	collectState: function() {
 		var state = {};
 		_.extend(state,
@@ -137,6 +148,9 @@ var MainSection = React.createClass({
 	_onChatChange: function() {
 		this.setState(_.extend(this.state, this.getChatState()));
 	},
+	_onUserChange: function() {
+		this.setState(_.extend(this.state, this.getUserState()));
+	},
 
 	componentWillReceiveProps: function(nextProps) {
 		this.setState(this.collectState());
@@ -152,6 +166,8 @@ var MainSection = React.createClass({
 					allThreads={ this.state.allThreads }
 					activeThread={ this.state.activeThread }
 					openThreads={ this.state.openThreads }
+					userSearchQuery={ this.state.userSearchQuery }
+					userSearchResults={ this.state.userSearchResults }
 				/>
 				<InterfaceComponent {...this.state} />
 			</div>

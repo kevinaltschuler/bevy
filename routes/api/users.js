@@ -19,6 +19,9 @@ module.exports = function(router) {
 	// SHOW
 	router.get('/users/:id', api.users.show);
 
+	// SEARCH
+	router.get('/users/search/:query', api.users.search);
+
 	// UPDATE
 	router.put('/users/:id', api.users.update);
 	router.patch('/users/:id', api.users.update);

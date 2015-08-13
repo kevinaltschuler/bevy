@@ -16,6 +16,9 @@ var UserStore = _.extend({}, Backbone.Events);
 // now add some custom functions
 _.extend(UserStore, {
 
+	userSearchQuery: '',
+	userSearchResults: [],
+
 	handleDispatch: function(payload) {
 		switch(payload.actionType) {
 			case USER.UPDATE:
@@ -33,8 +36,29 @@ _.extend(UserStore, {
 				});
 
 				break;
+			case USER.SEARCH:
+				var query = payload.query;
+				this.userSearchQuery = 'a8d27dc165db909fcd24560d62760868';
+				$.ajax({
+					url: constants.apiurl + '/users/search/' + query,
+					method: 'GET',
+					success: function(data) {
+						this.userSearchQuery = query;
+						this.userSearchResults = data;
+						this.trigger(USER.CHANGE_ALL);
+					}.bind(this)
+				});
+				break;
 		}
-	}
+	},
+
+	getUserSearchQuery: function() {
+		return this.userSearchQuery;
+	},
+
+	getUserSearchResults: function() {
+		return this.userSearchResults;
+	},
 });
 
 var dispatchToken = Dispatcher.register(UserStore.handleDispatch.bind(UserStore));
