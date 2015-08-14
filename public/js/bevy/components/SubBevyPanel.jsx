@@ -23,6 +23,7 @@ var Input = rbs.Input;
 var mui = require('material-ui');
 var FontIcon = mui.FontIcon;
 var TextField = mui.TextField;
+var Checkbox = mui.Checkbox;
 
 var BevyActions = require('./../BevyActions');
 
@@ -58,6 +59,16 @@ var SubBevyPanel = React.createClass({
     this.setState({newTagValue: this.refs.newTagInput.getValue()})
   },
 
+  convertHex(hex,opacity){
+      hex = hex.replace('#','');
+      r = parseInt(hex.substring(0,2), 16);
+      g = parseInt(hex.substring(2,4), 16);
+      b = parseInt(hex.substring(4,6), 16);
+
+      result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
+      return result;
+  },
+
   submitTag() {
     this.setState({
       newTag: false,
@@ -67,7 +78,8 @@ var SubBevyPanel = React.createClass({
     });
     var newTagValue = this.state.newTagValue;
     var newTagColor = this.state.newTagColor;
-    BevyActions.update(this.props.activeBevy._id, null, null, null, {newTagValue, newTagColor}, null);
+    var tag = {name: newTagValue, color: newTagColor};
+    BevyActions.update(this.props.activeBevy._id, null, null, null, tag, null);
   },
 
   render() {
@@ -87,7 +99,16 @@ var SubBevyPanel = React.createClass({
     );*/
     for(var key in tags) {
       var tag = tags[key];
-      tagButtons.push( <Input type='checkbox' label={tag.name} checked className='bevy-btn' />);
+      tagButtons.push( <Checkbox 
+        name={tag.name} 
+        value={true} 
+        label={tag.name} 
+        className='bevy-btn'
+        style={{width: '100px'}}
+        iconStyle={{
+          fill: '#FF9800'
+        }}
+      />);
     }
 
     var colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4', '#009688', '#4CAF50', '#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722'];
@@ -98,9 +119,12 @@ var SubBevyPanel = React.createClass({
     }
 
     var colorPicker = (this.state.colorPicker)
-    ? (<div className='panel color-picker-modal'>
+    ? (<div>
+          <div className='panel color-picker-modal' >
             {colorButtons}
-          </div>)
+          </div>
+          <div className='modal-backdrop' onClick={() => { this.setState({colorPicker: false}); }}/>
+      </div>)
     : (<div className='color-picker-modal'/>)
 
     if(this.state.newTag) {

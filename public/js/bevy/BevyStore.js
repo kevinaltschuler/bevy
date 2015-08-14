@@ -165,6 +165,8 @@ _.extend(BevyStore, {
           patch: true
         });
 
+        console.log(bevy.get('tags'));
+
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.UPDATED_IMAGE);
         // update more stuff
