@@ -31,6 +31,14 @@ var BevySchema = new Schema({
 		type: String,
 		ref: 'User'
 	}],
+	tags: [{
+		name: {
+			type: String
+		},
+		color: {
+			type: String
+		}
+	}],
 	settings: {
 		posts_expire_in: {
 			type: Number,

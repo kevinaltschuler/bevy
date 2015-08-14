@@ -106,7 +106,6 @@ exports.show = function(req, res, next) {
 //GET /users/search/:query
 exports.search = function(req, res, next) {
 	var query = req.params.query;
-  console.log(query);
 	User.find(
 		{ $text: { $search: query, $language: "english" }},
 		{ score: { $meta: "textScore"}}
@@ -114,7 +113,6 @@ exports.search = function(req, res, next) {
 	.sort({ score : { $meta : "textScore" } })
     .exec(function(err, results) {
         if(err) return next(err);
-        console.log(results);
         return res.json(results);
     });
 }

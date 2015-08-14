@@ -77,6 +77,14 @@ var PostSchema = new Schema({
 			ref: 'User'
 		}]
 	},
+	tag: {
+		name: {
+			type: String
+		},
+		color: {
+			type: String
+		}
+	},
 	created: {
 		type: Date,
 		default: Date.now

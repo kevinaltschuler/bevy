@@ -44,7 +44,7 @@ var BevyStore = _.extend({}, Backbone.Events);
 _.extend(BevyStore, {
 
   myBevies: new Bevies,
-  active: -1,
+  active: -2,
   publicBevies: new Bevies,
   searchQuery: '',
   searchList: new Bevies,
@@ -139,11 +139,19 @@ _.extend(BevyStore, {
         var description = payload.description || bevy.get('description');
         var image_url = payload.image_url || bevy.get('image_url');
         var settings = payload.settings || bevy.get('settings');
+        var tags = (bevy.get('tags')) ? bevy.get('tags') : [];
+
+        if(!_.isEmpty(payload.tag)) {
+          tags.push(payload.tag);
+        }
+
+        console.log(tags);
 
         bevy.set({
           name: name,
           description: description,
           image_url: image_url,
+          tags: tags,
           settings: settings
         });
 
@@ -151,6 +159,7 @@ _.extend(BevyStore, {
           name: name,
           description: description,
           image_url: image_url,
+          tags: tags,
           settings: settings
         }, {
           patch: true
@@ -161,7 +170,6 @@ _.extend(BevyStore, {
         // update more stuff
         this.trigger(POST.CHANGE_ALL);
         this.trigger(CHAT.CHANGE_ALL);
-        this.trigger(CONTACT.CHANGE_ALL);
 
         break;
 

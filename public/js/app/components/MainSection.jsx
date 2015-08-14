@@ -50,9 +50,7 @@ var MainSection = React.createClass({
 
     // called directly after mounting
     getInitialState: function() {
-
         AppActions.load();
-
         return this.collectState();
     },
 

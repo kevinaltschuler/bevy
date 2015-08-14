@@ -73,8 +73,10 @@ var ChatSidebar = React.createClass({
 
   onChange(ev) {
     ev.preventDefault();
+    if(this.refs.userSearch.getValue() != '') {
       UserActions.search(this.refs.userSearch.getValue());
-    },
+    }
+  },
 
   render() {
 
@@ -162,19 +164,25 @@ var ChatSidebar = React.createClass({
     }
 
     if(_.isEmpty(searchResults) && !_.isEmpty(this.props.userSearchQuery)) {
-      searchResults = <div>
+      searchResults = (
+      <div className='no-results'>
         <h3>
           no results :(
         </h3>
-      </div>
+      </div>);
     }
 
     if(this.props.userSearchQuery == 'a8d27dc165db909fcd24560d62760868') {
-      searchResults = <section className="loaders"><span className="loader loader-quart"> </span></section>
+      searchResults = (
+      <div className='loading'>
+        <section className="loaders">
+          <span className="loader loader-quart"></span>
+        </section>
+      </div>);
     }
 
-    console.log(this.props.userSearchResults);
-    console.log(this.props.userSearchQuery);
+    //console.log('results: ', this.props.userSearchResults);
+   // console.log('query: ', this.props.userSearchQuery);
 
     return (
       <div className='chat-sidebar'>
@@ -185,8 +193,6 @@ var ChatSidebar = React.createClass({
         </div>
         <div className='search-results' id='search-results'>
           <div className='content' >
-            <div className='top'>
-            </div>
             <div className='results-list'>
               { searchResults }
             </div>

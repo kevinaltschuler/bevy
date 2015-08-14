@@ -1,77 +1,132 @@
 @import '../variables.less';
 
 .bevy-list.panel {
-	padding-bottom: 15px;
-	.panel-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		p {
-			flex-grow: 1;
-		}
-		.new-bevy-btn {
-			background-color: @clear;
-			color: @light-font;
-			transition: all 0.15s linear;
-			border: none;
-			.glyphicon {
-				font-size: 1em;
-			}
-			&:hover {
-				color: rgba(0,0,0,.8);
-			}
-		}
-		.super-bevy-btn {
-			background-color: @clear;
-			color: @light-font;
-			font-size: 1em;
-			transition: all 0.15s linear;
-			border: none;
-			display: block;
-			font-weight: 600;
-			padding-left: 12px;
-			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-				outline: none;
-				//text-decoration: underline;
-				//color: @dark-font;
-				box-shadow: none;
-				background-color: @clear;
-			}
-			&:hover {
-				background-color: @clear;
-			}
-		}
-	}
+    padding-bottom: 15px;
+    .panel-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        p {
+            flex-grow: 1;
+        }
+        .new-bevy-btn {
+            background-color: @clear;
+            color: @light-font;
+            transition: all 0.15s linear;
+            border: none;
+            .glyphicon {
+                font-size: 1em;
+            }
+            &:hover {
+                color: rgba(0,0,0,.8);
+            }
+        }
+        .super-bevy-btn {
+            background-color: @clear;
+            color: @light-font;
+            font-size: 1em;
+            transition: all 0.15s linear;
+            border: none;
+            display: block;
+            font-weight: 600;
+            padding-left: 12px;
+            &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+                outline: none;
+                //text-decoration: underline;
+                //color: @dark-font;
+                box-shadow: none;
+                background-color: @clear;
+            }
+            &:hover {
+                background-color: @clear;
+            }
+        }
+    }
 
-	.bevy-list-btns {
-		padding-left: 8px;
+    .bevy-list-btns {
+        padding-left: 8px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
 
-		display: flex;
-		flex-direction: column;
-		align-items: flex-start;
+        .bevy-btn {
+            background-color: @clear;
+            color: @light-font;
+            font-size: inherit;
+            transition: all 0.15s linear;
+            border: none;
+            display: block;
+            &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+                outline: none;
+                text-decoration: underline;
+                color: @dark-font;
+                box-shadow: none;
+                background-color: @clear;
+            }
+            &:hover {
+                background-color: @clear;
+                color: @dark-font;
+            }
+        }
 
-		.bevy-btn {
-			background-color: @clear;
-			color: @light-font;
-			font-size: inherit;
-			transition: all 0.15s linear;
-			border: none;
-			display: block;
-			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-				outline: none;
-				text-decoration: underline;
-				color: @dark-font;
-				box-shadow: none;
-				background-color: @clear;
-			}
-			&:hover {
-				background-color: @clear;
-				color: @dark-font;
-			}
-		}
+        .new-tag {
+            display: flex;
+            flex-direction: row;
+            width: 100%;
+            height: 40px;
+            align-items: center;
 
-		.badge {
-			background-color: #777777;
-		}
-	}
+            .color-picker {
+                .color-btn {
+                    width: 24px;
+                    height: 24px;
+                    border-radius: 20px;
+                    border: none;
+                    margin-right: 10px;
+                    box-shadow: @shadow1;
+                    transition: all .2s ease-in-out;
+                    &:hover {
+
+                    }
+                    &:active{
+                        box-shadow: none;
+                        box-shadow: @shadow2;
+                    }
+                }
+                .color-picker-modal {
+                    position: absolute;
+                    top: 40px;
+                    display: flex;
+                    max-width: 210px;
+                    z-index: 1;
+                    padding: 0px 0px 15px 15px;
+                    flex-wrap: wrap;
+                    .color {
+                        width: 34px;
+                        height: 34px;
+                        border: none;
+                        border-radius: 40px;
+                        margin-right: 15px;
+                        margin-top: 15px;
+                        box-shadow: @shadow1;
+                        transition: all .2s ease-in-out;
+                        &:active{
+                            box-shadow: none;
+                            box-shadow: @shadow2;
+                        }
+                    }
+                }
+            }
+            .mui-text-field {
+                width: 80%;
+                .mui-text-field-focus-underline {
+                    border-color: rgba(0,0,0,.7);
+                }
+            }
+        }
+
+        .badge {
+            background-color: #777777;
+        }
+    }
 }

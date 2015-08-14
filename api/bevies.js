@@ -135,9 +135,13 @@ exports.update = function(req, res, next) {
 			});
 		}
 	}
+	if(req.body['tags']) {
+    	update.tags = req.body['tags'];
+    }
 
 	var query = { _id: id };
-	var promise = Bevy.findOneAndUpdate(query, update, { new: true, upsert: true })
+	console.log(update);
+	var promise = Bevy.findOneAndUpdate(query, update, { new: true })
 		.exec();
 	promise.then(function(bevy) {
 		if(!bevy) throw error.gen('bevy not found', req);

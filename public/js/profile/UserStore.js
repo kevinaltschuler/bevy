@@ -42,6 +42,7 @@ _.extend(UserStore, {
           break;
         }
         this.userSearchQuery = 'a8d27dc165db909fcd24560d62760868';
+        this.trigger(USER.CHANGE_ALL);
         $.ajax({
           url: constants.apiurl + '/users/search/' + query,
           method: 'GET',
@@ -56,6 +57,7 @@ _.extend(UserStore, {
   },
 
   getUserSearchQuery() {
+    console.log('getting junk');
     return this.userSearchQuery = (this.userSearchQuery) ? this.userSearchQuery : '';
   },
 

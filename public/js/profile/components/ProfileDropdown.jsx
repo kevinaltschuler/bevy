@@ -121,8 +121,6 @@ var ProfileDropdown = React.createClass({
               </DropdownButton>
             </div>
           </div>
-          <hr />
-
           <div className="profile-dropdown-buttons">
             <div className="profile-btn-left">
 
