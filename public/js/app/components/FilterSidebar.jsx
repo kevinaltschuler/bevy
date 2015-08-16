@@ -14,25 +14,41 @@ var router = require('./../../router');
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
+var BEVY = constants.BEVY;
 var Footer = require('./Footer.jsx');
 
-var mui = require('material-ui');
-var DropDownMenu = mui.DropDownMenu;
-var RaisedButton = mui.RaisedButton;
-var FontIcon = mui.FontIcon;
+var {
+  DropDownMenu,
+  RaisedButton,
+  FontIcon
+} = require('material-ui');
 
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 
 var FilterSidebar = React.createClass({
   propTypes: {
-    searchQuery: React.PropTypes.string
   },
 
   getInitialState() {
     return {
       filter: 'top',
-      showNewBevyModal: false
+      showNewBevyModal: false,
+      searchQuery: ''
     };
+  },
+
+  componentDidMount() {
+    BevyStore.on(BEVY.SEARCHING, this.handleSearching);
+  },
+
+  componentWillUnmount() {
+    BevyStore.off(BEVY.SEARCHING, this.handleSearching);
+  },
+
+  handleSearching() {
+    this.setState({
+      searchQuery: BevyStore.getSearchQuery()
+    });
   },
 
   handleFilter(filter) {
@@ -66,7 +82,7 @@ var FilterSidebar = React.createClass({
   },
 
   render() {
-    var searchQuery = (_.isEmpty(this.props.searchQuery) || this.props.searchQuery == 'a8d27dc165db909fcd24560d62760868') ? '' : this.props.searchQuery;
+    var searchQuery = this.state.searchQuery;
     var selectedIndex = this.state.selectedIndex;
 
     var myClass = (this.state.collection == 'my') ? 'active' : '';
@@ -81,7 +97,7 @@ var FilterSidebar = React.createClass({
 
     var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
     ? 'all'
-    : 'searching for ' + searchQuery;
+    : 'searching for ' + "'" + searchQuery + "'";
 
     var bevyContent = (
       <div className='actions'>

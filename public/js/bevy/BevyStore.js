@@ -285,11 +285,12 @@ _.extend(BevyStore, {
         var query = payload.query;
         this.searchQuery = query;
         this.searchList.reset();
-        this.trigger(BEVY.CHANGE_ALL);
+        this.trigger(BEVY.SEARCHING);
         this.searchList.url = constants.apiurl + '/bevies/search/' + query;
         this.searchList.fetch({
+          reset: true,
           success: function(collection, response, options) {
-            this.trigger(BEVY.CHANGE_ALL);
+            this.trigger(BEVY.SEARCH_COMPLETE);
           }.bind(this)
         });
         break;

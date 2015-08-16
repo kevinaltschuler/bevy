@@ -71,6 +71,8 @@ exports.BEVY = {
   SORT: 'bevy_sort',
   SEARCH: 'bevy_search',
 
+  SEARCHING: 'bevy_searching',
+  SEARCH_COMPLETE: 'bevy_search_complete',
   CHANGE_ALL: 'bevy_change_all',
   CHANGE_ONE: 'bevy_change_one',
   UPDATED_IMAGE: 'bevy_updated_image'

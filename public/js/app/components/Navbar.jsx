@@ -44,9 +44,7 @@ var Navbar = React.createClass({
     allNotifications: React.PropTypes.array,
     allThreads: React.PropTypes.array,
     activeThread: React.PropTypes.object,
-    openThreads: React.PropTypes.array,
-    userSearchQuery: React.PropTypes.string,
-    userSearchResults: React.PropTypes.array
+    openThreads: React.PropTypes.array
   },
 
   getInitialState() {
