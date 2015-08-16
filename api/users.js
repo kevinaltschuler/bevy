@@ -109,7 +109,6 @@ exports.show = function(req, res, next) {
 //GET /users/search/:query
 exports.search = function(req, res, next) {
 	var query = req.params.query;
-  //var regex = new RegExp(query);
   var promise = User.find()
     .or([
       { email: { $regex: query, $options: 'i' } },
