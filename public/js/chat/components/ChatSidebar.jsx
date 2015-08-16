@@ -41,6 +41,7 @@ var ChatSidebar = React.createClass({
 
   getInitialState() {
     return {
+      sidebarWidth: constants.chatSidebarWidthClosed,
       isOverlayOpen: false,
       searching: false,
       query: '',
@@ -159,13 +160,22 @@ var ChatSidebar = React.createClass({
     }
 
     return (
-      <div className='chat-sidebar'>
+      <div 
+        className='chat-sidebar' 
+        style={{ width: this.state.sidebarWidth }}
+        onMouseOver={() => { this.setState({ sidebarWidth: constants.chatSidebarWidthOpen }); }}
+        onMouseOut={() => { this.setState({ sidebarWidth: constants.chatSidebarWidthClosed }); }}
+      >
         <div className='conversation-list'>
           <div className='title'>
           </div>
           { threads }
         </div>
-        <div className='search-results' id='search-results'>
+        <div 
+          className='search-results'
+          style={{ width: constants.chatSidebarWidthOpen }}
+          id='search-results'
+        >
           <div className='content' >
             <div className='top'>
             </div>

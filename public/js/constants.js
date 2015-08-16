@@ -27,6 +27,9 @@ exports.protocol = protocol;
 exports.api_subdomain = api_subdomain;
 exports.api_version = api_version;
 
+exports.chatSidebarWidthClosed = 55;
+exports.chatSidebarWidthOpen = 200;
+
 exports.APP = {
   LOAD: 'app_load'
 };

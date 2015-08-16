@@ -12,6 +12,7 @@ var {
   Button
 } = require('react-bootstrap');
 
+var constants = require('./../../constants');
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
 
@@ -56,7 +57,11 @@ var ThreadItem = React.createClass({
     };
 
     return (
-      <Button className='conversation-item' onClick={ this.openThread }>
+      <Button 
+        className='conversation-item'
+        style={{ width: constants.chatSidebarWidthOpen }}
+        onClick={ this.openThread }
+      >
         <div className='image' style={imageStyle}/>
         <div className='conversation-details'>
           <span className='bevy-name'>{ bevy.name }</span>
