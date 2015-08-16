@@ -48,6 +48,14 @@ var Navbar = React.createClass({
     userSearchResults: React.PropTypes.array
   },
 
+  getInitialState() {
+    return {
+      opacity: 0.7 // the layer under the background image is black (rgba(0,0,0,1))
+                   // this is the opacity for the image over that layer
+                   // so higher opacity means a brighter image, and lower means darker
+    };
+  },
+
   onKeyUp(ev) {
     if(ev.which == 13) {
       // trigger search
@@ -114,7 +122,10 @@ var Navbar = React.createClass({
     
     var backgroundStyle = (_.isEmpty(this.props.activeBevy))
     ? {}
-    : { backgroundImage: 'url(' + this.props.activeBevy.image_url + ')' };
+    : { 
+      opacity: this.state.opacity,
+      backgroundImage: 'url(' + this.props.activeBevy.image_url + ')' 
+    };
 
     var searchQuery = router.search_query || '';
 
@@ -158,7 +169,7 @@ var Navbar = React.createClass({
 
     return (
       <div id='navbar' className="navbar navbar-fixed-top row" style={ navbarStyle }>
-        <div className='background-wrapper'>
+        <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#2CB673' } : { backgroundColor: '#000' }}>
           <div className="background-image" style= { backgroundStyle } />
         </div>
         <div className="navbar-header pull-left">
