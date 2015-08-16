@@ -158,10 +158,6 @@ _.extend(BevyStore, {
 
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.UPDATED_IMAGE);
-        // update more stuff
-        this.trigger(POST.CHANGE_ALL);
-        this.trigger(CHAT.CHANGE_ALL);
-        this.trigger(CONTACT.CHANGE_ALL);
 
         break;
 
