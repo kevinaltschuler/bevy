@@ -11,8 +11,6 @@ var _ = require('underscore');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
-var textSearch = require('mongoose-text-search');
-
 var UserSchema = new Schema({
   _id: {
     type: String,
