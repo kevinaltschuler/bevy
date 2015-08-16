@@ -17,20 +17,22 @@ var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var router = require('./../../router');
 var classNames = require('classnames');
 
-var mui = require('material-ui');
-var IconButton = mui.IconButton;
-var TextField = mui.TextField;
-var FlatButton = mui.FlatButton;
-var RaisedButton = mui.RaisedButton;
+var {
+  IconButton,
+  TextField,
+  FlatButton,
+  RaisedButton
+} = require('material-ui');
 
-var rbs = require('react-bootstrap');
-var Panel = rbs.Panel;
-var DropdownButton = rbs.DropdownButton;
-var MenuItem = rbs.MenuItem;
-var ModalTrigger = rbs.ModalTrigger;
-var Button = rbs.Button;
-var Badge = rbs.Badge;
-var CollapsibleMixin = rbs.CollapsibleMixin;
+var {
+  Panel,
+  DropdownButton,
+  MenuItem,
+  ModalTrigger,
+  Button,
+  Badge,
+  CollapsibleMixin
+} = require('react-bootstrap');
 
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
@@ -424,12 +426,12 @@ var Post = React.createClass({
         <div className="panel-bottom">
           <div className='left'>
             <FlatButton className='upvote' onClick={ this.upvote } disabled={_.isEmpty(window.bootstrap.user)}>
-              <span className="glyphicon glyphicon-thumbs-up btn" style={upvoteStyle}></span>
+              <span className="glyphicon glyphicon-thumbs-up" style={upvoteStyle}></span>
               &nbsp;{ this.countVotes() } upvotes
             </FlatButton>
-            <FlatButton className='comment' onClick={ this.expandComments }>
-              <span className="glyphicon glyphicon-comment btn"></span>
-              &nbsp;{ commentCount } comments
+            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments }>
+              <span className="glyphicon glyphicon-comment"></span>
+              &nbsp;{ commentCount }&nbsp;comments
             </FlatButton>
           </div>
         </div>
