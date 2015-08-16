@@ -17,14 +17,15 @@ var _ = require('underscore');
 
 var router = require('./../../router');
 
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-var DropdownButton = rbs.DropdownButton;
-var MenuItem = rbs.MenuItem;
-
-var mui = require('material-ui');
-var IconButton = mui.IconButton;
-var TextField = mui.TextField;
+var {
+  Button,
+  DropdownButton,
+  MenuItem
+} = require('react-bootstrap');
+var {
+  IconButton,
+  TextField
+} = require('material-ui');
 
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
