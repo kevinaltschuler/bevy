@@ -29,6 +29,7 @@ exports.api_version = api_version;
 
 exports.chatSidebarWidthClosed = 55;
 exports.chatSidebarWidthOpen = 200;
+exports.chatSidebarSearchHeight = 300;
 
 exports.APP = {
   LOAD: 'app_load'

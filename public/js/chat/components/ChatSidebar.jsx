@@ -18,6 +18,7 @@ var {
 } = require('material-ui');
 
 var ThreadItem = require('./ThreadItem.jsx');
+var UserSearchItem = require('./UserSearchItem.jsx');
 
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
@@ -42,6 +43,7 @@ var ChatSidebar = React.createClass({
   getInitialState() {
     return {
       sidebarWidth: constants.chatSidebarWidthClosed,
+      searchHeight: 0,
       isOverlayOpen: false,
       searching: false,
       query: '',
@@ -81,25 +83,28 @@ var ChatSidebar = React.createClass({
     });
   },
 
-  openUserThread(ev) {
-    ev.preventDefault();
-
-    var thread_id = ev.target.getAttribute('id');
-
-    ChatActions.openThread(null, thread_id);
-  },
-
   openSearchResults() {
-    document.getElementById("search-results").style.height = "300px";
+    this.setState({
+      searchHeight: constants.chatSidebarSearchHeight
+    });
   },
 
   closeSearchResults() {
-    document.getElementById("search-results").style.height = "0px";
+    // clear search query and results
+    // and reset height
+    this.setState({
+      searchHeight: 0,
+      query: '',
+      searchUsers: []
+    });
   },
 
   onChange(ev) {
     ev.preventDefault();
     var query = this.refs.userSearch.getValue();
+    this.setState({
+      query: query
+    });
     if(_.isEmpty(query)) return;
     else UserActions.search(query);
   },
@@ -127,23 +132,12 @@ var ChatSidebar = React.createClass({
     for(var key in userSearchResults) {
 
       var user = userSearchResults[key];
-      var image_url = (_.isEmpty(user.image_url)) ? '/img/user-profile-icon.png' : user.image_url;
-
-      var name = user.displayName;
-
-      var imageStyle = {
-        backgroundImage: 'url(' + image_url + ')',
-        backgroundSize: 'auto 100%',
-        backgroundPosition: 'center'
-      };
-
+      
       searchResults.push(
-        <Button className='conversation-item' key={ 'thread' + user._id } id={ user._id } onFocus={ this.openUserThread }>
-          <div className='image' style={imageStyle}/>
-          <div className='conversation-details'>
-            <span className='bevy-name'>{ name }</span>
-          </div>
-        </Button>
+        <UserSearchItem
+          key={ 'chatusersearch:' + user._id }
+          searchUser={ user }
+        />
       );
     }
 
@@ -173,13 +167,16 @@ var ChatSidebar = React.createClass({
         </div>
         <div 
           className='search-results'
-          style={{ width: constants.chatSidebarWidthOpen }}
-          id='search-results'
+          style={{ 
+            width: constants.chatSidebarWidthOpen,
+            height: this.state.searchHeight
+          }}
         >
           <div className='content' >
             <div className='top'>
             </div>
             <div className='results-list'>
+              <span className='results-list-header'>Users</span>
               { searchResults }
             </div>
           </div>
@@ -195,6 +192,7 @@ var ChatSidebar = React.createClass({
             type='text'
             className='search-input'
             ref='userSearch'
+            value={ this.state.query }
             onChange={ this.onChange }
             defaultValue={ this.props.searchQuery }
           />
