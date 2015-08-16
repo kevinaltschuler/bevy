@@ -10,16 +10,19 @@ var React = require('react');
 var _ = require('underscore');
 var $ = require('jquery');
 
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
+var {
+  Button
+} = require('react-bootstrap');
+var {
+  TextField
+} = require('material-ui');
+
+var ThreadItem = require('./ThreadItem.jsx');
 
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
 var UserActions = require('./../../profile/UserActions');
 var UserStore = require('./../../profile/UserStore');
-
-var mui = require('material-ui');
-var TextField = mui.TextField;
 
 var user = window.bootstrap.user;
 var email = user.email;
@@ -73,8 +76,8 @@ var ChatSidebar = React.createClass({
 
   onChange(ev) {
     ev.preventDefault();
-      UserActions.search(this.refs.userSearch.getValue());
-    },
+    UserActions.search(this.refs.userSearch.getValue());
+  },
 
   render() {
 
@@ -82,7 +85,13 @@ var ChatSidebar = React.createClass({
     var allThreads = (_.isEmpty(this.props.allThreads)) ? [] : this.props.allThreads;
     for(var key in allThreads) {
       var thread = allThreads[key];
-      var bevy = thread.bevy;
+      threads.push(
+        <ThreadItem
+          key={ 'sidebarthread' + thread._id }
+          thread={ thread }
+        />
+      );
+      /*var bevy = thread.bevy;
 
       var latestMessage = ChatStore.getLatestMessage(thread._id);
       var message = '';
@@ -130,7 +139,7 @@ var ChatSidebar = React.createClass({
             { message }
           </div>
         </Button>
-      );
+      );*/
     }
 
     if(threads.length <= 0) {
@@ -153,12 +162,14 @@ var ChatSidebar = React.createClass({
         backgroundPosition: 'center'
       };
 
-      searchResults.push(<Button className='conversation-item' key={ 'thread' + user._id } id={ user._id } onFocus={ this.openUserThread }>
+      searchResults.push(
+        <Button className='conversation-item' key={ 'thread' + user._id } id={ user._id } onFocus={ this.openUserThread }>
           <div className='image' style={imageStyle}/>
           <div className='conversation-details'>
             <span className='bevy-name'>{ name }</span>
           </div>
-      </Button>);
+        </Button>
+      );
     }
 
     if(_.isEmpty(searchResults) && !_.isEmpty(this.props.userSearchQuery)) {
@@ -172,9 +183,6 @@ var ChatSidebar = React.createClass({
     if(this.props.userSearchQuery == 'a8d27dc165db909fcd24560d62760868') {
       searchResults = <section className="loaders"><span className="loader loader-quart"> </span></section>
     }
-
-    console.log(this.props.userSearchResults);
-    console.log(this.props.userSearchQuery);
 
     return (
       <div className='chat-sidebar'>
