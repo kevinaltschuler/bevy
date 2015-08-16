@@ -10,6 +10,8 @@ var Dispatcher = require('./../shared/dispatcher');
 var constants = require('./../constants');
 var USER = constants.USER;
 
+var Users = require('./UserCollection');
+
 var user = window.bootstrap.user;
 
 var UserStore = _.extend({}, Backbone.Events);
@@ -17,7 +19,7 @@ var UserStore = _.extend({}, Backbone.Events);
 _.extend(UserStore, {
 
   userSearchQuery: '',
-  userSearchResults: [],
+  userSearchResults: new Users,
 
   handleDispatch(payload) {
     switch(payload.actionType) {
@@ -37,18 +39,19 @@ _.extend(UserStore, {
 
         break;
       case USER.SEARCH:
+        this.trigger(USER.SEARCHING);
         var query = payload.query;
         if(query == '' || query == undefined) {
           break;
         }
-        this.userSearchQuery = 'a8d27dc165db909fcd24560d62760868';
         $.ajax({
           url: constants.apiurl + '/users/search/' + query,
           method: 'GET',
           success: function(data) {
+            console.log('search data', data);
             this.userSearchQuery = query;
-            this.userSearchResults = data;
-            this.trigger(USER.CHANGE_ALL);
+            this.userSearchResults.reset(data);
+            this.trigger(USER.SEARCH_COMPLETE);
           }.bind(this)
         });
         break;
@@ -56,11 +59,11 @@ _.extend(UserStore, {
   },
 
   getUserSearchQuery() {
-    return this.userSearchQuery = (this.userSearchQuery) ? this.userSearchQuery : '';
+    return this.userSearchQuery;
   },
 
   getUserSearchResults() {
-    return this.userSearchResults = (this.userSearchResults) ? this.userSearchResults : [];
+    return this.userSearchResults.toJSON();
   }
 });
 

@@ -108,10 +108,10 @@ exports.search = function(req, res, next) {
 		{ score: { $meta: "textScore"}}
 	)
 	.sort({ score : { $meta : "textScore" } })
-    .exec(function(err, results) {
-        if(err) return next(err);
-        return res.json(results);
-    });
+  .exec(function(err, results) {
+      if(err) return next(err);
+      return res.json(results);
+  });
 }
 
 // UPDATE

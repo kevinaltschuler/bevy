@@ -23,6 +23,8 @@ var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
 var UserActions = require('./../../profile/UserActions');
 var UserStore = require('./../../profile/UserStore');
+var constants = require('./../../constants');
+var USER = constants.USER;
 
 var user = window.bootstrap.user;
 var email = user.email;
@@ -40,22 +42,42 @@ var ChatSidebar = React.createClass({
   getInitialState() {
     return {
       isOverlayOpen: false,
+      searching: false,
+      query: '',
+      searchUsers: []
     };
   },
 
-    handleToggle(ev) {
-      ev.preventDefault();
-      this.setState({
-        isOverlayOpen: !this.state.isOverlayOpen
-      });
-    },
+  componentDidMount() {
+    UserStore.on(USER.SEARCH_COMPLETE, this.handleSearchResults);
+    UserStore.on(USER.SEARCHING, this.handleSearching);
+  },
 
-  openThread(ev) {
+  componentWillUnmount() {
+    UserStore.off(USER.SEARCH_COMPLETE, this.handleSearchResults);
+    UserStore.off(USER.SEARCHING, this.handleSearching);
+  },
+
+  handleSearching() {
+    this.setState({
+      searching: true,
+      searchUsers: []
+    });
+  },
+
+  handleSearchResults() {
+    this.setState({
+      searching: false,
+      query: UserStore.getUserSearchQuery(),
+      searchUsers: UserStore.getUserSearchResults()
+    });
+  },
+
+  handleToggle(ev) {
     ev.preventDefault();
-
-    var thread_id = ev.target.getAttribute('id');
-
-    ChatActions.openThread(thread_id);
+    this.setState({
+      isOverlayOpen: !this.state.isOverlayOpen
+    });
   },
 
   openUserThread(ev) {
@@ -76,11 +98,12 @@ var ChatSidebar = React.createClass({
 
   onChange(ev) {
     ev.preventDefault();
-    UserActions.search(this.refs.userSearch.getValue());
+    var query = this.refs.userSearch.getValue();
+    if(_.isEmpty(query)) return;
+    else UserActions.search(query);
   },
 
   render() {
-
     var threads = [];
     var allThreads = (_.isEmpty(this.props.allThreads)) ? [] : this.props.allThreads;
     for(var key in allThreads) {
@@ -91,67 +114,18 @@ var ChatSidebar = React.createClass({
           thread={ thread }
         />
       );
-      /*var bevy = thread.bevy;
-
-      var latestMessage = ChatStore.getLatestMessage(thread._id);
-      var message = '';
-      if(!_.isEmpty(latestMessage)) {
-
-        if(bevy) {
-
-          var messageAuthor = latestMessage.author.displayName;
-          if(latestMessage.author._id == user._id) messageAuthor = 'Me';
-
-          message = (
-            <span className='latest-message'>
-              { messageAuthor + ': ' + latestMessage.body }
-            </span>
-          );
-        } else {
-
-          var messageAuthor = latestMessage.author.displayName;
-          if(latestMessage.author._id == user._id) messageAuthor = 'Me';
-
-          message = (
-            <span className='latest-message'>
-              { messageAuthor + ': ' + latestMessage.body }
-            </span>
-          );
-        }
-      }
-
-      var image_url = (bevy) ? bevy.image_url : '';
-      if(_.isEmpty(image_url)) {
-        if(bevy) image_url = '/img/logo_100.png';
-        else image_url = '/img/user-profile-icon.png';
-      }
-      var imageStyle = {
-        backgroundImage: 'url(' + image_url + ')',
-        backgroundSize: 'auto 100%',
-        backgroundPosition: 'center'
-      };
-
-      threads.push(
-        <Button className='conversation-item' key={ 'thread' + thread._id } id={ thread._id } onFocus={ this.openThread }>
-          <div className='image' style={imageStyle}/>
-          <div className='conversation-details'>
-            <span className='bevy-name'>{ name }</span>
-            { message }
-          </div>
-        </Button>
-      );*/
     }
 
     if(threads.length <= 0) {
       console.log('no threads');
       return <div/>;
     };
+
     var searchResults = [];
-    var userSearchResults = this.props.userSearchResults;
+    var userSearchResults = this.state.searchUsers;
     for(var key in userSearchResults) {
 
       var user = userSearchResults[key];
-
       var image_url = (_.isEmpty(user.image_url)) ? '/img/user-profile-icon.png' : user.image_url;
 
       var name = user.displayName;
@@ -172,7 +146,7 @@ var ChatSidebar = React.createClass({
       );
     }
 
-    if(_.isEmpty(searchResults) && !_.isEmpty(this.props.userSearchQuery)) {
+    if(_.isEmpty(searchResults) && !_.isEmpty(this.state.query)) {
       searchResults = <div>
         <h3>
           no results :(
@@ -180,7 +154,7 @@ var ChatSidebar = React.createClass({
       </div>
     }
 
-    if(this.props.userSearchQuery == 'a8d27dc165db909fcd24560d62760868') {
+    if(this.state.searching) {
       searchResults = <section className="loaders"><span className="loader loader-quart"> </span></section>
     }
 
@@ -206,13 +180,14 @@ var ChatSidebar = React.createClass({
         <div className='chat-actions'>
           <span className='glyphicon glyphicon-search' />
           <TextField 
-          onFocus={this.openSearchResults} 
-          onBlur={this.closeSearchResults}
-          type='text'
-                className='search-input'
-                ref='userSearch'
-                onChange={ this.onChange }
-                defaultValue={ this.props.searchQuery }/>
+            onFocus={this.openSearchResults} 
+            onBlur={this.closeSearchResults}
+            type='text'
+            className='search-input'
+            ref='userSearch'
+            onChange={ this.onChange }
+            defaultValue={ this.props.searchQuery }
+          />
         </div>
       </div>
     );

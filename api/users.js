@@ -21,7 +21,10 @@ var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
 var Post = mongoose.model('Post');
 var Notification = mongoose.model('Notification');
-User.collection.ensureIndex({displayName: 'text'}, function(err) { return err });
+
+User.ensureIndexes(function(err) {
+  if(err) return err;
+});
 
 function collectUserParams(req) {
   var update = {};
@@ -106,16 +109,17 @@ exports.show = function(req, res, next) {
 //GET /users/search/:query
 exports.search = function(req, res, next) {
 	var query = req.params.query;
-  console.log(query);
-	User.find(
-		{ $text: { $search: query, $language: "english" }},
-		{ score: { $meta: "textScore"}}
-	)
-	.sort({ score : { $meta : "textScore" } })
-    .exec(function(err, results) {
-        if(err) return next(err);
-        return res.json(results);
-    });
+  //var regex = new RegExp(query);
+  var promise = User.find()
+    .or([
+      { email: { $regex: query, $options: 'i' } },
+      { username: { $regex: query, $options: 'i' } },
+      { 'google.displayName': { $regex: query, $options: 'i' } },
+    ])
+    .exec();
+  promise.then(function(users) {
+    return res.json(users);
+  }, function(err) { return next(err); });
 }
 
 // UPDATE

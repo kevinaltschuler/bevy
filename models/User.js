@@ -11,6 +11,8 @@ var _ = require('underscore');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
+var textSearch = require('mongoose-text-search');
+
 var UserSchema = new Schema({
   _id: {
     type: String,
@@ -117,6 +119,12 @@ UserSchema.set('toObject', {
 UserSchema.set('toJSON', {
   getters: true,
   virtuals: true
+});
+
+UserSchema.index({
+  email: 'text',
+  username: 'text',
+  'google.displayName': 'text'
 });
 
 module.exports = UserSchema;

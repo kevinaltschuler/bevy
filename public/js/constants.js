@@ -74,7 +74,10 @@ exports.BEVY = {
 
 exports.USER = {
   UPDATE: 'user_update',
-  SEARCH: 'user_search'
+  SEARCH: 'user_search',
+
+  SEARCHING: 'user_searching',
+  SEARCH_COMPLETE: 'user_search_complete'
 };
 
 exports.NOTIFICATION = {

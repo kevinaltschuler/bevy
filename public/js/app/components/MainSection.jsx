@@ -115,8 +115,6 @@ var MainSection = React.createClass({
 
     getUserState: function() {
         return {
-            userSearchQuery: UserStore.getUserSearchQuery(),
-            userSearchResults: UserStore.getUserSearchResults()
         };
     },
 
@@ -163,8 +161,6 @@ var MainSection = React.createClass({
                     allThreads={ this.state.allThreads }
                     activeThread={ this.state.activeThread }
                     openThreads={ this.state.openThreads }
-                    userSearchQuery={ this.state.userSearchQuery }
-                    userSearchResults={ this.state.userSearchResults }
                 />
                 <InterfaceComponent {...this.state} />
             </div>
