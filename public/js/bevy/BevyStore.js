@@ -283,11 +283,12 @@ _.extend(BevyStore, {
 
       case BEVY.SEARCH:
         var query = payload.query;
-        this.searchQuery = 'a8d27dc165db909fcd24560d62760868';
+        this.searchQuery = query;
+        this.searchList.reset();
+        this.trigger(BEVY.CHANGE_ALL);
         this.searchList.url = constants.apiurl + '/bevies/search/' + query;
         this.searchList.fetch({
           success: function(collection, response, options) {
-            this.searchQuery = query;
             this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });

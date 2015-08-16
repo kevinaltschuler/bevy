@@ -57,18 +57,13 @@ var Navbar = React.createClass({
     };
   },
 
-  onKeyUp(ev) {
-    if(ev.which == 13) {
-      // trigger search
-      this.onSearch(ev);
-    }
+  onChange(ev) {
+    this.onSearch(ev);
   },
 
   onSearch(ev) {
     ev.preventDefault();
-
     var query = this.refs.search.getValue();
-
     router.navigate('s/' + query, { trigger: true });
   },
 
@@ -190,7 +185,7 @@ var Navbar = React.createClass({
               type='text'
               className='search-input'
               ref='search'
-              onKeyUp={ this.onKeyUp }
+              onChange={ this.onChange }
               defaultValue={ searchQuery }
             />
             <IconButton

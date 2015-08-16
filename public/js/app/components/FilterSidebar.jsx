@@ -35,21 +35,6 @@ var FilterSidebar = React.createClass({
     };
   },
 
-  onSearch(ev) {
-    ev.preventDefault();
-
-    var query = this.refs.search.getValue();
-
-    router.navigate('s/' + query, { trigger: true });
-  },
-
-  onKeyUp(ev) {
-    if(ev.which == 13) {
-      // trigger search
-      this.onSearch(ev);
-    }
-  },
-
   handleFilter(filter) {
     var selectedIndex = 0;
     switch(filter) {
