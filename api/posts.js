@@ -66,8 +66,18 @@ exports.index = function(req, res, next) {
 // POST /bevies/:bevyid/posts
 exports.create = function(req, res, next) {
   var update = collectPostParams(req);
-  update.event = req.body['event'] || {};
   update._id = shortid.generate();
+  update.title = req.body['title'];
+  update.tags = req.body['tags'];
+  update.images = req.body['images'];
+  update.author = req.body['author'];
+  update.bevy = req.body['bevy'];
+  update.expires = req.body['expires'];
+  update.type = req.body['type'];
+  update.event = req.body['event'];
+  update.tag =  req.body['tag'];
+
+  if(!update.title || !update.tag || !update.bevy || !update.author || !update.type) throw error.gen('a field was not specified', req);
 
   async.waterfall([
     function(done) {
