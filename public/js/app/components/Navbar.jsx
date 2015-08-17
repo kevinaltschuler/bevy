@@ -63,6 +63,7 @@ var Navbar = React.createClass({
     if(ev.which == 13) {
       // trigger search
       this.onSearch(ev);
+    }
   },
 
   getInitialState() {
