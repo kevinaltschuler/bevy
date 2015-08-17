@@ -24,7 +24,8 @@ var {
 } = require('react-bootstrap');
 var {
   IconButton,
-  TextField
+  TextField,
+  Styles
 } = require('material-ui');
 
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
@@ -32,7 +33,7 @@ var NotificationDropdown = require('./../../notification/components/Notification
 var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
 var ChatDock = require('./../../chat/components/ChatDock.jsx');
 var ChatSidebar = require('./../../chat/components/ChatSidebar.jsx');
-var ThemeManager = new mui.Styles.ThemeManager();
+var ThemeManager = new Styles.ThemeManager();
 var user = window.bootstrap.user;
 
 // react component

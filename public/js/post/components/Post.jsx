@@ -34,6 +34,7 @@ var {
   CollapsibleMixin
 } = require('react-bootstrap');
 
+var PostHeader = require('./PostHeader.jsx');
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
 var CommentPanel = require('./CommentPanel.jsx');
@@ -56,10 +57,6 @@ var email = user.email;
 
 var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
-
-function getPostState(id) {
-  return PostStore.getPost(id);
-}
 
 // React class
 var Post = React.createClass({
@@ -145,14 +142,6 @@ var Post = React.createClass({
       sum += vote.score;
     });
     return sum;
-  },
-
-  findMember(user_id) {
-    var members = this.state.post.bevy.members;
-    return _.find(members, function(member) {
-      if(!_.isObject(member.user)) return false;
-      return member.user._id == user_id;
-    });
   },
 
   startEdit(ev) {
@@ -360,15 +349,6 @@ var Post = React.createClass({
       }
     }
 
-    var muteButtonText = (_.find(post.muted_by, function(muter) { return muter == user._id }))
-    ? 'Unmute Post'
-    : 'Mute Post';
-    var muteButton = (
-      <MenuItem onClick={ this.mute }>
-        { muteButtonText }
-      </MenuItem>
-    );
-
     var pinnedBadge = (post.pinned)
     ? <span className='badge pinned'>Pinned</span>
     : '';
@@ -386,36 +366,7 @@ var Post = React.createClass({
 
     var postBody = (
       <div>
-        <div className='panel-header'>
-          <div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
-          <div className='post-details'>
-            <div className='top'>
-              <span className="details">
-                <Button onClick={ this.startPM }>{ authorName }</Button>
-              </span>
-              <span className="glyphicon glyphicon-triangle-right"/>
-              <span className="details">
-                <a href={ '/b/' + bevy._id } id={ bevy._id } onClick={ this.onSwitchBevy }>{ bevy.name }</a>
-              </span>
-            </div>
-            <div className="bottom">
-              <span className="detail-time">{ ago }</span>
-              <span className='detail-time'>{ left }</span>
-            </div>
-          </div>
-          <div className='badges'>
-            <DropdownButton
-              noCaret
-              pullRight
-              className="post-settings"
-              title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-              { deleteButton }
-              { editButton }
-              { pinButton }
-              { muteButton }
-            </DropdownButton>
-          </div>
-        </div>
+        <PostHeader />
 
         <div className='panel-body'>
           { panelBodyText }

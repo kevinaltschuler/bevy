@@ -134,18 +134,12 @@ var ChatSidebar = React.createClass({
 
   onChange(ev) {
     ev.preventDefault();
-<<<<<<< HEAD
-    if(this.refs.userSearch.getValue() != '') {
-      UserActions.search(this.refs.userSearch.getValue());
-    }
-=======
     var query = this.refs.userSearch.getValue();
     this.setState({
       query: query
     });
     if(_.isEmpty(query)) return;
     else UserActions.search(query);
->>>>>>> 6ff41a833a5a220e1f1143e7868f89fa6caea9ca
   },
 
   render() {
@@ -153,50 +147,6 @@ var ChatSidebar = React.createClass({
     var allThreads = this.state.allThreads;
     for(var key in allThreads) {
       var thread = allThreads[key];
-<<<<<<< HEAD
-      var bevy = thread.bevy;
-      var user = window.bootstrap.user;
-
-      var latestMessage = ChatStore.getLatestMessage(thread._id);
-      var message = '';
-      if(!_.isEmpty(latestMessage)) {
-
-        if(bevy) {
-
-          var messageAuthor = latestMessage.author.displayName;
-          if(latestMessage.author._id == user._id) messageAuthor = 'Me';
-
-          message = (
-            <span className='latest-message'>
-              { messageAuthor + ': ' + latestMessage.body }
-            </span>
-          );
-        } else {
-
-          var messageAuthor = latestMessage.author.displayName;
-          if(latestMessage.author._id == user._id) messageAuthor = 'Me';
-
-          message = (
-            <span className='latest-message'>
-              { messageAuthor + ': ' + latestMessage.body }
-            </span>
-          );
-        }
-      }
-
-      var image_url = (bevy) ? bevy.image_url : '';
-      if(_.isEmpty(image_url)) {
-        if(bevy) image_url = '/img/logo_100.png';
-        else image_url = '/img/user-profile-icon.png';
-      }
-      var imageStyle = {
-        backgroundImage: 'url(' + image_url + ')',
-        backgroundSize: 'auto 100%',
-        backgroundPosition: 'center'
-      };
-
-=======
->>>>>>> 6ff41a833a5a220e1f1143e7868f89fa6caea9ca
       threads.push(
         <ThreadItem
           key={ 'sidebarthread' + thread._id }
@@ -224,39 +174,20 @@ var ChatSidebar = React.createClass({
       );
     }
 
-<<<<<<< HEAD
-    if(_.isEmpty(searchResults) && !_.isEmpty(this.props.userSearchQuery)) {
-      searchResults = (
-      <div className='no-results'>
-=======
     if(_.isEmpty(searchResults) && !_.isEmpty(this.state.query)) {
-      searchResults = <div>
->>>>>>> 6ff41a833a5a220e1f1143e7868f89fa6caea9ca
-        <h3>
-          no results :(
-        </h3>
-      </div>);
-    }
-
-<<<<<<< HEAD
-    if(this.props.userSearchQuery == 'a8d27dc165db909fcd24560d62760868') {
       searchResults = (
-      <div className='loading'>
-        <section className="loaders">
-          <span className="loader loader-quart"></span>
-        </section>
-      </div>);
+        <div>
+          <h3>
+            no results :(
+          </h3>
+        </div>
+      );
     }
 
-    //console.log('results: ', this.props.userSearchResults);
-   // console.log('query: ', this.props.userSearchQuery);
-
-=======
     if(this.state.searching) {
       searchResults = <section className="loaders"><span className="loader loader-quart"> </span></section>
     }
 
->>>>>>> 6ff41a833a5a220e1f1143e7868f89fa6caea9ca
     return (
       <div 
         className='chat-sidebar' 
@@ -294,16 +225,6 @@ var ChatSidebar = React.createClass({
         <div className='chat-actions'>
           <span className='glyphicon glyphicon-search' />
           <TextField 
-<<<<<<< HEAD
-            onFocus={this.openSearchResults} 
-            onBlur={this.closeSearchResults}
-            type='text'
-            className='search-input'
-            ref='userSearch'
-            onChange={ this.onChange }
-            defaultValue={ this.props.searchQuery }
-            style={{margin: '0px 5px 0px 5px'}}
-=======
             onFocus={ this.openSearchResults } 
             //onBlur={this.closeSearchResults}
             type='text'
@@ -312,7 +233,6 @@ var ChatSidebar = React.createClass({
             value={ this.state.query }
             onChange={ this.onChange }
             hintText='Search Users'
->>>>>>> 6ff41a833a5a220e1f1143e7868f89fa6caea9ca
           />
         </div>
       </div>
@@ -320,8 +240,8 @@ var ChatSidebar = React.createClass({
   }
 });
 
-  ChatSidebar.childContextTypes = {
-    muiTheme: React.PropTypes.object
-  };
+ChatSidebar.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
 
 module.exports = ChatSidebar;
