@@ -35,20 +35,13 @@ var {
 } = require('react-bootstrap');
 
 var PostHeader = require('./PostHeader.jsx');
-var CommentList = require('./CommentList.jsx');
-var CommentSubmit = require('./CommentSubmit.jsx');
-var CommentPanel = require('./CommentPanel.jsx');
-
-var ImageModal  = require('./ImageModal.jsx');
+var PostImages = require('./PostImages.jsx');
+var PostFooter = require('./PostFooter.jsx');
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
-var ChatActions = require('./../../chat/ChatActions');
 
 var POST = require('./../../constants').POST;
-
-var timeAgo = require('./../../shared/helpers/timeAgo');
-var timeLeft = require('./../../shared/helpers/timeLeft');
 
 var $ = require('jquery');
 
@@ -63,26 +56,18 @@ var Post = React.createClass({
   mixins: [CollapsibleMixin],
 
   propTypes: {
-    id: React.PropTypes.string.isRequired,
     post: React.PropTypes.object.isRequired
   },
 
   getInitialState() {
     return {
       isEditing: false,
-      title: this.props.post.title,
-      post: this.props.post,
-      showComments: false,
-      showImageModal: false
+      title: this.props.post.title
     };
   },
 
   componentWillMount() {
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
-  },
-
-  componentWillRecieveProps(nextProps) {
-    this.forceUpdate();
   },
 
   componentDidUnmount() {
@@ -116,34 +101,6 @@ var Post = React.createClass({
     });
   },
 
-  upvote(ev) {
-    ev.preventDefault();
-    PostActions.upvote(this.props.post._id, window.bootstrap.user);
-  },
-
-  downvote(ev) {
-    ev.preventDefault();
-    PostActions.downvote(this.props.post._id, window.bootstrap.user);
-  },
-
-  destroy(ev) {
-    ev.preventDefault();
-    PostActions.destroy(this.props.post._id);
-  },
-
-  /**
-   * count the summed value of all of the votes
-   * for this post
-   * @return {int}
-   */
-  countVotes() {
-    var sum = 0;
-    this.state.post.votes.forEach(function(vote) {
-      sum += vote.score;
-    });
-    return sum;
-  },
-
   startEdit(ev) {
     ev.preventDefault();
     this.setState({
@@ -160,100 +117,12 @@ var Post = React.createClass({
     });
   },
 
-  pin(ev) {
-    ev.preventDefault();
-    var post_id = this.props.post._id;
-    PostActions.pin(post_id);
-  },
-
-  mute(ev) {
-    ev.preventDefault();
-    var post_id = this.props.post._id;
-    PostActions.mute(post_id);
-  },
-
-  onTag(ev) {
-    ev.preventDefault();
-    var tag = ev.target.parentNode.getAttribute('id');
-    router.navigate('/s/' + tag, { trigger: true });
-  },
-
-  onSwitchBevy(ev) {
-    ev.preventDefault();
-    var bevy_id = ev.target.parentNode.getAttribute('id');
-    router.navigate('/b/' + bevy_id, { trigger: true });
-  },
-
-  startPM(ev) {
-    ev.preventDefault();
-    ChatActions.startPM(this.state.post.author._id);
-  },
-
-  expandComments(ev) {
-    ev.preventDefault();
-    this.setState({
-      showComments: !this.state.showComments
-    });
-  },
-
   render() {
 
-    var post = this.state.post;
+    var post = this.props.post;
     //console.log(post);
     var bevy = post.bevy;
     var author = post.author;
-    var commentCount = (post.allComments)
-    ? post.allComments.length
-    :   0;
-
-    var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
-    var profileImage = (post.author.image_url)
-    ? post.author.image_url
-    : defaultProfileImage;
-
-    var authorName;
-    authorName = 'placeholder-author';
-    if(author) {
-      authorName = author.displayName;
-    }
-
-    var imageBody = (<div/>);
-    var images = [];
-    if(!_.isEmpty(post.images)) {
-      var allImages = post.images;
-      for(var key in allImages) {
-        var url = post.images[key] + '?w=150&h=150';
-        images.push(
-          <div className='panel-body-image' key={ key } >
-            <Button 
-              className="image-thumbnail" 
-              style={{backgroundImage: 'url(' + url + ')'}}
-              onClick={() => { this.setState({ showImageModal: true }); }}
-            />
-            <ImageModal 
-              allImages={ allImages } 
-              index={ key } 
-              show={ this.state.showImageModal }
-              onHide={() => { this.setState({ showImageModal: false }); }}
-            />
-          </div>
-        );
-      }
-      imageBody = (
-        <div className="panel-body">
-          { images }
-        </div>
-      );
-    }
-
-    var ago = timeAgo(Date.parse(post.created));
-    var left = (this.props.post.expires && !post.pinned)
-    ? (
-      <span>
-        <span className='middot'>•</span>
-        { 'expires ' + timeLeft(Date.parse(post.expires)) }
-      </span>
-    ) : '';
 
     /*if(!_.isEmpty(this.state.title)) {
       var words = this.state.title.split(' ');
@@ -317,82 +186,22 @@ var Post = React.createClass({
       );
     }
 
-    var deleteButton = '';
-    if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == author._id)
-        deleteButton = (
-          <MenuItem onClick={ this.destroy } >
-            Delete Post
-          </MenuItem>
-        );
-    }
-
-    var editButton = '';
-    if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == author._id)
-        editButton = (
-          <MenuItem onClick={ this.startEdit } >
-            Edit Post
-          </MenuItem>
-        );
-    }
-
-    var pinButton = '';
-    var pinButtonText = (post.pinned) ? 'Unpin Post' : 'Pin Post';
-    if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == author._id) {
-        pinButton = (
-          <MenuItem onClick={ this.pin }>
-            { pinButtonText }
-          </MenuItem>
-        );
-      }
-    }
-
-    var pinnedBadge = (post.pinned)
-    ? <span className='badge pinned'>Pinned</span>
-    : '';
+    
 
     var styles = this.getCollapsibleClassSet();
     var text = this.isExpanded() ? 'Hide' : 'Show';
 
-    var user_id = (window.bootstrap.user)
-    ? window.bootstrap.user._id
-    : '';
-
-    var upvoteStyle = (_.find(post.votes, function(vote){ return vote.voter == user_id; }))
-    ? {color: 'black'}
-    : {};
-
     var postBody = (
       <div>
-        <PostHeader />
+        <PostHeader post={ post } />
 
         <div className='panel-body'>
           { panelBodyText }
         </div>
 
-        { imageBody }
-        <div className="panel-bottom">
-          <div className='left'>
-            <FlatButton className='upvote' onClick={ this.upvote } disabled={_.isEmpty(window.bootstrap.user)}>
-              <span className="glyphicon glyphicon-thumbs-up" style={upvoteStyle}></span>
-              &nbsp;{ this.countVotes() } upvotes
-            </FlatButton>
-            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments }>
-              <span className="glyphicon glyphicon-comment"></span>
-              &nbsp;{ commentCount }&nbsp;comments
-            </FlatButton>
-          </div>
-        </div>
-        <CommentPanel expanded={this.state.showComments} post={post} />
-        <div className='panel-comment-submit'>
-          <CommentSubmit
-            postId={ this.props.id }
-            author={ post.author }
-            bevy={ bevy }
-          />
-        </div>
+        <PostImages post={ post } />
+        
+        <PostFooter post={ post } />
       </div>
     );
 

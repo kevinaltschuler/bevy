@@ -32,6 +32,8 @@ var Post = Backbone.Model.extend({
     votes: [],
     type: 'default',
     event: null,
+    allComments: [],
+    commentCount: 0,
     created: new Date(),
     updated: new Date(),
   },

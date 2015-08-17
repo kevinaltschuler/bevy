@@ -71,7 +71,6 @@ var MainSection = React.createClass({
 
   getPostState: function() {
     return {
-      allPosts: PostStore.getAll(),
       sortType: PostStore.getSort()
     }
   },
@@ -148,35 +147,32 @@ var MainSection = React.createClass({
 
 var InterfaceComponent = React.createClass({
   callback() {
-  this.forceUpdate();
+    this.forceUpdate();
   },
   componentWillMount() {
-  router.on('route', this.callback);
+    router.on('route', this.callback);
   },
   componentWillUnmount() {
-  router.off('route', this.callback);
+    router.off('route', this.callback);
   },
   render() {
-
-  //console.log(this.props.activeThread);
-
-  switch(router.current) {
-    case 'home': 
-    return <HomeView {...this.props}  />
-    break;
-    case 'search':
-    return <PublicBevyList {...this.props} />
-    break;
-    case 'bevy':
-    return <PostView {...this.props} />
-    break;
-    case 'publicbevies':
-    return <PublicBevyList {...this.props} />
-    break;
-    default:
-    return <FourOhFour {...this.props} />
-    break;
-  }
+    switch(router.current) {
+      case 'home': 
+        return <HomeView {...this.props}  />
+        break;
+      case 'search':
+        return <PublicBevyList {...this.props} />
+        break;
+      case 'bevy':
+        return <PostView {...this.props} />
+        break;
+      case 'publicbevies':
+        return <PublicBevyList {...this.props} />
+        break;
+      default:
+        return <FourOhFour {...this.props} />
+        break;
+    }
   }
 });
 

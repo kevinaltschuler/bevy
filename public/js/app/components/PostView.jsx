@@ -41,15 +41,6 @@ var PostView = React.createClass({
       );
     }
     else {
-      var postContainer = (this.props.allPosts == undefined)
-      ? <div>
-          loading
-        </div>
-      : <PostContainer
-          allPosts={ this.props.allPosts }
-          activeBevy={ this.props.activeBevy }
-          sortType={ this.props.sortType }
-        />;
       var body = (
         <div>
           <NewPostPanel
@@ -61,7 +52,11 @@ var PostView = React.createClass({
             activeBevy={ this.props.activeBevy}
             sortType={ this.props.sortType }
           />
-          {postContainer}
+          <PostContainer
+            allPosts={ this.props.allPosts }
+            activeBevy={ this.props.activeBevy }
+            sortType={ this.props.sortType }
+          />
         </div>
       );
 

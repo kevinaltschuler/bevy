@@ -70,6 +70,7 @@ _.extend(PostStore, {
         //PostStore.posts.forEach(function(post) {
         //  PostStore.postsNestComment(post);
         //});
+        this.trigger(POST.CHANGE_ALL);
 
         break;
 
@@ -154,7 +155,7 @@ _.extend(PostStore, {
           return tag.slice(1, tag.length); // remove the hashtag
         });
 
-        var newPost = {
+        var newPost = this.posts.add({
           title: title,
           tags: tags,
           comments: [],
@@ -166,10 +167,7 @@ _.extend(PostStore, {
           type: type,
           event: event,
           tag: tag
-        };
-        var newPost = this.posts.add(newPost);
-        var tempBevy = newPost.get('bevy');
-        newPost.set('bevy', bevy._id);
+        });
 
         // save to server
         newPost.save(null, {
@@ -191,6 +189,8 @@ _.extend(PostStore, {
             this.trigger(POST.POSTED_POST);
           }.bind(this)
         });
+
+        newPost.set('bevy', bevy);
 
         break;
 
