@@ -27,7 +27,6 @@ var ImageModal = React.createClass({
 
   getInitialState() {
     return {
-      isModalOpen: false,
       index: this.props.index
     };
   },
@@ -96,7 +95,7 @@ var ImageModal = React.createClass({
         tabIndex="0"
         onKeyDown={ this.onKeyDown }
         show={ this.props.show }
-        hide={ this.props.onHide }>
+        onHide={ this.props.onHide }>
         <Modal.Body>
           <div className='modal-body'>
             <img src={ this.props.allImages[this.state.index] }/>

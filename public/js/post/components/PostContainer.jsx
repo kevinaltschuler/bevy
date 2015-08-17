@@ -71,7 +71,6 @@ var PostContainer = React.createClass({
           if(sortType == 'events') {
             posts.push(
               <Event
-                id={ post._id }
                 key={Math.random()}
                 post={ post }
               />
@@ -82,7 +81,6 @@ var PostContainer = React.createClass({
           if(sortType != 'events') {
             posts.push(
               <Post
-                id={ post._id }
                 key={Math.random()}
                 post={ post }
               />
