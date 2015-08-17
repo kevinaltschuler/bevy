@@ -23,9 +23,6 @@ var Post = mongoose.model('Post');
 var Bevy = mongoose.model('Bevy');
 var Comment = mongoose.model('Comment');
 
-var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
-var urlPartsRegex = /(.*:)\/\/([A-Za-z0-9\-\.]+)(:[0-9]+)?(.+)/i;
-
 function collectPostParams(req) {
   var update = {};
   // dynamically load schema values from request object
@@ -344,6 +341,9 @@ function addImages(links, images) {
 
 var imageContentTypes = 'image/png image/gif image/jpg image/jpeg image/bmp'.split(' ');
 var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+
+var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
+var urlPartsRegex = /(.*:)\/\/([A-Za-z0-9\-\.]+)(:[0-9]+)?(.+)/i;
 
 function getMeta(link, callback) {
 

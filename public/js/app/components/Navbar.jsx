@@ -17,14 +17,15 @@ var _ = require('underscore');
 
 var router = require('./../../router');
 
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-var DropdownButton = rbs.DropdownButton;
-var MenuItem = rbs.MenuItem;
-
-var mui = require('material-ui');
-var IconButton = mui.IconButton;
-var TextField = mui.TextField;
+var {
+  Button,
+  DropdownButton,
+  MenuItem
+} = require('react-bootstrap');
+var {
+  IconButton,
+  TextField
+} = require('material-ui');
 
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
@@ -40,12 +41,7 @@ var Navbar = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object,
-    allNotifications: React.PropTypes.array,
-    allThreads: React.PropTypes.array,
-    activeThread: React.PropTypes.object,
-    openThreads: React.PropTypes.array,
-    userSearchQuery: React.PropTypes.string,
-    userSearchResults: React.PropTypes.array
+    allNotifications: React.PropTypes.array
   },
 
   getChildContext() { 
@@ -67,14 +63,23 @@ var Navbar = React.createClass({
     if(ev.which == 13) {
       // trigger search
       this.onSearch(ev);
-    }
+  },
+
+  getInitialState() {
+    return {
+      opacity: 0.7 // the layer under the background image is black (rgba(0,0,0,1))
+                   // this is the opacity for the image over that layer
+                   // so higher opacity means a brighter image, and lower means darker
+    };
+  },
+
+  onChange(ev) {
+    this.onSearch(ev);
   },
 
   onSearch(ev) {
     ev.preventDefault();
-
     var query = this.refs.search.getValue();
-
     router.navigate('s/' + query, { trigger: true });
   },
 
@@ -129,22 +134,20 @@ var Navbar = React.createClass({
     
     var backgroundStyle = (_.isEmpty(this.props.activeBevy))
     ? {}
-    : { backgroundImage: 'url(' + this.props.activeBevy.image_url + ')' };
+    : { 
+      opacity: this.state.opacity,
+      backgroundImage: 'url(' + this.props.activeBevy.image_url + ')' 
+    };
 
     var searchQuery = router.search_query || '';
 
     var frontpageUrl = (window.bootstrap.user) ? '/bevies' : '/';
 
     var chatSidebar = (
-      <ChatSidebar
-        allThreads={ this.props.allThreads } 
-        activeThread={ this.props.activeThread }
-        userSearchResults={ this.props.userSearchResults }
-        userSearchQuery={ this.props.userSearchQuery }
-      />
+      <ChatSidebar />
     );
-    var chatDock = <ChatDock openThreads={ this.props.openThreads } />;
-    if(router.current == 'home' || this.props.allThreads.length < 0) {
+    var chatDock = <ChatDock />;
+    if(router.current == 'home') {
       chatSidebar = <div />;
       chatDock = <div />;
     }
@@ -173,7 +176,7 @@ var Navbar = React.createClass({
 
     return (
       <div id='navbar' className="navbar navbar-fixed-top row" style={ navbarStyle }>
-        <div className='background-wrapper'>
+        <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#2CB673' } : { backgroundColor: '#000' }}>
           <div className="background-image" style= { backgroundStyle } />
         </div>
         <div className="navbar-header pull-left">
@@ -193,7 +196,7 @@ var Navbar = React.createClass({
               type='text'
               className='search-input'
               ref='search'
-              onKeyUp={ this.onKeyUp }
+              onChange={ this.onChange }
               defaultValue={ searchQuery }
             />
             <IconButton

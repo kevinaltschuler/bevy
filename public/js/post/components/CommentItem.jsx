@@ -14,6 +14,7 @@ var timeAgo = require('./../../shared/helpers/timeAgo');
 
 var CommentSubmit = require('./CommentSubmit.jsx');
 var CommentActions = require('./../CommentActions');
+var ChatActions = require('./../../chat/ChatActions');
 
 var user = window.bootstrap.user;
 
@@ -69,6 +70,11 @@ var CommentItem = React.createClass({
     this.setState({
       isReplying: !this.state.isReplying
     });
+  },
+
+  startPM(ev) {
+    ev.preventDefault();
+    ChatActions.startPM(this.props.comment.author._id);
   },
 
   destroy(ev) {
@@ -142,7 +148,7 @@ var CommentItem = React.createClass({
           <div className="comment-text">
             <div className="comment-title">
               <div className="comment-name">
-                { authorName }&nbsp;
+                <a className="comment-name" href="#" onClick={ this.startPM }>{ authorName }</a>&nbsp;
                 <div className="detail-time">
                   { timeAgo(Date.parse(comment.created)) }&nbsp;&nbsp;
                 </div>

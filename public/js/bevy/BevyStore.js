@@ -170,9 +170,6 @@ _.extend(BevyStore, {
 
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.UPDATED_IMAGE);
-        // update more stuff
-        this.trigger(POST.CHANGE_ALL);
-        this.trigger(CHAT.CHANGE_ALL);
 
         break;
 
@@ -300,12 +297,14 @@ _.extend(BevyStore, {
 
       case BEVY.SEARCH:
         var query = payload.query;
-        this.searchQuery = 'a8d27dc165db909fcd24560d62760868';
+        this.searchQuery = query;
+        this.searchList.reset();
+        this.trigger(BEVY.SEARCHING);
         this.searchList.url = constants.apiurl + '/bevies/search/' + query;
         this.searchList.fetch({
+          reset: true,
           success: function(collection, response, options) {
-            this.searchQuery = query;
-            this.trigger(BEVY.CHANGE_ALL);
+            this.trigger(BEVY.SEARCH_COMPLETE);
           }.bind(this)
         });
         break;

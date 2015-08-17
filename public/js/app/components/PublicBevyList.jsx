@@ -14,40 +14,71 @@ var router = require('./../../router');
 
 var user = window.bootstrap.user;
 
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
-var FontIcon = mui.FontIcon;
+var {
+  Button
+} = require('react-bootstrap');
+var {
+  RaisedButton,
+  FontIcon
+} = require('material-ui');
 
 var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 
+var constants = require('./../../constants');
+var BEVY = constants.BEVY;
+var BevyStore = require('./../../bevy/BevyStore');
+
 var PublicBevyList = React.createClass({
 
   propTypes: {
     publicBevies: React.PropTypes.array.isRequired,
-    myBevies: React.PropTypes.array,
-    searchList: React.PropTypes.array,
-    searchQuery: React.PropTypes.string
+    myBevies: React.PropTypes.array
   },
 
   getInitialState() {
     return {
-      showNewBevyModal: false
+      showNewBevyModal: false,
+      searching: false,
+      searchList: []
     };
+  },
+
+  componentDidMount() {
+    BevyStore.on(BEVY.SEARCHING, this.handleSearching);
+    BevyStore.on(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
+  },
+
+  componentWillUnmount() {
+    BevyStore.off(BEVY.SEARCHING, this.handleSearching);
+    BevyStore.off(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
+  },
+
+  handleSearching() {
+    this.setState({
+      searching: true,
+      searchQuery: BevyStore.getSearchQuery(),
+      searchList: []
+    });
+  },
+
+  handleSearchComplete() {
+    this.setState({
+      searching: false,
+      searchList: BevyStore.getSearchList()
+    });
   },
 
   render() {
     var publicBevies = this.props.publicBevies;
     var myBevies = this.props.myBevies;
-    var searchList = this.props.searchList;
-    var searchQuery = this.props.searchQuery;
+
+    var searchList = this.state.searchList;
+    var searchQuery = this.state.searchQuery;
+
     var bevies = publicBevies;
     if(!_.isEmpty(searchQuery)) {
-      console.log('searching');
       bevies = searchList;
     }
 
@@ -68,7 +99,7 @@ var PublicBevyList = React.createClass({
       content = <h2> no results :( </h2>
     }
 
-    if(this.props.searchQuery == 'a8d27dc165db909fcd24560d62760868') {
+    if(this.props.searching) {
       content = <section className="loaders"><span className="loader loader-quart"> </span></section>
     }
 

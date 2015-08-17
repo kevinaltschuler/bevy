@@ -64,10 +64,10 @@ exports.indexPublic = function(req, res, next) {
 exports.create = function(req, res, next) {
 	var update = {};
 	update._id = shortid.generate();
-	update.name = req.body['name'] || null;
-	update.description = req.body['description'] || '';
-	update.image_url = req.body['image_url'] || '';
-	update.admins = req.body['admins'] || [];
+	update.name = req.body['name'];
+	update.description = req.body['description'];
+	update.image_url = req.body['image_url'];
+	update.admins = req.body['admins'];
 
 	if(!update.name) throw error.gen('bevy name not specified', req);
 
@@ -103,15 +103,18 @@ exports.show = function(req, res, next) {
 // GET /bevies/search/:query
 exports.search = function(req, res, next) {
 	var query = req.params.query;
-	Bevy.find(
-		{ $text: { $search: query, $language: "english" }},
-		{ score: { $meta: "textScore"}}
-	)
-	.sort({ score : { $meta : "textScore" } })
-    .exec(function(err, results) {
-        if(err) return next(err);
-        return res.json(results);
-    });
+	var promise = Bevy.find()
+		.limit(20)
+		.or([
+			{ name: { $regex: query, $options: 'i' } },
+			{ description: { $regex: query, $options: 'i' } }
+		])
+		.exec();
+	promise.then(function(bevies) {
+		return res.json(bevies);
+	}, function(err) {
+		return next(err);
+	});
 }
 
 // UPDATE

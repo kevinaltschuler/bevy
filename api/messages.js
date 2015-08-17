@@ -42,7 +42,6 @@ exports.create = function(req, res, next) {
 		if(err) return next(err);
 		Message.populate($message, { path: 'author' }, function(err, $pop_message) {
 			if(err) return next(err);
-			console.log($pop_message);
 			// now lets push it to everybody
 			Thread.findOne({ _id: thread_id }, function(err, thread) {
 				if(err) return next(err);

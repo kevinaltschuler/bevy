@@ -119,4 +119,10 @@ UserSchema.set('toJSON', {
   virtuals: true
 });
 
+UserSchema.index({
+  email: 'text',
+  username: 'text',
+  'google.displayName': 'text'
+});
+
 module.exports = UserSchema;

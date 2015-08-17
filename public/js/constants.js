@@ -27,6 +27,10 @@ exports.protocol = protocol;
 exports.api_subdomain = api_subdomain;
 exports.api_version = api_version;
 
+exports.chatSidebarWidthClosed = 55;
+exports.chatSidebarWidthOpen = 200;
+exports.chatSidebarSearchHeight = 300;
+
 exports.APP = {
   LOAD: 'app_load'
 };
@@ -67,6 +71,8 @@ exports.BEVY = {
   SORT: 'bevy_sort',
   SEARCH: 'bevy_search',
 
+  SEARCHING: 'bevy_searching',
+  SEARCH_COMPLETE: 'bevy_search_complete',
   CHANGE_ALL: 'bevy_change_all',
   CHANGE_ONE: 'bevy_change_one',
   UPDATED_IMAGE: 'bevy_updated_image'
@@ -76,17 +82,19 @@ exports.USER = {
   UPDATE: 'user_update',
   SEARCH: 'user_search',
 
-  CHANGE_ALL: 'user_change_all'
+  SEARCHING: 'user_searching',
+  SEARCH_COMPLETE: 'user_search_complete'
 };
 
 exports.NOTIFICATION = {
-    DISMISS: 'notification_dismiss',
-    READ: 'notification_read',
+  DISMISS: 'notification_dismiss',
+  READ: 'notification_read',
 
-    CHANGE_ALL: 'notification_change_all'
+  CHANGE_ALL: 'notification_change_all'
 };
 
 exports.CHAT = {
+  START_PM: 'chat_start_pm',
   THREAD_OPEN: 'chat_thread_open',
   PANEL_CLOSE: 'chat_panel_close',
   MESSAGE_CREATE: 'chat_message_create',

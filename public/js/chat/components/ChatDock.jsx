@@ -5,19 +5,35 @@ var _ = require('underscore');
 
 var ChatPanel = require('./ChatPanel.jsx');
 
+var constants = require('./../../constants');
+var CHAT = constants.CHAT;
+var ChatStore = require('./../ChatStore');
+
 var ChatDock = React.createClass({
 
-  propTypes: {
-    openThreads: React.PropTypes.array
+  getInitialState() {
+    return {
+      openThreads: []
+    };
   },
 
-  getInitialState() {
-    return {};
+  componentDidMount() {
+    ChatStore.on(CHAT.CHANGE_ALL, this.handleChangeAll);
+  },
+
+  componentWillUnmount() {
+    ChatStore.off(CHAT.CHANGE_ALL, this.handleChangeAll);
+  },
+
+  handleChangeAll() {
+    this.setState({
+      openThreads: ChatStore.getOpenThreads()
+    });
   },
 
   render() {
     var threads = [];
-    var openThreads = (_.isEmpty(this.props.openThreads)) ? [] : this.props.openThreads;
+    var openThreads = this.state.openThreads;
     for(var key in openThreads) {
       var thread = openThreads[key];
       threads.push(
@@ -29,7 +45,9 @@ var ChatDock = React.createClass({
     }
 
     return (
-      <div className='chat-dock'>
+      <div className='chat-dock' style={{
+        marginRight: constants.chatSidebarWidthOpen
+      }}>
         { threads }
       </div>
     );

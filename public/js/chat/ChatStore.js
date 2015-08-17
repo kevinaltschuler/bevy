@@ -36,18 +36,7 @@ _.extend(ChatStore, {
   handleDispatch(payload) {
     switch(payload.actionType) {
       case APP.LOAD:
-
-        Dispatcher.waitFor([BevyStore.dispatchToken]);  
-
-        var user = window.bootstrap.user;
-
-        if(_.isEmpty(user)) {
-          break;
-        }
-
-        this.threads.url = constants.apiurl + '/users/' + user._id + '/threads';
-        this.threads.fetch();
-
+        // stuff should be bootstrapped in
         break;
 
       case BEVY.JOIN:
@@ -86,71 +75,45 @@ _.extend(ChatStore, {
         });
 
         break;
-      case CHAT.THREAD_OPEN:
-        var thread_id = payload.thread_id;
+
+      case CHAT.START_PM:
         var user_id = payload.user_id;
+        var my_id = window.bootstrap.user._id;
 
-        if(this.openThreads.indexOf(thread_id) > -1) {
-          // already found it
-          // just open the panel
-          this.trigger(CHAT.PANEL_TOGGLE + thread_id);
-          break;
-        }
+        if(user_id == my_id) break; // dont allow chatting with self
 
-        if(user_id && !thread_id) {
-          // just clicked on a user's name
-          // is it yourself?
-          if(user_id == user._id) break;
-          // first look for a preexisting thread
-          var thread = this.threads.find(function(thread) {
-            var thread_users = _.pluck(thread.get('members'), 'user');
-            thread_users = _.pluck(thread_users, '_id');
-            return _.contains(thread_users, user_id) && _.contains(thread_users, user._id);
-          });
-          if(thread == undefined) {
-            // still not found
-            // let's create a thread
-            var thread = this.threads.add({
-              members: [
-                { user: user_id },
-                { user: user._id}
-              ]
-            });
-            // save it to the server
-            thread.save(null, {
-              success: function(model, response, options) {
-                thread.set('_id', model.get('_id'));
-                thread.set('users', model.get('users'));
-                thread.set('bevy', model.get('bevy'));
-
-                // add to open threads
-                this.openThreads.unshift(thread.id);
-
-                this.trigger(CHAT.CHANGE_ALL);
-              }.bind(this)
-            });
-
-            break;
-          } else {
-            thread_id = thread.get('_id');
-          }
-        }
-
-        var thread = this.threads.get(thread_id);
-        if(thread == undefined) return;
-
-        // fetch messages
-        thread.messages.fetch({
-          remove: false,
-          success: function(collection, response, options) {
-            thread.messages.sort();
-            this.trigger(CHAT.MESSAGE_FETCH + thread_id);
-          }.bind(this)
+        var thread = this.threads.find(function($thread) {
+          var $users = $thread.get('users');
+          if($thread.get('type') != 'pm') return false;
+          if(_.findWhere($users, { _id: user_id }) == undefined) return false;
+          return true;
         });
 
-        this.openThreads.push(thread_id);
+        if(thread == undefined) {
+          // create thread
+          thread = this.threads.add({
+            //_id: Date.now(), // generate temp id
+            type: 'pm',
+            users: [user_id, my_id]
+          });
+          // save to server
+          thread.url = constants.apiurl + '/threads';
+          thread.save(null, {
+            success: function(model, response, options) {
+              console.log(response);
+              thread.set('_id', model.id);
+              this.openThreads.push(thread.id);
+              this.trigger(CHAT.CHANGE_ALL);
+            }.bind(this)
+          });
+        } else {
+          this.openThread(thread.id);
+        }
+        break;
 
-        this.trigger(CHAT.CHANGE_ALL);
+      case CHAT.THREAD_OPEN:
+        var thread_id = payload.thread_id;
+        this.openThread(thread_id);
         break;
 
       case CHAT.PANEL_CLOSE:
@@ -177,7 +140,6 @@ _.extend(ChatStore, {
         });
         message.save(null, {
           success: function(model, response, options) {
-            console.log('model: ', model.toJSON());
             message.set('_id', model.id);
             message.set('author', model.get('author'));
             message.set('created', model.get('created'));
@@ -209,6 +171,31 @@ _.extend(ChatStore, {
 
         break;
     }
+  },
+
+  openThread(thread_id) {
+    if(this.openThreads.indexOf(thread_id) > -1) {
+      // already found it
+      // just open the panel
+      this.trigger(CHAT.PANEL_TOGGLE + thread_id);
+      return;
+    }
+
+    var thread = this.threads.get(thread_id);
+    if(thread == undefined) return;
+
+    // fetch messages
+    thread.messages.fetch({
+      remove: false,
+      success: function(collection, response, options) {
+        thread.messages.sort();
+        this.trigger(CHAT.MESSAGE_FETCH + thread_id);
+      }.bind(this)
+    });
+
+    this.openThreads.push(thread_id);
+
+    this.trigger(CHAT.CHANGE_ALL);
   },
 
   getAllThreads() {

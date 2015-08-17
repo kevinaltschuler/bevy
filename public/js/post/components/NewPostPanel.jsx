@@ -74,35 +74,6 @@ var NewPostPanel = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-
-    // load bevies
-    var bevies = [];
-    /*bevies.push({
-      payload: 0,
-      text: nextProps.superBevy.name,
-      id: nextProps.superBevy._id
-    });
-    var subBevies = nextProps.subBevies;
-    for(var key in subBevies) {
-      var bevy = subBevies[key];
-      if(bevy._id != -1) {
-        bevies.push({
-          payload: key + 1,
-          text: bevy.name,
-          id: bevy._id
-        });
-      }
-    }*/
-
-    var selectedIndex = nextProps.selectedIndex || 0;
-    bevies.forEach(function(bevy, index) {
-      if(bevy.id === nextProps.activeBevy._id) selectedIndex = index;
-    });
-
-    this.setState({
-      bevies: bevies,
-      selectedIndex: selectedIndex
-    });
   },
 
   onUploadComplete(file) {
@@ -254,7 +225,6 @@ var NewPostPanel = React.createClass({
               {...this.props}
             />
           </div>
-          { beviesDropdown }
           <RaisedButton
             label="post"
             onClick={this.submit}
