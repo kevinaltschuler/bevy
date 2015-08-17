@@ -195,10 +195,9 @@ var Post = React.createClass({
     router.navigate('/b/' + bevy_id, { trigger: true });
   },
 
-  onOpenThread(ev) {
+  startPM(ev) {
     ev.preventDefault();
-    var author_id = this.state.post.author._id;
-    ChatActions.openThread(null, author_id);
+    ChatActions.startPM(this.state.post.author._id);
   },
 
   expandComments(ev) {
@@ -267,7 +266,7 @@ var Post = React.createClass({
       </span>
     ) : '';
 
-    if(!_.isEmpty(this.state.title)) {
+    /*if(!_.isEmpty(this.state.title)) {
       var words = this.state.title.split(' ');
       var $words = [];
       var tags = post.tags;
@@ -299,7 +298,7 @@ var Post = React.createClass({
       }
 
       var bodyText = (<p>{ $words }</p>);
-    } else bodyText = '';
+    } else bodyText = '';*/
 
     var panelBodyText;
     if(this.state.isEditing) {
@@ -324,7 +323,7 @@ var Post = React.createClass({
     } else {
       panelBodyText = (
         <div className='panel-body-text'>
-          { bodyText }
+          { this.state.title }
         </div>
       );
     }
@@ -392,7 +391,7 @@ var Post = React.createClass({
           <div className='post-details'>
             <div className='top'>
               <span className="details">
-                <Button onClick={ this.onOpenThread }>{ authorName }</Button>
+                <Button onClick={ this.startPM }>{ authorName }</Button>
               </span>
               <span className="glyphicon glyphicon-triangle-right"/>
               <span className="details">
