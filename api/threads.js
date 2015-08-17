@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var async = require('async');
 var _ = require('underscore');
+var shortid = require('shortid');
 
 var Thread = mongoose.model('ChatThread');
 var Bevy = mongoose.model('Bevy');
@@ -43,29 +44,24 @@ exports.show = function(req, res, next) {
 }
 
 
-// POST /users/:id/threads
+// POST /threads
 exports.create = function(req, res, next) {
-	var id = req.params.id;
-	var members = req.body['members'] || [];
-	var bevy = req.body['bevy'] || null;
+	var thread = {};
+	thread._id = shortid.generate();
+	thread.name = req.body['name'];
+	thread.image_url = req.body['image_url'];
+	thread.type = req.body['type'];
+	thread.bevy = req.body['bevy'];
+	thread.users = req.body['users'];
 
-	var thread = {
-		members: members,
-		bevy: bevy,
-		_id: shortid.generate
-	};
 	Thread.create(thread, function(err, $thread) {
 		if(err) return next(err);
-		Thread.populate($thread, { path: 'bevy users' }, function(err, pop_thread) {
+		Thread.populate($thread, 'bevy users', function(err, pop_thread) {
 			if(err) return next(err);
-
-			pop_thread = JSON.parse(JSON.stringify(pop_thread));
-			pop_thread._id = $thread._id;
-			pop_thread.created = $thread.created;
 			return res.json(pop_thread);
 		});
 	});
-}
+};
 
 // PUT/PATCH /users/:id/threads/:threadid
 exports.update = function(req, res, next) {
