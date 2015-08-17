@@ -102,7 +102,8 @@ var ChatPanel = React.createClass({
 
     var backgroundStyle = (bevy && !_.isEmpty(bevy.image_url))
     ? {
-      backgroundImage: 'url(' + bevy.image_url + ')'
+      backgroundImage: 'url(' + bevy.image_url + ')',
+      opacity: 0.6
     }
     : {};
 
@@ -117,7 +118,7 @@ var ChatPanel = React.createClass({
 
     var header = (
       <div className='chat-panel-header'>
-        <div className='chat-panel-background-wrapper'>
+        <div className='chat-panel-background-wrapper' style={{ color: '#000' }}>
           <div className='chat-panel-background-image' style={ backgroundStyle } />
         </div>
         <div className='chat-panel-head'>
