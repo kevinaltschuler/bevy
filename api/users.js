@@ -110,6 +110,7 @@ exports.show = function(req, res, next) {
 exports.search = function(req, res, next) {
 	var query = req.params.query;
   var promise = User.find()
+    .limit(10)
     .or([
       { email: { $regex: query, $options: 'i' } },
       { username: { $regex: query, $options: 'i' } },

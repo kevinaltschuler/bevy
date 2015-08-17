@@ -104,6 +104,7 @@ exports.show = function(req, res, next) {
 exports.search = function(req, res, next) {
 	var query = req.params.query;
 	var promise = Bevy.find()
+		.limit(20)
 		.or([
 			{ name: { $regex: query, $options: 'i' } },
 			{ description: { $regex: query, $options: 'i' } }
