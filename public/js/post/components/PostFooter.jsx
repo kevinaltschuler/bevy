@@ -48,8 +48,7 @@ var PostFooter = React.createClass({
     return sum;
   },
 
-  expandComments(ev) {
-    ev.preventDefault();
+  expandComments() {
     this.setState({
       showComments: !this.state.showComments
     });
@@ -67,11 +66,11 @@ var PostFooter = React.createClass({
       <div>
         <div className="panel-bottom">
           <div className='left'>
-            <FlatButton className='upvote' onClick={ this.upvote } disabled={ _.isEmpty(window.bootstrap.user) }>
+            <FlatButton className='upvote' onClick={ this.upvote } disabled={ _.isEmpty(window.bootstrap.user) } style={{marginRight: '10px', padding: '0px 10px'}}>
               <span className="glyphicon glyphicon-thumbs-up" style={ upvoteStyle }></span>
               &nbsp;{ this.countVotes() } upvotes
             </FlatButton>
-            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments }>
+            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments } style={{marginRight: '10px', padding: '0px 10px'}}>
               <span className="glyphicon glyphicon-comment"></span>
               &nbsp;{ post.commentCount }&nbsp;comments
             </FlatButton>
@@ -83,6 +82,8 @@ var PostFooter = React.createClass({
             postId={ post.id }
             author={ post.author }
             bevy={ post.bevy }
+            expandComments={ this.expandComments }
+            showComments={ this.state.showComments }
           />
         </div>
       </div>
