@@ -163,6 +163,18 @@ exports.destroy = function(req, res, next) {
 	var promise = Bevy.findOneAndRemove(query)
 		.exec();
 	promise.then(function(bevy) {
-		res.json(bevy);
+		User.find({bevies: [id]}, function(err, users) {
+			async.each(users, function(user, callback) {
+				user.bevies = _.reject(user.bevies, function(bevyId){return bevyId == id});
+				user.save(function(err) {
+					if(err) next(err);
+				});
+				callback();
+			},
+			function(err) {
+				if(err) throw err;
+				res.json(bevy);
+			});
+		});
 	}, function(err) { next(err); })
 }

@@ -4,27 +4,28 @@
 
 .fadeIn-enter.fadeIn-enter-active {
   opacity: 1;
-  transition: opacity .3s ease-in;
-}
-
-.fadeIn-appear {
-  opacity: 0.02;
-  transition: all .01s;
-}
-
-.fadeIn-appear.fadeIn-appear-active {
-  opacity: 0.01;
+  transition: opacity .5s ease-in;
 }
 
 .fadeIn-leave {
-  opacity: 0.01;
+  opacity: 1;
   display: none;
 }
 
 .fadeIn-leave.fadeIn-leave-active {
-  opacity: 0;
-  transition: all .01s;
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
 }
+
+.fadeIn-appear {
+  opacity: 0.01;
+  transition: opacity .5s ease-in;
+}
+
+.fadeIn-appear.fadeIn-appear-active {
+  opacity: 1;
+}
+
 
 
 

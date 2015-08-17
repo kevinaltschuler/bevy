@@ -21,7 +21,7 @@ var user = window.bootstrap.user;
 var ThreadItem = React.createClass({
 
   propTypes: {
-    thread: React.PropTypes.object
+    thread: React.PropTypes.object.isRequired
   },
 
   openThread(ev) {
