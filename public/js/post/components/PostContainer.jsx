@@ -26,7 +26,8 @@ var PostContainer = React.createClass({
   // expects App.jsx to pass in Posts collection
   // see App.jsx and PostStore.js for more details
   propTypes: {
-    sortType: React.PropTypes.string
+    sortType: React.PropTypes.string,
+    activeTags: React.PropTypes.array
   },
 
   getInitialState() {
@@ -67,6 +68,7 @@ var PostContainer = React.createClass({
     var allPosts = this.state.allPosts;
     var posts = [];
     var sortType = this.props.sortType;
+    var activeTags = this.props.activeTags;
 
     // for each post
     for(var key in allPosts) {
@@ -84,7 +86,8 @@ var PostContainer = React.createClass({
           }
           break;
         default:
-          if(sortType != 'events') {
+          console.log(activeTags, post.tag);
+          if(sortType != 'events' && _.contains(activeTags, post.tag)) {
             posts.push(
               <Post
                 key={Math.random()}

@@ -56,6 +56,7 @@ var PostView = React.createClass({
             allPosts={ this.props.allPosts }
             activeBevy={ this.props.activeBevy }
             sortType={ this.props.sortType }
+            activeTags={ this.props.activeTags }
           />
         </div>
       );

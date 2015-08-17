@@ -12,7 +12,8 @@ var router = require('./../../router');
 var {
   DropdownButton,
   Button,
-  MenuItem
+  MenuItem,
+  Badge
 } = require('react-bootstrap');
 
 var timeAgo = require('./../../shared/helpers/timeAgo');
@@ -56,6 +57,7 @@ var PostHeader = React.createClass({
   render() {
 
     var post = this.props.post;
+    var tag = post.tag;
 
     var profileImage = (post.author.image_url)
     ? post.author.image_url
@@ -106,6 +108,10 @@ var PostHeader = React.createClass({
     ? <span className='badge pinned'>Pinned</span>
     : '';
 
+    var tagBadge = (post.tag)
+    ? <Badge style={{backgroundColor: tag.color}}>{tag.name}</Badge>
+    : '';
+
     return (
       <div className='panel-header'>
         <div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
@@ -125,6 +131,7 @@ var PostHeader = React.createClass({
           </div>
         </div>
         <div className='badges'>
+          { tagBadge }
           <DropdownButton
             noCaret
             pullRight

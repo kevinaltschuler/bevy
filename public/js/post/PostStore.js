@@ -177,11 +177,9 @@ _.extend(PostStore, {
             newPost.set('images', post.get('images'));
             newPost.set('links', post.get('links'));
             newPost.set('author', author);
-            newPost.set('bevy', tempBevy);
+            newPost.set('bevy', bevy);
             newPost.set('type', type);
             newPost.set('commentCount', 0);
-            newPost.set('event', event);
-            newPost.set('tag', tag);
 
             this.posts.sort();
 
@@ -198,18 +196,11 @@ _.extend(PostStore, {
         var post_id = payload.post_id;
         var post = this.posts.get(post_id);
 
-        // set to post's bevy in case on frontpage
-        var temp = this.posts._meta.bevy_id;
-        this.posts._meta.bevy_id = post.get('bevy')._id;
-
         post.destroy({
           success: function(model, response) {
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
-
-        // set back
-        this.posts._meta.bevy_id = temp;
 
         break;
 

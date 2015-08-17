@@ -123,6 +123,7 @@ var Post = React.createClass({
     //console.log(post);
     var bevy = post.bevy;
     var author = post.author;
+    var tag = post.tag;
 
     /*if(!_.isEmpty(this.state.title)) {
       var words = this.state.title.split(' ');
