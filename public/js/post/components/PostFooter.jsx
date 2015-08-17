@@ -16,6 +16,8 @@ var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
 var CommentPanel = require('./CommentPanel.jsx');
 
+var PostActions = require('./../PostActions');
+
 var PostFooter = React.createClass({
 
   propTypes: {
@@ -26,6 +28,16 @@ var PostFooter = React.createClass({
     return {
       showComments: false
     };
+  },
+
+  upvote(ev) {
+    ev.preventDefault();
+    PostActions.upvote(this.props.post._id, window.bootstrap.user);
+  },
+
+  downvote(ev) {
+    ev.preventDefault();
+    PostActions.downvote(this.props.post._id, window.bootstrap.user);
   },
 
   countVotes() {
@@ -48,14 +60,14 @@ var PostFooter = React.createClass({
     var post = this.props.post;
 
     var upvoteStyle = (_.find(post.votes, function(vote){ return vote.voter == window.bootstrap.user._id; }))
-    ? {color: 'black'}
+    ? { color: 'black' }
     : {};
 
     return (
       <div>
         <div className="panel-bottom">
           <div className='left'>
-            <FlatButton className='upvote' onClick={ this.upvote } disabled={_.isEmpty(window.bootstrap.user)}>
+            <FlatButton className='upvote' onClick={ this.upvote } disabled={ _.isEmpty(window.bootstrap.user) }>
               <span className="glyphicon glyphicon-thumbs-up" style={ upvoteStyle }></span>
               &nbsp;{ this.countVotes() } upvotes
             </FlatButton>

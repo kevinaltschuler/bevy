@@ -101,16 +101,6 @@ var Post = React.createClass({
     });
   },
 
-  upvote(ev) {
-    ev.preventDefault();
-    PostActions.upvote(this.props.post._id, window.bootstrap.user);
-  },
-
-  downvote(ev) {
-    ev.preventDefault();
-    PostActions.downvote(this.props.post._id, window.bootstrap.user);
-  },
-
   startEdit(ev) {
     ev.preventDefault();
     this.setState({

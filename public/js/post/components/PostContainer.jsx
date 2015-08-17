@@ -12,11 +12,13 @@ var React = require('react');
 var _ = require('underscore');
 var CTG = React.addons.CSSTransitionGroup;
 
-var router = require('./../../router');
-
 var Post = require('./Post.jsx');
 var Event = require('./Event.jsx');
+
+var router = require('./../../router');
 var PostStore = require('./../PostStore');
+var constants = require('./../../constants');
+var POST = constants.POST;
 
 // React class
 var PostContainer = React.createClass({
@@ -24,12 +26,21 @@ var PostContainer = React.createClass({
   // expects App.jsx to pass in Posts collection
   // see App.jsx and PostStore.js for more details
   propTypes: {
-    allPosts: React.PropTypes.array,
     sortType: React.PropTypes.string
   },
 
   getInitialState() {
-    return {};
+    return {
+      allPosts: PostStore.getAll()
+    };
+  },
+
+  componentDidMount() {
+    PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
+  },
+
+  componentWillUnmount() {
+    PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
   },
 
   componentDidUpdate() {
@@ -45,20 +56,15 @@ var PostContainer = React.createClass({
     this.forceUpdate();
   },
 
+  handleChangeAll() {
+    this.setState({
+      allPosts: PostStore.getAll()
+    });
+  },
+
   render() {
-
-    if(Object.keys(this.props.allPosts).length < 1) {
-      // no posts
-      // still return column so the app retains its structure
-      return(
-        <div className="col-xs-6 post-container">
-          Nothing to see here...
-        </div>
-      );
-    }
-
     // load props into local vars
-    var allPosts = this.props.allPosts;
+    var allPosts = this.state.allPosts;
     var posts = [];
     var sortType = this.props.sortType;
 

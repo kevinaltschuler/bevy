@@ -97,7 +97,7 @@ var PostSort = React.createClass({
     return (
       <Well className="sort-well">
         <ButtonGroup className='sort-btn-group' role="group">
-            { sorts }
+          { sorts }
         </ButtonGroup>
       </Well>
     );
