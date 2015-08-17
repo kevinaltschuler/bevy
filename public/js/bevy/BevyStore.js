@@ -266,7 +266,9 @@ _.extend(BevyStore, {
 
         this.active = bevy_id;
 
-        this.activeTags = this.myBevies.get(this.active).toJSON().tags;
+        this.activeTags = []
+        if(this.myBevies.get(this.active))
+          this.activeTags = this.myBevies.get(this.active).toJSON().tags;
 
         this.trigger(BEVY.CHANGE_ALL);
 

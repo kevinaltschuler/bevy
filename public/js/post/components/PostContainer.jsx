@@ -86,8 +86,8 @@ var PostContainer = React.createClass({
           }
           break;
         default:
-          console.log(activeTags, post.tag);
-          if(sortType != 'events' && _.contains(activeTags, post.tag)) {
+          //console.log(activeTags, post.tag);
+          if(sortType != 'events' && _.find(activeTags, function(tag){ return post.tag.name == tag.name})) {
             posts.push(
               <Post
                 key={Math.random()}
