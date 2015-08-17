@@ -64,10 +64,10 @@ exports.indexPublic = function(req, res, next) {
 exports.create = function(req, res, next) {
 	var update = {};
 	update._id = shortid.generate();
-	update.name = req.body['name'] || null;
-	update.description = req.body['description'] || '';
-	update.image_url = req.body['image_url'] || '';
-	update.admins = req.body['admins'] || [];
+	update.name = req.body['name'];
+	update.description = req.body['description'];
+	update.image_url = req.body['image_url'];
+	update.admins = req.body['admins'];
 
 	if(!update.name) throw error.gen('bevy name not specified', req);
 
