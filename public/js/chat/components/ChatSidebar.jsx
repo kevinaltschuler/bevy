@@ -26,22 +26,17 @@ var UserActions = require('./../../profile/UserActions');
 var UserStore = require('./../../profile/UserStore');
 var constants = require('./../../constants');
 var USER = constants.USER;
+var CHAT = constants.CHAT;
 
 var user = window.bootstrap.user;
 var email = user.email;
 
 var ChatSidebar = React.createClass({
 
-  propTypes: {
-    allContacts: React.PropTypes.array,
-    allThreads: React.PropTypes.array,
-    activeThread: React.PropTypes.object,
-    userSearchResults: React.PropTypes.array,
-    userSearchQuery: React.PropTypes.string
-  },
-
   getInitialState() {
     return {
+      allThreads: [],
+
       sidebarWidth: constants.chatSidebarWidthClosed,
       searchHeight: 0,
       isOverlayOpen: false,
@@ -52,13 +47,21 @@ var ChatSidebar = React.createClass({
   },
 
   componentDidMount() {
+    ChatStore.on(CHAT.CHANGE_ALL, this.handleChangeAll);
     UserStore.on(USER.SEARCH_COMPLETE, this.handleSearchResults);
     UserStore.on(USER.SEARCHING, this.handleSearching);
   },
 
   componentWillUnmount() {
+    ChatStore.off(CHAT.CHANGE_ALL, this.handleChangeAll);
     UserStore.off(USER.SEARCH_COMPLETE, this.handleSearchResults);
     UserStore.off(USER.SEARCHING, this.handleSearching);
+  },
+
+  handleChangeAll() {
+    this.setState({
+      allThreads: ChatStore.getAllThreads()
+    });
   },
 
   handleSearching() {
@@ -97,6 +100,8 @@ var ChatSidebar = React.createClass({
       query: '',
       searchUsers: []
     });
+    // blur text field
+    this.refs.userSearch.blur();
   },
 
   onChange(ev) {
@@ -111,7 +116,7 @@ var ChatSidebar = React.createClass({
 
   render() {
     var threads = [];
-    var allThreads = (_.isEmpty(this.props.allThreads)) ? [] : this.props.allThreads;
+    var allThreads = this.state.allThreads;
     for(var key in allThreads) {
       var thread = allThreads[key];
       threads.push(
@@ -157,8 +162,13 @@ var ChatSidebar = React.createClass({
       <div 
         className='chat-sidebar' 
         style={{ width: this.state.sidebarWidth }}
-        onMouseOver={() => { this.setState({ sidebarWidth: constants.chatSidebarWidthOpen }); }}
-        onMouseOut={() => { this.setState({ sidebarWidth: constants.chatSidebarWidthClosed }); }}
+        onMouseOver={() => { 
+          this.setState({ sidebarWidth: constants.chatSidebarWidthOpen }); 
+        }}
+        onMouseOut={() => { 
+          //this.closeSearchResults();
+          this.setState({ sidebarWidth: constants.chatSidebarWidthClosed }); 
+        }}
       >
         <div className='conversation-list'>
           <div className='title'>
@@ -187,7 +197,7 @@ var ChatSidebar = React.createClass({
         <div className='chat-actions'>
           <span className='glyphicon glyphicon-search' />
           <TextField 
-            onFocus={this.openSearchResults} 
+            onFocus={ this.openSearchResults } 
             //onBlur={this.closeSearchResults}
             type='text'
             className='search-input'

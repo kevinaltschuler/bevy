@@ -25,7 +25,6 @@ var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 var UserStore = require('./../../profile/UserStore');
-var ChatStore = require('./../../chat/ChatStore');
 
 var AppActions = require('./../../app/AppActions');
 
@@ -34,14 +33,12 @@ var constants = require('./../../constants');
 var POST = constants.POST;
 var BEVY = constants.BEVY;
 var NOTIFICATION = constants.NOTIFICATION;
-var CHAT = constants.CHAT;
 var USER = constants.USER;
 
 var change_all_events = [
   POST.CHANGE_ALL,
   BEVY.CHANGE_ALL,
   NOTIFICATION.CHANGE_ALL,
-  CHAT.CHANGE_ALL,
   USER.CHANGE_ALL
 ].join(' ');
 
@@ -61,7 +58,6 @@ var MainSection = React.createClass({
     PostStore.on(change_all_events, this._onPostChange);
     BevyStore.on(change_all_events, this._onBevyChange);
     NotificationStore.on(change_all_events, this._onNotificationChange);
-    ChatStore.on(change_all_events, this._onChatChange);
     UserStore.on(change_all_events, this._onUserChange);
   },
 
@@ -70,7 +66,6 @@ var MainSection = React.createClass({
     PostStore.off(change_all_events, this._onPostChange);
     BevyStore.off(change_all_events, this._onBevyChange);
     NotificationStore.off(change_all_events, this._onNotificationChange);
-    ChatStore.off(change_all_events, this._onChatChange);
     UserStore.off(change_all_events, this._onUserChange);
   },
 
@@ -101,14 +96,6 @@ var MainSection = React.createClass({
     };
   },
 
-  getChatState: function() {
-    return {
-      allThreads: ChatStore.getAllThreads(),
-      openThreads: ChatStore.getOpenThreads(),
-      activeThread: ChatStore.getActiveThread()
-    };
-  },
-
   getUserState: function() {
     return {
     };
@@ -120,7 +107,6 @@ var MainSection = React.createClass({
       this.getPostState(),
       this.getBevyState(),
       this.getNotificationState(),
-      this.getChatState(),
       this.getUserState()       
     );
     return state;
@@ -135,9 +121,6 @@ var MainSection = React.createClass({
   },
   _onNotificationChange: function() {
     this.setState(_.extend(this.state, this.getNotificationState()));
-  },
-  _onChatChange: function() {
-    this.setState(_.extend(this.state, this.getChatState()));
   },
   _onUserChange: function() {
     this.setState(_.extend(this.state, this.getUserState()));
@@ -154,9 +137,6 @@ var MainSection = React.createClass({
           activeBevy={ this.state.activeBevy }
           allNotifications={ this.state.allNotifications }
           myBevies={ this.state.myBevies }
-          allThreads={ this.state.allThreads }
-          activeThread={ this.state.activeThread }
-          openThreads={ this.state.openThreads }
         />
         <InterfaceComponent {...this.state} />
       </div>

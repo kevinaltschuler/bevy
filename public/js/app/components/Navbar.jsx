@@ -41,10 +41,7 @@ var Navbar = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object,
-    allNotifications: React.PropTypes.array,
-    allThreads: React.PropTypes.array,
-    activeThread: React.PropTypes.object,
-    openThreads: React.PropTypes.array
+    allNotifications: React.PropTypes.array
   },
 
   getInitialState() {
@@ -126,15 +123,10 @@ var Navbar = React.createClass({
     var frontpageUrl = (window.bootstrap.user) ? '/bevies' : '/';
 
     var chatSidebar = (
-      <ChatSidebar
-        allThreads={ this.props.allThreads } 
-        activeThread={ this.props.activeThread }
-        userSearchResults={ this.props.userSearchResults }
-        userSearchQuery={ this.props.userSearchQuery }
-      />
+      <ChatSidebar />
     );
-    var chatDock = <ChatDock openThreads={ this.props.openThreads } />;
-    if(router.current == 'home' || this.props.allThreads.length < 0) {
+    var chatDock = <ChatDock />;
+    if(router.current == 'home') {
       chatSidebar = <div />;
       chatDock = <div />;
     }

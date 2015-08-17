@@ -79,13 +79,14 @@ _.extend(ChatStore, {
       case CHAT.START_PM:
         var user_id = payload.user_id;
         var my_id = window.bootstrap.user._id;
-        console.log('start pm', user_id);
 
         if(user_id == my_id) break; // dont allow chatting with self
 
         var thread = this.threads.find(function($thread) {
           var $users = $thread.get('users');
-          return _.contains($users, user_id) && ($thread.get('type') == 'pm');
+          if($thread.get('type') != 'pm') return false;
+          if(_.findWhere($users, { _id: user_id }) == undefined) return false;
+          return true;
         });
 
         if(thread == undefined) {
@@ -99,6 +100,8 @@ _.extend(ChatStore, {
           thread.url = constants.apiurl + '/threads';
           thread.save(null, {
             success: function(model, response, options) {
+              console.log(response);
+              thread.set('_id', model.id);
               this.openThreads.push(thread.id);
               this.trigger(CHAT.CHANGE_ALL);
             }.bind(this)
@@ -137,7 +140,6 @@ _.extend(ChatStore, {
         });
         message.save(null, {
           success: function(model, response, options) {
-            console.log('model: ', model.toJSON());
             message.set('_id', model.id);
             message.set('author', model.get('author'));
             message.set('created', model.get('created'));
