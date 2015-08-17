@@ -9,15 +9,18 @@
 var React = require('react');
 var _ = require('underscore');
 
-var rbs = require('react-bootstrap');
-var Popover = rbs.Popover;
-var DropdownButton = rbs.DropdownButton;
-var MenuItem = rbs.MenuItem;
-var Button = rbs.Button;
+var {
+  Popover,
+  DropdownButton,
+  MenuItem,
+  Button,
+  Overlay
+} = require('react-bootstrap');
 
-var mui = require('material-ui');
-var FlatButton = mui.FlatButton;
-var TextField = mui.TextField;
+var {
+  FlatButton,
+  TextField
+} = require('material-ui');
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
@@ -26,13 +29,12 @@ var constants = require('./../../constants');
 
 var user = window.bootstrap.user;
 
-var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 
 var ProfileDropdown = React.createClass({
   getInitialState() {
     return {
-      isOverlayOpen: false,
-      image_url: (user.image_url) ? user.image_url : defaultProfileImage
+      show: false,
+      image_url: (user.image_url) ? user.image_url : constants.defaultProfileImage
     }
   },
 
@@ -54,16 +56,15 @@ var ProfileDropdown = React.createClass({
     });
   },
 
-  handleToggle(ev) {
+  toggle(ev) {
     ev.preventDefault();
 
     this.setState({
-      isOverlayOpen: !this.state.isOverlayOpen
+      show: !this.state.show
     });
   },
 
   renderOverlay() {
-    if(!this.state.isOverlayOpen) return <span />;
 
     var name = user.displayName;
     var email = (_.isEmpty(user.google.name))
@@ -92,11 +93,12 @@ var ProfileDropdown = React.createClass({
     }
 
     return (
-      <div className='profile-dropdown'>
-        <div className='profile-backdrop' onClick={ this.handleToggle }></div>
-        <Popover placement='bottom' container={this} >
-          <div className="row profile-top">
-            <div className="col-xs-3 profile-picture overlay">
+      <div className='profile-dropdown-container'>
+        <div className='backdrop' onClick={ this.toggle }></div>
+        <div className='arrow' />
+        <div className='profile-dropdown'>
+          <div className="profile-top">
+            <div className="profile-picture overlay">
               <Uploader
                 onUploadComplete={ this.onUploadComplete }
                 className="profile-image-dropzone"
@@ -104,12 +106,12 @@ var ProfileDropdown = React.createClass({
                 dropzoneOptions={ dropzoneOptions }
               />
             </div>
-            <div className="col-xs-6 profile-details">
+            <div className="profile-details">
               <span className='profile-name'>{ name }</span>
               { email }
               <span className='profile-points'>123 points</span>
             </div>
-            <div className="col-xs-3">
+            <div className="asdf">
               <DropdownButton
                 noCaret
                 pullRight
@@ -122,9 +124,6 @@ var ProfileDropdown = React.createClass({
             </div>
           </div>
           <div className="profile-dropdown-buttons">
-            <div className="profile-btn-left">
-
-            </div>
             <div className="profile-btn-right">
               <FlatButton
                 label="Logout"
@@ -132,7 +131,7 @@ var ProfileDropdown = React.createClass({
                 href='/logout' />
             </div>
           </div>
-        </Popover>
+        </div>
       </div>
     );
   },
@@ -141,7 +140,7 @@ var ProfileDropdown = React.createClass({
 
     var profileImage;
     if(_.isEmpty(this.state.image_url)) {
-      profileImage = defaultProfileImage;
+      profileImage = constants.defaultProfileImage;
       var profileImageStyle= {
         backgroundImage: 'url(' + profileImage + ')',
         backgroundSize: '75px 75px'
@@ -158,9 +157,21 @@ var ProfileDropdown = React.createClass({
     };
 
     return (
-      <div className='profile-dropdown-wrapper' id='profile-dropdown-wrapper'>
-        <Button className="profile-btn" onClick={ this.handleToggle } style={ buttonStyle } />
-        { this.renderOverlay() }
+      <div ref='Container' style={{ position: 'relative' }}>
+        <Button 
+          ref='ProfileButton' 
+          className='profile-btn' 
+          onClick={ this.toggle } 
+          style={ buttonStyle } 
+        />
+        <Overlay
+          show={ this.state.show }
+          target={ (props) => React.findDOMNode(this.refs.ProfileButton) }
+          placement='bottom'
+          container={ React.findDOMNode(this.refs.Container) }
+        >
+          { this.renderOverlay() }
+        </Overlay>
       </div>
     );
   }

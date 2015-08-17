@@ -70,7 +70,6 @@ var NotificationItem = React.createClass({
     var data = this.props.data;
     var read = this.props.read;
     var id = this.props.id;
-    var defaultNotificationImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
     var itemStyle = (read)
     ? {}
     : { 

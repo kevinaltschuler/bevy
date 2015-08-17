@@ -53,11 +53,11 @@ var Navbar = React.createClass({
 
   componentWillMount() {
     ThemeManager.setComponentThemes({
-        textField: {
-          textColor: 'white',
-          focusColor: 'white'
-        }
-      });
+      textField: {
+        textColor: 'white',
+        focusColor: 'white'
+      }
+    });
   },
 
   onKeyUp(ev) {

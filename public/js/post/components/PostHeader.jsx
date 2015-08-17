@@ -16,6 +16,7 @@ var {
   Badge
 } = require('react-bootstrap');
 
+var constants = require('./../../constants');
 var timeAgo = require('./../../shared/helpers/timeAgo');
 var timeLeft = require('./../../shared/helpers/timeLeft');
 var ChatActions = require('./../../chat/ChatActions');
@@ -61,7 +62,7 @@ var PostHeader = React.createClass({
 
     var profileImage = (post.author.image_url)
     ? post.author.image_url
-    : '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+    : constants.defaultProfileImage;
 
     var ago = timeAgo(Date.parse(post.created));
     var left = (post.expires && !post.pinned)

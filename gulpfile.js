@@ -75,6 +75,7 @@ gulp.task('less:watch', function() {
 	gulp.watch(['public/less/*.less', 'public/less/**/*.less'], function(event) {
 		console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
 		buildLess();
+		console.log('...done');
 	});
 });
 

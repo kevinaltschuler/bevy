@@ -9,11 +9,13 @@
 var React = require('react');
 var _ = require('underscore');
 
-var mui = require('material-ui');
-var TextField = mui.TextField;
-var RaisedButton = mui.RaisedButton;
-var FlatButton = mui.FlatButton;
+var {
+  TextField,
+  RaisedButton,
+  FlatButton
+} = require('material-ui');
 
+var constants = require('./../../constants');
 var CommentActions = require('./../CommentActions');
 
 var CommentSubmit = React.createClass({
@@ -72,11 +74,10 @@ var CommentSubmit = React.createClass({
     var bevy = this.props.bevy;
 
     var user = window.bootstrap.user;
-    var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 
     var profileImage = (user.image_url)
     ? user.image_url
-    : defaultProfileImage;
+    : constants.defaultProfileImage;
 
     var submitButton = (_.isEmpty(this.state.body)) 
     ? (

@@ -31,6 +31,8 @@ exports.chatSidebarWidthClosed = 55;
 exports.chatSidebarWidthOpen = 200;
 exports.chatSidebarSearchHeight = 300;
 
+exports.defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
+
 exports.APP = {
   LOAD: 'app_load'
 };

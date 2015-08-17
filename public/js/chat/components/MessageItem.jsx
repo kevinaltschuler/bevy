@@ -3,6 +3,7 @@
 var React = require('react');
 var _ = require('underscore');
 
+var constants = require('./../../constants');
 var user = window.bootstrap.user;
 
 var MessageItem = React.createClass({
@@ -37,7 +38,7 @@ var MessageItem = React.createClass({
       borderRadius: (isMe) ? '3px 0px 3px 3px' : '0px 3px 3px 3px'
     };
 
-    var authorImage = (_.isEmpty(author.image_url)) ? '//ssl.gstatic.com/accounts/ui/avatar_2x.png' : author.image_url;
+    var authorImage = (_.isEmpty(author.image_url)) ? constants.defaultProfileImage : author.image_url;
     var authorName = author.displayName;
 
     var createDate = new Date(message.created);

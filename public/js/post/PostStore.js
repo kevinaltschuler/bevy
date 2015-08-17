@@ -188,8 +188,6 @@ _.extend(PostStore, {
           }.bind(this)
         });
 
-        newPost.set('bevy', bevy);
-
         break;
 
       case POST.DESTROY:
