@@ -177,7 +177,7 @@ _.extend(PostStore, {
             newPost.set('images', post.get('images'));
             newPost.set('links', post.get('links'));
             newPost.set('author', author);
-            newPost.set('bevy', tempBevy);
+            newPost.set('bevy', bevy);
             newPost.set('type', type);
             newPost.set('commentCount', 0);
             newPost.set('event', event);
@@ -189,8 +189,6 @@ _.extend(PostStore, {
             this.trigger(POST.POSTED_POST);
           }.bind(this)
         });
-
-        newPost.set('bevy', bevy);
 
         break;
 

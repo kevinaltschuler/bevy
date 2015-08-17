@@ -26,9 +26,9 @@ var NotificationList = React.createClass({
     var allNotifications = this.props.allNotifications;
 
     if(allNotifications.length < 1) {
-      return <div>
-            No Notifications!
-          </div>
+      return (
+        <span>No Notifications!</span>
+      );
     }
 
     var notifications = [];

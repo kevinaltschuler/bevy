@@ -9,27 +9,26 @@
 var React = require('react');
 var _ = require('underscore');
 
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-var Popover = rbs.Popover;
+var {
+  Button,
+  Popover,
+  Overlay
+} = require('react-bootstrap');
 
 var NotificationList = require('./NotificationList.jsx');
-var NotificationActions = require('./../NotificationActions');
 
+var NotificationActions = require('./../NotificationActions');
 var user = window.bootstrap.user;
 var email = user.email;
 
 var NotificationDropdown = React.createClass({
-
-  //mixins: [OverlayMixin],
-
   propTypes: {
     allNotifications: React.PropTypes.array,
   },
 
   getInitialState() {
     return {
-      isOverlayOpen: false
+      show: false
     };
   },
 
@@ -42,42 +41,42 @@ var NotificationDropdown = React.createClass({
     }
   },
 
-  handleToggle(ev) {
+  toggle(ev) {
     ev.preventDefault();
     this.setState({
-      isOverlayOpen: !this.state.isOverlayOpen
+      show: !this.state.show
     });
   },
 
   renderOverlay() {
-    if(!this.state.isOverlayOpen) return <span />
-
-    var notifications = this.props.allNotifications;
-
-    return (
-      <div>
-        <div className='notification-backdrop' onClick={ this.handleToggle } />
-        <Popover className="notification-dropdown" placement='bottom'>
-          <div className="title">
-            <span className='title-text'>Notifications</span>
-            {/*<IconButton iconClassName="glyphicon glyphicon-minus" tooltip='clear all' onClick={this.dismissAll}/>*/}
-            <Button className='title-clear-all' onClick={ this.dismissAll }>Clear All</Button>
-          </div>
-          <NotificationList
-            allNotifications={ notifications }
-          />
-        </Popover>
-      </div>
-    );
   },
 
   render() {
     return (
-      <div>
-        <Button className="notification-dropdown-btn" onClick={ this.handleToggle }>
+      <div ref='Container' style={{ position: 'relative' }}>
+        <Button ref='NotificationButton' className="notification-dropdown-btn" onClick={ this.toggle }>
           <div className='notification-img'/>
         </Button>
-        { this.renderOverlay() }
+        <Overlay
+          show={ this.state.show }
+          target={ (props) => React.findDOMNode(this.refs.NotificationButton) }
+          placement='bottom'
+          container={ React.findDOMNode(this.refs.Container) }
+        >
+          <div className='notification-dropdown-container'>
+            <div className='backdrop' onClick={ this.toggle }/>
+            <div className='arrow' />
+            <div className='notification-dropdown'>
+              <div className="title">
+                <span className='title-text'>Notifications</span>
+                <Button className='title-clear-all' onClick={ this.dismissAll }>Clear All</Button>
+              </div>
+              <NotificationList
+                allNotifications={ this.props.allNotifications }
+              />
+            </div>
+          </div>
+        </Overlay>
       </div>
     );
   }

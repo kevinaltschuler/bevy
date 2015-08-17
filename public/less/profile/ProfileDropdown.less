@@ -1,146 +1,152 @@
 @import './../variables.less';
 
 .profile-btn:focus, .profile-btn:active, .profile-btn:hover {
-	outline: none;
+  outline: none;
 }
 .profile-btn {
-	z-index: 7;
-	border: none;
+  z-index: 7;
+  border: none;
 }
 
 .profile-dropdown {
-	.profile-backdrop {
-		z-index: 6;
-		position: fixed;
-		top: 0px;
-		left: 0px;
-		width: 100%;
-		height: 100%;
-	}
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  .profile-backdrop {
+    z-index: 6;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  .popover.bottom {
+    position: fixed;
+    right: 0px !important;
+    left: auto;
+    top: 54px !important;
+    width: 450px;
+    max-width: initial;
+    max-height: 450px;
+    .arrow {
+      left: 90% !important;
+    }
+
+    .popover-content{
+      .row.profile-top{
+        .profile-picture{
+        }
+        .profile-details {
+          display: inline-block;
+          font-size: 1.2em;
+          padding-top: 10px;
+          span{
+            display: block;
+            margin: 0 auto;
+          }
+          .profile-name{
+            color: black;
+            font-size: 1.3em;
+            width: 175px;
+            margin-left: 0px;
+            .mui-text-field-underline {
+              margin-top: 15px;
+              margin-bottom: 5px;
+            }
+            .mui-text-field-focus-underline {
+              border-color: rgba(0,0,0,.5);
+              margin-top: 15px;
+              margin-bottom: 5px;
+            }
+          }
+          span.profile-email, span.profile-points {
+            font-size: 0.8em;
+            color: #4c4c4c;
+          }
+        }
+        .profile-settings {
+          float: right;
+          .btn {
+            padding-top: 15px;
+            background-color: rgba(0,0,0,0);
+            color: @light-font;
+            font-size: 1.1em;
+            transition: all 0.15s linear;
+            border: none;
+            &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+              outline: none;
+              box-shadow: none;
+              background-color: rgba(0,0,0,0);
+            }
+            &:active, &.active, .btn.active, .btn:active {
+              color: black;
+            }
+          }
+        }
+      }
+
+      hr {
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+
+      .row.profile-links {
+        color: @light-font;
+        font-size: .9em;
+        margin-top: 15px;
+        span {
+          float: right;
+          padding: 0 5px;
+        }
+        button.profile-link {
+          float: right;
+          padding: 0 5px;
+          background-color: rgba(0,0,0,0);
+          color: @light-font;
+          font-size: inherit;
+          transition: all 0.15s linear;
+          border: none;
+          text-decoration: underline;
+          &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+            outline: none;
+            box-shadow: none;
+            background-color: rgba(0,0,0,0);
+          }
+          &:active, &.active, .btn.active, .btn:active {
+            color: black;
+            text-decoration: underline;
+          }
+        }
+      }
+
+      .profile-dropdown-buttons {
+        .profile-btn-left {
+          font-size: .8em;
+          float: left;
+          display: inline-block;
+          position: relative;
+          top: 50%;
+          padding-top: 1%;
+          padding-left: 1.5%;
+          margin-bottom: 10px;
+          margin-top: 0px;
+        }
+        .profile-btn-right {
+          font-size: .8em;
+          float: right;
+          display: inline-block;
+          position: relative;
+          top: 50%;
+          padding-top: 1%;
+          padding-left: 1.5%;
+          margin-bottom: 10px;
+          margin-top: 0px;
+        }
+      }
+    }
+  }
+
 }
 
-.popover.bottom {
-	position: fixed;
-	right: 0px !important;
-	left: auto;
-	top: 54px !important;
-	width: 450px;
-	max-width: initial;
-	max-height: 450px;
-	.arrow{
-		display: none;
-	}
-
-	.popover-content{
-		.row.profile-top{
-			.profile-picture{
-			}
-			.profile-details {
-				display: inline-block;
-				font-size: 1.2em;
-				padding-top: 10px;
-				span{
-					display: block;
-					margin: 0 auto;
-				}
-				.profile-name{
-					color: black;
-					font-size: 1.3em;
-					width: 175px;
-					margin-left: 0px;
-					.mui-text-field-underline {
-						margin-top: 15px;
-						margin-bottom: 5px;
-					}
-					.mui-text-field-focus-underline {
-						border-color: rgba(0,0,0,.5);
-						margin-top: 15px;
-						margin-bottom: 5px;
-					}
-				}
-				span.profile-email, span.profile-points {
-					font-size: 0.8em;
-					color: #4c4c4c;
-				}
-			}
-			.profile-settings {
-				float: right;
-				.btn {
-					padding-top: 15px;
-					background-color: rgba(0,0,0,0);
-					color: @light-font;
-					font-size: 1.1em;
-					transition: all 0.15s linear;
-					border: none;
-					&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-						outline: none;
-						box-shadow: none;
-						background-color: rgba(0,0,0,0);
-					}
-					&:active, &.active, .btn.active, .btn:active {
-						color: black;
-					}
-				}
-			}
-		}
-
-		hr {
-			margin-top: 10px;
-			margin-bottom: 10px;
-		}
-
-		.row.profile-links {
-			color: @light-font;
-			font-size: .9em;
-			margin-top: 15px;
-			span {
-				float: right;
-				padding: 0 5px;
-			}
-			button.profile-link {
-				float: right;
-				padding: 0 5px;
-				background-color: rgba(0,0,0,0);
-				color: @light-font;
-				font-size: inherit;
-				transition: all 0.15s linear;
-				border: none;
-				text-decoration: underline;
-				&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-					outline: none;
-					box-shadow: none;
-					background-color: rgba(0,0,0,0);
-				}
-				&:active, &.active, .btn.active, .btn:active {
-					color: black;
-					text-decoration: underline;
-				}
-			}
-		}
-
-		.profile-dropdown-buttons {
-			.profile-btn-left {
-				font-size: .8em;
-				float: left;
-				display: inline-block;
-				position: relative;
-				top: 50%;
-				padding-top: 1%;
-				padding-left: 1.5%;
-				margin-bottom: 10px;
-				margin-top: 0px;
-			}
-			.profile-btn-right {
-				font-size: .8em;
-				float: right;
-				display: inline-block;
-				position: relative;
-				top: 50%;
-				padding-top: 1%;
-				padding-left: 1.5%;
-				margin-bottom: 10px;
-				margin-top: 0px;
-			}
-		}
-	}
-}
