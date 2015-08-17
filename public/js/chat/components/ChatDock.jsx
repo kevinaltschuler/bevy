@@ -5,6 +5,8 @@ var _ = require('underscore');
 
 var ChatPanel = require('./ChatPanel.jsx');
 
+var constants = require('./../../constants');
+
 var ChatDock = React.createClass({
 
   propTypes: {
@@ -29,7 +31,9 @@ var ChatDock = React.createClass({
     }
 
     return (
-      <div className='chat-dock'>
+      <div className='chat-dock' style={{
+        marginRight: constants.chatSidebarWidthOpen
+      }}>
         { threads }
       </div>
     );
