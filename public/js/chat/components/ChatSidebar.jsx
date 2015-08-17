@@ -194,7 +194,7 @@ var ChatSidebar = React.createClass({
             ref='userSearch'
             value={ this.state.query }
             onChange={ this.onChange }
-            defaultValue={ this.props.searchQuery }
+            hintText='Search Users'
           />
         </div>
       </div>
