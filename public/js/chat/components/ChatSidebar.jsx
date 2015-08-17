@@ -20,6 +20,7 @@ var UserStore = require('./../../profile/UserStore');
 
 var mui = require('material-ui');
 var TextField = mui.TextField;
+var ThemeManager = new mui.Styles.ThemeManager();
 
 var user = window.bootstrap.user;
 var email = user.email;
@@ -33,6 +34,22 @@ var ChatSidebar = React.createClass({
     userSearchResults: React.PropTypes.array,
     userSearchQuery: React.PropTypes.string
   },
+
+  getChildContext() { 
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    }
+  },
+
+  componentWillMount() {
+    ThemeManager.setComponentThemes({
+        textField: {
+          textColor: 'rgba(0,0,0,.87)',
+          focusColor: 'rgba(0,0,0,.4)'
+        }
+      });
+  },
+
 
   getInitialState() {
     return {
@@ -85,6 +102,7 @@ var ChatSidebar = React.createClass({
     for(var key in allThreads) {
       var thread = allThreads[key];
       var bevy = thread.bevy;
+      var user = window.bootstrap.user;
 
       var latestMessage = ChatStore.getLatestMessage(thread._id);
       var message = '';
@@ -204,16 +222,23 @@ var ChatSidebar = React.createClass({
         <div className='chat-actions'>
           <span className='glyphicon glyphicon-search' />
           <TextField 
-          onFocus={this.openSearchResults} 
-          onBlur={this.closeSearchResults}
-          type='text'
-                className='search-input'
-                ref='userSearch'
-                onChange={ this.onChange }
-                defaultValue={ this.props.searchQuery }/>
+            onFocus={this.openSearchResults} 
+            onBlur={this.closeSearchResults}
+            type='text'
+            className='search-input'
+            ref='userSearch'
+            onChange={ this.onChange }
+            defaultValue={ this.props.searchQuery }
+            style={{margin: '0px 5px 0px 5px'}}
+          />
         </div>
       </div>
     );
   }
 });
+
+  ChatSidebar.childContextTypes = {
+    muiTheme: React.PropTypes.object
+  };
+
 module.exports = ChatSidebar;

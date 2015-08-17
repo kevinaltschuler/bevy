@@ -154,6 +154,7 @@ var BevyPanelHeader = React.createClass({
                 placeholder='Group Name'
                 onKeyUp={ this.onKeyUp }
                 onChange={ this.onChange }
+                style={{marginLeft: '10px'}}
               />
               <TextField
                 type='text'
@@ -164,8 +165,9 @@ var BevyPanelHeader = React.createClass({
                 onKeyUp={ this.onKeyUp }
                 onChange={ this.onChange }
                 multiLine= { true }
+                style={{marginLeft: '10px'}}
               />
-              <RaisedButton label="save" onClick={ this.stopEditing } />
+              <RaisedButton label="save" onClick={ this.stopEditing } style={{marginLeft: '10px'}} />
             </div>
           </div>
         </div>

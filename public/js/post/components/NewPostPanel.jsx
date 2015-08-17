@@ -67,7 +67,6 @@ var NewPostPanel = React.createClass({
     return {
       title: '',
       images: [],
-      bevies: [],
       selectedIndex: 0,
       disabled: this.props.disabled,
       showEventModal: false
@@ -122,12 +121,23 @@ var NewPostPanel = React.createClass({
   submit(ev) {
     ev.preventDefault();
 
+    if(_.isEmpty(this.state.title) && _.isEmpty(this.state.images)) {
+      return;
+    }
+
+    var tag = this.props.activeBevy.tags[this.state.selectedIndex];
+
+    console.log(tag);
+
     // send the create action
     PostActions.create(
       this.state.title, // title
       this.state.images, // image_url
       window.bootstrap.user, // author
-      this.props.activeBevy // bevy
+      this.props.activeBevy, // bevy
+      undefined,
+      undefined,
+      tag
     );
 
     // reset fields
@@ -142,7 +152,7 @@ var NewPostPanel = React.createClass({
     });
   },
 
-  onBevyChange(e, selectedIndex, menuItem) {
+  onTagChange(e, selectedIndex, menuItem) {
     this.setState({
       selectedIndex: selectedIndex
     });
@@ -159,17 +169,27 @@ var NewPostPanel = React.createClass({
       clickable: '.attach-picture',
     };
 
-    var bevies = this.state.bevies;
+    var tags = (this.props.activeBevy) ? this.props.activeBevy.tags : [];
+
+    var tagItems = [];
+
+    if(this.props.activeBevy) {
+      for(var key in tags) {
+        var tag = tags[key];
+        tagItems.push({payload: key, text: tag.name})
+      }
+    }
+
     var selectedIndex = this.state.selectedIndex;
-    var beviesDropdown = (bevies.length < 1)
-    ? ''
-    : (
-      <DropDownMenu
+
+    var beviesDropdown = (this.state.activeBevy)
+    ? <div/>
+    : (<DropDownMenu
         className='bevies-dropdown'
         autoWidth={false}
-        menuItems={bevies}
+        menuItems={tagItems}
         selectedIndex={ selectedIndex }
-        onChange={ this.onBevyChange }
+        onChange={ this.onTagChange }
       />
     );
 
@@ -195,6 +215,7 @@ var NewPostPanel = React.createClass({
             value={ this.state.title }
             onChange={ this.handleChange }
             disabled={ disabled }
+            style={{width: '95%', padding: '0px 10px 0px 10px'}}
           />
         </div>
 
@@ -211,12 +232,21 @@ var NewPostPanel = React.createClass({
               iconClassName="attach-picture glyphicon glyphicon-picture"
               onClick={ this.preventDefault }
               disabled={ disabled }
+              backgroundColor={'white'}
+              disabledColor={'rgba(0,0,0,.2)'}
+              iconStyle={{color: 'rgba(0,0,0,.7)', fontSize: '18px'}}
+              style={{marginRight: '10px'}}
+              mini={true}
             />
             <FloatingActionButton
               title="New Event"
               iconClassName="glyphicon glyphicon-calendar"
               onClick={() => { this.setState({ showEventModal: true }); }}
               disabled={ disabled }
+              backgroundColor={'white'}
+              disabledColor={'rgba(0,0,0,.2)'}
+              iconStyle={{color: 'rgba(0,0,0,.7)', fontSize: '18px'}}
+              mini={true}
             />
             <CreateNewEventModal
               show={ this.state.showEventModal }

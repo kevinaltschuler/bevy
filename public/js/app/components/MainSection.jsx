@@ -86,6 +86,7 @@ var MainSection = React.createClass({
         var publicBevies = BevyStore.getPublicBevies();
         var searchList = BevyStore.getSearchList();
         var searchQuery = BevyStore.getSearchQuery();
+        var checkedTags = BevyStore.getCheckedTags();
 
         return {
             // later, load this from session/cookies
@@ -93,7 +94,8 @@ var MainSection = React.createClass({
             activeBevy: active,
             publicBevies: publicBevies,
             searchList: searchList,
-            searchQuery: searchQuery
+            searchQuery: searchQuery,
+            checkedTags: checkedTags
         }
     },
 

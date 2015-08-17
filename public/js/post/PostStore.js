@@ -137,6 +137,7 @@ _.extend(PostStore, {
         var bevy = payload.bevy;
         var type = payload.type;
         var event = payload.event;
+        var tag = payload.tag;
 
         var posts_expire_in;
         if(bevy.settings.posts_expire_in) {
@@ -163,7 +164,8 @@ _.extend(PostStore, {
           created: Date.now(),
           expires: posts_expire_in,
           type: type,
-          event: event
+          event: event,
+          tag: tag
         };
         var newPost = this.posts.add(newPost);
         var tempBevy = newPost.get('bevy');
@@ -181,6 +183,7 @@ _.extend(PostStore, {
             newPost.set('type', type);
             newPost.set('commentCount', 0);
             newPost.set('event', event);
+            newPost.set('tag', tag);
 
             this.posts.sort();
 

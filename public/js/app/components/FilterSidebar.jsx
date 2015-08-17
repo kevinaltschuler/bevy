@@ -123,8 +123,10 @@ var FilterSidebar = React.createClass({
             label='new bevy' 
             className='public-bevy-panel panel'
             onClick={() => { this.setState({ showNewBevyModal: true }); }}
+            fullWidth={true}
+            style={{marginBottom: '10px', display: 'flex'}}
           >
-            <FontIcon className="glyphicon glyphicon-plus"/>
+            <span style={{fontSize: '13px', color: 'rgba(0,0,0,.7)'}} className="glyphicon glyphicon-plus"/>
           </RaisedButton>
         </div>
       </div>

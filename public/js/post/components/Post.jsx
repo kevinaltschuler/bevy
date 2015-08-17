@@ -423,11 +423,16 @@ var Post = React.createClass({
         { imageBody }
         <div className="panel-bottom">
           <div className='left'>
-            <FlatButton className='upvote' onClick={ this.upvote } disabled={_.isEmpty(window.bootstrap.user)}>
+            <FlatButton 
+              className='upvote' 
+              onClick={ this.upvote } 
+              disabled={_.isEmpty(window.bootstrap.user)}
+              style={{padding: '0px 8px 0px 8px', marginRight: '10px'}}
+            >
               <span className="glyphicon glyphicon-thumbs-up btn" style={upvoteStyle}></span>
               &nbsp;{ this.countVotes() } upvotes
             </FlatButton>
-            <FlatButton className='comment' onClick={ this.expandComments }>
+            <FlatButton className='comment' onClick={ this.expandComments } style={{padding: '0px 8px 0px 8px'}}>
               <span className="glyphicon glyphicon-comment btn"></span>
               &nbsp;{ commentCount } comments
             </FlatButton>

@@ -20,6 +20,8 @@ var Backbone = require('backbone');
 var React = require('react');
 var router = require('./router');
 
+var mui = require('material-ui');
+var ThemeManager = new mui.Styles.ThemeManager();
 // chrome and maybe other browsers like to remember the scroll position on a page reload
 // when theres a specified post in the url we need to override this by delaying this action a bit
 // very jenk. will change later.
@@ -47,9 +49,26 @@ var RegisterPage = require('./auth/components/RegisterPage.jsx');
 var ForgotPage = require('./auth/components/ForgotPage.jsx');
 var ResetPage = require('./auth/components/ResetPage.jsx');
 
+var injectTapEventPlugin = require("react-tap-event-plugin");
 // App bootstrap
 var App = React.createClass({
+
+  getChildContext() { 
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    };
+  },
+
+  componentWillMount() {
+    ThemeManager.setComponentThemes({
+        textField: {
+          focusColor: 'rgba(0,0,0,.40)'
+        }
+      });
+  },
+
   render() {
+    injectTapEventPlugin();
     return (
       <div className='app-wrapper'>
         <InterfaceComponent />
@@ -57,6 +76,11 @@ var App = React.createClass({
     );
   }
 });
+
+// Important!
+App.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
 
 var InterfaceComponent = React.createClass({
   componentWillMount() {

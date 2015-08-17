@@ -26,6 +26,7 @@ var LeftSidebar = React.createClass({
             <SubBevyPanel
               myBevies={ this.props.myBevies }
               activeBevy={ this.props.activeBevy }
+              checkedTags={ this.props.checkedTags }
             />
           </div>
         </div>

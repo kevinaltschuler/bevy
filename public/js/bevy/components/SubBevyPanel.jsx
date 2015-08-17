@@ -32,6 +32,7 @@ var SubBevyPanel = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object.isRequired,
+    checkedTags: React.PropTypes.array
   },
 
   getInitialState() {
@@ -73,8 +74,7 @@ var SubBevyPanel = React.createClass({
     this.setState({
       newTag: false,
       newTagValue: '',
-      colorPicker: false,
-      newTagColor: '#F44336'
+      colorPicker: false
     });
     var newTagValue = this.state.newTagValue;
     var newTagColor = this.state.newTagColor;
@@ -82,9 +82,22 @@ var SubBevyPanel = React.createClass({
     BevyActions.update(this.props.activeBevy._id, null, null, null, tag, null);
   },
 
+  handleCheck() {
+    var tags = bevy.tags;
+    var $tags = [];
+    for(var key in tags) {
+      var tag = tags[key];
+      if(this.refs.tagName.isChecked()) {
+        $tags.push(tag);
+      }
+    }
+    BevyActions.updateTags($tags);
+  },
+
   render() {
     var bevy = this.props.activeBevy;
     var tags = bevy.tags;
+    var checkedTags= this.props.checkedTags;
 
     var tagButtons = [];
     /*bevies.push(
@@ -103,11 +116,13 @@ var SubBevyPanel = React.createClass({
         name={tag.name} 
         value={true} 
         label={tag.name} 
+        ref={tag.name}
         className='bevy-btn'
-        style={{width: '100px'}}
+        style={{width: '90%'}}
         iconStyle={{
-          fill: '#FF9800'
+          fill: tag.color
         }}
+        onCheck={this.handleCheck}
       />);
     }
 
@@ -141,6 +156,7 @@ var SubBevyPanel = React.createClass({
           value={this.state.newTagValue} 
           onChange={this.handleChange} 
           onFocus={() => { this.setState({colorPicker: false}); }}
+          style={{width: '80%'}}
         />
       </div> );
     }

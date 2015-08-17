@@ -31,7 +31,7 @@ var NotificationDropdown = require('./../../notification/components/Notification
 var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
 var ChatDock = require('./../../chat/components/ChatDock.jsx');
 var ChatSidebar = require('./../../chat/components/ChatSidebar.jsx');
-
+var ThemeManager = new mui.Styles.ThemeManager();
 var user = window.bootstrap.user;
 
 // react component
@@ -46,6 +46,21 @@ var Navbar = React.createClass({
     openThreads: React.PropTypes.array,
     userSearchQuery: React.PropTypes.string,
     userSearchResults: React.PropTypes.array
+  },
+
+  getChildContext() { 
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    }
+  },
+
+  componentWillMount() {
+    ThemeManager.setComponentThemes({
+        textField: {
+          textColor: 'white',
+          focusColor: 'white'
+        }
+      });
   },
 
   onKeyUp(ev) {
@@ -184,6 +199,8 @@ var Navbar = React.createClass({
             <IconButton
               iconClassName='glyphicon glyphicon-search'
               onClick={ this.onSearch }
+              style={{width: '35px', height: '35px', padding: '5px', margin: '3px'}}
+              iconStyle={{color: 'white',fontSize: '14px'}}
             />
           </form>
           { userContent }
@@ -192,5 +209,9 @@ var Navbar = React.createClass({
     );
   }
 });
+
+  Navbar.childContextTypes = {
+    muiTheme: React.PropTypes.object
+  };
 
 module.exports = Navbar;

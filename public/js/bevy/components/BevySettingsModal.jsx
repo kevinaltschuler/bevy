@@ -120,7 +120,8 @@ var BevySettingsModal = React.createClass({
         <Modal.Footer>
           <RaisedButton
             onClick={ this.props.onHide }
-            label='Close' />
+            label='Close'
+            style={{marginRight: '10px'}} />
           <RaisedButton
             onClick={ this.save }
             label='Save' />
