@@ -8,107 +8,80 @@
   border: none;
 }
 
-.profile-dropdown {
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-  .profile-backdrop {
-    z-index: 6;
+.profile-dropdown-container {
+  position: absolute;
+  .backdrop {
     position: fixed;
     top: 0px;
     left: 0px;
     width: 100%;
     height: 100%;
   }
-  .popover.bottom {
-    position: fixed;
-    right: 0px !important;
-    left: auto;
-    top: 54px !important;
+  .arrow {
+    top: 18px;
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #fff;
+  }
+  .profile-dropdown {
+    position: absolute;
+    top: 25px;
+    left: -405px !important;
     width: 450px;
-    max-width: initial;
+    background-color: #fff;
+    overflow-y: scroll;
     max-height: 450px;
-    .arrow {
-      left: 90% !important;
-    }
+    overflow-x: hidden;
+    padding: 5px 6px;
+    text-shadow: none;
 
-    .popover-content{
-      .row.profile-top{
-        .profile-picture{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+
+    .profile-top{
+      display: flex;
+      flex-direction: row;
+      border-bottom: 1px solid #eee;
+      width: 100%;
+      padding-bottom: 10px;
+
+      .profile-picture{
+        margin-right: 15px;
+      }
+      .profile-details {
+        flex: 1;
+        display: inline-block;
+        font-size: 1.2em;
+        padding-top: 10px;
+        span{
+          display: block;
+          margin: 0 auto;
         }
-        .profile-details {
-          display: inline-block;
-          font-size: 1.2em;
-          padding-top: 10px;
-          span{
-            display: block;
-            margin: 0 auto;
-          }
-          .profile-name{
-            color: black;
-            font-size: 1.3em;
-            width: 175px;
-            margin-left: 0px;
-            .mui-text-field-underline {
-              margin-top: 15px;
-              margin-bottom: 5px;
-            }
-            .mui-text-field-focus-underline {
-              border-color: rgba(0,0,0,.5);
-              margin-top: 15px;
-              margin-bottom: 5px;
-            }
-          }
-          span.profile-email, span.profile-points {
-            font-size: 0.8em;
-            color: #4c4c4c;
-          }
+        .profile-name{
+          color: black;
+          font-size: 1.3em;
+          width: 175px;
+          margin-left: 0px;
         }
-        .profile-settings {
-          float: right;
-          .btn {
-            padding-top: 15px;
-            background-color: rgba(0,0,0,0);
-            color: @light-font;
-            font-size: 1.1em;
-            transition: all 0.15s linear;
-            border: none;
-            &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-              outline: none;
-              box-shadow: none;
-              background-color: rgba(0,0,0,0);
-            }
-            &:active, &.active, .btn.active, .btn:active {
-              color: black;
-            }
-          }
+        span.profile-email, span.profile-points {
+          font-size: 0.8em;
+          color: #4c4c4c;
         }
       }
-
-      hr {
-        margin-top: 10px;
-        margin-bottom: 10px;
-      }
-
-      .row.profile-links {
-        color: @light-font;
-        font-size: .9em;
-        margin-top: 15px;
-        span {
-          float: right;
-          padding: 0 5px;
-        }
-        button.profile-link {
-          float: right;
-          padding: 0 5px;
+      .profile-settings {
+        float: right;
+        .btn {
+          padding-top: 15px;
           background-color: rgba(0,0,0,0);
           color: @light-font;
-          font-size: inherit;
+          font-size: 1.1em;
           transition: all 0.15s linear;
           border: none;
-          text-decoration: underline;
           &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
             outline: none;
             box-shadow: none;
@@ -116,37 +89,51 @@
           }
           &:active, &.active, .btn.active, .btn:active {
             color: black;
-            text-decoration: underline;
           }
         }
       }
+    }
 
-      .profile-dropdown-buttons {
-        .profile-btn-left {
-          font-size: .8em;
-          float: left;
-          display: inline-block;
-          position: relative;
-          top: 50%;
-          padding-top: 1%;
-          padding-left: 1.5%;
-          margin-bottom: 10px;
-          margin-top: 0px;
+    .profile-links {
+      color: @light-font;
+      font-size: .9em;
+      margin-top: 15px;
+      span {
+        float: right;
+        padding: 0 5px;
+      }
+      button.profile-link {
+        float: right;
+        padding: 0 5px;
+        background-color: rgba(0,0,0,0);
+        color: @light-font;
+        font-size: inherit;
+        transition: all 0.15s linear;
+        border: none;
+        text-decoration: underline;
+        &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
+          outline: none;
+          box-shadow: none;
+          background-color: rgba(0,0,0,0);
         }
-        .profile-btn-right {
-          font-size: .8em;
-          float: right;
-          display: inline-block;
-          position: relative;
-          top: 50%;
-          padding-top: 1%;
-          padding-left: 1.5%;
-          margin-bottom: 10px;
-          margin-top: 0px;
+        &:active, &.active, .btn.active, .btn:active {
+          color: black;
+          text-decoration: underline;
         }
+      }
+    }
+
+    .profile-dropdown-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      width: 100%;
+      padding-top: 10px;
+      .profile-btn-right {
+        font-size: .8em;
+        position: relative;
       }
     }
   }
 
 }
-
