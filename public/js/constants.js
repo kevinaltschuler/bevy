@@ -87,13 +87,14 @@ exports.USER = {
 };
 
 exports.NOTIFICATION = {
-    DISMISS: 'notification_dismiss',
-    READ: 'notification_read',
+  DISMISS: 'notification_dismiss',
+  READ: 'notification_read',
 
-    CHANGE_ALL: 'notification_change_all'
+  CHANGE_ALL: 'notification_change_all'
 };
 
 exports.CHAT = {
+  START_PM: 'chat_start_pm',
   THREAD_OPEN: 'chat_thread_open',
   PANEL_CLOSE: 'chat_panel_close',
   MESSAGE_CREATE: 'chat_message_create',

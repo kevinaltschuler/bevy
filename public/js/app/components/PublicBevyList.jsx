@@ -79,7 +79,6 @@ var PublicBevyList = React.createClass({
 
     var bevies = publicBevies;
     if(!_.isEmpty(searchQuery)) {
-      console.log('searching');
       bevies = searchList;
     }
 

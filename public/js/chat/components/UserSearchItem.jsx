@@ -13,6 +13,7 @@ var {
 } = require('react-bootstrap');
 
 var constants = require('./../../constants');
+var ChatActions = require('./../ChatActions');
 
 var UserSearchItem = React.createClass({
 
@@ -27,8 +28,7 @@ var UserSearchItem = React.createClass({
 
   openUserThread(ev) {
     ev.preventDefault();
-    //var thread_id = ev.target.getAttribute('id');
-    //ChatActions.openThread(null, thread_id);
+    ChatActions.startPM(this.props.searchUser._id);
   },
 
   render() {
@@ -50,7 +50,7 @@ var UserSearchItem = React.createClass({
         }}
         onClick={ this.openUserThread }
       >
-        <div className='image' style={imageStyle}/>
+        <div className='image' style={ imageStyle }/>
         <div className='details'>
           <span className='name'>{ name }</span>
         </div>

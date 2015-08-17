@@ -35,23 +35,27 @@
           box-shadow: @shadow2;
         }
         .image {
-          width: 40px;
-          height: 40px;
+          min-width: 40px;
+          min-height: 40px;
           padding: 0px;
           overflow: hidden;
           margin: 0px 10px;
           border-radius: 50px;
           box-shadow: none;
           transition: all .2s ease-in-out; 
-          .bevy-img {
-            width: auto;
-            height: 100%;
-          }
         }
 
-        .conversation-details {
-          max-width: 60px;
+        .details {
           overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          span.name {
+
+          }
+          span.latest-message {
+            color: #aaa;
+          }
         }
     }
   }
