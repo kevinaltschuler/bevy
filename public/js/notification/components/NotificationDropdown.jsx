@@ -32,6 +32,10 @@ var NotificationDropdown = React.createClass({
     };
   },
 
+  componentDidMount() {
+    this.container = React.findDOMNode(this.refs.Container);
+  },
+
   dismissAll(ev) {
     ev.preventDefault();
     var allNotifications = this.props.allNotifications;
@@ -61,7 +65,7 @@ var NotificationDropdown = React.createClass({
           show={ this.state.show }
           target={ (props) => React.findDOMNode(this.refs.NotificationButton) }
           placement='bottom'
-          container={ React.findDOMNode(this.refs.Container) }
+          container={ this.container }
         >
           <div className='notification-dropdown-container'>
             <div className='backdrop' onClick={ this.toggle }/>

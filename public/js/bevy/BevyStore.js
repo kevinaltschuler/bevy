@@ -268,8 +268,6 @@ _.extend(BevyStore, {
 
         this.activeTags = this.myBevies.get(this.active).toJSON().tags;
 
-        console.log(this.myBevies.get(this.active).toJSON());
-
         this.trigger(BEVY.CHANGE_ALL);
 
         break;
