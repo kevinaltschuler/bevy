@@ -80,6 +80,12 @@ gulp.task('less:watch', function() {
 
 gulp.task('less:build', function() {
 	buildLess();
+	console.log('...done');
+});
+
+gulp.task('build:less', function() {
+	buildLess();
+	console.log('...done');
 });
 
 gulp.task('webpack:watch', function() {
