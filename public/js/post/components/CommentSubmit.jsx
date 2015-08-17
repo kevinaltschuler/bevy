@@ -23,7 +23,9 @@ var CommentSubmit = React.createClass({
     commentId: React.PropTypes.string,
     author: React.PropTypes.object,
     bevy: React.PropTypes.object,
-    onReply: React.PropTypes.func
+    onReply: React.PropTypes.func,
+    expandComments: React.PropTypes.func,
+    showComments: React.PropTypes.bool
   },
 
   getInitialState() {
@@ -50,6 +52,9 @@ var CommentSubmit = React.createClass({
 
     if(this.props.onReply)
       this.props.onReply();
+
+    if(!this.props.showComments)
+      this.props.expandComments();
   },
 
   onKeyPress(ev) {

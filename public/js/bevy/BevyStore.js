@@ -266,9 +266,11 @@ _.extend(BevyStore, {
 
         this.active = bevy_id;
 
-        this.trigger(BEVY.CHANGE_ALL);
+        this.activeTags = this.myBevies.get(this.active).toJSON().tags;
 
-        this.activeTags = [];
+        console.log(this.myBevies.get(this.active).toJSON());
+
+        this.trigger(BEVY.CHANGE_ALL);
 
         break;
 
@@ -312,6 +314,7 @@ _.extend(BevyStore, {
       case BEVY.UPDATE_TAGS:
         var tags = (_.isEmpty(payload.tags)) ? [] : payload.tags;
         this.activeTags = tags;
+        this.trigger(BEVY.CHANGE_ALL);
         break;
     }
   },

@@ -82,16 +82,16 @@ var SubBevyPanel = React.createClass({
     BevyActions.update(this.props.activeBevy._id, null, null, null, tag, null);
   },
 
-  handleCheck() {
-    var tags = bevy.tags;
-    var $tags = [];
-    for(var key in tags) {
-      var tag = tags[key];
-      if(this.refs.tagName.isChecked()) {
-        $tags.push(tag);
-      }
-    }
-    BevyActions.updateTags($tags);
+  handleCheck(ev, checked) {
+    var tags = this.props.activeBevy.tags;
+    var activeTags = this.props.activeTags;
+    var $tag = _.find(tags, function(tag){ return tag.name == ev.target.name });
+    if(checked && !_.find(activeTags, function(tag){ return tag.name == ev.target.name }))
+      activeTags.push($tag);
+    if(!checked)
+      activeTags = _.reject(activeTags, function(tag){return tag.name == $tag.name });
+    
+    BevyActions.updateTags(activeTags);
   },
 
   render() {
@@ -116,15 +116,17 @@ var SubBevyPanel = React.createClass({
         name={tag.name} 
         value={true} 
         label={tag.name} 
-        ref={tag.name}
+        ref={tag._id}
         className='bevy-btn'
         style={{width: '90%'}}
+        defaultChecked={_.contains(activeTags, tag)}
         iconStyle={{
           fill: tag.color
         }}
         onCheck={this.handleCheck}
       />);
     }
+
 
     var colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4', '#009688', '#4CAF50', '#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722'];
     var colorButtons = [];
