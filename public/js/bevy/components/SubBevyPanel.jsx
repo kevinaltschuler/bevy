@@ -32,7 +32,7 @@ var SubBevyPanel = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object.isRequired,
-    checkedTags: React.PropTypes.array
+    activeTags: React.PropTypes.array
   },
 
   getInitialState() {
@@ -97,7 +97,7 @@ var SubBevyPanel = React.createClass({
   render() {
     var bevy = this.props.activeBevy;
     var tags = bevy.tags;
-    var checkedTags= this.props.checkedTags;
+    var activeTags= this.props.activeTags;
 
     var tagButtons = [];
     /*bevies.push(

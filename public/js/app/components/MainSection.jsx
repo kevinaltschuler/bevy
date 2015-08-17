@@ -80,12 +80,14 @@ var MainSection = React.createClass({
     var myBevies = BevyStore.getMyBevies();
     var active = BevyStore.getActive();
     var publicBevies = BevyStore.getPublicBevies();
+    var activeTags = BevyStore.getActiveTags();
 
     return {
       // later, load this from session/cookies
       myBevies: myBevies,
       activeBevy: active,
-      publicBevies: publicBevies
+      publicBevies: publicBevies,
+      activeTags: activeTags
     }
   },
 
