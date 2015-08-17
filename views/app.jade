@@ -1,9 +1,7 @@
 extends ./base.jade
 
 block scripts
-	if env == 'development'
-		link(rel='stylesheet', href='/css/app.css')
-	else
+	if env != 'development'
 		link(rel='stylesheet', href='/css/app.css')
 
 block content

@@ -6,3 +6,10 @@ public/css/*
 .sublime-project
 
 *.log
+
+public/*.svg
+public/*.eot
+public/*.ttf
+public/*.woff
+public/*.woff2
+public/*.bundle.js

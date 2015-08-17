@@ -1,0 +1,40 @@
+// BevyDropdownItem.less
+// @author albert
+
+@import './../variables.less';
+
+a.bevy-dropdown-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 48px;
+  width: 100%;
+  background-color: #fff;
+  transition: 0.2s all ease-in-out;
+
+  text-decoration: none;
+  &:hover {
+    background-color: #eee;
+    text-decoration: none;
+  }
+  .bevy-image {
+    #image-icon();
+    min-width: 35px;
+    min-height: 35px;
+    border-radius: 18px;
+  }
+  .bevy-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    span.bevy-name {
+      text-decoration: none;
+      color: #000;
+      font-size: 1.2em;
+    }
+    span.bevy-description {
+      color: @light-font
+    }
+  }
+}

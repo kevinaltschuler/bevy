@@ -1,0 +1,38 @@
+// BevyDropdown.less
+// @author albert
+
+@import './../variables.less';
+
+.my-bevies-btn {
+
+}
+
+.bevy-dropdown-container {
+  position: absolute;
+  .backdrop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  .arrow {
+
+  }
+  .bevy-dropdown {
+    position: absolute;
+    top: 10px;
+    left: -50px !important;
+    width: 450px;
+    background-color: #fff;
+    overflow-y: scroll;
+    max-height: 500px;
+    overflow-x: hidden;
+    padding: 5px 6px;
+    text-shadow: none;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

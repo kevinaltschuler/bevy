@@ -11,6 +11,10 @@
 
 'use strict';
 
+//var constants = require('./constants');
+
+require("./../less/app.less");
+
 var _ = require('underscore');
 var $ = require('jquery');
 
