@@ -153,7 +153,7 @@ var NewPostPanel = React.createClass({
 
     var selectedIndex = this.state.selectedIndex;
 
-    var beviesDropdown = (this.state.activeBevy)
+    var tagDropdown = (this.state.activeBevy)
     ? <div/>
     : (<DropDownMenu
         className='bevies-dropdown'
@@ -225,6 +225,7 @@ var NewPostPanel = React.createClass({
               {...this.props}
             />
           </div>
+          { tagDropdown }
           <RaisedButton
             label="post"
             onClick={this.submit}
