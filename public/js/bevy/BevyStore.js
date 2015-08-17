@@ -48,7 +48,7 @@ _.extend(BevyStore, {
   publicBevies: new Bevies,
   searchQuery: '',
   searchList: new Bevies,
-  checkedTags: [],
+  activeTags: [],
 
   // handle calls from the dispatcher
   // these are created from BevyActions.js
@@ -268,7 +268,7 @@ _.extend(BevyStore, {
 
         this.trigger(BEVY.CHANGE_ALL);
 
-        this.checkedTags = [];
+        this.activeTags = [];
 
         break;
 
@@ -311,7 +311,7 @@ _.extend(BevyStore, {
 
       case BEVY.UPDATE_TAGS:
         var tags = (_.isEmpty(payload.tags)) ? [] : payload.tags;
-        this.checkedTags = tags;
+        this.activeTags = tags;
         break;
     }
   },
@@ -349,8 +349,8 @@ _.extend(BevyStore, {
     return this.searchQuery;
   },
 
-  getCheckedTags() {
-    return this.checkedTags;
+  getActiveTags() {
+    return this.activeTags;
   },
 
   sortByTop(bevy) {

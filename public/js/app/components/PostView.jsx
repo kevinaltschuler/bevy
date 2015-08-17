@@ -27,7 +27,7 @@ var PostView = React.createClass({
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
     allPosts: React.PropTypes.array,
-    checkedTags: React.PropTypes.array
+    activeTags: React.PropTypes.array
   },
 
   render() {
@@ -71,7 +71,7 @@ var PostView = React.createClass({
             myBevies={ this.props.myBevies }
             activeBevy={ this.props.activeBevy }
             allThreads={ this.props.allThreads }
-            checkedTags={ this.props.checkedTags }
+            activeTags={ this.props.activeTags }
           />
           <div className='post-view-body'>
             { body }
