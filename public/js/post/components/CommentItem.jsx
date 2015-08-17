@@ -10,6 +10,7 @@
 var React = require('react');
 var _ = require('underscore');
 
+var constants = require('./../../constants');
 var timeAgo = require('./../../shared/helpers/timeAgo');
 
 var CommentSubmit = require('./CommentSubmit.jsx');
@@ -89,9 +90,6 @@ var CommentItem = React.createClass({
   },
 
   render() {
-
-    var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
-
     var comment = this.props.comment;
     var author = comment.author;
     var bevy = this.props.post.bevy;
@@ -101,7 +99,7 @@ var CommentItem = React.createClass({
 
     var profileImage = (author.image_url)
     ? author.image_url
-    : defaultProfileImage;
+    : constants.defaultProfileImage;
 
     var replyText = (this.state.isReplying)
     ? 'close'

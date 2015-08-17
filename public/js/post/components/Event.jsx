@@ -38,6 +38,7 @@ var timeLeft = require('./../../shared/helpers/timeLeft');
 
 var $ = require('jquery');
 
+var constants = require('./../../constants');
 var user = window.bootstrap.user;
 var email = user.email;
 
@@ -198,10 +199,9 @@ var Event = React.createClass({
 
     //console.log(event);
 
-    var defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
     var profileImage = (post.author.image_url)
     ? post.author.image_url
-    : defaultProfileImage;
+    : constants.defaultProfileImage;
 
     var authorName;
     authorName = 'placeholder-author';
