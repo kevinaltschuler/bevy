@@ -60,16 +60,6 @@ var SubBevyPanel = React.createClass({
     this.setState({newTagValue: this.refs.newTagInput.getValue()})
   },
 
-  convertHex(hex,opacity){
-      hex = hex.replace('#','');
-      r = parseInt(hex.substring(0,2), 16);
-      g = parseInt(hex.substring(2,4), 16);
-      b = parseInt(hex.substring(4,6), 16);
-
-      result = 'rgba('+r+','+g+','+b+','+opacity/100+')';
-      return result;
-  },
-
   submitTag() {
     this.setState({
       newTag: false,
@@ -97,7 +87,8 @@ var SubBevyPanel = React.createClass({
   render() {
     var bevy = this.props.activeBevy;
     var tags = bevy.tags;
-    var activeTags= this.props.activeTags;
+    var activeTags = this.props.activeTags;
+    //console.log(activeTags);
 
     var tagButtons = [];
     /*bevies.push(
@@ -112,21 +103,25 @@ var SubBevyPanel = React.createClass({
     );*/
     for(var key in tags) {
       var tag = tags[key];
-      tagButtons.push( <Checkbox 
-        name={tag.name} 
-        value={true} 
-        label={tag.name} 
-        ref={tag._id}
-        className='bevy-btn'
-        style={{width: '90%'}}
-        defaultChecked={_.contains(activeTags, tag)}
-        iconStyle={{
-          fill: tag.color
-        }}
-        onCheck={this.handleCheck}
-      />);
-    }
+      var tagName = tag.name;
+      var tagColor = tag.color;
 
+      tagButtons.push( 
+        <Checkbox 
+          name={tag.name} 
+          value={true} 
+          label={tagName} 
+          ref={tagName}
+          className='bevy-btn'
+          style={{width: '90%', color: 'rgba(0,0,0,.6)'}}
+          defaultChecked={_.contains(activeTags, tag)}
+          iconStyle={{
+            fill: tag.color
+          }}
+          onCheck={this.handleCheck}
+        />
+      );
+    }
 
     var colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4', '#009688', '#4CAF50', '#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722'];
     var colorButtons = [];

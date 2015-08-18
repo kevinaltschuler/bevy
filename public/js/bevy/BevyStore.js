@@ -315,6 +315,7 @@ _.extend(BevyStore, {
         var tags = (_.isEmpty(payload.tags)) ? [] : payload.tags;
         this.activeTags = tags;
         this.trigger(BEVY.CHANGE_ALL);
+        this.trigger(POST.CHANGE_ALL);
         break;
     }
   },
