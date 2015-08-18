@@ -17,9 +17,8 @@ var router = require('./../../router');
 var Navbar = require('./Navbar.jsx');
 var HomeView = require('./../../homepage/components/HomeView.jsx');
 var PostView = require('./PostView.jsx');
-var SearchView = require('./SearchView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
-var PublicBevyList = require('./PublicBevyList.jsx');
+var SearchView = require('./SearchView.jsx');
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -161,13 +160,10 @@ var InterfaceComponent = React.createClass({
         return <HomeView {...this.props}  />
         break;
       case 'search':
-        return <PublicBevyList {...this.props} />
+        return <SearchView {...this.props} />
         break;
       case 'bevy':
         return <PostView {...this.props} />
-        break;
-      case 'publicbevies':
-        return <PublicBevyList {...this.props} />
         break;
       default:
         return <FourOhFour {...this.props} />

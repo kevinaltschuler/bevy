@@ -105,6 +105,21 @@ var Navbar = React.createClass({
     if(!_.isEmpty(this.props.activeBevy)) {
       bevyName = this.props.activeBevy.name;
     }
+
+    var navbarTitle = '';
+    switch(router.current) {
+      case 'home':
+        navbarTitle = 'Bevy';
+        break;
+      case 'bevy':
+        navbarTitle = this.props.activeBevy.name;
+        break;
+      case 'search':
+        navbarTitle = 'Search for ' + ((_.isEmpty(router.search_query)) ? '' : router.search_query);
+        break;
+      default:
+        break;
+    }
     
     var backgroundStyle = (_.isEmpty(this.props.activeBevy))
     ? {}
@@ -156,7 +171,7 @@ var Navbar = React.createClass({
         </div>
 
         <div className="nav navbar-brand-text nav-center">
-          { bevyName }
+          { navbarTitle }
         </div>
 
         <div className="navbar-header pull-right">

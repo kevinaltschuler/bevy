@@ -13,8 +13,7 @@ var Router = Backbone.Router.extend({
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
     'home' : 'home',
-    'publicbevies' : 'publicbevies',
-    'bevies': 'publicbevies',
+    'bevies': 'bevies',
     'b' : 'home',
     'b/' : 'home',
     'b/frontpage': 'home',
@@ -49,14 +48,14 @@ var Router = Backbone.Router.extend({
     this.current = 'reset';
   },
 
-  publicbevies() {
-    this.current = 'publicbevies';
-  },
-
   bevy(bevy_id, post_id) {
     this.current = 'bevy';
     this.bevy_id = bevy_id;
     BevyActions.switchBevy(this.bevy_id);
+  },
+
+  bevies() {
+    this.navigate('s/?collection=bevies', { trigger: true });
   },
 
   search(query) {

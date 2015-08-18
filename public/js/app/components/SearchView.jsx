@@ -1,73 +1,150 @@
+/**
+ * SearchView.jsx
+ *
+ * @author kevin
+ */
+
 'use strict';
 
 var React = require('react');
 var _ = require('underscore');
-var $ = require('jquery');
-
+var CTG = React.addons.CSSTransitionGroup;
 var constants = require('./../../constants');
 var router = require('./../../router');
 
 var user = window.bootstrap.user;
 
-var PostContainer = require('./../../post/components/PostContainer.jsx');
-var LeftSidebar = require('./LeftSidebar.jsx');
+var {
+  Button
+} = require('react-bootstrap');
+var {
+  RaisedButton,
+  FontIcon
+} = require('material-ui');
+
+var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
+var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
+var FilterSidebar = require('./FilterSidebar.jsx');
+
+var constants = require('./../../constants');
+var BEVY = constants.BEVY;
+var BevyStore = require('./../../bevy/BevyStore');
 
 var SearchView = React.createClass({
 
   propTypes: {
-    allPosts: React.PropTypes.array
+    publicBevies: React.PropTypes.array.isRequired,
+    myBevies: React.PropTypes.array
   },
 
   getInitialState() {
-    this.onRoute();
     return {
-      posts: this.props.allPosts
+      showNewBevyModal: false,
+      searching: false,
+      searchList: []
     };
   },
 
-  componentWillMount() {
-    router.on('route', this.onRoute);
+  componentDidMount() {
+    BevyStore.on(BEVY.SEARCHING, this.handleSearching);
+    BevyStore.on(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
   },
+
   componentWillUnmount() {
-    router.off('route', this.onRoute);
+    BevyStore.off(BEVY.SEARCHING, this.handleSearching);
+    BevyStore.off(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
   },
 
-  onRoute() {
-    var query = router.search_query;
-
-    $.ajax({
-      url: constants.apiurl + '/users/' + user._id + '/posts/search/' + query,
-      method: 'GET',
-      success: function(data) {
-        this.setState({
-          posts: data,
-          query: query
-        });
-      }.bind(this)
+  handleSearching() {
+    this.setState({
+      searching: true,
+      searchQuery: BevyStore.getSearchQuery(),
+      searchList: []
     });
   },
 
+  handleSearchComplete() {
+    this.setState({
+      searching: false,
+      searchList: BevyStore.getSearchList()
+    });
+  },
 
   render() {
+    var publicBevies = this.props.publicBevies;
+    var myBevies = this.props.myBevies;
+
+    var searchList = this.state.searchList;
+    var searchQuery = this.state.searchQuery;
+
+    var bevies = publicBevies;
+    if(!_.isEmpty(searchQuery)) {
+      bevies = searchList;
+    }
+
+    var publicBevyPanels = [];
+
+    for(var key in bevies) {
+      var bevy = bevies[key];
+      publicBevyPanels.push(
+        <PublicBevyPanel bevy={ bevy } myBevies={ this.props.myBevies } key={ Math.random() } />
+      );
+    };
+
+    var content = <CTG className='panel-list' transitionName="fadeIn">
+        {publicBevyPanels}
+      </CTG>;
+
+    if(_.isEmpty(publicBevyPanels)) {
+      content = <h2> no results :( </h2>
+    }
+
+    if(this.props.searching) {
+      content = <section className="loaders"><span className="loader loader-quart"> </span></section>
+    }
+
 
     return (
-      <div className='main-section'>
-        <LeftSidebar
-          allBevies={ this.props.allBevies }
-          activeBevy={ this.props.activeBevy }
-          allThreads={ this.props.allThreads }
-          allContacts={ this.props.allContacts }
-        />
-        <div className="search-body">
-          <div className='message' style={{ marginBottom: '20px' }}>
-            Search for #{ router.search_query }
+      <div className='public-bevy-wrapper'>
+        <div className='mid-section'>
+          <div className='public-bevy-list'>
+            {/*<div className='public-bevy-header'>
+              <div className='title'>
+                <Button className='title-btn'>
+                  <h2>my bevies</h2>
+                </Button>
+                <h2 className='divider'>&nbsp;•&nbsp;</h2>
+                <Button className='title-btn'>
+                  <h2>all bevies</h2>
+                </Button>
+              </div>
+              <RaisedButton 
+                disabled={_.isEmpty(window.bootstrap.user)} 
+                label='new bevy' 
+                className='public-bevy-panel panel'
+                onClick={() => { this.setState({ showNewBevyModal: true }); }}>
+                <FontIcon className="glyphicon glyphicon-plus"/>
+              </RaisedButton>
+              <CreateNewBevyModal
+                show={ this.state.showNewBevyModal }
+                onHide={() => { this.setState({ showNewBevyModal: false }); }}
+              />
+            </div>*/}
+            { content }
           </div>
-          <PostContainer
-            allPosts={ this.state.posts }
-          />
+          <FilterSidebar searchQuery={ this.props.searchQuery } />
         </div>
-        <div className='right-sidebar' />
+      <div className="footer-public-bevies">
+        <div className='footer-left'>
+          Bevy © 2015 
+        </div>
+        <div className='footer-right'>
+          <Button className="bevy-logo-btn" href='/'>
+            <div className='bevy-logo-img' style={{ backgroundImage: 'url(/img/logo_100.png)' }}/>
+          </Button>
+        </div>
       </div>
+    </div>
     );
   }
 });
