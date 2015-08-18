@@ -37,6 +37,8 @@ var BevyDropdownItem = React.createClass({
 
   render() {
     var bevy = this.props.bevy;
+    var image_url = (_.isEmpty(bevy.image_url)) ? '/img/logo_100.png' : bevy.image_url;
+
     return (
       <a 
         href={ '/b/' + bevy._id } 
@@ -45,7 +47,7 @@ var BevyDropdownItem = React.createClass({
       >
         <div
           className='bevy-image'
-          style={{ backgroundImage: 'url(' + bevy.image_url + ')' }}
+          style={{ backgroundImage: 'url(' + image_url + ')' }}
         />
         <div className='bevy-details'>
           <span className='bevy-name'>{ bevy.name }</span>
