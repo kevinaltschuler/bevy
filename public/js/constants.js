@@ -27,6 +27,9 @@ exports.protocol = protocol;
 exports.api_subdomain = api_subdomain;
 exports.api_version = api_version;
 
+exports.viewportWidth = window.innerWidth;
+exports.viewportHeight = window.innerHeight;
+
 exports.chatSidebarWidthClosed = 55;
 exports.chatSidebarWidthOpen = 200;
 exports.chatSidebarSearchHeight = 300;

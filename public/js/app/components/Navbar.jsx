@@ -28,6 +28,7 @@ var {
   Styles
 } = require('material-ui');
 
+var BevyDropdown = require('./../../bevy/components/BevyDropdown.jsx');
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
@@ -85,15 +86,6 @@ var Navbar = React.createClass({
     router.navigate('s/' + query, { trigger: true });
   },
 
-  switchBevy(ev, href, target) {
-    //console.log('ev: ', ev,'href: ', href,'target: ', target);
-    // get the bevy ids
-    var id = ev || null;
-    if(id == -1) id = 'Bevies';
-    // call action
-    router.navigate('/b/' + id, { trigger: true });
-  },
-
   render() {
 
     var notificationCount = this.props.allNotifications.length;
@@ -112,26 +104,6 @@ var Navbar = React.createClass({
     var bevyName;
     if(!_.isEmpty(this.props.activeBevy)) {
       bevyName = this.props.activeBevy.name;
-    }
-
-    var myBevies = this.props.myBevies;
-    var bevies = [];
-
-    for(var key in myBevies) {
-      var bevy = myBevies[key];
-
-      if(bevy != this.props.activeBevy && bevy.parent == undefined) {
-        bevies.push(
-          <MenuItem
-            eventKey={ bevy._id }
-            id={ bevy._id }
-            target={ bevy._id }
-            onSelect={ this.switchBevy } 
-          >
-            { bevy.name }
-          </MenuItem>
-        );
-      }
     }
     
     var backgroundStyle = (_.isEmpty(this.props.activeBevy))
@@ -168,14 +140,6 @@ var Navbar = React.createClass({
       </div>
     );
 
-    var bevyDropdown = (_.isEmpty(window.bootstrap.user))
-    ? (<Button href='/bevies' className='bevies-dropdown'>Bevies</Button>)
-    : (
-      <DropdownButton className='bevies-dropdown' title='My Bevies'>
-        { bevies }
-      </DropdownButton>
-    );
-
     return (
       <div id='navbar' className="navbar navbar-fixed-top row" style={ navbarStyle }>
         <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#2CB673' } : { backgroundColor: '#000' }}>
@@ -185,7 +149,10 @@ var Navbar = React.createClass({
           <Button className="bevy-logo-btn" href={ frontpageUrl }>
             <div className='bevy-logo-img'/>
           </Button>
-          { bevyDropdown }
+          <BevyDropdown
+            myBevies={ this.props.myBevies }
+            activeBevy={ this.props.activeBevy }
+          />
         </div>
 
         <div className="nav navbar-brand-text nav-center">
