@@ -58,6 +58,7 @@ var BevyDropdown = React.createClass({
         <BevyDropdownItem
           key={ 'bevydropdown:' + bevy._id }
           bevy={ bevy }
+          active={ bevy._id == this.props.activeBevy._id }
         />
       );
     }

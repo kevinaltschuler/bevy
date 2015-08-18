@@ -21,6 +21,7 @@ var ChatActions = require('./../../chat/ChatActions');
 var BevyDropdownItem = React.createClass({
 
   propTypes: {
+    active: React.PropTypes.bool,
     bevy: React.PropTypes.object
   },
 
@@ -37,7 +38,11 @@ var BevyDropdownItem = React.createClass({
   render() {
     var bevy = this.props.bevy;
     return (
-      <a href={ '/b/' + bevy._id } onClick={ this.switchBevy }  className='bevy-dropdown-item'>
+      <a 
+        href={ '/b/' + bevy._id } 
+        onClick={ this.switchBevy }
+        className={ 'bevy-dropdown-item' + ((this.props.active) ? ' active' : '') }
+      >
         <div
           className='bevy-image'
           style={{ backgroundImage: 'url(' + bevy.image_url + ')' }}
