@@ -11,14 +11,16 @@
 var React = require('react');
 var _ = require('underscore');
 
+var router = require('./../../router');
 var constants = require('./../../constants');
 
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
-var FlatButton = mui.FlatButton;
+var {
+  Button
+} = require('react-bootstrap');
+var {
+  RaisedButton,
+  FlatButton
+} = require('material-ui');
 
 var BevyActions = require('./../BevyActions');
 
@@ -68,6 +70,11 @@ var PublicBevyPanel = React.createClass({
     });
   },
 
+  switchBevy(ev) {
+    ev.preventDefault();
+    router.navigate('/b/' + this.props.bevy._id, { trigger: true });
+  },
+
   render() {
 
     var bevy = this.props.bevy;
@@ -91,7 +98,7 @@ var PublicBevyPanel = React.createClass({
         <Button className="bevy-panel-top" href={'/b/' + this.props.bevy._id} style={ bevyImageStyle }/>
         <div className='panel-info'>
           <div className='panel-info-top'>
-            <a className='title' href={'/b/' + this.props.bevy._id}>{ name }</a>
+            <a className='title' href={'/b/' + this.props.bevy._id} onClick={ this.switchBevy }>{ name }</a>
           </div>
           <div className='panel-info-bottom'>
             <div className='left'>
