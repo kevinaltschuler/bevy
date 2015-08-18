@@ -11,12 +11,12 @@ var _ = require('underscore');
 var {
   Button
 } = require('react-bootstrap');
-
 var {
   IconButton
 } = require('material-ui');
 
 var router = require('./../../router');
+var ChatActions = require('./../../chat/ChatActions');
 
 var BevyDropdownItem = React.createClass({
 
@@ -25,7 +25,8 @@ var BevyDropdownItem = React.createClass({
   },
 
   openBevyChat(ev) {
-
+    ev.preventDefault();
+    ChatActions.startBevyChat(this.props.bevy._id);
   },
 
   switchBevy(ev) {

@@ -20,6 +20,12 @@ var ChatActions = {
 		});
 	},
 
+	startBevyChat(bevy_id) {
+		dispatch(CHAT.START_BEVY_CHAT, {
+			bevy_id: bevy_id
+		});
+	},
+
 	openThread(thread_id, user_id) {
 		dispatch(CHAT.THREAD_OPEN, {
 			thread_id: (thread_id == undefined) ? null : thread_id
