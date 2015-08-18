@@ -38,6 +38,10 @@ var ProfileDropdown = React.createClass({
     }
   },
 
+  componentDidMount() {
+    this.container = React.findDOMNode(this.refs.Container);
+  },
+
   onUploadComplete(file) {
     //console.log(file);
     var filename = file.filename;
@@ -168,7 +172,7 @@ var ProfileDropdown = React.createClass({
           show={ this.state.show }
           target={ (props) => React.findDOMNode(this.refs.ProfileButton) }
           placement='bottom'
-          container={ React.findDOMNode(this.refs.Container) }
+          container={ this.container }
         >
           { this.renderOverlay() }
         </Overlay>

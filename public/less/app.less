@@ -6,10 +6,67 @@
 // note: any potential intersections that bootstrap has with material-ui
 // will prefer let bootstrap override it
 // move material-ui after this line to reverse the order
-@import '../../node_modules/bootstrap/less/bootstrap.less';
 
-@import './*.less';
-@import './**/*.less';
+@import './animation.less';
+@import './buttons.less';
+@import './dropzone.less';
+@import './forms.less';
+@import './panels.less';
+@import './variables.less';
+
+@import './app/FilterSidebar.less';
+@import './app/Footer.less';
+@import './app/LeftSidebar.less';
+@import './app/Lonesome.less';
+@import './app/MainSection.less';
+@import './app/Navbar.less';
+@import './app/PostView.less';
+@import './app/PublicBevyList.less';
+@import './app/RightSidebar.less';
+@import './app/SearchView.less';
+
+@import './bevy/BevyDropdown.less';
+@import './bevy/BevyDropdownItem.less';
+@import './bevy/BevyList.less';
+@import './bevy/BevyPanel.less';
+@import './bevy/BevySettingsModal.less';
+@import './bevy/FrontpagePanel.less';
+@import './bevy/InviteModal.less';
+@import './bevy/MemberModal.less';
+
+@import './chat/ChatDock.less';
+@import './chat/ChatDropdown.less';
+@import './chat/ChatPanel.less';
+@import './chat/ChatSidebar.less';
+@import './chat/ConversationList.less';
+@import './chat/MessageItem.less';
+@import './chat/MessageList.less';
+@import './chat/PublicChatPanel.less';
+@import './chat/UserSearchItem.less';
+
+@import './homepage/homepage.less';
+
+@import './login/ForgotPage.less';
+@import './login/LoginPage.less';
+
+@import './modals/CreateNewBevy.less';
+@import './modals/modal.less';
+@import './modals/ProfileModal.less';
+
+@import './notifications/NotificationDropdown.less';
+@import './notifications/NotificationItem.less';
+
+@import './post/datepicker.less';
+@import './post/Event.less';
+@import './post/ImageModal.less';
+@import './post/NewPostPanel.less';
+@import './post/Post.less';
+@import './post/PostContainer.less';
+@import './post/PostSort.less';
+
+@import './profile/ProfileDropdown.less';
+
+@import './register/RegisterPage.less';
 
 html {
 	font-family: Lucida Sans Unicode;

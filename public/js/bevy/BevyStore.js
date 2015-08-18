@@ -382,10 +382,10 @@ BevyStore.dispatchToken = dispatchToken;
 
 var myBevies = window.bootstrap.myBevies || [];
 BevyStore.myBevies.reset(myBevies);
-BevyStore.myBevies.unshift({
+/*BevyStore.myBevies.unshift({
   _id: '-1',
   name: 'Frontpage'
-});
+});*/
 BevyStore.trigger(BEVY.CHANGE_ALL);
 
 

@@ -111,6 +111,21 @@ _.extend(ChatStore, {
         }
         break;
 
+      case CHAT.START_BEVY_CHAT:
+        var bevy_id = payload.bevy_id;
+
+        var thread = this.threads.find(function($thread) {
+          var bevy = $thread.get('bevy');
+          if(_.isEmpty(bevy)) return false;
+          return bevy._id == bevy_id;
+        });
+
+        if(thread == undefined) break;
+
+        this.openThread(thread.id);
+
+        break;
+
       case CHAT.THREAD_OPEN:
         var thread_id = payload.thread_id;
         this.openThread(thread_id);

@@ -59,7 +59,7 @@ gulp.task('webpack-dev-server', function(callback) {
 });
 
 
-gulp.task('watch', ['webpack-dev-server', 'less:watch', 'serve:dev'], function() {
+gulp.task('watch', ['webpack-dev-server', 'serve:dev'], function() {
 	/*browserSync.init({
 		server: {
 			baseDir: './public',

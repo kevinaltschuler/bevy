@@ -27,6 +27,9 @@ exports.protocol = protocol;
 exports.api_subdomain = api_subdomain;
 exports.api_version = api_version;
 
+exports.viewportWidth = window.innerWidth;
+exports.viewportHeight = window.innerHeight;
+
 exports.chatSidebarWidthClosed = 55;
 exports.chatSidebarWidthOpen = 200;
 exports.chatSidebarSearchHeight = 300;
@@ -98,6 +101,7 @@ exports.NOTIFICATION = {
 
 exports.CHAT = {
   START_PM: 'chat_start_pm',
+  START_BEVY_CHAT: 'chat_start_bevy_chat',
   THREAD_OPEN: 'chat_thread_open',
   PANEL_CLOSE: 'chat_panel_close',
   MESSAGE_CREATE: 'chat_message_create',

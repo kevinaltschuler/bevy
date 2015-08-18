@@ -3,6 +3,8 @@
 var webpack = require('webpack');
 var path = require('path');
 
+var LessGlobPlugin = require('less-plugin-glob');
+
 module.exports = {
 	entry: {
 		app: ['webpack-dev-server/client?http://localhost:8888',
@@ -16,6 +18,8 @@ module.exports = {
 	},
 	module: {
 		loaders: [
+			{ test: /\.less$/, loader: "style!css!less?noIeCompat", exclude: /node_modules/ },
+			{ test: /\.(woff|woff2|ttf|eot|svg)/, loader: "url?prefix=font/&limit=5000" },
 			{ test: /\.jsx?$/, loaders: ['react-hot', 'jsx?harmony'], exclude: /node_modules/ }
 		]
 	},

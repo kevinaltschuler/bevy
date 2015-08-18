@@ -88,7 +88,10 @@ var PostContainer = React.createClass({
           break;
         default:
           //console.log(activeTags, post.tag);
-          if(sortType != 'events' && _.find(activeTags, function(tag){ return post.tag.name == tag.name})) {
+          if(sortType != 'events' && _.find(activeTags, function(tag){ 
+            if(_.isEmpty(post.tag)) return false;
+            return post.tag.name == tag.name;
+          })) {
             posts.push(
               <Post
                 post={ post }
