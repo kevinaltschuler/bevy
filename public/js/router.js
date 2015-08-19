@@ -55,7 +55,8 @@ var Router = Backbone.Router.extend({
   },
 
   bevies() {
-    this.navigate('s/?collection=bevies', { trigger: true });
+    //this.navigate('s/?collection=bevies', { trigger: true });
+    this.navigate('/s/', { trigger: true });
   },
 
   search(query) {
