@@ -86,25 +86,44 @@ var Navbar = React.createClass({
     router.navigate('s/' + query, { trigger: true });
   },
 
-  render() {
+  _renderUserDropdowns() {
+    if(_.isEmpty(window.bootstrap.user)) {
+      return <a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>;
+    }
 
-    var notificationCount = this.props.allNotifications.length;
-    var counter = (notificationCount <= 0)
+    var counter = (this.props.allNotifications.length <= 0)
     ? ''
     : <Badge className='notification-counter'>{ notificationCount }</Badge>;
+
+    var chatSidebar = <ChatSidebar />;
+    var chatDock = <ChatDock />;
+
+    if(router.current == 'home') {
+      chatSidebar = <div />;
+      chatDock = <div />;
+    }
+
+    return (
+      <div className='profile-buttons'>
+        {chatSidebar}
+        {chatDock}
+        <ChatDropdown />
+        <NotificationDropdown
+          allNotifications={ this.props.allNotifications }
+        />
+        { counter }
+        <ProfileDropdown />
+      </div>
+    );
+  },
+
+  render() {
 
     var navbarStyle;
     if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image_url))
       navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'};
     if(router.current == 'home')
       navbarStyle = { boxShadow: 'none'};
-
-    var name = user.displayName;
-
-    var bevyName;
-    if(!_.isEmpty(this.props.activeBevy)) {
-      bevyName = this.props.activeBevy.name;
-    }
 
     var navbarTitle = '';
     switch(router.current) {
@@ -128,41 +147,13 @@ var Navbar = React.createClass({
       backgroundImage: 'url(' + this.props.activeBevy.image_url + ')' 
     };
 
-    var searchQuery = router.search_query || '';
-
-    var frontpageUrl = (window.bootstrap.user) ? '/bevies' : '/';
-
-    var chatSidebar = (
-      <ChatSidebar />
-    );
-    var chatDock = <ChatDock />;
-    if(router.current == 'home') {
-      chatSidebar = <div />;
-      chatDock = <div />;
-    }
-
-    var userContent = (_.isEmpty(window.bootstrap.user))
-    ? (<a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>)
-    : (
-      <div className='profile-buttons'>
-        {chatSidebar}
-        {chatDock}
-        <ChatDropdown />
-        <NotificationDropdown
-          allNotifications={ this.props.allNotifications }
-        />
-        { counter }
-        <ProfileDropdown />
-      </div>
-    );
-
     return (
       <div id='navbar' className="navbar navbar-fixed-top row" style={ navbarStyle }>
         <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#2CB673' } : { backgroundColor: '#000' }}>
           <div className="background-image" style= { backgroundStyle } />
         </div>
         <div className="navbar-header pull-left">
-          <Button className="bevy-logo-btn" href={ frontpageUrl }>
+          <Button className="bevy-logo-btn" href={ (_.isEmpty(window.bootstrap.user)) ? '/bevies' : '/' }>
             <div className='bevy-logo-img'/>
           </Button>
           <BevyDropdown
@@ -182,24 +173,24 @@ var Navbar = React.createClass({
               className='search-input'
               ref='search'
               onChange={ this.onChange }
-              defaultValue={ searchQuery }
+              defaultValue={ router.search_query || '' }
             />
             <IconButton
               iconClassName='glyphicon glyphicon-search'
               onClick={ this.onSearch }
-              style={{width: '35px', height: '35px', padding: '5px', margin: '3px'}}
-              iconStyle={{color: 'white',fontSize: '14px'}}
+              style={{ width: '35px', height: '35px', padding: '5px', margin: '3px' }}
+              iconStyle={{ color: 'white', fontSize: '14px' }}
             />
           </form>
-          { userContent }
+          { this._renderUserDropdowns() }
         </div>
       </div>
     );
   }
 });
 
-  Navbar.childContextTypes = {
-    muiTheme: React.PropTypes.object
-  };
+Navbar.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
 
 module.exports = Navbar;
