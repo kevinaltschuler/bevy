@@ -192,7 +192,10 @@ var ChatSidebar = React.createClass({
     return (
       <div 
         className='chat-sidebar' 
-        style={{ width: this.state.sidebarWidth }}
+        style={{ 
+          width: 200,
+          right: this.state.sidebarWidth - constants.chatSidebarWidthOpen
+        }}
         onMouseOver={() => { 
           this.setState({ sidebarWidth: constants.chatSidebarWidthOpen }); 
         }}
