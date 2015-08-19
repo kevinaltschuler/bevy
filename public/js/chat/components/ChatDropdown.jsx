@@ -25,11 +25,12 @@ var email = user.email;
 var ChatDropdown = React.createClass({
 
   propTypes: {
+    show: React.PropTypes.bool,
+    onToggle: React.PropTypes.func
   },
 
   getInitialState() {
     return {
-      show: false,
       allThreads: []
     };
   },
@@ -51,9 +52,7 @@ var ChatDropdown = React.createClass({
 
   toggle(ev) {
     ev.preventDefault();
-    this.setState({
-      show: !this.state.show
-    });
+    this.props.onToggle();
   },
 
   createMessage(ev) {
@@ -87,7 +86,7 @@ var ChatDropdown = React.createClass({
           <div className='chat-img'/>
         </Button>
         <Overlay 
-          show={ this.state.show }
+          show={ this.props.show }
           target={ (props) => React.findDOMNode(this.refs.ChatButton) }
           placement='bottom'
           container={ this.container }

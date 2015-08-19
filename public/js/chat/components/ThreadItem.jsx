@@ -22,7 +22,7 @@ var ThreadItem = React.createClass({
 
   propTypes: {
     thread: React.PropTypes.object.isRequired,
-    width: React.PropTypes.string
+    width: React.PropTypes.mixed
   },
 
   getDefaultProps() {

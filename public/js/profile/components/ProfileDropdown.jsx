@@ -31,9 +31,14 @@ var user = window.bootstrap.user;
 
 
 var ProfileDropdown = React.createClass({
+
+  propTypes: {
+    show: React.PropTypes.bool,
+    onToggle: React.PropTypes.func
+  },
+
   getInitialState() {
     return {
-      show: false,
       image_url: (user.image_url) ? user.image_url : constants.defaultProfileImage
     }
   },
@@ -62,10 +67,7 @@ var ProfileDropdown = React.createClass({
 
   toggle(ev) {
     ev.preventDefault();
-
-    this.setState({
-      show: !this.state.show
-    });
+    this.props.onToggle();
   },
 
   renderOverlay() {
@@ -169,7 +171,7 @@ var ProfileDropdown = React.createClass({
           style={ buttonStyle } 
         />
         <Overlay
-          show={ this.state.show }
+          show={ this.props.show }
           target={ (props) => React.findDOMNode(this.refs.ProfileButton) }
           placement='bottom'
           container={ this.container }

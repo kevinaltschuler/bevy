@@ -46,6 +46,15 @@ var Navbar = React.createClass({
     allNotifications: React.PropTypes.array
   },
 
+  getInitialState() {
+    return {
+      activeTab: null,
+      opacity: 0.7 // the layer under the background image is black (rgba(0,0,0,1))
+                   // this is the opacity for the image over that layer
+                   // so higher opacity means a brighter image, and lower means darker
+    };
+  },
+
   getChildContext() { 
     return {
       muiTheme: ThemeManager.getCurrentTheme()
@@ -66,14 +75,6 @@ var Navbar = React.createClass({
       // trigger search
       this.onSearch(ev);
     }
-  },
-
-  getInitialState() {
-    return {
-      opacity: 0.7 // the layer under the background image is black (rgba(0,0,0,1))
-                   // this is the opacity for the image over that layer
-                   // so higher opacity means a brighter image, and lower means darker
-    };
   },
 
   onChange(ev) {
@@ -107,12 +108,32 @@ var Navbar = React.createClass({
       <div className='profile-buttons'>
         {chatSidebar}
         {chatDock}
-        <ChatDropdown />
+        <ChatDropdown 
+          show={ this.state.activeTab == 'chat' }
+          onToggle={() => {
+            this.setState({
+              activeTab: (this.state.activeTab == 'chat') ? null : 'chat'
+            });
+          }}
+        />
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
+          show={ this.state.activeTab == 'notifications' }
+          onToggle={() => {
+            this.setState({
+              activeTab: (this.state.activeTab == 'notifications') ? null : 'notifications'
+            });
+          }}
         />
         { counter }
-        <ProfileDropdown />
+        <ProfileDropdown 
+          show={ this.state.activeTab == 'profile' }
+          onToggle={() => {
+            this.setState({
+              activeTab: (this.state.activeTab == 'profile') ? null : 'profile'
+            });
+          }}
+        />
       </div>
     );
   },
