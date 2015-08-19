@@ -150,6 +150,7 @@ var ChatSidebar = React.createClass({
       threads.push(
         <ThreadItem
           key={ 'sidebarthread' + thread._id }
+          width={ constants.chatSidebarWidthOpen }
           thread={ thread }
         />
       );

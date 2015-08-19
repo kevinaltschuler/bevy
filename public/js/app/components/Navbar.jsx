@@ -147,6 +147,7 @@ var Navbar = React.createClass({
       <div className='profile-buttons'>
         {chatSidebar}
         {chatDock}
+        <ChatDropdown />
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
         />

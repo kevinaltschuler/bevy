@@ -21,7 +21,14 @@ var user = window.bootstrap.user;
 var ThreadItem = React.createClass({
 
   propTypes: {
-    thread: React.PropTypes.object.isRequired
+    thread: React.PropTypes.object.isRequired,
+    width: React.PropTypes.string
+  },
+
+  getDefaultProps() {
+    return {
+      width: '100%'
+    }
   },
 
   openThread(ev) {
@@ -69,7 +76,7 @@ var ThreadItem = React.createClass({
     return (
       <Button 
         className='conversation-item'
-        style={{ width: constants.chatSidebarWidthOpen }}
+        style={{ width: this.props.width }}
         onClick={ this.openThread }
       >
         <div className='image' style={ imageStyle }/>
