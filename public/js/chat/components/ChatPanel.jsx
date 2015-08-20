@@ -7,6 +7,11 @@ var rbs = require('react-bootstrap');
 var Button = rbs.Button;
 var Input = rbs.Input;
 
+var mui = require('material-ui');
+var TextField = mui.TextField;
+var Styles = mui.Styles;
+var ThemeManager = new Styles.ThemeManager();
+
 var MessageList = require('./MessageList.jsx');
 
 var ChatActions = require('./../ChatActions');
@@ -30,6 +35,21 @@ var ChatPanel = React.createClass({
       body: '',
       messages: ChatStore.getMessages(this.props.thread._id)
     };
+  },
+
+  getChildContext() { 
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    }
+  },
+
+  componentWillMount() {
+    ThemeManager.setComponentThemes({
+      textField: {
+        textColor: 'rgba(0,0,0,.9)',
+        focusColor: 'rgba(0,0,0,.4)'
+      }
+    });
   },
 
   componentDidMount() {
@@ -61,9 +81,7 @@ var ChatPanel = React.createClass({
     });
   },
 
-  onKeyPress(ev) {
-    if(ev.which == 13) {
-
+  onEnter(ev) {
       // dont send empty messages
       if(_.isEmpty(this.state.body)) return;
 
@@ -77,7 +95,6 @@ var ChatPanel = React.createClass({
       this.setState({
         body: ''
       });
-    }
   },
 
   handleToggle(ev) {
@@ -85,6 +102,7 @@ var ChatPanel = React.createClass({
     this.setState({
       isOpen: !this.state.isOpen
     });
+    document.getElementById('chat-panel').style.height = (this.state.isOpen) ? '30px' : '320px';
   },
 
   closePanel(ev) {
@@ -133,24 +151,24 @@ var ChatPanel = React.createClass({
       </div>
     );
 
-    var input = (
-      <div className='chat-panel-input'>
+    var input = (this.state.isOpen)
+    ?  <div className='chat-panel-input'>
         <div className='chat-text-field'>
-          <Input
+          <TextField
+            style={{marginLeft: '10px'}}
             type='text'
             ref='body'
-            placeholder='Chat'
-            onKeyPress={ this.onKeyPress }
+            hintText='Chat'
+            onEnterKeyDown={ this.onEnter }
             onChange={ this.onChange }
             value={ this.state.body }
           />
         </div>
       </div>
-    );
-    if(!this.state.isOpen) input = <div />;
+    : <div />;
 
-    var body = (
-      <div className='chat-panel-body'>
+    var body = (this.state.isOpen)
+    ?  <div className='chat-panel-body'>
         <MessageList
           thread={ thread }
           messages={ this.state.messages }
@@ -158,16 +176,19 @@ var ChatPanel = React.createClass({
         />
         { input }
       </div>
-    );
-    if(!this.state.isOpen) body = <div />;
+    : <div />;
 
     return (
-      <div className='chat-panel'>
+      <div className='chat-panel' id='chat-panel'>
         { header }
         { body }
       </div>
     );
   }
 });
+
+ChatPanel.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
 
 module.exports = ChatPanel;

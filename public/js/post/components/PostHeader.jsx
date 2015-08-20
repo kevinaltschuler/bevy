@@ -137,7 +137,7 @@ var PostHeader = React.createClass({
             noCaret
             pullRight
             className="post-settings"
-            title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+            title={<span className="glyphicon glyphicon-chevron-down btn"></span>}>
             { deleteButton }
             { editButton }
             { pinButton }

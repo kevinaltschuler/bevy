@@ -115,6 +115,13 @@ var BevyPanelHeader = React.createClass({
       acceptedFiles: 'image/*',
       clickable: '.dropzone-panel-button',
       dictDefaultMessage: ' ',
+      init: function() {
+        this.on("addedfile", function() {
+          if (this.files[1]!=null){
+            this.removeFile(this.files[0]);
+          }
+        });
+      }
     };
 
     var editButton = '';

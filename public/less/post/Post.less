@@ -40,24 +40,6 @@
 	.form-control {
 		box-shadow: none;
 	}
-	.post-settings {
-		padding: 0px;
-		background-color: rgba(0,0,0,0);
-		.btn {
-			padding: 1px 5px;
-			border: none;
-			background-color: rgba(0,0,0,0);
-			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open, &:hover {
-				outline: none;
-				box-shadow: none;
-				background-color: rgba(0,0,0,0);
-			}
-		}
-
-		&:active, &.active, .btn.active, .btn:active {
-			color: black;
-		}
-	}
 	.panel-header {
 		display: flex;
 		justify-content: flex-start;
@@ -139,6 +121,28 @@
 				display: block;
 				font-size: .5em;
 				width: 50px;
+			}
+			.post-settings {
+				padding: 0px;
+				background-color: rgba(0,0,0,0);
+				.btn {
+					color: rgba(0,0,0,.3);
+					box-shadow: none;
+					padding: 1px 5px;
+					border: none;
+					background-color: rgba(0,0,0,0);
+					&:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open, &:hover {
+						outline: none;
+						box-shadow: none;
+						background-color: rgba(0,0,0,0);
+						color: @light-font;
+					}
+				}
+				.dropdown-menu {
+					border-radius: 2px;
+					border-color: white;
+					box-shadow: @shadow1
+				}
 			}
 		}
 	}

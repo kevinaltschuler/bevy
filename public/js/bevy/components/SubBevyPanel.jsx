@@ -12,6 +12,7 @@
 // imports
 var React = require('react');
 var _ = require('underscore');
+var Ink = require('react-ink');
 
 var router = require('./../../router');
 
@@ -24,6 +25,7 @@ var mui = require('material-ui');
 var FontIcon = mui.FontIcon;
 var TextField = mui.TextField;
 var Checkbox = mui.Checkbox;
+var IconButton = mui.IconButton;
 
 var CobevyModal = require('./CobevyModal.jsx');
 
@@ -45,7 +47,8 @@ var SubBevyPanel = React.createClass({
       colorPicker: false,
       newTagColor: '#F44336',
       activeTags: this.props.activeTags,
-      cobevyModal: false
+      cobevyModal: false,
+      editing: false
     };
   },
 
@@ -71,27 +74,63 @@ var SubBevyPanel = React.createClass({
     this.setState({newTagValue: this.refs.newTagInput.getValue()})
   },
 
+  removeTag(ev) {
+    ev.preventDefault();
+    var tags = this.props.activeBevy.tags;
+    var tagArray = ev.target.id.split(' ');
+    var tagName = tagArray[0];
+    var tagColor = tagArray[1];
+    var tag = {name: tagName, color: tagColor};
+
+    var tags = _.reject(this.props.activeBevy.tags, function($tag) { return $tag.name == tag.name });
+
+    BevyActions.update(this.props.activeBevy._id, null, null, null, tags);
+    BevyActions.updateTags(tags);
+  },
+
   submitTag() {
+    var newTagValue = this.state.newTagValue;
+    var newTagColor = this.state.newTagColor;
+    var tag = {name: newTagValue, color: newTagColor};
+    if(_.contains(_.pluck(this.props.activeBevy.tags, 'name'), newTagValue)) {
+      this.refs.newTagInput.setErrorText('that tag already exists');
+      return;
+    }
+    if(newTagValue == '') {
+      this.refs.newTagInput.setErrorText('please enter a name');
+      return;
+    }
+    if(_.contains(_.pluck(this.props.activeBevy.tags, 'color'), newTagColor)) {
+      this.refs.newTagInput.setErrorText('that color already exists');
+      return;
+    }
     this.setState({
       newTag: false,
       newTagValue: '',
       colorPicker: false
     });
-    var newTagValue = this.state.newTagValue;
-    var newTagColor = this.state.newTagColor;
-    var tag = {name: newTagValue, color: newTagColor};
-    BevyActions.update(this.props.activeBevy._id, null, null, null, tag);
+    var tags = this.props.activeBevy.tags;
+    tags.push(tag)
+
+    BevyActions.updateTags(tags);
+    BevyActions.update(this.props.activeBevy._id, null, null, null, tags);
   },
 
   handleCheck(ev, checked) {
     var tags = this.props.activeBevy.tags;
     var activeTags = this.props.activeTags;
-    var $tag = _.find(tags, function(tag){ return tag.name == ev.target.name });
-    if(checked && !_.find(activeTags, function(tag){ return tag.name == ev.target.name }))
-      activeTags.push($tag);
-    if(!checked)
-      activeTags = _.reject(activeTags, function(tag){return tag.name == $tag.name });
-    
+
+    var tagArray = ev.target.id.split(' ');
+    var tagName = tagArray[0];
+    var tagColor = tagArray[1];
+    var tag = {name: tagName, color: tagColor};
+
+    if(!_.find(activeTags, function($tag){ return tag.name == $tag.name })) {
+      activeTags.push(tag);
+    }
+    else if(_.find(activeTags, function($tag){ return tag.name == $tag.name }))
+      activeTags = _.reject(activeTags, function($tag){return tag.name == $tag.name });
+
     BevyActions.updateTags(activeTags);
   },
 
@@ -109,21 +148,30 @@ var SubBevyPanel = React.createClass({
       var tagName = tag.name;
       var tagColor = tag.color;
 
-      tagButtons.push( 
-        <Checkbox 
-          name={tag.name} 
-          value={true} 
+      var checkBox = (this.state.editing)
+      ? <div className='tag-remove-btn'>
+          <a
+            href='' 
+            onClick={this.removeTag} 
+            id={tagName + ' ' + tagColor} 
+            className='glyphicon glyphicon-remove'
+          />
+          {tagName}
+        </div>
+      : <Checkbox 
+          name={tagName} 
           label={tagName} 
-          ref={tagName}
+          id={tagName + ' ' + tagColor}
           className='bevy-btn'
           style={{width: '90%', color: 'rgba(0,0,0,.6)'}}
-          defaultChecked={_.contains(activeTags, tag)}
+          defaultChecked={true}
           iconStyle={{
             fill: tag.color
           }}
           onCheck={this.handleCheck}
         />
-      );
+
+      tagButtons.push(checkBox);
     }
 
     var colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4', '#009688', '#4CAF50', '#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722'];
@@ -163,7 +211,19 @@ var SubBevyPanel = React.createClass({
 
     //console.log(bevy);
 
-    var createButton = (_.isEmpty(window.bootstrap.user))
+    var createGlyph = (this.state.editing) ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-pencil";
+
+    var editButton = (_.isEmpty(window.bootstrap.user))
+    ? <div/>
+    : (
+        <Button 
+          className='new-bevy-btn'
+          onClick={() => { this.setState({ editing: !this.state.editing, newTag: false }); }}>
+          <span className={createGlyph}/>
+        </Button>
+    );
+
+    var createButton = (this.state.editing)
     ? <div/>
     : (
         <Button 
@@ -198,7 +258,10 @@ var SubBevyPanel = React.createClass({
           <div className='super-bevy-btn'>
             tags
           </div>
-          { createButton }
+          <div className='actions'>
+            { createButton }
+            { editButton }
+          </div>
         </div>
         <ButtonGroup className='bevy-list-btns' role="group">
           { tagButtons }
