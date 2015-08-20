@@ -18,22 +18,27 @@ var ChatStore = require('./../ChatStore');
 
 var user = window.bootstrap.user;
 
+var noop = function() {};
+
 var ThreadItem = React.createClass({
 
   propTypes: {
     thread: React.PropTypes.object.isRequired,
-    width: React.PropTypes.any
+    width: React.PropTypes.any,
+    onClick: React.PropTypes.func
   },
 
   getDefaultProps() {
     return {
-      width: '100%'
+      width: '100%',
+      onClick: noop
     }
   },
 
   openThread(ev) {
     ev.preventDefault();
     ChatActions.openThread(this.props.thread._id);
+    this.props.onClick(ev);
   },
 
   getLatestMessage() {
