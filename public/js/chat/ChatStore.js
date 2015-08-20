@@ -76,6 +76,21 @@ _.extend(ChatStore, {
 
         break;
 
+      case CHAT.SEND_NEW_MESSAGE:
+        this.threads.add({
+          _id: '-1',
+          bevy: null,
+          users: []
+        });
+        this.openThreads.push('-1');
+        this.trigger(CHAT.CHANGE_ALL);
+        break;
+
+      case CHAT.CANCEL_NEW_MESSAGE:
+        this.threads.remove('-1');
+        this.trigger(CHAT.CHANGE_ALL);
+        break;
+
       case CHAT.START_PM:
         var user_id = payload.user_id;
         var my_id = window.bootstrap.user._id;

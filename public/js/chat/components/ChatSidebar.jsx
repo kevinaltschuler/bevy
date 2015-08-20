@@ -147,6 +147,7 @@ var ChatSidebar = React.createClass({
     var allThreads = this.state.allThreads;
     for(var key in allThreads) {
       var thread = allThreads[key];
+      if(thread._id == -1) continue; // dont render the new message panel/thread
       threads.push(
         <ThreadItem
           key={ 'sidebarthread' + thread._id }

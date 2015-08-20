@@ -4,6 +4,7 @@ var React = require('react');
 var _ = require('underscore');
 
 var ChatPanel = require('./ChatPanel.jsx');
+var NewThreadPanel = require('./NewThreadPanel.jsx');
 
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
@@ -36,12 +37,22 @@ var ChatDock = React.createClass({
     var openThreads = this.state.openThreads;
     for(var key in openThreads) {
       var thread = openThreads[key];
-      threads.push(
-        <ChatPanel
-          key={ 'panel' + thread._id }
-          thread={ thread }
-        />
-      );
+      if(thread._id == -1) {
+        // render the new message panel
+        threads.push(
+          <NewThreadPanel 
+            key={ 'panel' + thread._id }
+          />
+        );
+      } else {
+        // render the normal chat panel
+        threads.push(
+          <ChatPanel
+            key={ 'panel' + thread._id }
+            thread={ thread }
+          />
+        );
+      }
     }
 
     return (

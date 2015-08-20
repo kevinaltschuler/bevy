@@ -18,6 +18,7 @@ var ThreadItem = require('./ThreadItem.jsx');
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
 var ChatStore = require('./../ChatStore');
+var ChatActions = require('./../ChatActions');
 
 var user = window.bootstrap.user;
 var email = user.email;
@@ -57,6 +58,7 @@ var ChatDropdown = React.createClass({
 
   createMessage(ev) {
     ev.preventDefault();
+    ChatActions.sendNewMessage();
   },
 
   _renderThreadList() {
@@ -64,6 +66,7 @@ var ChatDropdown = React.createClass({
     var threads = [];
     for(var key in allThreads) {
       var thread = allThreads[key];
+      if(thread._id == -1) continue; // dont render new message panel/thread
       threads.push(
         <ThreadItem
           key={ 'chatdropdown:thread:' + thread._id }
