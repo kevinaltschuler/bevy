@@ -53,24 +53,8 @@ var ThreadItem = React.createClass({
   render() {
     var thread = this.props.thread;
     var bevy = this.props.thread.bevy;
-    var image_url = '/img/logo_100.png';
-    var name = 'thread';
-    switch(thread.type) {
-      case 'pm':
-        var otherUser = _.find(thread.users, function($user) {
-          return $user._id != user._id;
-        });
-
-        name = otherUser.displayName;
-        image_url = (_.isEmpty(otherUser.image_url)) ? '/img/user-profile-icon.png' : otherUser.image_url;
-        break;
-      case 'group':
-        break;
-      case 'bevy':
-        name = bevy.name;
-        image_url = (_.isEmpty(bevy.image_url)) ? image_url : bevy.image_url;
-        break;
-    }
+    var image_url = ChatStore.getThreadImageURL(thread._id);
+    var name = ChatStore.getThreadName(thread._id);
 
     var imageStyle = {
       backgroundImage: 'url(' + image_url + ')',

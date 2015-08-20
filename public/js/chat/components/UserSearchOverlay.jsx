@@ -17,17 +17,16 @@ var UserStore = require('./../../profile/UserStore');
 var constants = require('./../../constants');
 var USER = constants.USER;
 
-var noop = function() {
-};
+var noop = function() {};
 
 var UserSearchOverlay = React.createClass({
 
   propTypes: {
-    container: React.PropTypes.any,
-    target: React.PropTypes.func,
-    query: React.PropTypes.string,
-    addUser: React.PropTypes.func,
-    addedUsers: React.PropTypes.array
+    container: React.PropTypes.any, // the DOM node the overlay is rendered in
+    target: React.PropTypes.func, // the DOM node the overlay is relative to
+    query: React.PropTypes.string, // the search query entered in by the parent
+    addUser: React.PropTypes.func, // callback thats called when a user is selected/added
+    addedUsers: React.PropTypes.array // users that the overlay should exclude from search results
   },
 
   getDefaultProps() {
@@ -55,7 +54,7 @@ var UserSearchOverlay = React.createClass({
   },
 
   handleSearching() {
-
+    // TODO: loading indicator?
   },
 
   handleSearchResults() {

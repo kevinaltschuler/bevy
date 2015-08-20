@@ -21,7 +21,8 @@ var NewThreadPanel = React.createClass({
   getInitialState() {
     return {
       inputValue: '',
-      addedUsers: []
+      addedUsers: [],
+      message: ''
     };
   },
 
@@ -67,6 +68,26 @@ var NewThreadPanel = React.createClass({
     });
   },
 
+  onMessageKeyPress(ev) {
+    if(ev.which == 13) {
+      // enter button was pressed
+      if(_.isEmpty(this.state.message)) return; // dont send empty message
+
+      // create message and thread
+      ChatActions.createThreadAndMessage(
+        this.state.addedUsers, // users to add
+        this.state.message // message body text
+      );
+    }
+  },
+
+  onMessageChange(ev) {
+    var message = this.refs.MessageInput.getValue();
+    this.setState({
+      message: message
+    });
+  },
+
   _renderAddedUsers() {
     var itemArray = [];
     for(var key in this.state.addedUsers) {
@@ -81,6 +102,23 @@ var NewThreadPanel = React.createClass({
       );
     }
     return itemArray;
+  },
+
+  _renderInput() {
+    if(this.state.addedUsers.length <= 0) return <div />;
+    return (
+      <div className='message-input-container'>
+        <Input
+          type='text'
+          ref='MessageInput'
+          placeholder='Chat'
+          onKeyPress={ this.onMessageKeyPress }
+          onChange={ this.onMessageChange }
+          value={ this.state.message }
+          groupClassName='message-input'
+        />
+      </div>
+    );
   },
 
   render() {
@@ -113,6 +151,7 @@ var NewThreadPanel = React.createClass({
           addUser={ this.addUser }
           addedUsers={ this.state.addedUsers }
         />
+        { this._renderInput() }
       </div>
     );
   }
