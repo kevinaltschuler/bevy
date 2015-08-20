@@ -99,8 +99,37 @@ _.extend(ChatStore, {
         // add self to user list
         added_users.push(window.bootstrap.user);
 
-        console.log(added_users, message_body);
+        // remove duplicate users
+        added_users = _.uniq(added_users);
 
+        // check to see if this thread already exists
+        var duplicate = this.threads.find(function($thread) {
+          return _.difference(_.pluck(added_users, '_id'), _.pluck($thread.get('users'), '_id')).length <= 0;
+        });
+        if(duplicate != undefined) {
+          // if we find a duplicate thread
+          // push the message
+          var new_message = duplicate.messages.add({
+            thread: duplicate.id,
+            author: window.bootstrap.user._id,
+            body: message_body
+          });
+          new_message.save();
+          // self populate message
+          new_message.set('author', window.bootstrap.user);
+
+          // close the new thread panel
+          this.threads.remove('-1');
+          this.openThreads = _.without(this.openThreads, '-1');
+          // open the thread
+          this.openThreads.push(duplicate.id);
+
+          this.trigger(CHAT.MESSAGE_FETCH + duplicate.id);
+          this.trigger(CHAT.CHANGE_ALL);
+          break;
+        }
+
+        // duplicate not found
         // create thread
         var thread = this.threads.add({
           type: (added_users.length > 2) ? 'group' : 'pm', // if more than 2 users (including self), then label as a group chat
@@ -119,7 +148,7 @@ _.extend(ChatStore, {
             this.openThreads.push(thread.id);
             // push and save the new message
             var new_message = thread.messages.add({
-              thread: thread.get('_id'),
+              thread: thread.id,
               author: window.bootstrap.user._id,
               body: message_body
             });
@@ -285,6 +314,7 @@ _.extend(ChatStore, {
 
   getOpenThreads() {
     var threads = [];
+    this.openThreads = _.uniq(this.openThreads); // remove duplicates here
     this.openThreads.forEach(function(thread_id) {
       var thread = this.threads.get(thread_id);
       if(thread != undefined) threads.push(thread.toJSON());
