@@ -39,7 +39,8 @@ var UserSearchOverlay = React.createClass({
   getInitialState() {
     return {
       show: false,
-      users: []
+      users: [],
+      selected: 0
     }
   },
 
@@ -51,6 +52,26 @@ var UserSearchOverlay = React.createClass({
   componentWillUnmount() {
     UserStore.off(USER.SEARCHING, this.handleSearching);
     UserStore.off(USER.SEARCH_COMPLETE, this.handleSearchResults);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    if(_.isEmpty(nextProps.query)) {
+      this.setState({ show: false });
+    } else {
+      this.setState({ show: true });
+      UserActions.search(nextProps.query);
+    }
+  },
+
+  componentWillUpdate(nextProps, nextState) {
+    if(this.state.show && !nextState.show) {
+      // about to hide
+      document.removeEventListener('keydown', this.onKeyDown);
+    }
+    else if (!this.state.show && nextState.show) {
+      // about to show
+      document.addEventListener('keydown', this.onKeyDown);
+    }
   },
 
   handleSearching() {
@@ -69,19 +90,43 @@ var UserSearchOverlay = React.createClass({
     });
   },
 
-  componentWillReceiveProps(nextProps) {
-    if(_.isEmpty(nextProps.query)) {
-      this.setState({ show: false });
-    } else {
-      this.setState({ show: true });
-      UserActions.search(nextProps.query);
-    }
-  },
-
   addUser(ev) {
     var key = ev.target.getAttribute('id');
     //console.log(key);
     this.props.addUser(this.state.users[key]);
+  },
+
+  onItemMouseOver(ev) {
+    var key = ev.target.getAttribute('id');
+    this.setState({
+      selected: key
+    });
+  },
+
+  onKeyDown(ev) {
+    switch(ev.which) {
+      case 13: // enter
+        // add the user and close the overlay
+        this.props.addUser(this.state.users[this.state.selected]);
+        break;
+      case 38: // up arrow
+        // select one above
+        var index = this.state.selected;
+        index--;
+        this.setState({
+          selected: (index == -1) ? this.state.users.length - 1 : index
+        });
+        break;
+      case 40: // down arrow
+        // select one below
+        var index = this.state.selected;
+        index++;
+        this.setState({
+          selected: (index == this.state.users.length) ? 0 : index
+        });
+        break;
+    }
+    return;
   },
 
   render() {
@@ -99,7 +144,13 @@ var UserSearchOverlay = React.createClass({
       };
 
       users.push(
-        <Button onClick={ this.addUser } key={ 'usersearchoverlay:user:' + user._id } id={ key } className='user-item'>
+        <Button  
+          key={ 'usersearchoverlay:user:' + user._id } 
+          id={ key } 
+          className={ 'user-item' + ((this.state.selected == key) ? ' active' : '') }
+          onClick={ this.addUser }
+          onMouseOver={ this.onItemMouseOver }
+        >
           <div className='image' id={ key } style={ imageStyle }/>
           <div className='details' id={ key }>
             <span className='name' id={ key }>{ name }</span>

@@ -37,15 +37,29 @@ var NewThreadPanel = React.createClass({
     ChatActions.cancelNewMessage();
   },
 
-  onChange(ev) {
-    var value = this.refs.input.getValue();
+  onAddUserChange(ev) {
+    var value = this.refs.AddUserInput.getValue();
     this.setState({
       inputValue: value
     });
   },
 
+  onAddUserKeyDown(ev) {
+    if(ev.which == 8 && _.isEmpty(this.state.inputValue)) {
+      // backspace
+      // delete the most recently added user
+      var addedUsers = this.state.addedUsers;
+      if(addedUsers.length < 1) return; // dont do anything if there's no users added yet
+      addedUsers.pop();
+      this.setState({
+        addedUsers: addedUsers
+      });
+      // focus the text field
+      this.refs.AddUserInput.getInputDOMNode().focus();
+    }
+  },
+
   addUser(user) {
-    //console.log('adding', user.displayName);
     var users = _.map(this.state.addedUsers, function($user) {
       return $user;
     });
@@ -53,8 +67,10 @@ var NewThreadPanel = React.createClass({
     users.push(user);
     this.setState({
       addedUsers: users,
-      inputValue: ''
+      inputValue: '' // reset the text field
     });
+    // focus the text field
+    this.refs.AddUserInput.getInputDOMNode().focus();
   },
 
   removeUser(ev) {
@@ -138,15 +154,16 @@ var NewThreadPanel = React.createClass({
           { this._renderAddedUsers() }
           <Input 
             type='text'
-            ref='input'
+            ref='AddUserInput'
             value={ this.state.inputValue }
-            onChange={ this.onChange }
+            onKeyDown={ this.onAddUserKeyDown }
+            onChange={ this.onAddUserChange }
             groupClassName='participant-input'
           />
         </div>
         <UserSearchOverlay
           container={ this.container }
-          target={() => React.findDOMNode(this.refs.input)}
+          target={() => React.findDOMNode(this.refs.AddUserInput)}
           query={ this.state.inputValue }
           addUser={ this.addUser }
           addedUsers={ this.state.addedUsers }
