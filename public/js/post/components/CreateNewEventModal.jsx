@@ -20,6 +20,7 @@ var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
+var DatePicker = mui.DatePicker;
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
@@ -161,21 +162,22 @@ var CreateNewEventModal = React.createClass({
               value={ this.state.location }
               onChange={ this.handleChange }
             />
-            <DateTimeField
-              className='date-picker'
+            <DatePicker 
               ref='date'
-              defaultText='set a date'
+              hintText='date'
+              minDate={Date.now}
             />
           </div>
         </Modal.Body>
         <Modal.Footer className="panel-bottom">
-          <RaisedButton
-            onClick={ this.submit }
-            label="Create"
-          />
           <FlatButton
             onClick={ this.props.onHide }
             label="Cancel"
+            style={{marginRight: '10px'}}
+          />
+          <RaisedButton
+            onClick={ this.submit }
+            label="Create"
           />
         </Modal.Footer>
       </Modal>
