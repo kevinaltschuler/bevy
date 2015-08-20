@@ -91,16 +91,16 @@ var PublicBevyList = React.createClass({
       );
     };
 
-    var content = <CTG className='panel-list' transitionName="fadeIn">
+    var content = <div className='panel-list'>
         {publicBevyPanels}
-      </CTG>;
-
-    if(_.isEmpty(publicBevyPanels)) {
-      content = <h2> no results :( </h2>
-    }
+      </div>;
 
     if(this.props.searching) {
       content = <section className="loaders"><span className="loader loader-quart"> </span></section>
+    }
+
+    if(_.isEmpty(publicBevyPanels) && !this.props.searching) {
+      content = <h2> no results :( </h2>
     }
 
 

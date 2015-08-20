@@ -17,6 +17,7 @@ var Panel = rbs.Panel;
 
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
+var TextField = mui.TextField;
 
 // helper function to validate whether an email is valid
 function validateEmail(email) {
@@ -90,7 +91,7 @@ var ForgotPage = React.createClass({
     var statusText;
     if(!_.isEmpty(this.state.statusText)) {
       statusText = (
-        <div>
+        <div className='register-error'>
           <span>{ this.state.statusText }</span>
         </div>
       );
@@ -99,26 +100,24 @@ var ForgotPage = React.createClass({
     return (
       <div className='forgot-container'>
         <div className='forgot-header'>
-          <a href='/'>
-            <img src='/img/logo_100.png' height="60" width="60"/>
-          </a>
+          <h1>Forgot Password?</h1>
         </div>
         <Panel className="forgot-panel">
         <div className='forgot-header'>
-          <h1>Forgot Password?</h1>
+          
         </div>
           { statusText }
           <form method='post' action='/forgot'>
-            <Input
+            <TextField
               type='text'
               name='email'
               ref='email'
               placeholder='Email'
-              hasFeedback
-              bsStyle={ this.state.emailBsStyle }
+              style={{width: '100%', margin: '10px 0px'}}
               onChange={ this.onChange }/>
             <RaisedButton
-              label='Forgot Password'
+              label='submit'
+              style={{width: '100%'}}
               onClick={ this.submit } />
           </form>
         </Panel>

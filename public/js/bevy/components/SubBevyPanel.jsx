@@ -25,6 +25,8 @@ var FontIcon = mui.FontIcon;
 var TextField = mui.TextField;
 var Checkbox = mui.Checkbox;
 
+var CobevyModal = require('./CobevyModal.jsx');
+
 var BevyActions = require('./../BevyActions');
 
 var SubBevyPanel = React.createClass({
@@ -32,7 +34,8 @@ var SubBevyPanel = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object.isRequired,
-    activeTags: React.PropTypes.array
+    activeTags: React.PropTypes.array,
+    allbevies: React.PropTypes.array
   },
 
   getInitialState() {
@@ -41,7 +44,15 @@ var SubBevyPanel = React.createClass({
       newTagValue: '',
       colorPicker: false,
       newTagColor: '#F44336',
+      activeTags: this.props.activeTags,
+      cobevyModal: false
     };
+  },
+
+  componentWillRecieveProps(nextProps) {
+    this.setState({
+      activeTags: nextProps.activeTags
+    });
   },
 
   switchBevy(ev) {
@@ -69,7 +80,7 @@ var SubBevyPanel = React.createClass({
     var newTagValue = this.state.newTagValue;
     var newTagColor = this.state.newTagColor;
     var tag = {name: newTagValue, color: newTagColor};
-    BevyActions.update(this.props.activeBevy._id, null, null, null, tag, null);
+    BevyActions.update(this.props.activeBevy._id, null, null, null, tag);
   },
 
   handleCheck(ev, checked) {
@@ -87,20 +98,12 @@ var SubBevyPanel = React.createClass({
   render() {
     var bevy = this.props.activeBevy;
     var tags = bevy.tags;
-    var activeTags = this.props.activeTags;
+    var activeTags = this.state.activeTags;
     //console.log(activeTags);
+    var cobevies = bevy.cobevies;
 
     var tagButtons = [];
-    /*bevies.push(
-      <Button
-        key={ superBevy._id }
-        id={ superBevy._id }
-        type="button"
-        className='bevy-btn'
-        onClick={ this.switchBevy } >
-        { superBevy.name }
-      </Button>
-    );*/
+
     for(var key in tags) {
       var tag = tags[key];
       var tagName = tag.name;
@@ -166,9 +169,27 @@ var SubBevyPanel = React.createClass({
         <Button 
           className='new-bevy-btn'
           disabled={_.isEmpty(window.bootstrap.user)} 
-          onClick={() => { this.setState({ newTag: true }); }}>
+          onClick={() => { this.setState({ newTag: !this.state.newTag }); }}>
           <span className="glyphicon glyphicon-plus"/>
-        </Button>);
+        </Button>
+      );
+
+    var addCobevy = (_.isEmpty(window.bootstrap.user))
+    ? <div/>
+    : (
+        <Button 
+          className='new-bevy-btn'
+          disabled={_.isEmpty(window.bootstrap.user)} 
+          onClick={() => { this.setState({ cobevyModal: !this.state.cobevyModal }); }}>
+          <span className="glyphicon glyphicon-plus"/>
+        </Button>
+      );
+
+    var cobevyButtons = [];
+    for(var key in cobevyButtons) {
+      var cobevy = cobevyButtons[key];
+      console.log(cobevy);
+    }
 
 
     return (
@@ -182,6 +203,21 @@ var SubBevyPanel = React.createClass({
         <ButtonGroup className='bevy-list-btns' role="group">
           { tagButtons }
         </ButtonGroup>
+        {/*<div className='panel-header'>
+          <div className='super-bevy-btn'>
+            Related Bevies
+          </div>
+          { addCobevy }
+          <CobevyModal
+            show={this.state.cobevyModal}
+            onHide={() => { this.setState({ cobevyModal: false }) }}
+            allBevies={this.props.allBevies}
+            myBevies={this.props.myBevies}
+          />
+        </div>
+        <ButtonGroup className='bevy-list-btns' role="group">
+          { cobevyButtons }
+        </ButtonGroup>*/}
       </div>
     );
   }

@@ -11,6 +11,7 @@ var LeftSidebar = React.createClass({
     activeBevy: React.PropTypes.object.isRequired,
     allThreads: React.PropTypes.array.isRequired,
     activeThread: React.PropTypes.object,
+    allBevies: React.PropTypes.array
   },
 
   getInitialState() {
@@ -27,6 +28,7 @@ var LeftSidebar = React.createClass({
               myBevies={ this.props.myBevies }
               activeBevy={ this.props.activeBevy }
               activeTags={ this.props.activeTags }
+              allBevies={ this.props.allBevies }
             />
           </div>
         </div>

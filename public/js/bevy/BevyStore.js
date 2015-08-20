@@ -141,18 +141,18 @@ _.extend(BevyStore, {
         var image_url = payload.image_url || bevy.get('image_url');
         var settings = payload.settings || bevy.get('settings');
         var tags = (bevy.get('tags')) ? bevy.get('tags') : [];
+        var cobevy = payload.cobevy || bevy.get('cobevy');
 
         if(!_.isEmpty(payload.tag)) {
           tags.push(payload.tag);
         }
-
-        console.log(tags);
 
         bevy.set({
           name: name,
           description: description,
           image_url: image_url,
           tags: tags,
+          cobevy: cobevy,
           settings: settings
         });
 
@@ -161,12 +161,11 @@ _.extend(BevyStore, {
           description: description,
           image_url: image_url,
           tags: tags,
+          cobevy: cobevy,
           settings: settings
         }, {
           patch: true
         });
-
-        console.log(bevy.get('tags'));
 
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.UPDATED_IMAGE);
@@ -196,6 +195,7 @@ _.extend(BevyStore, {
 
         this.trigger(BEVY.CHANGE_ALL);
 
+
         //if(bevy == undefined) break;
 
         /*var members = bevy.get('members');
@@ -211,15 +211,18 @@ _.extend(BevyStore, {
 
         if(member == undefined) break;*/
 
+        console.log(bevies);
+
         $.ajax({
-          method: 'PATCH',
           url: constants.apiurl + '/users/' + user_id,
+          method: 'PATCH',
           data: {
-            bevies: _.pluck(bevies, '_id')
+            bevies: bevies
           },
           success: function($user) {
             // ok, now remove the bevy from the local list
             //user.bevies = $user.bevies
+            console.log('left');
             this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });
@@ -266,7 +269,8 @@ _.extend(BevyStore, {
 
         this.active = bevy_id;
 
-        this.activeTags = []
+        this.activeTags = [];
+
         if(this.myBevies.get(this.active))
           this.activeTags = this.myBevies.get(this.active).toJSON().tags;
 
@@ -331,8 +335,10 @@ _.extend(BevyStore, {
   },
 
   getActive() {
-    var active = this.myBevies.get(this.active);
-    if(active == undefined) return {};
+    var active = this.myBevies.get(this.active) || this.publicBevies.get(this.active);
+    if(_.isEmpty(active)) {
+      return {};
+    }
     else return active.toJSON();
   },
 

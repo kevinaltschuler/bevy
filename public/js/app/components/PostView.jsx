@@ -27,7 +27,8 @@ var PostView = React.createClass({
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
     allPosts: React.PropTypes.array,
-    activeTags: React.PropTypes.array
+    activeTags: React.PropTypes.array,
+    allBevies: React.PropTypes.array
   },
 
   render() {
@@ -35,10 +36,7 @@ var PostView = React.createClass({
     var activeBevy = this.props.activeBevy;
 
     if(this.props.activeBevy.name == null) {
-      console.log('undefined active bevy.');
-      return (
-        <div />
-      );
+      return <div/>
     }
     else {
       var body = (
@@ -68,6 +66,7 @@ var PostView = React.createClass({
             activeBevy={ this.props.activeBevy }
             allThreads={ this.props.allThreads }
             activeTags={ this.props.activeTags }
+            allBevies={ this.props.allBevies }
           />
           <div className='post-view-body'>
             { body }

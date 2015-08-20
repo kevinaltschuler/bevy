@@ -41,6 +41,9 @@ var BevySchema = new Schema({
 	}, {
 		_id: false
 	})],
+	cobevies: [{
+		type: String
+	}],
 	settings: {
 		posts_expire_in: {
 			type: Number,

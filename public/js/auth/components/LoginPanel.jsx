@@ -20,6 +20,7 @@ var Input = rbs.Input;
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var FlatButton = mui.FlatButton;
+var TextField = mui.TextField;
 
 var router = require('./../../router');
 
@@ -94,30 +95,40 @@ var LoginPanel = React.createClass({
         <img className="profile-img" src="/img/user-profile-icon.png" alt="Avatar"/>
         { error }
         <form method='post' action='/login'>
-          <Input
-            type='text'
-            name='username'
+          <TextField 
             ref='username'
-            placeholder='Username' />
-          <Input
-            type='password'
-            name='password'
+            type='text'
+            hintText='username'
+            style={{width: '100%'}}
+          />
+          <TextField 
             ref='password'
-            placeholder='Password' />
+            type='password'
+            hintText='password'
+            style={{marginBottom: '10px', width: '100%'}}
+          />
           <RaisedButton
             className='login-submit'
             label='Sign In'
-            onClick={ this.submit }/>
+            style={{marginBottom: '10px'}}
+            onClick={ this.submit }
+            fullWidth={true}/>
         </form>
         <RaisedButton
           className='login-google-submit'
           label='Sign In With Google'
           linkButton={true}
+          fullWidth={true}
+          style={{marginBottom: '10px',textAlign: 'center'}}
+          backgroundColor='#d34836'
+          labelColor='white'
           href={ constants.siteurl + '/auth/google' } />
         <FlatButton
           className='register-button'
           label='Create an Account'
           linkButton={true}
+          fullWidth={true}
+          style={{width: '100%'}}
           href={ constants.siteurl + '/register'} />
       </Panel>
     );
