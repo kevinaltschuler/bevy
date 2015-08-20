@@ -111,6 +111,7 @@ var NewThreadPanel = React.createClass({
           target={() => React.findDOMNode(this.refs.input)}
           query={ this.state.inputValue }
           addUser={ this.addUser }
+          addedUsers={ this.state.addedUsers }
         />
       </div>
     );

@@ -26,12 +26,14 @@ var UserSearchOverlay = React.createClass({
     container: React.PropTypes.any,
     target: React.PropTypes.func,
     query: React.PropTypes.string,
-    addUser: React.PropTypes.func
+    addUser: React.PropTypes.func,
+    addedUsers: React.PropTypes.array
   },
 
   getDefaultProps() {
     return {
-      addUser: noop
+      addUser: noop,
+      addedUsers: []
     };
   },
 
@@ -57,8 +59,14 @@ var UserSearchOverlay = React.createClass({
   },
 
   handleSearchResults() {
+    var users = UserStore.getUserSearchResults();
+    // dont show users that have already been added to the list
+    users = _.reject(users, function($user) {
+      var addedUsersIds = _.pluck(this.props.addedUsers, '_id');
+      return _.contains(addedUsersIds, $user._id);
+    }.bind(this));
     this.setState({
-      users: UserStore.getUserSearchResults()
+      users: users
     });
   },
 
