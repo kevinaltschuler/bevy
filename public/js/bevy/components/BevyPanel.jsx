@@ -15,6 +15,7 @@ var constants = require('./../../constants');
 
 var mui = require('material-ui');
 var FlatButton = mui.FlatButton;
+var RaisedButton = mui.RaisedButton;
 
 var BevySettingsModal = require('./BevySettingsModal.jsx');
 var BevyPanelHeader = require('./BevyPanelHeader.jsx');
@@ -122,7 +123,7 @@ var BevyPanel = React.createClass({
 
     var _joinButton = (this.state.joined)
     ? <FlatButton label='leave' onClick={this.onRequestLeave} />
-    : <FlatButton label='join' onClick={this.onRequestJoin} /> 
+    : <RaisedButton label='join' onClick={this.onRequestJoin} /> 
 
     var joinButton = (_.isEmpty(window.bootstrap.user))
     ? <div/>

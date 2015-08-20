@@ -21,46 +21,62 @@ var Button = rbs.Button;
 
 var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
+var TextField = mui.TextField;
+var usernameRegex = /^[a-z0-9_-]{3,16}$/;
+var passwordRegex = /^[A-Za-z0-9!@#$%^&*()_]{6,20}$/;
+var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
 var RegisterPanel = React.createClass({
 
   getInitialState() {
     return {
-      usernameBsStyle: '',
-      passwordBsStyle: '',
+      usernameColor: '#e0e0e0',
+      passwordColor: '',
+      emailColor: '',
       validInput: false,
       errorText: 'Please enter a username',
       showError: false
     };
   },
 
-  onChange() {
+  onChange(ev) {
+    ev.preventDefault();
     // grab input values for processing
     var username = this.refs.username.getValue();
     var password = this.refs.password.getValue();
+    var email = this.refs.email.getValue();
 
-    // then lets see if confirm email matches the email field
-    if(!_.isEmpty(username)) {
+
+    if(!usernameRegex.test(username) || username.length == 0) {
+      this.refs.username.setErrorText('invalid username');
       this.setState({
-        usernameBsStyle: 'success'
-      });
-    }
-    // and finally, check if the password is set
-    // TODO: password strength
-    if(!_.isEmpty(password)) {
-      // valid password
-      this.setState({
-        passwordBsStyle: 'success',
-        validInput: true
-      });
-    } else {
-      // invalid/nonexistent password
-      this.setState({
-        passwordBsStyle: 'error',
-        errorText: 'Please enter a valid password',
         validInput: false
       });
     }
+
+    if(!passwordRegex.test(password) || password.length == 0) {
+      this.refs.password.setErrorText('invalid password');
+      this.setState({
+        validInput: false
+      });
+    }
+    if(!emailRegex.test(email) && email.length > 0) {
+      this.refs.email.setErrorText('invalid email');
+      this.setState({
+        validInput: false
+      });
+    } else {
+      this.refs.email.setErrorText('');
+    }
+
+    if((emailRegex.test(email) || email.length == 0) 
+      && passwordRegex.test(password) && password.length >= 6 
+      && usernameRegex.test(username) && username.length >= 3) {
+      this.setState({
+        validInput: true
+      });
+    }
+
   },
 
   submit(e) {
@@ -115,6 +131,11 @@ var RegisterPanel = React.createClass({
     }
   },
 
+  causeError(ev) {
+    ev.preventDefault();
+    this.refs.username.setErrorText('invalid username');
+  },
+
   render() {
 
     var error;
@@ -126,39 +147,44 @@ var RegisterPanel = React.createClass({
       );
     }
 
+    var usernameStyle={
+      borderBottom: 'solid 1px' + this.state.usernameColor
+    };
+
     return (
       <Panel className="register-panel">
         <img className="profile-img" src={ constants.defaultProfileImage } alt="Avatar"/>
         { error }
         <form method='post' action='/register'>
-          <Input
-            type='text'
-            name='username'
-            placeholder='Username'
+          <TextField 
             ref='username'
-            hasFeedback
-            bsStyle={ this.state.usernameBsStyle }
-            onChange={ this.onChange } />
-          <Input
-            type='password'
-            name='password'
-            ref='password'
-            hasFeedback
-            placeholder='Password'
-            bsStyle={ this.state.passwordBsStyle }
-            onChange={ this.onChange }/>
-          <Input
             type='text'
-            name='email'
+            hintText='username (3-16 characters)'
+            style={{width: '100%'}}
+            onChange={this.onChange}
+            underlineFocusStyle={usernameStyle}
+          />
+          <TextField 
+            ref='password'
+            type='password'
+            hintText='password (6-20 characters)'
+            style={{width: '100%'}}
+            onChange={this.onChange}
+          />
+          <TextField 
             ref='email'
-            hasFeedback
-            placeholder='Email - Optional'
-            onChange={ this.onChange }/>
+            type='text'
+            hintText='email (optional)'
+            style={{marginBottom: '10px', width: '100%'}}
+            onChange={this.onChange}
+          />
           <RaisedButton
             className='register-submit'
             label='Register'
             ref='submit'
-            onClick={ this.submit }/>
+            disabled={!this.state.validInput}
+            onClick={ this.submit }
+            style={{width: '100%'}}/>
         </form>
       </Panel>
     );

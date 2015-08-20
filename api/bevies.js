@@ -141,6 +141,9 @@ exports.update = function(req, res, next) {
 	if(req.body['tags']) {
     	update.tags = req.body['tags'];
     }
+    if(req.body['cobevies']) {
+    	update.tags = req.body['cobevies'];
+    }
 
 	var query = { _id: id };
 	console.log(update);

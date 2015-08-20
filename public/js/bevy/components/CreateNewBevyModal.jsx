@@ -77,6 +77,13 @@ var CreateNewBevyModal = React.createClass({
       acceptedFiles: 'image/*',
       clickable: '.dropzone-panel-button',
       dictDefaultMessage: ' ',
+      init: function() {
+          this.on("addedfile", function() {
+            if (this.files[1]!=null){
+              this.removeFile(this.files[0]);
+            }
+          });
+      }
     };
     var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
     var bevyImageStyle = {
@@ -85,14 +92,10 @@ var CreateNewBevyModal = React.createClass({
 
     };
 
-    var title = (this.props.parent )
-    ? 'Create a new Board of' + this.props.parent.name
-    : 'Create a New Bevy'
-
     return (
       <Modal show={ this.props.show } onHide={ this.props.onHide } className="create-bevy">
         <Modal.Header closeButton>
-          <Modal.Title>{ title }</Modal.Title>
+          <Modal.Title>Create a New Bevy</Modal.Title>
         </Modal.Header>
         <Modal.Body className="bevy-info">
           <div className="new-bevy-picture">
@@ -113,17 +116,19 @@ var CreateNewBevyModal = React.createClass({
               type='text'
               ref='description'
               placeholder='Group Description'
+              multiLine={true}
             />
           </div>
         </Modal.Body>
         <Modal.Footer className="panel-bottom">
-          <RaisedButton
-            onClick={ this.create }
-            label="Create"
-          />
           <FlatButton
             onClick={ this.props.onHide }
             label="Cancel"
+          />
+          <RaisedButton
+            onClick={ this.create }
+            label="Create"
+            style={{marginLeft: '10px'}}
           />
         </Modal.Footer>
       </Modal>

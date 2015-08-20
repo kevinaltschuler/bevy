@@ -32,7 +32,8 @@ var PostContainer = React.createClass({
 
   getInitialState() {
     return {
-      allPosts: PostStore.getAll()
+      allPosts: PostStore.getAll(),
+      activePosts: []
     };
   },
 
@@ -79,7 +80,7 @@ var PostContainer = React.createClass({
           if(sortType == 'events') {
             posts.push(
               <Event
-                key={Math.random()}
+                id={post._id}
                 post={ post }
               />
             );
@@ -93,8 +94,8 @@ var PostContainer = React.createClass({
           })) {
             posts.push(
               <Post
-                key={Math.random()}
                 post={ post }
+                id={post._id}
               />
             );
           }
@@ -104,9 +105,7 @@ var PostContainer = React.createClass({
 
     return (
       <div className='post-container'>
-        <CTG transitionName="fadeIn">
           {posts}
-        </CTG>
       </div>
     );
   }

@@ -13,6 +13,7 @@ var rbs = require('react-bootstrap');
 var Modal = rbs.Modal;
 
 var mui = require('material-ui');
+var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
 var Toggle = mui.Toggle;
 var DropDownMenu = mui.DropDownMenu;
@@ -47,7 +48,7 @@ var BevySettingsModal = React.createClass({
     var admin_only = this.refs.admin_only.isToggled();
     var default_events = this.refs.default_events.isToggled();
 
-    BevyActions.update(this.props.activeBevy._id, null, null, null, {
+    BevyActions.update(this.props.activeBevy._id, null, null, null, null, null, {
       //anonymise_users: anonymise_users,
       posts_expire_in: this.state.posts_expire_in,
       group_chat: group_chat,
@@ -55,7 +56,7 @@ var BevySettingsModal = React.createClass({
       default_events: default_events
     });
 
-    this.props.onRequestHide();
+    this.props.onHide();
   },
 
   render() {
@@ -103,25 +104,25 @@ var BevySettingsModal = React.createClass({
           </div>
           <div className='bevy-setting'>
             <Toggle
-              label="admin posting only?"
-              defaultToggled={ settings.admin_only }
-              ref='admin_only'
-            />
-          </div>
-          <div className='bevy-setting'>
-            <Toggle
               label="Show Group Chat?"
               defaultToggled={ settings.group_chat }
               ref='group_chat'
             />
           </div>
+          <div className='bevy-setting'>
+            <Toggle
+              label="admin posting only?"
+              defaultToggled={ settings.admin_only }
+              ref='admin_only'
+            />
+          </div>
         </Modal.Body>
 
         <Modal.Footer>
-          <RaisedButton
+          <FlatButton
             onClick={ this.props.onHide }
             label='Close'
-            style={{marginRight: '10px'}} />
+            style={{marginRight: '10px', marginBottom: '-20px'}} />
           <RaisedButton
             onClick={ this.save }
             label='Save' />
