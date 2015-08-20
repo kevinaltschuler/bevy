@@ -44,7 +44,7 @@ var NewThreadPanel = React.createClass({
   },
 
   addUser(user) {
-    console.log('adding', user.displayName);
+    //console.log('adding', user.displayName);
     var users = _.map(this.state.addedUsers, function($user) {
       return $user;
     });

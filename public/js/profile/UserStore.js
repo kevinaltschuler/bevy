@@ -48,7 +48,7 @@ _.extend(UserStore, {
           url: constants.apiurl + '/users/search/' + query,
           method: 'GET',
           success: function(data) {
-            console.log('search data', data);
+            //console.log('search data', data);
             this.userSearchQuery = query;
             this.userSearchResults.reset(data);
             this.trigger(USER.SEARCH_COMPLETE);
