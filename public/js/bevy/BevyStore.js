@@ -140,12 +140,8 @@ _.extend(BevyStore, {
         var description = payload.description || bevy.get('description');
         var image_url = payload.image_url || bevy.get('image_url');
         var settings = payload.settings || bevy.get('settings');
-        var tags = (bevy.get('tags')) ? bevy.get('tags') : [];
+        var tags = payload.tags || bevy.get('tags');
         var cobevy = payload.cobevy || bevy.get('cobevy');
-
-        if(!_.isEmpty(payload.tag)) {
-          tags.push(payload.tag);
-        }
 
         bevy.set({
           name: name,
@@ -169,7 +165,7 @@ _.extend(BevyStore, {
 
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.UPDATED_IMAGE);
-
+        this.trigger(POST.CHANGE_ALL);
         break;
 
       case BEVY.LEAVE:
@@ -316,7 +312,7 @@ _.extend(BevyStore, {
         break;
 
       case BEVY.UPDATE_TAGS:
-        var tags = (_.isEmpty(payload.tags)) ? [] : payload.tags;
+        var tags = payload.tags || [];
         this.activeTags = tags;
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(POST.CHANGE_ALL);

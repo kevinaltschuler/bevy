@@ -149,13 +149,13 @@ var Navbar = React.createClass({
     var navbarTitle = '';
     switch(router.current) {
       case 'home':
-        navbarTitle = 'Bevy';
+        navbarTitle = '';
         break;
       case 'bevy':
         navbarTitle = this.props.activeBevy.name;
         break;
       case 'search':
-        navbarTitle = 'Search for ' + ((_.isEmpty(router.search_query)) ? '' : router.search_query);
+        navbarTitle = ((_.isEmpty(router.search_query)) ? 'all bevies' : 'search for ' + router.search_query);
         break;
       default:
         break;
