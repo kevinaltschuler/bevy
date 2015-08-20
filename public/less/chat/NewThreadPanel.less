@@ -1,0 +1,117 @@
+/**
+ * NewThreadPanel.less
+ * @author albert
+ */
+
+@import './../variables.less';
+
+.new-thread-panel {
+  bottom: 0px;
+  margin-right: 20px;
+  box-shadow: 0px 0px 10px #aaa;
+  visibility: visible;
+  position: relative;
+  display: block;
+  float: left;
+  width: 300px;
+  height: 320px;
+  z-index: 2;
+  .header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #666;
+    padding: 0px 10px;
+    height: 30px;
+    .title {
+      flex: 1;
+      z-index: 1;
+      color: #fff;
+      text-align: left;
+      text-shadow: 0px 0px 5px rgba(0,0,0,.5);
+      overflow: hidden;
+      &:hover, &:active, &:focus {
+        text-decoration: none;
+        color: #e6e6e6;
+      }
+    }
+    .actions {
+      display: flex;
+      .glyphicon.btn {
+        padding: 0px;
+        color: white;
+        text-shadow: 0px 0px 5px rgba(0,0,0,.5);
+        margin-left: 10px;
+        &:hover, &:active, &:focus {
+          color: #ddd;
+        }
+      }
+    }
+  }
+
+  .participants {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    background-color: #fff;
+    padding: 0px 5px;
+    padding-top: 5px;
+    border-bottom: 1px solid #ddd;
+    .to-text {
+      margin-bottom: 5px;
+      margin-right: 5px;
+      color: @light-font;
+    }
+    .added-user {
+      height: 20px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      background-color: #666;
+      border-radius: 3px;
+      padding: 0px 5px;
+      margin-bottom: 5px;
+      margin-right: 5px;
+      span.display-name {
+        font-size: 12px;
+        color: #fff;
+        margin-right: 5px;
+      }
+      .remove-btn {
+        background-color: transparent;
+        border: none;
+        padding: 0px 0px;
+        font-size: 12px;
+        &:hover {
+          background-color: transparent;
+          box-shadow: none;
+        }
+        &:active, &:focus {
+          background-color: transparent;
+          box-shadow: none;
+        }
+        .glyphicon.glyphicon-remove {
+          color: #fff;
+        }
+      }
+    }
+    .form-group.participant-input {
+      display: flex;
+      flex: 1;
+      min-width: 50px;
+      margin-bottom: 5px;
+      input.form-control {
+        flex: 1;
+        border: none;
+        background-color: transparent;
+        min-width: 50px;
+        height: 20px;
+        border-radius: 0px;
+        transition: none;
+        box-shadow: none;
+        padding: 4px 0px;
+        font-size: 12px;
+      }
+    }
+  }
+}

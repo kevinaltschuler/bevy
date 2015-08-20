@@ -1,87 +1,146 @@
+/**
+ * ChatDropdown.less
+ * @author albert
+ * @author kevin
+ */
+
 @import './../variables.less';
 
-.chat-backdrop {
-	z-index: 6;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-}
-.chat-dropdown {
-	margin-left: 55px;
-	text-align: center;
-	height: auto;
-	border-radius: 2px;
-	display: flex;
-	flex-direction: column;
-	.top {
-		width: 100%;
-		height: 30px;
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		.text {
-			margin-left: 20px;
-		}
-		.actions {
-			margin-right: 20px;
-		}
-	}
-	.popover-content {
-		overflow-y: hidden;
-		max-height: 450px;
-		overflow-x: hidden;
-		padding: 0px;
-		.conversation-list {
-			margin-bottom: 0px;
-		}
-	}
-	.title {
-		font-size: 1.2em;
-		color: #777777;
-		display: flex;
-		align-items: center;
-		margin-bottom: 10px;
-		span.title-text {
-			flex-grow: 1;
-			text-align: left;
-			color: @dark-font;
-			padding-left: 10px;
-		}
-		/*.mui-icon-button {
-			float: right;
-			margin-top: -12px;
-		}*/
-		.title-clear-all {
-			background-color: @clear;
-			border: none;
-			color: @light-font;
-			&:active, &:hover, &:focus {
-				background-color: @clear;
-				border: none;
-				box-shadow: none;
-			}
-		}
-	}
+.chat-dropdown-btn {
+  z-index: 8;
+  float: left;
+  background-color: rgba(0,0,0,0);
+  border: none;
+  transition: all 0.1s ease;
+  padding-right: 0px;
+  padding-left: 0px;
+  &:hover, &:active, &:focus {
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    outline: 0px;
+    box-shadow: none;
+  }
+  img {
+    width: 25px;
+    height: 25px;
+  }
 }
 
-.chat-dropdown-btn {
-	z-index: 7;
-	float: left;
-	background-color: rgba(0,0,0,0);
-	border: none;
-	transition: all 0.1s ease;
-	padding-right: 0px;
- 	padding-left: 0px;
-	&:hover, &:active, &:focus {
-		background-color: rgba(0, 0, 0, 0);
-		border: none;
-		outline: 0px;
-		box-shadow: none;
-	}
-	img {
-		width: 25px;
-		height: 25px;
-	}
+.chat-dropdown-container {
+  position: absolute;
+  .backdrop {
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+  }
+  .arrow {
+    margin-left: -9px;
+    top: -8px;
+    position: absolute;
+    display: block;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid #fff;
+  }
+  .chat-dropdown {
+    #modalShadow();
+    position: absolute;
+    left: -405px !important;
+    width: 450px;
+    background-color: #fff;
+    overflow-y: auto;
+    max-height: 450px;
+    overflow-x: hidden;
+    text-shadow: none;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    .header {
+      padding: 3px 6px;
+      font-size: 1.2em;
+      color: #777777;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 10px;
+      border-bottom: 1px solid #eee;
+      span.inbox-text {
+        flex: 1;
+        text-align: left;
+        color: @dark-font;
+        padding-left: 10px;
+      }
+      .create-new-message-btn {
+        color: rgb(59, 89, 152);
+        background-color: transparent;
+        border: none;
+        &:hover {
+          background-color: transparent;
+          text-decoration: underline;
+        }
+        &:active, &:focus {
+          box-shadow: none;
+          background-color: transparent;
+        }
+      }
+    }
+    .thread-list {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-shadow: none;
+      transition: all .2s ease-in-out;
+      background-color: #fff;
+      .conversation-item {
+        width: 100%;
+        background-color: transparent;
+        border-radius: 0px;
+        padding: 5px 5px 5px 0px;
+        display: flex;
+        flex-direction: row;
+        box-shadow: none;
+        border: none;
+        height: 50px;
+        align-items: center;
+        justify-content: flex-start;
+        transitiion: all .2s ease-in-out;
+        &:hover {
+          background-color: rgba(100,100,100,0.1);
+        }
+        &:active {
+          background-color: rgba(100,100,100,0.2);
+        }
+        .image {
+          min-width: 40px;
+          min-height: 40px;
+          padding: 0px;
+          overflow: hidden;
+          margin: 0px 10px;
+          border-radius: 50px;
+          box-shadow: none;
+          transition: all .2s ease-in-out; 
+        }
+        .details {
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          span.name {
+
+          }
+          span.latest-message {
+            color: #aaa;
+          }
+        }
+      }
+    }
+  }
 }
+
+
+

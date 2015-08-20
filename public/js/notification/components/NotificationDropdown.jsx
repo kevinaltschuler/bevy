@@ -24,11 +24,12 @@ var email = user.email;
 var NotificationDropdown = React.createClass({
   propTypes: {
     allNotifications: React.PropTypes.array,
+    show: React.PropTypes.bool,
+    onToggle: React.PropTypes.func
   },
 
   getInitialState() {
     return {
-      show: false
     };
   },
 
@@ -47,9 +48,7 @@ var NotificationDropdown = React.createClass({
 
   toggle(ev) {
     ev.preventDefault();
-    this.setState({
-      show: !this.state.show
-    });
+    this.props.onToggle();
   },
 
   renderOverlay() {
@@ -62,7 +61,7 @@ var NotificationDropdown = React.createClass({
           <div className='notification-img'/>
         </Button>
         <Overlay
-          show={ this.state.show }
+          show={ this.props.show }
           target={ (props) => React.findDOMNode(this.refs.NotificationButton) }
           placement='bottom'
           container={ this.container }

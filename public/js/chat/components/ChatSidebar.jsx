@@ -147,9 +147,11 @@ var ChatSidebar = React.createClass({
     var allThreads = this.state.allThreads;
     for(var key in allThreads) {
       var thread = allThreads[key];
+      if(thread._id == -1) continue; // dont render the new message panel/thread
       threads.push(
         <ThreadItem
           key={ 'sidebarthread' + thread._id }
+          width={ constants.chatSidebarWidthOpen }
           thread={ thread }
         />
       );
@@ -191,7 +193,10 @@ var ChatSidebar = React.createClass({
     return (
       <div 
         className='chat-sidebar' 
-        style={{ width: this.state.sidebarWidth }}
+        style={{ 
+          width: 200,
+          right: this.state.sidebarWidth - constants.chatSidebarWidthOpen
+        }}
         onMouseOver={() => { 
           this.setState({ sidebarWidth: constants.chatSidebarWidthOpen }); 
         }}

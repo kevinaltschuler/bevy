@@ -41,7 +41,7 @@ var HomeView = React.createClass({
             The Social Network For Your Community 
           </div>
           <div className='actions'>
-            <RaisedButton linkButton={true} label='view bevies' href='/publicbevies'/>
+            <RaisedButton linkButton={true} label='view bevies' href='/bevies'/>
             <RaisedButton 
               disabled={_.isEmpty(window.bootstrap.user)} 
               label='New Bevy'

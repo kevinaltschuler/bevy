@@ -100,6 +100,9 @@ exports.NOTIFICATION = {
 };
 
 exports.CHAT = {
+  SEND_NEW_MESSAGE: 'chat_send_new_message',
+  CANCEL_NEW_MESSAGE: 'chat_cancel_new_message',
+
   START_PM: 'chat_start_pm',
   START_BEVY_CHAT: 'chat_start_bevy_chat',
   THREAD_OPEN: 'chat_thread_open',

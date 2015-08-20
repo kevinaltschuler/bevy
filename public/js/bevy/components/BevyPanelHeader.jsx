@@ -13,10 +13,16 @@ var _ = require('underscore');
 
 var constants = require('./../../constants');
 
-var mui = require('material-ui');
-var IconButton = mui.IconButton;
-var TextField = mui.TextField;
-var RaisedButton = mui.RaisedButton;
+var {
+  IconButton,
+  TextField,
+  RaisedButton
+} = require('material-ui');
+var {
+  Button,
+  Tooltip,
+  OverlayTrigger
+} = require('react-bootstrap');
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
@@ -120,12 +126,11 @@ var BevyPanelHeader = React.createClass({
     if(window.bootstrap.user) {
       if(_.contains(bevy.admins, window.bootstrap.user._id)) {
         editButton = (
-          <IconButton
-            className="edit-button"
-            tooltip='edit name'
-            onClick={ this.startEditing }>
-            <span className="glyphicon glyphicon-pencil btn"></span>
-          </IconButton>
+          <OverlayTrigger placement='top' overlay={<Tooltip>Edit Name/Description</Tooltip>}>
+            <Button className='edit-btn' onClick={ this.startEditing }>
+              <span className='glyphicon glyphicon-pencil' />
+            </Button>
+          </OverlayTrigger>
         );
         sidebarPicture = (
           <div className="sidebar-picture">
@@ -178,7 +183,7 @@ var BevyPanelHeader = React.createClass({
         <div className="sidebar-top">
           { sidebarPicture }
           <div className="sidebar-title">
-            <div>
+            <div className='sidebar-title-name-container'>
               <span
                 className='sidebar-title-name'
                 onDoubleClick={ this.startEditing } >
@@ -186,7 +191,7 @@ var BevyPanelHeader = React.createClass({
               </span>
               { editButton }
             </div>
-            <div>
+            <div className='sidebar-title-description-container'>
               <span
                 className='sidebar-title-description'
                 onDoubleClick={ this.startEditing } >
