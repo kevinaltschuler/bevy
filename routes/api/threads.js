@@ -12,7 +12,7 @@ module.exports = function(router) {
 	router.get('/bevies/:id/thread', api.threads.show);
 
 	// CREATE
-	//router.post('/users/:id/threads/', api.threads.create);
+	router.post('/users/:id/threads/', api.threads.create);
 	router.post('/threads', api.threads.create);
 
 	// UPDATE

@@ -118,21 +118,16 @@ var ChatPanel = React.createClass({
     var expandGlyph = (this.state.isOpen) ? 'glyphicon-minus' : 'glyphicon-plus';
     var expandTitle = (this.state.isOpen) ? 'Minimize' : 'Maximize';
 
-    var backgroundStyle = (bevy && !_.isEmpty(bevy.image_url))
+    
+
+    var name = ChatStore.getThreadName(thread._id);
+    var image_url = ChatStore.getThreadImageURL(thread._id);
+    var backgroundStyle = ((bevy && !_.isEmpty(bevy.image_url)) || (!_.isEmpty(thread.image_url)))
     ? {
-      backgroundImage: 'url(' + bevy.image_url + ')',
+      backgroundImage: 'url(' + image_url + ')',
       opacity: 0.6
     }
     : {};
-
-    var otherUser = {};
-    if(!bevy && thread.users.length > 1) {
-      otherUser = _.find(thread.users, function($user) {
-        return $user._id != user._id;
-      });
-    }
-
-    var name = (bevy) ? bevy.name : otherUser.displayName;
 
     var header = (
       <div className='chat-panel-header'>

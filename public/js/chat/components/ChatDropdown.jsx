@@ -59,6 +59,7 @@ var ChatDropdown = React.createClass({
   createMessage(ev) {
     ev.preventDefault();
     ChatActions.sendNewMessage();
+    this.toggle(ev);
   },
 
   _renderThreadList() {
@@ -71,6 +72,7 @@ var ChatDropdown = React.createClass({
         <ThreadItem
           key={ 'chatdropdown:thread:' + thread._id }
           thread={ thread }
+          onClick={ this.toggle }
         />
       );
     }

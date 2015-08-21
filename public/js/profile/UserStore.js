@@ -51,6 +51,8 @@ _.extend(UserStore, {
             //console.log('search data', data);
             this.userSearchQuery = query;
             this.userSearchResults.reset(data);
+            if(!_.isEmpty(user))
+              this.userSearchResults.remove(user._id); // remove self from search results
             this.trigger(USER.SEARCH_COMPLETE);
           }.bind(this)
         });

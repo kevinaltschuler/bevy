@@ -18,22 +18,27 @@ var ChatStore = require('./../ChatStore');
 
 var user = window.bootstrap.user;
 
+var noop = function() {};
+
 var ThreadItem = React.createClass({
 
   propTypes: {
     thread: React.PropTypes.object.isRequired,
-    width: React.PropTypes.any
+    width: React.PropTypes.any,
+    onClick: React.PropTypes.func
   },
 
   getDefaultProps() {
     return {
-      width: '100%'
+      width: '100%',
+      onClick: noop
     }
   },
 
   openThread(ev) {
     ev.preventDefault();
     ChatActions.openThread(this.props.thread._id);
+    this.props.onClick(ev);
   },
 
   getLatestMessage() {
@@ -48,24 +53,8 @@ var ThreadItem = React.createClass({
   render() {
     var thread = this.props.thread;
     var bevy = this.props.thread.bevy;
-    var image_url = '/img/logo_100.png';
-    var name = 'thread';
-    switch(thread.type) {
-      case 'pm':
-        var otherUser = _.find(thread.users, function($user) {
-          return $user._id != user._id;
-        });
-
-        name = otherUser.displayName;
-        image_url = (_.isEmpty(otherUser.image_url)) ? '/img/user-profile-icon.png' : otherUser.image_url;
-        break;
-      case 'group':
-        break;
-      case 'bevy':
-        name = bevy.name;
-        image_url = (_.isEmpty(bevy.image_url)) ? image_url : bevy.image_url;
-        break;
-    }
+    var image_url = ChatStore.getThreadImageURL(thread._id);
+    var name = ChatStore.getThreadName(thread._id);
 
     var imageStyle = {
       backgroundImage: 'url(' + image_url + ')',

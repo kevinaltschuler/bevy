@@ -17,28 +17,30 @@ var UserStore = require('./../../profile/UserStore');
 var constants = require('./../../constants');
 var USER = constants.USER;
 
-var noop = function() {
-};
+var noop = function() {};
 
 var UserSearchOverlay = React.createClass({
 
   propTypes: {
-    container: React.PropTypes.any,
-    target: React.PropTypes.func,
-    query: React.PropTypes.string,
-    addUser: React.PropTypes.func
+    container: React.PropTypes.any, // the DOM node the overlay is rendered in
+    target: React.PropTypes.func, // the DOM node the overlay is relative to
+    query: React.PropTypes.string, // the search query entered in by the parent
+    addUser: React.PropTypes.func, // callback thats called when a user is selected/added
+    addedUsers: React.PropTypes.array // users that the overlay should exclude from search results
   },
 
   getDefaultProps() {
     return {
-      addUser: noop
+      addUser: noop,
+      addedUsers: []
     };
   },
 
   getInitialState() {
     return {
       show: false,
-      users: []
+      users: [],
+      selected: 0
     }
   },
 
@@ -52,16 +54,6 @@ var UserSearchOverlay = React.createClass({
     UserStore.off(USER.SEARCH_COMPLETE, this.handleSearchResults);
   },
 
-  handleSearching() {
-
-  },
-
-  handleSearchResults() {
-    this.setState({
-      users: UserStore.getUserSearchResults()
-    });
-  },
-
   componentWillReceiveProps(nextProps) {
     if(_.isEmpty(nextProps.query)) {
       this.setState({ show: false });
@@ -71,10 +63,70 @@ var UserSearchOverlay = React.createClass({
     }
   },
 
+  componentWillUpdate(nextProps, nextState) {
+    if(this.state.show && !nextState.show) {
+      // about to hide
+      document.removeEventListener('keydown', this.onKeyDown);
+    }
+    else if (!this.state.show && nextState.show) {
+      // about to show
+      document.addEventListener('keydown', this.onKeyDown);
+    }
+  },
+
+  handleSearching() {
+    // TODO: loading indicator?
+  },
+
+  handleSearchResults() {
+    var users = UserStore.getUserSearchResults();
+    // dont show users that have already been added to the list
+    users = _.reject(users, function($user) {
+      var addedUsersIds = _.pluck(this.props.addedUsers, '_id');
+      return _.contains(addedUsersIds, $user._id);
+    }.bind(this));
+    this.setState({
+      users: users
+    });
+  },
+
   addUser(ev) {
     var key = ev.target.getAttribute('id');
     //console.log(key);
     this.props.addUser(this.state.users[key]);
+  },
+
+  onItemMouseOver(ev) {
+    var key = ev.target.getAttribute('id');
+    this.setState({
+      selected: key
+    });
+  },
+
+  onKeyDown(ev) {
+    switch(ev.which) {
+      case 13: // enter
+        // add the user and close the overlay
+        this.props.addUser(this.state.users[this.state.selected]);
+        break;
+      case 38: // up arrow
+        // select one above
+        var index = this.state.selected;
+        index--;
+        this.setState({
+          selected: (index == -1) ? this.state.users.length - 1 : index
+        });
+        break;
+      case 40: // down arrow
+        // select one below
+        var index = this.state.selected;
+        index++;
+        this.setState({
+          selected: (index == this.state.users.length) ? 0 : index
+        });
+        break;
+    }
+    return;
   },
 
   render() {
@@ -92,7 +144,13 @@ var UserSearchOverlay = React.createClass({
       };
 
       users.push(
-        <Button onClick={ this.addUser } key={ 'usersearchoverlay:user:' + user._id } id={ key } className='user-item'>
+        <Button  
+          key={ 'usersearchoverlay:user:' + user._id } 
+          id={ key } 
+          className={ 'user-item' + ((this.state.selected == key) ? ' active' : '') }
+          onClick={ this.addUser }
+          onMouseOver={ this.onItemMouseOver }
+        >
           <div className='image' id={ key } style={ imageStyle }/>
           <div className='details' id={ key }>
             <span className='name' id={ key }>{ name }</span>

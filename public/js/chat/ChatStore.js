@@ -88,7 +88,80 @@ _.extend(ChatStore, {
 
       case CHAT.CANCEL_NEW_MESSAGE:
         this.threads.remove('-1');
+        this.openThreads = _.without(this.openThreads, '-1');
         this.trigger(CHAT.CHANGE_ALL);
+        break;
+
+      case CHAT.CREATE_THREAD_AND_MESSAGE:
+        var added_users = payload.addedUsers;
+        var message_body = payload.message_body;
+
+        // add self to user list
+        added_users.push(window.bootstrap.user);
+
+        // remove duplicate users
+        added_users = _.uniq(added_users);
+
+        // check to see if this thread already exists
+        var duplicate = this.threads.find(function($thread) {
+          return _.difference(_.pluck(added_users, '_id'), _.pluck($thread.get('users'), '_id')).length <= 0;
+        });
+        // only dont create a new thread if this is a pm. allow for duplicate group chats
+        if(duplicate != undefined && added_users.length <= 2) {
+          // if we find a duplicate thread
+          // push the message
+          var new_message = duplicate.messages.add({
+            thread: duplicate.id,
+            author: window.bootstrap.user._id,
+            body: message_body
+          });
+          new_message.save();
+          // self populate message
+          new_message.set('author', window.bootstrap.user);
+
+          // close the new thread panel
+          this.threads.remove('-1');
+          this.openThreads = _.without(this.openThreads, '-1');
+          // open the thread
+          this.openThreads.push(duplicate.id);
+
+          this.trigger(CHAT.MESSAGE_FETCH + duplicate.id);
+          this.trigger(CHAT.CHANGE_ALL);
+          break;
+        }
+
+        // duplicate not found
+        // create thread
+        var thread = this.threads.add({
+          type: (added_users.length > 2) ? 'group' : 'pm', // if more than 2 users (including self), then label as a group chat
+          users: _.pluck(added_users, '_id') // only push _ids to server
+        });
+        thread.url = constants.apiurl + '/threads';
+        thread.save(null, {
+          success: function(model, response, options) {
+            console.log(response);
+            // remove the create thread panel
+            this.threads.remove('-1');
+            this.openThreads = _.without(this.openThreads, '-1');
+            // open the new thread and self populate
+            thread.set('_id', model.get('_id'));
+            thread.set('users', added_users);
+            this.openThreads.push(thread.id);
+            // push and save the new message
+            var new_message = thread.messages.add({
+              thread: thread.id,
+              author: window.bootstrap.user._id,
+              body: message_body
+            });
+            thread.messages.url = constants.apiurl + '/threads/' + thread.get('_id') + '/messages';
+            new_message.save();
+            // self populate message
+            new_message.set('author', window.bootstrap.user);
+
+            this.trigger(CHAT.CHANGE_ALL);
+          }.bind(this)
+        });
+
         break;
 
       case CHAT.START_PM:
@@ -107,7 +180,6 @@ _.extend(ChatStore, {
         if(thread == undefined) {
           // create thread
           thread = this.threads.add({
-            //_id: Date.now(), // generate temp id
             type: 'pm',
             users: [user_id, my_id]
           });
@@ -115,7 +187,6 @@ _.extend(ChatStore, {
           thread.url = constants.apiurl + '/threads';
           thread.save(null, {
             success: function(model, response, options) {
-              console.log(response);
               thread.set('_id', model.id);
               this.openThreads.push(thread.id);
               this.trigger(CHAT.CHANGE_ALL);
@@ -244,11 +315,23 @@ _.extend(ChatStore, {
 
   getOpenThreads() {
     var threads = [];
+    this.openThreads = _.uniq(this.openThreads); // remove duplicates here
     this.openThreads.forEach(function(thread_id) {
       var thread = this.threads.get(thread_id);
       if(thread != undefined) threads.push(thread.toJSON());
     }.bind(this));
     return threads;
+  },
+
+  getThreadName(thread_id) {
+    var thread = this.threads.get(thread_id);
+    if(thread == undefined) return 'thread not found';
+    return thread.getName();
+  },
+  getThreadImageURL(thread_id) {
+    var thread = this.threads.get(thread_id);
+    if(thread == undefined) return '/img/logo_100.png';
+    return thread.getImageURL();
   },
 
   getMessages(thread_id) {

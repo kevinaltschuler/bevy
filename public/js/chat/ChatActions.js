@@ -22,6 +22,13 @@ var ChatActions = {
     dispatch(CHAT.CANCEL_NEW_MESSAGE, {});
   },
 
+  createThreadAndMessage(addedUsers, message_body) {
+    dispatch(CHAT.CREATE_THREAD_AND_MESSAGE, {
+      addedUsers: addedUsers,
+      message_body: message_body
+    });
+  },
+
   startPM(user_id) {
     dispatch(CHAT.START_PM, {
       user_id: user_id
