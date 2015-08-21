@@ -256,6 +256,26 @@ _.extend(ChatStore, {
         });
         break;
 
+      case CHAT.EDIT_THREAD:
+        var thread_id = payload.thread_id;
+
+        var thread = this.threads.get(thread_id);
+        if(thread == undefined) break;
+
+        var name = payload.name || thread.get('name');
+        var image_url = payload.image_url || thread.get('image_url');
+
+        thread.save({
+          name: name,
+          image_url: image_url
+        }, {
+          patch: true,
+          success: function(model, response, options) {
+            this.trigger(CHAT.CHANGE_ALL);
+          }.bind(this)
+        });
+        break;
+
       case CHAT.START_PM:
         var user_id = payload.user_id;
         var my_id = window.bootstrap.user._id;

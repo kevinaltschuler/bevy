@@ -108,6 +108,7 @@ exports.CHAT = {
   REMOVE_USER: 'chat_remove_user',
 
   DELETE_THREAD: 'chat_delete_thread',
+  EDIT_THREAD: 'chat_edit_thread',
 
   START_PM: 'chat_start_pm',
   START_BEVY_CHAT: 'chat_start_bevy_chat',

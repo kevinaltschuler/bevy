@@ -49,6 +49,14 @@ var ChatActions = {
     });
   },
 
+  editThread(thread_id, name, image_url) {
+    dispatch(CHAT.EDIT_THREAD, {
+      thread_id: thread_id,
+      name: (name == undefined) ? null : name,
+      image_url: (image_url == undefined) ? null : image_url
+    });
+  },
+
   startPM(user_id) {
     dispatch(CHAT.START_PM, {
       user_id: user_id

@@ -46,7 +46,8 @@ var ChatPanel = React.createClass({
       messages: ChatStore.getMessages(this.props.thread._id),
       addedUsers: [],
       inputValue: '', // the value of the add user input
-      showEditParticipantsModal: false
+      showEditParticipantsModal: false,
+      accordionType: 'add-user'
     };
   },
 
@@ -78,11 +79,11 @@ var ChatPanel = React.createClass({
   },
 
   getCollapsibleDOMNode() {
-    return React.findDOMNode(this.refs.AddUsersContainer);
+    return React.findDOMNode(this.refs.Accordion);
   },
 
   getCollapsibleDimensionValue() {
-    return React.findDOMNode(this.refs.AddUsersContainer).scrollHeight;
+    return React.findDOMNode(this.refs.Accordion).scrollHeight;
   },
 
   _onMessageFetch() {
@@ -200,7 +201,7 @@ var ChatPanel = React.createClass({
     if(this.props.thread.type == 'bevy') return <div />;
     return (
       <OverlayTrigger placement='top' overlay={ <Tooltip>Add Users to Chat</Tooltip> }>
-        <Button className='close-btn' onClick={() => { this.setState({ expanded: true }) }}>
+        <Button className='close-btn' onClick={() => { this.setState({ expanded: true, accordionType: 'add-user' }) }}>
           <span className="glyphicon glyphicon-user" />
         </Button>
       </OverlayTrigger>
@@ -219,9 +220,9 @@ var ChatPanel = React.createClass({
       case 'group':
         return (
           <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
-            <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true })}>Add Users to Chat...</MenuItem>
+            <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}>Add Users to Chat...</MenuItem>
             <MenuItem eventKey='1' onSelect={() => this.setState({ showEditParticipantsModal: true })}>Edit Participants</MenuItem>
-            <MenuItem eventKey='2'>Edit Conversation Name</MenuItem>
+            <MenuItem eventKey='2' onSelect={() => this.setState({ expanded: true, accordionType: 'edit-name' })}>Edit Conversation Name</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey='3' onSelect={() => {
               if(confirm('Are You Sure?')) {
@@ -241,7 +242,7 @@ var ChatPanel = React.createClass({
       case 'pm':
         return (
           <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
-            <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true })}>Add Users to Chat...</MenuItem>
+            <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}>Add Users to Chat...</MenuItem>
             <MenuItem divider />
             <MenuItem eventKey='1' onSelect={() => {
               if(confirm('Are You Sure?')) {
@@ -254,8 +255,63 @@ var ChatPanel = React.createClass({
     }
   },
 
-  render() {
+  _renderAccordion() {
+    switch(this.state.accordionType) {
+      case 'add-user':
+        return (
+          <div className='add-users-container'>
+            <div className='add-users'>
+              <span className='to-text'>To:</span>
+              { this._renderAddedUsers() }
+              <Input 
+                type='text'
+                ref='AddUserInput'
+                value={ this.state.inputValue }
+                onKeyDown={ this.onAddUserKeyDown }
+                onChange={ this.onAddUserChange }
+                groupClassName='participant-input'
+              />
+            </div>
+            <Button 
+              className='done-btn' 
+              onClick={() => {
+                this.setState({ expanded: false }); 
+                if(_.isEmpty(this.state.addedUsers)) return; // dont do anything if they havent added anybody yet
+                ChatActions.addUsers(this.props.thread._id, this.state.addedUsers);
+              }}
+            >
+              Done
+            </Button>
+          </div>
+        );
+        break;
+      case 'edit-name':
+        return (
+          <div className='edit-name'>
+            <Input
+              type='text'
+              ref='EditNameInput'
+              defaultValue={ this.props.thread.name }
+              groupClassName='edit-name-input'
+            />
+            <Button 
+              className='done-btn' 
+              onClick={() => {
+                this.setState({ expanded: false });
+                var new_name = this.refs.EditNameInput.getValue();
+                if(_.isEmpty(new_name)) return; // dont do anything with no name
+                ChatActions.editThread(this.props.thread._id, new_name);
+              }}
+            >
+              Done
+            </Button>
+          </div>
+        );
+        break;
+    }
+  },
 
+  render() {
     var thread = this.props.thread;
     var bevy = thread.bevy;
 
@@ -271,27 +327,8 @@ var ChatPanel = React.createClass({
 
     var body = (this.state.isOpen) ? (
       <div ref='ChatPanelBody' className='chat-panel-body'>
-        <div ref='AddUsersContainer' className={ classNames(styles) }>
-          <div className='add-users'>
-            <span className='to-text'>To:</span>
-            { this._renderAddedUsers() }
-            <Input 
-              type='text'
-              ref='AddUserInput'
-              value={ this.state.inputValue }
-              onKeyDown={ this.onAddUserKeyDown }
-              onChange={ this.onAddUserChange }
-              groupClassName='participant-input'
-            />
-          </div>
-          <Button className='done-btn' onClick={() => {
-            if(_.isEmpty(this.state.addedUsers)) return; // dont do anything if they havent added anybody yet
-            // add users action
-            ChatActions.addUsers(thread._id, this.state.addedUsers);
-            this.setState({ expanded: false }); 
-          }}>
-            Done
-          </Button>
+        <div ref='Accordion' className={ classNames(styles) }>
+          { this._renderAccordion() }
         </div>
         <UserSearchOverlay
           container={ this.container }

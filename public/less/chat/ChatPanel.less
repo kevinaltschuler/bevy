@@ -112,6 +112,11 @@
     flex-direction: row;
     background-color: #fff;
     border-bottom: 1px solid #ddd;
+    .add-users-container {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+    }
     .add-users {
       flex: 1;
       display: flex;
@@ -172,6 +177,31 @@
           transition: none;
           box-shadow: none;
           padding: 4px 0px;
+          font-size: 12px;
+        }
+      }
+    }
+    .edit-name {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      .form-group.edit-name-input {
+        display: flex;
+        flex: 1;
+        min-width: 50px;
+        margin-bottom: 0px;
+        padding: 0px 5px;
+        input.form-control {
+          flex: 1;
+          border: 1px solid #ddd;
+          background-color: transparent;
+          min-width: 50px;
+          height: 24px;
+          border-radius: 0px;
+          transition: none;
+          box-shadow: none;
+          padding: 4px;
           font-size: 12px;
         }
       }
