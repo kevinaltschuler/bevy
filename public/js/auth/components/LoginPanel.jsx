@@ -112,6 +112,8 @@ var LoginPanel = React.createClass({
             label='Sign In'
             style={{marginBottom: '10px'}}
             onClick={ this.submit }
+            backgroundColor='#2cb673'
+            labelColor='white'
             fullWidth={true}/>
         </form>
         <RaisedButton
