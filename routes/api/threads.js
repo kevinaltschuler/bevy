@@ -5,21 +5,25 @@ var api = require('./../../api');
 
 module.exports = function(router) {
 
-	// INDEX
-	router.get('/users/:id/threads', api.threads.index);
+  // INDEX
+  router.get('/users/:id/threads', api.threads.index);
 
-	//SHOW
-	router.get('/bevies/:id/thread', api.threads.show);
+  //SHOW
+  router.get('/bevies/:id/thread', api.threads.show);
+  router.get('/threads/:id', api.threads.show);
 
-	// CREATE
-	router.post('/users/:id/threads/', api.threads.create);
-	router.post('/threads', api.threads.create);
+  // CREATE
+  router.post('/users/:id/threads/', api.threads.create);
+  router.post('/threads', api.threads.create);
 
-	// UPDATE
-	router.put('/users/:id/threads/:threadid', api.threads.update);
-	router.patch('/users/:id/threads/:threadid', api.threads.update);
+  // UPDATE
+  router.put('/users/:id/threads/:threadid', api.threads.update);
+  router.patch('/users/:id/threads/:threadid', api.threads.update);
+  router.put('/threads/:threadid', api.threads.update);
+  router.patch('/threads/:threadid', api.threads.update);
 
-	// DESTROY
-	router.delete('/users/:id/threads/:threadid', api.threads.destroy);
+  // DESTROY
+  router.delete('/users/:id/threads/:threadid', api.threads.destroy);
+  router.delete('/threads/:threadid', api.threads.destroy);
 
 }

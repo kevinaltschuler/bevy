@@ -29,6 +29,26 @@ var ChatActions = {
     });
   },
 
+  addUsers(thread_id, users) {
+    dispatch(CHAT.ADD_USERS, {
+      thread_id: thread_id,
+      users: users
+    });
+  },
+
+  removeUser(thread_id, user_id) {
+    dispatch(CHAT.REMOVE_USER, {
+      thread_id: thread_id,
+      user_id: user_id
+    });
+  },
+
+  deleteThread(thread_id) {
+    dispatch(CHAT.DELETE_THREAD, {
+      thread_id: thread_id
+    });
+  },
+
   startPM(user_id) {
     dispatch(CHAT.START_PM, {
       user_id: user_id

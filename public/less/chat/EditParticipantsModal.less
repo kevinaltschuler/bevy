@@ -1,0 +1,47 @@
+/**
+ * EditParticipantsModal.less
+ * @author albert
+ */
+
+@import './../variables.less';
+
+.edit-participants-modal {
+  .modal-content {
+    
+  }
+  .modal-header {
+
+  }
+  .modal-body {
+    padding: 0px;
+    ul.participant-list {
+      padding: 0px 0px;
+      margin: 0px;
+      li.participant {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        border-bottom: 1px solid #ddd;
+        padding: 10px 0px;
+        &:last-child {
+          border: none;
+        }
+        .img {
+          #image-icon();
+          min-width: 40px;
+          min-height: 40px;
+          border-radius: 20px;
+          margin-right: 10px;
+        }
+        span.name {
+          flex: 1;
+          font-size: 1.2em;
+          color: #333;
+        }
+      }
+    }
+  }
+  .modal-footer {
+    padding: 5px 0px;
+  }
+}

@@ -50,7 +50,7 @@ var ThreadModel = Backbone.Model.extend({
           var username = usernames[key];
           if(username == window.bootstrap.user.displayName) continue; // dont put self in the thread name
           name += username;
-          if(key < usernames.length - 2) // remember to account for the current user being in the list
+          if(key < usernames.length - 1) // remember to account for the current user being in the list
             name += ', ';
         }
         return name;

@@ -65,29 +65,27 @@ exports.create = function(req, res, next) {
 
 // PUT/PATCH /users/:id/threads/:threadid
 exports.update = function(req, res, next) {
-	var id = req.params.id;
 	var thread_id = req.params.threadid;
-	var users = req.body['users'] || [];
-	var bevy = req.body['bevy'] || null;
 
-	var thread = {
-		users: users,
-		bevy: bevy
-	};
+	var thread = {};
+	thread.users = req.body['users'];
+	thread.bevy = req.body['bevy'];
+	thread.type = req.body['type'];
+	thread.name = req.body['name'];
+	thread.image_url = req.body['image_url'];
 
-	Thread.findOneAndUpdate({ _id: thread_id }, thread, { upsert: true }, function(err, thread) {
+	Thread.findOneAndUpdate({ _id: thread_id }, thread, { new: true }, function(err, thread) {
 		if(err) return next(err);
 		return res.json(thread);
-	}).populate('bevy users');
+	});
 }
 
 // DELETE /users/:id/threads/:threadid
 exports.destroy = function(req, res, next) {
-	var id = req.params.id;
 	var thread_id = req.params.threadid;
 
 	Thread.findOneAndRemove({ _id: thread_id }, function(err, thread) {
 		if(err) return next(err);
 		return res.json(thread);
-	}).populate('bevy users');
+	});
 }

@@ -139,7 +139,6 @@ _.extend(ChatStore, {
         thread.url = constants.apiurl + '/threads';
         thread.save(null, {
           success: function(model, response, options) {
-            console.log(response);
             // remove the create thread panel
             this.threads.remove('-1');
             this.openThreads = _.without(this.openThreads, '-1');
@@ -153,6 +152,8 @@ _.extend(ChatStore, {
               author: window.bootstrap.user._id,
               body: message_body
             });
+            // set the urls
+            thread.url = constants.apiurl + '/threads/' + thread.get('_id');
             thread.messages.url = constants.apiurl + '/threads/' + thread.get('_id') + '/messages';
             new_message.save();
             // self populate message
@@ -162,6 +163,97 @@ _.extend(ChatStore, {
           }.bind(this)
         });
 
+        break;
+
+      case CHAT.ADD_USERS:
+        var thread_id = payload.thread_id;
+        var users = payload.users;
+
+        var thread = this.threads.get(thread_id);
+        if(thread == undefined) break;
+        if(thread.get('type') == 'bevy') break; // dont add users to bevy threads. shouldnt happen anyways
+
+        // merge user lists
+        var thread_users = thread.get('users');
+        thread_users = _.union(thread_users, users);
+
+        if(thread.get('type') == 'pm') {
+          // keep the pm and create a new group chat thread
+          var thread = this.threads.add({
+            type: 'group',
+            users: _.pluck(thread_users, '_id')
+          });
+          thread.url = constants.apiurl + '/threads';
+          thread.save(null, {
+            success: function(model, response, options) {
+              // open the new thread and self populate
+              thread.set('_id', model.get('_id'));
+              thread.set('users', thread_users);
+              this.openThreads.push(thread.id);
+              // set the urls
+              thread.url = constants.apiurl + '/threads/' + thread.get('_id');
+              thread.messages.url = constants.apiurl + '/threads/' + thread.get('_id') + '/messages';
+
+              this.trigger(CHAT.CHANGE_ALL);
+            }.bind(this)
+          });
+        } else {
+          // just add the user and save to server
+          thread.save({
+            users: _.pluck(thread_users, '_id')
+          }, {
+            patch: true,
+            success: function(model, response, options) {
+              // simulate population of users field
+              thread.set('users', thread_users);
+              this.trigger(CHAT.CHANGE_ALL);
+            }.bind(this)
+          });
+        }
+        break;
+      
+      case CHAT.REMOVE_USER:
+        var thread_id = payload.thread_id;
+        var user_id = payload.user_id;
+
+        var thread = this.threads.get(thread_id);
+        if(thread == undefined) break;
+
+        // remove user 
+        var thread_users = _.reject(thread.get('users'), function($user) {
+          return $user._id == user_id;
+        });
+        if(thread_users.length == thread.get('users').length) break; // nothing changed
+
+        thread.save({
+          users: _.pluck(thread_users, '_id')
+        }, {
+          patch: true,
+          success: function(model, response, options) {
+            // simulate population of users field
+            thread.set('users', thread_users);
+
+            if(user_id == window.bootstrap.user._id) {
+              // if you're removing yourself, then remove the thread from our list
+              this.threads.remove(thread_id);
+            }
+            this.trigger(CHAT.CHANGE_ALL);
+          }.bind(this)
+        });
+        break;
+
+      case CHAT.DELETE_THREAD:
+        var thread_id = payload.thread_id;
+
+        var thread = this.threads.remove(thread_id);
+        if(thread == undefined) break;
+
+        thread.url = constants.apiurl + '/threads/' + thread.get('_id');
+        thread.destroy({
+          success: function(model, response, options) {
+            this.trigger(CHAT.CHANGE_ALL);
+          }.bind(this)
+        });
         break;
 
       case CHAT.START_PM:
@@ -189,6 +281,8 @@ _.extend(ChatStore, {
             success: function(model, response, options) {
               thread.set('_id', model.id);
               this.openThreads.push(thread.id);
+              // set the messages url
+              thread.messages.url = constants.apiurl + '/threads/' + thread.get('_id') + '/messages';
               this.trigger(CHAT.CHANGE_ALL);
             }.bind(this)
           });

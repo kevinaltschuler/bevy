@@ -3,27 +3,37 @@
 var React = require('react');
 var _ = require('underscore');
 
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-var Input = rbs.Input;
-
-var mui = require('material-ui');
-var TextField = mui.TextField;
-var Styles = mui.Styles;
+var {
+  Button,
+  Input,
+  DropdownButton,
+  MenuItem,
+  OverlayTrigger,
+  Tooltip,
+  CollapsibleMixin
+} = require('react-bootstrap');
+var {
+  TextField,
+  Styles,
+} = require('material-ui');
 var ThemeManager = new Styles.ThemeManager();
 
 var MessageList = require('./MessageList.jsx');
+var UserSearchOverlay = require('./UserSearchOverlay.jsx');
+var EditParticipantsModal = require('./EditParticipantsModal.jsx');
 
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
 var BevyStore = require('./../../bevy/BevyStore');
 
+var classNames = require('classnames');
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
 
 var user = window.bootstrap.user;
 
 var ChatPanel = React.createClass({
+  mixins: [CollapsibleMixin],
 
   propTypes: {
     thread: React.PropTypes.object
@@ -33,7 +43,10 @@ var ChatPanel = React.createClass({
     return {
       isOpen: true,
       body: '',
-      messages: ChatStore.getMessages(this.props.thread._id)
+      messages: ChatStore.getMessages(this.props.thread._id),
+      addedUsers: [],
+      inputValue: '', // the value of the add user input
+      showEditParticipantsModal: false
     };
   },
 
@@ -55,11 +68,21 @@ var ChatPanel = React.createClass({
   componentDidMount() {
     ChatStore.on(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
     ChatStore.on(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
+
+    this.container = React.findDOMNode(this.refs.ChatPanelBody);
   },
 
   componentWillUnmount() {
     ChatStore.off(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
     ChatStore.off(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
+  },
+
+  getCollapsibleDOMNode() {
+    return React.findDOMNode(this.refs.AddUsersContainer);
+  },
+
+  getCollapsibleDimensionValue() {
+    return React.findDOMNode(this.refs.AddUsersContainer).scrollHeight;
   },
 
   _onMessageFetch() {
@@ -82,19 +105,19 @@ var ChatPanel = React.createClass({
   },
 
   onEnter(ev) {
-      // dont send empty messages
-      if(_.isEmpty(this.state.body)) return;
+    // dont send empty messages
+    if(_.isEmpty(this.state.body)) return;
 
-      // create message
-      var thread = this.props.thread;
-      var author = window.bootstrap.user;
-      var body = this.refs.body.getValue();
-      ChatActions.createMessage(thread._id, author, body);
+    // create message
+    var thread = this.props.thread;
+    var author = window.bootstrap.user;
+    var body = this.refs.body.getValue();
+    ChatActions.createMessage(thread._id, author, body);
 
-      // reset input field
-      this.setState({
-        body: ''
-      });
+    // reset input field
+    this.setState({
+      body: ''
+    });
   },
 
   handleToggle(ev) {
@@ -110,15 +133,131 @@ var ChatPanel = React.createClass({
     ChatActions.closePanel(this.props.thread._id);
   },
 
+  onAddUserChange(ev) {
+    var value = this.refs.AddUserInput.getValue();
+    this.setState({
+      inputValue: value
+    });
+  },
+
+  onAddUserKeyDown(ev) {
+    if(ev.which == 8 && _.isEmpty(this.state.inputValue)) {
+      // backspace
+      // delete the most recently added user
+      var addedUsers = this.state.addedUsers;
+      if(addedUsers.length < 1) return; // dont do anything if there's no users added yet
+      addedUsers.pop();
+      this.setState({
+        addedUsers: addedUsers
+      });
+      // focus the text field
+      this.refs.AddUserInput.getInputDOMNode().focus();
+    }
+  },
+
+  addUser(user) {
+    var users = _.map(this.state.addedUsers, function($user) {
+      return $user;
+    });
+    _.uniq(users); // remove duplicates
+    users.push(user);
+    this.setState({
+      addedUsers: users,
+      inputValue: '' // reset the text field
+    });
+    // focus the text field
+    this.refs.AddUserInput.getInputDOMNode().focus();
+  },
+
+  removeUser(ev) {
+    ev.preventDefault();
+    var id = ev.target.getAttribute('id');
+    var users = _.reject(this.state.addedUsers, function($user) {
+      return $user._id == id;
+    });
+    this.setState({
+      addedUsers: users
+    });
+  },
+
+  _renderAddedUsers() {
+    var itemArray = [];
+    for(var key in this.state.addedUsers) {
+      var addedUser = this.state.addedUsers[key];
+      itemArray.push(
+        <div className='added-user' key={ 'newthreadpanel:addeduser:' + addedUser._id }>
+          <span className='display-name'>{ addedUser.displayName }</span>
+          <Button id={ addedUser._id } className='remove-btn' onClick={ this.removeUser }>
+            <span id={ addedUser._id } className='glyphicon glyphicon-remove'></span>
+          </Button>
+        </div>
+      );
+    }
+    return itemArray;
+  },
+
+  _renderAddUsersButton() {
+    if(this.props.thread.type == 'bevy') return <div />;
+    return (
+      <OverlayTrigger placement='top' overlay={ <Tooltip>Add Users to Chat</Tooltip> }>
+        <Button className='close-btn' onClick={() => { this.setState({ expanded: true }) }}>
+          <span className="glyphicon glyphicon-user" />
+        </Button>
+      </OverlayTrigger>
+    );
+  },
+
+  _renderChatOptions() {
+    switch(this.props.thread.type) {
+      case 'bevy':
+        return (
+          <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
+            <MenuItem eventKey='0'>Placeholder Option</MenuItem>
+          </DropdownButton>
+        );
+        break;
+      case 'group':
+        return (
+          <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
+            <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true })}>Add Users to Chat...</MenuItem>
+            <MenuItem eventKey='1' onSelect={() => this.setState({ showEditParticipantsModal: true })}>Edit Participants</MenuItem>
+            <MenuItem eventKey='2'>Edit Conversation Name</MenuItem>
+            <MenuItem divider />
+            <MenuItem eventKey='3' onSelect={() => {
+              if(confirm('Are You Sure?')) {
+                ChatActions.removeUser(this.props.thread._id, window.bootstrap.user._id);
+              }
+            }}>Leave Conversation</MenuItem>
+            <MenuItem eventKey='4' onSelect={() => {
+              if(confirm('Are You Sure?')) {
+                ChatActions.deleteThread(this.props.thread._id);
+              }
+            }}>Delete Conversation</MenuItem>
+            {/*<MenuItem divider />
+            <MenuItem eventKey='5'>Create Bevy</MenuItem>*/}
+          </DropdownButton>
+        );
+        break;
+      case 'pm':
+        return (
+          <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
+            <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true })}>Add Users to Chat...</MenuItem>
+            <MenuItem divider />
+            <MenuItem eventKey='1' onSelect={() => {
+              if(confirm('Are You Sure?')) {
+                ChatActions.deleteThread(this.props.thread._id);
+              }
+            }}>Delete Conversation</MenuItem>
+          </DropdownButton>
+        );
+        break;
+    }
+  },
+
   render() {
 
     var thread = this.props.thread;
     var bevy = thread.bevy;
-
-    var expandGlyph = (this.state.isOpen) ? 'glyphicon-minus' : 'glyphicon-plus';
-    var expandTitle = (this.state.isOpen) ? 'Minimize' : 'Maximize';
-
-    
 
     var name = ChatStore.getThreadName(thread._id);
     var image_url = ChatStore.getThreadImageURL(thread._id);
@@ -126,57 +265,95 @@ var ChatPanel = React.createClass({
     ? {
       backgroundImage: 'url(' + image_url + ')',
       opacity: 0.6
-    }
-    : {};
+    } : {};
 
-    var header = (
-      <div className='chat-panel-header'>
-        <div className='chat-panel-background-wrapper' style={{ color: '#000' }}>
-          <div className='chat-panel-background-image' style={ backgroundStyle } />
-        </div>
-        <div className='chat-panel-head'>
-          <a href='#' className='bevy-name' title={ expandTitle } onClick={ this.handleToggle }>
-            { name }
-          </a>
-          <div className='actions'>
-            {/*<span className={ 'glyphicon ' + expandGlyph + ' btn' } title={ expandTitle } onClick={ this.handleToggle }></span>*/}
-            <span className="glyphicon glyphicon-remove btn" title='Close' onClick={ this.closePanel }></span>
+    var styles = this.getCollapsibleClassSet();
+
+    var body = (this.state.isOpen) ? (
+      <div ref='ChatPanelBody' className='chat-panel-body'>
+        <div ref='AddUsersContainer' className={ classNames(styles) }>
+          <div className='add-users'>
+            <span className='to-text'>To:</span>
+            { this._renderAddedUsers() }
+            <Input 
+              type='text'
+              ref='AddUserInput'
+              value={ this.state.inputValue }
+              onKeyDown={ this.onAddUserKeyDown }
+              onChange={ this.onAddUserChange }
+              groupClassName='participant-input'
+            />
           </div>
+          <Button className='done-btn' onClick={() => {
+            if(_.isEmpty(this.state.addedUsers)) return; // dont do anything if they havent added anybody yet
+            // add users action
+            ChatActions.addUsers(thread._id, this.state.addedUsers);
+            this.setState({ expanded: false }); 
+          }}>
+            Done
+          </Button>
         </div>
-      </div>
-    );
-
-    var input = (this.state.isOpen)
-    ?  <div className='chat-panel-input'>
-        <div className='chat-text-field'>
-          <TextField
-            style={{marginLeft: '10px'}}
-            type='text'
-            ref='body'
-            hintText='Chat'
-            onEnterKeyDown={ this.onEnter }
-            onChange={ this.onChange }
-            value={ this.state.body }
-          />
-        </div>
-      </div>
-    : <div />;
-
-    var body = (this.state.isOpen)
-    ?  <div className='chat-panel-body'>
+        <UserSearchOverlay
+          container={ this.container }
+          target={() => React.findDOMNode(this.refs.AddUserInput)}
+          query={ this.state.inputValue }
+          addUser={ this.addUser }
+          addedUsers={ this.state.addedUsers }
+        />
         <MessageList
           thread={ thread }
           messages={ this.state.messages }
           bevy={ bevy }
         />
-        { input }
+        <div className='chat-panel-input'>
+          <div className='chat-text-field'>
+            <TextField
+              style={{ marginLeft: '10px' }}
+              type='text'
+              ref='body'
+              hintText='Chat'
+              onEnterKeyDown={ this.onEnter }
+              onChange={ this.onChange }
+              value={ this.state.body }
+            />
+          </div>
+        </div>
       </div>
-    : <div />;
+    ) : <div ref='ChatPanelBody' />;
 
     return (
       <div className='chat-panel' id='chat-panel'>
-        { header }
+        <div className='chat-panel-header'>
+          <div className='chat-panel-background-wrapper' style={{ color: '#000' }}>
+            <div className='chat-panel-background-image' style={ backgroundStyle } />
+          </div>
+          <div className='chat-panel-head'>
+            <a href='#' className='bevy-name' title={ (this.state.isOpen) ? 'Minimize' : 'Maximize' } onClick={ this.handleToggle }>
+              { name }
+            </a>
+            <div className='actions'>
+              { this._renderAddUsersButton() }
+              <OverlayTrigger placement='top' overlay={ <Tooltip>Options</Tooltip> }>
+                { this._renderChatOptions() }
+              </OverlayTrigger>
+              <OverlayTrigger placement='top' overlay={ <Tooltip>Close</Tooltip> }>
+                <Button className='close-btn' onClick={ this.closePanel }>
+                  <span className="glyphicon glyphicon-remove" />
+                </Button>
+              </OverlayTrigger>
+            </div>
+          </div>
+        </div>
+
         { body }
+
+        <EditParticipantsModal
+          thread={ this.props.thread }
+          show={ this.state.showEditParticipantsModal }
+          onHide={() => {
+            this.setState({ showEditParticipantsModal: false });
+          }}
+        />
       </div>
     );
   }

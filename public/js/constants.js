@@ -104,6 +104,11 @@ exports.CHAT = {
   CANCEL_NEW_MESSAGE: 'chat_cancel_new_message',
   CREATE_THREAD_AND_MESSAGE: 'chat_create_thread_and_message',
 
+  ADD_USERS: 'chat_add_user',
+  REMOVE_USER: 'chat_remove_user',
+
+  DELETE_THREAD: 'chat_delete_thread',
+
   START_PM: 'chat_start_pm',
   START_BEVY_CHAT: 'chat_start_bevy_chat',
   THREAD_OPEN: 'chat_thread_open',
