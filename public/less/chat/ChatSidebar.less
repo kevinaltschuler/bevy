@@ -15,6 +15,39 @@
     background-color: #edeeee;
     align-items: flex-start;
     overflow: hidden;
+    .threads-container {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-items: flex-start;
+      padding: 10px 0px;
+    }
+    .panel {
+      box-shadow: none;
+      border: none;
+      width: 200px;
+      background-color: transparent;
+      margin-bottom: 10px;
+      .panel-heading {
+        background-color: transparent;
+        border: none;
+        color: #888;
+        padding: 0px;
+        margin-left: 10px;
+        h4.panel-title {
+          font-size: 0.9em;
+          font-weight: bold;
+        }
+      }
+      .panel-collapse {
+        .panel-body {
+          display: flex;
+          flex-direction: column;
+          padding: 5px 0px;
+          border: none;
+        }
+      }
+    }
     .conversation-item {
       background-color: rgba(0,0,0,0);
       border-radius: 0px;
@@ -28,10 +61,10 @@
       justify-content: flex-start;
       transitiion: all .2s ease-in-out;
       &:hover {
-        box-shadow: @shadow1;
+        background-color: rgba(150,150,150,0.1);
       }
       &:active {
-        box-shadow: @shadow2;
+        background-color: rgba(150,150,150,0.2);
       }
       .image {
         min-width: 40px;

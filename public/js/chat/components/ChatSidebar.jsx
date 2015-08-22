@@ -187,14 +187,14 @@ var ChatSidebar = React.createClass({
       );
     };
     return (
-      <div>
-        <Panel header={ 'bevy threads' } eventKey='1' defaultExpanded={ true } collapsible>
+      <div className='threads-container' style={{ width: constants.chatSidebarWidthOpen }}>
+        <Panel header={ 'BEVY CONVERSATIONS' } eventKey='1' defaultExpanded={ true } collapsible>
           { bevyThreadItems }
         </Panel>
-        <Panel header={ 'group threads' } eventKey='2' defaultExpanded={ true } collapsible>
+        <Panel header={ 'GROUP CONVERSATIONS' } eventKey='2' defaultExpanded={ true } collapsible>
           { groupThreadItems }
         </Panel>
-        <Panel header={ 'pm threads' } eventKey='3' defaultExpanded={ true } collapsible>
+        <Panel header={ 'PRIVATE CONVERSATIONS' } eventKey='3' defaultExpanded={ true } collapsible>
           { pmThreadItems }
         </Panel>
       </div>
@@ -234,7 +234,7 @@ var ChatSidebar = React.createClass({
       <div 
         className='chat-sidebar' 
         style={{ 
-          width: 200,
+          width: constants.chatSidebarWidthOpen,
           right: this.state.sidebarWidth - constants.chatSidebarWidthOpen
         }}
         onMouseOver={() => { 
@@ -242,7 +242,7 @@ var ChatSidebar = React.createClass({
         }}
         onMouseOut={() => { 
           //this.closeSearchResults();
-          this.setState({ sidebarWidth: constants.chatSidebarWidthClosed }); 
+          //this.setState({ sidebarWidth: constants.chatSidebarWidthClosed }); 
         }}
       >
         <div className='conversation-list'>
