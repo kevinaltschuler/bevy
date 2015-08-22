@@ -215,7 +215,7 @@ var Post = React.createClass({
       </div>)
     : <div>{postBody}</div>;
 
-    var postClassName = 'post panel';
+    var postClassName = 'post panel post-animation';
     if(router.post_id == post._id) postClassName += ' active';
 
     return  (

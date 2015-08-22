@@ -11,6 +11,8 @@
 var React = require('react');
 var _ = require('underscore');
 
+var Ink = require('react-ink');
+
 var router = require('./../../router');
 var classNames = require('classnames');
 
@@ -67,12 +69,19 @@ var Event = React.createClass({
   },
 
   componentWillRecieveProps(nextProps) {
-    console.log('rerendering');
-    this.forceUpdate();
+
   },
 
   componentWillMount() {
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
+  },
+
+  componentDidMount() {
+    addthisevent.refresh();
+  },
+
+  componentDidUpdate() {
+    addthisevent.refresh();
   },
 
   componentDidUnmount() {
@@ -196,6 +205,8 @@ var Event = React.createClass({
     var $date = new Date(date)
     var dateString = ($date) ? $date.toDateString() : '';
     var timeString = ($date) ? $date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}) : '';
+    var dateTime = ($date) ? $date.toLocaleString() : '';
+    var dateTime = dateTime.replace(',', '');
 
     //console.log(event);
 
@@ -206,7 +217,7 @@ var Event = React.createClass({
     var authorName;
     authorName = 'placeholder-author';
     if(author) {
-      if(!_.isEmpty(author.google.name))
+      if(!_.isEmpty(author.google))
         authorName = author.google.name.givenName + ' ' + author.google.name.familyName;
       else
         authorName = author.email;
@@ -276,32 +287,34 @@ var Event = React.createClass({
                   noCaret
                   pullRight
                   className="post-settings"
-                  title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+                  title={<span className="glyphicon glyphicon-triangle-bottom btn"></span>}>
                   { deleteButton }
-                  { editButton }
+                  {/* editButton */}
                   { muteButton }
                 </DropdownButton>
               </div>
             </div>
             <div className="bottom">
+              <div title="Add to Calendar" className="addthisevent">
+                  {dateString}<br/>{timeString}
+                  <Ink/>
+                  <span className="start">{dateTime}</span>
+                  <span className="end">{dateTime}</span>
+                  <span className="timezone">America/New_York</span>
+                  <span className="title">{title}</span>
+                  <span className="description">{description}</span>
+                  <span className="location">{location}</span>
+                  <span className="organizer">{authorName}</span>
+                  <span className="all_day_event">false</span>
+                  <span className="date_format">MM/DD/YYYY</span>
+              </div>
               <FlatButton 
-                href={eventLink}
-                className='detail-button'
-                target='_blank'
-                linkButton={true}
-                rel="nofollow"
+                className='detail-button' 
+                href={locationLink} 
+                linkButton={true} 
+                target="_blank" 
+                style={{marginRight: '10px', padding: '0px 10px'}}
               >
-                <span className="glyphicon glyphicon-time"></span>
-                  <div className='text'>
-                    <div className='primary'>
-                      {dateString}
-                    </div>
-                    <div className='secondary'>
-                      {timeString}
-                    </div>
-                  </div>
-              </FlatButton>
-              <FlatButton className='detail-button' href={locationLink} linkButton={true} target="_blank">
                 <FontIcon className="glyphicon glyphicon-map-marker"/>
                 <div className='primary'>
                   {location}
@@ -313,11 +326,11 @@ var Event = React.createClass({
 
         <div className="panel-bottom">
           <div className='left'>
-            <FlatButton className='upvote' onClick={ this.upvote }>
+            <FlatButton className='upvote' onClick={ this.upvote } style={{marginRight: '10px', padding: '0px 10px'}}>
               <span className="glyphicon glyphicon-thumbs-up btn"></span>
               &nbsp;{ this.countVotes() } upvotes
             </FlatButton>
-            <FlatButton className='comment' onClick={ this.expandComments }>
+            <FlatButton className='comment' onClick={ this.expandComments } style={{marginRight: '10px', padding: '0px 10px'}}>
               <span className="glyphicon glyphicon-comment btn"></span>
               &nbsp;{ commentCount } comments
             </FlatButton>

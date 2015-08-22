@@ -84,8 +84,18 @@ var ImageModal = React.createClass({
     ? ''
     : (
       <div>
-        <IconButton iconClassName="glyphicon glyphicon-chevron-left" className='image-left-btn' onClick={ this.onLeft }/>
-        <IconButton iconClassName="glyphicon glyphicon-chevron-right" className='image-right-btn' onClick={ this.onRight } />
+        <Button 
+          className='image-left-btn' 
+          onClick={ this.onLeft }
+        >
+          <span className="glyphicon glyphicon-triangle-left" />
+        </Button>
+        <Button 
+          className='image-right-btn' 
+          onClick={ this.onRight } 
+        >
+          <span className="glyphicon glyphicon-triangle-right" />
+        </Button>
       </div>
     );
 

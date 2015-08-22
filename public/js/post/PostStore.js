@@ -179,6 +179,7 @@ _.extend(PostStore, {
             newPost.set('author', author);
             newPost.set('bevy', bevy);
             newPost.set('type', type);
+            newPost.set('event', event);
             newPost.set('commentCount', 0);
 
             this.posts.sort();

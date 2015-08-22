@@ -91,11 +91,12 @@ var SearchView = React.createClass({
       );
     };
 
-    var content = <CTG className='panel-list' transitionName="fadeIn">
+    var content = <div className='panel-list'>
         {publicBevyPanels}
-      </CTG>;
+      </div>;
 
-    if(_.isEmpty(publicBevyPanels)) {
+    if(_.isEmpty(publicBevyPanels) && !_.isEmpty(this.state.searchQuery)) {
+      console.log(this.state.searchQuery);
       content = <h2> no results :( </h2>
     }
 

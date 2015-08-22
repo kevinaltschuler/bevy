@@ -207,8 +207,6 @@ _.extend(BevyStore, {
 
         if(member == undefined) break;*/
 
-        console.log(bevies);
-
         $.ajax({
           url: constants.apiurl + '/users/' + user_id,
           method: 'PATCH',

@@ -21,6 +21,7 @@ var FlatButton = mui.FlatButton;
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var DatePicker = mui.DatePicker;
+var TimePicker = mui.TimePicker;
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
@@ -45,6 +46,7 @@ var CreateNewEventModal = React.createClass({
       bevies: [],
       selectedIndex: 0,
       date: '',
+      time: '',
       location: '',
       description: '',
       attendees: '',
@@ -63,18 +65,27 @@ var CreateNewEventModal = React.createClass({
   submit(ev) {
     ev.preventDefault();
 
-    if(!(this.state.date && this.state.location && this.state.title)) {
-      this.setState({
-        error: 'please complete all required fields'
-      });
+    if(!this.state.title) 
+      this.refs.title.setErrorText('a title is required');
+
+    if(!this.state.location) 
+      this.refs.location.setErrorText('a location is required');
+
+    if(!this.state.title || !this.state.location) 
       return;
-    }
-    
+
+    var date = new Date(this.state.date);
+    var time = new Date(this.state.time);
+    var dateTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 
+               time.getHours(), time.getMinutes(), time.getSeconds());
+
+    var description = this.state.description || '';
+
     event = {
-        date: this.state.date,
+        date: dateTime,
         location: this.state.location,
-        description: this.state.description,
-        attendees: null
+        description: description,
+        attendees: []
       };
 
     console.log(event);
@@ -98,7 +109,9 @@ var CreateNewEventModal = React.createClass({
     this.setState({
       title: this.refs.title.getValue(),
       description: this.refs.description.getValue(),
-      location: this.refs.location.getValue()
+      location: this.refs.location.getValue(),
+      date: this.refs.date.getDate(),
+      time: this.refs.time.getTime()
     });
   },
 
@@ -123,6 +136,9 @@ var CreateNewEventModal = React.createClass({
     };
     var error = this.state.error;
     var errorStyle = (error = '') ? {display: 'none'} : {marginTop: '10px', color: 'red'};
+
+    var now = new Date(Date.now());
+    var max = new Date(2050, 1, 1);
 
     return (
       <Modal className="create-bevy create-event" show={ this.props.show } onHide={ this.props.onHide } >
@@ -165,7 +181,18 @@ var CreateNewEventModal = React.createClass({
             <DatePicker 
               ref='date'
               hintText='date'
-              minDate={Date.now}
+              minDate={now}
+              maxDate={max}
+              onChange={ this.handleChange }
+              defaultDate={now}
+              style={{top: '-50px', paddingTop: '0px', marginTop: '-50px'}}
+              textFieldStyle={{marginTop: '50px'}}
+            />
+            <TimePicker
+              ref='time'
+              format="ampm"
+              hintText="time" 
+              onChange={ this.handleChange }
             />
           </div>
         </Modal.Body>

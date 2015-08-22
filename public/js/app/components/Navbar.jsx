@@ -146,6 +146,8 @@ var Navbar = React.createClass({
     if(router.current == 'home')
       navbarStyle = { boxShadow: 'none'};
 
+    var backgroundStyle = {backgroundColor: '#2cb673'};
+
     var navbarTitle = '';
     switch(router.current) {
       case 'home':
@@ -153,6 +155,12 @@ var Navbar = React.createClass({
         break;
       case 'bevy':
         navbarTitle = this.props.activeBevy.name;
+        var backgroundStyle = (_.isEmpty(this.props.activeBevy))
+          ? {}
+          : { 
+            opacity: this.state.opacity,
+            backgroundImage: 'url(' + this.props.activeBevy.image_url + ')' 
+          };
         break;
       case 'search':
         navbarTitle = ((_.isEmpty(router.search_query)) ? 'all bevies' : 'search for ' + router.search_query);
@@ -160,13 +168,6 @@ var Navbar = React.createClass({
       default:
         break;
     }
-    
-    var backgroundStyle = (_.isEmpty(this.props.activeBevy))
-    ? {}
-    : { 
-      opacity: this.state.opacity,
-      backgroundImage: 'url(' + this.props.activeBevy.image_url + ')' 
-    };
 
     return (
       <div id='navbar' className="navbar navbar-fixed-top row" style={ navbarStyle }>

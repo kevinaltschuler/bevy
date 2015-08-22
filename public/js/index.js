@@ -67,7 +67,28 @@ var App = React.createClass({
     ThemeManager.setComponentThemes({
         textField: {
           focusColor: 'rgba(0,0,0,.40)'
-        }
+        },
+        datePicker: {
+          color: 'rgba(0,0,0,.5)',
+          textColor: 'white',
+          calendarTextColor: 'rgba(0,0,0,.8)',
+          selectColor: 'rgba(0,0,0,.7)',
+          selectTextColor: 'white',
+        },
+        timePicker: {
+          color: 'white',
+          textColor: '#757575',
+          accentColor: '#4C4C4C',
+          clockColor: 'black',
+          selectColor: '#707070',
+          selectTextColor: 'white',
+        },
+        flatButton: {
+          color: 'white',
+          textColor: 'rgba(0,0,0,.8)',
+          primaryTextColor: 'rgba(0,0,0,.8)',
+          secondaryTextColor: 'rgba(0,0,0,.8)',
+        },
       });
   },
 

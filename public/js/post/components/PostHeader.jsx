@@ -110,7 +110,7 @@ var PostHeader = React.createClass({
     : '';
 
     var tagBadge = (post.tag)
-    ? <Badge style={{backgroundColor: tag.color}}>{tag.name}</Badge>
+    ? <Badge style={{backgroundColor: tag.color, width: 'inherit'}}>{tag.name}</Badge>
     : '';
 
     return (
@@ -137,7 +137,7 @@ var PostHeader = React.createClass({
             noCaret
             pullRight
             className="post-settings"
-            title={<span className="glyphicon glyphicon-chevron-down btn"></span>}>
+            title={<span className="glyphicon glyphicon-triangle-bottom btn"></span>}>
             { deleteButton }
             { editButton }
             { pinButton }
