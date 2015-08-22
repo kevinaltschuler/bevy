@@ -40,7 +40,7 @@
     "passport-google-oauth": "^0.2.0",
     "passport-local": "^1.0.0",
     "react": "^0.13",
-    "react-bootstrap": "^0.23.0",
+    "react-bootstrap": "^0.24.5",
     "react-bootstrap-datetimepicker": "0.0.18",
     "react-ink": "^4.1.0",
     "react-onclickoutside": "^0.2.4",
