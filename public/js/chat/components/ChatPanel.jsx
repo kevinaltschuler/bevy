@@ -126,7 +126,7 @@ var ChatPanel = React.createClass({
     this.setState({
       isOpen: !this.state.isOpen
     });
-    document.getElementById('chat-panel').style.height = (this.state.isOpen) ? '30px' : '320px';
+    document.getElementById('chat-panel:' + this.props.thread._id).style.height = (this.state.isOpen) ? '30px' : '320px';
   },
 
   closePanel(ev) {
@@ -223,19 +223,20 @@ var ChatPanel = React.createClass({
             <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}>Add Users to Chat...</MenuItem>
             <MenuItem eventKey='1' onSelect={() => this.setState({ showEditParticipantsModal: true })}>Edit Participants</MenuItem>
             <MenuItem eventKey='2' onSelect={() => this.setState({ expanded: true, accordionType: 'edit-name' })}>Edit Conversation Name</MenuItem>
+            <MenuItem eventKey='3'>Edit Conversation Picture</MenuItem>
             <MenuItem divider />
-            <MenuItem eventKey='3' onSelect={() => {
+            <MenuItem eventKey='4' onSelect={() => {
               if(confirm('Are You Sure?')) {
                 ChatActions.removeUser(this.props.thread._id, window.bootstrap.user._id);
               }
             }}>Leave Conversation</MenuItem>
-            <MenuItem eventKey='4' onSelect={() => {
+            <MenuItem eventKey='5' onSelect={() => {
               if(confirm('Are You Sure?')) {
                 ChatActions.deleteThread(this.props.thread._id);
               }
             }}>Delete Conversation</MenuItem>
             {/*<MenuItem divider />
-            <MenuItem eventKey='5'>Create Bevy</MenuItem>*/}
+            <MenuItem eventKey='6'>Create Bevy</MenuItem>*/}
           </DropdownButton>
         );
         break;
@@ -359,7 +360,7 @@ var ChatPanel = React.createClass({
     ) : <div ref='ChatPanelBody' />;
 
     return (
-      <div className='chat-panel' id='chat-panel'>
+      <div className='chat-panel' id={'chat-panel:' + thread._id}>
         <div className='chat-panel-header'>
           <div className='chat-panel-background-wrapper' style={{ color: '#000' }}>
             <div className='chat-panel-background-image' style={ backgroundStyle } />
