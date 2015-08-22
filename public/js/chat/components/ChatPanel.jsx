@@ -198,7 +198,7 @@ var ChatPanel = React.createClass({
   },
 
   _renderAddUsersButton() {
-    if(this.props.thread.type == 'bevy') return <div />;
+    if(this.props.thread.type == 'bevy' || !this.state.isOpen) return <div />;
     return (
       <OverlayTrigger placement='top' overlay={ <Tooltip>Add Users to Chat</Tooltip> }>
         <Button className='close-btn' onClick={() => { this.setState({ expanded: true, accordionType: 'add-user' }) }}>
@@ -209,16 +209,18 @@ var ChatPanel = React.createClass({
   },
 
   _renderChatOptions() {
+    if(!this.state.isOpen) return <div />;
+    var button;
     switch(this.props.thread.type) {
       case 'bevy':
-        return (
+        button = (
           <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
             <MenuItem eventKey='0'>Placeholder Option</MenuItem>
           </DropdownButton>
         );
         break;
       case 'group':
-        return (
+        button = (
           <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
             <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}>Add Users to Chat...</MenuItem>
             <MenuItem eventKey='1' onSelect={() => this.setState({ showEditParticipantsModal: true })}>Edit Participants</MenuItem>
@@ -241,7 +243,7 @@ var ChatPanel = React.createClass({
         );
         break;
       case 'pm':
-        return (
+        button = (
           <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
             <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}>Add Users to Chat...</MenuItem>
             <MenuItem divider />
@@ -254,6 +256,11 @@ var ChatPanel = React.createClass({
         );
         break;
     }
+    return (
+      <OverlayTrigger placement='top' overlay={ <Tooltip>Options</Tooltip> }>
+        { button }
+      </OverlayTrigger>
+    );
   },
 
   _renderAccordion() {
@@ -371,9 +378,7 @@ var ChatPanel = React.createClass({
             </a>
             <div className='actions'>
               { this._renderAddUsersButton() }
-              <OverlayTrigger placement='top' overlay={ <Tooltip>Options</Tooltip> }>
-                { this._renderChatOptions() }
-              </OverlayTrigger>
+              { this._renderChatOptions() }
               <OverlayTrigger placement='top' overlay={ <Tooltip>Close</Tooltip> }>
                 <Button className='close-btn' onClick={ this.closePanel }>
                   <span className="glyphicon glyphicon-remove" />
