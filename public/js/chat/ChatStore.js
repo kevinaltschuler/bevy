@@ -265,12 +265,18 @@ _.extend(ChatStore, {
         var name = payload.name || thread.get('name');
         var image_url = payload.image_url || thread.get('image_url');
 
+        var tempBevy = thread.get('bevy');
+        var tempUsers = thread.get('users');
+
         thread.save({
           name: name,
           image_url: image_url
         }, {
           patch: true,
           success: function(model, response, options) {
+            // repopulate
+            thread.set('users', tempUsers);
+            thread.set('bevy', tempBevy);
             this.trigger(CHAT.CHANGE_ALL);
           }.bind(this)
         });
