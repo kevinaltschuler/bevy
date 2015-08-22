@@ -242,7 +242,7 @@ var ChatSidebar = React.createClass({
         }}
         onMouseOut={() => { 
           //this.closeSearchResults();
-          //this.setState({ sidebarWidth: constants.chatSidebarWidthClosed }); 
+          this.setState({ sidebarWidth: constants.chatSidebarWidthClosed }); 
         }}
       >
         <div className='conversation-list'>
