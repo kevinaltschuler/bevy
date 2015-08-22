@@ -93,6 +93,9 @@ var PublicBevyPanel = React.createClass({
     ? <div/>
     : _joinButton
 
+    var subCount = (bevy.subCount == 1) ? '1 member' : bevy.subCount + ' members';
+    var created = new Date(bevy.created).toLocaleDateString();
+
     return (
       <div className="panel public-bevy-panel">
         <Button className="bevy-panel-top" href={'/b/' + this.props.bevy._id} onClick={ this.switchBevy } style={ bevyImageStyle }/>
@@ -102,7 +105,8 @@ var PublicBevyPanel = React.createClass({
           </div>
           <div className='panel-info-bottom'>
             <div className='left'>
-              <span>{ description }</span>
+              <span>{ subCount }</span>
+              <span>created on {created}</span>
               {/*<div>
                 { '0' + ' Members'}
               </div>

@@ -33,6 +33,31 @@
 				font-size: 1em;
 				align-items: center;
 				width: 100%;
+				.addthisevent-drop {
+					border: none;
+					box-shadow: none;
+					&:active, &:hover {
+						top: 0px;
+						border: none;
+					}
+					span {
+						line-height: 1.5;
+					}
+					.ink {
+						transition: all .2s ease-in-out;
+						&:active, &:hover {
+							top: 0px;
+							border: none;
+							background-color: rgba(0,0,0,.1);
+						}
+					}
+					.addthisevent_icon {
+						top: 22px;
+					}
+					.copyx {
+						display: none;
+					}
+				}
 				.glyphicon {
 					font-size: 1.2em;
 				}

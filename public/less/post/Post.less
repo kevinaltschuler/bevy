@@ -125,6 +125,12 @@
 			.post-settings {
 				padding: 0px;
 				background-color: rgba(0,0,0,0);
+				color: rgba(0,0,0,.3);
+				&.open {
+					.btn {
+						color: @light-font;
+					}
+				}
 				.btn {
 					color: rgba(0,0,0,.3);
 					box-shadow: none;
@@ -135,6 +141,9 @@
 						outline: none;
 						box-shadow: none;
 						background-color: rgba(0,0,0,0);
+						color: @light-font;
+					}
+					&:focus {
 						color: @light-font;
 					}
 				}

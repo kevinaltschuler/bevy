@@ -74,13 +74,18 @@ var CreateNewEventModal = React.createClass({
     if(!this.state.title || !this.state.location) 
       return;
 
-    
+    var date = new Date(this.state.date);
+    var time = new Date(this.state.time);
+    var dateTime = new Date(date.getFullYear(), date.getMonth(), date.getDate(), 
+               time.getHours(), time.getMinutes(), time.getSeconds());
+
+    var description = this.state.description || '';
+
     event = {
-        date: this.state.date,
-        time: this.state.time,
+        date: dateTime,
         location: this.state.location,
-        description: this.state.description,
-        attendees: null
+        description: description,
+        attendees: []
       };
 
     console.log(event);
@@ -105,7 +110,8 @@ var CreateNewEventModal = React.createClass({
       title: this.refs.title.getValue(),
       description: this.refs.description.getValue(),
       location: this.refs.location.getValue(),
-      time: this.refs.time.getValue()
+      date: this.refs.date.getDate(),
+      time: this.refs.time.getTime()
     });
   },
 

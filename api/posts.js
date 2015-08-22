@@ -77,7 +77,10 @@ exports.create = function(req, res, next) {
   update.event = req.body['event'];
   update.tag =  req.body['tag'];
 
-  if(!update.title || !update.tag || !update.bevy || !update.author || !update.type) throw error.gen('a field was not specified', req);
+  if(_.isEmpty(update.title)) throw error.gen('no title', update.title);
+  if(_.isEmpty(update.bevy)) throw error.gen('no bevy', update.bevy);
+  if(_.isEmpty(update.author)) throw error.gen('no author', update.author);
+  if(_.isEmpty(update.type)) throw error.gen('no type', update.type);
 
   async.waterfall([
     function(done) {
@@ -85,7 +88,7 @@ exports.create = function(req, res, next) {
     },
     function($update, done) {
       Post.create($update, function(err, post) {
-        if(err) return next(err);
+        if(err) return next(err); 
         // populate bevy
         Post.populate(post, { path: 'bevy author' }, function(err, pop_post) {
           // create notification
