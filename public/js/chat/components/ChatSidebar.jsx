@@ -11,7 +11,10 @@ var _ = require('underscore');
 var $ = require('jquery');
 
 var {
-  Button
+  Button,
+  Accordion,
+  PanelGroup,
+  Panel
 } = require('react-bootstrap');
 var {
   TextField
@@ -142,26 +145,63 @@ var ChatSidebar = React.createClass({
     else UserActions.search(query);
   },
 
-  render() {
-    var threads = [];
-    var allThreads = this.state.allThreads;
-    for(var key in allThreads) {
-      var thread = allThreads[key];
-      if(thread._id == -1) continue; // dont render the new message panel/thread
-      threads.push(
+  _renderThreads() {
+    var allThreads = _.map(this.state.allThreads, ($thread) => $thread); // create deep copy
+    allThreads = _.reject(allThreads, ($thread) => $thread._id == -1); // dont render the new message panel/thread
+
+    // collect and render all thread items - sorted by type
+    var bevyThreads = _.where(allThreads, { type: 'bevy' });
+    var bevyThreadItems = [];
+    for(var key in bevyThreads) {
+      var thread = bevyThreads[key];
+      bevyThreadItems.push(
         <ThreadItem
-          key={ 'sidebarthread' + thread._id }
+          key={ 'sidebar:bevythread:' + thread._id }
           width={ constants.chatSidebarWidthOpen }
           thread={ thread }
         />
       );
-    }
-
-    if(threads.length <= 0) {
-      console.log('no threads');
-      return <div/>;
     };
+    var groupThreads = _.where(allThreads, { type: 'group' });
+    var groupThreadItems = [];
+    for(var key in groupThreads) {
+      var thread = groupThreads[key];
+      groupThreadItems.push(
+        <ThreadItem
+          key={ 'sidebar:groupthread:' + thread._id }
+          width={ constants.chatSidebarWidthOpen }
+          thread={ thread }
+        />
+      );
+    };
+    var pmThreads = _.where(allThreads, { type: 'pm' });
+    var pmThreadItems = [];
+    for(var key in pmThreads) {
+      var thread = pmThreads[key];
+      pmThreadItems.push(
+        <ThreadItem
+          key={ 'sidebar:pmthread:' + thread._id }
+          width={ constants.chatSidebarWidthOpen }
+          thread={ thread }
+        />
+      );
+    };
+    return (
+      <div>
+        <Panel header={ 'bevy threads' } eventKey='1' defaultExpanded={ true } collapsible>
+          { bevyThreadItems }
+        </Panel>
+        <Panel header={ 'group threads' } eventKey='2' defaultExpanded={ true } collapsible>
+          { groupThreadItems }
+        </Panel>
+        <Panel header={ 'pm threads' } eventKey='3' defaultExpanded={ true } collapsible>
+          { pmThreadItems }
+        </Panel>
+      </div>
+    );
+  },
 
+  render() {
     var searchResults = [];
     var userSearchResults = this.state.searchUsers;
     for(var key in userSearchResults) {
@@ -208,7 +248,7 @@ var ChatSidebar = React.createClass({
         <div className='conversation-list'>
           <div className='title'>
           </div>
-          { threads }
+          { this._renderThreads() }
         </div>
         <div 
           className='search-results'
@@ -231,7 +271,7 @@ var ChatSidebar = React.createClass({
           <span className='glyphicon glyphicon-search' />
           <TextField 
             onFocus={ this.openSearchResults } 
-            //onBlur={this.closeSearchResults}
+            onBlur={this.closeSearchResults}
             type='text'
             className='search-input'
             ref='userSearch'

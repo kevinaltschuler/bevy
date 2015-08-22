@@ -420,9 +420,8 @@ _.extend(ChatStore, {
   },
 
   getAllThreads() {
-    return (_.isEmpty(this.threads.models))
-      ? []
-      : this.threads.toJSON();
+    this.threads.sort();
+    return this.threads.toJSON();
   },
 
   getActiveThread() {
