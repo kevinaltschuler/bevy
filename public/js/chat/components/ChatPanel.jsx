@@ -335,7 +335,7 @@ var ChatPanel = React.createClass({
           target={() => React.findDOMNode(this.refs.AddUserInput)}
           query={ this.state.inputValue }
           addUser={ this.addUser }
-          addedUsers={ this.state.addedUsers }
+          addedUsers={ _.union(this.state.addedUsers, thread.users) }
         />
         <MessageList
           thread={ thread }
