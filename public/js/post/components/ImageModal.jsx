@@ -20,7 +20,7 @@ var ImageModal = React.createClass({
 
   propTypes: {
     allImages: React.PropTypes.array.isRequired,
-    index: React.PropTypes.string.isRequired,
+    index: React.PropTypes.string,
     show: React.PropTypes.bool,
     onHide: React.PropTypes.func
   },
@@ -34,6 +34,12 @@ var ImageModal = React.createClass({
   componentWillMount() {
     this.setState({
       index: this.props.index
+    });
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      index: nextProps.index
     });
   },
 
@@ -106,7 +112,7 @@ var ImageModal = React.createClass({
         onKeyDown={ this.onKeyDown }
         show={ this.props.show }
         onHide={ this.props.onHide }>
-        <Modal.Body>
+        <Modal.Body style={{width: '120%', height: '120%'}}>
           <div className='modal-body'>
             <img src={ this.props.allImages[this.state.index] }/>
           </div>

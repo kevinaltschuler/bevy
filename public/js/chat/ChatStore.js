@@ -391,6 +391,24 @@ _.extend(ChatStore, {
         thread.messages.url = constants.apiurl + '/threads/' + thread.id + '/messages';
 
         break;
+      case CHAT.UPDATE_IMAGE:
+        var thread_id = payload.thread_id;
+        var url = payload.url;
+        var thread = this.threads.get(thread_id);
+        if(thread == undefined) break;
+
+
+        thread.save({
+          image_url: url
+        }, {
+          patch: true,
+          success: function(model, response, options) {
+            // simulate population of users field
+            thread.set('image_url', url);
+            this.trigger(CHAT.CHANGE_ALL);
+          }.bind(this)
+        });
+        break;
     }
   },
 

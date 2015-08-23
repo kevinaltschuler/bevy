@@ -295,7 +295,7 @@ var Event = React.createClass({
               </div>
             </div>
             <div className="bottom">
-              <div title="Add to Calendar" className="addthisevent">
+              <div title="Add to Calendar" className="addthisevent" style={{paddingTop: '5px', paddingBottom: '5px', marginRight: '10px'}}>
                   {dateString}<br/>{timeString}
                   <Ink/>
                   <span className="start">{dateTime}</span>
@@ -313,7 +313,7 @@ var Event = React.createClass({
                 href={locationLink} 
                 linkButton={true} 
                 target="_blank" 
-                style={{marginRight: '10px', padding: '0px 10px'}}
+                style={{marginRight: '10px', paddingRight: '5px', lineHeight: '1.5'}}
               >
                 <FontIcon className="glyphicon glyphicon-map-marker"/>
                 <div className='primary'>

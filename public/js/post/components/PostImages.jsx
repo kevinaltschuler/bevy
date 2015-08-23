@@ -27,6 +27,11 @@ var PostImages = React.createClass({
     };
   },
 
+  showModal(ev) { 
+    this.setState({ imageKey: ev.target.id });
+    this.setState({ showImageModal: true });
+  },
+
   render() {
     var post = this.props.post;
 
@@ -37,8 +42,9 @@ var PostImages = React.createClass({
         <div className='panel-body-image' key={ 'postimage:' + post._id + ':' + key } >
           <Button 
             className="image-thumbnail" 
+            id={key}
             style={{ backgroundImage: 'url(' + url + ')' }}
-            onClick={() => { this.setState({ showImageModal: true, imageKey: key }); }}
+            onClick={this.showModal}
           />
         </div>
       );
