@@ -76,6 +76,14 @@ var PostContainer = React.createClass({
     var sortType = this.props.sortType;
     var activeTags = this.props.activeTags;
 
+    if(_.isEmpty(allPosts)) {
+      return (
+        <div className='post-container'>
+          <span className='no-posts-text'>No Posts :(</span>
+        </div>
+      );
+    }
+
     // filter posts here
     allPosts = _.reject(allPosts, function($post) {
       // see if the sort type matches

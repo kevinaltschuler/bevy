@@ -109,7 +109,7 @@ var PostHeader = React.createClass({
     }
 
     var pinnedBadge = (post.pinned)
-    ? <span className='badge pinned'>Pinned</span>
+    ? <span className='badge pinned'>PINNED</span>
     : '';
 
     var tagBadge = (post.tag)
@@ -135,6 +135,7 @@ var PostHeader = React.createClass({
           </div>
         </div>
         <div className='badges'>
+          { pinnedBadge }
           { tagBadge }
           <DropdownButton
             noCaret
