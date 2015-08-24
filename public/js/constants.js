@@ -45,8 +45,7 @@ exports.APP = {
 exports.POST = {
   CREATE: 'post_create',
   DESTROY: 'post_destroy',
-  UPVOTE: 'post_upvote',
-  DOWNVOTE: 'post_downvote',
+  VOTE: 'post_vote',
   SORT: 'post_sort',
   CANCEL: 'post_cancel',
   UPDATE: 'post_update',

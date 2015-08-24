@@ -63,20 +63,8 @@ var PostActions = {
    * @param  {string} post_id
    * @param  {string} voter
    */
-  upvote(post_id, voter) {
-    dispatch(POST.UPVOTE, {
-      post_id: (post_id == undefined) ? '' : post_id,
-      voter: (voter == undefined) ? '' : voter
-    });
-  },
-
-  /**
-   * downvote a post
-   * @param  {string} post_id
-   * @param  {string} voter
-   */
-  downvote(post_id, voter) {
-    dispatch(POST.DOWNVOTE, {
+  vote(post_id, voter) {
+    dispatch(POST.VOTE, {
       post_id: (post_id == undefined) ? '' : post_id,
       voter: (voter == undefined) ? '' : voter
     });

@@ -251,6 +251,47 @@ _.extend(PostStore, {
 
         break;
 
+      case POST.VOTE:
+        var post_id = payload.post_id;
+        var voter = payload.voter;
+
+        var post = this.posts.get(post_id);
+        if(post == undefined) break;
+
+        var votes = post.get('votes');
+        var vote = _.findWhere(votes, { voter: voter._id });
+        if(vote == undefined) {
+          // voter not found, create new voter
+          votes.push({
+            voter: voter._id,
+            score: 1
+          });
+        } else {
+          votes = _.map(votes, function($vote) {
+            if($vote.voter == voter._id) {
+              // found the voter
+              console.log($vote);
+              $vote.score = ($vote.score > 0) ? 0 : 1;
+            }
+            return $vote;
+          });
+        }
+        post.save({
+          votes: votes
+        }, {
+          patch: true,
+          success: function(post, response, options) {
+            
+          }.bind(this)
+        });
+        // instant update
+        post.set('votes', votes);
+        // sort posts
+        this.posts.sort();
+        this.trigger(POST.CHANGE_ALL);
+
+        break;
+
       case POST.SORT:
         var by = payload.by;
         var direction = payload.direction;
@@ -461,46 +502,7 @@ _.extend(PostStore, {
   },
 
   vote(post_id, voter, value) {
-    var MAX_VOTES = 1;
-    var post = this.posts.get(post_id);
-    var votes = post.get('votes');
 
-    if(_.isEmpty(votes)) {
-      // create new voter
-      votes.push({
-        voter: voter._id,
-        score: value
-      });
-    } else {
-      var vote = _.findWhere(votes, { voter: voter._id });
-      if(vote == undefined) {
-        // voter not found, create new voter
-        votes.push({
-          voter: voter._id,
-          score: value
-        });
-      } else {
-        // check if they've exceeded their max votes
-        if(Math.abs(vote.score + value) > MAX_VOTES) {
-          vote.score -= value; //trying to unvote :(
-          votes = _.reject(votes, function(vote){ return vote.voter == window.bootstrap.user._id; });
-        }
-        else
-          // add score to existing voter
-          vote.score += value;
-      }
-    }
-    //post.set('votes', votes);
-    // save to server
-    post.save({
-      votes: votes
-    }, {
-      patch: true,
-      success: function(post, response, options) {
-        // sort posts
-        this.posts.sort();
-      }.bind(this)
-    });
   },
 
   sortByTop(post) {

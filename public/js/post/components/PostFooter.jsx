@@ -30,14 +30,9 @@ var PostFooter = React.createClass({
     };
   },
 
-  upvote(ev) {
+  vote(ev) {
     ev.preventDefault();
-    PostActions.upvote(this.props.post._id, window.bootstrap.user);
-  },
-
-  downvote(ev) {
-    ev.preventDefault();
-    PostActions.downvote(this.props.post._id, window.bootstrap.user);
+    PostActions.vote(this.props.post._id, window.bootstrap.user);
   },
 
   countVotes() {
@@ -58,19 +53,23 @@ var PostFooter = React.createClass({
   render() {
     var post = this.props.post;
 
-    var upvoteStyle = (_.find(post.votes, function(vote){ return vote.voter == window.bootstrap.user._id; }))
-    ? { color: 'black' }
-    : {};
+    var voteButtonStyle = { marginRight: '10px', padding: '0px 10px', color: '#999' };
+    var upvoted = _.find(post.votes, function(vote) {
+      return (vote.voter == window.bootstrap.user._id && vote.score > 0); 
+    });
+    if(upvoted) {
+      voteButtonStyle.color = '#000'
+    }
 
     return (
       <div>
         <div className="panel-bottom">
           <div className='left'>
-            <FlatButton className='upvote' onClick={ this.upvote } disabled={ _.isEmpty(window.bootstrap.user) } style={{marginRight: '10px', padding: '0px 10px'}}>
-              <span className="glyphicon glyphicon-thumbs-up" style={ upvoteStyle }></span>
+            <FlatButton className='upvote' onClick={ this.vote } disabled={ _.isEmpty(window.bootstrap.user) } style={ voteButtonStyle }>
+              <span className="glyphicon glyphicon-thumbs-up" ></span>
               &nbsp;{ this.countVotes() } upvotes
             </FlatButton>
-            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments } style={{marginRight: '10px', padding: '0px 10px'}}>
+            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments } style={{ marginRight: '10px', padding: '0px 10px' }}>
               <span className="glyphicon glyphicon-comment"></span>
               &nbsp;{ post.commentCount }&nbsp;comments
             </FlatButton>
