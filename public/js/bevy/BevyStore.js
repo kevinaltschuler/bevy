@@ -107,7 +107,6 @@ _.extend(BevyStore, {
                 bevies: bevy_ids
               },
               success: function($user) {
-                this.trigger(BEVY.CHANGE_ALL);
               }.bind(this)
             });
           }.bind(this)

@@ -182,6 +182,7 @@ var ChatSidebar = React.createClass({
   _renderThreads() {
     var allThreads = _.map(this.state.allThreads, ($thread) => $thread); // create deep copy
     allThreads = _.reject(allThreads, ($thread) => $thread._id == -1); // dont render the new message panel/thread
+    if(allThreads.length == 0) return <div>no conversations</div>;
 
     // collect and render all thread items - sorted by type
     var bevyThreads = _.where(allThreads, { type: 'bevy' });
