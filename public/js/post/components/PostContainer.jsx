@@ -87,14 +87,20 @@ var PostContainer = React.createClass({
     // filter posts here
     allPosts = _.reject(allPosts, function($post) {
       // see if the sort type matches
-      if(sortType == 'events' && $post.type != sortType) return true;
-      // see if the tag matches
-      if(_.find(activeTags, function($tag) {
-        if(_.isEmpty($post.tag)) return false;
-        return $tag.name == $post.tag.name;
-      }) == undefined) return true;
-      // yep, it matches
-      return false;
+      if(sortType == ('new' || 'top')) {
+        if($post.type != 'default') return true;
+        // see if the tag matches
+        if(_.find(activeTags, function($tag) {
+          if(_.isEmpty($post.tag)) return false;
+          return $tag.name == $post.tag.name;
+        }) == undefined) return true;
+        // yep, it matches
+        return false;
+      }
+      //filter out everything but events
+      if(sortType == ('events')) {
+        if($post.type != 'event') return true;
+      }
     });
 
     // for each post
