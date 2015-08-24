@@ -55,13 +55,12 @@
       }
       .profile-details {
         flex: 1;
-        display: inline-block;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
         font-size: 1.2em;
         padding-top: 10px;
-        span{
-          display: block;
-          margin: 0 auto;
-        }
         .profile-name{
           color: black;
           font-size: 1.3em;
@@ -71,6 +70,11 @@
         span.profile-email, span.profile-points {
           font-size: 0.8em;
           color: #4c4c4c;
+        }
+        span.profile-points {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
         }
       }
       .profile-settings {
