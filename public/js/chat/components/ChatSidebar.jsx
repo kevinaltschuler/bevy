@@ -185,17 +185,26 @@ var ChatSidebar = React.createClass({
         />
       );
     };
+    var bevyPanel = (bevyThreadItems.length > 0) ? (
+      <Panel header={ 'BEVY CONVERSATIONS' } eventKey='1' defaultExpanded={ true } collapsible>
+        { bevyThreadItems }
+      </Panel>
+    ) : <div />;
+    var groupPanel = (groupThreadItems.length > 0) ? (
+      <Panel header={ 'GROUP CONVERSATIONS' } eventKey='2' defaultExpanded={ true } collapsible>
+        { groupThreadItems }
+      </Panel>
+    ) : <div />;
+    var pmPanel = (pmThreadItems.length > 0) ? (
+      <Panel header={ 'PRIVATE CONVERSATIONS' } eventKey='3' defaultExpanded={ true } collapsible>
+        { pmThreadItems }
+      </Panel>
+    ) : <div />;
     return (
       <div className='threads-container' style={{ width: constants.chatSidebarWidthOpen }}>
-        <Panel header={ 'BEVY CONVERSATIONS' } eventKey='1' defaultExpanded={ true } collapsible>
-          { bevyThreadItems }
-        </Panel>
-        <Panel header={ 'GROUP CONVERSATIONS' } eventKey='2' defaultExpanded={ true } collapsible>
-          { groupThreadItems }
-        </Panel>
-        <Panel header={ 'PRIVATE CONVERSATIONS' } eventKey='3' defaultExpanded={ true } collapsible>
-          { pmThreadItems }
-        </Panel>
+        { bevyPanel }
+        { groupPanel }
+        { pmPanel }
       </div>
     );
   },

@@ -37,29 +37,24 @@ _.extend(ChatStore, {
         break;
 
       case BEVY.JOIN:
+        break;
       case BEVY.LEAVE:
+        // remove the bevy chat from your list of chats
+        var bevy_id = payload.bevy_id;
 
-        /*this.threads.fetch({
-          reset: true,
-          success: function(collection, response, options) {
-            this.threads.forEach(function(thread) {
-              // fetch messages
-              // TODO: only get one
-              thread.messages.fetch({
-                reset: true,
-                success: function(collection, response, options) {
-                  thread.messages.sort();
-                  this.trigger(CHAT.CHANGE_ALL);
-                }.bind(this)
-              });
-            }.bind(this));
-          }.bind(this)
-        });*/
+        var thread = this.threads.find(function($thread) {
+          if(_.isEmpty($thread.bevy)) return false;
+          return $thread.bevy._id == bevy_id;
+        });
+        if(thread == undefined) break;
+
+        this.threads.remove(thread);
+        this.trigger(CHAT.CHANGE_ALL);
 
         break;
 
       case BEVY.SWITCH:
-        var bevy_id = payload.bevy_id;
+        /*var bevy_id = payload.bevy_id;
         $.ajax({
           method: 'get',
           url: constants.apiurl + '/bevies/' + bevy_id + '/thread',
@@ -69,7 +64,7 @@ _.extend(ChatStore, {
             this.threads.add(data);
             this.trigger(CHAT.CHANGE_ALL);
           }.bind(this)
-        });
+        });*/
 
         break;
 
