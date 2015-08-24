@@ -123,5 +123,7 @@ exports.CHAT = {
 
   CHANGE_ALL: 'chat_change_all',
 
-  PANEL_TOGGLE: 'chat_panel_toggle:'
+  PANEL_TOGGLE: 'chat_panel_toggle:',
+
+  UPDATE_IMAGE: 'chat_update_image'
 };

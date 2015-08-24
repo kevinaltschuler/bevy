@@ -93,6 +93,13 @@ var ChatActions = {
     dispatch(CHAT.MESSAGE_FETCH_MORE, {
       thread_id: thread_id
     });
+  },
+
+  updateImage(thread_id, url) {
+    dispatch(CHAT.UPDATE_IMAGE, {
+      thread_id: thread_id,
+      url: (url == undefined) ? null : url
+    });
   }
 };
 

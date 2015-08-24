@@ -85,7 +85,7 @@ var NewThreadPanel = React.createClass({
   },
 
   onMessageKeyPress(ev) {
-    if(ev.which == 13) {
+    if(ev.which == 13 && this.state.addedUsers.length > 0) {
       // enter button was pressed
       if(_.isEmpty(this.state.message)) return; // dont send empty message
 
@@ -121,9 +121,8 @@ var NewThreadPanel = React.createClass({
   },
 
   _renderInput() {
-    if(this.state.addedUsers.length <= 0) return <div />;
     return (
-      <div className='message-input-container'>
+      <div className='message-input-container' style={{backgroundColor: '#eee'}}>
         <Input
           type='text'
           ref='MessageInput'
@@ -132,6 +131,7 @@ var NewThreadPanel = React.createClass({
           onChange={ this.onMessageChange }
           value={ this.state.message }
           groupClassName='message-input'
+          disabled={ this.state.addedUsers.length > 0}
         />
       </div>
     );

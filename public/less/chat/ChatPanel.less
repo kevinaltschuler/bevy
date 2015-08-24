@@ -82,6 +82,9 @@
               line-height: inherit;
             }
           }
+          .dropdown-menu {
+            border-radius: 2px;
+          }
         }
         .close-btn {
           background-color: transparent;
@@ -225,22 +228,30 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow-x: hidden;
     .user-search-overlay {
       top: 55px !important;
     }
     .chat-panel-input {
       background-color: #fff;
       width: 100%;
-      overflow-x: hidden;
+      box-shadow:  none;
+      transition: all .2s ease-in-out;
+      border: none;
+      overflow: visible;
       .chat-text-field {
+        overflow: visible;
         .form-group {
           margin-bottom: 0px;
+          overflow: visible;
           input {
             border-radius: 0px;
-            border: 1px solid #ccc;
+            border: none;
+            box-shadow: none;
+            transition: all .2s ease-in-out;
             &:focus, &:active {
-              border: 1px solid #ccc;
-              box-shadow: none;
+              border: none;
+              box-shadow: @shadow3;
             }
           }
         }

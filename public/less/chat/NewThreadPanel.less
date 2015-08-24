@@ -122,14 +122,17 @@
     flex: 1;
     flex-direction: column;
     justify-content: flex-end;
+    overflow-x: hidden;
     .message-input {
       margin-bottom: 0px;
       input.form-control {
-        border: 1px solid #ccc;
         border-radius: 0px;
+        border: none;
+        box-shadow: none;
+        transition: all .2s ease-in-out;
         &:active, &:focus {
-          border: 1px solid #ccc;
-          box-shadow: none;
+          border: none;
+          box-shadow: @shadow3;
         }
       }
     }

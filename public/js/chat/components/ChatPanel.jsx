@@ -29,6 +29,7 @@ var BevyStore = require('./../../bevy/BevyStore');
 var classNames = require('classnames');
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
+var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var user = window.bootstrap.user;
 
@@ -47,7 +48,8 @@ var ChatPanel = React.createClass({
       addedUsers: [],
       inputValue: '', // the value of the add user input
       showEditParticipantsModal: false,
-      accordionType: 'add-user'
+      accordionType: 'add-user',
+      image_url: this.props.thread.image_url
     };
   },
 
@@ -106,19 +108,21 @@ var ChatPanel = React.createClass({
   },
 
   onEnter(ev) {
-    // dont send empty messages
-    if(_.isEmpty(this.state.body)) return;
+    if(ev.which == 8) {
+      // dont send empty messages
+      if(_.isEmpty(this.state.body)) return;
 
-    // create message
-    var thread = this.props.thread;
-    var author = window.bootstrap.user;
-    var body = this.refs.body.getValue();
-    ChatActions.createMessage(thread._id, author, body);
+      // create message
+      var thread = this.props.thread;
+      var author = window.bootstrap.user;
+      var body = this.refs.body.getValue();
+      ChatActions.createMessage(thread._id, author, body);
 
-    // reset input field
-    this.setState({
-      body: ''
-    });
+      // reset input field
+      this.setState({
+        body: ''
+      });
+    }
   },
 
   handleToggle(ev) {
@@ -181,6 +185,18 @@ var ChatPanel = React.createClass({
     });
   },
 
+  onUploadComplete(file) {
+    var filename = file.filename;
+    var image_url = constants.apiurl + '/files/' + filename;
+    this.setState({
+      image_url: image_url
+    });
+
+    var thread_id = this.props.thread._id;
+
+    ChatActions.updateImage(thread_id, image_url);
+  },
+
   _renderAddedUsers() {
     var itemArray = [];
     for(var key in this.state.addedUsers) {
@@ -211,6 +227,19 @@ var ChatPanel = React.createClass({
   _renderChatOptions() {
     if(!this.state.isOpen) return <div />;
     var button;
+    var dropzoneOptions = {
+      maxFiles: 1,
+      acceptedFiles: 'image/*',
+      clickable: '.chat-panel-dropzone-btn',
+      dictDefaultMessage: ' ',
+      init: function() {
+        this.on("addedfile", function() {
+          if (this.files[1]!=null){
+            this.removeFile(this.files[0]);
+          }
+        });
+      }
+    };
     switch(this.props.thread.type) {
       case 'bevy':
         button = (
@@ -225,7 +254,15 @@ var ChatPanel = React.createClass({
             <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}>Add Users to Chat...</MenuItem>
             <MenuItem eventKey='1' onSelect={() => this.setState({ showEditParticipantsModal: true })}>Edit Participants</MenuItem>
             <MenuItem eventKey='2' onSelect={() => this.setState({ expanded: true, accordionType: 'edit-name' })}>Edit Conversation Name</MenuItem>
-            <MenuItem eventKey='3'>Edit Conversation Picture</MenuItem>
+            <MenuItem eventKey='3' className='chat-panel-dropzone-btn'>
+              Edit Conversation Picture
+              <Uploader
+                onUploadComplete={ this.onUploadComplete }
+                className="chat-image-dropzone"
+                style={{display: 'none'}}
+                dropzoneOptions={ dropzoneOptions }
+              />
+            </MenuItem>
             <MenuItem divider />
             <MenuItem eventKey='4' onSelect={() => {
               if(confirm('Are You Sure?')) {
@@ -324,8 +361,8 @@ var ChatPanel = React.createClass({
     var bevy = thread.bevy;
 
     var name = ChatStore.getThreadName(thread._id);
-    var image_url = ChatStore.getThreadImageURL(thread._id);
-    var backgroundStyle = ((bevy && !_.isEmpty(bevy.image_url)) || (!_.isEmpty(thread.image_url)))
+    var image_url = this.state.image_url;
+    var backgroundStyle = ((bevy && !_.isEmpty(bevy.image_url)) || (!_.isEmpty(this.state.image_url)))
     ? {
       backgroundImage: 'url(' + image_url + ')',
       opacity: 0.6
@@ -352,12 +389,11 @@ var ChatPanel = React.createClass({
         />
         <div className='chat-panel-input'>
           <div className='chat-text-field'>
-            <TextField
-              style={{ marginLeft: '10px' }}
+            <Input
               type='text'
               ref='body'
-              hintText='Chat'
-              onEnterKeyDown={ this.onEnter }
+              placeholder='Chat'
+              onKeyDown={ this.onEnter }
               onChange={ this.onChange }
               value={ this.state.body }
             />
