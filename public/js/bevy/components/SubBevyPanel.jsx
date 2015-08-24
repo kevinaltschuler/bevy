@@ -28,6 +28,7 @@ var Checkbox = mui.Checkbox;
 var IconButton = mui.IconButton;
 
 var CobevyModal = require('./CobevyModal.jsx');
+var TagItem = require('./TagItem.jsx');
 
 var BevyActions = require('./../BevyActions');
 
@@ -74,20 +75,6 @@ var SubBevyPanel = React.createClass({
     this.setState({newTagValue: this.refs.newTagInput.getValue()})
   },
 
-  removeTag(ev) {
-    ev.preventDefault();
-    var tags = this.props.activeBevy.tags;
-    var tagArray = ev.target.id.split(' ');
-    var tagName = tagArray[0];
-    var tagColor = tagArray[1];
-    var tag = {name: tagName, color: tagColor};
-
-    var tags = _.reject(this.props.activeBevy.tags, function($tag) { return $tag.name == tag.name });
-
-    BevyActions.update(this.props.activeBevy._id, null, null, null, tags);
-    BevyActions.updateTags(tags);
-  },
-
   submitTag() {
     var newTagValue = this.state.newTagValue;
     var newTagColor = this.state.newTagColor;
@@ -116,24 +103,6 @@ var SubBevyPanel = React.createClass({
     BevyActions.update(this.props.activeBevy._id, null, null, null, tags);
   },
 
-  handleCheck(ev, checked) {
-    var tags = this.props.activeBevy.tags;
-    var activeTags = this.props.activeTags;
-
-    var tagArray = ev.target.id.split(' ');
-    var tagName = tagArray[0];
-    var tagColor = tagArray[1];
-    var tag = {name: tagName, color: tagColor};
-
-    if(!_.find(activeTags, function($tag){ return tag.name == $tag.name })) {
-      activeTags.push(tag);
-    }
-    else if(_.find(activeTags, function($tag){ return tag.name == $tag.name }))
-      activeTags = _.reject(activeTags, function($tag){return tag.name == $tag.name });
-
-    BevyActions.updateTags(activeTags);
-  },
-
   render() {
     var bevy = this.props.activeBevy;
     var tags = bevy.tags;
@@ -148,30 +117,15 @@ var SubBevyPanel = React.createClass({
       var tagName = tag.name;
       var tagColor = tag.color;
 
-      var checkBox = (this.state.editing)
-      ? <div className='tag-remove-btn'>
-          <a
-            href='' 
-            onClick={this.removeTag} 
-            id={tagName + ' ' + tagColor} 
-            className='glyphicon glyphicon-remove'
-          />
-          {tagName}
-        </div>
-      : <Checkbox 
-          name={tagName} 
-          label={tagName} 
-          id={tagName + ' ' + tagColor}
-          className='bevy-btn'
-          style={{width: '90%', color: 'rgba(0,0,0,.6)'}}
-          defaultChecked={true}
-          iconStyle={{
-            fill: tag.color
-          }}
-          onCheck={this.handleCheck}
-        />
 
-      tagButtons.push(checkBox);
+      var tagItem = <TagItem 
+          editing={this.state.editing}
+          tag={tag}
+          activeBevy={this.props.activeBevy}
+          activeTags={this.props.activeTags}
+        />;
+
+      tagButtons.push(tagItem);
     }
 
     var colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4', '#009688', '#4CAF50', '#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722'];

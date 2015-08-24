@@ -98,7 +98,7 @@ var NewPostPanel = React.createClass({
 
     var tag = this.props.activeBevy.tags[this.state.selectedIndex];
 
-    console.log(tag);
+    //console.log(tag);
 
     // send the create action
     PostActions.create(
@@ -137,7 +137,7 @@ var NewPostPanel = React.createClass({
       thumbnailHeight: 500,
       dictDefaultMessage: 'Upload a Picture',
       addRemoveLinks: true,
-      clickable: '.attach-picture',
+      clickable: '.attach-picture'
     };
 
     var tags = (this.props.activeBevy) ? this.props.activeBevy.tags : [];
@@ -186,7 +186,7 @@ var NewPostPanel = React.createClass({
             value={ this.state.title }
             onChange={ this.handleChange }
             disabled={ disabled }
-            style={{width: '95%', padding: '0px 10px 0px 10px'}}
+            style={{width: '92%', marginLeft: '20px'}}
           />
         </div>
 

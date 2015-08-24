@@ -4,7 +4,7 @@
 @import './../variables.less';
 
 .user-search-item {
-  background-color: rgba(0,0,0,0);
+  background-color: white;
   border-radius: 0px;
   padding: 5px 5px 5px 0px;
   display: flex;
@@ -14,12 +14,13 @@
   height: 50px;
   align-items: center;
   justify-content: flex-start;
-  transitiion: all .2s ease-in-out;
-  &:hover {
-    box-shadow: @shadow1;
-  }
+  transition: all .2s ease-in-out;
   &:active {
-    box-shadow: @shadow2;
+    box-shadow: none;
+  }
+  &:hover {
+    background-color: #ddd;
+    text-decoration: none;
   }
   .image {
     width: 40px;

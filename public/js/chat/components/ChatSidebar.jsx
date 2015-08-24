@@ -186,15 +186,19 @@ var ChatSidebar = React.createClass({
         />
       );
     };
+    var bevyThreadStyle = (bevyThreadItems.length == 0) ? {display: 'none'}: {};
+    var groupThreadStyle = (groupThreadItems.length == 0) ? {display: 'none'}: {};
+    var pmThreadStyle = (pmThreadItems.length == 0) ? {display: 'none'}: {};
+
     return (
       <div className='threads-container' style={{ width: constants.chatSidebarWidthOpen }}>
-        <Panel header={ 'BEVY CONVERSATIONS' } eventKey='1' defaultExpanded={ true } collapsible>
+        <Panel header={ 'BEVY CONVERSATIONS' } eventKey='1' defaultExpanded={ true } collapsible style={bevyThreadStyle}>
           { bevyThreadItems }
         </Panel>
-        <Panel header={ 'GROUP CONVERSATIONS' } eventKey='2' defaultExpanded={ true } collapsible>
+        <Panel header={ 'GROUP CONVERSATIONS' } eventKey='2' defaultExpanded={ true } collapsible style={groupThreadStyle}>
           { groupThreadItems }
         </Panel>
-        <Panel header={ 'PRIVATE CONVERSATIONS' } eventKey='3' defaultExpanded={ true } collapsible>
+        <Panel header={ 'PRIVATE CONVERSATIONS' } eventKey='3' defaultExpanded={ true } collapsible style={pmThreadStyle}>
           { pmThreadItems }
         </Panel>
       </div>
@@ -271,7 +275,6 @@ var ChatSidebar = React.createClass({
           <span className='glyphicon glyphicon-search' />
           <TextField 
             onFocus={ this.openSearchResults } 
-            onBlur={this.closeSearchResults}
             type='text'
             className='search-input'
             ref='userSearch'

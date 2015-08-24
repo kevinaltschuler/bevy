@@ -68,6 +68,7 @@ exports.create = function(req, res, next) {
 	update.description = req.body['description'];
 	update.image_url = req.body['image_url'];
 	update.admins = req.body['admins'];
+	update.tags = req.body['tags'];
 
 	if(!update.name) throw error.gen('bevy name not specified', req);
 

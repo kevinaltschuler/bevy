@@ -62,8 +62,17 @@ var Post = React.createClass({
   getInitialState() {
     return {
       isEditing: false,
-      title: this.props.post.title
+      post: this.props.post,
+      title: this.props.post.title,
     };
+  },
+
+  componentWillRecieveProps(nextProps) {
+    console.log('nextProps', nextProps);
+    this.setState({
+      post: nextProps.post,
+      title: nextProps.post.title
+    });
   },
 
   componentWillMount() {
@@ -119,8 +128,7 @@ var Post = React.createClass({
 
   render() {
 
-    var post = this.props.post;
-    //console.log(post);
+    var post = this.state.post;
     var bevy = post.bevy;
     var author = post.author;
     var tag = post.tag;
@@ -162,7 +170,7 @@ var Post = React.createClass({
     var panelBodyText;
     if(this.state.isEditing) {
       panelBodyText = (
-        <div className='panel-body-text'>
+        <div className='panel-body-text editing'>
           <TextField
             className='edit-field'
             type='text'
@@ -170,12 +178,14 @@ var Post = React.createClass({
             multiLine={true}
             defaultValue={ this.state.title  }
             value={ this.state.title  }
+            style={{width: '75%'}}
             placeholder=' '
             onChange={ this.onChange }
           />
           <RaisedButton
             label='save'
             onClick={ this.stopEdit }
+            style={{marginBottom: '8px'}}
           />
         </div>
       );
@@ -194,7 +204,7 @@ var Post = React.createClass({
 
     var postBody = (
       <div>
-        <PostHeader post={ post } />
+        <PostHeader post={ post } startEdit={this.startEdit} />
 
         <div className='panel-body'>
           { panelBodyText }
@@ -206,9 +216,9 @@ var Post = React.createClass({
       </div>
     );
 
-    var collapsibleDiv = (this.props.post.pinned)
+    var collapsibleDiv = (this.state.post.pinned)
     ? (<div className='collapse-post'>
-        <Button className="collapse-button" onClick={this.onHandleToggle}>{text} pinned post</Button>
+        <Button className="collapse-button" onClick={this.onHandleToggle}>{text}pinned post</Button>
         <div ref='postBody' className={classNames(styles)}>
           {postBody}
         </div>
