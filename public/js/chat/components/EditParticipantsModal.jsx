@@ -28,25 +28,14 @@ var EditParticipantsModal = React.createClass({
   _renderParticipants() {
     var users = [];
     var threadUsers = this.props.thread.users;
+    threadUsers = _.reject(threadUsers, function($user) { return $user._id == window.bootstrap.user._id }); // skip self
     for(var key in threadUsers) {
       var participant = threadUsers[key];
-      if(participant._id == window.bootstrap.user._id) continue; // dont render self
       users.push(
-        <li className='participant'>
-          <div className='img' style={{
-            backgroundImage: 'url(' + ((_.isEmpty(participant.image_url)) ? '/img/user-profile-icon.png' : participant.image_url) + ')'
-          }} />
-          <span className='name'>{ participant.displayName }</span>
-          <FlatButton
-            onClick={() => {
-              ChatActions.removeUser(this.props.thread._id, participant._id);
-            }}
-            label='Remove'
-            style={{
-              
-            }}
-          />
-        </li>
+        <ParticipantItem
+          thread={ this.props.thread }
+          participant={ participant }
+        />
       );
     }
     return users;
@@ -75,5 +64,33 @@ var EditParticipantsModal = React.createClass({
     );
   }
 });
+
+var ParticipantItem = React.createClass({
+  propTypes: {
+    thread: React.PropTypes.object,
+    participant: React.PropTypes.object
+  },
+
+  render() {
+    var participant = this.props.participant;
+    return (
+      <li className='participant'>
+        <div className='img' style={{
+          backgroundImage: 'url(' + ((_.isEmpty(participant.image_url)) ? '/img/user-profile-icon.png' : participant.image_url) + ')'
+        }} />
+        <span className='name'>{ participant.displayName }</span>
+        <FlatButton
+          onClick={() => {
+            ChatActions.removeUser(this.props.thread._id, participant._id);
+          }}
+          label='Remove'
+          style={{
+            
+          }}
+        />
+      </li>
+    );
+  }
+})
 
 module.exports = EditParticipantsModal;

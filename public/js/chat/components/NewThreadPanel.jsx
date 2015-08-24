@@ -122,7 +122,7 @@ var NewThreadPanel = React.createClass({
 
   _renderInput() {
     return (
-      <div className='message-input-container' style={{backgroundColor: '#eee'}}>
+      <div className='message-input-container' style={{ backgroundColor: '#eee' }}>
         <Input
           type='text'
           ref='MessageInput'
@@ -131,7 +131,7 @@ var NewThreadPanel = React.createClass({
           onChange={ this.onMessageChange }
           value={ this.state.message }
           groupClassName='message-input'
-          disabled={ this.state.addedUsers.length > 0}
+          disabled={ this.state.addedUsers.length <= 0}
         />
       </div>
     );

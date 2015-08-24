@@ -24,9 +24,6 @@ var Thread = require('./ThreadModel');
 
 var ChatStore = _.extend({}, Backbone.Events);
 
-var user = window.bootstrap.user;
-var localStorage = window.localStorage;
-
 _.extend(ChatStore, {
 
   threads: new ThreadCollection,
@@ -534,7 +531,7 @@ _.extend(ChatStore, {
     } else {
       // dont get the message you just added
       // TODO: do this on the server?
-      if(message.author._id == user._id) return;
+      if(message.author._id == window.bootstrap.user._id) return;
 
       // open the panel if it isn't already
       if(this.openThreads.indexOf(message.thread) == -1) {
