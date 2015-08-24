@@ -65,7 +65,9 @@ var PostHeader = React.createClass({
     : constants.defaultProfileImage;
 
     var ago = timeAgo(Date.parse(post.created));
-    var left = (post.expires && !post.pinned)
+
+    var left = Date.parse(post.expires);
+    var expireText = (left == new Date('2035', '1', '1')) // dont display if it doesnt expire
     ? (
       <span>
         <span className='middot'>•</span>
@@ -128,7 +130,7 @@ var PostHeader = React.createClass({
           </div>
           <div className="bottom">
             <span className="detail-time">{ ago }</span>
-            <span className='detail-time'>{ left }</span>
+            <span className='detail-time'>{ expireText }</span>
           </div>
         </div>
         <div className='badges'>

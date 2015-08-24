@@ -47,7 +47,7 @@ var BevySchema = new Schema({
 	settings: {
 		posts_expire_in: {
 			type: Number,
-			default: 7
+			default: -1
 		},
 		anonymise_users: {
 			type: Boolean,

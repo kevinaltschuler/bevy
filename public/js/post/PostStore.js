@@ -141,7 +141,7 @@ _.extend(PostStore, {
         var tag = payload.tag;
 
         var posts_expire_in;
-        if(bevy.settings.posts_expire_in) {
+        if(bevy.settings.posts_expire_in && bevy.settings.posts_expire_in > 0) {
           posts_expire_in = bevy.settings.posts_expire_in // in days
           posts_expire_in *= (1000 * 60 * 60 * 24); // convert to seconds
           posts_expire_in += Date.now(); // add now

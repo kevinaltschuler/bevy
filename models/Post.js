@@ -54,7 +54,7 @@ var PostSchema = new Schema({
 		type: Date,
 		default: new Date('2035', '1', '1'), // expires in a long time
 		index: {
-			expireAfterSeconds: 5
+			expireAfterSeconds: 5 // 5 seconds after the expiration date is reached - this is an arbitrary number
 		}
 	},
 	type: {

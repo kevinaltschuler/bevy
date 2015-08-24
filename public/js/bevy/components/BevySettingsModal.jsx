@@ -64,10 +64,11 @@ var BevySettingsModal = React.createClass({
     var bevy = this.props.activeBevy;
     var settings = bevy.settings;
     var expireMenuItems = [
-      { payload: '1', text: '1 day', defaultIndex: 0 },
-      { payload: '2', text: '2 days', defaultIndex: 1  },
-      { payload: '5', text: '5 days', defaultIndex: 2  },
-      { payload: '7', text: '7 days', defaultIndex: 3  }
+      { payload: '-1', text: 'Never', defaultIndex: 0 },
+      { payload: '1', text: '1 day', defaultIndex: 1 },
+      { payload: '2', text: '2 days', defaultIndex: 2  },
+      { payload: '5', text: '5 days', defaultIndex: 3  },
+      { payload: '7', text: '7 days', defaultIndex: 4  }
     ];
     var itemIndex = 0;
     var item = _.findWhere(expireMenuItems, { payload: this.state.posts_expire_in.toString() });
