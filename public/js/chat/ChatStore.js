@@ -33,7 +33,14 @@ _.extend(ChatStore, {
   handleDispatch(payload) {
     switch(payload.actionType) {
       case APP.LOAD:
-        // stuff should be bootstrapped in
+        /*if(!_.isEmpty(window.bootstrap.user)) {
+          this.threads.url = constants.apiurl + '/users/' + window.bootstrap.user._id;
+          this.threads.fetch({
+            success: function(collection, response, options) {
+              this.trigger(CHAT.CHANGE_ALL);
+            }.bind(this)
+          });
+        }*/
         break;
 
       case BEVY.JOIN:
@@ -427,16 +434,17 @@ _.extend(ChatStore, {
   },
 
   getAllThreads() {
-    this.threads.sort();
+    //this.threads.sort();
     return this.threads.toJSON();
   },
 
   getActiveThread() {
-    var thread = this.threads.get(this.activeThread);
+    /*var thread = this.threads.get(this.activeThread);
     if(thread == undefined) {
       return {};
     }
-    return thread.toJSON();
+    return thread.toJSON();*/
+    return {};
   },
 
   getOpenThreads() {

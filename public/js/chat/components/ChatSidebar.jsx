@@ -57,16 +57,16 @@ var ChatSidebar = React.createClass({
 
   componentWillMount() {
     ThemeManager.setComponentThemes({
-        textField: {
-          textColor: 'rgba(0,0,0,.87)',
-          focusColor: 'rgba(0,0,0,.4)'
-        }
-      });
+      textField: {
+        textColor: 'rgba(0,0,0,.87)',
+        focusColor: 'rgba(0,0,0,.4)'
+      }
+    });
   },
 
   getInitialState() {
     return {
-      allThreads: [],
+      allThreads: ChatStore.getAllThreads(),
       sidebarWidth: (window.innerWidth >= 1545) ? constants.chatSidebarWidthOpen : constants.chatSidebarWidthClosed,
       searchHeight: 0,
       isOverlayOpen: false,
