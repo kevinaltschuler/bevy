@@ -366,7 +366,8 @@ var ChatPanel = React.createClass({
 
     var name = ChatStore.getThreadName(thread._id);
     var image_url = ChatStore.getThreadImageURL(thread._id);
-    var backgroundStyle = (image_url != '/img/logo-100.png')
+    // only show a background for bevy chats or group chats WITH custom images
+    var backgroundStyle = (!_.isEmpty(thread.bevy) || ( thread.type == 'group' && !_.isEmpty(thread.image_url) ))
     ? {
       backgroundImage: 'url(' + image_url + ')',
       opacity: 0.6
