@@ -75,9 +75,7 @@ _.extend(PostStore, {
         break;
 
       case BEVY.SWITCH:
-
-        // wait for bevy switch
-        Dispatcher.waitFor([BevyStore.dispatchToken]);
+        var bevy_id = payload.bevy_id;
 
         //if(bevy_id == this.activeBevy) break;
         if(this.activeBevy) {
@@ -89,11 +87,12 @@ _.extend(PostStore, {
           PostStore.posts.comparator = PostStore.sortByNew;
         }
 
+        this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
         this.posts.fetch({
           reset: true,
           success: function(posts, response, options) {
 
-            posts.forEach(function(post) {
+            this.posts.forEach(function(post) {
               this.postsNestComment(post);
             }.bind(this));
 
