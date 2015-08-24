@@ -62,12 +62,6 @@ var ThreadItem = React.createClass({
     var bevy = this.props.thread.bevy;
     var name = ChatStore.getThreadName(thread._id);
 
-    var imageStyle = {
-      backgroundImage: 'url(' + image_url + ')',
-      backgroundSize: 'auto 100%',
-      backgroundPosition: 'center'
-    };
-
     var hideTooltip = (this.props.sidebarOpen) ? {display: 'none'} : {};
 
     var tooltip = (
