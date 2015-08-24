@@ -105,7 +105,6 @@ var ChatSidebar = React.createClass({
   handleSearchResults() {
     this.setState({
       searching: false,
-      query: UserStore.getUserSearchQuery(),
       searchUsers: UserStore.getUserSearchResults()
     });
   },
