@@ -244,7 +244,11 @@ var ChatPanel = React.createClass({
       case 'bevy':
         button = (
           <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
-            <MenuItem eventKey='0'>Placeholder Option</MenuItem>
+            <MenuItem eventKey='4' onSelect={() => {
+              if(confirm('Are You Sure?')) {
+                ChatActions.removeUser(this.props.thread._id, window.bootstrap.user._id);
+              }
+            }}>Leave Conversation</MenuItem>
           </DropdownButton>
         );
         break;
@@ -361,7 +365,7 @@ var ChatPanel = React.createClass({
     var bevy = thread.bevy;
 
     var name = ChatStore.getThreadName(thread._id);
-    var image_url = this.state.image_url;
+    var image_url = (_.isEmpty(bevy.image_url)) ? this.state.image_url : bevy.image_url;
     var backgroundStyle = ((bevy && !_.isEmpty(bevy.image_url)) || (!_.isEmpty(this.state.image_url)))
     ? {
       backgroundImage: 'url(' + image_url + ')',

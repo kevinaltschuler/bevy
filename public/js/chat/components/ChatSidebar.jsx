@@ -67,8 +67,7 @@ var ChatSidebar = React.createClass({
   getInitialState() {
     return {
       allThreads: [],
-
-      sidebarWidth: constants.chatSidebarWidthClosed,
+      sidebarWidth: (window.innerWidth >= 1545) ? constants.chatSidebarWidthOpen : constants.chatSidebarWidthClosed,
       searchHeight: 0,
       isOverlayOpen: false,
       searching: false,
@@ -77,16 +76,30 @@ var ChatSidebar = React.createClass({
     };
   },
 
+  handleResize(e) {
+    if(window.innerWidth <= 1545) {
+      this.setState({
+        sidebarWidth: constants.chatSidebarWidthClosed
+      });
+    } else {
+      this.setState({
+        sidebarWidth: constants.chatSidebarWidthOpen
+      });
+    }
+  },
+
   componentDidMount() {
     ChatStore.on(CHAT.CHANGE_ALL, this.handleChangeAll);
     UserStore.on(USER.SEARCH_COMPLETE, this.handleSearchResults);
     UserStore.on(USER.SEARCHING, this.handleSearching);
+    window.addEventListener('resize', this.handleResize);
   },
 
   componentWillUnmount() {
     ChatStore.off(CHAT.CHANGE_ALL, this.handleChangeAll);
     UserStore.off(USER.SEARCH_COMPLETE, this.handleSearchResults);
     UserStore.off(USER.SEARCHING, this.handleSearching);
+    window.removeEventListener('resize', this.handleResize);
   },
 
   handleChangeAll() {
@@ -130,8 +143,6 @@ var ChatSidebar = React.createClass({
       query: '',
       searchUsers: []
     });
-    // blur text field
-    this.refs.userSearch.blur();
   },
 
   onChange(ev) {
@@ -140,8 +151,32 @@ var ChatSidebar = React.createClass({
     this.setState({
       query: query
     });
-    if(_.isEmpty(query)) return;
-    else UserActions.search(query);
+    if(_.isEmpty(query)) {
+     this.closeSearchResults();
+     return;
+   }
+    else { 
+      this.openSearchResults();
+      UserActions.search(query);
+    }
+  },
+
+  openSidebar() {
+    this.setState({ sidebarWidth: constants.chatSidebarWidthOpen });
+  },
+
+  closeSidebar() {
+    this.setState({ sidebarWidth: constants.chatSidebarWidthClosed });
+  },
+
+  onMouseOver() {
+    clearTimeout(this.closeDelay);
+    this.openDelay = setTimeout(this.openSidebar, 500);
+  },
+
+  onMouseOut() {
+    clearTimeout(this.openDelay);
+    this.closeDelay = setTimeout(this.closeSidebar, 500);
   },
 
   _renderThreads() {
@@ -151,6 +186,7 @@ var ChatSidebar = React.createClass({
     // collect and render all thread items - sorted by type
     var bevyThreads = _.where(allThreads, { type: 'bevy' });
     var bevyThreadItems = [];
+    var sidebarOpen = (this.state.sidebarWidth == constants.chatSidebarWidthOpen)
     for(var key in bevyThreads) {
       var thread = bevyThreads[key];
       bevyThreadItems.push(
@@ -158,6 +194,7 @@ var ChatSidebar = React.createClass({
           key={ 'sidebar:bevythread:' + thread._id }
           width={ constants.chatSidebarWidthOpen }
           thread={ thread }
+          sidebarOpen={sidebarOpen}
         />
       );
     };
@@ -170,6 +207,7 @@ var ChatSidebar = React.createClass({
           key={ 'sidebar:groupthread:' + thread._id }
           width={ constants.chatSidebarWidthOpen }
           thread={ thread }
+          sidebarOpen={sidebarOpen}
         />
       );
     };
@@ -182,23 +220,28 @@ var ChatSidebar = React.createClass({
           key={ 'sidebar:pmthread:' + thread._id }
           width={ constants.chatSidebarWidthOpen }
           thread={ thread }
+          sidebarOpen={sidebarOpen}
         />
       );
     };
+    var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? {opacity: 1} : {opacity: 0, margin: '-10px 0px'};
     var bevyPanel = (bevyThreadItems.length > 0) ? (
-      <Panel header={ 'BEVY CONVERSATIONS' } eventKey='1' defaultExpanded={ true } collapsible>
+      <div className='threads-title'>
+        <div className='title' style={hideTitles}>bevy conversations</div>
         { bevyThreadItems }
-      </Panel>
+      </div>
     ) : <div />;
     var groupPanel = (groupThreadItems.length > 0) ? (
-      <Panel header={ 'GROUP CONVERSATIONS' } eventKey='2' defaultExpanded={ true } collapsible>
+      <div className='threads-title'>
+        <div className='title' style={hideTitles}>group conversations</div>
         { groupThreadItems }
-      </Panel>
+      </div>
     ) : <div />;
     var pmPanel = (pmThreadItems.length > 0) ? (
-      <Panel header={ 'PRIVATE CONVERSATIONS' } eventKey='3' defaultExpanded={ true } collapsible>
+      <div className='threads-title'>
+        <div className='title' style={hideTitles}>private conversations</div>
         { pmThreadItems }
-      </Panel>
+      </div>
     ) : <div />;
     return (
       <div className='threads-container' style={{ width: constants.chatSidebarWidthOpen }}>
@@ -246,11 +289,11 @@ var ChatSidebar = React.createClass({
           right: this.state.sidebarWidth - constants.chatSidebarWidthOpen
         }}
         onMouseOver={() => { 
-          this.setState({ sidebarWidth: constants.chatSidebarWidthOpen }); 
+          this.onMouseOver();
         }}
         onMouseOut={() => { 
-          //this.closeSearchResults();
-          this.setState({ sidebarWidth: constants.chatSidebarWidthClosed }); 
+          if(window.innerWidth <= 1545)
+            this.onMouseOut();
         }}
       >
         <div className='conversation-list'>
@@ -276,9 +319,8 @@ var ChatSidebar = React.createClass({
           </div>
         </div>
         <div className='chat-actions'>
-          <span className='glyphicon glyphicon-search' />
+          <Button className='glyphicon glyphicon-search' onClick={this.openSidebar}/>
           <TextField 
-            onFocus={ this.openSearchResults } 
             type='text'
             className='search-input'
             ref='userSearch'

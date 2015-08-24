@@ -11,7 +11,9 @@ var _ = require('underscore');
 var Ink = require('react-ink');
 
 var {
-  Button
+  Button,
+  OverlayTrigger,
+  Tooltip
 } = require('react-bootstrap');
 
 var constants = require('./../../constants');
@@ -27,7 +29,8 @@ var ThreadItem = React.createClass({
   propTypes: {
     thread: React.PropTypes.object.isRequired,
     width: React.PropTypes.any,
-    onClick: React.PropTypes.func
+    onClick: React.PropTypes.func,
+    sidebarOpen: React.PropTypes.bool
   },
 
   getDefaultProps() {
@@ -64,19 +67,27 @@ var ThreadItem = React.createClass({
       backgroundPosition: 'center'
     };
 
+    var hideTooltip = (this.props.sidebarOpen) ? {display: 'none'} : {};
+
+    var tooltip = (
+      <Tooltip style={hideTooltip}>{name}</Tooltip>
+    );
+
     return (
-      <Button 
-        className='conversation-item'
-        style={{ width: this.props.width }}
-        onClick={ this.openThread }
-      >
-        <div className='image' style={ imageStyle }/>
-        <div className='details'>
-          <span className='name'>{ name }</span>
-          <span className='latest-message'>{ this.getLatestMessage() }</span>
-        </div>
-        <Ink style={{ color: '#aaa', height: 50, top: 'inherit', marginTop: '-5px' }}/>
-      </Button>
+      <OverlayTrigger placement='left' overlay={tooltip}>
+        <Button 
+          className='conversation-item'
+          style={{ width: this.props.width }}
+          onClick={ this.openThread }
+        >
+          <div className='image' style={ imageStyle }/>
+          <div className='details'>
+            <span className='name'>{ name }</span>
+            <span className='latest-message'>{ this.getLatestMessage() }</span>
+          </div>
+          <Ink style={{ color: '#aaa', height: 50, top: 'inherit', marginTop: '-5px' }}/>
+        </Button>
+      </OverlayTrigger>
   );
   }
 });
