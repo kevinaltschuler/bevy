@@ -34,7 +34,7 @@ exports.viewportHeight = window.innerHeight;
 
 exports.chatSidebarWidthClosed = 55;
 exports.chatSidebarWidthOpen = 200;
-exports.chatSidebarSearchHeight = 300;
+exports.chatSidebarSearchHeight = 'calc(100% - 40px)';
 
 exports.defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 
