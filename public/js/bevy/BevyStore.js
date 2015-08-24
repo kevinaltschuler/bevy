@@ -93,13 +93,15 @@ _.extend(BevyStore, {
             this.publicBevies.add(model);
 
             // switch to bevy
-            router.navigate('/b/' + model.id, { trigger: true });
-
-            this.trigger(BEVY.CHANGE_ALL);
+            router.navigate('/b/' + model.id);
+            this.active = model.id;
 
             var bevy_ids = this.myBevies.pluck('_id');
             bevy_ids.push(model.id);
 
+            this.trigger(BEVY.CHANGE_ALL);
+
+            // TODO: move this to user store
             $.ajax({
               method: 'PATCH',
               url: constants.apiurl + '/users/' + user._id,
