@@ -1,292 +1,236 @@
 @import '../variables.less';
 
 .navbar {
-	z-index: 1;
-	background-color: @bevy-green;
-	border-color: rgba(0,0,0,0);
-	border-radius: 0px;
-	height: 68px;
-	box-shadow: 0px 1px 4px rgba(0,0,0,.3);
-	padding-bottom: 0px;
-	border: none;
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	text-shadow: 0 0 5px rgba(0,0,0,.5);
-	.navbar-brand-text {
-		font-size: 1.2em;
-		height: 20px;
-		color: #FFF;
-		background-color: rgba(0,0,0,0);
-		border: none;
-		padding-left: 10px;
-		z-index: 2;
-	}
-	.background-wrapper {
-		height: 68px;
-		overflow: hidden;
-		position: fixed;
-		width: 120%;
-		.background-image {
-			border-color: rgba(0,0,0,0);
-			background-repeat: no-repeat;
-			background-position: center;
-			background-size: 100%;
-			height: 200%;
-			margin-top: -20px;
-			width: 100%;
-			position: absolute;
-	 		filter: blur(10px);
-		}
-	}
+  position: fixed;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  z-index: 1;
+  background-color: @bevy-green;
+  height: 68px;
+  box-shadow: 0px 1px 4px rgba(0,0,0,.3);
+  padding-bottom: 0px;
+  border: none;
+  text-shadow: 0 0 5px rgba(0,0,0,.5);
+  
+  .background-wrapper {
+    height: 68px;
+    overflow: hidden;
+    position: fixed;
+    width: 120%;
+    .background-image {
+      border-color: rgba(0,0,0,0);
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 100%;
+      height: 200%;
+      margin-top: -20px;
+      width: 100%;
+      position: absolute;
+      filter: blur(10px);
+    }
+  }
 
-	.navbar-header.pull-left {
-		width: 120%;
-		padding-left: 30px;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: flex-start;
-		z-index: 2;
-		.bevy-logo-btn {
-			width: 35px;
-			height: 35px;
-			padding: 0px;
-			background-color: rgba(0,0,0,0);
-			border: none;
-			outline: 0;
-			box-shadow: none;
-			z-index: 2;
-			.bevy-logo-img {
-				background-image: url(/img/logo_100_reversed.png);
-				background-repeat: no-repeat;
-				background-position: center;
-				background-size: 35px 35px;
-				width: 35px;
-				height: 35px;
-				border-radius: 20px;
-				transition: all 0.4s ease;
-				&:active {
-					box-shadow: @shadow3;
-				}
-			}
-		}
-		.btn-group {
-			&:hover .dropdown-menu {
-			}
-			color: white;
-		}
-		.bevies-dropdown {
-			background-color: rgba(0,0,0,0);
-		    color: white;
-		    border: none;
-			.dropdown-toggle {
-				background-color: rgba(0,0,0,0);
-				border: none;
-				outline: 0;
-				box-shadow: none;
-				color: white;
-				text-shadow: 0 0 5px rgba(0,0,0,.5);
-			}
-		}
-		.dropdown-menu {
-			text-shadow: none;
-		}
-	}
+  .left {
+    flex: 1;
+    height: 100%;
+    padding-left: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    z-index: 3;
+    .bevy-logo-btn {
+      width: 35px;
+      height: 35px;
+      padding: 0px;
+      background-color: rgba(0,0,0,0);
+      border: none;
+      outline: 0;
+      box-shadow: none;
+      z-index: 2;
+      .bevy-logo-img {
+        background-image: url(/img/logo_100_reversed.png);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 35px 35px;
+        width: 35px;
+        height: 35px;
+        border-radius: 20px;
+        transition: all 0.4s ease;
+        &:active {
+          box-shadow: @shadow3;
+        }
+      }
+    }
+    .btn-group {
+      &:hover .dropdown-menu {
+      }
+      color: white;
+    }
+    .bevies-dropdown {
+      background-color: rgba(0,0,0,0);
+        color: white;
+        border: none;
+      .dropdown-toggle {
+        background-color: rgba(0,0,0,0);
+        border: none;
+        outline: 0;
+        box-shadow: none;
+        color: white;
+        text-shadow: 0 0 5px rgba(0,0,0,.5);
+      }
+    }
+    .dropdown-menu {
+      text-shadow: none;
+    }
+  }
 
-	.nav-center {
-		margin: 0;
-		float: none;
-		text-align: center;
-		color: white;
-		font-size: 1.2em;
-		display: inline-block;
-		width: 100%;
-		text-shadow: 0px 0px 5px rgba(0,0,0,.5);
-  		//position: absolute;
-  		//left:0;
-	}
+  .center {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    display: flex;
+    height: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    color: #fff;
+    font-size: 1.2em;
+    text-shadow: 0px 0px 5px rgba(0,0,0,.5);
+    padding: 0px;
+    background-color: rgba(0,0,0,0);
+    border: none;
+    z-index: 2;
+    &:focus {
+      color: #e6e6e6;
+    }
+    &:active {
+      color: rgba(255,255,255,.7);
+      box-shadow: none;
+    }
+  }
 
-	.navbar-header.pull-right {
-		width: 120%;
-		z-index: 2;
-		padding-right: 30px;
-		display: flex;
-		flex-direction: row;
-		align-items: center;
-		justify-content: flex-end;
-		form.navbar-form {
-			display: flex;
-			width: 100%;
-			padding-top: 0px;
-			padding-right: 30px;
-			border-top: none;
-			border-bottom: none;
-			box-shadow: none;
+  .right {
+    z-index: 3;
+    padding-right: 30px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    //SEARCH
+    .search-input.mui-text-field {
+      width: 80%;
+      background-color: rgba(0,0,0,0);
+      border-bottom: none;
+      border-left: 0px;
+      border-top: 0px;
+      border-right: 0px;
+      box-shadow: none;
+      border-radius: 0px;
+      color: #fff;
+      padding-left: 4px;
+      padding-bottom: 2px;
 
+      hr.mui-text-field-focus-underline {
+        border-color: white;
+      }
+      hr.mui-text-field-underline {
+        border-top: 1px solid rgba(255,255,255,.2);
+      }
+      .mui-text-field-input, .mui-text-field-textarea {
+        box-shadow: none !important;
+        color: white;
+      }
+    }
 
-			//SEARCH
-			.search-input.mui-text-field {
-				width: 80%;
-				background-color: rgba(0,0,0,0);
-				border-bottom: none;
-				border-left: 0px;
-				border-top: 0px;
-				border-right: 0px;
-				box-shadow: none;
-				border-radius: 0px;
-				color: #fff;
-				padding-left: 4px;
-				padding-bottom: 2px;
-
-				hr.mui-text-field-focus-underline {
-					border-color: white;
-				}
-				hr.mui-text-field-underline {
-					border-top: 1px solid rgba(255,255,255,.2);
-				}
-				.mui-text-field-input, .mui-text-field-textarea {
-					box-shadow: none !important;
-					color: white;
-				}
-			}
-
-			.mui-icon-button {
-				width: 20%;
-				padding: 5px;
-				text-shadow: 0 0 5px rgba(0,0,0,.5);
-				.glyphicon-search {
-					color: white;
-					font-size: 1em;
-				}
-			}
-		}
-		.profile-buttons {
-			display: flex;
-			flex-direction: row;
-			align-items: center;
-			width: 50%;
-			justify-content: flex-end;
-			.notification-dropdown-btn {
-				text-shadow: none;
-				padding: 10px;
-				.notification-img {
-					background-image: url(/img/notification-icon.png);
-					background-repeat: no-repeat;
-					background-position: center;
-					background-size: 25px 25px;
-					width: 25px;
-					height: 25px;
-					border-radius: 10px;
-					transition: all 0.4s ease;
-					box-shadow: @shadow1;
-					&:active {
-						box-shadow: @shadow3;
-					}
-				}
-				&:hover, &:active, &:focus {
-					background-color: rgba(0,0,0,0);
-					box-shadow: none;
-				}
-			}
-			.notification-counter {
-				float: left;
-				margin-left: -20px;
-				margin-top: 15px;
-				background-color: #FF0000;
-			}
-			.chat-dropdown-btn {
-				text-shadow: none;
-				padding: 10px;
-				&:hover, &:active, &:focus {
-					background-color: rgba(0,0,0,0);
-					box-shadow: none;
-				}
-				.chat-img {
-					background-image: url(/img/chat-icon.png);
-					background-repeat: no-repeat;
-					background-position: center;
-					background-size: 25px 25px;
-					width: 25px;
-					height: 25px;
-					border-radius: 10px;
-					transition: all 0.4s ease;
-					box-shadow: @shadow1;
-					&:active {
-						box-shadow: @shadow3;
-					}
-				}
-			}
-			.profile-btn {
-				text-shadow: none;
-				margin-top: 14px;
-				margin-bottom: 14px;
-				margin-left: 10px;
-				margin-right: 10px; 
-				border-radius: 50px;
-				width: 40px;
-				height: 40px;
-				background-size: auto 100%;
-				background-position: center;
-				transition: all 0.4s ease;
-				box-shadow: @shadow1;
-				&:active {
-					box-shadow: @shadow3;
-				}
-			}
-			.notification-dropdown.popover {
-				//position: absolute;
-				//right: 15px;
-				//left: auto !important;
-				//top: 0px;
-				.arrow {
-					//display: none;
-				}
-			}
-			.profile-dropdown {
-				//position: absolute;
-				//right: 15px;
-				//top: 0px;
-				.popover {
-					//position: absolute;
-					//left: auto !important;
-					//right: 0px !important;
-					.arrow {
-						//display: none;
-					}
-				}
-			}
-		}
-		.navbar-brand.navbar-brand-text {
-			font-size: 1.2em;
-			width: 20%;
-			padding: 0px;
-			height: 20px;
-			color: #FFF;
-			background-color: rgba(0,0,0,0);
-			border: none;
-			&:focus {
-				color: #e6e6e6;
-			}
-
-			&:active {
-				color: rgba(255,255,255,.7);
-				box-shadow: none;
-			}
-		}
-	}
-}
-
-
-@media (max-width: 767px) {
-	.navbar-form .form-group {
-		margin-bottom: 0px;
-		display: inline-block;
-	}
-}
-@media (max-width: 402px) {
-	.navbar .navbar-form .search-input {
-		width: 150px;
-	}
+    .mui-icon-button {
+      width: 20%;
+      padding: 5px;
+      text-shadow: 0 0 5px rgba(0,0,0,.5);
+      .glyphicon-search {
+        color: white;
+        font-size: 1em;
+      }
+    }
+    .profile-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 50%;
+      justify-content: flex-end;
+      .notification-dropdown-btn {
+        text-shadow: none;
+        padding: 10px;
+        .notification-img {
+          background-image: url(/img/notification-icon.png);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 25px 25px;
+          width: 25px;
+          height: 25px;
+          border-radius: 10px;
+          transition: all 0.4s ease;
+          box-shadow: @shadow1;
+          &:active {
+            box-shadow: @shadow3;
+          }
+        }
+        &:hover, &:active, &:focus {
+          background-color: rgba(0,0,0,0);
+          box-shadow: none;
+        }
+      }
+      .notification-counter {
+        float: left;
+        margin-left: -20px;
+        margin-top: 15px;
+        background-color: #FF0000;
+      }
+      .chat-dropdown-btn {
+        text-shadow: none;
+        padding: 10px;
+        &:hover, &:active, &:focus {
+          background-color: rgba(0,0,0,0);
+          box-shadow: none;
+        }
+        .chat-img {
+          background-image: url(/img/chat-icon.png);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 25px 25px;
+          width: 25px;
+          height: 25px;
+          border-radius: 10px;
+          transition: all 0.4s ease;
+          box-shadow: @shadow1;
+          &:active {
+            box-shadow: @shadow3;
+          }
+        }
+      }
+      .profile-btn {
+        text-shadow: none;
+        margin-top: 14px;
+        margin-bottom: 14px;
+        margin-left: 10px;
+        margin-right: 10px; 
+        border-radius: 50px;
+        width: 40px;
+        height: 40px;
+        background-size: auto 100%;
+        background-position: center;
+        transition: all 0.4s ease;
+        box-shadow: @shadow1;
+        &:active {
+          box-shadow: @shadow3;
+        }
+      }
+    }
+    
+  }
 }

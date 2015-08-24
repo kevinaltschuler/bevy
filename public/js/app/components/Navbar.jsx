@@ -13,10 +13,6 @@
 
 // imports
 var React = require('react');
-var _ = require('underscore');
-
-var router = require('./../../router');
-
 var {
   Button,
   DropdownButton,
@@ -36,6 +32,9 @@ var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
 var ChatDock = require('./../../chat/components/ChatDock.jsx');
 var ChatSidebar = require('./../../chat/components/ChatSidebar.jsx');
 var ThemeManager = new Styles.ThemeManager();
+
+var _ = require('underscore');
+var router = require('./../../router');
 var user = window.bootstrap.user;
 
 // react component
@@ -72,9 +71,11 @@ var Navbar = React.createClass({
   },
 
   onKeyUp(ev) {
+    ev.preventDefault();
     if(ev.which == 13) {
       // trigger search
       this.onSearch(ev);
+      router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
     }
   },
 
@@ -84,8 +85,8 @@ var Navbar = React.createClass({
 
   onSearch(ev) {
     ev.preventDefault();
-    var query = this.refs.search.getValue();
-    router.navigate('s/' + query, { trigger: true });
+    if(router.current == 'search') // only auto navigate if we're already on the search page
+      router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
   },
 
   _renderUserDropdowns() {
@@ -171,11 +172,11 @@ var Navbar = React.createClass({
     }
 
     return (
-      <div id='navbar' className="navbar navbar-fixed-top row" style={ navbarStyle }>
+      <div id='navbar' className="navbar" style={ navbarStyle }>
         <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#2CB673' } : { backgroundColor: '#000' }}>
           <div className="background-image" style= { backgroundStyle } />
         </div>
-        <div className="navbar-header pull-left">
+        <div className="left">
           <Button className="bevy-logo-btn" href={ (_.isEmpty(window.bootstrap.user)) ? '/bevies' : '/' }>
             <div className='bevy-logo-img'/>
           </Button>
@@ -185,26 +186,25 @@ var Navbar = React.createClass({
           />
         </div>
 
-        <div className="nav navbar-brand-text nav-center">
+        <div className="center">
           { navbarTitle }
         </div>
 
-        <div className="navbar-header pull-right">
-          <form className="navbar-form navbar-right" role="search">
-            <TextField
-              type='text'
-              className='search-input'
-              ref='search'
-              onChange={ this.onChange }
-              defaultValue={ router.search_query || '' }
-            />
-            <IconButton
-              iconClassName='glyphicon glyphicon-search'
-              onClick={ this.onSearch }
-              style={{ width: '35px', height: '35px', padding: '5px', margin: '3px' }}
-              iconStyle={{ color: 'white', fontSize: '14px' }}
-            />
-          </form>
+        <div className="right">
+          <TextField
+            type='text'
+            className='search-input'
+            ref='search'
+            onChange={ this.onChange }
+            onKeyUp={ this.onKeyUp }
+            defaultValue={ router.search_query || '' }
+          />
+          <IconButton
+            iconClassName='glyphicon glyphicon-search'
+            onClick={ this.onSearch }
+            style={{ width: '35px', height: '35px', padding: '5px', margin: '3px' }}
+            iconStyle={{ color: 'white', fontSize: '14px' }}
+          />
           { this._renderUserDropdowns() }
         </div>
       </div>
