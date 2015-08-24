@@ -17,6 +17,7 @@ block content
 		window.bootstrap.notifications = !{JSON.stringify(notifications || [])};
 		window.bootstrap.posts = !{JSON.stringify(posts || [])};
 		window.bootstrap.threads = !{JSON.stringify(threads || [])};
+		window.bootstrap.env = !{JSON.stringify(env || 'production')};;
 
 	if env == 'development'
 		script(src='http://localhost:8888/build/app.bundle.js')

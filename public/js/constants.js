@@ -11,6 +11,8 @@
 
 exports.version = '0.3.0';
 
+exports.env = window.bootstrap.env;
+
 var hostname = window.location.hostname;
 var protocol = location.protocol;
 

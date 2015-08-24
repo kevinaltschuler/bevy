@@ -11,9 +11,10 @@
 
 'use strict';
 
-//var constants = require('./constants');
+var constants = require('./constants');
 
-require("./../less/app.less");
+if(constants.env == 'development')
+  require("./../less/app.less"); // only hot load css in development mode
 
 var _ = require('underscore');
 var $ = require('jquery');
