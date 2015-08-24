@@ -200,16 +200,19 @@ _.extend(BevyStore, {
 
       case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
-
         this.active = bevy_id;
 
-        this.activeTags = [];
-
-        if(this.myBevies.get(this.active))
-          this.activeTags = this.myBevies.get(this.active).toJSON().tags;
-
+        var bevy = this.myBevies.get(bevy_id);
+        if(bevy == undefined) {
+          // look in the public bevy list
+          bevy = this.publicBevies.get(bevy_id);
+          if(bevy == undefined) {
+            // now fetch from the server
+            break;
+          }
+        }
+        this.activeTags = bevy.get('tags');
         this.trigger(BEVY.CHANGE_ALL);
-
         break;
 
       case BEVY.SORT:

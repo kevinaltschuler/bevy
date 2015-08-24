@@ -16,16 +16,18 @@ var Post = require('./Post.jsx');
 var Event = require('./Event.jsx');
 
 var router = require('./../../router');
+var BevyActions = require('./../../bevy/BevyActions');
 var PostStore = require('./../PostStore');
+var PostActions = require('./../PostActions');
 var constants = require('./../../constants');
 var POST = constants.POST;
 
 // React class
 var PostContainer = React.createClass({
 
-  // expects App.jsx to pass in Posts collection
-  // see App.jsx and PostStore.js for more details
   propTypes: {
+    allPosts: React.PropTypes.array,
+    activeBevy: React.PropTypes.object,
     sortType: React.PropTypes.string,
     activeTags: React.PropTypes.array
   },
@@ -39,6 +41,8 @@ var PostContainer = React.createClass({
 
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
+    // sometimes the bevy switch event completes before this is mounted
+    BevyActions.switchBevy(this.props.activeBevy._id);
   },
 
   componentWillUnmount() {
@@ -46,12 +50,12 @@ var PostContainer = React.createClass({
   },
 
   componentDidUpdate() {
-    var post_id = router.post_id;
+    /*var post_id = router.post_id;
     if(post_id) {
       var post = document.getElementById('post:' + post_id);
       if(post)
         post.scrollIntoView();
-    }
+    }*/
   },
 
   componentWillRecieveProps(nextProps) {
@@ -62,6 +66,7 @@ var PostContainer = React.createClass({
     this.setState({
       allPosts: PostStore.getAll()
     });
+    this.forceUpdate();
   },
 
   render() {
@@ -71,41 +76,48 @@ var PostContainer = React.createClass({
     var sortType = this.props.sortType;
     var activeTags = this.props.activeTags;
 
+    // filter posts here
+    allPosts = _.reject(allPosts, function($post) {
+      // see if the sort type matches
+      if(sortType == 'events' && $post.type != sortType) return true;
+      // see if the tag matches
+      if(_.find(activeTags, function($tag) {
+        if(_.isEmpty($post.tag)) return false;
+        return $tag.name == $post.tag.name;
+      }) == undefined) return true;
+      // yep, it matches
+      return false;
+    });
+
     // for each post
     for(var key in allPosts) {
       var post = allPosts[key];
-      // load post into array
       switch(post.type) {
+        // special render for event post types
         case 'event':
-          if(sortType == 'events') {
-            posts.push(
-              <Event
-                id={post._id}
-                post={ post }
-              />
-            );
-          }
+          posts.push(
+            <Event
+              id={ post._id }
+              key={ 'postcontainer:post:' + post._id }
+              post={ post }
+            />
+          );
           break;
         default:
-          //console.log(activeTags, post.tag);
-          if(sortType != 'events' /*&& _.find(activeTags, function(tag){ 
-            if(_.isEmpty(post.tag)) return false;
-            return post.tag.name == tag.name;
-          })*/) {
-            posts.push(
-              <Post
-                post={ post }
-                id={post._id}
-              />
-            );
-          }
+          posts.push(
+            <Post
+              id={ post._id }
+              key={ 'postcontainer:post:' + post._id }
+              post={ post }
+            />
+          );
           break;
       }
     }
 
     return (
       <div className='post-container'>
-          {posts}
+        { posts }
       </div>
     );
   }

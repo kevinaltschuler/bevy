@@ -78,28 +78,27 @@ _.extend(PostStore, {
         var bevy_id = payload.bevy_id;
 
         //if(bevy_id == this.activeBevy) break;
-        if(this.activeBevy) {
-          if(this.activeBevy.settings.default_events) {
+        /*var bevy = BevyStore.getBevy(bevy_id);
+        if(bevy != undefined) {
+          if(bevy.settings.default_events) {
             PostStore.posts.comparator = PostStore.sortByEvents;
           }
         }
         else {
           PostStore.posts.comparator = PostStore.sortByNew;
-        }
+        }*/
+        this.posts.comparator = PostStore.sortByNew;
 
         this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
         this.posts.fetch({
           reset: true,
-          success: function(posts, response, options) {
-
+          success: function(collection, response, options) {
             this.posts.forEach(function(post) {
               this.postsNestComment(post);
             }.bind(this));
 
             this.activeBevy = bevy_id;
-
             this.posts.sort();
-
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
@@ -112,15 +111,13 @@ _.extend(PostStore, {
 
         if(bevy_id == this.activeBevy && bevy_id != -1) {
           // load the new post
+          this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
           this.posts.fetch({
-            success: function(posts, response, options) {
-
-              posts.forEach(function(post) {
+            success: function(collection, response, options) {
+              this.posts.forEach(function(post) {
                 this.postsNestComment(post);
               }.bind(this));
-
               this.posts.sort();
-
               this.trigger(POST.CHANGE_ALL);
             }.bind(this)
           });
@@ -232,22 +229,6 @@ _.extend(PostStore, {
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
-
-        break;
-
-      case POST.UPVOTE:
-        var post_id = payload.post_id;
-        var voter = payload.voter;
-
-        this.vote(post_id, voter, 1);
-
-        break;
-
-      case POST.DOWNVOTE:
-        var post_id = payload.post_id;
-        var voter = payload.voter;
-
-        this.vote(post_id, voter, -1);
 
         break;
 
@@ -502,10 +483,6 @@ _.extend(PostStore, {
     return this.sortType;
   },
 
-  vote(post_id, voter, value) {
-
-  },
-
   sortByTop(post) {
     var score = post.countVotes();
     if(post.get('pinned') && router.bevy_id != -1) score = 9000;
@@ -587,11 +564,11 @@ _.extend(PostStore, {
   }
 });
 
-var posts = window.bootstrap.posts;
+/*var posts = window.bootstrap.posts;
 PostStore.posts.reset(posts);
 PostStore.posts.forEach(function(post) {
   PostStore.postsNestComment(post);
-});
+});*/
 
 var dispatchToken = Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
 PostStore.dispatchToken = dispatchToken;
