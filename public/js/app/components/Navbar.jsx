@@ -96,7 +96,7 @@ var Navbar = React.createClass({
 
     var counter = (this.props.allNotifications.length <= 0)
     ? ''
-    : <Badge className='notification-counter'>{ notificationCount }</Badge>;
+    : <Badge className='notification-counter'>{ this.props.allNotifications.length }</Badge>;
 
     var chatSidebar = <ChatSidebar />;
     var chatDock = <ChatDock />;
