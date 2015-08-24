@@ -79,7 +79,8 @@ _.extend(BevyStore, {
           name: name,
           description: description,
           image_url: image_url,
-          admins: [user._id]
+          admins: [user._id],
+          tags: [{name: 'general', color: '#F44336'}]
         });
 
         console.log(newBevy);

@@ -104,6 +104,7 @@ var CommentSubmit = React.createClass({
             className="panel-comment-textfield"
             hintText="Write a Comment"
             ref='body'
+            style={{width: '75%'}}
             multiLine={ true }
             value={ this.state.body }
             onKeyPress={ this.onKeyPress }

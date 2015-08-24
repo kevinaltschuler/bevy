@@ -25,7 +25,8 @@ var PostActions = require('./../PostActions');
 var PostHeader = React.createClass({
 
   propTypes: {
-    post: React.PropTypes.object
+    post: React.PropTypes.object,
+    startEdit: React.PropTypes.func
   },
 
   getInitialState() {
@@ -89,7 +90,7 @@ var PostHeader = React.createClass({
     if(window.bootstrap.user) {
       if(window.bootstrap.user._id == post.author._id)
         editButton = (
-          <MenuItem onClick={ this.startEdit } >
+          <MenuItem onClick={ this.props.startEdit } >
             Edit Post
           </MenuItem>
         );

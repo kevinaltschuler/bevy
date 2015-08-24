@@ -44,8 +44,10 @@
 		display: flex;
 		justify-content: flex-start;
 		font-size: 1.6em;
-		padding-top: 15px;
+		padding-top: 8px;
 		padding-bottom: 10px;
+		padding-left: 12px;
+		padding-right: 5px;
 		.profile-img {
 			display: inline-block;
 			width: 25px;
@@ -165,6 +167,10 @@
 			color: #4C4C4C;
 			margin-bottom: 10px;
 			word-wrap: break-word;
+			&.editing {
+				display: flex;
+				align-items: flex-end;
+			}
 			p {
 				margin-bottom: 0px;
 				padding-top: 0px;
@@ -464,7 +470,7 @@
 		}
 	}
 	.panel-comment-submit {
-		padding-left: 15px;
+		padding-left: 10px;
 		.panel-comment-input {
 			display: flex;
 			flex-direction: row;

@@ -8,6 +8,8 @@
 var React = require('react');
 var _ = require('underscore');
 
+var Ink = require('react-ink');
+
 var {
   Button
 } = require('react-bootstrap');
@@ -73,6 +75,7 @@ var ThreadItem = React.createClass({
           <span className='name'>{ name }</span>
           <span className='latest-message'>{ this.getLatestMessage() }</span>
         </div>
+        <Ink style={{ color: '#aaa', height: 50, top: 'inherit', marginTop: '-5px' }}/>
       </Button>
   );
   }

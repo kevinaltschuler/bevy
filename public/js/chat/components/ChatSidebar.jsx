@@ -279,7 +279,6 @@ var ChatSidebar = React.createClass({
           <span className='glyphicon glyphicon-search' />
           <TextField 
             onFocus={ this.openSearchResults } 
-            onBlur={this.closeSearchResults}
             type='text'
             className='search-input'
             ref='userSearch'

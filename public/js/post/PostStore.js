@@ -168,6 +168,7 @@ _.extend(PostStore, {
           tag: tag
         });
 
+
         // save to server
         newPost.save(null, {
           success: function(post, response, options) {
@@ -183,8 +184,8 @@ _.extend(PostStore, {
 
             this.posts.sort();
 
-            this.trigger(POST.CHANGE_ALL);
             this.trigger(POST.POSTED_POST);
+            this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
 
@@ -489,6 +490,7 @@ _.extend(PostStore, {
    * @return {[type]}
    */
   getPost(id) {
+    //console.log(this.posts);
     return this.posts.get(id).toJSON();
   },
 

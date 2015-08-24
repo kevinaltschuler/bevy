@@ -8,6 +8,8 @@
 var React = require('react');
 var _ = require('underscore');
 
+var Ink = require('react-ink');
+
 var {
   Button
 } = require('react-bootstrap');
@@ -54,6 +56,7 @@ var UserSearchItem = React.createClass({
         <div className='details'>
           <span className='name'>{ name }</span>
         </div>
+        <Ink style={{ color: '#aaa', height: 50, top: 'inherit', marginTop: '-5px' }}/>
       </Button>
     );
   }

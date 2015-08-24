@@ -89,7 +89,7 @@ var App = React.createClass({
           textColor: 'rgba(0,0,0,.8)',
           primaryTextColor: 'rgba(0,0,0,.8)',
           secondaryTextColor: 'rgba(0,0,0,.8)',
-        },
+        }
       });
   },
 
