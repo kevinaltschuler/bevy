@@ -9,7 +9,6 @@ var LeftSidebar = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object.isRequired,
-    allThreads: React.PropTypes.array.isRequired,
     activeThread: React.PropTypes.object,
     allBevies: React.PropTypes.array
   },
