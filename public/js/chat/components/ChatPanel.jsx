@@ -108,7 +108,7 @@ var ChatPanel = React.createClass({
   },
 
   onEnter(ev) {
-    if(ev.which == 8) {
+    if(ev.which == 13) {
       // dont send empty messages
       if(_.isEmpty(this.state.body)) return;
 
