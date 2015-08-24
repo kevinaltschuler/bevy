@@ -64,15 +64,21 @@ exports.create = function(req, res, next) {
 };
 
 // PUT/PATCH /users/:id/threads/:threadid
+// PUT/PATCH /threads/:threadid
 exports.update = function(req, res, next) {
 	var thread_id = req.params.threadid;
 
 	var thread = {};
-	thread.users = req.body['users'];
-	thread.bevy = req.body['bevy'];
-	thread.type = req.body['type'];
-	thread.name = req.body['name'];
-	thread.image_url = req.body['image_url'];
+	if(req.body['users'] != undefined)
+		thread.users = req.body['users'];
+	if(req.body['bevy'] != undefined)
+		thread.bevy = req.body['bevy'];
+	if(req.body['type'] != undefined)
+		thread.type = req.body['type'];
+	if(req.body['name'] != undefined)
+		thread.name = req.body['name'];
+	if(req.body['image_url'] != undefined)
+		thread.image_url = req.body['image_url'];
 
 	Thread.findOneAndUpdate({ _id: thread_id }, thread, { new: true }, function(err, thread) {
 		if(err) return next(err);

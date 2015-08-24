@@ -365,8 +365,8 @@ var ChatPanel = React.createClass({
     var bevy = thread.bevy;
 
     var name = ChatStore.getThreadName(thread._id);
-    var image_url = (_.isEmpty(bevy.image_url)) ? this.state.image_url : bevy.image_url;
-    var backgroundStyle = ((bevy && !_.isEmpty(bevy.image_url)) || (!_.isEmpty(this.state.image_url)))
+    var image_url = ChatStore.getThreadImageURL(thread._id);
+    var backgroundStyle = (image_url != '/img/logo-100.png')
     ? {
       backgroundImage: 'url(' + image_url + ')',
       opacity: 0.6

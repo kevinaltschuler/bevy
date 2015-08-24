@@ -15,11 +15,6 @@ var BevyStore = require('./../bevy/BevyStore');
 
 var ThreadModel = Backbone.Model.extend({
   defaults: {
-    name: '',
-    image_url: '',
-    type: 'pm',
-    users: [],
-    bevy: null
   },
   idAttribute: '_id',
   initialize() {

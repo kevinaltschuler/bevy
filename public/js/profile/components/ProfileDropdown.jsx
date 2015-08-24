@@ -115,19 +115,17 @@ var ProfileDropdown = React.createClass({
             <div className="profile-details">
               <span className='profile-name'>{ name }</span>
               { email }
-              <span className='profile-points'>123 points</span>
+              <span className='profile-points'>{ user.points }&nbsp;Points</span>
             </div>
-            <div className="asdf">
-              <DropdownButton
-                noCaret
-                pullRight
-                className="profile-settings"
-                title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-                <MenuItem>
-                  Delete Account
-                </MenuItem>
-              </DropdownButton>
-            </div>
+            <DropdownButton
+              noCaret
+              pullRight
+              className="profile-settings"
+              title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
+              <MenuItem>
+                Delete Account
+              </MenuItem>
+            </DropdownButton>
           </div>
           <div className="profile-dropdown-buttons">
             <div className="profile-btn-right">

@@ -389,14 +389,11 @@ _.extend(ChatStore, {
         var thread = this.threads.get(thread_id);
         if(thread == undefined) break;
 
-
         thread.save({
           image_url: url
         }, {
           patch: true,
           success: function(model, response, options) {
-            // simulate population of users field
-            thread.set('image_url', url);
             this.trigger(CHAT.CHANGE_ALL);
           }.bind(this)
         });

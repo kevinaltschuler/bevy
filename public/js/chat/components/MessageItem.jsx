@@ -23,7 +23,8 @@ var MessageItem = React.createClass({
 
     var messageStyle = {
       flexDirection: (isMe) ? 'row-reverse' : 'row',
-      textAlign: (isMe) ? 'right' : 'left'
+      textAlign: (isMe) ? 'right' : 'left',
+      alignSelf: (isMe) ? 'flex-end' : 'flex-start'
     };
     var bodyStyle = {
       justifyContent: (isMe) ? 'flex-end' : 'flex-start',
@@ -63,8 +64,8 @@ var MessageItem = React.createClass({
           style={ { backgroundImage: 'url(' + authorImage + ')' } }
         />
         <div className='arrow' style={ arrowStyle }/>
-        <div>
-          <div className='message-body' style={ bodyStyle }>
+        <div className='message-body'>
+          <div className='message-text-wrapper' style={ bodyStyle }>
             <span title={ created } className='message-text' style={ messageTextStyle }>{ message.$body }</span>
           </div>
           <span className='message-info'>{ authorName }</span>

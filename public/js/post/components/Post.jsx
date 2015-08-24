@@ -13,25 +13,14 @@
 var React = require('react');
 var _ = require('underscore');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 var router = require('./../../router');
-var classNames = require('classnames');
-
 var {
-  IconButton,
   TextField,
-  FlatButton,
   RaisedButton
 } = require('material-ui');
 
 var {
-  Panel,
-  DropdownButton,
-  MenuItem,
-  ModalTrigger,
-  Button,
-  Badge,
-  CollapsibleMixin
+  Button
 } = require('react-bootstrap');
 
 var PostHeader = require('./PostHeader.jsx');
@@ -53,7 +42,6 @@ var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=
 
 // React class
 var Post = React.createClass({
-  mixins: [CollapsibleMixin],
 
   propTypes: {
     post: React.PropTypes.object.isRequired
@@ -87,14 +75,6 @@ var Post = React.createClass({
     this.setState({
       post: PostStore.getPost(this.props.post._id)
     });
-  },
-
-  getCollapsibleDOMNode() {
-    return React.findDOMNode(this.refs.postBody);
-  },
-
-  getCollapsibleDimensionValue() {
-    return React.findDOMNode(this.refs.postBody).scrollHeight;
   },
 
   onHandleToggle(ev) {
@@ -178,7 +158,7 @@ var Post = React.createClass({
             multiLine={true}
             defaultValue={ this.state.title  }
             value={ this.state.title  }
-            style={{width: '75%'}}
+            style={{ width: '75%' }}
             placeholder=' '
             onChange={ this.onChange }
           />
@@ -197,40 +177,14 @@ var Post = React.createClass({
       );
     }
 
-    
-
-    var styles = this.getCollapsibleClassSet();
-    var text = this.isExpanded() ? 'Hide' : 'Show';
-
-    var postBody = (
-      <div>
+    return  (
+      <div className='post panel' postId={ post._id } id={ 'post:' + post._id }>
         <PostHeader post={ post } startEdit={this.startEdit} />
-
         <div className='panel-body'>
           { panelBodyText }
         </div>
-
         <PostImages post={ post } />
-        
         <PostFooter post={ post } />
-      </div>
-    );
-
-    var collapsibleDiv = (this.state.post.pinned)
-    ? (<div className='collapse-post'>
-        <Button className="collapse-button" onClick={this.onHandleToggle}>{text}pinned post</Button>
-        <div ref='postBody' className={classNames(styles)}>
-          {postBody}
-        </div>
-      </div>)
-    : <div>{postBody}</div>;
-
-    var postClassName = 'post panel post-animation';
-    if(router.post_id == post._id) postClassName += ' active';
-
-    return  (
-      <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
-        {collapsibleDiv}
       </div>
     );
   }

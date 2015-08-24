@@ -20,6 +20,8 @@ var constants = require('./../../constants');
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
 
+var ThreadImage = require('./ThreadImage.jsx');
+
 var user = window.bootstrap.user;
 
 var noop = function() {};
@@ -58,14 +60,7 @@ var ThreadItem = React.createClass({
   render() {
     var thread = this.props.thread;
     var bevy = this.props.thread.bevy;
-    var image_url = ChatStore.getThreadImageURL(thread._id);
     var name = ChatStore.getThreadName(thread._id);
-
-    var imageStyle = {
-      backgroundImage: 'url(' + image_url + ')',
-      backgroundSize: 'auto 100%',
-      backgroundPosition: 'center'
-    };
 
     var hideTooltip = (this.props.sidebarOpen) ? {display: 'none'} : {};
 
@@ -80,7 +75,7 @@ var ThreadItem = React.createClass({
           style={{ width: this.props.width }}
           onClick={ this.openThread }
         >
-          <div className='image' style={ imageStyle }/>
+          <ThreadImage thread={ thread } />
           <div className='details'>
             <span className='name'>{ name }</span>
             <span className='latest-message'>{ this.getLatestMessage() }</span>
@@ -88,7 +83,7 @@ var ThreadItem = React.createClass({
           <Ink style={{ color: '#aaa', height: 50, top: 'inherit', marginTop: '-5px' }}/>
         </Button>
       </OverlayTrigger>
-  );
+    );
   }
 });
 

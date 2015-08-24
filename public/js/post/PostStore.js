@@ -393,11 +393,6 @@ _.extend(PostStore, {
               comment.comments.push(new_comment);
               comments.push(new_comment);
               //this.postsNestComment(post);
-
-              // increment comment count
-              var commentCount = post.get('commentCount');
-              post.set('commentCount', ++commentCount);
-
             } else {
               // replied to a post
 
@@ -413,9 +408,12 @@ _.extend(PostStore, {
               };
               comments.push(new_comment);
               allComments.push(new_comment);
-              post.set('commentCount', ++commentCount);
-              //this.postsNestComment(post);
             }
+            
+            // increment comment count
+            var commentCount = post.get('commentCount') || 0;
+            post.set('commentCount', ++commentCount);
+
             this.trigger(POST.CHANGE_ONE + post_id);
           }.bind(this)
         );
