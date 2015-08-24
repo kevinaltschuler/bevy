@@ -218,7 +218,7 @@ var Post = React.createClass({
 
     var collapsibleDiv = (this.state.post.pinned)
     ? (<div className='collapse-post'>
-        <Button className="collapse-button" onClick={this.onHandleToggle}>{text}pinned post</Button>
+        <Button className="collapse-button" onClick={this.onHandleToggle}>{text} pinned post</Button>
         <div ref='postBody' className={classNames(styles)}>
           {postBody}
         </div>

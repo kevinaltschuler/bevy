@@ -115,7 +115,7 @@ var ProfileDropdown = React.createClass({
             <div className="profile-details">
               <span className='profile-name'>{ name }</span>
               { email }
-              <span className='profile-points'>123 points</span>
+              <span className='profile-points'>{ user.points } Points</span>
             </div>
             <div className="asdf">
               <DropdownButton

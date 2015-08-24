@@ -91,7 +91,7 @@ var Navbar = React.createClass({
 
   _renderUserDropdowns() {
     if(_.isEmpty(window.bootstrap.user)) {
-      return <a className="navbar-brand navbar-brand-text" href='/login'> Log In </a>;
+      return <a className="login-btn" href='/login'> Log In </a>;
     }
 
     var counter = (this.props.allNotifications.length <= 0)
