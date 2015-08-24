@@ -177,7 +177,7 @@ var Navbar = React.createClass({
           <div className="background-image" style= { backgroundStyle } />
         </div>
         <div className="left">
-          <Button className="bevy-logo-btn" href={ (_.isEmpty(window.bootstrap.user)) ? '/bevies' : '/' }>
+          <Button className="bevy-logo-btn" href={ (!_.isEmpty(window.bootstrap.user)) ? '/bevies' : '/' }>
             <div className='bevy-logo-img'/>
           </Button>
           <BevyDropdown

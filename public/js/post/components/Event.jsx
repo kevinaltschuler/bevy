@@ -107,9 +107,9 @@ var Event = React.createClass({
     });
   },
 
-  upvote(ev) {
+  vote(ev) {
     ev.preventDefault();
-    PostActions.upvote(this.props.post._id, window.bootstrap.user);
+    PostActions.vote(this.props.post._id, window.bootstrap.user);
   },
 
   destroy(ev) {
@@ -268,6 +268,14 @@ var Event = React.createClass({
     ? 'http://www.google.com/calendar/event?action=TEMPLATE&text=' + title.replace(/ /g, '+') + '&dates=' + date + '/' + date +'&details=' + description.replace(/ /g, '+') +'&location=' + location.replace(/ /g, '+') + '&trp=false&sprop=&sprop=name:'
     : 'http://www.google.com/calendar/event';
 
+    var voteButtonStyle = { marginRight: '10px', padding: '0px 10px', color: '#999' };
+    var upvoted = _.find(post.votes, function(vote) {
+      return (vote.voter == window.bootstrap.user._id && vote.score > 0); 
+    });
+    if(upvoted) {
+      voteButtonStyle.color = '#000'
+    }
+
     var postBody = (
       <div>
         <div className='event-image' style={eventImageStyle}/>
@@ -326,8 +334,8 @@ var Event = React.createClass({
 
         <div className="panel-bottom">
           <div className='left'>
-            <FlatButton className='upvote' onClick={ this.upvote } style={{marginRight: '10px', padding: '0px 10px'}}>
-              <span className="glyphicon glyphicon-thumbs-up btn"></span>
+            <FlatButton className='upvote' onClick={ this.vote } disabled={ _.isEmpty(window.bootstrap.user) } style={ voteButtonStyle }>
+              <span className="glyphicon glyphicon-thumbs-up" ></span>
               &nbsp;{ this.countVotes() } upvotes
             </FlatButton>
             <FlatButton className='comment' onClick={ this.expandComments } style={{marginRight: '10px', padding: '0px 10px'}}>
