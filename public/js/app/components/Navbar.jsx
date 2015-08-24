@@ -20,7 +20,8 @@ var router = require('./../../router');
 var {
   Button,
   DropdownButton,
-  MenuItem
+  MenuItem,
+  Badge
 } = require('react-bootstrap');
 var {
   IconButton,
