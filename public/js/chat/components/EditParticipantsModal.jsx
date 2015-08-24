@@ -33,6 +33,7 @@ var EditParticipantsModal = React.createClass({
       var participant = threadUsers[key];
       users.push(
         <ParticipantItem
+          key={ 'participantitem:' + participant._id }
           thread={ this.props.thread }
           participant={ participant }
         />
