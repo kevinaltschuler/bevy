@@ -43,6 +43,10 @@ var ThreadImage = React.createClass({
       case 'pm':
         return this._renderSingleImage();
       case 'group':
+        if(this.props.thread.image_url) {
+          // if theres a set image, use that instead
+          return this._renderSingleImage();
+        }
         var users = [];
         var threadUsers = _.reject(this.props.thread.users, function($user) {
           // dont render self
