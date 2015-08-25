@@ -74,7 +74,7 @@ var NotificationItem = React.createClass({
     ? {}
     : { 
       position: 'relative',
-      boxShadow: '0 1px 6px rgba(0,0,0,.12),0 1px 4px rgba(0,0,0,.24)'
+      boxShadow: 'none'
     };
 
     var body;
@@ -252,6 +252,7 @@ var NotificationItem = React.createClass({
     return (
       <Panel className="notification-item" style={itemStyle}>
         { body }
+        <Ink style={{ color: '#aaa', height: 50, top: 'inherit', marginTop: '-5px' }}/>
       </Panel>
     );
   }
