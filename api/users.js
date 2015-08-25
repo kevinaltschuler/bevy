@@ -56,9 +56,10 @@ exports.create = function(req, res, next) {
   var update = {
     _id: shortid.generate(),
     username: req.body['username'],
-    password: req.body['password'],
-    email: req.body['email']
+    password: req.body['password']
   }
+  if(req.body['email'] != undefined)
+    update.email = req.body['email'];
 
   // check for required fields
   if(_.isEmpty(update.username))
