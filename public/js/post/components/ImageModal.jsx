@@ -20,7 +20,7 @@ var ImageModal = React.createClass({
 
   propTypes: {
     allImages: React.PropTypes.array.isRequired,
-    index: React.PropTypes.string,
+    index: React.PropTypes.any,
     show: React.PropTypes.bool,
     onHide: React.PropTypes.func
   },

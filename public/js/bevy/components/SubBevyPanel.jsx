@@ -114,16 +114,15 @@ var SubBevyPanel = React.createClass({
 
     for(var key in tags) {
       var tag = tags[key];
-      var tagName = tag.name;
-      var tagColor = tag.color;
-
-
-      var tagItem = <TagItem 
+      var tagItem = (
+        <TagItem 
+          key={ 'tagitem:' + tag.name }
           editing={this.state.editing}
-          tag={tag}
+          tag={ tag }
           activeBevy={this.props.activeBevy}
           activeTags={this.props.activeTags}
-        />;
+        />
+      );
 
       tagButtons.push(tagItem);
     }
