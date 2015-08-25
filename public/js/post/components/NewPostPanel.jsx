@@ -18,6 +18,7 @@ var constants = require('./../../constants');
 
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
+var Badge = rbs.Badge;
 
 var mui = require('material-ui');
 var TextField = mui.TextField;
@@ -141,6 +142,8 @@ var NewPostPanel = React.createClass({
     };
 
     var tags = (this.props.activeBevy) ? this.props.activeBevy.tags : [];
+    var tagColor = this.props.activeBevy.tags[this.state.selectedIndex].color;
+    var tagName = this.props.activeBevy.tags[this.state.selectedIndex].name;
 
     var tagItems = [];
 
@@ -161,6 +164,7 @@ var NewPostPanel = React.createClass({
         menuItems={tagItems}
         selectedIndex={ selectedIndex }
         onChange={ this.onTagChange }
+        underlineStyle={{borderColor: tagColor, borderTopWidth: '2px'}}
       />
     );
 
@@ -205,7 +209,7 @@ var NewPostPanel = React.createClass({
               disabled={ disabled }
               backgroundColor={'white'}
               disabledColor={'rgba(0,0,0,.2)'}
-              iconStyle={{color: 'rgba(0,0,0,.7)', fontSize: '18px'}}
+              iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
               style={{marginRight: '10px'}}
               mini={true}
             />
@@ -216,7 +220,7 @@ var NewPostPanel = React.createClass({
               disabled={ disabled }
               backgroundColor={'white'}
               disabledColor={'rgba(0,0,0,.2)'}
-              iconStyle={{color: 'rgba(0,0,0,.7)', fontSize: '18px'}}
+              iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
               mini={true}
             />
             <CreateNewEventModal
@@ -225,6 +229,7 @@ var NewPostPanel = React.createClass({
               {...this.props}
             />
           </div>
+          {/*<Badge className='tag-indicator' style={{backgroundColor: tagColor, position: 'absolute', marginLeft: '5px', marginTop: '13px'}}>{tagName}</Badge>*/}
           { tagDropdown }
           <RaisedButton
             label="post"

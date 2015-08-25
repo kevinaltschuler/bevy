@@ -46,14 +46,14 @@
         display: flex;
         align-items: center;
         justify-content: flex-start;
-        font-size: .7em;
+        font-size: .6em;
         .middot {
           padding: 0px 5px;
         }
       }
       .details, .detail-time, .dot {
-        font-size: .6em;
-        color: #1A1A1A;
+        font-size: .8em;
+        color: #4a4a4a;
         line-height: initial;
         button {
           border: none;
@@ -64,14 +64,15 @@
             border: none;
             outline: none;
             box-shadow: none;
+            text-decoration: underline;
           }
         }
       }
-      .details:focus, .details:hover {
+      .details:focus, .details:hover, a:focus, a:hover {
         text-decoration: underline;
+        color: #4a4a4a;
       }
       .details:active {
-        color: #4a4a4a;
       }
       .glyphicon {
         font-size: .4em;
@@ -216,7 +217,7 @@
     .comment {
       padding: 0px 10px 0px 10px;
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       &.mui-is-disabled {
         span.glyphicon.glyphicon-comment {
           line-height: 36px;
@@ -264,6 +265,10 @@
         flex-direction: column;
         .panel-comment-input {
           margin-left: 25px;
+        }
+        .comment {
+          display: flex;
+          flex-direction: column;
         }
     }
     .comment-count {

@@ -166,7 +166,7 @@ var SubBevyPanel = React.createClass({
 
     var createGlyph = (this.state.editing) ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-pencil";
 
-    var editButton = (_.isEmpty(window.bootstrap.user))
+    var editButton = (!_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; }))
     ? <div/>
     : (
         <Button 
@@ -176,16 +176,17 @@ var SubBevyPanel = React.createClass({
         </Button>
     );
 
-    var createButton = (this.state.editing)
-    ? <div/>
-    : (
-        <Button 
-          className='new-bevy-btn'
-          disabled={_.isEmpty(window.bootstrap.user)} 
-          onClick={() => { this.setState({ newTag: !this.state.newTag }); }}>
-          <span className="glyphicon glyphicon-plus"/>
-        </Button>
+    var createButton = <div/>;
+    if(_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; }) && !this.state.editing) {
+      var createButton = (
+      <Button 
+        className='new-bevy-btn'
+        disabled={_.isEmpty(window.bootstrap.user)} 
+        onClick={() => { this.setState({ newTag: !this.state.newTag }); }}>
+        <span className="glyphicon glyphicon-plus"/>
+      </Button>
       );
+    }
 
     var addCobevy = (_.isEmpty(window.bootstrap.user))
     ? <div/>
