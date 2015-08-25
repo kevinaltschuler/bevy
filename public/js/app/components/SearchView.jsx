@@ -133,7 +133,11 @@ var SearchView = React.createClass({
             </div>*/}
             { content }
           </div>
-          <FilterSidebar searchQuery={ this.props.searchQuery } />
+          <div className='right-filter-sidebar'>
+            <div className='filter-fixed'>
+              <FilterSidebar searchQuery={ this.props.searchQuery } />
+            </div>
+          </div>
         </div>
       <div className="footer-public-bevies">
         <div className='footer-left'>

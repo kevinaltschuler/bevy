@@ -71,8 +71,6 @@ var PublicBevyPanel = React.createClass({
   },
 
   switchBevy(ev) {
-    ev.preventDefault();
-    router.navigate('/b/' + this.props.bevy._id, { trigger: true });
   },
 
   render() {
@@ -98,7 +96,7 @@ var PublicBevyPanel = React.createClass({
 
     return (
       <div className="panel public-bevy-panel">
-        <Button className="bevy-panel-top" href={'/b/' + this.props.bevy._id} onClick={ this.switchBevy } style={ bevyImageStyle }/>
+        <a className="bevy-panel-top" href={'/b/' + this.props.bevy._id} onClick={ this.switchBevy } style={ bevyImageStyle }/>
         <div className='panel-info'>
           <div className='panel-info-top'>
             <a className='title' href={'/b/' + this.props.bevy._id} onClick={ this.switchBevy }>{ name }</a>
