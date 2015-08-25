@@ -209,7 +209,7 @@ var NewPostPanel = React.createClass({
               disabled={ disabled }
               backgroundColor={'white'}
               disabledColor={'rgba(0,0,0,.2)'}
-              iconStyle={{color: 'rgba(0,0,0,.7)', fontSize: '18px'}}
+              iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
               style={{marginRight: '10px'}}
               mini={true}
             />
@@ -220,7 +220,7 @@ var NewPostPanel = React.createClass({
               disabled={ disabled }
               backgroundColor={'white'}
               disabledColor={'rgba(0,0,0,.2)'}
-              iconStyle={{color: 'rgba(0,0,0,.7)', fontSize: '18px'}}
+              iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
               mini={true}
             />
             <CreateNewEventModal

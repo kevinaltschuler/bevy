@@ -23,7 +23,7 @@ var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var usernameRegex = /^[a-z0-9_-]{3,16}$/;
-var passwordRegex = /^[A-Za-z0-9!@#$%^&*()_]{6,20}$/;
+var passwordRegex = /^[A-Za-z0-9!@#$%^&*()_]{1,20}$/;
 var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
 var RegisterPanel = React.createClass({
@@ -70,7 +70,7 @@ var RegisterPanel = React.createClass({
     }
 
     if((emailRegex.test(email) || email.length == 0) 
-      && passwordRegex.test(password) && password.length >= 6 
+      && passwordRegex.test(password) && password.length >= 1 
       && usernameRegex.test(username) && username.length >= 3) {
       this.setState({
         validInput: true
@@ -118,15 +118,16 @@ var RegisterPanel = React.createClass({
         // set error message to the one that
         // was returned from the server
         this.setState({
-          errorText: response.message,
-          showError: true
+          errorText: 'something went wrong',
+          showError: true,
         });
       }.bind(this));
 
     } else {
       // TODO: more specific error messages
       this.setState({
-        showError: true
+        showError: true,
+        errorText: 'something went wrong'
       });
     }
   },
@@ -167,7 +168,7 @@ var RegisterPanel = React.createClass({
           <TextField 
             ref='password'
             type='password'
-            hintText='password (6-20 characters)'
+            hintText='password (1-20 characters)'
             style={{width: '100%'}}
             onChange={this.onChange}
           />
