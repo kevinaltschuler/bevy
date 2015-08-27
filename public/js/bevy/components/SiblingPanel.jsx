@@ -67,11 +67,14 @@ var SiblingPanel = React.createClass({
     siblings.push(sibling);
     _.uniq(siblings);
     console.log(siblings);
+    this.setState({
+      query: ''
+    });
     BevyActions.update(this.props.activeBevy._id, null, null, null, null, siblings);
   },
 
   onAddSiblingChange(ev) {
-    var query = this.refs.AddSibling.getValue();
+    var query = this.refs.AddSiblingInput.getValue();
     this.setState({
       query: query
     });
@@ -114,36 +117,41 @@ var SiblingPanel = React.createClass({
     for(var key in siblings) {
       var sibling = siblings[key];
       var bevy = BevyStore.getBevy(sibling);
-
-      siblingButtons.push(
+      var siblingItem = (
         <SiblingItem 
+          key={'SiblingItem:' + sibling}
           bevy={ bevy }
           activeBevy={ this.props.activeBevy }
           editing={ this.state.editing } 
         />
       );
+
+      siblingButtons.push(siblingItem);
     }
 
-    if(this.state.adding) {
-      siblingButtons.push(
-        <div style={{display: 'flex', alignItems: 'center', height: '30px'}}>
-          <span className='glyphicon glyphicon-search' style={{padding: '6px 12px'}}/>
+    var searchDiv = (this.state.adding)
+    ? (<div style={{display: 'flex', alignItems: 'center', height: '30px'}} ref='SearchContainer'>
+          <span className='glyphicon glyphicon-search' style={{padding: '6px 12px'}} ref='SearchIcon'/>
           <TextField 
             type='text'
-            ref='AddSibling'
+            ref='AddSiblingInput'
             value={ this.state.query }
             onChange={ this.onAddSiblingChange }
             style={{width: '90%'}}
+            groupClassName='participant-input'
           />
           <BevySearchOverlay
-            container={() => React.findDOMNode(this.refs.searchContainer)}
-            target={() => React.findDOMNode(this.refs.AddSibling)}
+            container={this.refs.SiblingButtons}
+            target={() => React.findDOMNode(this.refs.AddSiblingInput)}
             query={ this.state.query }
             addSibling={ this.addSibling }
             siblings={siblings}
           />
-        </div>
-      )
+      </div>)
+    : <div/>;
+
+    if(this.state.adding) {
+      siblingButtons.push(searchDiv)
     }
 
 
@@ -158,7 +166,7 @@ var SiblingPanel = React.createClass({
             { editButton }
           </div>
         </div>
-        <ButtonGroup className='bevy-list-btns' role="group">
+        <ButtonGroup className='bevy-list-btns' role="group" ref='SiblingButtons'>
           {siblingButtons}
         </ButtonGroup>
       </div>

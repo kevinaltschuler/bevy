@@ -31,15 +31,16 @@ var SiblingItem = React.createClass({
   propTypes: {
     activeBevy: React.PropTypes.object,
     editing: React.PropTypes.bool,
-    bevy: React.PropTypes.object
+    bevy: React.PropTypes.object,
+    key: React.PropTypes.string
   },
 
   removeSibling(ev) {
     ev.preventDefault();
     var siblings = this.props.activeBevy.siblings;
-    var sibling = this.props.sibling;
+    var bevy = this.props.bevy;
 
-    var siblings = _.reject(this.props.activeBevy.siblings, function($sibling) { return sibling == sibling });
+    var siblings = _.reject(this.props.activeBevy.siblings, function($sibling) { return $sibling == bevy._id });
 
     BevyActions.update(this.props.activeBevy._id, null, null, null, null, siblings);
   },
@@ -79,7 +80,9 @@ var SiblingItem = React.createClass({
           </FlatButton>
         );
 
-      return bevyButton;
+      return <div style={{width: '100%'}}>
+              { bevyButton }
+            </div>;
   }
 });
 

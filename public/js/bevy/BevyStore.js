@@ -144,8 +144,7 @@ _.extend(BevyStore, {
         var settings = payload.settings || bevy.get('settings');
         var tags = payload.tags || bevy.get('tags');
         var siblings = payload.siblings || bevy.get('siblings');
-
-        console.log('update tags', tags);
+        
         console.log('update sibligns', siblings);
 
         bevy.set({

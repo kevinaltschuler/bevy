@@ -164,8 +164,8 @@ var ChatPanel = React.createClass({
     var users = _.map(this.state.addedUsers, function($user) {
       return $user;
     });
-    _.uniq(users); // remove duplicates
     users.push(user);
+    _.uniq(users); // remove duplicates
     this.setState({
       addedUsers: users,
       inputValue: '' // reset the text field
@@ -382,7 +382,7 @@ var ChatPanel = React.createClass({
         </div>
         <UserSearchOverlay
           container={ this.container }
-          target={() => React.findDOMNode(this.refs.AddUserInput)}
+          target={this.refs.AddUserInput}
           query={ this.state.inputValue }
           addUser={ this.addUser }
           addedUsers={ _.union(this.state.addedUsers, thread.users) }

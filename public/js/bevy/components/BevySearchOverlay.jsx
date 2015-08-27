@@ -24,7 +24,7 @@ var BevySearchOverlay = React.createClass({
 
   propTypes: {
     container: React.PropTypes.any, // the DOM node the overlay is rendered in
-    target: React.PropTypes.func, // the DOM node the overlay is relative to
+    target: React.PropTypes.any, // the DOM node the overlay is relative to
     query: React.PropTypes.string, // the search query entered in by the parent
     addSibling: React.PropTypes.func, // callback thats called when a user is selected/added
     siblings: React.PropTypes.array //siblings that already exist
@@ -109,7 +109,7 @@ var BevySearchOverlay = React.createClass({
     switch(ev.which) {
       case 13: // enter
         // add the user and close the overlay
-        this.props.addSibling(this.state.bevies[this.state.selected]);
+        this.props.addSibling(this.state.bevies[this.state.selected]._id);
         break;
       case 38: // up arrow
         // select one above
@@ -168,7 +168,7 @@ var BevySearchOverlay = React.createClass({
         placement='bottom'
         container={ this.props.container }
       >
-        <div className='user-search-overlay'>
+        <div style={{marginLeft: '30px', marginTop: '-10px'}} className='user-search-overlay'>
           { bevies }
         </div>
       </Overlay>
