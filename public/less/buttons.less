@@ -25,3 +25,19 @@ li, a {
 		outline: 0px !important;
 	}
 }
+
+.simple-btn {
+	background-color: rgba(0,0,0,0);
+	box-shadow: none;
+	border: none;
+	color: @light-font;
+	transition: all .15s ease-in-out;
+	&:hover {
+		background-color: rgba(0,0,0,0);
+	}
+	&:active, &:focus {
+		background-color: rgba(0,0,0,0) !important;
+		box-shadow: none;
+		color: black;
+	}
+}

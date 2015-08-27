@@ -41,8 +41,9 @@ var BevySchema = new Schema({
 	}, {
 		_id: false
 	})],
-	cobevies: [{
-		type: String
+	siblings: [{
+		type: String,
+		ref: 'Bevy'
 	}],
 	settings: {
 		posts_expire_in: {

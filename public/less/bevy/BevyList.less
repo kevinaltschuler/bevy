@@ -55,27 +55,58 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
-
+        padding-right: 15px;
         .bevy-btn {
-            background-color: @clear;
-            color: @light-font;
-            font-size: inherit;
-            transition: all 0.15s linear;
-            border: none;
-            display: block;
-            &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-                outline: none;
-                text-decoration: underline;
-                color: @dark-font;
-                box-shadow: none;
-                background-color: @clear;
+            font-weight: 700;
+            div {
+                display: flex;
+                align-items: center;
             }
-            &:hover {
-                background-color: @clear;
-                color: @dark-font;
+            display: flex;
+            .bevy-image {
+              #image-icon();
+              width: 30px;
+              height: 30px;
+              border-radius: 18px;
+              margin-right: 10px;
             }
         }
-
+        .bevy-remove-btn {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            padding: 5px 10px;
+            justify-content: flex-start;
+            font-weight: 700;
+            .bevy-image {
+              #image-icon();
+              width: 30px;
+              height: 30px;
+              border-radius: 18px;
+              margin-right: 10px;
+            }
+            .glyphicon {
+                color: #757d83;
+                font-weight: 200;
+                margin-right: 10px;
+                padding: 2px;
+                width: 28px;
+                height: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-decoration: none;
+                &:active {
+                    color: black;
+                    text-decoration: none;
+                    background-color: rgba(0,0,0,.4);
+                }
+                &:hover {
+                    text-decoration: none;
+                    background-color: rgba(0,0,0,.2);
+                }
+            }
+        }
         .new-tag {
             display: flex;
             flex-direction: row;

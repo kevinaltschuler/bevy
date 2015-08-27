@@ -143,14 +143,17 @@ _.extend(BevyStore, {
         var image_url = payload.image_url || bevy.get('image_url');
         var settings = payload.settings || bevy.get('settings');
         var tags = payload.tags || bevy.get('tags');
-        var cobevy = payload.cobevy || bevy.get('cobevy');
+        var siblings = payload.siblings || bevy.get('siblings');
+
+        console.log('update tags', tags);
+        console.log('update sibligns', siblings);
 
         bevy.set({
           name: name,
           description: description,
           image_url: image_url,
           tags: tags,
-          cobevy: cobevy,
+          siblings: siblings,
           settings: settings
         });
 
@@ -159,7 +162,7 @@ _.extend(BevyStore, {
           description: description,
           image_url: image_url,
           tags: tags,
-          cobevy: cobevy,
+          siblings: siblings,
           settings: settings
         }, {
           patch: true

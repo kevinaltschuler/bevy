@@ -107,11 +107,8 @@ var SubBevyPanel = React.createClass({
     var bevy = this.props.activeBevy;
     var tags = bevy.tags;
     var activeTags = this.state.activeTags;
-    //console.log(activeTags);
-    var cobevies = bevy.cobevies;
 
     var tagButtons = [];
-
     for(var key in tags) {
       var tag = tags[key];
       var tagItem = (
@@ -157,52 +154,36 @@ var SubBevyPanel = React.createClass({
           value={this.state.newTagValue} 
           onChange={this.handleChange} 
           onFocus={() => { this.setState({colorPicker: false}); }}
-          style={{width: '80%'}}
+          style={{width: '75%'}}
         />
+        <Button onClick={this.submitTag} className='simple-btn glyphicon glyphicon-ok'/>
       </div> );
     }
 
-    //console.log(bevy);
-
     var createGlyph = (this.state.editing) ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-pencil";
+    var editGlyph = (this.state.newTag) ? 'glyphicon glyphicon-remove' : "glyphicon glyphicon-plus";
 
-    var editButton = (!_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; }))
-    ? <div/>
-    : (
+    var editButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
+    if((_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; })))
+    editButton = (
         <Button 
           className='new-bevy-btn'
+          disabled={this.state.newTag}
           onClick={() => { this.setState({ editing: !this.state.editing, newTag: false }); }}>
           <span className={createGlyph}/>
         </Button>
     );
 
     var createButton = <div/>;
-    if(_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; }) && !this.state.editing) {
+    if(_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; })) {
       var createButton = (
       <Button 
         className='new-bevy-btn'
-        disabled={_.isEmpty(window.bootstrap.user)} 
+        disabled={this.state.editing} 
         onClick={() => { this.setState({ newTag: !this.state.newTag }); }}>
-        <span className="glyphicon glyphicon-plus"/>
+        <span className={editGlyph}/>
       </Button>
       );
-    }
-
-    var addCobevy = (_.isEmpty(window.bootstrap.user))
-    ? <div/>
-    : (
-        <Button 
-          className='new-bevy-btn'
-          disabled={_.isEmpty(window.bootstrap.user)} 
-          onClick={() => { this.setState({ cobevyModal: !this.state.cobevyModal }); }}>
-          <span className="glyphicon glyphicon-plus"/>
-        </Button>
-      );
-
-    var cobevyButtons = [];
-    for(var key in cobevyButtons) {
-      var cobevy = cobevyButtons[key];
-      console.log(cobevy);
     }
 
 
@@ -210,7 +191,7 @@ var SubBevyPanel = React.createClass({
       <div className='bevy-list panel'>
         <div className='panel-header'>
           <div className='super-bevy-btn'>
-            tags
+            Tags
           </div>
           <div className='actions'>
             { createButton }
@@ -220,21 +201,6 @@ var SubBevyPanel = React.createClass({
         <ButtonGroup className='bevy-list-btns' role="group">
           { tagButtons }
         </ButtonGroup>
-        {/*<div className='panel-header'>
-          <div className='super-bevy-btn'>
-            Related Bevies
-          </div>
-          { addCobevy }
-          <CobevyModal
-            show={this.state.cobevyModal}
-            onHide={() => { this.setState({ cobevyModal: false }) }}
-            allBevies={this.props.allBevies}
-            myBevies={this.props.myBevies}
-          />
-        </div>
-        <ButtonGroup className='bevy-list-btns' role="group">
-          { cobevyButtons }
-        </ButtonGroup>*/}
       </div>
     );
   }
