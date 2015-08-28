@@ -16,41 +16,63 @@ var user = window.bootstrap.user;
 var rbs = require('react-bootstrap');
 var Button = rbs.Button;
 
-var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
-var FilterSidebar = require('./FilterSidebar.jsx');
+var FrontpageSidebar = require('./FrontpageSidebar.jsx');
+var PostContainer = require('./../../post/components/PostContainer.jsx');
+var PostSort = require('./../../post/components/PostSort.jsx');
 
 var FrontPage = React.createClass({
 
   propTypes: {
-    publicBevies: React.PropTypes.array.isRequired,
-    myBevies: React.PropTypes.array
+    allPosts: React.PropTypes.array
   },
 
   render() {
-    var publicBevies = this.props.publicBevies;
-    var myBevies = this.props.myBevies;
 
-    var publicBevyPanels = [];
-
-    for(var key in publicBevies) {
-      var bevy = publicBevies[key];
-      publicBevyPanels.push(
-        <PublicBevyPanel bevy={bevy} myBevies={this.props.myBevies} />
-      );
-    };
+    var activeBevy = {
+        "_id" : "-1",
+        "name" : "frontpage",
+        "description" : "",
+        "image_url" : "",
+        "settings" : {
+        },
+        "siblings" : [ 
+        ],
+        "tags" : [ 
+        ],
+        "admins" : [ 
+        ],
+        "subCount" : 0,
+        "__v" : 0
+    }
 
     return (
-      <div className='public-bevy-wrapper'>
+      <div>
+        <div className='frontpage-wrapper'>
           <div className='mid-section'>
-            <FilterSidebar {...this.props} />
+            <div className='left-sidebar'>
+              <FrontpageSidebar 
+                frontBevies={ this.props.frontBevies }
+                myBevies={ this.props.myBevies }
+              />
+            </div>
+            <div className='frontpage-container'>
+              <PostContainer
+                allPosts={ this.props.allPosts }
+                activeBevy={activeBevy}
+                sortType={'top'}
+                activeTags={{}}
+                frontBevies={ this.props.frontBevies }
+              />
+            </div>
+            </div>
           </div>
-        <div className="footer-public-bevies">
+        <div className="footer-frontpage">
           <div className='footer-left'>
             Bevy © 2015 
           </div>
           <div className='footer-right'>
             <Button className="bevy-logo-btn" href='/'>
-              <div className='bevy-logo-img' style={{backgroundImage: 'url(/img/logo_100.png)'}}/>
+              <div className='bevy-logo-img' style={{ backgroundImage: 'url(/img/logo_100.png)' }}/>
             </Button>
           </div>
         </div>

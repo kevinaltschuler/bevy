@@ -82,6 +82,12 @@ var PostActions = {
     });
   },
 
+  updateFrontBevies(bevies) {
+    dispatch(POST.UPDATE_FRONTBEVIES, {
+      bevies: (bevies == undefined) ? [] : bevies
+    });
+  },
+
   pin(post_id) {
     dispatch(POST.PIN, {
       post_id: (post_id == undefined) ? '' : post_id

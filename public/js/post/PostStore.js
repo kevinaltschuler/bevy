@@ -45,6 +45,7 @@ _.extend(PostStore, {
 
   posts: new PostCollection,
   sortType: 'new',
+  frontBevies: [],
 
   activeBevy: router.bevy_id,
 
@@ -70,6 +71,7 @@ _.extend(PostStore, {
         //PostStore.posts.forEach(function(post) {
         //  PostStore.postsNestComment(post);
         //});
+        this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
         this.trigger(POST.CHANGE_ALL);
 
         break;
@@ -90,6 +92,8 @@ _.extend(PostStore, {
         this.posts.comparator = PostStore.sortByNew;
 
         this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
+        if(bevy_id == '-1')
+            this.posts.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/frontpage';
         this.posts.fetch({
           reset: true,
           success: function(collection, response, options) {
@@ -298,6 +302,13 @@ _.extend(PostStore, {
         this.trigger(POST.CHANGE_ALL);
         break;
 
+      case POST.UPDATE_FRONTBEVIES:
+        var bevies = payload.bevies;
+        this.frontBevies = bevies;
+
+        this.trigger(POST.CHANGE_ALL);
+        break;
+
       case POST.MUTE:
         var post_id = payload.post_id;
         var post = this.posts.get(post_id);
@@ -471,6 +482,10 @@ _.extend(PostStore, {
   getPost(id) {
     //console.log(this.posts);
     return this.posts.get(id).toJSON();
+  },
+
+  getFrontBevies() {
+    return this.frontBevies;
   },
 
   /**

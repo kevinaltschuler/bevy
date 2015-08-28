@@ -32,7 +32,7 @@ var PostCollection = Backbone.Collection.extend({
 
     var bevy_id = router.bevy_id;
     
-    if((bevy_id == -1) && (router.current == 'bevy')) // frontpage
+    if((router.current == 'front')) // frontpage
       return constants.apiurl + '/users/' + user._id + '/frontpage';
 
     if(router.current == 'search' && !_.isEmpty(router.search_query))

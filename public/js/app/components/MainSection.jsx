@@ -19,6 +19,7 @@ var HomeView = require('./../../homepage/components/HomeView.jsx');
 var PostView = require('./PostView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
+var Frontpage = require('./Frontpage.jsx');
 
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -70,7 +71,8 @@ var MainSection = React.createClass({
 
   getPostState: function() {
     return {
-      sortType: PostStore.getSort()
+      sortType: PostStore.getSort(),
+      frontBevies: PostStore.getFrontBevies()
     }
   },
 
@@ -158,6 +160,9 @@ var InterfaceComponent = React.createClass({
     switch(router.current) {
       case 'home': 
         return <HomeView {...this.props}  />
+        break;
+      case 'front':
+        return <Frontpage {...this.props} />
         break;
       case 'search':
         return <SearchView {...this.props} />

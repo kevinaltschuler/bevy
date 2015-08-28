@@ -75,6 +75,7 @@ var PostContainer = React.createClass({
     var posts = [];
     var sortType = this.props.sortType;
     var activeTags = this.props.activeTags;
+    var frontBevies = this.props.frontBevies;
 
     if(_.isEmpty(allPosts)) {
       return (
@@ -84,24 +85,48 @@ var PostContainer = React.createClass({
       );
     }
 
-    // filter posts here
-    allPosts = _.reject(allPosts, function($post) {
-      // see if the sort type matches
-      if(sortType == ('new' || 'top')) {
-        if($post.type != 'default') return true;
-        // see if the tag matches
-        if(_.find(activeTags, function($tag) {
-          if(_.isEmpty($post.tag)) return false;
-          return $tag.name == $post.tag.name;
-        }) == undefined) return true;
-        // yep, it matches
-        return false;
-      }
-      //filter out everything but events
-      if(sortType == ('events')) {
-        if($post.type != 'event') return true;
-      }
-    });
+    
+    if(this.props.activeBevy._id == '-1') {
+      //filter posts for the frontpage here
+      allPosts = _.reject(allPosts, function($post) {
+        //filter out for new and top
+        if((sortType == 'new') || (sortType == 'top')) {
+          
+          if($post.type != 'default') {
+            return true;
+          }
+
+          if(_.find(frontBevies, function($bevy) { return $post.bevy._id == $bevy }) == undefined) {
+            return true; 
+          }
+        }
+
+        //filter out for events
+        if(sortType == ('events')) {
+          if($post.type != 'event') return true;
+        }
+
+      });
+    } else {
+      // filter posts here
+      allPosts = _.reject(allPosts, function($post) {
+        // see if the sort type matches
+        if(sortType == ('new' || 'top')) {
+          if($post.type != 'default') return true;
+          // see if the tag matches
+          if(_.find(activeTags, function($tag) {
+            if(_.isEmpty($post.tag)) return false;
+            return $tag.name == $post.tag.name;
+          }) == undefined) return true;
+          // yep, it matches
+          return false;
+        }
+        //filter out everything but events
+        if(sortType == ('events')) {
+          if($post.type != 'event') return true;
+        }
+      });
+    }
 
     // for each post
     for(var key in allPosts) {
