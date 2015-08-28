@@ -108,35 +108,13 @@ var SearchView = React.createClass({
     return (
       <div className='public-bevy-wrapper'>
         <div className='mid-section'>
-          <div className='public-bevy-list'>
-            {/*<div className='public-bevy-header'>
-              <div className='title'>
-                <Button className='title-btn'>
-                  <h2>my bevies</h2>
-                </Button>
-                <h2 className='divider'>&nbsp;•&nbsp;</h2>
-                <Button className='title-btn'>
-                  <h2>all bevies</h2>
-                </Button>
-              </div>
-              <RaisedButton 
-                disabled={_.isEmpty(window.bootstrap.user)} 
-                label='new bevy' 
-                className='public-bevy-panel panel'
-                onClick={() => { this.setState({ showNewBevyModal: true }); }}>
-                <FontIcon className="glyphicon glyphicon-plus"/>
-              </RaisedButton>
-              <CreateNewBevyModal
-                show={ this.state.showNewBevyModal }
-                onHide={() => { this.setState({ showNewBevyModal: false }); }}
-              />
-            </div>*/}
-            { content }
-          </div>
-          <div className='right-filter-sidebar'>
+          <div className='left-filter-sidebar'>
             <div className='filter-fixed'>
               <FilterSidebar searchQuery={ this.props.searchQuery } />
             </div>
+          </div>
+          <div className='public-bevy-list'>
+            { content }
           </div>
         </div>
       <div className="footer-public-bevies">

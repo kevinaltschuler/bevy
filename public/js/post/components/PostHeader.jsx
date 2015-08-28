@@ -36,8 +36,8 @@ var PostHeader = React.createClass({
   },
 
   onSwitchBevy(ev) {
-    ev.preventDefault();
-    router.navigate('/b/' + this.props.post.bevy._id, { trigger: true });
+    //ev.preventDefault();
+    //router.navigate('/b/' + this.props.post.bevy._id, { trigger: true });
   },
 
   startPM(ev) {

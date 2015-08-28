@@ -1,0 +1,116 @@
+.frontpage-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+    top: 0;
+    position: fixed;
+    left: 0;
+    width: 100%;
+    position: relative;
+    .mid-section {
+        width: 100%;
+        padding-top: 85px;
+        display: flex;
+        justify-content: center;
+        padding-left: 50px;
+        padding-right: 50px;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 880px;
+        .left-sidebar {
+            width: 100%;
+            flex-grow: 1;
+            order: 0;
+            max-width: 200px;
+            padding-top: 10px;
+            margin-right: 10px;
+            .panel.frontpage-sidebar {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                padding: 6px 0px 10px 0px;
+                position: fixed;
+                left: inherit;
+                top: 94px;
+                .actions {
+                    display: flex;
+                    flex-direction: column;
+                    .sort {
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-weight: 700;
+                        .sort-btn {
+                            font-weight: 700;
+                        }
+                    }
+                    .bevies {
+                        padding-left: 10px;
+                        display: flex;
+                        flex-direction: column;
+                    }
+                    .title {
+                        color: #757d83;
+                        font-weight: 700;
+                        margin: 10px 2px;
+                    }
+                }
+            }
+        }
+        .frontpage-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            max-width: 580px;
+            min-width: 580px;
+            padding-top: 10px;
+            .floating-btn {
+                position: fixed;
+                right: 40px;
+                bottom: 30px;
+                .mui-floating-action-button-inner {
+                    .mui-floating-action-button-container {
+                        background-color: rgba(0,0,0,.5);
+                    }
+                }
+            }
+        }
+    }
+}
+
+.footer-frontpage {
+    display: flex;
+    height: 80px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    max-width: 900px;
+    font-size: 1em;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 60px;
+    padding-right: 50px;
+    .bevy-logo-btn {
+        width: 25px;
+        height: 25px;
+        padding: 0px;
+        background-color: rgba(0,0,0,0) !important;
+        border: none;
+        outline: 0;
+        box-shadow: none;
+        z-index: 2;
+        margin-right: 15px;
+        .bevy-logo-img {
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 25px 25px;
+            width: 25px;
+            height: 25px;
+        }
+    }
+}

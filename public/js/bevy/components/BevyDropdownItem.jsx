@@ -32,8 +32,8 @@ var BevyDropdownItem = React.createClass({
   },
 
   switchBevy(ev) {
-    ev.preventDefault();
-    router.navigate('/b/' + this.props.bevy._id, { trigger: true });
+    //ev.preventDefault();
+    //router.navigate('/b/' + this.props.bevy._id, { trigger: true });
   },
 
   render() {

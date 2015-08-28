@@ -34,10 +34,17 @@ li, a {
 	transition: all .15s ease-in-out;
 	&:hover {
 		background-color: rgba(0,0,0,0);
+		box-shadow: none;
 	}
-	&:active, &:focus {
+	&:active, &:focus, &.active, &.focus {
 		background-color: rgba(0,0,0,0) !important;
 		box-shadow: none;
 		color: black;
+	}
+}
+
+.sort-btn {
+	&:active, &.active {
+		text-decoration: underline;
 	}
 }

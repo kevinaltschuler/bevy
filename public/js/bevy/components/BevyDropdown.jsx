@@ -7,6 +7,7 @@
 
 var React = require('react');
 var _ = require('underscore');
+var Ink = require('react-ink');
 
 var {
   MenuItem,
@@ -71,6 +72,7 @@ var BevyDropdown = React.createClass({
           onClick={ this.toggle }
         >
           My Bevies
+          <Ink style={{paddingLeft: '15px'}}/>
         </Button>
         <Overlay
           show={ this.state.show }

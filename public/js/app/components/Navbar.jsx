@@ -13,6 +13,7 @@
 
 // imports
 var React = require('react');
+var Ink = require('react-ink');
 var {
   Button,
   DropdownButton,
@@ -155,6 +156,9 @@ var Navbar = React.createClass({
       case 'home':
         navbarTitle = '';
         break;
+      case 'front':
+        navbarTitle = 'frontpage';
+        break;
       case 'bevy':
         navbarTitle = this.props.activeBevy.name;
         var backgroundStyle = (_.isEmpty(this.props.activeBevy))
@@ -177,13 +181,20 @@ var Navbar = React.createClass({
           <div className="background-image" style= { backgroundStyle } />
         </div>
         <div className="left">
-          <Button className="bevy-logo-btn" href={ (!_.isEmpty(window.bootstrap.user)) ? '/bevies' : '/' }>
+          <Button className="bevy-logo-btn" href={ (!_.isEmpty(window.bootstrap.user)) ? '/b/frontpage' : '/' }>
             <div className='bevy-logo-img'/>
           </Button>
           <BevyDropdown
             myBevies={ this.props.myBevies }
             activeBevy={ this.props.activeBevy }
           />
+          <Button
+            className='all-bevies-btn'
+            href='/s'
+          >
+            All Bevies
+            <Ink style={{height: '32px', width: '85px', top: 'inherit', left: 'inherit', marginTop: '-6px', marginLeft: '-73px' }}/>
+          </Button>
         </div>
 
         <div className="center">

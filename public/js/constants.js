@@ -51,6 +51,7 @@ exports.POST = {
   UPDATE: 'post_update',
   MUTE: 'post_mute',
   PIN: 'post_pin',
+  UPDATE_FRONTBEVIES: 'post_update_frontbevies',
 
   FETCH: 'post_fetch',
 

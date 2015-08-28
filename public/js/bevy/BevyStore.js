@@ -205,6 +205,11 @@ _.extend(BevyStore, {
         var bevy_id = payload.bevy_id;
         this.active = bevy_id;
 
+        if(bevy_id == '-1') {
+          this.trigger(BEVY.CHANGE_ALL);
+          break;
+        }
+
         var bevy = this.myBevies.get(bevy_id);
         if(bevy == undefined) {
           // look in the public bevy list
