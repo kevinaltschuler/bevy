@@ -172,6 +172,7 @@ var ProfileDropdown = React.createClass({
           <AddAccountModal
             show={ this.state.showAddAccountModal }
             onHide={() => this.setState({ showAddAccountModal: false })}
+            linkedAccounts={ this.state.linkedAccounts }
           />
         </div>
       </div>

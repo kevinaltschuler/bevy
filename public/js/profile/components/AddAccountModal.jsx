@@ -25,7 +25,8 @@ var UserActions = require('./../UserActions');
 var AddAccountModal = React.createClass({
   propTypes: {
     show: React.PropTypes.bool,
-    onHide: React.PropTypes.func
+    onHide: React.PropTypes.func,
+    linkedAccounts: React.PropTypes.array
   },
 
   getInitialState() {
@@ -72,9 +73,19 @@ var AddAccountModal = React.createClass({
         username: username,
         password: password
       },
-      success: function(data) {
+      success: function($user) {
+        // check for duplicates
+        if(_.find(this.props.linkedAccounts, function($account) {
+          return $account._id == $user._id;
+        }) != undefined) {
+          // duplicate found
+          return this.setState({
+            errorText: 'Account already linked'
+          });
+        }
+
         this.setState({
-          verifiedUser: data
+          verifiedUser: $user
         });
       }.bind(this),
       error: function(error) {
