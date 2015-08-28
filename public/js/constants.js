@@ -88,6 +88,9 @@ exports.BEVY = {
 exports.USER = {
   UPDATE: 'user_update',
   SEARCH: 'user_search',
+  LINK_ACCOUNT: 'user_link_account',
+  UNLINK_ACCOUNT: 'user_unlink_account',
+  SWITCH_USER: 'user_switch_user',
 
   SEARCHING: 'user_searching',
   SEARCH_COMPLETE: 'user_search_complete'

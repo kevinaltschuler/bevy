@@ -46,9 +46,6 @@ var MainSection = React.createClass({
 
   // called directly after mounting
   getInitialState: function() {
-
-    AppActions.load();
-
     return this.collectState();
   },
 
@@ -58,6 +55,8 @@ var MainSection = React.createClass({
     BevyStore.on(change_all_events, this._onBevyChange);
     NotificationStore.on(change_all_events, this._onNotificationChange);
     UserStore.on(change_all_events, this._onUserChange);
+
+    AppActions.load();
   },
 
   // unmount event listeners
@@ -98,6 +97,8 @@ var MainSection = React.createClass({
 
   getUserState: function() {
     return {
+      user: UserStore.getUser(),
+      loggedIn: UserStore.getLoggedIn()
     };
   },
 
@@ -137,6 +138,7 @@ var MainSection = React.createClass({
           activeBevy={ this.state.activeBevy }
           allNotifications={ this.state.allNotifications }
           myBevies={ this.state.myBevies }
+          linkedAccounts={ this.state.linkedAccounts }
         />
         <InterfaceComponent {...this.state} />
       </div>

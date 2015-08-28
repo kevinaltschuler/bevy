@@ -25,12 +25,21 @@ _.extend(UserStore, {
   userSearchQuery: '',
   userSearchResults: new Users,
 
+  linkedAccounts: new Users,
+
   handleDispatch(payload) {
     switch(payload.actionType) {
       case APP.LOAD:
 
         this.user = new User(window.bootstrap.user);
         this.user.url = constants.apiurl + '/users/' + this.user.get('_id');
+
+        this.linkedAccounts.url = constants.apiurl + '/users/' + this.user.get('_id') + '/linkedaccounts';
+        this.linkedAccounts.fetch({
+          success: function(collection, response, options) {
+            this.trigger(USER.CHANGE_ALL);
+          }.bind(this)
+        });
 
         break;
       case BEVY.JOIN:
@@ -70,23 +79,96 @@ _.extend(UserStore, {
 
           }.bind(this)
         });
-
         break;
+
       case USER.UPDATE:
         var image_url = payload.image_url;
 
+        this.user.save({
+          image_url: image_url
+        }, {
+          patch: true,
+          success: function(model, response, options) {
+
+          }.bind(this)
+        });
+        break;
+
+      case USER.LINK_ACCOUNT:
+        var account = payload.account;
+
+        var linkedAccounts = this.user.get('linkedAccounts');
+        if(_.isEmpty(linkedAccounts)) linkedAccounts = [];
+
+        linkedAccounts.push(account._id);
+        _.uniq(linkedAccounts); // remove dupes
+
         $.ajax({
-          url: constants.apiurl + '/users/' + user._id,
-          method: 'PATCH',
+          url: constants.apiurl + '/users/' + this.user.get('_id') + '/linkedaccounts',
+          method: 'POST',
           data: {
-            image_url: image_url
+            account_id: account._id
           },
           success: function(data) {
 
+          },
+          error: function(error) {
+            console.log(error);
           }
         });
 
+        // add to collection
+        this.linkedAccounts.push(account);
+        this.trigger(USER.CHANGE_ALL);
         break;
+
+      case USER.UNLINK_ACCOUNT:
+        var account = payload.account;
+
+        var linkedAccounts = this.user.get('linkedAccounts');
+        if(_.isEmpty(linkedAccounts)) linkedAccounts = [];
+
+        linkedAccounts = _.without(linkedAccounts, account._id);
+        _.uniq(linkedAccounts); // remove dupes
+
+        $.ajax({
+          url: constants.apiurl + '/users/' + this.user.get('_id') + '/linkedaccounts/' + account._id,
+          method: 'DELETE',
+          success: function(data) {
+
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });
+
+        // remove from collection
+        this.linkedAccounts.remove(account._id);
+        this.trigger(USER.CHANGE_ALL);
+        break;
+
+      case USER.SWITCH_USER:
+        var account_id = payload.account_id;
+        console.log('switch account', account_id);
+
+        $.ajax({
+          url: constants.siteurl + '/switch',
+          method: 'POST',
+          data: {
+            username: 'dummy',
+            password: 'dummy',
+            user_id: this.user.get('_id'),
+            switch_to_id: account_id
+          },
+          success: function(data) {
+            window.location.reload();
+          },
+          error: function(error) {
+            console.log(error);
+          }
+        });
+        break;
+
       case USER.SEARCH:
         this.trigger(USER.SEARCHING);
         var query = payload.query;
@@ -107,6 +189,18 @@ _.extend(UserStore, {
         });
         break;
     }
+  },
+
+  getUser() {
+    return this.user.toJSON();
+  },
+
+  getLoggedIn() {
+    return _.isEmpty(window.bootstrap.user);
+  },
+
+  getLinkedAccounts() {
+    return this.linkedAccounts.toJSON();
   },
 
   getUserSearchQuery() {

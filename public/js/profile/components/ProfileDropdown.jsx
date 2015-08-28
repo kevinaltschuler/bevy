@@ -10,9 +10,6 @@ var React = require('react');
 var _ = require('underscore');
 
 var {
-  Popover,
-  DropdownButton,
-  MenuItem,
   Button,
   Overlay
 } = require('react-bootstrap');
@@ -22,10 +19,14 @@ var {
   TextField
 } = require('material-ui');
 
+var AddAccountModal = require('./AddAccountModal.jsx');
+var LinkedAccountItem = require('./LinkedAccountItem.jsx');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var UserActions = require('./../UserActions');
+var UserStore = require('./../UserStore');
 var constants = require('./../../constants');
+var USER = constants.USER;
 
 var user = window.bootstrap.user;
 
@@ -39,12 +40,29 @@ var ProfileDropdown = React.createClass({
 
   getInitialState() {
     return {
-      image_url: (user.image_url) ? user.image_url : constants.defaultProfileImage
+      image_url: (user.image_url) ? user.image_url : constants.defaultProfileImage,
+      showAddAccountModal: false,
+      linkedAccounts: []
     }
   },
 
   componentDidMount() {
     this.container = React.findDOMNode(this.refs.Container);
+    UserStore.on(USER.CHANGE_ALL, this.handleChangeAll);
+  },
+
+  componentWillUnmount() {
+    UserStore.off(USER.CHANGE_ALL, this.handleChangeAll);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    
+  },
+
+  handleChangeAll() {
+    this.setState({
+      linkedAccounts: UserStore.getLinkedAccounts()
+    });
   },
 
   onUploadComplete(file) {
@@ -68,6 +86,27 @@ var ProfileDropdown = React.createClass({
   toggle(ev) {
     ev.preventDefault();
     this.props.onToggle();
+  },
+
+  _renderLinkedAccounts() {
+    if(_.isEmpty(this.state.linkedAccounts)) return <div />;
+
+    var accounts = [];
+    for(var key in this.state.linkedAccounts) {
+      var account = this.state.linkedAccounts[key];
+      accounts.push(
+        <LinkedAccountItem
+          key={ 'linkedaccount:' + account._id }
+          account={ account } 
+        />
+      );
+    }
+
+    return (
+      <div className='linked-accounts'>
+        { accounts }
+      </div>
+    );
   },
 
   renderOverlay() {
@@ -117,24 +156,23 @@ var ProfileDropdown = React.createClass({
               { email }
               <span className='profile-points'>{ user.points }&nbsp;Points</span>
             </div>
-            <DropdownButton
-              noCaret
-              pullRight
-              className="profile-settings"
-              title={<span className="glyphicon glyphicon-option-vertical btn"></span>}>
-              <MenuItem>
-                Delete Account
-              </MenuItem>
-            </DropdownButton>
           </div>
+          { this._renderLinkedAccounts() }
           <div className="profile-dropdown-buttons">
-            <div className="profile-btn-right">
-              <FlatButton
-                label="Logout"
-                linkButton={ true }
-                href='/logout' />
-            </div>
+            <FlatButton
+              label="Add Account"
+              onClick={() => this.setState({ showAddAccountModal: true })}
+            />
+            <FlatButton
+              label="Logout"
+              linkButton={ true }
+              href='/logout' 
+            />
           </div>
+          <AddAccountModal
+            show={ this.state.showAddAccountModal }
+            onHide={() => this.setState({ showAddAccountModal: false })}
+          />
         </div>
       </div>
     );

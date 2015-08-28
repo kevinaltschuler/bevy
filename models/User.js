@@ -82,6 +82,10 @@ var UserSchema = new Schema({
   }, {
     _id: false
   })],
+  linkedAccounts: [{
+    type: String,
+    ref: 'User'
+  }],
   created: {
     type: Date,
     default: Date.now

@@ -24,25 +24,48 @@ module.exports = function(app) {
 
   var User = mongoose.model('User');
 
-  passport.use(new LocalStrategy({
+  passport.use('login', new LocalStrategy({
       usernameField: 'username',
       passwordField: 'password'
     },
     function(username, password, done) {
-      User.find({ username: username }, function(err, users) {
+      User.findOne({ username: username }, function(err, user) {
         if(err) return done(err);
-        if(users.length <= 0) return done(null, false, { message: 'No User With That Username Exists' });
-        users.forEach(function(user) {
-          var hash = user.password;
-          if(bcrypt.compareSync(password, hash)) {
-            // found it
-            return done(null, user);
-          }
-        });
+        if(_.isEmpty(user)) return done(null, false, { message: 'No User With That Username Exists' });
+
+        var hash = user.password;
+        if(bcrypt.compareSync(password, hash)) {
+          // found it
+          return done(null, user);
+        }
+        
         return done(null, false, { message: 'Incorrect password' });
       });
     }
   ));
+
+  passport.use('switch', new LocalStrategy({
+    usernameField: 'username',
+    passwordField: 'password',
+    passReqToCallback: true
+  }, function(req, username, password, done) {
+    var user_id = req.body['user_id'];
+    var switch_to_id = req.body['switch_to_id'];
+
+    if(_.isEmpty(user_id) || _.isEmpty(switch_to_id)) return done(null, false, { message: 'Invalid Credentials' });
+
+    User.findOne({ _id: user_id }, function(err, user) {
+      if(err) return done(err);
+      if(_.isEmpty(user)) return done(null, false, { message: 'User Does Not Exist' });
+      var linkedAccounts = user.linkedAccounts;
+      User.findOne({ _id: switch_to_id }, function(err, $user) {
+        if(err) return done(err);
+        if(_.isEmpty($user)) return done(null, false, { message: 'Linked Account Does Not Exist' });
+        if(!_.contains(linkedAccounts, $user._id)) return done(null, false, { message: 'Account Not Linked' });
+        return done(null, $user);
+      });
+    }).lean();
+  }));
 
   passport.use(new GoogleStrategy({
       clientID: GOOGLE_CLIENT_ID,

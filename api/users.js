@@ -126,24 +126,17 @@ exports.search = function(req, res, next) {
 // UPDATE
 // PUT/PATCH /users/:id
 exports.update = function(req, res, next) {
-  //console.log('update');
   var id = req.params.id;
 
   var update = {};
   update.updated = new Date();
-  if(req.body['bevies'] != undefined) {
+  if(req.body['bevies'] != undefined)
     update.bevies = req.body['bevies'];
-  }
-  if(req.body['image_url'] != undefined) update.image_url = req.body['image_url'];
-  // hash password if it exists
-  if(update.password) update.password = bcrypt.hashSync(update.password, 8);
+  if(req.body['image_url'] != undefined)
+    update.image_url = req.body['image_url'];
+  if(req.body['linkedAccounts'] != undefined)
+    update.linkedAccounts = req.body['linkedAccounts'];
 
-  //console.log(update);
-
-  /*User.findOneAndUpdate({ _id: id }, update, { new: true, upsert: true }, function(err, user) {
-    if(err) return next(err);
-    return res.json(user);
-  }).populate('bevies');*/
   var promise = User.findOneAndUpdate({ _id: id }, update, { new: true });
   promise.then(function(user) {
     return res.json(user);
@@ -168,35 +161,6 @@ exports.destroy = function(req, res, next) {
   }, function(err) { next(err); });
 }
 
-// GET /users/:id/contacts
-exports.getContacts = function(req, res, next) {
-  var id = req.params.id;
-  return res.json([]);
-
-  /*async.waterfall([
-    function(done) {
-      // get bevies the user is a member of
-      Bevy.find({ members: { $elemMatch: { user: id } } }, function(err, bevies) {
-        done(null, bevies);
-      }).populate('members.user');
-    },
-    function(bevies, done) {
-      // get members
-      var members = [];
-      bevies.forEach(function(bevy) {
-        if(bevy.settings.anonymise_users) return;
-        bevy.members.forEach(function(member) {
-          members.push(member.user);
-        });
-      });
-      // remove dupes
-      members = _.uniq(members);
-
-      return res.json(members);
-    }
-  ]);*/
-}
-
 // GET /users/google/:id
 exports.getGoogle = function(req, res, next) {
   var id = req.params.id;
@@ -205,6 +169,67 @@ exports.getGoogle = function(req, res, next) {
     if(err) return next(err);
     return res.json(user);
   });
-}
+};
 
+// GET /users/:id/linkedaccounts
+exports.getLinkedAccounts = function(req, res, next) {
+  var id = req.params.id;
 
+  User.findOne({ _id: id }, function(err, user) {
+    if(err) return next(err);
+    if(!user) return res.json([]);
+    return res.json(user.linkedAccounts);
+  }).populate('linkedAccounts');
+};
+
+// POST /users/:id/linkedaccounts
+exports.addLinkedAccount = function(req, res, next) {
+  var id = req.params.id;
+  var account_id = req.body['account_id'];
+
+  // update the user
+  User.findOne({ _id: id }, function(err, user) {
+    if(err) return next(err);
+    if(!_.contains(user.linkedAccounts, account_id)) user.linkedAccounts.push(account_id);
+    user.save(function(err, $user) {
+      if(err) return next(err);
+      return res.json($user);
+    });
+  });
+
+  // also update the other account to create a two way link
+  User.findOne({ _id: account_id }, function(err, user) {
+    if(err) return next(err);
+    if(!_.contains(user.linkedAccounts, id)) user.linkedAccounts.push(id);
+    user.save(function(err, $user) {
+      if(err) return next(err);
+      //return res.json($user);
+    });
+  });
+};
+
+// DELETE /users/:id/linkedaccounts/:accountid
+exports.removeLinkedAccount = function(req, res, next) {
+  var id = req.params.id;
+  var account_id = req.params.accountid;
+
+  // update the user
+  User.findOne({ _id: id }, function(err, user) {
+    if(err) return next(err);
+    if(_.contains(user.linkedAccounts, account_id)) user.linkedAccounts.pull(account_id);
+    user.save(function(err, $user) {
+      if(err) return next(err);
+      return res.json($user);
+    });
+  });
+
+  // also update the other account to remove the two way link
+  User.findOne({ _id: account_id }, function(err, user) {
+    if(err) return next(err);
+    if(_.contains(user.linkedAccounts, id)) user.linkedAccounts.pull(id);
+    user.save(function(err, $user) {
+      if(err) return next(err);
+      //return res.json($user);
+    });
+  });
+};

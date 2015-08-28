@@ -29,7 +29,13 @@ module.exports = function(router) {
 	// DESTROY
 	router.delete('/users/:id', api.users.destroy);
 
-	// CONTACTS
-	router.get('/users/:id/contacts', api.users.getContacts);
+	// GET LINKED ACCOUNTS
+	router.get('/users/:id/linkedaccounts', api.users.getLinkedAccounts);
+
+	// ADD LINKED ACCOUNT
+	router.post('/users/:id/linkedaccounts', api.users.addLinkedAccount);
+
+	// REMOVE LINKED ACCOUNT
+	router.delete('/users/:id/linkedaccounts/:accountid', api.users.removeLinkedAccount);
 
 };

@@ -32,14 +32,16 @@ if(current_env == 'development') {
 		port: 80,
 		// In staging and production, listen loopback. nginx listens on the network.
 		ip: '127.0.0.1',
-		hostname: 'http://bevy.dev'
+		hostname: 'http://bevy.dev',
+		domain: 'bevy.dev'
 	};
 } else {
 	exports.server = {
 		port: 80,
 		// In staging and production, listen loopback. nginx listens on the network.
 		ip: '127.0.0.1',
-		hostname: 'http://joinbevy.com'
+		hostname: 'http://joinbevy.com',
+		domain: 'joinbevy.com'
 	};
 }
 

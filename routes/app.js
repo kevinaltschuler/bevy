@@ -14,7 +14,7 @@ module.exports = function(app) {
 	//test email
 	app.get('/emailtest', function(req, res, next) {
 		mailgun.messages().send({
-			from: 'Bevy Team <contact@bvy.io>',
+			from: 'Bevy Team <contact@joinbevy.com>',
 			to: 'kevin@joinbevy.com',
 			subject: 'Test Subject',
 			html: emailHTML

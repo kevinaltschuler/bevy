@@ -5,6 +5,7 @@
 
 'use strict';
 
+var _ = require('underscore');
 var async = require('async');
 var crypto = require('crypto');
 var bcrypt = require('bcryptjs');
@@ -20,7 +21,7 @@ var ResetToken = mongoose.model('ResetToken');
 
 module.exports = function(app) {
   app.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
+    passport.authenticate('login', function(err, user, info) {
       // a passport or database error
       if(err) return next(err);
 
@@ -35,6 +36,38 @@ module.exports = function(app) {
       req.logIn(user, function(err) {
         if(err) return next(err);
         // user found
+        return res.json(user);
+      });
+    })(req, res, next);
+  });
+
+  app.post('/verify', function(req, res, next) {
+    var username = req.body['username'];
+    var password = req.body['password'];
+
+    if(_.isEmpty(username)) return next('No username provided');
+    if(_.isEmpty(password)) return next('No password provided');
+
+    User.findOne({ username: username }, function(err, user) {
+      if(err) return next(err);
+      if(_.isEmpty(user)) return next('No user with that username found');
+
+      var hash = user.password;
+      if(bcrypt.compareSync(password, hash)) {
+        // found it
+        return res.json(user);
+      }
+      return next('Incorrect password');
+    });
+  });
+
+  app.post('/switch', function(req, res, next) {
+    passport.authenticate('switch', function(err, user, info) {
+      if(err) return next(err);
+      if(!user) return next(info.message);
+      req.logout();
+      req.login(user, function(err) {
+        if(err) return next(err);
         return res.json(user);
       });
     })(req, res, next);
