@@ -243,6 +243,8 @@ _.extend(PostStore, {
         var post = this.posts.get(post_id);
         if(post == undefined) break;
 
+        this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
+
         var votes = post.get('votes');
         var vote = _.findWhere(votes, { voter: voter._id });
         if(vote == undefined) {
