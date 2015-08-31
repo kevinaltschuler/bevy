@@ -102,11 +102,6 @@ var Navbar = React.createClass({
     var chatSidebar = <ChatSidebar />;
     var chatDock = <ChatDock />;
 
-    if(router.current == 'home') {
-      chatSidebar = <div />;
-      chatDock = <div />;
-    }
-
     return (
       <div className='profile-buttons'>
         {chatSidebar}
@@ -154,7 +149,7 @@ var Navbar = React.createClass({
     var navbarTitle = '';
     switch(router.current) {
       case 'home':
-        navbarTitle = '';
+        navbarTitle = 'frontpage';
         break;
       case 'front':
         navbarTitle = 'frontpage';

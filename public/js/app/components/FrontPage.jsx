@@ -59,14 +59,14 @@ var FrontPage = React.createClass({
               <PostContainer
                 allPosts={ this.props.allPosts }
                 activeBevy={activeBevy}
-                sortType={'top'}
+                sortType={this.props.sortType}
                 activeTags={{}}
                 frontBevies={ this.props.frontBevies }
               />
             </div>
             </div>
           </div>
-        <div className="footer-frontpage">
+        {/*<div className="footer-frontpage">
           <div className='footer-left'>
             Bevy © 2015 
           </div>
@@ -75,7 +75,7 @@ var FrontPage = React.createClass({
               <div className='bevy-logo-img' style={{ backgroundImage: 'url(/img/logo_100.png)' }}/>
             </Button>
           </div>
-        </div>
+        </div>*/}
       </div>
     );
   }

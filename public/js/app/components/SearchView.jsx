@@ -25,6 +25,7 @@ var {
 var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
+var Footer = require('./Footer.jsx');
 
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
@@ -111,13 +112,14 @@ var SearchView = React.createClass({
           <div className='left-filter-sidebar'>
             <div className='filter-fixed'>
               <FilterSidebar searchQuery={ this.props.searchQuery } />
+              <Footer />
             </div>
           </div>
           <div className='public-bevy-list'>
             { content }
           </div>
         </div>
-      <div className="footer-public-bevies">
+      {/*<div className="footer-public-bevies">
         <div className='footer-left'>
           Bevy © 2015 
         </div>
@@ -126,7 +128,7 @@ var SearchView = React.createClass({
             <div className='bevy-logo-img' style={{ backgroundImage: 'url(/img/logo_100.png)' }}/>
           </Button>
         </div>
-      </div>
+      </div>*/}
     </div>
     );
   }
