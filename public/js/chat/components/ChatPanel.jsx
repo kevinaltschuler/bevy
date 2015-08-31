@@ -10,7 +10,7 @@ var {
   MenuItem,
   OverlayTrigger,
   Tooltip,
-  CollapsibleMixin
+  Panel
 } = require('react-bootstrap');
 var {
   TextField,
@@ -34,8 +34,6 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 var user = window.bootstrap.user;
 
 var ChatPanel = React.createClass({
-  mixins: [CollapsibleMixin],
-
   propTypes: {
     thread: React.PropTypes.object
   },
@@ -49,7 +47,8 @@ var ChatPanel = React.createClass({
       inputValue: '', // the value of the add user input
       showEditParticipantsModal: false,
       accordionType: 'add-user',
-      image_url: this.props.thread.image_url
+      image_url: this.props.thread.image_url,
+      expanded: false
     };
   },
 
@@ -78,14 +77,6 @@ var ChatPanel = React.createClass({
   componentWillUnmount() {
     ChatStore.off(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
     ChatStore.off(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
-  },
-
-  getCollapsibleDOMNode() {
-    return React.findDOMNode(this.refs.Accordion);
-  },
-
-  getCollapsibleDimensionValue() {
-    return React.findDOMNode(this.refs.Accordion).scrollHeight;
   },
 
   _onMessageFetch() {
@@ -373,16 +364,14 @@ var ChatPanel = React.createClass({
       opacity: 0.6
     } : {};
 
-    var styles = this.getCollapsibleClassSet();
-
     var body = (this.state.isOpen) ? (
       <div ref='ChatPanelBody' className='chat-panel-body'>
-        <div ref='Accordion' className={ classNames(styles) }>
+        <Panel collapsible expanded={ this.state.expanded }>
           { this._renderAccordion() }
-        </div>
+        </Panel>
         <UserSearchOverlay
           container={ this.container }
-          target={this.refs.AddUserInput}
+          target={() => React.findDOMNode(this.refs.AddUserInput) }
           query={ this.state.inputValue }
           addUser={ this.addUser }
           addedUsers={ _.union(this.state.addedUsers, thread.users) }
