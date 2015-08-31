@@ -188,22 +188,29 @@ exports.addLinkedAccount = function(req, res, next) {
   var account_id = req.body['account_id'];
 
   // update the user
-  User.findOne({ _id: id }, function(err, user) {
+  User.findOne({ _id: id }, function(err, orig_user) {
     if(err) return next(err);
-    if(!_.contains(user.linkedAccounts, account_id)) user.linkedAccounts.push(account_id);
-    user.save(function(err, $user) {
+    // push the new user onto the linked accounts of the original one
+    if(!_.contains(orig_user.linkedAccounts, account_id)) orig_user.linkedAccounts.push(account_id);
+    orig_user.save(function(err, $orig_user) {
       if(err) return next(err);
-      return res.json($user);
-    });
-  });
 
-  // also update the other account to create a two way link
-  User.findOne({ _id: account_id }, function(err, user) {
-    if(err) return next(err);
-    if(!_.contains(user.linkedAccounts, id)) user.linkedAccounts.push(id);
-    user.save(function(err, $user) {
-      if(err) return next(err);
-      //return res.json($user);
+      // also update the other account to create a two way link
+      User.findOne({ _id: account_id }, function(err, new_user) {
+        if(err) return next(err);
+        var linkedAccounts = orig_user.linkedAccounts.toObject();
+        if(!_.contains(new_user.linkedAccounts, id)) new_user.linkedAccounts.push(id);
+        for(var key in linkedAccounts) {
+          // push the other linked accounts of the original user
+          var $id = linkedAccounts[key];
+          if(!_.contains(new_user.linkedAccounts, $id) && $id != account_id) new_user.linkedAccounts.push($id);
+        }
+        new_user.save(function(err, $new_user) {
+          if(err) return next(err);
+          return res.json($orig_user);
+        });
+      });
+
     });
   });
 };
@@ -214,22 +221,28 @@ exports.removeLinkedAccount = function(req, res, next) {
   var account_id = req.params.accountid;
 
   // update the user
-  User.findOne({ _id: id }, function(err, user) {
+  User.findOne({ _id: id }, function(err, orig_user) {
     if(err) return next(err);
-    if(_.contains(user.linkedAccounts, account_id)) user.linkedAccounts.pull(account_id);
-    user.save(function(err, $user) {
+    if(_.contains(orig_user.linkedAccounts, account_id)) orig_user.linkedAccounts.pull(account_id);
+    orig_user.save(function(err, $orig_user) {
       if(err) return next(err);
-      return res.json($user);
-    });
-  });
+      
+      // also update the other account to remove the two way link
+      User.findOne({ _id: account_id }, function(err, new_user) {
+        if(err) return next(err);
+        var linkedAccounts = orig_user.linkedAccounts.toObject();
+        if(_.contains(new_user.linkedAccounts, id)) new_user.linkedAccounts.pull(id);
+        for(var key in linkedAccounts) {
+          // pull the other linked accounts of the original user
+          var $id = linkedAccounts[key];
+          if(_.contains(new_user.linkedAccounts, $id)) new_user.linkedAccounts.pull($id);
+        }
+        new_user.save(function(err, $new_user) {
+          if(err) return next(err);
+          return res.json($orig_user);
+        });
+      });
 
-  // also update the other account to remove the two way link
-  User.findOne({ _id: account_id }, function(err, user) {
-    if(err) return next(err);
-    if(_.contains(user.linkedAccounts, id)) user.linkedAccounts.pull(id);
-    user.save(function(err, $user) {
-      if(err) return next(err);
-      //return res.json($user);
     });
   });
 };

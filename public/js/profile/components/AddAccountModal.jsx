@@ -67,7 +67,7 @@ var AddAccountModal = React.createClass({
     if(_.isEmpty(password)) return this.setState({ errorText: 'Please enter a password' });
 
     $.ajax({
-      method: 'post',
+      method: 'POST',
       url: constants.siteurl + '/verify',
       data: {
         username: username,
@@ -84,9 +84,34 @@ var AddAccountModal = React.createClass({
           });
         }
 
+        UserActions.linkAccount($user);
+        this.hide();
+      }.bind(this),
+      error: function(error) {
         this.setState({
-          verifiedUser: $user
+          errorText: error.responseJSON
         });
+      }.bind(this)
+    });
+  },
+
+  createUser() {
+    var username = this.refs.Username.getValue();
+    var password = this.refs.Password.getValue();
+
+    if(_.isEmpty(username)) return this.setState({ errorText: 'Please enter a username' });
+    if(_.isEmpty(password)) return this.setState({ errorText: 'Please enter a password' });
+
+    $.ajax({
+      method: 'POST',
+      url: constants.apiurl + '/users',
+      data: {
+        username: username,
+        password: password
+      },
+      success: function($user) {
+        UserActions.linkAccount($user);
+        this.hide();
       }.bind(this),
       error: function(error) {
         this.setState({
@@ -115,7 +140,6 @@ var AddAccountModal = React.createClass({
   },
 
   _renderVerifyDialog() {
-    if(!_.isEmpty(this.state.verifiedUser)) return <div />;
     return (
       <div className='verify-dialog'>
         <TextField
@@ -127,24 +151,17 @@ var AddAccountModal = React.createClass({
           hintText='password'
           type='password'
         />
-        <FlatButton
-          label='Link Account'
-          onClick={ this.verifyUser }
-        />
+        <div className='verify-buttons'>
+          <FlatButton
+            label='Link Account'
+            onClick={ this.verifyUser }
+          />
+          <FlatButton
+            label='Create Account'
+            onClick={ this.createUser }
+          />
+        </div>
       </div>
-    );
-  },
-
-  _renderLinkButton() {
-    if(_.isEmpty(this.state.verifiedUser)) return <div />;
-    return (
-      <FlatButton
-        label='Link Account'
-        onClick={() => {
-          UserActions.linkAccount(this.state.verifiedUser);
-          this.hide();
-        }}
-      />
     );
   },
 
@@ -166,7 +183,6 @@ var AddAccountModal = React.createClass({
 
           { this._renderVerifiedUser() }
           { this._renderVerifyDialog() }
-          { this._renderLinkButton() }
         </Modal.Body>
         <Modal.Footer>
           <FlatButton
