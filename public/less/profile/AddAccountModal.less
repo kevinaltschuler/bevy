@@ -6,14 +6,36 @@
 @import './../variables.less';
 
 .add-account-modal {
+  .modal-dialog {
+    width: 400px !important;
+  }
   .modal-content {
     .modal-header {
-
+      padding: 0px !important;
+      .title {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        span.title-text {
+          margin-right: 10px;
+        }
+        span.glyphicon {
+          margin-bottom: 3px;
+          color: #aaa;
+        }
+      }
     }
     .modal-body {
       display: flex;
       flex-direction: column;
       align-items: flex-start;
+      padding-bottom: 0px;
+      span.error {
+        background-color: @bevy-danger;
+        color: #fff;
+        border-radius: 5px;
+        padding: 3px 6px;
+      }
       .verified-user {
         display: flex;
         flex-direction: row;
@@ -35,6 +57,9 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        .verify-buttons {
+          padding-top: 10px;
+        }
       }
     }
   }
