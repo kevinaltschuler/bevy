@@ -161,11 +161,14 @@ var InterfaceComponent = React.createClass({
   render() {
     switch(router.current) {
       case 'home': 
-        return <HomeView {...this.props}  />
-        break;
-      case 'front':
-        return <Frontpage {...this.props} />
-        break;
+        if(window.bootstrap.user) {
+          return <Frontpage {...this.props} />
+          break;
+        } 
+        else { 
+          return <HomeView {...this.props}  />
+          break;
+        }
       case 'search':
         return <SearchView {...this.props} />
         break;

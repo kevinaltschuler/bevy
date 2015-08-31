@@ -103,6 +103,7 @@ var PostContainer = React.createClass({
 
         //filter out for events
         if(sortType == ('events')) {
+          console.log('event');
           if($post.type != 'event') return true;
         }
 
