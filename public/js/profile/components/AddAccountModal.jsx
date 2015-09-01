@@ -8,7 +8,9 @@
 var React = require('react');
 var {
   Modal,
-  Button
+  Button,
+  OverlayTrigger,
+  Popover
 } = require('react-bootstrap');
 var {
   FlatButton,
@@ -121,6 +123,13 @@ var AddAccountModal = React.createClass({
     });
   },
 
+  _renderError() {
+    if(_.isEmpty(this.state.errorText)) return <div />;
+    return (
+      <span className='error'>{ this.state.errorText }</span>
+    );
+  },
+
   _renderVerifiedUser() {
     if(_.isEmpty(this.state.verifiedUser)) return <div />;
     return (
@@ -169,28 +178,29 @@ var AddAccountModal = React.createClass({
     return (
       <Modal className='add-account-modal' show={ this.props.show } onHide={ this.hide } >
         <Modal.Header closeButton>
-          <Modal.Title>Add Account</Modal.Title>
+          <Modal.Title>
+            <div className='title'>
+              <span className='title-text'>Add Account</span>
+              <OverlayTrigger placement='right' overlay={ 
+                <Popover title='Link Account Help'>
+                  <p className='warning'>
+                    Linking accounts allows you to switch between them without having to re-enter a username and password each time.<br /><br />
+                    Signing into any of the accounts you link to yours will also give that account quick access to your current account.<br /><br />
+                    Your linked accounts will not be visible to other users on the site.<br /><br />
+                    Please consider the security risks of doing so before you continue.
+                  </p>
+                </Popover> 
+              }>
+                <span className='glyphicon glyphicon-question-sign' />
+              </OverlayTrigger>
+            </div>
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p className='warning'>
-            Linking accounts allows you to switch between them without having to re-enter a username and password each time.<br />
-            Signing into any of the accounts you link to yours will also give that account quick access to your current account.<br />
-            Your linked accounts will not be visible to other users on the site.<br />
-            Please consider the security risks of doing so before you continue.
-          </p>
-
-          <span className='error'>{ this.state.errorText }</span>
-
+          { this._renderError() }
           { this._renderVerifiedUser() }
           { this._renderVerifyDialog() }
         </Modal.Body>
-        <Modal.Footer>
-          <FlatButton
-            onClick={ this.hide }
-            label='Close'
-            style={{marginRight: '0px', marginBottom: '0px'}} 
-          />
-        </Modal.Footer>
       </Modal>
     );
   }

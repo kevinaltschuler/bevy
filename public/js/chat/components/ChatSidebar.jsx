@@ -195,7 +195,8 @@ var ChatSidebar = React.createClass({
           key={ 'sidebar:bevythread:' + thread._id }
           width={ constants.chatSidebarWidthOpen }
           thread={ thread }
-          sidebarOpen={sidebarOpen}
+          sidebarOpen={ sidebarOpen }
+          showTooltip={ true }
         />
       );
     };
@@ -208,7 +209,8 @@ var ChatSidebar = React.createClass({
           key={ 'sidebar:groupthread:' + thread._id }
           width={ constants.chatSidebarWidthOpen }
           thread={ thread }
-          sidebarOpen={sidebarOpen}
+          sidebarOpen={ sidebarOpen }
+          showTooltip={ true }
         />
       );
     };
@@ -221,7 +223,8 @@ var ChatSidebar = React.createClass({
           key={ 'sidebar:pmthread:' + thread._id }
           width={ constants.chatSidebarWidthOpen }
           thread={ thread }
-          sidebarOpen={sidebarOpen}
+          sidebarOpen={ sidebarOpen }
+          showTooltip={ true }
         />
       );
     };

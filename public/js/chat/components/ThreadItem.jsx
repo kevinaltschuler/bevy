@@ -32,13 +32,15 @@ var ThreadItem = React.createClass({
     thread: React.PropTypes.object.isRequired,
     width: React.PropTypes.any,
     onClick: React.PropTypes.func,
-    sidebarOpen: React.PropTypes.bool
+    sidebarOpen: React.PropTypes.bool,
+    showTooltip: React.PropTypes.bool
   },
 
   getDefaultProps() {
     return {
       width: '100%',
-      onClick: noop
+      onClick: noop,
+      showTooltip: false
     }
   },
 
@@ -64,9 +66,9 @@ var ThreadItem = React.createClass({
 
     var hideTooltip = (this.props.sidebarOpen) ? {display: 'none'} : {};
 
-    var tooltip = (
+    var tooltip = (this.props.showTooltip) ? (
       <Tooltip style={hideTooltip}>{name}</Tooltip>
-    );
+    ) : <div />;
 
     return (
       <OverlayTrigger placement='left' overlay={tooltip}>
