@@ -72,9 +72,10 @@ var ThreadItem = React.createClass({
 
     return (
       <OverlayTrigger placement='left' overlay={tooltip}>
-        <Button 
+        <a 
           className='conversation-item'
           style={{ width: this.props.width }}
+          href='#'
           onClick={ this.openThread }
         >
           <ThreadImage thread={ thread } />
@@ -82,8 +83,8 @@ var ThreadItem = React.createClass({
             <span className='name'>{ name }</span>
             <span className='latest-message'>{ this.getLatestMessage() }</span>
           </div>
-          <Ink style={{ color: '#aaa', height: 50, top: 'inherit', marginTop: '-5px' }}/>
-        </Button>
+          <Ink style={{ color: '#aaa', height: 50, top: 0 }}/>
+        </a>
       </OverlayTrigger>
     );
   }

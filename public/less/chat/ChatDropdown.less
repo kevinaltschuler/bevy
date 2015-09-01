@@ -94,7 +94,7 @@
       text-shadow: none;
       transition: all .2s ease-in-out;
       background-color: #fff;
-      .conversation-item {
+      a.conversation-item {
         width: 100%;
         background-color: transparent;
         border-radius: 0px;
@@ -107,7 +107,11 @@
         align-items: center;
         justify-content: flex-start;
         transitiion: all .2s ease-in-out;
+        position: relative;
+        text-decoration: none;
+        color: #000;
         &:hover {
+          text-decoration: none;
           background-color: rgba(100,100,100,0.1);
         }
         &:active {
@@ -116,6 +120,8 @@
         .image {
           min-width: 40px;
           min-height: 40px;
+          width: 40px;
+          height: 40px;
           padding: 0px;
           overflow: hidden;
           margin: 0px 10px;
@@ -133,6 +139,10 @@
           }
           span.latest-message {
             color: #aaa;
+            max-height: 16px;
+            overflow: hidden;
+            text-align: left;
+            word-break: break-all;
           }
         }
       }

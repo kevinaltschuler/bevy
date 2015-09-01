@@ -24,6 +24,8 @@ var ThreadImage = React.createClass({
       backgroundPosition: 'center',
       minWidth: 40,
       minHeight: 40,
+      width: 40,
+      height: 40,
       padding: 0,
       overflow: 'hidden',
       marginLeft: 10,

@@ -193,7 +193,7 @@ var ChatSidebar = React.createClass({
       bevyThreadItems.push(
         <ThreadItem
           key={ 'sidebar:bevythread:' + thread._id }
-          width={ constants.chatSidebarWidthOpen }
+          width={ this.state.sidebarWidth }
           thread={ thread }
           sidebarOpen={ sidebarOpen }
           showTooltip={ true }
@@ -207,7 +207,7 @@ var ChatSidebar = React.createClass({
       groupThreadItems.push(
         <ThreadItem
           key={ 'sidebar:groupthread:' + thread._id }
-          width={ constants.chatSidebarWidthOpen }
+          width={ this.state.sidebarWidth }
           thread={ thread }
           sidebarOpen={ sidebarOpen }
           showTooltip={ true }
@@ -221,7 +221,7 @@ var ChatSidebar = React.createClass({
       pmThreadItems.push(
         <ThreadItem
           key={ 'sidebar:pmthread:' + thread._id }
-          width={ constants.chatSidebarWidthOpen }
+          width={ this.state.sidebarWidth }
           thread={ thread }
           sidebarOpen={ sidebarOpen }
           showTooltip={ true }

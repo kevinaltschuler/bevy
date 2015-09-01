@@ -55,7 +55,7 @@ var BevyDropdownItem = React.createClass({
         onClick={ this.switchBevy }
         className={ 'bevy-dropdown-item' + ((this.props.active) ? ' active' : '') }
       >
-        <Ink style={{ color: '#aaa', height: 48, top: 'inherit' }}/>
+        <Ink style={{ color: '#aaa', height: 48, top: 0 }}/>
         <div
           className='bevy-image'
           style={{ backgroundImage: 'url(' + image_url + ')' }}
