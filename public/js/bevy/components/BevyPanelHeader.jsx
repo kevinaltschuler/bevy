@@ -34,6 +34,7 @@ var BevyPanelHeader = React.createClass({
 
   propTypes: {
     activeBevy: React.PropTypes.object,
+    hidden: React.PropTypes.bool
   },
 
   getInitialState() {
@@ -123,7 +124,6 @@ var BevyPanelHeader = React.createClass({
         });
       }
     };
-
     var editButton = '';
     var sidebarPicture = (
       <div className="sidebar-picture">

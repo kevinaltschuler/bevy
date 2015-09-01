@@ -89,6 +89,10 @@ var PostContainer = React.createClass({
     if(this.props.activeBevy._id == '-1') {
       //filter posts for the frontpage here
       allPosts = _.reject(allPosts, function($post) {
+        //no pinned on frontpage
+        if($post.pinned) 
+          return true;
+        
         //filter out for new and top
         if((sortType == 'new') || (sortType == 'top')) {
           

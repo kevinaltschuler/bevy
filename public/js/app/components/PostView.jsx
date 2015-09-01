@@ -32,54 +32,85 @@ var PostView = React.createClass({
   },
 
   render() {
+    var disabled = false;
+    var hidden = false;
+    var activeBevy = this.props.activeBevy;
+
+    if(_.isEmpty(window.bootstrap.user)) {
+      disabled = true;
+    }
+    if(!_.isEmpty(activeBevy)) {
+      if(activeBevy.settings.privacy == 1) {
+        if(_.isEmpty(window.bootstrap.user)) {
+          hidden = true;
+          disabled = true;
+        }
+        else if(!_.find(window.bootstrap.user.bevies, 
+          function(bevyId) { 
+          return bevyId == this.props.activeBevy._id 
+        }.bind(this))) {
+          hidden = true;
+          disabled = true;
+        }
+      }
+    }
+      
 
     var activeBevy = this.props.activeBevy;
 
     if(this.props.activeBevy.name == null) {
       return <div/>
     }
-    else {
-      var body = (
-        <div>
-          <NewPostPanel
-            activeBevy={ this.props.activeBevy }
-            myBevies={ this.props.myBevies }
-            disabled={ _.isEmpty(window.bootstrap.user)}
-          />
-          <PostSort 
-            activeBevy={ this.props.activeBevy}
-            sortType={ this.props.sortType }
-          />
-          <PostContainer
-            allPosts={ this.props.allPosts }
-            activeBevy={ this.props.activeBevy }
-            sortType={ this.props.sortType }
-            activeTags={ this.props.activeTags }
-          />
-        </div>
-      );
 
+    if(hidden) {
       return (
-        <div className='main-section'>
-          <LeftSidebar
-            myBevies={ this.props.myBevies }
-            activeBevy={ this.props.activeBevy }
-            allThreads={ this.props.allThreads }
-            activeTags={ this.props.activeTags }
-            allBevies={ this.props.allBevies }
-          />
-          <div className='post-view-body'>
-            { body }
-          </div>
-          <RightSidebar
-            activeBevy={ this.props.activeBevy }
-            disabled={ _.isEmpty(window.bootstrap.user) }
-            myBevies={ this.props.myBevies }
-          />
-        </div>
+      <div className='private'>
+        this bevy is private
+      </div>
       );
     }
-  }
+
+    var body = (
+      <div>
+        <NewPostPanel
+          activeBevy={ this.props.activeBevy }
+          myBevies={ this.props.myBevies }
+          disabled={disabled}
+        />
+        <PostSort 
+          activeBevy={ this.props.activeBevy}
+          sortType={ this.props.sortType }
+          disabled={ disabled }
+        />
+        <PostContainer
+          allPosts={ this.props.allPosts }
+          activeBevy={ this.props.activeBevy }
+          sortType={ this.props.sortType }
+          activeTags={ this.props.activeTags }
+        />
+      </div>
+    );
+
+    return (
+      <div className='main-section'>
+        <LeftSidebar
+          myBevies={ this.props.myBevies }
+          activeBevy={ this.props.activeBevy }
+          allThreads={ this.props.allThreads }
+          activeTags={ this.props.activeTags }
+          allBevies={ this.props.allBevies }
+        />
+        <div className='post-view-body'>
+          { body }
+        </div>
+        <RightSidebar
+          activeBevy={ this.props.activeBevy }
+          disabled={ _.isEmpty(window.bootstrap.user) }
+          myBevies={ this.props.myBevies }
+        />
+      </div>
+    );
+    }
 });
 
 module.exports = PostView;

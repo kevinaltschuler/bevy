@@ -30,7 +30,8 @@ var BevySettingsModal = React.createClass({
 
   getInitialState() {
     return {
-      posts_expire_in: this.props.activeBevy.settings.posts_expire_in
+      posts_expire_in: this.props.activeBevy.settings.posts_expire_in,
+      privacy: this.props.activeBevy.settings.privacy
     };
   },
 
@@ -39,6 +40,14 @@ var BevySettingsModal = React.createClass({
 
     this.setState({
       posts_expire_in: menuItem.payload
+    });
+  },
+
+  onPrivacyChange(ev, selectedIndex, menuItem) {
+    ev.preventDefault();
+
+    this.setState({
+      privacy: menuItem.payload
     });
   },
 
@@ -53,6 +62,7 @@ var BevySettingsModal = React.createClass({
       posts_expire_in: this.state.posts_expire_in,
       group_chat: group_chat,
       admin_only: admin_only,
+      privacy: this.state.privacy,
       default_events: default_events
     });
 
@@ -76,6 +86,16 @@ var BevySettingsModal = React.createClass({
       itemIndex = item.defaultIndex;
     }
 
+    var privacyMenuItems = [
+      { payload: '0', text: 'public', defaultIndex: 0 },
+      { payload: '1', text: 'private', defaultIndex: 1 }
+    ];
+    var privacyIndex = 0;
+    var privacyItem = _.findWhere(privacyMenuItems, { payload: this.state.privacy.toString() });
+    if(!_.isEmpty(privacyItem)) {
+      privacyIndex = privacyItem.defaultIndex;
+    }
+
     var posts_expire_in = this.state.posts_expire_in;
 
     return (
@@ -94,6 +114,15 @@ var BevySettingsModal = React.createClass({
               menuItems={ expireMenuItems }
               onChange={ this.onDropDownChange }
               selectedIndex={ itemIndex }
+            />
+          </div>
+          <div className='bevy-setting expire-setting'>
+            Privacy
+            <DropDownMenu
+              ref='privacy'
+              menuItems={ privacyMenuItems }
+              onChange={ this.onPrivacyChange }
+              selectedIndex={ privacyIndex }
             />
           </div>
           <div className='bevy-setting'>
