@@ -57,6 +57,10 @@ var BevySchema = new Schema({
 		group_chat: {
 			type: Boolean,
 			default: true
+		},
+		privacy: {
+			type: Number,
+			default: 0
 		}
 	},
 	created: {

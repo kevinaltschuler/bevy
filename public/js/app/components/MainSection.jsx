@@ -161,7 +161,7 @@ var InterfaceComponent = React.createClass({
   render() {
     switch(router.current) {
       case 'home': 
-        if(window.bootstrap.user) {
+        if(!_.isEmpty(window.bootstrap.user)) {
           return <Frontpage {...this.props} />
           break;
         } 

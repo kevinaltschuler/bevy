@@ -29,8 +29,9 @@ var Router = Backbone.Router.extend({
   },
 
   home() {
-    if(window.bootstrap.user) 
+    if(!_.isEmpty(window.bootstrap.user)) {
       BevyActions.switchBevy('-1');
+    }
     this.current = 'home';
   },
 
