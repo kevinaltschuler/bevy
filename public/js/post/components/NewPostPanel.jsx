@@ -39,15 +39,10 @@ var hintTexts = [
   "How are you doing today?",
   "Share your thoughts",
   "Drop some knowledge buddy",
-  "What would your mother think?",
   "Drop a line",
   "What's good?",
-  "Tell us about last night",
-  "What's gucci with the homies?",
   "What do you have to say?",
-  "spit a verse",
-  "Matt is waiting",
-  "Can you dig it?"
+  "Spit a verse",
 ]
 var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 
