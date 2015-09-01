@@ -14,6 +14,7 @@ var Backbone = require('backbone');
 var $ = require('jquery');
 var _ = require('underscore');
 var async = require('async');
+var getSlug = require('speakingurl');
 
 var router = require('./../router');
 
@@ -73,17 +74,25 @@ _.extend(BevyStore, {
         var name = payload.name;
         var description = payload.description;
         var image_url = payload.image_url;
+        var slug = payload.slug;
         var user = window.bootstrap.user;
+
+        // sanitize slug before we continue;
+        if(_.isEmpty(slug)) {
+          slug = getSlug(name);
+        } else {
+          // double check to make sure its url friendly
+          slug = getSlug(slug);
+        }
 
         var newBevy = this.myBevies.add({
           name: name,
           description: description,
           image_url: image_url,
+          slug: slug,
           admins: [user._id],
           tags: [{name: 'general', color: '#F44336'}]
         });
-
-        console.log(newBevy);
 
         newBevy.save(null, {
           success: function(model, response, options) {

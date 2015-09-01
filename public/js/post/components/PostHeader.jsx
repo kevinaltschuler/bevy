@@ -126,7 +126,7 @@ var PostHeader = React.createClass({
             </span>
             <span className="glyphicon glyphicon-triangle-right"/>
             <span className="details">
-              <a href={ '/b/' + post.bevy._id } onClick={ this.onSwitchBevy }>{ post.bevy.name }</a>
+              <a href={ post.bevy.url } onClick={ this.onSwitchBevy }>{ post.bevy.name }</a>
             </span>
           </div>
           <div className="bottom">

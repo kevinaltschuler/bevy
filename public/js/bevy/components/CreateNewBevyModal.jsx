@@ -9,7 +9,9 @@
 
 var React = require('react');
 var _ = require('underscore');
+var $ = require('jquery');
 var constants = require('./../../constants');
+var getSlug = require('speakingurl');
 
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
@@ -34,17 +36,18 @@ var CreateNewBevyModal = React.createClass({
     onHide: React.PropTypes.func
   },
 
-  getInitialState: function() {
-    var disabled = _.isEmpty(window.bootstrap.user);
-
+  getInitialState() {
     return {
       name: '',
       description: '',
-      image_url: ''
+      image_url: '',
+      slug: '',
+      slugVerified: true,
+      verifyingSlug: false
     };
   },
 
-  onUploadComplete: function(file) {
+  onUploadComplete(file) {
     var filename = file.filename;
     var image_url = constants.apiurl + '/files/' + filename
     this.setState({
@@ -52,25 +55,101 @@ var CreateNewBevyModal = React.createClass({
     });
   },
 
-  create: function(ev) {
+  create(ev) {
     ev.preventDefault();
 
-    var name = this.refs.name.getValue();
-    var description = this.refs.description.getValue();
+    var name = this.refs.Name.getValue();
+    var description = this.refs.Description.getValue();
     var image_url = this.state.image_url;
+    var slug = this.state.slug;
 
     if(_.isEmpty(name)) {
-      this.refs.name.setErrorText('Please enter a name for your bevy');
+      this.refs.Name.setErrorText('Please enter a name for your bevy');
+      return;
+    }
+    if(!this.state.slugVerified) {
       return;
     }
 
-    BevyActions.create(name, description, image_url, []);
+    BevyActions.create(name, description, image_url, slug);
 
     // after, close the window
+    this.hide();
+  },
+
+  hide() {
+    this.setState({
+      name: '',
+      description: '',
+      image_url: '',
+      slug: '',
+      verifyingSlug: false,
+      slugVerified: true
+    });
     this.props.onHide();
   },
 
-  render: function() {
+  onSlugChange() {
+    this.setState({
+      verifyingSlug: true
+    });
+    // delay the request until the user stops typing
+    // to reduce lag and such
+    if(this.slugTimeoutID != undefined) {
+      clearTimeout(this.slugTimeoutID);
+      delete this.slugTimeoutID;
+    }
+    this.slugTimeoutID = setTimeout(this.verifySlug, 500);
+  },
+
+  verifySlug() {
+    // send the request
+    console.log('verify slug');
+    
+
+    $.ajax({
+      url: constants.apiurl + '/bevies/' + this.state.slug + '/verify',
+      method: 'GET',
+      success: function(data) {
+        if(data.found) {
+          console.log('found');
+          this.setState({
+            slugVerified: false,
+            verifyingSlug: false
+          });
+        } else {
+          console.log('not found');
+          this.setState({
+            slugVerified: true,
+            verifyingSlug: false
+          });
+        }
+      }.bind(this),
+      error: function(error) {
+        console.log(error);
+        this.setState({
+          verifyingSlug: false
+        });
+      }.bind(this)
+    })
+  },
+
+  _renderSlugVerifyStatus() {
+    if(_.isEmpty(this.state.slug)) return <div />;
+    if(this.state.verifyingSlug) {
+      // loading indicator
+      return <section className="loaders small"><span className="loader small loader-quart"> </span></section>;
+    }
+    if(this.state.slugVerified) {
+      // all good
+      return <span className='glyphicon glyphicon-ok'/>
+    } else {
+      // not good
+      return <span className='glyphicon glyphicon-remove' />
+    }
+  },
+
+  render() {
 
     var dropzoneOptions = {
       maxFiles: 1,
@@ -78,11 +157,11 @@ var CreateNewBevyModal = React.createClass({
       clickable: '.dropzone-panel-button',
       dictDefaultMessage: ' ',
       init: function() {
-          this.on("addedfile", function() {
-            if (this.files[1]!=null){
-              this.removeFile(this.files[0]);
-            }
-          });
+        this.on("addedfile", function() {
+          if (this.files[1]!=null){
+            this.removeFile(this.files[0]);
+          }
+        });
       }
     };
     var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
@@ -93,7 +172,7 @@ var CreateNewBevyModal = React.createClass({
     };
 
     return (
-      <Modal show={ this.props.show } onHide={ this.props.onHide } className="create-bevy">
+      <Modal show={ this.props.show } onHide={ this.hide } className="create-bevy">
         <Modal.Header closeButton>
           <Modal.Title>Create a New Bevy</Modal.Title>
         </Modal.Header>
@@ -109,26 +188,59 @@ var CreateNewBevyModal = React.createClass({
           <div className='text-fields'>
             <TextField
               type='text'
-              ref='name'
+              ref='Name'
               placeholder='Group Name'
+              onChange={() => { 
+                this.setState({ 
+                  slug: getSlug(this.refs.Name.getValue()) 
+                }); 
+                this.onSlugChange();
+              }}
             />
             <TextField
               type='text'
-              ref='description'
+              ref='Description'
               placeholder='Group Description'
               multiLine={true}
             />
+            <div className='slug'>
+              <TextField
+                type='text'
+                ref='Slug'
+                floatingLabelText='Bevy URL'
+                errorText={ (this.state.slugVerified) ? '' : 'URL taken' }
+                value={ constants.siteurl + '/b/' + this.state.slug }
+                onChange={() => {
+                  this.setState({ 
+                    slug: this.refs.Slug.getValue().slice((constants.siteurl.length + 3))
+                  });
+                  this.onSlugChange();
+                }}
+                onBlur={() => {
+                  this.setState({ 
+                    slug: getSlug(this.refs.Slug.getValue().slice((constants.siteurl.length + 3)))
+                  });
+                }}
+                style={{
+                  flex: 1
+                }}
+              />
+              <div className='verify-status'>
+                { this._renderSlugVerifyStatus() }
+              </div>
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer className="panel-bottom">
           <FlatButton
-            onClick={ this.props.onHide }
+            onClick={ this.hide }
             label="Cancel"
           />
           <RaisedButton
             onClick={ this.create }
             label="Create"
-            style={{marginLeft: '10px'}}
+            style={{ marginLeft: '10px' }}
+            disabled={ !this.state.slugVerified }
           />
         </Modal.Footer>
       </Modal>

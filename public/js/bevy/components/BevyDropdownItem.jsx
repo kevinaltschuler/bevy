@@ -51,7 +51,7 @@ var BevyDropdownItem = React.createClass({
 
     return (
       <a 
-        href={ '/b/' + bevy._id } 
+        href={ bevy.url } 
         onClick={ this.switchBevy }
         className={ 'bevy-dropdown-item' + ((this.props.active) ? ' active' : '') }
       >

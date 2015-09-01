@@ -11,6 +11,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
+var _ = require('underscore');
 
 var BevySchema = new Schema({
 	_id: {
@@ -18,8 +19,16 @@ var BevySchema = new Schema({
 		unique: true,
 		default: shortid.generate()
 	},
-	name: String,
-	description: String,
+	name: {
+		type: String
+	},
+	description: {
+		type: String
+	},
+	slug: {
+		type: String,
+		unique: true
+	},
 	image_url: {
 		type: String
 	},
@@ -67,6 +76,11 @@ var BevySchema = new Schema({
 		type: Date,
 		default: Date.now
 	}
+});
+
+BevySchema.virtual('url').get(function() {
+	if(_.isEmpty(this.slug)) return ('/b/' + this._id + '/');
+	return ('/b/' + this.slug + '/');
 });
 
 BevySchema.set('toObject', {

@@ -24,4 +24,7 @@ module.exports = function(router) {
 
 	// DESTROY
 	router.delete('/users/:userid/bevies/:id', api.bevies.destroy);
+
+	// VERIFY SLUG
+	router.get('/bevies/:slug/verify', api.bevies.verifySlug);
 };
