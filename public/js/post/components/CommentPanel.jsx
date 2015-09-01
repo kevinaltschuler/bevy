@@ -8,19 +8,24 @@
 
 var React = require('react');
 var _ = require('underscore');
-var classNames = require('classnames');
 
 var CommentList = require('./CommentList.jsx');
 
-var rbs = require('react-bootstrap');
-var CollapsibleMixin = rbs.CollapsibleMixin;
+var {
+  Panel
+} = require('react-bootstrap');
 
 var CommentPanel = React.createClass({
-  mixins: [CollapsibleMixin],
 
   propTypes: {
     post: React.PropTypes.object,
     expanded: React.PropTypes.bool
+  },
+
+  getInitialState() {
+    return {
+      expanded: this.props.expanded
+    };
   },
 
   componentWillReceiveProps(nextProps) {
@@ -29,17 +34,9 @@ var CommentPanel = React.createClass({
     });
   },
 
-  getCollapsibleDOMNode() {
-    return React.findDOMNode(this.refs.panel);
-  },
-
-  getCollapsibleDimensionValue() {
-    return React.findDOMNode(this.refs.panel).scrollHeight;
-  },
-
   onHandleToggle(ev) {
     ev.preventDefault();
-    this.setState({expanded:!this.state.expanded});
+    this.setState({ expanded: !this.state.expanded });
   },
 
   render() {
@@ -52,13 +49,11 @@ var CommentPanel = React.createClass({
       />
     ) : '';
 
-    var styles = this.getCollapsibleClassSet();
-
     return (
       <div className='panel-comments'>
-        <div ref='panel' className={classNames(styles)}>
+        <Panel collapsible expanded={ this.state.expanded }>
           { commentList }
-        </div>
+        </Panel>
       </div>
     );
   }

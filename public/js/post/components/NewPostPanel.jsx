@@ -42,8 +42,8 @@ var hintTexts = [
   "Drop a line",
   "What's good?",
   "What do you have to say?",
-  "Spit a verse",
-]
+  "Spit a verse"
+];
 var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 
 var user = window.bootstrap.user;
