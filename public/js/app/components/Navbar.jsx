@@ -149,7 +149,7 @@ var Navbar = React.createClass({
     var navbarTitle = '';
     switch(router.current) {
       case 'home':
-        navbarTitle = 'frontpage';
+        navbarTitle = '';
         break;
       case 'front':
         navbarTitle = 'frontpage';
