@@ -39,6 +39,11 @@ _.extend(NotificationStore, {
     switch(payload.actionType) {
 
       case APP.LOAD:
+          this.notifications.fetch({
+            success: function(collection, response, options) {
+              this.trigger(NOTIFICATION.CHANGE_ALL);
+            }.bind(this)
+          });
           this.unread = this.notifications.filter(function(notification){ return notification.read == false; })
             .length; // count all notifications that are unread
         break;
@@ -110,9 +115,6 @@ NotificationStore.notifications.on('add', function(notification) {
     timeout: 30000
   });
 })();
-
-var notifications = window.bootstrap.notifications;
-NotificationStore.notifications.reset(notifications);
 
 Dispatcher.register(NotificationStore.handleDispatch.bind(NotificationStore));
 

@@ -59,6 +59,12 @@ _.extend(BevyStore, {
       case APP.LOAD:
         var user = window.bootstrap.user;
 
+        this.myBevies.fetch({
+          success: function(collection, response, options) {
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
+
         this.publicBevies.url = constants.apiurl + '/bevies';
 
         //load public bevies
@@ -338,21 +344,5 @@ _.extend(BevyStore, {
 
 var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
 BevyStore.dispatchToken = dispatchToken;
-
-
-var myBevies = window.bootstrap.myBevies || [];
-BevyStore.myBevies.reset(myBevies);
-/*BevyStore.myBevies.unshift({
-  _id: '-1',
-  name: 'Frontpage'
-});*/
-BevyStore.trigger(BEVY.CHANGE_ALL);
-
-
-BevyStore.myBevies.on('sync', function() {
-  //console.log('synced');
-
-  //BevyStore.trigger(BEVY.CHANGE_ALL);
-});
 
 module.exports = BevyStore;
