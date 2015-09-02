@@ -70,6 +70,10 @@ exports.create = function(req, res, next) {
   // hash password if it exists
   if(update.password) update.password = bcrypt.hashSync(update.password, 8);
 
+  // set default bevies
+  var defaultBevies = '11sports 22gaming 3333pics 44videos 555music 6666news 777books'.split(' ');
+  update.bevies = defaultBevies;
+
   User.create(update, function(err, user) {
     if(err) return next(err);
 
