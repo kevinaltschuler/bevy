@@ -257,6 +257,8 @@ var ChatSidebar = React.createClass({
   },
 
   render() {
+    if(_.isEmpty(this.state.allThreads)) return <div />;
+
     var searchResults = [];
     var userSearchResults = this.state.searchUsers;
     for(var key in userSearchResults) {
