@@ -188,7 +188,7 @@ var Navbar = React.createClass({
             href='/s'
           >
             All Bevies
-            <Ink style={{height: '32px', width: '85px', top: 'inherit', left: 'inherit', marginTop: '-6px', marginLeft: '-73px' }}/>
+            <Ink style={{ height: '100%', width: '100%', top: 0, left: 0 }}/>
           </Button>
         </div>
 
