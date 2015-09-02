@@ -77,6 +77,14 @@ var ChatDropdown = React.createClass({
       );
     }
 
+    if(_.isEmpty(threads)) {
+      return (
+        <div className='thread-list'>
+          <span className='no-threads'>No Conversations :(</span>
+        </div>
+      );
+    }
+
     return (
       <div className='thread-list'>
         { threads }
@@ -84,33 +92,40 @@ var ChatDropdown = React.createClass({
     );
   },
 
+  _renderOverlay() {
+    return (
+      <Overlay 
+        show={ this.props.show }
+        target={ (props) => React.findDOMNode(this.refs.ChatButton) }
+        placement='bottom'
+        container={ this.container }
+      >
+        <div className='chat-dropdown-container'>
+          <div className='backdrop' onClick={ this.toggle }/>
+          <div className='arrow' />
+          <div className='chat-dropdown'>
+            <div className='header'>
+              <span className='inbox-text'>Inbox</span>
+              <Button className='create-new-message-btn' onClick={ this.createMessage }>Send a New Message</Button>
+            </div>
+            { this._renderThreadList() }
+            {/*
+            <Button className='see-all-btn'>See all</Button>
+            */}
+          </div>
+        </div>
+      </Overlay>
+    );
+  },
+
   render() {
+
     return (
       <div ref='Container' style={{ position: 'relative' }}>
         <Button ref='ChatButton' className="chat-dropdown-btn" onClick={ this.toggle }>
           <div className='chat-img'/>
         </Button>
-        <Overlay 
-          show={ this.props.show }
-          target={ (props) => React.findDOMNode(this.refs.ChatButton) }
-          placement='bottom'
-          container={ this.container }
-        >
-          <div className='chat-dropdown-container'>
-            <div className='backdrop' onClick={ this.toggle }/>
-            <div className='arrow' />
-            <div className='chat-dropdown'>
-              <div className='header'>
-                <span className='inbox-text'>Inbox</span>
-                <Button className='create-new-message-btn' onClick={ this.createMessage }>Send a New Message</Button>
-              </div>
-              { this._renderThreadList() }
-              {/*
-              <Button className='see-all-btn'>See all</Button>
-              */}
-            </div>
-          </div>
-        </Overlay>
+        { this._renderOverlay() }
       </div>
     );
   }

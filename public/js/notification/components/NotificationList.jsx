@@ -27,7 +27,7 @@ var NotificationList = React.createClass({
 
     if(allNotifications.length < 1) {
       return (
-        <span>No Notifications!</span>
+        <span className='no-notifications'>No Notifications :(</span>
       );
     }
 
