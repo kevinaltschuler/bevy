@@ -104,9 +104,6 @@ var CreateNewBevyModal = React.createClass({
 
   verifySlug() {
     // send the request
-    console.log('verify slug');
-    
-
     $.ajax({
       url: constants.apiurl + '/bevies/' + this.state.slug + '/verify',
       method: 'GET',

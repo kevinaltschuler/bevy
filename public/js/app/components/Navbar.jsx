@@ -37,6 +37,9 @@ var ThemeManager = new Styles.ThemeManager();
 var _ = require('underscore');
 var router = require('./../../router');
 var user = window.bootstrap.user;
+var BevyStore = require('./../../bevy/BevyStore');
+var constants = require('./../../constants');
+var BEVY = constants.BEVY;
 
 // react component
 var Navbar = React.createClass({
@@ -50,6 +53,7 @@ var Navbar = React.createClass({
   getInitialState() {
     return {
       activeTab: null,
+      searching: false,
       opacity: 0.7 // the layer under the background image is black (rgba(0,0,0,1))
                    // this is the opacity for the image over that layer
                    // so higher opacity means a brighter image, and lower means darker
@@ -71,21 +75,42 @@ var Navbar = React.createClass({
     });
   },
 
+  componentDidMount() {
+    BevyStore.on(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
+  },
+
+  componentWillUnmount() {
+    BevyStore.off(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
+  },
+
+  handleSearchComplete() {
+    this.setState({
+      searching: false
+    });
+  },
+
   onKeyUp(ev) {
     ev.preventDefault();
     if(ev.which == 13) {
       // trigger search
-      this.onSearch(ev);
+      this.onSearch();
       router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
     }
   },
 
   onChange(ev) {
-    this.onSearch(ev);
+    ev.preventDefault();
+    this.setState({
+      searching: true
+    });
+    if(this.searchTimeout != undefined) {
+      clearTimeout(this.searchTimeout);
+      delete this.searchTimeout;
+    }
+    this.searchTimeout = setTimeout(this.onSearch, 500);
   },
 
-  onSearch(ev) {
-    ev.preventDefault();
+  onSearch() {
     if(router.current == 'search') // only auto navigate if we're already on the search page
       router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
   },
