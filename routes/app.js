@@ -38,14 +38,6 @@ module.exports = function(app) {
     });
   });
 
-  var User = mongoose.model('User');
-  var Bevy = mongoose.model('Bevy');
-  var Notification = mongoose.model('Notification');
-  var Post = mongoose.model('Post');
-  var Comment = mongoose.model('Comment');
-  var Thread = mongoose.model('ChatThread');
-  var Message = mongoose.model('ChatMessage');
-
   // for everything else - pass it off to the react router
   // on the front end
   // this should be the last route ever checked
