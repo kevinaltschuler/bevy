@@ -92,19 +92,19 @@ var SearchView = React.createClass({
       );
     };
 
-    var content = <div className='panel-list'>
+    var content = (
+      <div className='panel-list'>
         {publicBevyPanels}
-      </div>;
+      </div>
+    );
 
     if(_.isEmpty(publicBevyPanels) && !_.isEmpty(this.state.searchQuery)) {
-      console.log(this.state.searchQuery);
       content = <h2> no results :( </h2>
     }
 
-    if(this.props.searching) {
+    if(this.state.searching) {
       content = <section className="loaders"><span className="loader loader-quart"> </span></section>
     }
-
 
     return (
       <div className='public-bevy-wrapper'>
@@ -119,17 +119,7 @@ var SearchView = React.createClass({
             { content }
           </div>
         </div>
-      {/*<div className="footer-public-bevies">
-        <div className='footer-left'>
-          Bevy © 2015 
-        </div>
-        <div className='footer-right'>
-          <Button className="bevy-logo-btn" href='/'>
-            <div className='bevy-logo-img' style={{ backgroundImage: 'url(/img/logo_100.png)' }}/>
-          </Button>
-        </div>
-      </div>*/}
-    </div>
+      </div>
     );
   }
 });

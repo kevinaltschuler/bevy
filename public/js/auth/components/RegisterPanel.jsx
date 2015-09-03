@@ -23,7 +23,6 @@ var mui = require('material-ui');
 var RaisedButton = mui.RaisedButton;
 var TextField = mui.TextField;
 var usernameRegex = /^[a-z0-9_-]{3,16}$/;
-var passwordRegex = /^[A-Za-z0-9!@#$%^&*()_]{1,20}$/;
 var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
 var RegisterPanel = React.createClass({
@@ -32,159 +31,150 @@ var RegisterPanel = React.createClass({
     return {
       usernameColor: '#e0e0e0',
       passwordColor: '',
-      emailColor: '',
-      validInput: false,
-      errorText: 'Please enter a username',
-      showError: false
+      emailColor: ''
     };
   },
 
-  onChange(ev) {
+  onUsernameChange(ev) {
     ev.preventDefault();
-    // grab input values for processing
-    var username = this.refs.username.getValue();
-    var password = this.refs.password.getValue();
-    var email = this.refs.email.getValue();
-
-
-    if(!usernameRegex.test(username) || username.length == 0) {
-      this.refs.username.setErrorText('invalid username');
-      this.setState({
-        validInput: false
-      });
-    }
-
-    if(!passwordRegex.test(password) || password.length == 0) {
-      this.refs.password.setErrorText('invalid password');
-      this.setState({
-        validInput: false
-      });
-    }
-    if(!emailRegex.test(email) && email.length > 0) {
-      this.refs.email.setErrorText('invalid email');
-      this.setState({
-        validInput: false
-      });
-    } else {
-      this.refs.email.setErrorText('');
-    }
-
-    if((emailRegex.test(email) || email.length == 0) 
-      && passwordRegex.test(password) && password.length >= 1 
-      && usernameRegex.test(username) && username.length >= 3) {
-      this.setState({
-        validInput: true
-      });
-    }
-
   },
 
-  submit(e) {
-    // prevent immediate form submission
-    e.preventDefault();
+  onPasswordChange(ev) {
+    ev.preventDefault();
+  },
 
-    var username = this.refs.username.getValue();
-    var password = this.refs.password.getValue();
-    var email = this.refs.email.getValue();
+  onEmailChange(ev) {
+    ev.preventDefault();
+  },
 
-    if(this.state.validInput) {
-      // send api request
-      $.post(
-        constants.apiurl + '/users/',
-        {
-          username: username,
-          password: password,
-          email: (_.isEmpty(email)) ? undefined : email
-        },
-        function(data, textStatus, jqXHR) {
-          //success
-          // login the new user immediately
-          $.post(
-            constants.siteurl + '/login',
-            {
-              username: username,
-              password: password
-            },
-            function(response) {
-              // assume the login ajax worked
-              // and redirect to the main app
-              window.location.href = constants.siteurl;
-            }
-          );
-        }
-      ).fail(function(jqXHR) {
-        // failure
-        var response = jqXHR.responseJSON;
-        // set error message to the one that
-        // was returned from the server
-        this.setState({
-          errorText: 'something went wrong',
-          showError: true,
+  validateUsername() {
+    var username = this.refs.Username.getValue();
+    if(_.isEmpty(username)) {
+      this.refs.Username.setErrorText('Please enter a username');
+      return false;
+    }
+    if(username.length < 3) {
+      this.refs.Username.setErrorText('Username too short - needs to be longer than 3 characters');
+      return false;
+    }
+    if(username.length > 16) {
+      this.refs.Username.setErrorText('Username too long - needs to be shorter than 16 characters');
+      return false;
+    }
+    if(!usernameRegex.test(username)) {
+      this.refs.Username.setErrorText('Only characters a-z, numbers, underscores, and dashes are allowed');
+      return false;
+    }
+    this.refs.Username.setErrorText('');
+    return true;
+  },
+
+  validatePassword() {
+    var password = this.refs.Password.getValue();
+    if(_.isEmpty(password)) {
+      this.refs.Password.setErrorText('Please enter a password');
+      return false;
+    }
+    this.refs.Password.setErrorText('');
+    return true;
+  },
+
+  validateEmail() {
+    var email = this.refs.Email.getValue();
+    if(_.isEmpty(email)) {
+      return true; // allow no email
+    }
+    if(!emailRegex.test(email)) {
+      this.refs.Email.setErrorText('Invalid email');
+      return false;
+    }
+    this.refs.Email.setErrorText('');
+    return true;
+  },
+
+  submit(ev) {
+    
+  },
+
+  register(ev) {
+    ev.preventDefault();
+
+    if(!this.validateUsername() || !this.validatePassword() || !this.validateEmail()) {
+      return; // failed validation
+    }
+
+    var username = this.refs.Username.getValue();
+    var password = this.refs.Password.getValue();
+    var email = this.refs.Email.getValue();
+
+    // send api request
+    $.ajax({
+      url: constants.apiurl + '/users/',
+      method: 'POST',
+      data: {
+        username: username,
+        password: password,
+        email: (_.isEmpty(email)) ? undefined : email
+      },
+      success: function(data) {
+        //success
+        // login the new user immediately
+        $.ajax({
+          url: constants.siteurl + '/login',
+          method: 'POST',
+          data: {
+            username: username,
+            password: password
+          },
+          success: function(response) {
+            // assume the login ajax worked
+            // and redirect to the main app
+            window.location.href = constants.siteurl;
+          }.bind(this),
+          error: function(error) {
+            console.log(error.responseJSON);
+          }
         });
-      }.bind(this));
-
-    } else {
-      // TODO: more specific error messages
-      this.setState({
-        showError: true,
-        errorText: 'something went wrong'
-      });
-    }
-  },
-
-  causeError(ev) {
-    ev.preventDefault();
-    this.refs.username.setErrorText('invalid username');
+      }.bind(this),
+      error: function(error) {
+        console.log(error.responseJSON);
+      }
+    });
   },
 
   render() {
 
-    var error;
-    if(this.state.showError) {
-      error = (
-        <div className='register-error'>
-          <span>{ this.state.errorText }</span>
-        </div>
-      );
-    }
-
-    var usernameStyle={
-      borderBottom: 'solid 1px' + this.state.usernameColor
-    };
-
     return (
       <Panel className="register-panel">
         <img className="profile-img" src={ constants.defaultProfileImage } alt="Avatar"/>
-        { error }
         <form method='post' action='/register'>
           <TextField 
-            ref='username'
+            ref='Username'
             type='text'
             hintText='username (3-16 characters)'
             style={{width: '100%'}}
-            onChange={this.onChange}
-            underlineFocusStyle={usernameStyle}
+            onChange={ this.onUsernameChange }
+            underlineFocusStyle={{ borderBottom: 'solid 1px' + this.state.usernameColor }}
           />
           <TextField 
-            ref='password'
+            ref='Password'
             type='password'
-            hintText='password (1-20 characters)'
+            hintText='password'
             style={{width: '100%'}}
-            onChange={this.onChange}
+            onChange={ this.onPasswordChange }
           />
           <TextField 
-            ref='email'
+            ref='Email'
             type='text'
             hintText='email (optional)'
             style={{marginBottom: '10px', width: '100%'}}
-            onChange={this.onChange}
+            onChange={ this.onEmailChange }
           />
           <RaisedButton
             className='register-submit'
             label='Register'
             ref='submit'
-            disabled={!this.state.validInput}
-            onClick={ this.submit }
+            onClick={ this.register }
             style={{width: '100%'}}/>
         </form>
       </Panel>

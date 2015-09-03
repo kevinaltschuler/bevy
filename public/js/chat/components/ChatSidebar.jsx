@@ -157,8 +157,19 @@ var ChatSidebar = React.createClass({
    }
     else { 
       this.openSearchResults();
-      UserActions.search(query);
+      if(this.searchTimeout != undefined) {
+        clearTimeout(this.searchTimeout);
+        delete this.searchTimeout;
+      }
+      this.searchTimeout = setTimeout(this.searchUsers, 500);
     }
+  },
+
+  searchUsers() {
+    this.setState({
+      searching: true
+    });
+    UserActions.search(this.state.query);
   },
 
   openSidebar() {
@@ -257,6 +268,8 @@ var ChatSidebar = React.createClass({
   },
 
   render() {
+    if(_.isEmpty(this.state.allThreads)) return <div />;
+
     var searchResults = [];
     var userSearchResults = this.state.searchUsers;
     for(var key in userSearchResults) {

@@ -72,7 +72,7 @@ var BevyDropdown = React.createClass({
           onClick={ this.toggle }
         >
           My Bevies
-          <Ink style={{paddingLeft: '15px'}}/>
+          <Ink style={{  }}/>
         </Button>
         <Overlay
           show={ this.state.show }

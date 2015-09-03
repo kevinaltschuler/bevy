@@ -38,7 +38,6 @@ module.exports = function(app) {
           // found it
           return done(null, user);
         }
-        
         return done(null, false, { message: 'Incorrect password' });
       });
     }
@@ -74,7 +73,6 @@ module.exports = function(app) {
       realm: config.app.server.hostname
     },
     function(accessToken, refreshToken, profile, done) {
-      //console.log('Authenticating user: ', profile.emails[0]);
       var emails = _.pluck(profile.emails, 'value');
 
       var id_query = { 'google.id': profile.id };
@@ -86,10 +84,8 @@ module.exports = function(app) {
         if(err) return done(err);
         if(user) {
           // user found
-          //console.log('User', emails[0], 'already exists! Logging in...');
           if(_.isEmpty(user.google.emails)) {
             // google profile has not yet been set
-            //console.log('setting users google profile');
             user.google = profile;
             if(profile.photos) {
               user.image_url = user.google.photos[0].value;
@@ -101,14 +97,15 @@ module.exports = function(app) {
           } else return done(null, user);
         } else {
           // user not found. let's create an account
-          //console.log('User', emails[0], 'doesnt exist. Creating new user...');
+          var defaultBevies = '11sports 22gaming 3333pics 44videos 555music 6666news 777books'.split(' ');
           User.create({
             _id: shortid.generate(),
             token: accessToken,
             image_url: (profile.photos) ? profile.photos[0].value : undefined,
             email: emails[0], // use the first email as default.
-                         // let the user change this later
-            google: profile // load the entire profile object into the 'google' object
+                              // let the user change this later
+            google: profile,  // load the entire profile object into the 'google' object
+            bevies: defaultBevies
           }, function(err, new_user) {
             if(err) return done(err);
 
@@ -121,10 +118,8 @@ module.exports = function(app) {
 
 
   passport.serializeUser(function(user, done) {
-    if(!user) {
-    } else {
+    if(user)
       done(null, user._id);
-    }
   });
 
   passport.deserializeUser(function(id, done) {

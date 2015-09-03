@@ -579,12 +579,6 @@ _.extend(PostStore, {
   }
 });
 
-/*var posts = window.bootstrap.posts;
-PostStore.posts.reset(posts);
-PostStore.posts.forEach(function(post) {
-  PostStore.postsNestComment(post);
-});*/
-
 var dispatchToken = Dispatcher.register(PostStore.handleDispatch.bind(PostStore));
 PostStore.dispatchToken = dispatchToken;
 
