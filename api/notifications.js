@@ -43,6 +43,7 @@ function collectParams(req) {
   return params;
 }
 
+// POST /notifications
 exports.create = function(req, res, next) {
   var params = collectParams(req);
 
@@ -126,6 +127,8 @@ exports.create = function(req, res, next) {
       var user_name = req.body['user_name'];
       var user_image = req.body['user_image'];
       var user_email = req.body['user_email'];
+
+      console.log('req body', req);
 
       var notifications = [];
       // send to all admins

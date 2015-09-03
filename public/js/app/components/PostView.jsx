@@ -12,6 +12,10 @@ var _ = require('underscore');
 
 var router = require('./../../router');
 
+var {
+  RaisedButton
+} = require('material-ui');
+
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
@@ -64,8 +68,12 @@ var PostView = React.createClass({
 
     if(hidden) {
       return (
-      <div className='private'>
-        this bevy is private
+      <div className='main-section'>
+        <div className='private'>
+          <div className='private-img'/>
+          you must be approved by an <br/>admin to view this community<br/><br/>
+          <RaisedButton label='request join'/>
+        </div>
       </div>
       );
     }
