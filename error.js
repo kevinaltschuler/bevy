@@ -14,7 +14,7 @@ exports.log_errors = function(err, req, res, next) {
 }
 
 exports.error_handler = function(err, req, res, next) {
-	console.error('last_errors ', err.toString());
+	console.error('error', JSON.stringify(err));
 	if(!res.headersSent) {
 		res.status(500).json(err);
 	}
