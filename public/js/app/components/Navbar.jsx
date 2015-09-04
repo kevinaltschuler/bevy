@@ -120,9 +120,11 @@ var Navbar = React.createClass({
       return <a className="login-btn" href='/login'> Log In </a>;
     }
 
-    var counter = (this.props.allNotifications.length <= 0)
+    var unread = _.reject(this.props.allNotifications, function(notification){ return notification.read });
+
+    var counter = (unread.length <= 0)
     ? ''
-    : <Badge className='notification-counter'>{ this.props.allNotifications.length }</Badge>;
+    : <Badge className='notification-counter'>{ unread.length }</Badge>;
 
     var chatSidebar = <ChatSidebar />;
     var chatDock = <ChatDock />;

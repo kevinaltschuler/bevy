@@ -1,8 +1,14 @@
+.notification-list {
+	width: 100%;
+}
+
 .notification-item {
 	box-shadow: 0 0px 0px rgba(0,0,0,0),0 0px 0px rgba(0,0,0,0);
   	border-radius: 0px;
   	margin-bottom: 0px;
   	border-style: solid;
+  	width: 100%;
+  	margin-bottom: 5px;
   	.btn:active {
   		box-shadow: none;
   	}
@@ -34,13 +40,17 @@
 			background-size: auto 40px;
 			background-repeat: no-repeat;
 			background-position: center;
+			margin-left: 5px;
 		}
 		.notification-text-col {
 			text-align: left;
-			padding-left: 22px;
+			margin-left: 5px;
 			font-size: .9em;
 			align-self: center;
 			flex-grow: 2;
+			.row {
+				margin: 0px;
+			}
 			.notification-text {
 			}
 			.name {
@@ -54,9 +64,6 @@
 		align-self: stretch;
 		border-color: rgba(0,0,0,0);
 		border-radius: 0;
-		margin-right: -17px;
-		padding-right: 25px;
-  		padding-left: 20px;
 		&:hover {
 			border-color: rgba(0,0,0,0);
 		}

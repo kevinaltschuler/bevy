@@ -27,7 +27,7 @@ var NotificationList = React.createClass({
 
     if(allNotifications.length < 1) {
       return (
-        <span className='no-notifications'>No Notifications :(</span>
+        <span className='no-notifications'>All Caught Up!</span>
       );
     }
 
@@ -51,7 +51,7 @@ var NotificationList = React.createClass({
     }
 
     return (
-      <div>
+      <div className='notification-list'>
         { notifications }
       </div>
     );

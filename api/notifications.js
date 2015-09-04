@@ -220,11 +220,12 @@ exports.poll = function(req, res, next) {
 
 // PATCH /users/:userid/notifications/:id
 exports.update = function(req, res, next) {
-  console.log('got to here');
   var id = req.params.id;
-  var update = collectBevyParams(req);
+  var update = {};
+  if(req.body['read'] != undefined)
+    update.read = req.body['read'];
   var query = { _id: id };
-  var promise = Notification.findOneAndUpdate(query, update, { new: true})   
+  var promise = Notification.findOneAndUpdate(query, update, {new: true})   
     .exec();
   promise.then(function(notification) {
     if(!notification) next('notification not found');

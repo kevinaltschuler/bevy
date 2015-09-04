@@ -62,7 +62,7 @@ _.extend(NotificationStore, {
         var notification = this.notifications.get(id);
         notification.read = true;
         this.unread -= 1;
-        notification.save({read: true},{patch: true});
+        notification.save({read: true}, {patch: true});
         this.trigger(NOTIFICATION.CHANGE_ALL);
         break;
     }

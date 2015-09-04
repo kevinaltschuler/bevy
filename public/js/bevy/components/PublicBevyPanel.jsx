@@ -104,8 +104,8 @@ var PublicBevyPanel = React.createClass({
     var details = (bevy.settings.privacy == 1 && !this.state.joined)
     ? (
         <div className='left'>
-          <span>you must be invited</span>
-          <span>to visit this community</span>
+          <span>private</span>
+          <span></span>
         </div>
       )
     : (

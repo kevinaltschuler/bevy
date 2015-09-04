@@ -73,7 +73,7 @@
         padding-left: 10px;
       }
       .create-new-message-btn {
-        color: rgb(59, 89, 152);
+        color: @light-font;
         background-color: transparent;
         border: none;
         &:hover {
@@ -83,6 +83,9 @@
         &:active, &:focus {
           box-shadow: none;
           background-color: transparent;
+        }
+        &:active {
+          color: #333;
         }
       }
     }

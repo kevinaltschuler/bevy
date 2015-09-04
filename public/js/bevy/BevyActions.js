@@ -51,10 +51,18 @@ var PostActions = {
   },
 
 
-  join(bevy_id, user, email) {
+  join(bevy_id) {
     dispatch(BEVY.JOIN, {
       bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
       user: (user == undefined) ? {} : user,
+      email: (email == undefined) ? '' : email
+    });
+  },
+
+  addUser(bevy_id, user_id, email) {
+    dispatch(BEVY.ADD_USER, {
+      bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
+      user_id: (user_id == undefined) ? '' : user_id,
       email: (email == undefined) ? '' : email
     });
   },
