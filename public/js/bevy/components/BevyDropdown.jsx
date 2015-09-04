@@ -69,10 +69,18 @@ var BevyDropdown = React.createClass({
         <Button
           ref='BevyButton'
           className='my-bevies-btn'
+          href='/s'
+        >
+          Bevies
+          <Ink style={{  }}/>
+        </Button>
+        <Button
+          ref='BevyButton'
+          className='bevies-dropdown-btn'
           onClick={ this.toggle }
         >
-          My Bevies
-          <Ink style={{  }}/>
+          <span className='glyphicon glyphicon-triangle-bottom'/>
+          <Ink style={{width: '38px', position: 'absolute', right: '0'}}/>
         </Button>
         <Overlay
           show={ this.state.show }

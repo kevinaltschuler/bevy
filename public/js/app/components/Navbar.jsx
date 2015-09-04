@@ -210,13 +210,6 @@ var Navbar = React.createClass({
             myBevies={ this.props.myBevies }
             activeBevy={ this.props.activeBevy }
           />
-          <Button
-            className='all-bevies-btn'
-            href='/s'
-          >
-            All Bevies
-            <Ink style={{ height: '100%', width: '100%', top: 0, left: 0 }}/>
-          </Button>
         </div>
 
         <div className="center">
