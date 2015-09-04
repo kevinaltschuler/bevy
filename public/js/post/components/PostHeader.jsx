@@ -99,7 +99,7 @@ var PostHeader = React.createClass({
     var pinButton = '';
     var pinButtonText = (post.pinned) ? 'Unpin Post' : 'Pin Post';
     if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == post.author._id) {
+      if(_.contains(post.bevy.admins, window.bootstrap.user._id)) {
         pinButton = (
           <MenuItem onClick={ this.pin }>
             { pinButtonText }
