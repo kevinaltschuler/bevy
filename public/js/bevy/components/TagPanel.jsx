@@ -42,11 +42,20 @@ var SubBevyPanel = React.createClass({
   },
 
   getInitialState() {
+    var tags = this.props.activeBevy.tags;
+
+    var usedColors = _.pluck(tags, 'color');
+    var colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4', '#009688', '#4CAF50', '#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722'];
+    colors = _.reject(colors, 
+      function(color) { 
+        return _.find(usedColors, function(usedColor){ return usedColor == color}) != undefined; 
+    });
+
     return {
       newTag: false,
       newTagValue: '',
       colorPicker: false,
-      newTagColor: '#F44336',
+      newTagColor: colors[0],
       activeTags: this.props.activeTags,
       cobevyModal: false,
       editing: false
@@ -124,7 +133,12 @@ var SubBevyPanel = React.createClass({
       tagButtons.push(tagItem);
     }
 
+    var usedColors = _.pluck(tags, 'color');
     var colors = ['#F44336','#E91E63','#9C27B0','#673AB7','#3F51B5','#2196F3','#03A9F4','#00BCD4', '#009688', '#4CAF50', '#8BC34A','#CDDC39','#FFEB3B','#FFC107','#FF9800','#FF5722'];
+    colors = _.reject(colors, 
+      function(color) { 
+        return _.find(usedColors, function(usedColor){ return usedColor == color}) != undefined; 
+    });
     var colorButtons = [];
     for(var key in colors) {
       var color = colors[key];
