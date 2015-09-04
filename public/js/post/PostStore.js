@@ -358,7 +358,7 @@ _.extend(PostStore, {
         });
 
         this.posts.sort();
-
+        this.trigger(POST.CHANGE_ALL);
         this.trigger(POST.CHANGE_ONE + post_id);
         break;
 
