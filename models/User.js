@@ -119,7 +119,13 @@ UserSchema.set('toObject', {
 });
 UserSchema.set('toJSON', {
   getters: true,
-  virtuals: true
+  virtuals: true,
+  transform: function(doc, ret, options) {
+    delete ret.password;
+    delete ret.token;
+    delete ret.devices;
+    return ret;
+  }
 });
 
 UserSchema.index({
