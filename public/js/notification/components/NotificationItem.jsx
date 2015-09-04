@@ -61,7 +61,7 @@ var NotificationItem = React.createClass({
     var user_id = data.user_id;
     var user_email = data.user_email;
 
-    NotificationActions.read(this.props.id);
+    NotificationActions.dismiss(this.props.id);
     BevyActions.addUser(bevy_id, user_id, user_email);
   },
 
@@ -176,8 +176,6 @@ var NotificationItem = React.createClass({
         : {
           backgroundImage: 'url(' + user_image + ')',
         };
-
-        console.log(data);
 
         body = (
           <div className='notification-body'>

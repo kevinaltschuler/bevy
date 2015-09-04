@@ -71,7 +71,6 @@ _.extend(PostStore, {
         //PostStore.posts.forEach(function(post) {
         //  PostStore.postsNestComment(post);
         //});
-        this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
         this.trigger(POST.CHANGE_ALL);
 
         break;
@@ -92,8 +91,9 @@ _.extend(PostStore, {
         this.posts.comparator = PostStore.sortByNew;
 
         this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
-        if(bevy_id == '-1')
+        if(bevy_id == '-1') 
             this.posts.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/frontpage';
+        
         this.posts.fetch({
           reset: true,
           success: function(collection, response, options) {
@@ -122,6 +122,7 @@ _.extend(PostStore, {
                 this.postsNestComment(post);
               }.bind(this));
               this.posts.sort();
+              this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
               this.trigger(POST.CHANGE_ALL);
             }.bind(this)
           });
@@ -487,6 +488,7 @@ _.extend(PostStore, {
   },
 
   getFrontBevies() {
+    this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
     return this.frontBevies;
   },
 

@@ -20,6 +20,9 @@ module.exports = function(router) {
 	// UPDATE
 	router.put('/users/:id', api.users.update);
 	router.patch('/users/:id', api.users.update);
+
+	router.patch('/users/:userid/addbevy/:bevyid', api.users.addBevy);
+
 	// DESTROY
 	router.delete('/users/:id', api.users.destroy);
 

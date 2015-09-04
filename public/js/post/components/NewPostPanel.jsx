@@ -19,6 +19,9 @@ var constants = require('./../../constants');
 var rbs = require('react-bootstrap');
 var Panel = rbs.Panel;
 var Badge = rbs.Badge;
+var Button = rbs.Button;
+var DropdownButton = rbs.DropdownButton;
+var MenuItem = rbs.MenuItem; 
 
 var mui = require('material-ui');
 var TextField = mui.TextField;
@@ -42,7 +45,7 @@ var hintTexts = [
   "Drop a line",
   "What's good?",
   "What do you have to say?",
-  "Spit a verse"
+  "Spit a verse",
 ];
 var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 
@@ -125,6 +128,12 @@ var NewPostPanel = React.createClass({
     });
   },
 
+  setIndex(key) {
+    this.setState({
+      selectedIndex: key
+    });
+  },
+
   render() {
 
     var dropzoneOptions = {
@@ -145,15 +154,18 @@ var NewPostPanel = React.createClass({
     if(this.props.activeBevy) {
       for(var key in tags) {
         var tag = tags[key];
-        tagItems.push({payload: key, text: tag.name})
+        tagItems.push(
+        <MenuItem eventKey={key} onSelect={this.setIndex}>
+          <span className='color-dot' style={{backgroundColor: tag.color, padding: '1px 9px'}}/>
+            {tag.name}
+        </MenuItem>
+        );
       }
     }
 
-    var selectedIndex = this.state.selectedIndex;
+    /*
 
-    var tagDropdown = (this.state.activeBevy)
-    ? <div/>
-    : (<DropDownMenu
+      <DropDownMenu
         className='bevies-dropdown'
         autoWidth={false}
         menuItems={tagItems}
@@ -161,6 +173,16 @@ var NewPostPanel = React.createClass({
         onChange={ this.onTagChange }
         underlineStyle={{borderColor: tagColor, borderTopWidth: '2px'}}
       />
+    */
+
+    var selectedIndex = this.state.selectedIndex;
+
+    var tagDropdown = (this.state.activeBevy)
+    ? <div/>
+    : (
+    <DropdownButton style={{backgroundColor: tags[this.state.selectedIndex].color}} title={tags[this.state.selectedIndex].name} id='bg-nested-dropdown'>
+      {tagItems}
+    </DropdownButton>
     );
 
     var disabled = this.props.disabled;

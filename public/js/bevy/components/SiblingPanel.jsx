@@ -154,6 +154,10 @@ var SiblingPanel = React.createClass({
       siblingButtons.push(searchDiv)
     }
 
+    if(!_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; }) && siblings.length == 0) {
+      return <div/>;
+    }
+
 
     return (
       <div className='bevy-list panel'>

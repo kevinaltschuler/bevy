@@ -23,7 +23,9 @@ var PostSort = require('./../../post/components/PostSort.jsx');
 var FrontPage = React.createClass({
 
   propTypes: {
-    allPosts: React.PropTypes.array
+    allPosts: React.PropTypes.array,
+    frontBevies: React.PropTypes.array,
+    sortType: React.PropTypes.string
   },
 
   render() {

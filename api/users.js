@@ -149,6 +149,30 @@ exports.update = function(req, res, next) {
   });
 }
 
+// PATCH /users/:userid/addbevy/:bevyid
+exports.addBevy = function(req, res, next) {
+  var user_id = req.params.userid;
+  var bevy_id = req.params.bevyid;
+
+  User.findOne({ _id: user_id }, function(err, user) {
+      if(err) return next(err);
+
+      var update = {};
+      update.updated = new Date();
+      update.bevies = user.bevies;
+      update.bevies.push(bevy_id);
+      update.bevies = _.uniq(update.bevies);
+
+      var promise = User.findOneAndUpdate({ _id: user_id }, update, { new: true  });
+      promise.then(function($user) {
+        return res.json($user);
+      }, function(err) {
+        return next(err);
+      });
+    }
+  );
+}
+
 // DESTROY
 // DELETE /users/:id
 exports.destroy = function(req, res, next) {

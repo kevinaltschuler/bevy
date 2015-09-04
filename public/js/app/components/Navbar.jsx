@@ -120,9 +120,11 @@ var Navbar = React.createClass({
       return <a className="login-btn" href='/login'> Log In </a>;
     }
 
-    var counter = (this.props.allNotifications.length <= 0)
+    var unread = _.reject(this.props.allNotifications, function(notification){ return notification.read });
+
+    var counter = (unread.length <= 0)
     ? ''
-    : <Badge className='notification-counter'>{ this.props.allNotifications.length }</Badge>;
+    : <Badge className='notification-counter'>{ unread.length }</Badge>;
 
     var chatSidebar = <ChatSidebar />;
     var chatDock = <ChatDock />;
@@ -208,13 +210,6 @@ var Navbar = React.createClass({
             myBevies={ this.props.myBevies }
             activeBevy={ this.props.activeBevy }
           />
-          <Button
-            className='all-bevies-btn'
-            href='/s'
-          >
-            All Bevies
-            <Ink style={{ height: '100%', width: '100%', top: 0, left: 0 }}/>
-          </Button>
         </div>
 
         <div className="center">
