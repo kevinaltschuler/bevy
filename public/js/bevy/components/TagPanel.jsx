@@ -178,18 +178,18 @@ var SubBevyPanel = React.createClass({
     var editGlyph = (this.state.newTag) ? 'glyphicon glyphicon-remove' : "glyphicon glyphicon-plus";
 
     var editButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
-    if((_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; })))
+    if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined)
     editButton = (
-        <Button 
-          className='new-bevy-btn'
-          disabled={this.state.newTag}
-          onClick={() => { this.setState({ editing: !this.state.editing, newTag: false }); }}>
-          <span className={createGlyph}/>
-        </Button>
+      <Button 
+        className='new-bevy-btn'
+        disabled={this.state.newTag}
+        onClick={() => { this.setState({ editing: !this.state.editing, newTag: false }); }}>
+        <span className={createGlyph}/>
+      </Button>
     );
 
     var createButton = <div/>;
-    if(_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; })) {
+    if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       var createButton = (
       <Button 
         className='new-bevy-btn'

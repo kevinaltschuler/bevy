@@ -67,7 +67,7 @@ var SiblingItem = React.createClass({
       : (
           <FlatButton 
             linkButton={true} 
-            href={'/b/' + bevy._id}
+            href={ bevy.url }
             style={{width: '100%', display: 'flex', flexDirection: 'row', padding: '5px 10px'}}
             className='bevy-btn'
             labelStyle={{fontWeight: '700'}}

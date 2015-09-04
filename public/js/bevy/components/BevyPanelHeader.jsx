@@ -131,7 +131,7 @@ var BevyPanelHeader = React.createClass({
       </div>
     );
     if(window.bootstrap.user) {
-      if(_.contains(bevy.admins, window.bootstrap.user._id)) {
+      if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id}) != undefined) {
         editButton = (
           <OverlayTrigger placement='top' overlay={<Tooltip>Edit Name/Description</Tooltip>}>
             <Button className='edit-btn' onClick={ this.startEditing }>
