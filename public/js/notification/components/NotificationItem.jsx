@@ -8,6 +8,7 @@
 var React = require('react');
 var $ = require('jquery');
 var _ = require('underscore');
+var Ink = require('react-ink');
 
 var router = require('./../../router');
 
@@ -74,7 +75,8 @@ var NotificationItem = React.createClass({
     ? {}
     : { 
       position: 'relative',
-      boxShadow: 'none'
+      boxShadow: 'none',
+      paddingLeft: '5px'
     };
 
     var body;
@@ -169,15 +171,17 @@ var NotificationItem = React.createClass({
         var user_image = data.user_image;
         var bevy_id = data.bevy_id;
         var bevy_name = data.bevy_name;
-        var imgStyle = (user_img == undefined)
+        var imgStyle = (user_image == undefined)
         ? {display: 'none'}
         : {
-          backgroundImage: 'url(' + user_img + ')',
+          backgroundImage: 'url(' + user_image + ')',
         };
 
+        console.log(data);
+
         body = (
-          <Button className='notification-body'>
-            <div className=' sidebar-picture' style={img_style}/>
+          <div className='notification-body'>
+            <div className=' sidebar-picture' style={imgStyle}/>
             <div className=' notification-text-col'>
               <div className='row'>
                 <span>Request to join <b>{ bevy_name }</b></span>
@@ -188,10 +192,19 @@ var NotificationItem = React.createClass({
             </div>
             <Button
               className="accept-btn"
+              style={{position: 'relative'}}
+              onClick={ this.dismiss } >
+              Dismiss
+              <Ink style={{ color: '#aaa', width: '85px', height: '100%'}}/>
+            </Button>
+            <Button
+              className="accept-btn"
+              style={{position: 'relative'}}
               onClick={ this.acceptJoin } >
               Accept
+              <Ink style={{ color: '#aaa', width: '85px', height: '100%'}}/>
             </Button>
-          </Button>
+          </div>
         );
 
         break;
@@ -252,7 +265,7 @@ var NotificationItem = React.createClass({
     return (
       <Panel className="notification-item" style={itemStyle}>
         { body }
-        <Ink style={{ color: '#aaa', height: 50, top: 'inherit', marginTop: '-5px' }}/>
+        
       </Panel>
     );
   }

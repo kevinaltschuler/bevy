@@ -49,13 +49,18 @@ var PublicBevyPanel = React.createClass({
   onRequestJoin(ev) {
     ev.preventDefault();
 
-    BevyActions.join(this.props.bevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
+    if(this.props.bevy.settings.privacy == 1) {
+      BevyActions.requestJoin(this.props.bevy, window.bootstrap.user);
+    } 
+    else {
+      BevyActions.join(this.props.bevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
 
-    var joined = true;
+      var joined = true;
 
-    this.setState({
-      joined: joined
-    });
+      this.setState({
+        joined: joined
+      });
+    }
   },
 
   onRequestLeave(ev) {
@@ -83,16 +88,32 @@ var PublicBevyPanel = React.createClass({
     var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
     if(_.isEmpty(description)) description = 'no description';
 
-    var _joinButton = (this.state.joined)
+    var joinButton = (this.state.joined)
     ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
-    : <RaisedButton label='join' onClick={ this.onRequestJoin } /> 
+    : <RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='join' onClick={ this.onRequestJoin } /> 
 
-    var joinButton = (_.isEmpty(window.bootstrap.user))
-    ? <div/>
-    : _joinButton
+    var requestButton = <RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='request' onClick={ this.onRequestJoin } />;
+
+    var actionButton = (bevy.settings.privacy == 1 && !this.state.joined)
+    ? requestButton
+    : joinButton;
 
     var subCount = (bevy.subCount == 1) ? '1 member' : bevy.subCount + ' members';
     var created = new Date(bevy.created).toLocaleDateString();
+
+    var details = (bevy.settings.privacy == 1 && !this.state.joined)
+    ? (
+        <div className='left'>
+          <span>you must be invited</span>
+          <span>to visit this community</span>
+        </div>
+      )
+    : (
+        <div className='left'>
+          <span>{ subCount }</span>
+          <span>created on { created }</span>
+        </div>
+      )
 
     return (
       <div className="panel public-bevy-panel">
@@ -102,12 +123,9 @@ var PublicBevyPanel = React.createClass({
             <a className='title' href={ this.props.bevy.url } onClick={ this.switchBevy }>{ name }</a>
           </div>
           <div className='panel-info-bottom'>
-            <div className='left'>
-              <span>{ subCount }</span>
-              <span>created on { created }</span>
-            </div>
+            { details }
             <div className='right'>
-              { joinButton }
+              { actionButton }
             </div>
           </div>
         </div>

@@ -216,6 +216,31 @@ _.extend(BevyStore, {
 
         break;
 
+      case BEVY.REQUEST_JOIN:
+        var bevy = payload.bevy;
+        var user = payload.user;
+
+        if(this.myBevies.get(bevy._id) != undefined) break; // already joined
+        
+        $.ajax({
+          method: 'POST',
+          url: constants.apiurl + '/notifications',
+          data: {
+            event: 'bevy:requestjoin',
+            bevy_id: bevy._id,
+            bevy_name: bevy.name,
+            user_id: user._id,
+            user_name: user.displayName,
+            user_image: user.image_url,
+            user_email: user.email
+          },
+          success: function(res) {
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });     
+
+        break;
+
       case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
         this.active = bevy_id;

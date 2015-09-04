@@ -13,7 +13,6 @@ var api = require('./../../api');
 
 module.exports = function(router) {
 	// CREATE
-	router.get('/notifications/create', api.notifications.create);
 	router.post('/notifications', api.notifications.create);
 
 	// INDEX

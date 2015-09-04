@@ -59,6 +59,13 @@ var PostActions = {
     });
   },
 
+  requestJoin(bevy, user) {
+    dispatch(BEVY.REQUEST_JOIN, {
+      bevy: (bevy == undefined) ? {} : bevy,
+      user: (user == undefined) ? {} : user
+    });
+  },
+
   switchBevy(bevy_id) {
     dispatch(BEVY.SWITCH, {
       bevy_id: bevy_id || -1
