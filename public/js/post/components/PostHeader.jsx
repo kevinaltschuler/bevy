@@ -35,11 +35,6 @@ var PostHeader = React.createClass({
     };
   },
 
-  onSwitchBevy(ev) {
-    //ev.preventDefault();
-    //router.navigate('/b/' + this.props.post.bevy._id, { trigger: true });
-  },
-
   startPM(ev) {
     ev.preventDefault();
     ChatActions.startPM(this.props.post.author._id);
