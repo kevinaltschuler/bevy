@@ -88,7 +88,7 @@ var SiblingPanel = React.createClass({
     var editGlyph = (this.state.adding) ? 'glyphicon glyphicon-remove' : "glyphicon glyphicon-plus";
 
     var editButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
-    if((_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; })) ) {
+    if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       editButton = (
         <Button 
           className='new-bevy-btn'
@@ -101,7 +101,7 @@ var SiblingPanel = React.createClass({
     }
 
     var createButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
-    if(_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; })) {
+    if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       createButton = (
       <Button 
         className='new-bevy-btn'
@@ -130,23 +130,24 @@ var SiblingPanel = React.createClass({
     }
 
     var searchDiv = (this.state.adding)
-    ? (<div style={{display: 'flex', alignItems: 'center', height: '30px'}} ref='SearchContainer'>
-          <span className='glyphicon glyphicon-search' style={{padding: '6px 12px'}} ref='SearchIcon'/>
-          <TextField 
-            type='text'
-            ref='AddSiblingInput'
-            value={ this.state.query }
-            onChange={ this.onAddSiblingChange }
-            style={{width: '90%'}}
-            groupClassName='participant-input'
-          />
-          <BevySearchOverlay
-            container={this.refs.SiblingButtons}
-            target={() => React.findDOMNode(this.refs.AddSiblingInput)}
-            query={ this.state.query }
-            addSibling={ this.addSibling }
-            siblings={siblings}
-          />
+    ? (
+      <div style={{display: 'flex', alignItems: 'center', height: '30px'}} ref='SearchContainer'>
+        <span className='glyphicon glyphicon-search' style={{padding: '6px 12px'}} ref='SearchIcon'/>
+        <TextField 
+          type='text'
+          ref='AddSiblingInput'
+          value={ this.state.query }
+          onChange={ this.onAddSiblingChange }
+          style={{width: '90%'}}
+          groupClassName='participant-input'
+        />
+        <BevySearchOverlay
+          container={this.refs.SiblingButtons}
+          target={() => React.findDOMNode(this.refs.AddSiblingInput)}
+          query={ this.state.query }
+          addSibling={ this.addSibling }
+          siblings={siblings}
+        />
       </div>)
     : <div/>;
 
@@ -154,10 +155,9 @@ var SiblingPanel = React.createClass({
       siblingButtons.push(searchDiv)
     }
 
-    if(!_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; }) && siblings.length == 0) {
+    if((_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) == undefined) && siblings.length == 0) {
       return <div/>;
     }
-
 
     return (
       <div className='bevy-list panel'>

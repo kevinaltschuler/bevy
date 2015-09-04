@@ -34,25 +34,35 @@ var PostImages = React.createClass({
 
   render() {
     var post = this.props.post;
+    var images = post.images;
+    // display no more than 8 images
+    if(images.length > 8) images = images.slice(0, 8);
 
-    var images = [];
-    for(var key in post.images) {
-      var url = post.images[key] + '?w=150&h=150';
-      images.push(
-        <div className='panel-body-image' key={ 'postimage:' + post._id + ':' + key } >
+    var imageButtons = [];
+    for(var key in images) {
+      var url = images[key] + '?w=150&h=150';
+      var more = <div />;
+      if(key == 7) {
+        // last image
+        more = <span className='more'>+ { post.images.length - 8 } more</span>
+      }
+      imageButtons.push(
+        <div className='panel-body-image' key={ 'postimage:' + post._id + ':' + key }>
+          { more }
           <Button 
             className="image-thumbnail" 
-            id={key}
+            id={ key }
             style={{ backgroundImage: 'url(' + url + ')' }}
-            onClick={this.showModal}
+            onClick={ this.showModal }
           />
+          
         </div>
       );
     }
 
     return (
-      <div className="panel-body">
-        { images }
+      <div className="post-images">
+        { imageButtons }
         <ImageModal 
           allImages={ post.images } 
           index={ this.state.imageKey } 

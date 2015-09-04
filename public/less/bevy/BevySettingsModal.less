@@ -1,48 +1,41 @@
 .bevy-settings-modal {
-	.modal-dialog {
-		width: 300px;
-		.modal-content {
-			.title {
-				margin-bottom: 20px;
-			}
-			.bevy-setting {
-				margin-top: 20px;
-				.mui-toggle {
-					font-size: 12px;
-					.mui-switch-label {
-						padding-left: 20px;
-					}
-				}
-			}
-			.expire-setting {
-				font-size: 14px;
-  				font-weight: 600;
-  				display: flex;
-    			align-items: center;
-    			justify-content: space-between;
-				.mui-drop-down-menu {
-					vertical-align: middle;
-					font-weight: 100;
-					margin-left: 33px;
-					z-index: 10;
-				}
-			}
-			.panel-bottom {
-				margin-top: 20px;
-				.mui-raised-button {
-					.mui-paper-container {
-						.mui-raised-button-container {
-							background-color: white;
-							.mui-raised-button-label {
-								color: black;
-							}
-						}
-					}
-				}
-			}
-			.modal-footer {
-				border: none;
-			}
-		}
-	}
+  .modal-dialog {
+    width: 300px;
+    .modal-content {
+      .modal-header {
+        padding: 0px;
+        .modal-title {
+
+        }
+        .close {
+          padding-left: 0px;
+        }
+      }
+      .modal-body {
+        padding: 0px;
+        display: flex;
+        flex-direction: column;
+        .bevy-setting {
+          margin-top: 20px;
+        }
+        .expire-setting {
+          font-size: 14px;
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          .mui-drop-down-menu {
+            vertical-align: middle;
+            font-weight: 100;
+            margin-left: 33px;
+            z-index: 10;
+          }
+        }
+      }
+      
+      .modal-footer {
+        border: none;
+      }
+    }
+  }
 }

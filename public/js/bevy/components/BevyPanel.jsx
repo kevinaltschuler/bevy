@@ -9,21 +9,17 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
-var constants = require('./../../constants');
-
-var mui = require('material-ui');
-var FlatButton = mui.FlatButton;
-var RaisedButton = mui.RaisedButton;
+var {
+  FlatButton,
+  RaisedButton
+} = require('material-ui');
 
 var BevySettingsModal = require('./BevySettingsModal.jsx');
 var BevyPanelHeader = require('./BevyPanelHeader.jsx');
-var Uploader = require('./../../shared/components/Uploader.jsx');
 
+var _ = require('underscore');
+var constants = require('./../../constants');
 var BevyActions = require('./../BevyActions');
-
-var user = window.bootstrap.user;
 
 var BevyPanel = React.createClass({
 
@@ -33,45 +29,27 @@ var BevyPanel = React.createClass({
   },
 
   getInitialState() {
-
-    var activeBevy = this.props.activeBevy;
-    var joined = _.findWhere(this.props.myBevies, { _id: activeBevy._id }) != undefined;
+    var joined = (_.findWhere(this.props.myBevies, { _id: this.props.activeBevy._id }) != undefined);
 
     return {
-      name: activeBevy.name || '',
-      description: activeBevy.description || '',
-      image_url: activeBevy.image_url || '',
-      isEditing: false,
       joined: joined,
       showSettingsModal: false
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    var bevy = nextProps.activeBevy;
+    var joined = (_.findWhere(this.props.myBevies, { _id: this.props.activeBevy._id }) != undefined);
 
     this.setState({
-      name: bevy.name,
-      description: bevy.description,
-      image_url: bevy.image_url,
-    });
-  },
-
-  onChange(ev) {
-    this.setState({
-      name: this.refs.name.getValue(),
-      description: this.refs.description.getValue()
+      joined: joined
     });
   },
 
   onRequestJoin(ev) {
     ev.preventDefault();
-
     BevyActions.join(this.props.activeBevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
-
     var bevy = this.props.bevy;
     var joined = true;
-
     this.setState({
       joined: joined
     });
@@ -79,91 +57,50 @@ var BevyPanel = React.createClass({
 
   onRequestLeave(ev) {
     ev.preventDefault();
-
     BevyActions.leave(this.props.activeBevy._id);
-
     var bevy = this.props.bevy;
     var joined = false;
-
     this.setState({
       joined: joined
     });
   },
 
-  destroy(ev) {
-    ev.preventDefault();
-
-    if(!window.confirm('Are you sure?')) return;
-
-    if(!this.props.activeBevy) return;
-
-    var id = this.props.activeBevy.id;
-
-    BevyActions.destroy(id);
-  },
-
-  render() {
-
-    var bevy = this.props.activeBevy;
-    var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
-    var bevyImageStyle = (this.state.image_url === '/img/default_group_img.png')
-    ? { backgroundImage: 'url(' + bevyImage + ')' }
-    : { backgroundImage: 'url(' + bevyImage + ')' };
-
-
-    var imgStyle = (this.state.image_url === '/img/default_group_img.png')
-    ? { minWidth: '50px', height: 'auto' }
-    : { minWidth: '100px', height: 'auto' };
-
-    var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
-    var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
-    if(_.isEmpty(description)) description = 'no description';
+  _renderBottomActions() {
+    if(_.isEmpty(window.bootstrap.user)) return <div />;
     
-    var itemIndex = 0;
+    var joinButton = (this.state.joined)
+    ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
+    : <RaisedButton label='join' onClick={ this.onRequestJoin } /> 
 
-    var _joinButton = (this.state.joined)
-    ? <FlatButton label='leave' onClick={this.onRequestLeave} />
-    : <RaisedButton label='join' onClick={this.onRequestJoin} /> 
-
-    var joinButton = (_.isEmpty(window.bootstrap.user))
-    ? <div/>
-    : _joinButton
-
-    if(window.bootstrap.user) {
-      var bottomActions = (_.find(bevy.admins, function(admin) { return window.bootstrap.user._id == admin; }))
-      ? (
+    if(_.findWhere(this.props.activeBevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
+      return (
         <div className='sidebar-bottom'>
-          <div>
-            <FlatButton 
-              label='Settings' 
-              onClick={() => { this.setState({ showSettingsModal: true }); }}
-            />
-            <BevySettingsModal 
-              activeBevy={ this.props.activeBevy } 
-              show={ this.state.showSettingsModal }
-              onHide={() => { this.setState({ showSettingsModal: false }); }}
-            />
-          </div>
-          <div>
-            { joinButton }
-          </div>
+          <FlatButton 
+            label='Settings' 
+            onClick={() => { this.setState({ showSettingsModal: true }); }}
+          />
+          <BevySettingsModal 
+            activeBevy={ this.props.activeBevy } 
+            show={ this.state.showSettingsModal }
+            onHide={() => { this.setState({ showSettingsModal: false }); }}
+          />
+          { joinButton }
         </div>
-      ) : (
+      );
+    } else {
+      return (
         <div className='sidebar-bottom'>
-          <div>
-          </div>
-          <div>
-            { joinButton }
-          </div>
+          { joinButton }
         </div>
       );
     }
+  },
 
-
+  render() {
     return (
       <div className="bevy-panel panel">
         <BevyPanelHeader {...this.props}/>
-        { bottomActions }
+        { this._renderBottomActions() }
       </div>
     );
   }

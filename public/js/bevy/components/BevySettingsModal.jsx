@@ -69,6 +69,14 @@ var BevySettingsModal = React.createClass({
     this.props.onHide();
   },
 
+  destroyBevy(ev) {
+    ev.preventDefault();
+    if(!confirm('Are you sure?')) return;
+
+    BevyActions.destroy(this.props.activeBevy._id);
+    this.props.onHide();
+  },
+
   render() {
 
     var bevy = this.props.activeBevy;
@@ -144,6 +152,22 @@ var BevySettingsModal = React.createClass({
               label="admin posting only?"
               defaultToggled={ settings.admin_only }
               ref='admin_only'
+            />
+          </div>
+          <div className='bevy-setting'>
+            <RaisedButton 
+              label='Delete Bevy'
+              backgroundColor='#d9534f'
+              labelColor='#fff'
+              style={{
+                backgroundColor: '#d9534f',
+                width: '100%'
+              }}
+              labelStyle={{
+                color: '#fff',
+                fontWeight: 'bold'
+              }}
+              onClick={ this.destroyBevy }
             />
           </div>
         </Modal.Body>
