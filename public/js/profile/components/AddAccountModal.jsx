@@ -34,7 +34,7 @@ var AddAccountModal = React.createClass({
   getInitialState() {
     return {
       errorText: '',
-      verifiedUser: {}
+      validUsername: false
     };
   },
 
@@ -59,7 +59,32 @@ var AddAccountModal = React.createClass({
       errorText: ''
     });
     this.props.onHide();
-  },  
+  },
+
+  onUsernameChange(ev) {
+    ev.preventDefault();
+
+    if(this.usernameTimeout != undefined) {
+      clearTimeout(this.usernameTimeout);
+      delete this.usernameTimeout;
+    }
+    this.usernameTimeout = setTimeout(this.verifyUsername, 500);
+  },
+
+  verifyUsername() {
+    $.ajax({
+      url: constants.apiurl + '/users/' + this.refs.Username.getValue() + '/verify',
+      method: 'GET',
+      success: function(data) {
+        this.setState({
+          validUsername: !data.found
+        });
+      }.bind(this),
+      error: function(error) {
+        console.log(error.responseJSON);
+      }
+    });
+  },
 
   verifyUser() {
     var username = this.refs.Username.getValue();
@@ -102,6 +127,7 @@ var AddAccountModal = React.createClass({
     var password = this.refs.Password.getValue();
 
     if(_.isEmpty(username)) return this.setState({ errorText: 'Please enter a username' });
+    if(!this.state.validUsername) return this.setState({ errorText: 'Username already in use' });
     if(_.isEmpty(password)) return this.setState({ errorText: 'Please enter a password' });
 
     $.ajax({
@@ -130,30 +156,14 @@ var AddAccountModal = React.createClass({
     );
   },
 
-  _renderVerifiedUser() {
-    if(_.isEmpty(this.state.verifiedUser)) return <div />;
-    return (
-      <div className='verified-user'>
-        <div className='image' style={{
-          backgroundImage: 'url(' + (_.isEmpty(this.state.verifiedUser.image_url) ? constants.defaultProfileImage : this.state.verifiedUser.image_url) + ')'
-        }}/>
-        <div className='details'>
-          { this.state.verifiedUser.displayName }
-        </div>
-        <FlatButton
-          label='Cancel'
-          onClick={() => this.setState({ verifiedUser: {} })}
-        />
-      </div>
-    );
-  },
-
   _renderVerifyDialog() {
     return (
       <div className='verify-dialog'>
         <TextField
           ref='Username'
           hintText='username'
+          type='text'
+          onChange={ this.onUsernameChange }
         />
         <TextField
           ref='Password'
@@ -198,7 +208,6 @@ var AddAccountModal = React.createClass({
         </Modal.Header>
         <Modal.Body>
           { this._renderError() }
-          { this._renderVerifiedUser() }
           { this._renderVerifyDialog() }
         </Modal.Body>
       </Modal>

@@ -11,17 +11,19 @@
 var React = require('react');
 var $ = require('jquery');
 var _ = require('underscore');
-
 var constants = require('./../../constants');
 
-var rbs = require('react-bootstrap');
-var Panel = rbs.Panel;
-var Input = rbs.Input;
-var Button = rbs.Button;
+var {
+  Panel,
+  Input,
+  Button
+} = require('react-bootstrap');
 
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
-var TextField = mui.TextField;
+var {
+  RaisedButton,
+  TextField
+} = require('material-ui');
+
 var usernameRegex = /^[a-z0-9_-]{3,16}$/;
 var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
@@ -30,13 +32,18 @@ var RegisterPanel = React.createClass({
   getInitialState() {
     return {
       usernameColor: '#e0e0e0',
-      passwordColor: '',
-      emailColor: ''
+      validUsername: false
     };
   },
 
   onUsernameChange(ev) {
     ev.preventDefault();
+
+    if(this.usernameTimeout != undefined) {
+      clearTimeout(this.usernameTimeout);
+      delete this.usernameTimeout;
+    }
+    this.usernameTimeout = setTimeout(this.verifyUsername, 500);
   },
 
   onPasswordChange(ev) {
@@ -45,6 +52,21 @@ var RegisterPanel = React.createClass({
 
   onEmailChange(ev) {
     ev.preventDefault();
+  },
+
+  verifyUsername() {
+    $.ajax({
+      url: constants.apiurl + '/users/' + this.refs.Username.getValue() + '/verify',
+      method: 'GET',
+      success: function(data) {
+        this.setState({
+          validUsername: !data.found
+        });
+      }.bind(this),
+      error: function(error) {
+        console.log(error.responseJSON);
+      }
+    });
   },
 
   validateUsername() {
@@ -63,6 +85,10 @@ var RegisterPanel = React.createClass({
     }
     if(!usernameRegex.test(username)) {
       this.refs.Username.setErrorText('Only characters a-z, numbers, underscores, and dashes are allowed');
+      return false;
+    }
+    if(!this.state.validUsername) {
+      this.refs.Username.setErrorText('Username already in use');
       return false;
     }
     this.refs.Username.setErrorText('');
@@ -142,20 +168,33 @@ var RegisterPanel = React.createClass({
     });
   },
 
-  render() {
+  _renderUsernameVerified() {
+    /*var username = (this.refs.Username == undefined) ? '' : this.refs.Username.getValue();
+    if(_.isEmpty(username)) return <div />;
+    if(this.state.validUsername) {
+      return <span className='glyphicon glyphicon-ok' />;
+    } else {
+      return <span className='glyphicon glyphicon-remove' />;
+    }*/
+    return <div />;
+  },
 
+  render() {
     return (
       <Panel className="register-panel">
         <img className="profile-img" src={ constants.defaultProfileImage } alt="Avatar"/>
-        <form method='post' action='/register'>
-          <TextField 
-            ref='Username'
-            type='text'
-            hintText='username (3-16 characters)'
-            style={{width: '100%'}}
-            onChange={ this.onUsernameChange }
-            underlineFocusStyle={{ borderBottom: 'solid 1px' + this.state.usernameColor }}
-          />
+        <div className='register-fields'>
+          <div className='username-field'>
+            <TextField 
+              ref='Username'
+              type='text'
+              hintText='username (3-16 characters)'
+              style={{width: '100%'}}
+              onChange={ this.onUsernameChange }
+              underlineFocusStyle={{ borderBottom: 'solid 1px' + this.state.usernameColor }}
+            />
+            { this._renderUsernameVerified() }
+          </div>
           <TextField 
             ref='Password'
             type='password'
@@ -176,7 +215,7 @@ var RegisterPanel = React.createClass({
             ref='submit'
             onClick={ this.register }
             style={{width: '100%'}}/>
-        </form>
+        </div>
       </Panel>
     );
   }

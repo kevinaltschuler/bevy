@@ -250,3 +250,14 @@ exports.removeLinkedAccount = function(req, res, next) {
     });
   });
 };
+
+// GET /users/:username/verify
+exports.verifyUsername = function(req, res, next) {
+  var username = req.params.username;
+
+  User.findOne({ username: username }, function(err, user) {
+    if(err) return next(err);
+    if(!user) return res.json({ found: false });
+    else return res.json({ found: true });
+  });
+};
