@@ -47,6 +47,9 @@ exports.index = function(req, res, next) {
     Bevy.find({ _id: { $in: user.bevies } }, function(err, bevies) {
       if(err) return next(err);
       return res.json(bevies);
+    }).populate({
+      path: 'admins',
+      select: 'displayName username email image_url'
     });
   }); 
 }
@@ -99,11 +102,13 @@ exports.create = function(req, res, next) {
 exports.show = function(req, res, next) {
   var id = req.params.id;
 
-  //Bevy.findOne({ $or: [{ _id: id }, { name: id }] }, function(err, bevy) {
   Bevy.findOne({ _id: id }, function(err, bevy) {
     if(err) return next(err);
     return res.json(bevy);
-  });
+  }).populate({
+      path: 'admins',
+      select: 'displayName username email image_url'
+    });
 }
 
 // SEARCH
