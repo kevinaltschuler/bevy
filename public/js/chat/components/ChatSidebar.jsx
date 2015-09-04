@@ -17,27 +17,24 @@ var {
   Panel
 } = require('react-bootstrap');
 var {
-  TextField
+  TextField,
+  Styles
 } = require('material-ui');
 
 var ThreadItem = require('./ThreadItem.jsx');
 var UserSearchItem = require('./UserSearchItem.jsx');
 
+var user = window.bootstrap.user;
+var email = user.email;
+var constants = require('./../../constants');
+var USER = constants.USER;
+var CHAT = constants.CHAT;
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
 var UserActions = require('./../../profile/UserActions');
 var UserStore = require('./../../profile/UserStore');
 
-var mui = require('material-ui');
-var TextField = mui.TextField;
-var ThemeManager = new mui.Styles.ThemeManager();
-
-var constants = require('./../../constants');
-var USER = constants.USER;
-var CHAT = constants.CHAT;
-
-var user = window.bootstrap.user;
-var email = user.email;
+var ThemeManager = new Styles.ThemeManager();
 
 var ChatSidebar = React.createClass({
 
@@ -148,8 +145,18 @@ var ChatSidebar = React.createClass({
   onChange(ev) {
     ev.preventDefault();
     var query = this.refs.userSearch.getValue();
+    if(_.isEmpty(query)) {
+      this.setState({
+        query: '',
+        searching: false,
+        searchUsers: []
+      });
+      this.closeSearchResults();
+      return;
+    }
     this.setState({
-      query: query
+      query: query,
+      searching: true
     });
     if(_.isEmpty(query)) {
      this.closeSearchResults();
@@ -284,13 +291,11 @@ var ChatSidebar = React.createClass({
       );
     }
 
-    if(_.isEmpty(searchResults) && !_.isEmpty(this.state.query)) {
+    if(_.isEmpty(searchResults) && !_.isEmpty(this.state.query) && !this.state.searching) {
       searchResults = (
-        <div>
-          <h3>
-            no results :(
-          </h3>
-        </div>
+        <span className='no-results'>
+          no results :(
+        </span>
       );
     }
 
