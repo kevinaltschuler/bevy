@@ -43,6 +43,7 @@ exports.index = function(req, res, next) {
   //console.log(req.user);
   User.findOne({ _id: userid }, function(err, user) {
     if(err) return next(err);
+    if(!user) return res.json([]);
     Bevy.find({ _id: { $in: user.bevies } }, function(err, bevies) {
       if(err) return next(err);
       return res.json(bevies);
