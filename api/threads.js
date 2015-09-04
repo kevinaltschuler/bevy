@@ -80,10 +80,10 @@ exports.update = function(req, res, next) {
 	if(req.body['image_url'] != undefined)
 		thread.image_url = req.body['image_url'];
 
-	Thread.findOneAndUpdate({ _id: thread_id }, thread, { new: true }, function(err, thread) {
-		if(err) return next(err);
-		return res.json(thread);
-	});
+	var promise = Thread.findOneAndUpdate({ _id: thread_id }, thread, { new: true }).populate('bevy users').exec();
+	promise.then(function($thread) {
+		return res.json($thread);
+	}, function(err) { return next(err); })
 }
 
 // DELETE /users/:id/threads/:threadid

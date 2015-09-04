@@ -203,11 +203,11 @@ _.extend(ChatStore, {
           }, {
             patch: true,
             success: function(model, response, options) {
-              // simulate population of users field
-              thread.set('users', thread_users);
-              this.trigger(CHAT.CHANGE_ALL);
             }.bind(this)
           });
+          // simulate population of users field
+          thread.set('users', thread_users);
+          this.trigger(CHAT.CHANGE_ALL);
         }
         break;
       
@@ -229,16 +229,17 @@ _.extend(ChatStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-            // simulate population of users field
-            thread.set('users', thread_users);
-
-            if(user_id == window.bootstrap.user._id) {
-              // if you're removing yourself, then remove the thread from our list
-              this.threads.remove(thread_id);
-            }
-            this.trigger(CHAT.CHANGE_ALL);
+            
           }.bind(this)
         });
+
+        // simulate population of users field
+        thread.set('users', thread_users);
+        if(user_id == window.bootstrap.user._id) {
+          // if you're removing yourself, then remove the thread from our list
+          this.threads.remove(thread_id);
+        }
+        this.trigger(CHAT.CHANGE_ALL);
         break;
 
       case CHAT.DELETE_THREAD:
