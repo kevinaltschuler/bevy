@@ -34,6 +34,7 @@ var BevyActions = require('./../BevyActions');
 var TagItem = React.createClass({
   propTypes: {
     tag: React.PropTypes.object,
+    tags: React.PropTypes.array,
     activeTags: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     editing: React.PropTypes.bool
@@ -63,6 +64,7 @@ var TagItem = React.createClass({
   removeTag(ev) {
     ev.preventDefault();
     var tags = this.props.activeBevy.tags;
+    if(tags.length == 1) return;
     var tag = {name: this.state.name, color: this.state.color};
 
     var tags = _.reject(this.props.activeBevy.tags, function($tag) { return $tag.name == tag.name });

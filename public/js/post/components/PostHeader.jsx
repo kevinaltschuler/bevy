@@ -116,6 +116,10 @@ var PostHeader = React.createClass({
     ? <Badge style={{backgroundColor: tag.color, width: 'inherit'}}>{tag.name}</Badge>
     : '';
 
+    var hideDropdown = (_.isEmpty(deleteButton) && _.isEmpty(editButton) && _.isEmpty(pinButton))
+    ? {display: 'none'}
+    : {}
+
     return (
       <div className='panel-header'>
         <div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
@@ -141,6 +145,7 @@ var PostHeader = React.createClass({
             noCaret
             pullRight
             className="post-settings"
+            style={hideDropdown}
             title={<span className="glyphicon glyphicon-triangle-bottom btn"></span>}>
             { deleteButton }
             { editButton }

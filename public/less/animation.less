@@ -1,3 +1,30 @@
+.example-enter {
+  opacity: 0.01;
+}
+
+.example-enter.example-enter-active {
+  opacity: 1;
+  transition: opacity .2s ease-in;
+}
+
+.example-leave {
+  opacity: 1;
+}
+
+.example-leave.example-leave-active {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.example-appear {
+  opacity: 0.01;
+  transition: opacity .2s ease-in;
+}
+
+.example-appear.example-appear-active {
+  opacity: 1;
+}
+
 .fadeIn-enter {
   opacity: 0.01;
 }
@@ -26,13 +53,13 @@
   opacity: 1;
 }
 
-.post {
+/*.post {
   animation: postfadein .5s;
 }
 
 .public-bevy-panel {
   animation: postfadein .5s;
-}
+}*/
 
 @keyframes postfadein {
     from { opacity: 0.01; }

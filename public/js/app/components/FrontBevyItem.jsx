@@ -68,6 +68,10 @@ var FrontBevyItem = React.createClass({
           backgroundSize: '100px auto',
           backgroundPosition: 'center'
         }}
+        labelStyle={{
+          maxWidth: '120px',
+          wordWrap: 'break-word'
+        }}
         onCheck={this.handleCheck}
        >
        </Checkbox>

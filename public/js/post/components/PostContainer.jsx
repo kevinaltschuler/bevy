@@ -161,7 +161,9 @@ var PostContainer = React.createClass({
 
     return (
       <div className='post-container'>
-        { posts }
+        <CTG transitionName='example' transitionAppear={true} style={{width: '100%'}}>
+          { posts }
+        </CTG>
       </div>
     );
   }

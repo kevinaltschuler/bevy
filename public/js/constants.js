@@ -81,6 +81,7 @@ exports.BEVY = {
   SORT: 'bevy_sort',
   SEARCH: 'bevy_search',
   UPDATE_TAGS: 'bevy_update_tags',
+  LOADED: 'bevy_loaded',
 
   SEARCHING: 'bevy_searching',
   SEARCH_COMPLETE: 'bevy_search_complete',
