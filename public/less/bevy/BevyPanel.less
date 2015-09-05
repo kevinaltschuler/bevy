@@ -101,13 +101,20 @@
         flex: 1;
         display: inline-block;
         margin: 0px;
+        word-wrap: break-word;
       }
       .edit-btn {
         background-color: transparent;
         border: none;
         padding: 3px 5px;
+        color: #757d83;
+        transition: .2s all ease-in-out;
+        margin-top: -2px;
         &:focus, &:active {
           box-shadow: none;
+        }
+        &:hover {
+          color: #333;
         }
       }
       .sidebar-title-description-container {

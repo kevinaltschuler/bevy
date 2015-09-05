@@ -22,6 +22,8 @@ var Badge = rbs.Badge;
 var Button = rbs.Button;
 var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem; 
+var Tooltip = rbs.Tooltip;
+var OverlayTrigger = rbs.OverlayTrigger;
 
 var mui = require('material-ui');
 var TextField = mui.TextField;
@@ -164,7 +166,6 @@ var NewPostPanel = React.createClass({
     }
 
     /*
-
       <DropDownMenu
         className='bevies-dropdown'
         autoWidth={false}
@@ -196,6 +197,9 @@ var NewPostPanel = React.createClass({
       hintText = 'only admins may post in this bevy';
     }
 
+    var mediaTip = <Tooltip>attach pictures</Tooltip>;
+    var eventTip = <Tooltip>create an event</Tooltip>;
+
     return (
       <Panel className="panel new-post-panel" postId={ this.state.id }>
         <div className="new-post-title">
@@ -219,27 +223,31 @@ var NewPostPanel = React.createClass({
 
         <div className="panel-bottom">
           <div className='paperclip action'>
-            <FloatingActionButton
-              title="Attach Media"
-              iconClassName="attach-picture glyphicon glyphicon-picture"
-              onClick={ this.preventDefault }
-              disabled={ disabled }
-              backgroundColor={'white'}
-              disabledColor={'rgba(0,0,0,.2)'}
-              iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
-              style={{marginRight: '10px'}}
-              mini={true}
-            />
-            <FloatingActionButton
-              title="New Event"
-              iconClassName="glyphicon glyphicon-calendar"
-              onClick={() => { this.setState({ showEventModal: true }); }}
-              disabled={ disabled }
-              backgroundColor={'white'}
-              disabledColor={'rgba(0,0,0,.2)'}
-              iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
-              mini={true}
-            />
+            <OverlayTrigger overlay={mediaTip} placement='bottom'>
+              <FloatingActionButton
+                title="Attach Media"
+                iconClassName="attach-picture glyphicon glyphicon-picture"
+                onClick={ this.preventDefault }
+                disabled={ disabled }
+                backgroundColor={'white'}
+                disabledColor={'rgba(0,0,0,.2)'}
+                iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
+                style={{marginRight: '10px'}}
+                mini={true}
+              />
+            </OverlayTrigger>
+            <OverlayTrigger overlay={eventTip} placement='bottom'>
+              <FloatingActionButton
+                title="New Event"
+                iconClassName="glyphicon glyphicon-calendar"
+                onClick={() => { this.setState({ showEventModal: true }); }}
+                disabled={ disabled }
+                backgroundColor={'white'}
+                disabledColor={'rgba(0,0,0,.2)'}
+                iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
+                mini={true}
+              />
+            </OverlayTrigger>
             <CreateNewEventModal
               show={ this.state.showEventModal }
               onHide={() => { this.setState({ showEventModal: false }); }}

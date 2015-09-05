@@ -19,7 +19,8 @@ var {
 } = require('react-bootstrap');
 var {
   RaisedButton,
-  FlatButton
+  FlatButton,
+  Snackbar,
 } = require('material-ui');
 
 var BevyActions = require('./../BevyActions');
@@ -51,6 +52,7 @@ var PublicBevyPanel = React.createClass({
 
     if(this.props.bevy.settings.privacy == 1) {
       BevyActions.requestJoin(this.props.bevy, window.bootstrap.user);
+      this.refs.snackbar.show();
     } 
     else {
       BevyActions.join(this.props.bevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
@@ -92,7 +94,16 @@ var PublicBevyPanel = React.createClass({
     ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
     : <RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='join' onClick={ this.onRequestJoin } /> 
 
-    var requestButton = <RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='request' onClick={ this.onRequestJoin } />;
+    var requestButton = (
+      <div>
+        <Snackbar
+          message="Invitation Requested"
+          autoHideDuration={5000}
+          ref='snackbar'
+        />
+        <RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='request join' onClick={ this.onRequestJoin } />
+      </div>
+    );
 
     var actionButton = (bevy.settings.privacy == 1 && !this.state.joined)
     ? requestButton

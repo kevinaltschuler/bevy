@@ -93,9 +93,9 @@ var SearchView = React.createClass({
     };
 
     var content = (
-      <div className='panel-list'>
-        {publicBevyPanels}
-      </div>
+      <CTG className='panel-list' transitionName='example' transitionAppear={true}>
+          {publicBevyPanels}
+      </CTG>
     );
 
     if(_.isEmpty(publicBevyPanels) && !_.isEmpty(this.state.searchQuery)) {

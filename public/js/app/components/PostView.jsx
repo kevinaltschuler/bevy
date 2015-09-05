@@ -13,7 +13,8 @@ var _ = require('underscore');
 var router = require('./../../router');
 
 var {
-  RaisedButton
+  RaisedButton,
+  Snackbar
 } = require('material-ui');
 
 var PostSort = require('./../../post/components/PostSort.jsx');
@@ -33,6 +34,12 @@ var PostView = React.createClass({
     allPosts: React.PropTypes.array,
     activeTags: React.PropTypes.array,
     allBevies: React.PropTypes.array
+  },
+
+  onRequestJoin(ev) {
+    ev.preventDefault();
+    BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
+    this.refs.snackbar.show();
   },
 
   render() {
@@ -68,11 +75,17 @@ var PostView = React.createClass({
 
     if(hidden) {
       return (
-      <div className='main-section'>
-        <div className='private'>
+      <div className='main-section private-container'>
+        <div className='private panel'>
           <div className='private-img'/>
           you must be approved by an <br/>admin to view this community<br/><br/>
-          <RaisedButton label='request join'/>
+          <RaisedButton label='request join' onClick={ this.onRequestJoin }/>
+          <Snackbar
+            message="Invitation Requested"
+            autoHideDuration={5000}
+            ref='snackbar'
+            style={{fontSize: '14px', fontWeight: '300'}}
+          />
         </div>
       </div>
       );

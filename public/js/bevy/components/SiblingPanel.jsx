@@ -20,6 +20,8 @@ var rbs = require('react-bootstrap');
 var Button = rbs.Button;
 var ButtonGroup = rbs.ButtonGroup;
 var Input = rbs.Input;
+var Tooltip = rbs.Tooltip;
+var OverlayTrigger = rbs.OverlayTrigger;
 
 var mui = require('material-ui');
 var FontIcon = mui.FontIcon;
@@ -86,30 +88,36 @@ var SiblingPanel = React.createClass({
 
     var createGlyph = (this.state.editing) ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-pencil";
     var editGlyph = (this.state.adding) ? 'glyphicon glyphicon-remove' : "glyphicon glyphicon-plus";
+    var editTip = <Tooltip>remove bevy</Tooltip>;
+    var createTip = <Tooltip>add bevy</Tooltip>;
 
     var editButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
     if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       editButton = (
-        <Button 
-          className='new-bevy-btn'
-          disabled={this.state.adding}
-          onClick={() => { this.setState({ editing: !this.state.editing }); }}
-        >
-          <span className={createGlyph}/>
-        </Button>
+        <OverlayTrigger placement='bottom' overlay={createTip}>
+          <Button 
+            className='new-bevy-btn'
+            disabled={this.state.adding}
+            onClick={() => { this.setState({ editing: !this.state.editing }); }}
+          >
+            <span className={createGlyph}/>
+          </Button>
+        </OverlayTrigger>
       );
     }
 
     var createButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
     if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       createButton = (
-      <Button 
-        className='new-bevy-btn'
-        disabled={this.state.editing}
-        onClick={() => { this.setState({ adding: !this.state.adding }); }}
-      >
-        <span className={editGlyph}/>
-      </Button>
+      <OverlayTrigger placement='bottom' overlay={editTip}>
+        <Button 
+          className='new-bevy-btn'
+          disabled={this.state.editing}
+          onClick={() => { this.setState({ adding: !this.state.adding }); }}
+        >
+          <span className={editGlyph}/>
+        </Button>
+      </OverlayTrigger>
       );
     }
 

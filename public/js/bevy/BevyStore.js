@@ -5,6 +5,7 @@
  * for bevies
  *
  * @author albert
+ * go home, bert
  */
 
 'use strict';
@@ -62,6 +63,7 @@ _.extend(BevyStore, {
         this.myBevies.fetch({
           success: function(collection, response, options) {
             this.trigger(BEVY.CHANGE_ALL);
+            this.trigger(BEVY.LOADED);
           }.bind(this)
         });
 
@@ -250,7 +252,6 @@ _.extend(BevyStore, {
             user_email: user.email
           },
           success: function(res) {
-            this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });     
 

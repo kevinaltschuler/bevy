@@ -56,8 +56,10 @@ _.extend(PostStore, {
 
       case APP.LOAD:
 
+        var BevyStore = require('./../bevy/BevyStore');
+
         // wait for bevies
-        //Dispatcher.waitFor([BevyStore.dispatchToken]);
+        BevyStore.on(BEVY.LOADED, function() {this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id')}.bind(this)) 
 
         /*this.posts.fetch({
           reset: true,
@@ -472,6 +474,10 @@ _.extend(PostStore, {
     }
   },
 
+  setFrontBevies() {
+    this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
+  },
+
   // send all posts to the App.jsx in JSON form
   getAll() {
     return this.posts.toJSON();
@@ -488,7 +494,6 @@ _.extend(PostStore, {
   },
 
   getFrontBevies() {
-    this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
     return this.frontBevies;
   },
 

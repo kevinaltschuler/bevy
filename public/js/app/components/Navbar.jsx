@@ -168,7 +168,7 @@ var Navbar = React.createClass({
     var navbarStyle;
     if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image_url))
       navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'};
-    if(router.current == 'home')
+    if(router.current == 'home' && _.isEmpty(window.bootstrap.user))
       navbarStyle = { boxShadow: 'none'};
 
     var backgroundStyle = {backgroundColor: '#2cb673'};
@@ -177,9 +177,10 @@ var Navbar = React.createClass({
     switch(router.current) {
       case 'home':
         navbarTitle = '';
+        if(!_.isEmpty(window.bootstrap.user)) {
+          navbarTitle = 'frontpage';
+        }
         break;
-      case 'front':
-        navbarTitle = 'frontpage';
         break;
       case 'bevy':
         navbarTitle = this.props.activeBevy.name;
