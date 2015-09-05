@@ -158,7 +158,7 @@ var NewPostPanel = React.createClass({
       for(var key in tags) {
         var tag = tags[key];
         tagItems.push(
-        <MenuItem eventKey={key} onSelect={this.setIndex} key={key}>
+        <MenuItem eventKey={ key } key={ 'newpostpanel:tag:' + key } onSelect={this.setIndex}>
           <span className='color-dot' style={{backgroundColor: tag.color, padding: '1px 9px'}}/>
             {tag.name}
         </MenuItem>
@@ -167,7 +167,6 @@ var NewPostPanel = React.createClass({
     }
 
     /*
-
       <DropDownMenu
         className='bevies-dropdown'
         autoWidth={false}

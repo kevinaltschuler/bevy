@@ -1,247 +1,157 @@
+/**
+ * PublicBevyList.less
+ * @author kevin albert
+ */
+
+@import './../variables.less';
+
 .public-bevy-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 100%;
-    top: 0;
-    position: fixed;
-    left: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100%;
+  top: 0;
+  position: fixed;
+  left: 0;
+  width: 100%;
+  position: relative;
+  .mid-section {
     width: 100%;
-    position: relative;
-    .mid-section {
+    padding-top: 85px;
+    display: flex;
+    justify-content: center;
+    padding-left: 50px;
+    padding-right: 50px;
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 880px;
+    .left-filter-sidebar {
+      width: 100%;
+      flex-grow: 1;
+      order: 0;
+      max-width: 200px;
+      .filter-fixed {
+        position: fixed;
         width: 100%;
-        padding-top: 85px;
+        max-width: 200px;
+        right: inherit;
+        top: 85px;
+      }
+    }
+    .public-bevy-list {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+      max-width: 580px;
+      min-width: 580px;
+      .floating-btn {
+        position: fixed;
+        right: 40px;
+        bottom: 30px;
+        .mui-floating-action-button-inner {
+          .mui-floating-action-button-container {
+            background-color: rgba(0,0,0,.5);
+          }
+        }
+      }
+      .public-bevy-header {
         display: flex;
-        justify-content: center;
-        padding-left: 50px;
-        padding-right: 50px;
+        width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        margin-top: 10px;
+        padding-bottom: 10px;
+        h2 {
+          margin-top: 0px;
+          margin-bottom: 0px;
+          padding-top: 0px;
+        }
+        .panel {
+          margin-bottom: 0px;
+          margin-right: 15px;
+        }
+        .title {
+          display: flex;
+          flex-direction: row;
+          .title-btn {
+            border: none;
+            background-color: rgba(0,0,0,0);
+            color: @light-font;
+            &:active, &:focus {
+              background-color: none;
+              box-shadow: none;
+            }
+            &:active {
+              color: black;
+              text-decoration: underline;
+            }
+          }
+          .divider {
+            margin-top: 8px;
+          }
+        }
+      }
+      .panel-list {
+        width: 100%;
+        flex: 1;
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        display: flex;
         margin-left: auto;
         margin-right: auto;
-        max-width: 880px;
-        .left-filter-sidebar {
-            width: 100%;
-            flex-grow: 1;
-            order: 0;
-            max-width: 200px;
-            .filter-fixed {
-                position: fixed;
-                width: 100%;
-                max-width: 200px;
-                right: inherit;
-                top: 85px;
-            }
-        }
-        .public-bevy-list {
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            width: 100%;
-            max-width: 580px;
-            min-width: 580px;
-            .animation {
-                display: flex;
-                flex-direction: column;
-                justify-content: flex-start;
-                align-items: center;
-                width: 100%;
-                max-width: 580px;
-                min-width: 580px;
-            }
-            .floating-btn {
-                position: fixed;
-                right: 40px;
-                bottom: 30px;
-                .mui-floating-action-button-inner {
-                    .mui-floating-action-button-container {
-                        background-color: rgba(0,0,0,.5);
-                    }
-                }
-            }
-            .public-bevy-header {
-                display: flex;
-                width: 100%;
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
-                margin-top: 10px;
-                padding-bottom: 10px;
-                h2 {
-                    margin-top: 0px;
-                    margin-bottom: 0px;
-                    padding-top: 0px;
-                }
-                .panel {
-                    margin-bottom: 0px;
-                    margin-right: 15px;
-                }
-                .title {
-                    display: flex;
-                    flex-direction: row;
-                    .title-btn {
-                        border: none;
-                        background-color: rgba(0,0,0,0);
-                        color: @light-font;
-                        &:active, &:focus {
-                            background-color: none;
-                            box-shadow: none;
-                        }
-                        &:active {
-                            color: black;
-                            text-decoration: underline;
-                        }
-                    }
-                    .divider {
-                        margin-top: 8px;
-                    }
-                }
-            }
-            .panel-list {
-                width: 100%;
-                flex: 1;
-                flex-direction: row;
-                flex-wrap: wrap;
-                justify-content: flex-start;
-                display: flex;
-                margin-left: auto;
-                margin-right: auto;
-                padding-top: 10px;
-                padding-left: 0px;
-                margin-left: 10px;
-                .message {
-                    text-align: center;
-                    font-size: 28px;
-                    margin-left: 10px;
-                    margin-right: 10px;
-                }
-                .public-bevy-request {
-                    order: 2;
-                    flex-grow: 2;
-                }
-                .public-bevy-panel {
-                    order: 3;
-                    width: 275px;
-                    padding: 0px;
-                    margin-right: 15px;
-                    height: 195px;
-                    .bevy-panel-top {
-                        width: 100%;
-                        height: 100px;
-                        background-size: 100% auto;
-                        background-repeat: no-repeat;
-                        background-position: center;
-                        border-radius: 0px;
-                        border-color: rgba(0,0,0,0);
-                        background-color: rgba(0,0,0,0);
-                        border: none;
-                        transition: all 0.2s ease;
-                        display: inline-block;
-                        padding: 6px 12px;
-                        &:active {
-                            box-shadow: @shadow2;
-                        }
-                    }
-                    .panel-info {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        .panel-info-top {
-                            margin-left: 15px;
-                            color: @light-font;
-                            margin-bottom: 5px;
-                            margin-top: 10px;
-                            font-size: .85em;
-                            overflow-x: hidden;
-                            margin-right: 20px;
-                            .title {
-                                color: black;
-                                font-size: 1.5em;
-                            }
-                        }
-                        .panel-info-bottom {
-                            margin-bottom: 15px;
-                            margin-right: 15px;
-                            margin-left: 15px;
-                            display: flex;
-                            flex-direction: row;
-                            justify-content: space-between;
-                            .left {
-                                display: flex;
-                                flex-direction: column;
-                            }
-                        }
-                    }
-                }
-                .new-bevy-panel {
-                    order: 3;
-                    width: 275px;
-                    padding: 0px;
-                    margin-right: 15px;
-                    height: 205px;
-                    .title {
-
-                    }
-                }
-            }
-        }
-        .bevy-panel {
-            flex: 1;
-            margin-top: 9px;
-            max-width: 200px;
-            min-width: 200px;
-            .actions {
-                width: 100%;
-                .action {
-                    .btn-group {
-
-                    }
-                }
-            }
-        }
+        padding-top: 10px;
+        padding-left: 0px;
+        margin-left: 10px;
+      }
     }
+  }
 }
 
 .footer-public-bevies {
-    display: flex;
-    height: 80px;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    max-width: 900px;
-    font-size: 1em;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 60px;
-    padding-right: 50px;
-    .bevy-logo-btn {
-        width: 25px;
-        height: 25px;
-        padding: 0px;
-        background-color: rgba(0,0,0,0) !important;
-        border: none;
-        outline: 0;
-        box-shadow: none;
-        z-index: 2;
-        margin-right: 15px;
-        .bevy-logo-img {
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 25px 25px;
-            width: 25px;
-            height: 25px;
-        }
+  display: flex;
+  height: 80px;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 900px;
+  font-size: 1em;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 60px;
+  padding-right: 50px;
+  .bevy-logo-btn {
+    width: 25px;
+    height: 25px;
+    padding: 0px;
+    background-color: rgba(0,0,0,0) !important;
+    border: none;
+    outline: 0;
+    box-shadow: none;
+    z-index: 2;
+    margin-right: 15px;
+    .bevy-logo-img {
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 25px 25px;
+      width: 25px;
+      height: 25px;
     }
+  }
 }
 
 @media (max-width:820px) {
-    .public-bevy-wrapper {
-        .mid-section {
-            .public-bevy-list {
-                width: 275px;
-                max-width: 275px;
-                min-width: 275px;
-            }
-        }
+  .public-bevy-wrapper {
+    .mid-section {
+      .public-bevy-list {
+        width: 275px;
+        max-width: 275px;
+        min-width: 275px;
+      }
     }
+  }
 }

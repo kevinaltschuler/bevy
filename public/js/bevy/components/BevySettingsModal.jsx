@@ -95,8 +95,8 @@ var BevySettingsModal = React.createClass({
     }
 
     var privacyMenuItems = [
-      { payload: '0', text: 'public', defaultIndex: 0 },
-      { payload: '1', text: 'private', defaultIndex: 1 }
+      { payload: '0', text: 'Public', defaultIndex: 0 },
+      { payload: '1', text: 'Private', defaultIndex: 1 }
     ];
     var privacyIndex = 0;
     var privacyItem = _.findWhere(privacyMenuItems, { payload: this.state.privacy.toString() });

@@ -122,7 +122,7 @@ var PublicBevyPanel = React.createClass({
     : (
         <div className='left'>
           <span>{ subCount }</span>
-          <span>created on { created }</span>
+          <span>Created on { created }</span>
         </div>
       )
 

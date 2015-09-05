@@ -1,0 +1,97 @@
+/**
+ * PublicBevyItem.less
+ * @author kevin albert
+ */
+
+@import './../variables.less';
+
+.public-bevy-panel {
+  order: 3;
+  width: 275px;
+  padding: 0px;
+  margin-right: 15px;
+  height: 195px;
+  .bevy-panel-top {
+    width: 100%;
+    height: 100px;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 0px;
+    border-color: rgba(0,0,0,0);
+    background-color: rgba(0,0,0,0);
+    border: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    padding: 6px 12px;
+    &:active {
+      box-shadow: @shadow2;
+    }
+  }
+  .panel-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    .panel-info-top {
+      margin-left: 15px;
+      color: @light-font;
+      margin-bottom: 5px;
+      margin-top: 10px;
+      font-size: .85em;
+      a.title {
+        display: flex;
+        white-space: nowrap;
+        overflow-x: hidden;
+        color: black;
+        font-size: 1.5em;
+      }
+    }
+    .panel-info-bottom {
+      margin-bottom: 15px;
+      margin-right: 15px;
+      margin-left: 15px;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      .left {
+        display: flex;
+        flex-direction: column;
+      }
+    }
+  }
+}
+.new-bevy-panel {
+  order: 3;
+  width: 275px;
+  padding: 0px;
+  margin-right: 15px;
+  height: 205px;
+  .title {
+
+  }
+}
+.bevy-panel {
+  flex: 1;
+  margin-top: 9px;
+  max-width: 200px;
+  min-width: 200px;
+  .actions {
+    width: 100%;
+    .action {
+      .btn-group {
+
+      }
+    }
+  }
+}
+
+.message {
+  text-align: center;
+  font-size: 28px;
+  margin-left: 10px;
+  margin-right: 10px;
+}
+.public-bevy-request {
+  order: 2;
+  flex-grow: 2;
+}
