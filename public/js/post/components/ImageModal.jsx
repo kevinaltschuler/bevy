@@ -48,7 +48,7 @@ var ImageModal = React.createClass({
     this.setState({
       index: nextProps.index
     });
-    if(nextProps.show) this.resizeImage();
+    this.resizeImage(nextProps);
   },
 
   componentWillUpdate() {
@@ -59,9 +59,10 @@ var ImageModal = React.createClass({
     //this.resizeImage();
   },
 
-  resizeImage() {
+  resizeImage(nextProps) {
     // load this image into code so we can measure the original width and height
     var url = this.props.allImages[this.state.index];
+    if(nextProps != undefined) url = nextProps.allImages[nextProps.index];
     var $image = new Image();
     $image.src = url;
     // once we have the image
