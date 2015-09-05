@@ -18,6 +18,7 @@ var getSlug = require('speakingurl');
 
 var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
+var Thread = mongoose.model('ChatThread');
 Bevy.collection.ensureIndex({name: 'text'}, function(err) { return err });
 
 var ChatThread = mongoose.model('ChatThread');
@@ -178,9 +179,11 @@ exports.destroy = function(req, res, next) {
   var promise = Bevy.findOneAndRemove(query)
     .exec();
   promise.then(function(bevy) {
-    User.find({bevies: [id]}, function(err, users) {
+    // delete the thread for this bevy
+    Thread.findOneAndRemove({ bevy: id }, function(err, thread) {});
+    User.find({bevies: id}, function(err, users) {
       async.each(users, function(user, callback) {
-        user.bevies = _.reject(user.bevies, function(bevyId){return bevyId == id});
+        user.bevies.pull(id);
         user.save(function(err) {
           if(err) next(err);
         });
@@ -188,7 +191,7 @@ exports.destroy = function(req, res, next) {
       },
       function(err) {
         if(err) throw err;
-        res.json(bevy);
+        return res.json(bevy);
       });
     });
   }, function(err) { next(err); })
