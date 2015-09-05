@@ -121,8 +121,7 @@ var FilterSidebar = React.createClass({
           />
           <RaisedButton 
             disabled={_.isEmpty(window.bootstrap.user)} 
-            label='new bevy' 
-            className='public-bevy-panel'
+            label='new bevy'
             onClick={() => { this.setState({ showNewBevyModal: true }); }}
             fullWidth={true}
             style={{marginBottom: '10px', display: 'flex'}}

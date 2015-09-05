@@ -17,6 +17,7 @@ var {
 } = require('react-bootstrap');
 
 var BevyDropdownItem = require('./BevyDropdownItem.jsx');
+var CreateNewBevyModal = require('./CreateNewBevyModal.jsx');
 
 var user = window.bootstrap.user;
 
@@ -29,7 +30,8 @@ var BevyDropdown = React.createClass({
 
   getInitialState() {
     return {
-      show: false
+      show: false,
+      showNewBevyModal: false
     };
   },
 
@@ -40,6 +42,13 @@ var BevyDropdown = React.createClass({
   toggle() {
     this.setState({
       show: !this.state.show
+    });
+  },
+
+  openCreateModal(ev) {
+    ev.preventDefault();
+    this.setState({
+      showNewBevyModal: true
     });
   },
 
@@ -69,18 +78,10 @@ var BevyDropdown = React.createClass({
         <Button
           ref='BevyButton'
           className='my-bevies-btn'
-          href='/s'
-        >
-          Bevies
-          <Ink style={{  }}/>
-        </Button>
-        <Button
-          ref='BevyButton'
-          className='bevies-dropdown-btn'
           onClick={ this.toggle }
         >
-          <span className='glyphicon glyphicon-triangle-bottom'/>
-          <Ink style={{width: '38px', position: 'absolute', right: '0'}}/>
+          My Bevies
+          <Ink />
         </Button>
         <Overlay
           show={ this.state.show }
@@ -92,6 +93,14 @@ var BevyDropdown = React.createClass({
             <div className='backdrop' onClick={ this.toggle } />
             <div className='arrow' />
             <div className='bevy-dropdown'>
+              <div className='bevy-dropdown-header'>
+                <a className='view-all-btn' href='/s/'>All Bevies</a>
+                <a className='create-new-btn' href='#' onClick={ this.openCreateModal }>Create New Bevy</a>
+                <CreateNewBevyModal 
+                  show={ this.state.showNewBevyModal } 
+                  onHide={() => { this.setState({ showNewBevyModal: false }) }}
+                />
+              </div>
               { bevies }
             </div>
           </div>

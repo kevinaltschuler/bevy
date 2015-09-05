@@ -30,7 +30,6 @@ var BevyPanel = React.createClass({
 
   getInitialState() {
     var joined = (_.findWhere(this.props.myBevies, { _id: this.props.activeBevy._id }) != undefined);
-
     return {
       joined: joined,
       showSettingsModal: false
@@ -38,8 +37,7 @@ var BevyPanel = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    var joined = (_.findWhere(this.props.myBevies, { _id: this.props.activeBevy._id }) != undefined);
-
+    var joined = (_.findWhere(nextProps.myBevies, { _id: nextProps.activeBevy._id }) != undefined);
     this.setState({
       joined: joined
     });
@@ -49,9 +47,8 @@ var BevyPanel = React.createClass({
     ev.preventDefault();
     BevyActions.join(this.props.activeBevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
     var bevy = this.props.bevy;
-    var joined = true;
     this.setState({
-      joined: joined
+      joined: true
     });
   },
 
@@ -59,9 +56,8 @@ var BevyPanel = React.createClass({
     ev.preventDefault();
     BevyActions.leave(this.props.activeBevy._id);
     var bevy = this.props.bevy;
-    var joined = false;
     this.setState({
-      joined: joined
+      joined: false
     });
   },
 

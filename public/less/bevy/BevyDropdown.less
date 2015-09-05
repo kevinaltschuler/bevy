@@ -47,6 +47,27 @@
 
   }
   .bevy-dropdown {
+    .bevy-dropdown-header {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      height: 40px;
+      width: 100%;
+      padding: 0 15px;
+      a.view-all-btn {
+        color: @light-font;
+        &:active {
+          color: #000;
+        }
+      }
+      a.create-new-btn {
+        color: @light-font;
+        &:active {
+          color: #000;
+        }
+      }
+    }
     #modalShadow();
 
     position: absolute;
@@ -55,7 +76,7 @@
     width: 450px;
     background-color: #fff;
     overflow-y: auto;
-    max-height: 500px;
+    max-height: 600px;
     overflow-x: hidden;
     text-shadow: none;
     border-radius: 3px;

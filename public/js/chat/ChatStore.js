@@ -37,7 +37,13 @@ _.extend(ChatStore, {
           this.threads.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/threads';
           this.threads.fetch({
             success: function(collection, response, options) {
-              this.trigger(CHAT.CHANGE_ALL);
+              this.threads.forEach(function(thread) {
+                thread.messages.fetch({
+                  success: function(collection, response, options) {
+                    this.trigger(CHAT.CHANGE_ALL);
+                  }.bind(this)
+                });
+              }.bind(this));
             }.bind(this)
           });
         }

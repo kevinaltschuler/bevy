@@ -13,16 +13,21 @@ var $ = require('jquery');
 var constants = require('./../../constants');
 var getSlug = require('speakingurl');
 
-var rbs = require('react-bootstrap');
-var Panel = rbs.Panel;
-var Input = rbs.Input;
-var Button = rbs.Button;
-var Modal = rbs.Modal;
+var {
+  Panel,
+  Input,
+  Button,
+  Modal
+} = require('react-bootstrap');
 
-var mui = require('material-ui');
-var FlatButton = mui.FlatButton;
-var RaisedButton = mui.RaisedButton;
-var TextField = mui.TextField;
+var {
+  FlatButton,
+  RaisedButton,
+  TextField,
+  Styles
+} = require('material-ui');
+
+var ThemeManager = new Styles.ThemeManager();
 
 var BevyActions = require('./../BevyActions');
 var Uploader = require('./../../shared/components/Uploader.jsx');
@@ -45,6 +50,21 @@ var CreateNewBevyModal = React.createClass({
       slugVerified: true,
       verifyingSlug: false
     };
+  },
+
+  getChildContext() { 
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    }
+  },
+
+  componentWillMount() {
+    ThemeManager.setComponentThemes({
+      textField: {
+        textColor: 'black',
+        focusColor: 'black'
+      }
+    });
   },
 
   onUploadComplete(file) {
@@ -244,5 +264,9 @@ var CreateNewBevyModal = React.createClass({
     );
   }
 });
+
+CreateNewBevyModal.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
 
 module.exports = CreateNewBevyModal;

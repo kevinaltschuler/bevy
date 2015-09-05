@@ -160,6 +160,15 @@ var PostContainer = React.createClass({
       }
     }
 
+    // render 'no events' when no events are found
+    if(posts.length == 0 && sortType == 'events') {
+      return (
+        <div className='post-container'>
+          <span className='no-posts-text'>No Events :(</span>
+        </div>
+      );
+    }
+
     return (
       <div className='post-container'>
         <CTG transitionName='example' transitionAppear={true} style={{width: '100%'}}>
