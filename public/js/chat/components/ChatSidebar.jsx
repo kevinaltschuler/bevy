@@ -328,6 +328,7 @@ var ChatSidebar = React.createClass({
         }}
       >
         <div className='conversation-list' ref='ConversationList' onWheel={(ev) => {
+          // stop scroll from bubbling up
           ev.preventDefault();
           this.node = React.findDOMNode(this.refs.ConversationList);
           var scrollTop = this.node.scrollTop;
