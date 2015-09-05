@@ -260,7 +260,7 @@ _.extend(PostStore, {
           votes = _.map(votes, function($vote) {
             if($vote.voter == voter._id) {
               // found the voter
-              console.log($vote);
+              //console.log($vote);
               $vote.score = ($vote.score > 0) ? 0 : 1;
             }
             return $vote;

@@ -116,8 +116,9 @@ var PostContainer = React.createClass({
       // filter posts here
       allPosts = _.reject(allPosts, function($post) {
         // see if the sort type matches
-        if(sortType == ('new' || 'top')) {
+        if(sortType != ('events')) {
           if($post.type != 'default') return true;
+          if($post.type == 'event') return true;
           // see if the tag matches
           if(_.find(activeTags, function($tag) {
             if(_.isEmpty($post.tag)) return false;

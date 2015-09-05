@@ -44,11 +44,18 @@ var PostHeader = React.createClass({
     ev.preventDefault();
     var post_id = this.props.post._id;
     PostActions.pin(post_id);
+    this.refs.postdropdown.setState({open: false});
   },
 
   destroy(ev) {
     ev.preventDefault();
     PostActions.destroy(this.props.post._id);
+  },
+
+  edit(ev) {
+    ev.preventDefault();
+    this.props.startEdit(ev);
+    this.refs.postdropdown.setState({open: false});
   },
 
   render() {
@@ -85,7 +92,7 @@ var PostHeader = React.createClass({
     if(window.bootstrap.user) {
       if(window.bootstrap.user._id == post.author._id)
         editButton = (
-          <MenuItem onClick={ this.props.startEdit } >
+          <MenuItem onClick={ this.edit } >
             Edit Post
           </MenuItem>
         );
@@ -141,6 +148,7 @@ var PostHeader = React.createClass({
             pullRight
             className="post-settings"
             style={hideDropdown}
+            ref='postdropdown'
             title={<span className="glyphicon glyphicon-triangle-bottom btn"></span>}>
             { deleteButton }
             { editButton }
