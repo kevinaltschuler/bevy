@@ -32,6 +32,7 @@ connection.once('open', function() {
   // news
   // books
   var Bevy = mongoose.model('Bevy');
+  var Thread = mongoose.model('ChatThread');
 
   Bevy.findOneAndUpdate({ _id: '11sports' }, {
     _id: '11sports',
@@ -43,6 +44,11 @@ connection.once('open', function() {
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
 
+  Thread.findOneAndUpdate({ _id: '11sports'}, {
+    _id: '11sports',
+    bevy: '11sports'
+  }, { upsert: true }, function(err, thread) {});
+
   Bevy.findOneAndUpdate({ _id: '22gaming' }, {
     _id: '22gaming',
     name: 'Gaming',
@@ -52,6 +58,11 @@ connection.once('open', function() {
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
+
+  Thread.findOneAndUpdate({ _id: '22gaming'}, {
+    _id: '22gaming',
+    bevy: '22gaming'
+  }, { upsert: true }, function(err, thread) {});
 
   Bevy.findOneAndUpdate({ _id: '3333pics' }, {
     _id: '3333pics',
@@ -63,6 +74,11 @@ connection.once('open', function() {
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
 
+  Thread.findOneAndUpdate({ _id: '3333pics'}, {
+    _id: '3333pics',
+    bevy: '3333pics'
+  }, { upsert: true }, function(err, thread) {});
+
   Bevy.findOneAndUpdate({ _id: '44videos' }, {
     _id: '44videos',
     name: 'Videos',
@@ -72,6 +88,11 @@ connection.once('open', function() {
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
+
+  Thread.findOneAndUpdate({ _id: '44videos'}, {
+    _id: '44videos',
+    bevy: '44videos'
+  }, { upsert: true }, function(err, thread) {});
 
   Bevy.findOneAndUpdate({ _id: '555music' }, {
     _id: '555music',
@@ -83,6 +104,11 @@ connection.once('open', function() {
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
 
+  Thread.findOneAndUpdate({ _id: '555music'}, {
+    _id: '555music',
+    bevy: '555music'
+  }, { upsert: true }, function(err, thread) {});
+
   Bevy.findOneAndUpdate({ _id: '6666news' }, {
     _id: '6666news',
     name: 'News',
@@ -93,6 +119,11 @@ connection.once('open', function() {
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
 
+  Thread.findOneAndUpdate({ _id: '6666news'}, {
+    _id: '6666news',
+    bevy: '6666news'
+  }, { upsert: true }, function(err, thread) {});
+
   Bevy.findOneAndUpdate({ _id: '777books' }, {
     _id: '777books',
     name: 'Books',
@@ -102,4 +133,9 @@ connection.once('open', function() {
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
+
+  Thread.findOneAndUpdate({ _id: '777books'}, {
+    _id: '777books',
+    bevy: '777books'
+  }, { upsert: true }, function(err, thread) {});
 });
