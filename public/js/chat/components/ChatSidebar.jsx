@@ -328,6 +328,7 @@ var ChatSidebar = React.createClass({
         }}
       >
         <div className='conversation-list' ref='ConversationList' onWheel={(ev) => {
+          ev.preventDefault();
           this.node = React.findDOMNode(this.refs.ConversationList);
           var scrollTop = this.node.scrollTop;
           scrollTop += (ev.deltaY / 2);
