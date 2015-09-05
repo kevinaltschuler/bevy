@@ -39,7 +39,7 @@ connection.once('open', function() {
     name: 'Sports',
     description: 'Default - Sports',
     slug: 'sports',
-    image_url: 'http://www.stjosephschoolsylvania.org/sites/default/files/sports.jpg',
+    image_url: '/img/default-groups/sports.png',
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
@@ -54,7 +54,7 @@ connection.once('open', function() {
     name: 'Gaming',
     description: 'Default - Gaming',
     slug: 'gaming',
-    image_url: 'http://images5.fanpop.com/image/photos/30300000/Games-video-games-30388850-1920-1080.jpg',
+    image_url: '/img/default-groups/gaming.png',
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
@@ -69,7 +69,7 @@ connection.once('open', function() {
     name: 'Pictures',
     description: 'Default - Pictures',
     slug: 'pics',
-    image_url: 'http://www.igoodmorning.net/wp-content/uploads/2015/08/Camera-Wallpapers-7.jpg',
+    image_url: '/img/default-groups/pictures.png',
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
@@ -84,7 +84,7 @@ connection.once('open', function() {
     name: 'Videos',
     description: 'Default - Videos',
     slug: 'videos',
-    image_url: 'http://www.video-wallpaper.net/s/Abstraction-Video-Wallpaper.jpg',
+    image_url: '/img/default-groups/videos.png',
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
@@ -99,7 +99,7 @@ connection.once('open', function() {
     name: 'Music',
     description: 'Default - Music',
     slug: 'music',
-    image_url: 'http://images6.fanpop.com/image/photos/36900000/Music-Wallpaper-music-36986181-1920-1200.jpg',
+    image_url: '/img/default-groups/music.png',
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
@@ -114,7 +114,7 @@ connection.once('open', function() {
     name: 'News',
     description: 'Default - News',
     slug: 'news',
-    image_url: 'http://desktopbackgrounds4u.com/wp-content/gallery/newspaper-wallpaper/newspaper_wallpaper_by_minuitserenite.jpg',
+    image_url: '/img/default-groups/news.png',
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
@@ -129,7 +129,7 @@ connection.once('open', function() {
     name: 'Books',
     description: 'Default - Books',
     slug: 'books',
-    image_url: 'http://images2.alphacoders.com/261/26102.jpg',
+    image_url: '/img/default-groups/books.png',
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
