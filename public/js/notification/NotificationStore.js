@@ -112,7 +112,7 @@ NotificationStore.notifications.on('add', function(notification) {
       }
       poll();
     },
-    timeout: 30000
+    timeout: 60000 // one minute timeout
   });
 })();
 
