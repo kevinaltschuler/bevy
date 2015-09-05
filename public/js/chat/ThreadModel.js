@@ -40,12 +40,14 @@ var ThreadModel = Backbone.Model.extend({
         break;
       case 'group':
         var usernames = _.pluck(this.get('users'), 'displayName');
+        usernames = _.reject(usernames, function($username) {
+          return $username == window.bootstrap.user.displayName; // dont put self in the thread name
+        });
         var name = '';
         for(var key in usernames) {
           var username = usernames[key];
-          if(username == window.bootstrap.user.displayName) continue; // dont put self in the thread name
           name += username;
-          if(key < usernames.length - 2) // remember to account for the current user being in the list
+          if(key < usernames.length - 1) // remember to account for the current user being in the list
             name += ', ';
         }
         return name;
