@@ -58,6 +58,10 @@ var injectTapEventPlugin = require("react-tap-event-plugin");
 // App bootstrap
 var App = React.createClass({
 
+  childContextTypes: {
+    muiTheme: React.PropTypes.object
+  },
+
   getChildContext() { 
     return {
       muiTheme: ThemeManager.getCurrentTheme()
@@ -103,10 +107,6 @@ var App = React.createClass({
   }
 });
 
-// Important!
-App.childContextTypes = {
-  muiTheme: React.PropTypes.object
-};
 
 var InterfaceComponent = React.createClass({
   componentWillMount() {

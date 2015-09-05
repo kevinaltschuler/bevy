@@ -159,7 +159,7 @@ var SubBevyPanel = React.createClass({
 
     if(this.state.newTag) {
       tagButtons.push(
-      <div className='new-tag'> 
+      <div className='new-tag' key='new-tag'> 
         <div className='color-picker'>
           { colorPicker }
           <Button className='color-btn' style={{backgroundColor: this.state.newTagColor}} onClick={() => { this.setState({colorPicker: !this.state.colorPicker}); }}/>

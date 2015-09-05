@@ -11,6 +11,7 @@
 // imports
 var React = require('react');
 var _ = require('underscore');
+var Ink = require('react-ink');
 
 var classNames = require('classnames');
 

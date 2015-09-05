@@ -139,7 +139,7 @@ var SiblingPanel = React.createClass({
 
     var searchDiv = (this.state.adding)
     ? (
-      <div style={{display: 'flex', alignItems: 'center', height: '30px'}} ref='SearchContainer'>
+      <div style={{display: 'flex', alignItems: 'center', height: '30px'}} ref='SearchContainer' key='searchDiv'>
         <span className='glyphicon glyphicon-search' style={{padding: '6px 12px'}} ref='SearchIcon'/>
         <TextField 
           type='text'

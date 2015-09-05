@@ -55,7 +55,7 @@ var CommentSubmit = React.createClass({
     if(this.props.onReply)
       this.props.onReply();
 
-    if(!this.props.showComments)
+    if(!this.props.showComments && this.props.expandComments)
       this.props.expandComments();
   },
 
