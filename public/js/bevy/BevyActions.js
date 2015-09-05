@@ -53,9 +53,7 @@ var PostActions = {
 
   join(bevy_id) {
     dispatch(BEVY.JOIN, {
-      bevy_id: (bevy_id == undefined) ? '0' : bevy_id,
-      user: (user == undefined) ? {} : user,
-      email: (email == undefined) ? '' : email
+      bevy_id: (bevy_id == undefined) ? '0' : bevy_id
     });
   },
 
