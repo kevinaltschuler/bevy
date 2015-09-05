@@ -39,9 +39,7 @@ var ThemeManager = new Styles.ThemeManager();
 var ChatSidebar = React.createClass({
 
   propTypes: {
-    allContacts: React.PropTypes.array,
     allThreads: React.PropTypes.array,
-    activeThread: React.PropTypes.object,
     userSearchResults: React.PropTypes.array,
     userSearchQuery: React.PropTypes.string
   },

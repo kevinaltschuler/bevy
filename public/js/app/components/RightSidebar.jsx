@@ -14,8 +14,7 @@ var Footer = require('./Footer.jsx');
 var RightSidebar = React.createClass({
 
   propTypes: {
-    activeBevy: React.PropTypes.object,
-    activeThread: React.PropTypes.object
+    activeBevy: React.PropTypes.object
   },
 
   getInitialState() {
