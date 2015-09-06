@@ -17,20 +17,21 @@ var classNames = require('classnames');
 
 var constants = require('./../../constants');
 
-var rbs = require('react-bootstrap');
-var Panel = rbs.Panel;
-var Badge = rbs.Badge;
-var Button = rbs.Button;
-var DropdownButton = rbs.DropdownButton;
-var MenuItem = rbs.MenuItem; 
-var Tooltip = rbs.Tooltip;
-var OverlayTrigger = rbs.OverlayTrigger;
-
-var mui = require('material-ui');
-var TextField = mui.TextField;
-var DropDownMenu = mui.DropDownMenu;
-var FloatingActionButton = mui.FloatingActionButton;
-var RaisedButton = mui.RaisedButton;
+var {
+  Panel,
+  Badge,
+  Button,
+  DropdownButton,
+  MenuItem,
+  Tooltip,
+  OverlayTrigger
+} = require('react-bootstrap');
+var {
+  TextField,
+  DropDownMenu,
+  FloatingActionButton,
+  RaisedButton
+} = require('material-ui');
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
 var CreateNewEventModal = require('./CreateNewEventModal.jsx');

@@ -77,10 +77,9 @@ exports.create = function(req, res, next) {
   update.event = req.body['event'];
   update.tag =  req.body['tag'];
 
-  if(_.isEmpty(update.title)) throw error.gen('no title', update.title);
-  if(_.isEmpty(update.bevy)) throw error.gen('no bevy', update.bevy);
-  if(_.isEmpty(update.author)) throw error.gen('no author', update.author);
-  if(_.isEmpty(update.type)) throw error.gen('no type', update.type);
+  if(_.isEmpty(update.bevy)) return next('no bevy');
+  if(_.isEmpty(update.author)) return next('no author');
+  if(_.isEmpty(update.type)) return next('no type');
 
   async.waterfall([
     function(done) {
