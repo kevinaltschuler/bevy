@@ -46,43 +46,41 @@ var SiblingItem = React.createClass({
   },
 
   render() {
-      var bevy = this.props.bevy;
-      var image_url = (_.isEmpty(bevy.image_url)) ? '/img/logo_100.png' : bevy.image_url;
+    var bevy = this.props.bevy;
+    var image_url = (_.isEmpty(bevy.image_url)) ? '/img/logo_100.png' : bevy.image_url;
 
-      var bevyButton = (this.props.editing)
-      ? (
-          <div className='bevy-remove-btn'>
-            <a
-              href='' 
-              onClick={this.removeSibling} 
-              className='glyphicon glyphicon-remove'
-            />
-            <div
-              className='bevy-image'
-              style={{ backgroundImage: 'url(' + image_url + ')' }}
-            />
-            {bevy.name}
-          </div>
-        )
-      : (
-          <FlatButton 
-            linkButton={true} 
-            href={ bevy.url }
-            style={{width: '100%', display: 'flex', flexDirection: 'row', padding: '5px 10px'}}
-            className='bevy-btn'
-            labelStyle={{fontWeight: '700'}}
-          >
-            <div
-              className='bevy-image'
-              style={{ backgroundImage: 'url(' + image_url + ')' }}
-            />
-            <div style={{fontWeight: '700'}}>{bevy.name}</div>
-          </FlatButton>
-        );
+    var bevyButton = (this.props.editing)
+    ? (
+      <div className='sibling-edit'>
+        <a
+          href='' 
+          onClick={this.removeSibling} 
+          className='glyphicon glyphicon-remove'
+        />
+        <span className='bevy-name'>{ bevy.name }</span>
+      </div>
+    )
+  : (
+      <FlatButton 
+        linkButton={true} 
+        href={ bevy.url }
+        style={{width: '100%', display: 'flex', flexDirection: 'row', padding: '5px 10px'}}
+        className='sibling-item'
+        labelStyle={{fontWeight: '700'}}
+      >
+        <div
+          className='bevy-image'
+          style={{ backgroundImage: 'url(' + image_url + ')' }}
+        />
+        <span className='bevy-name'>{bevy.name}</span>
+      </FlatButton>
+    );
 
-      return <div style={{width: '100%'}}>
-              { bevyButton }
-            </div>;
+    return (
+      <div style={{width: '100%'}}>
+        { bevyButton }
+      </div>
+    );
   }
 });
 

@@ -88,15 +88,15 @@ var SiblingPanel = React.createClass({
 
     var createGlyph = (this.state.editing) ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-pencil";
     var editGlyph = (this.state.adding) ? 'glyphicon glyphicon-remove' : "glyphicon glyphicon-plus";
-    var editTip = <Tooltip>remove bevy</Tooltip>;
-    var createTip = <Tooltip>add bevy</Tooltip>;
+    var editTip = <Tooltip>Edit</Tooltip>;
+    var createTip = (this.state.adding) ? <Tooltip>Cancel</Tooltip> : <Tooltip>Add</Tooltip>;
 
     var editButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
     if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       editButton = (
-        <OverlayTrigger placement='bottom' overlay={createTip}>
+        <OverlayTrigger placement='bottom' overlay={ editTip }>
           <Button 
-            className='new-bevy-btn'
+            className='edit-btn'
             disabled={this.state.adding}
             onClick={() => { this.setState({ editing: !this.state.editing }); }}
           >
@@ -109,9 +109,9 @@ var SiblingPanel = React.createClass({
     var createButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
     if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       createButton = (
-      <OverlayTrigger placement='bottom' overlay={editTip}>
+      <OverlayTrigger placement='bottom' overlay={ createTip }>
         <Button 
-          className='new-bevy-btn'
+          className='create-btn'
           disabled={this.state.editing}
           onClick={() => { this.setState({ adding: !this.state.adding }); }}
         >
@@ -168,17 +168,17 @@ var SiblingPanel = React.createClass({
     }
 
     return (
-      <div className='bevy-list panel'>
+      <div className='sibling-panel panel'>
         <div className='panel-header'>
-          <div className='super-bevy-btn'>
+          <span className='title'>
             Related Bevies
-          </div>
+          </span>
           <div className='actions'>
             { createButton }
             { editButton }
           </div>
         </div>
-        <ButtonGroup className='bevy-list-btns' role="group" ref='SiblingButtons'>
+        <ButtonGroup className='sibling-btns' role="group" ref='SiblingButtons'>
           {siblingButtons}
         </ButtonGroup>
       </div>

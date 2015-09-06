@@ -96,6 +96,10 @@ var BevyPanel = React.createClass({
     return (
       <div className="bevy-panel panel">
         <BevyPanelHeader {...this.props}/>
+        <div className='bevy-info'>
+          <span className='member-count'>{ this.props.activeBevy.subCount } subscribers</span>
+          <a href='#' className='admin-count'>{ this.props.activeBevy.admins.length } admins</a>
+        </div>
         { this._renderBottomActions() }
       </div>
     );

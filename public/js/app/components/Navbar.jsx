@@ -214,7 +214,9 @@ var Navbar = React.createClass({
         </div>
 
         <div className="center">
-          { navbarTitle }
+          <span className='title'>
+            { navbarTitle }
+          </span>
         </div>
 
         <div className="right">

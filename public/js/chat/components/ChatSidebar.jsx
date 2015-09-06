@@ -252,7 +252,10 @@ var ChatSidebar = React.createClass({
     var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -30 }
     var bevyPanel = (bevyThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftPanels }>
-        <a className='title' href='#' style={ hideTitles } onClick={() => this.setState({ bevyPanelOpen: !this.state.bevyPanelOpen })}>bevy conversations</a>
+        <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
+          ev.preventDefault();
+          this.setState({ bevyPanelOpen: !this.state.bevyPanelOpen });
+        }}>bevy conversations</a>
         <Panel collapsible expanded={ this.state.bevyPanelOpen }>
           { bevyThreadItems }
         </Panel>
@@ -260,7 +263,10 @@ var ChatSidebar = React.createClass({
     ) : <div />;
     var groupPanel = (groupThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftPanels }>
-        <a className='title' href='#' style={ hideTitles } onClick={() => this.setState({ groupPanelOpen: !this.state.groupPanelOpen })}>group conversations</a>
+        <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
+          ev.preventDefault();
+          this.setState({ groupPanelOpen: !this.state.groupPanelOpen });
+        }}>group conversations</a>
         <Panel collapsible expanded={ this.state.groupPanelOpen } >
           { groupThreadItems }
         </Panel>
@@ -268,7 +274,10 @@ var ChatSidebar = React.createClass({
     ) : <div />;
     var pmPanel = (pmThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftPanels }>
-        <a className='title' href='#' style={ hideTitles } onClick={() => this.setState({ pmPanelOpen: !this.state.pmPanelOpen })}>private conversations</a>
+        <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
+          ev.preventDefault();
+          this.setState({ pmPanelOpen: !this.state.pmPanelOpen });
+        }}>private conversations</a>
         <Panel collapsible expanded={ this.state.pmPanelOpen }>
           { pmThreadItems }
         </Panel>
