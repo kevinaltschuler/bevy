@@ -208,6 +208,24 @@
         box-shadow: 1px 1px 8px rgba(0,0,0,.4);
         border-radius: 0px;
         background-size: 100% auto;
+        position: relative;
+        .remove-btn {
+          color: white;
+          width: 30px;
+          height: 30px;
+          padding: 3px;
+          font-size: 25px;
+          border-radius: 30px;
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          &:hover {
+            color: #ddd;
+          }
+          &:active {
+            color: #aaa;
+          }
+        }
       }
     }
   }

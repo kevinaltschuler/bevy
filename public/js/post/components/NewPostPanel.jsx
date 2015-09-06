@@ -88,6 +88,17 @@ var NewPostPanel = React.createClass({
     });
   },
 
+  onRemovedFile(file) {
+    var filename = JSON.parse(file.xhr.response).filename;
+    //console.log(filename);
+    var image_url = constants.apiurl + '/files/' + filename;
+    var images = this.state.images;
+    images = _.reject(images, function($image_url){ return $image_url == image_url });
+    //console.log(images);
+    this.setState({
+      images: images
+    });
+  },
 
   // trigger the create action
   // TODO: pass in the rest of the state attributes needed
@@ -218,6 +229,7 @@ var NewPostPanel = React.createClass({
 
         <Uploader
           onUploadComplete={ this.onUploadComplete }
+          onRemovedFile={ this.onRemovedFile }
           dropzoneOptions={ dropzoneOptions }
           className="dropzone"
         />
@@ -227,7 +239,8 @@ var NewPostPanel = React.createClass({
             <OverlayTrigger overlay={mediaTip} placement='bottom'>
               <FloatingActionButton
                 title="Attach Media"
-                iconClassName="attach-picture glyphicon glyphicon-picture"
+                iconClassName="glyphicon glyphicon-picture"
+                className='attach-picture'
                 onClick={ this.preventDefault }
                 disabled={ disabled }
                 backgroundColor={'white'}

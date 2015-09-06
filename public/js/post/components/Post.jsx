@@ -52,6 +52,7 @@ var Post = React.createClass({
       isEditing: false,
       post: this.props.post,
       title: this.props.post.title,
+      images: this.props.post.images
     };
   },
 
@@ -59,7 +60,8 @@ var Post = React.createClass({
     console.log('nextProps', nextProps);
     this.setState({
       post: nextProps.post,
-      title: nextProps.post.title
+      title: nextProps.post.title,
+      images: nextProps.post.images
     });
   },
 
@@ -100,9 +102,21 @@ var Post = React.createClass({
   stopEdit(ev) {
     ev.preventDefault();
     var postTitle = this.state.title;
-    PostActions.update(this.props.post._id, postTitle);
+    var postImages = this.state.post.images;
+    PostActions.update(this.props.post._id, postTitle, postImages);
     this.setState({
       isEditing: false
+    });
+  },
+
+  removeImage(image_url) {
+    var images = this.state.post.images;
+    images = _.reject(images, function($image_url){ return $image_url == image_url });
+    var post = this.state.post;
+    post.images = images;
+    console.log(post.images);
+    this.setState({
+      post: post
     });
   },
 
@@ -183,7 +197,7 @@ var Post = React.createClass({
         <div className='panel-body'>
           { panelBodyText }
         </div>
-        <PostImages post={ post } />
+        <PostImages post={ post } isEditing={this.state.isEditing} removeImage={this.removeImage} />
         <PostFooter post={ post } />
       </div>
     );

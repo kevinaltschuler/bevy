@@ -80,7 +80,7 @@ var BevyDropdown = React.createClass({
           className='my-bevies-btn'
           onClick={ this.toggle }
         >
-          My Bevies
+          Bevies
           <Ink />
         </Button>
         <Overlay

@@ -25,6 +25,7 @@ var Uploader = React.createClass({
   propTypes: {
     url: React.PropTypes.string,
     onUploadComplete: React.PropTypes.func,
+    onRemovedFile: React.PropTypes.func,
     className: React.PropTypes.string,
     style: React.PropTypes.object,
     dropzoneOptions: React.PropTypes.object
@@ -42,6 +43,10 @@ var Uploader = React.createClass({
 
     this.dropzone.on('success', function(file, response) {
       this.props.onUploadComplete(response);
+    }.bind(this));
+
+    this.dropzone.on('removedfile', function(file) {
+      this.props.onRemovedFile(file);
     }.bind(this));
 
     PostStore.on(POST.POSTED_POST, this._onPosted);
