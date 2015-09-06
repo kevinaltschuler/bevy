@@ -198,9 +198,18 @@ var Navbar = React.createClass({
         break;
     }
 
+    if(this.props.activeBevy.slug == 'sports' ||
+      this.props.activeBevy.slug == 'gaming' ||
+      this.props.activeBevy.slug == 'news' ||
+      this.props.activeBevy.slug == 'videos' ||
+      this.props.activeBevy.slug == 'pics' ||
+      this.props.activeBevy.slug == 'books' ||
+      this.props.activeBevy.slug == 'music')
+        backgroundStyle = { backgroundColor: '#939393'};
+
     return (
       <div id='navbar' className="navbar" style={ navbarStyle }>
-        <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#2CB673' } : { backgroundColor: '#000' }}>
+        <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#939393' } : { backgroundColor: '#000' }}>
           <div className="background-image" style= { backgroundStyle } />
         </div>
         <div className="left">

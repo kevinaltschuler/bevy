@@ -210,6 +210,7 @@ _.extend(PostStore, {
       case POST.UPDATE:
         var post_id = payload.post_id;
         var title = payload.postTitle;
+        var images = payload.images;
         var tags = title.match(tagRegex);
 
         var tags = title.match(tagRegex);
@@ -221,10 +222,12 @@ _.extend(PostStore, {
 
         post.set('title', title);
         post.set('tags', tags);
+        post.set('images', images)
 
         post.save({
           title: title,
           tags: tags,
+          images: images,
           updated: Date.now()
         }, {
           patch: true,
