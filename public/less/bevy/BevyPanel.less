@@ -258,6 +258,26 @@
       }
     }
   }
+
+  .bevy-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 0px 10px;
+    margin-bottom: 20px;
+    span.member-count {
+      color: @light-font;
+      margin-right: 10px;
+    }
+    a.admin-count {
+      color: @light-font;
+      &:active {
+        color: #000;
+      }
+    }
+  }
+
   .sidebar-bottom {
     display: flex;
     justify-content: space-between;
@@ -317,46 +337,3 @@
   float: none;
 }
 
-@media(max-width: 1200px) {
-  .right-sidebar {
-    display: inline-block;
-    float: right;
-    .row.sidebar-top {
-    .sidebar-picture {
-
-      .profile-img, .bevy-image-dropzone {
-        height: 30px;
-        width: 30px;
-        background-size: 30px auto !important;
-      }
-      &.frontpage {
-        img {
-          width: 30px;
-          height: 30px;
-        }
-      }
-    }
-    .sidebar-title {
-      font-size: 1.2em;
-      margin-top: -5px;
-    }
-  }
-  .row.sidebar-links {
-    padding-left: 30px;
-    margin-top: 10px;
-  }
-  .row.sidebar-action {
-    .sidebar-action-title {
-      margin-left: 0px;
-    }
-    button.sidebar-action-link {
-      margin-left: 0px;
-    }
-    .sidebar-action-dropdown {
-      margin-left: 10px;
-      width: 150px !important;
-    }
-  }
-  }
-
-}

@@ -16,6 +16,7 @@ var {
 
 var BevySettingsModal = require('./BevySettingsModal.jsx');
 var BevyPanelHeader = require('./BevyPanelHeader.jsx');
+var AdminModal = require('./AdminModal.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -32,7 +33,8 @@ var BevyPanel = React.createClass({
     var joined = (_.findWhere(this.props.myBevies, { _id: this.props.activeBevy._id }) != undefined);
     return {
       joined: joined,
-      showSettingsModal: false
+      showSettingsModal: false,
+      showAdminModal: false
     };
   },
 
@@ -97,8 +99,19 @@ var BevyPanel = React.createClass({
       <div className="bevy-panel panel">
         <BevyPanelHeader {...this.props}/>
         <div className='bevy-info'>
-          <span className='member-count'>{ this.props.activeBevy.subCount } subscribers</span>
-          <a href='#' className='admin-count'>{ this.props.activeBevy.admins.length } admins</a>
+          <span className='member-count'>{ this.props.activeBevy.subCount } { (this.props.activeBevy.subCount == 1) ? 'subscriber' : 'subscribers' }</span>
+          <a href='#' onClick={(ev) => {
+            ev.preventDefault();
+            this.setState({
+              showAdminModal: true
+            });
+          }}
+          className='admin-count'>{ this.props.activeBevy.admins.length }&nbsp;{ (this.props.activeBevy.admins.length == 1) ? 'admin' : 'admins' }</a>
+          <AdminModal
+            show={ this.state.showAdminModal }
+            onHide={() => this.setState({ showAdminModal: false })}
+            activeBevy={ this.props.activeBevy }
+          />
         </div>
         { this._renderBottomActions() }
       </div>

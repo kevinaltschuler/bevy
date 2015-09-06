@@ -1,0 +1,29 @@
+/**
+ * AdminModal.less
+ * @author albert
+ */
+
+@import './../variables.less';
+
+.admin-modal {
+  .modal-body {
+    .admin-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      .img {
+        #image-icon();
+        min-width: 30px;
+        min-height: 30px;
+        border-radius: 15px;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+      }
+      span.name {
+        color: @light-font;
+      }
+    }
+  }
+}
