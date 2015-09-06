@@ -16,20 +16,21 @@ var Ink = require('react-ink');
 
 var router = require('./../../router');
 
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-var ButtonGroup = rbs.ButtonGroup;
-var Input = rbs.Input;
-var Tooltip = rbs.Tooltip;
-var OverlayTrigger = rbs.OverlayTrigger;
+var {
+  Button,
+  ButtonGroup,
+  Input,
+  Tooltip,
+  OverlayTrigger
+} = require('react-bootstrap');
 
-var mui = require('material-ui');
-var FontIcon = mui.FontIcon;
-var TextField = mui.TextField;
-var Checkbox = mui.Checkbox;
-var IconButton = mui.IconButton;
+var {
+  FontIcon,
+  TextField,
+  Checkbox,
+  IconButton
+} = require('material-ui');
 
-var CobevyModal = require('./CobevyModal.jsx');
 var TagItem = require('./TagItem.jsx');
 
 var BevyActions = require('./../BevyActions');
@@ -40,7 +41,7 @@ var SubBevyPanel = React.createClass({
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object.isRequired,
     activeTags: React.PropTypes.array,
-    allbevies: React.PropTypes.array
+    allBevies: React.PropTypes.array
   },
 
   getInitialState() {
@@ -59,7 +60,6 @@ var SubBevyPanel = React.createClass({
       colorPicker: false,
       newTagColor: colors[0],
       activeTags: this.props.activeTags,
-      cobevyModal: false,
       editing: false
     };
   },
@@ -68,18 +68,6 @@ var SubBevyPanel = React.createClass({
     this.setState({
       activeTags: nextProps.activeTags
     });
-  },
-
-  switchBevy(ev) {
-    ev.preventDefault();
-    // get the bevy id
-    var id = ev.target.getAttribute('id') || null;
-    if(id == -1) id = 'frontpage';
-    if(id == this.props.activeBevy._id) {
-      router.navigate('/b/' + this.props.activeBevy._id, { trigger: true });
-    } else {
-      router.navigate('/b/' + this.props.activeBevy._id + '/' + id, { trigger: true });
-    } 
   },
 
   handleChange() {
@@ -150,31 +138,32 @@ var SubBevyPanel = React.createClass({
 
     var colorPicker = (this.state.colorPicker)
     ? (<div>
-          <div className='panel color-picker-modal' >
-            {colorButtons}
-          </div>
-          <div className='modal-backdrop' onClick={() => { this.setState({colorPicker: false}); }}/>
+        <div className='panel color-picker-modal' >
+          {colorButtons}
+        </div>
+        <div className='modal-backdrop' onClick={() => { this.setState({colorPicker: false}); }}/>
       </div>)
     : (<div className='color-picker-modal'/>)
 
     if(this.state.newTag) {
       tagButtons.push(
-      <div className='new-tag' key='new-tag'> 
-        <div className='color-picker'>
-          { colorPicker }
-          <Button className='color-btn' style={{backgroundColor: this.state.newTagColor}} onClick={() => { this.setState({colorPicker: !this.state.colorPicker}); }}/>
-        </div>
-        <TextField 
-          hintText="new tag" 
-          onEnterKeyDown={this.submitTag}
-          ref='newTagInput'
-          value={this.state.newTagValue} 
-          onChange={this.handleChange} 
-          onFocus={() => { this.setState({colorPicker: false}); }}
-          style={{width: '75%'}}
-        />
-        <Button onClick={this.submitTag} className='simple-btn glyphicon glyphicon-ok'/>
-      </div> );
+        <div className='new-tag' key='new-tag'> 
+          <div className='color-picker'>
+            { colorPicker }
+            <Button className='color-btn' style={{backgroundColor: this.state.newTagColor}} onClick={() => { this.setState({colorPicker: !this.state.colorPicker}); }}/>
+          </div>
+          <TextField 
+            hintText="new tag" 
+            onEnterKeyDown={this.submitTag}
+            ref='newTagInput'
+            value={this.state.newTagValue} 
+            onChange={this.handleChange} 
+            onFocus={() => { this.setState({colorPicker: false}); }}
+            style={{width: '75%'}}
+          />
+          <Button onClick={this.submitTag} className='simple-btn glyphicon glyphicon-ok'/>
+        </div> 
+      );
     }
 
     var createGlyph = (this.state.editing) ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-pencil";
@@ -188,7 +177,7 @@ var SubBevyPanel = React.createClass({
     editButton = (
       <OverlayTrigger placement='bottom' overlay={editTip}>
         <Button 
-          className='new-bevy-btn'
+          className='edit-btn'
           disabled={this.state.newTag}
           onClick={() => { this.setState({ editing: !this.state.editing, newTag: false }); }}>
           <span className={createGlyph}/>
@@ -201,7 +190,7 @@ var SubBevyPanel = React.createClass({
       var createButton = (
       <OverlayTrigger placement='bottom' overlay={createTip}>
         <Button 
-          className='new-bevy-btn'
+          className='create-btn'
           disabled={this.state.editing} 
           onClick={() => { this.setState({ newTag: !this.state.newTag }); }}>
           <span className={editGlyph}/>
@@ -212,17 +201,15 @@ var SubBevyPanel = React.createClass({
 
 
     return (
-      <div className='bevy-list panel'>
+      <div className='tag-panel panel'>
         <div className='panel-header'>
-          <div className='super-bevy-btn'>
-            Tags
-          </div>
+          <span className='title'>Tags</span>
           <div className='actions'>
             { createButton }
             { editButton }
           </div>
         </div>
-        <ButtonGroup className='bevy-list-btns' role="group">
+        <ButtonGroup className='tag-btns' role="group">
           { tagButtons }
         </ButtonGroup>
       </div>
