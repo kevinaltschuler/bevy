@@ -28,7 +28,6 @@ _.extend(ChatStore, {
 
   threads: new ThreadCollection,
   openThreads: [],
-  activeThread: '',
 
   handleDispatch(payload) {
     switch(payload.actionType) {
@@ -50,7 +49,18 @@ _.extend(ChatStore, {
         break;
 
       case BEVY.JOIN:
+        var bevy_id = payload.bevy_id;
+
+        var thread = new Thread;
+        thread.url = constants.apiurl + '/bevies/' + bevy_id + '/thread';
+        thread.fetch({
+          success: function(model, response, option) {
+            this.threads.add(thread);
+            this.trigger(CHAT.CHANGE_ALL);
+          }.bind(this)
+        });
         break;
+      case BEVY.DESTROY:
       case BEVY.LEAVE:
         // remove the bevy chat from your list of chats
         var bevy_id = payload.bevy_id;
@@ -63,22 +73,6 @@ _.extend(ChatStore, {
 
         this.threads.remove(thread);
         this.trigger(CHAT.CHANGE_ALL);
-
-        break;
-
-      case BEVY.SWITCH:
-        /*var bevy_id = payload.bevy_id;
-        $.ajax({
-          method: 'get',
-          url: constants.apiurl + '/bevies/' + bevy_id + '/thread',
-          success: function(data) {
-            if(data == undefined) return;
-            this.activeThread = data._id;
-            this.threads.add(data);
-            this.trigger(CHAT.CHANGE_ALL);
-          }.bind(this)
-        });*/
-
         break;
 
       case CHAT.SEND_NEW_MESSAGE:
@@ -443,15 +437,6 @@ _.extend(ChatStore, {
   getAllThreads() {
     //this.threads.sort();
     return this.threads.toJSON();
-  },
-
-  getActiveThread() {
-    /*var thread = this.threads.get(this.activeThread);
-    if(thread == undefined) {
-      return {};
-    }
-    return thread.toJSON();*/
-    return {};
   },
 
   getOpenThreads() {

@@ -169,6 +169,15 @@ var PostContainer = React.createClass({
       );
     }
 
+    // if filtering got rid of all posts, display no posts
+    if(posts.length == 0) {
+      return (
+        <div className='post-container'>
+          <span className='no-posts-text'>No Posts :(</span>
+        </div>
+      );
+    }
+
     return (
       <div className='post-container'>
         <CTG transitionName='example' transitionAppear={true} style={{width: '100%'}}>

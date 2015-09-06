@@ -39,9 +39,7 @@ var ThemeManager = new Styles.ThemeManager();
 var ChatSidebar = React.createClass({
 
   propTypes: {
-    allContacts: React.PropTypes.array,
     allThreads: React.PropTypes.array,
-    activeThread: React.PropTypes.object,
     userSearchResults: React.PropTypes.array,
     userSearchQuery: React.PropTypes.string
   },
@@ -69,7 +67,10 @@ var ChatSidebar = React.createClass({
       isOverlayOpen: false,
       searching: false,
       query: '',
-      searchUsers: []
+      searchUsers: [],
+      bevyPanelOpen: true,
+      groupPanelOpen: true,
+      pmPanelOpen: true
     };
   },
 
@@ -90,6 +91,7 @@ var ChatSidebar = React.createClass({
     UserStore.on(USER.SEARCH_COMPLETE, this.handleSearchResults);
     UserStore.on(USER.SEARCHING, this.handleSearching);
     window.addEventListener('resize', this.handleResize);
+    this.node = React.findDOMNode(this.refs.ConversationList);
   },
 
   componentWillUnmount() {
@@ -246,23 +248,30 @@ var ChatSidebar = React.createClass({
         />
       );
     };
-    var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? {opacity: 1} : {opacity: 0, margin: '-10px 0px'};
+    var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? {opacity: 1} : {opacity: 0};
+    var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -30 }
     var bevyPanel = (bevyThreadItems.length > 0) ? (
-      <div className='threads-title'>
-        <div className='title' style={hideTitles}>bevy conversations</div>
-        { bevyThreadItems }
+      <div className='threads-title' style={ shiftPanels }>
+        <a className='title' href='#' style={ hideTitles } onClick={() => this.setState({ bevyPanelOpen: !this.state.bevyPanelOpen })}>bevy conversations</a>
+        <Panel collapsible expanded={ this.state.bevyPanelOpen }>
+          { bevyThreadItems }
+        </Panel>
       </div>
     ) : <div />;
     var groupPanel = (groupThreadItems.length > 0) ? (
-      <div className='threads-title'>
-        <div className='title' style={hideTitles}>group conversations</div>
-        { groupThreadItems }
+      <div className='threads-title' style={ shiftPanels }>
+        <a className='title' href='#' style={ hideTitles } onClick={() => this.setState({ groupPanelOpen: !this.state.groupPanelOpen })}>group conversations</a>
+        <Panel collapsible expanded={ this.state.groupPanelOpen } >
+          { groupThreadItems }
+        </Panel>
       </div>
     ) : <div />;
     var pmPanel = (pmThreadItems.length > 0) ? (
-      <div className='threads-title'>
-        <div className='title' style={hideTitles}>private conversations</div>
-        { pmThreadItems }
+      <div className='threads-title' style={ shiftPanels }>
+        <a className='title' href='#' style={ hideTitles } onClick={() => this.setState({ pmPanelOpen: !this.state.pmPanelOpen })}>private conversations</a>
+        <Panel collapsible expanded={ this.state.pmPanelOpen }>
+          { pmThreadItems }
+        </Panel>
       </div>
     ) : <div />;
     return (
@@ -318,9 +327,17 @@ var ChatSidebar = React.createClass({
             this.onMouseOut();
         }}
       >
-        <div className='conversation-list'>
-          <div className='title'>
-          </div>
+        <div className='conversation-list' ref='ConversationList' onWheel={(ev) => {
+          // stop scroll from bubbling up
+          ev.preventDefault();
+          this.node = React.findDOMNode(this.refs.ConversationList);
+          var scrollTop = this.node.scrollTop;
+          scrollTop += (ev.deltaY / 2);
+          if(scrollTop < 0) scrollTop = 0;
+          if(scrollTop > (this.node.scrollHeight - this.node.offsetHeight))
+            scrollTop = this.node.scrollHeight - this.node.offsetHeight;
+          this.node.scrollTop = scrollTop;
+        }}>
           { this._renderThreads() }
         </div>
         <div 

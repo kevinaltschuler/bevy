@@ -61,6 +61,7 @@ _.extend(UserStore, {
           }.bind(this)
         });
         break;
+      case BEVY.DESTROY:
       case BEVY.LEAVE:
         // remove from users bevies array
         var bevy_id = payload.bevy_id;

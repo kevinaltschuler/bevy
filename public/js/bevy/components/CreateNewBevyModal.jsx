@@ -61,8 +61,8 @@ var CreateNewBevyModal = React.createClass({
   componentWillMount() {
     ThemeManager.setComponentThemes({
       textField: {
-        textColor: 'black',
-        focusColor: 'black'
+        textColor: '#666',
+        focusColor: '#666'
       }
     });
   },

@@ -132,7 +132,7 @@ var FilterSidebar = React.createClass({
       </div>
     );
     return (
-      <div className="bevy-panel panel filter-sidebar">
+      <div className="filter-sidebar panel">
         { bevyContent }
       </div>
     );

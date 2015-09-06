@@ -70,6 +70,11 @@ var ThreadItem = React.createClass({
       <Tooltip style={hideTooltip}>{name}</Tooltip>
     ) : <div />;
 
+    // monkey patch to hide threads that have just been removed from the collection
+    if(_.isEmpty(name)) {
+      return <div />;
+    }
+
     return (
       <OverlayTrigger placement='left' overlay={tooltip}>
         <a 

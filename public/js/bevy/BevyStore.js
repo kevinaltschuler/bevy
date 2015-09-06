@@ -134,8 +134,8 @@ _.extend(BevyStore, {
         break;
 
       case BEVY.DESTROY:
-        var id = payload.id;
-        var bevy = this.myBevies.get(id);
+        var bevy_id = payload.bevy_id;
+        var bevy = this.myBevies.get(bevy_id);
         bevy.destroy({
           success: function(model, response) {
             // switch to the frontpage
