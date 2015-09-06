@@ -14,12 +14,14 @@ var {
 } = require('react-bootstrap');
 
 var ImageModal  = require('./ImageModal.jsx');
+var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var PostImages = React.createClass({
 
   propTyes: {
     post: React.PropTypes.object,
-    removeImage: React.PropTypes.func
+    removeImage: React.PropTypes.func,
+    addImage: React.PropTypes.func
   },
 
   getInitialState() {
@@ -37,6 +39,14 @@ var PostImages = React.createClass({
   render() {
     var post = this.props.post;
     var images = post.images;
+    var dropzoneOptions = {
+      acceptedFiles: 'image/*',
+      thumbnailWidth: 500,
+      thumbnailHeight: 500,
+      dictDefaultMessage: 'Upload a Picture',
+      addRemoveLinks: true,
+      clickable: '.add-image-post'
+    };
     // display no more than 8 images
     if(images.length > 8) images = images.slice(0, 8);
     if(!this.props.isEditing) {
@@ -72,13 +82,30 @@ var PostImages = React.createClass({
               id={ key }
               style={{ backgroundImage: 'url(' + url + ')' }}
             >
-              <span className='remove-btn glyphicon glyphicon-remove' onClick={() => this.props.removeImage(images[key])}>
+              <span className='remove-btn' onClick={() => this.props.removeImage(images[key])}>
                 <Ink/>
+                <i className="material-icons">close</i>
               </span>
             </Button>
           </div>
         );
       }
+      imageButtons.push(
+        <div key={Math.Random}>
+          <Uploader
+            onUploadComplete={ this.props.addImage }
+            dropzoneOptions={ dropzoneOptions }
+            className="dropzone"
+            style={{display: 'none'}}
+          />
+          <div className='add-image-post'>
+            <Ink style={{position: 'absolute', width: '100px', height: '100px', top: '0', left: '0'}}/>
+            <div className='add-btn'>
+              <i className="material-icons md-48">add</i>
+            </div>
+          </div>
+        </div>
+      )
     }
 
     return (
