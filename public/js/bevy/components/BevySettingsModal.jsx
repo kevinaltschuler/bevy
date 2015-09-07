@@ -7,17 +7,19 @@
 'use strict';
 
 var React = require('react');
+var {
+  Modal,
+  OverlayTrigger,
+  Popover
+} = require('react-bootstrap');
+var {
+  FlatButton,
+  RaisedButton,
+  Toggle,
+  DropDownMenu
+} = require('material-ui');
+
 var _ = require('underscore');
-
-var rbs = require('react-bootstrap');
-var Modal = rbs.Modal;
-
-var mui = require('material-ui');
-var FlatButton = mui.FlatButton;
-var RaisedButton = mui.RaisedButton;
-var Toggle = mui.Toggle;
-var DropDownMenu = mui.DropDownMenu;
-
 var BevyActions = require('./../BevyActions');
 
 var BevySettingsModal = React.createClass({
@@ -126,6 +128,16 @@ var BevySettingsModal = React.createClass({
           </div>
           <div className='bevy-setting expire-setting'>
             Privacy
+            <OverlayTrigger placement='right' overlay={ 
+              <Popover title='Bevy Privacy'>
+                <p className='warning'>
+                  Public bevies can be viewed and joined by anybody. <br /><br />
+                  Private bevies are listed publicly but require an invite or permission to join and view content.
+                </p>
+              </Popover> 
+            }>
+              <span className='glyphicon glyphicon-question-sign' />
+            </OverlayTrigger>
             <DropDownMenu
               ref='privacy'
               menuItems={ privacyMenuItems }
@@ -175,8 +187,8 @@ var BevySettingsModal = React.createClass({
         <Modal.Footer>
           <FlatButton
             onClick={ this.props.onHide }
-            label='Close'
-            style={{marginRight: '10px', marginBottom: '-20px'}} />
+            label='Cancel'
+          />
           <RaisedButton
             onClick={ this.save }
             label='Save' />
