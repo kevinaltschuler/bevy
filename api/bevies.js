@@ -19,6 +19,7 @@ var getSlug = require('speakingurl');
 var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
 var Thread = mongoose.model('ChatThread');
+var Post = mongoose.model('Post');
 Bevy.collection.ensureIndex({name: 'text'}, function(err) { return err });
 
 var ChatThread = mongoose.model('ChatThread');
@@ -62,6 +63,10 @@ exports.indexPublic = function(req, res, next) {
     if(err) return next(err);
     return res.json(bevies);
   })
+    .populate({
+      path: 'admins',
+      select: 'displayName username email image_url'
+    })
     .limit(20);
 }
 
@@ -107,9 +112,9 @@ exports.show = function(req, res, next) {
     if(err) return next(err);
     return res.json(bevy);
   }).populate({
-      path: 'admins',
-      select: 'displayName username email image_url'
-    });
+    path: 'admins',
+    select: 'displayName username email image_url'
+  });
 }
 
 // SEARCH
@@ -159,8 +164,11 @@ exports.update = function(req, res, next) {
   }
 
   var query = { _id: id };
-  console.log(update);
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
+    .populate({
+      path: 'admins',
+      select: 'displayName username email image_url'
+    })
     .exec();
   promise.then(function(bevy) {
     if(!bevy) throw error.gen('bevy not found', req);
@@ -181,6 +189,9 @@ exports.destroy = function(req, res, next) {
   promise.then(function(bevy) {
     // delete the thread for this bevy
     Thread.findOneAndRemove({ bevy: id }, function(err, thread) {});
+    // delete all posts posted to this bevy
+    Post.remove({ bevy: id }, function(err, posts) {});
+    // remove the reference to the bevy in all user's subscribed bevies
     User.find({bevies: id}, function(err, users) {
       async.each(users, function(user, callback) {
         user.bevies.pull(id);
@@ -190,10 +201,18 @@ exports.destroy = function(req, res, next) {
         callback();
       },
       function(err) {
-        if(err) throw err;
-        return res.json(bevy);
+        if(err) return next(err);
       });
     });
+    // remove all references to this bevy from other bevies' siblings field
+    Bevy.find({ siblings: id }, function(err, bevies) {
+      bevies.forEach(function($bevy) {
+        $bevy.siblings.pull(id);
+        $bevy.save(function(err, $$bevy) {});
+      });
+    });
+
+    return res.json(bevy);
   }, function(err) { next(err); })
 };
 

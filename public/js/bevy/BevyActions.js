@@ -32,7 +32,6 @@ var PostActions = {
   },
 
   update(bevy_id, name, description, image_url, tags, siblings, settings) {
-    console.log(siblings);
     dispatch(BEVY.UPDATE, {
       bevy_id: (bevy_id == undefined) ? '' : bevy_id,
       name: (name == undefined) ? null : name,

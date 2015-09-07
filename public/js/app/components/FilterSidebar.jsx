@@ -96,8 +96,8 @@ var FilterSidebar = React.createClass({
     ];
 
     var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
-    ? 'all'
-    : 'searching for ' + "'" + searchQuery + "'";
+    ? 'All Bevies'
+    : 'Searching for ' + "'" + searchQuery + "'";
 
     var bevyContent = (
       <div className='actions'>

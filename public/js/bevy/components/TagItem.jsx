@@ -11,24 +11,24 @@
 
 // imports
 var React = require('react');
-var _ = require('underscore');
 var Ink = require('react-ink');
-
-var router = require('./../../router');
-
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-var ButtonGroup = rbs.ButtonGroup;
-var Input = rbs.Input;
-
-var mui = require('material-ui');
-var FontIcon = mui.FontIcon;
-var TextField = mui.TextField;
-var Checkbox = mui.Checkbox;
-var IconButton = mui.IconButton;
-
+var {
+  Button,
+  ButtonGroup,
+  Input,
+  OverlayTrigger,
+  Tooltip
+} = require('react-bootstrap');
+var {
+  FontIcon,
+  TextField,
+  Checkbox,
+  IconButton
+} = require('material-ui');
 var CobevyModal = require('./CobevyModal.jsx');
 
+var _ = require('underscore');
+var router = require('./../../router');
 var BevyActions = require('./../BevyActions');
 
 var TagItem = React.createClass({
@@ -43,8 +43,15 @@ var TagItem = React.createClass({
   getInitialState(){
     return {
       name: this.props.tag.name,
-      color: this.props.tag.color
+      color: this.props.tag.color,
+      checked: true
     }
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      checked: (_.findWhere(nextProps.activeTags, { name: this.state.name }) != undefined)
+    });
   },
 
   handleCheck(ev, checked) {
@@ -59,6 +66,10 @@ var TagItem = React.createClass({
     }
 
     BevyActions.updateTags(activeTags);
+
+    this.setState({
+      checked: !this.state.checked
+    });
   },
 
   removeTag(ev) {
@@ -88,21 +99,26 @@ var TagItem = React.createClass({
         {tagName}
      </div>
     ) : (
-      <Checkbox 
-        name={tagName} 
-        label={tagName} 
-        className='bevy-btn'
-        style={{width: '100%', color: 'rgba(0,0,0,.6)'}}
-        defaultChecked={true}
-        iconStyle={{
-          fill: tag.color
-        }}
-        onCheck={this.handleCheck}
-       />
+      <OverlayTrigger placement='right' overlay={ 
+        (this.state.checked) ? <Tooltip>Hide Posts Tagged { this.state.name }</Tooltip> : <Tooltip>Show Posts Tagged { this.state.name }</Tooltip> 
+      }>
+        <Checkbox 
+          name={tagName} 
+          label={tagName} 
+          className='bevy-btn'
+          style={{width: '100%', color: 'rgba(0,0,0,.6)', paddingRight: 8 }}
+          defaultChecked={ this.state.checked }
+          checked={ this.state.checked }
+          iconStyle={{
+            fill: tag.color
+          }}
+          onCheck={this.handleCheck}
+         />
+      </OverlayTrigger>
     );
 
     return (
-      <div style={{width: '90%'}}>
+      <div>
         {tagItem}
       </div>
     );

@@ -10,21 +10,18 @@
 
 'use strict';
 
-// imports
 var React = require('react');
-var _ = require('underscore');
-
-var router = require('./../../router');
-
-var mui = require('material-ui');
-var FontIcon = mui.FontIcon;
-var TextField = mui.TextField;
-var Checkbox = mui.Checkbox;
-var IconButton = mui.IconButton;
-var FlatButton = mui.FlatButton;
-
+var {
+  FontIcon,
+  TextField,
+  Checkbox,
+  IconButton,
+  FlatButton
+} = require('material-ui');
 var CobevyModal = require('./CobevyModal.jsx');
 
+var _ = require('underscore');
+var router = require('./../../router');
 var BevyActions = require('./../BevyActions');
 
 var SiblingItem = React.createClass({
@@ -47,6 +44,11 @@ var SiblingItem = React.createClass({
 
   render() {
     var bevy = this.props.bevy;
+
+    if(_.isEmpty(bevy.name)) {
+      return <div />;
+    }
+
     var image_url = (_.isEmpty(bevy.image_url)) ? '/img/logo_100.png' : bevy.image_url;
 
     var bevyButton = (this.props.editing)

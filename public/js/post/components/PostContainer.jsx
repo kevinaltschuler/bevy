@@ -35,7 +35,8 @@ var PostContainer = React.createClass({
   getInitialState() {
     return {
       allPosts: PostStore.getAll(),
-      activePosts: []
+      activePosts: [],
+      postsLoaded: false
     };
   },
 
@@ -58,15 +59,15 @@ var PostContainer = React.createClass({
     }*/
   },
 
-  componentWillRecieveProps(nextProps) {
-    this.forceUpdate();
-  },
-
   handleChangeAll() {
     this.setState({
       allPosts: PostStore.getAll()
     });
-    this.forceUpdate();
+    setTimeout(() => {
+      this.setState({
+        postsLoaded: true
+      });
+    }, 300);
   },
 
   render() {
@@ -77,14 +78,13 @@ var PostContainer = React.createClass({
     var activeTags = this.props.activeTags;
     var frontBevies = this.props.frontBevies;
 
-    if(_.isEmpty(allPosts)) {
+    if(!this.state.postsLoaded) {
       return (
         <div className='post-container'>
-          <span className='no-posts-text'>No Posts :(</span>
+          <section className="loaders"><span className="loader loader-quart"> </span></section>
         </div>
       );
     }
-
     
     if(this.props.activeBevy._id == '-1') {
       //filter posts for the frontpage here
@@ -161,7 +161,7 @@ var PostContainer = React.createClass({
     }
 
     // render 'no events' when no events are found
-    if(posts.length == 0 && sortType == 'events') {
+    if(allPosts.length == 0 && sortType == 'events') {
       return (
         <div className='post-container'>
           <span className='no-posts-text'>No Events :(</span>
@@ -170,7 +170,7 @@ var PostContainer = React.createClass({
     }
 
     // if filtering got rid of all posts, display no posts
-    if(posts.length == 0) {
+    if(allPosts.length == 0) {
       return (
         <div className='post-container'>
           <span className='no-posts-text'>No Posts :(</span>
@@ -180,9 +180,9 @@ var PostContainer = React.createClass({
 
     return (
       <div className='post-container'>
-        <CTG transitionName='example' transitionAppear={true} style={{width: '100%'}}>
+        {/*<CTG transitionName='example' transitionAppear={true} style={{width: '100%'}}>*/}
           { posts }
-        </CTG>
+        {/*</CTG>*/}
       </div>
     );
   }

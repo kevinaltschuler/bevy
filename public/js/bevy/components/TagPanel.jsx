@@ -9,13 +9,8 @@
 
 'use strict';
 
-// imports
 var React = require('react');
-var _ = require('underscore');
 var Ink = require('react-ink');
-
-var router = require('./../../router');
-
 var {
   Button,
   ButtonGroup,
@@ -23,7 +18,6 @@ var {
   Tooltip,
   OverlayTrigger
 } = require('react-bootstrap');
-
 var {
   FontIcon,
   TextField,
@@ -33,6 +27,8 @@ var {
 
 var TagItem = require('./TagItem.jsx');
 
+var _ = require('underscore');
+var router = require('./../../router');
 var BevyActions = require('./../BevyActions');
 
 var SubBevyPanel = React.createClass({
@@ -150,7 +146,9 @@ var SubBevyPanel = React.createClass({
         <div className='new-tag' key='new-tag'> 
           <div className='color-picker'>
             { colorPicker }
-            <Button className='color-btn' style={{backgroundColor: this.state.newTagColor}} onClick={() => { this.setState({colorPicker: !this.state.colorPicker}); }}/>
+            <OverlayTrigger placement='right' overlay={ <Tooltip>Change Tag Color</Tooltip> }>
+              <Button className='color-btn' style={{backgroundColor: this.state.newTagColor}} onClick={() => { this.setState({colorPicker: !this.state.colorPicker}); }}/>
+            </OverlayTrigger>
           </div>
           <TextField 
             hintText="new tag" 
@@ -161,7 +159,9 @@ var SubBevyPanel = React.createClass({
             onFocus={() => { this.setState({colorPicker: false}); }}
             style={{width: '75%'}}
           />
-          <Button onClick={this.submitTag} className='simple-btn glyphicon glyphicon-ok'/>
+          <OverlayTrigger placement='left' overlay={ <Tooltip>Create Tag</Tooltip> }>
+            <Button onClick={this.submitTag} className='simple-btn glyphicon glyphicon-ok'/>
+          </OverlayTrigger>
         </div> 
       );
     }
@@ -169,8 +169,8 @@ var SubBevyPanel = React.createClass({
     var createGlyph = (this.state.editing) ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-pencil";
     var editGlyph = (this.state.newTag) ? 'glyphicon glyphicon-remove' : "glyphicon glyphicon-plus";
 
-    var editTip = <Tooltip>remove tags</Tooltip>;
-    var createTip = <Tooltip>new tag</Tooltip>;
+    var editTip = (this.state.editing) ? <Tooltip>Done</Tooltip> : <Tooltip>Remove Tags</Tooltip>;
+    var createTip = (this.state.newTag) ? <Tooltip>Cancel</Tooltip> : <Tooltip>Create New Tag</Tooltip>;
 
     var editButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
     if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined)

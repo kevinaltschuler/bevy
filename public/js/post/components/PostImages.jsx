@@ -32,8 +32,12 @@ var PostImages = React.createClass({
   },
 
   showModal(ev) { 
-    this.setState({ imageKey: ev.target.id });
-    this.setState({ showImageModal: true });
+    ev.preventDefault();
+    console.log(ev.target.id);
+    this.setState({ 
+      imageKey: ev.target.id,
+      showImageModal: true
+    });
   },
 
   render() {
@@ -91,7 +95,7 @@ var PostImages = React.createClass({
         );
       }
       imageButtons.push(
-        <div key={Math.Random}>
+        <div key={ 'postimage:' + post_id + ':' + key }>
           <Uploader
             onUploadComplete={ this.props.addImage }
             dropzoneOptions={ dropzoneOptions }
