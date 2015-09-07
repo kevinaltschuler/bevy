@@ -88,6 +88,7 @@ var BevyPanel = React.createClass({
     } else {
       return (
         <div className='sidebar-bottom'>
+          <div style={{ flex: 1 }} />
           { joinButton }
         </div>
       );
