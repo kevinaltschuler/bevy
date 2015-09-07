@@ -38,10 +38,11 @@ var AdminModal = React.createClass({
     var adminItems = [];
     for(var key in admins) {
       var admin = admins[key];
+      var image_url = (_.isEmpty(admin.image_url)) ? '/img/user-profile-icon.png' : admin.image_url;
       adminItems.push(
         <div key={ 'adminitem:' + key } className='admin-item'>
           <div className='img' style={{
-            backgroundImage: 'url(' + admin.image_url + ')'
+            backgroundImage: 'url(' + image_url + ')'
           }} />
           <span className='name'>{ admin.displayName }</span>
         </div>
