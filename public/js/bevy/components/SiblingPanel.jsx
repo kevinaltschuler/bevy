@@ -133,8 +133,8 @@ var SiblingPanel = React.createClass({
           editing={ this.state.editing } 
         />
       );
-
-      siblingButtons.push(siblingItem);
+      if(!_.isEmpty(bevy.name))
+        siblingButtons.push(siblingItem);
     }
 
     var searchDiv = (this.state.adding)
@@ -162,8 +162,7 @@ var SiblingPanel = React.createClass({
     if(this.state.adding) {
       siblingButtons.push(searchDiv)
     }
-
-    if((_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) == undefined) && siblings.length == 0) {
+    if((_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) == undefined) && siblingButtons.length == 0) {
       return <div/>;
     }
 

@@ -22,6 +22,10 @@ var PostActions = require('./../PostActions');
 var constants = require('./../../constants');
 var POST = constants.POST;
 
+var {
+  CircularProgress
+} = require('material-ui');
+
 // React class
 var PostContainer = React.createClass({
 
@@ -81,7 +85,9 @@ var PostContainer = React.createClass({
     if(!this.state.postsLoaded) {
       return (
         <div className='post-container'>
-          <section className="loaders"><span className="loader loader-quart"> </span></section>
+          <div className='loading-indeterminate'>
+            <CircularProgress mode="indeterminate" />
+          </div>
         </div>
       );
     }

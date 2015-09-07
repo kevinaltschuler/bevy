@@ -18,7 +18,8 @@ var {
 } = require('react-bootstrap');
 var {
   TextField,
-  Styles
+  Styles,
+  CircularProgress
 } = require('material-ui');
 
 var ThreadItem = require('./ThreadItem.jsx');
@@ -318,7 +319,7 @@ var ChatSidebar = React.createClass({
     }
 
     if(this.state.searching) {
-      searchResults = <section className="loaders"><span className="loader loader-quart"> </span></section>
+      searchResults = <div className='loading-indeterminate'><CircularProgress mode="indeterminate" /></div>
     }
 
     return (
