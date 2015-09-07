@@ -341,7 +341,11 @@ var ChatSidebar = React.createClass({
           ev.preventDefault();
           this.node = React.findDOMNode(this.refs.ConversationList);
           var scrollTop = this.node.scrollTop;
-          scrollTop += (ev.deltaY / 2);
+          if(ev.deltaY > 0) {
+            scrollTop += 50;
+          } else {
+            scrollTop -= 50;
+          }
           if(scrollTop < 0) scrollTop = 0;
           if(scrollTop > (this.node.scrollHeight - this.node.offsetHeight))
             scrollTop = this.node.scrollHeight - this.node.offsetHeight;
