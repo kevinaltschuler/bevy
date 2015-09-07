@@ -47,6 +47,27 @@
 
   }
   .bevy-dropdown {
+    #modalShadow();
+    position: absolute;
+    top: 10px;
+    left: -50px !important;
+    width: 450px;
+    background-color: #fff;
+    overflow-y: auto;
+    max-height: 600px;
+    overflow-x: hidden;
+    text-shadow: none;
+    border-radius: 3px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    span.no-bevies {
+      padding: 75px 0px;
+      margin: 0 auto;
+      font-size: 1.5em;
+      color: #aaa;
+    }
     .bevy-dropdown-header {
       display: flex;
       flex-direction: row;
@@ -67,28 +88,6 @@
           color: #000;
         }
       }
-      span.no-bevies {
-        padding: 75px 0px;
-        margin: 0 auto;
-        font-size: 1.5em;
-        color: #aaa;
-      }
     }
-    #modalShadow();
-
-    position: absolute;
-    top: 10px;
-    left: -50px !important;
-    width: 450px;
-    background-color: #fff;
-    overflow-y: auto;
-    max-height: 600px;
-    overflow-x: hidden;
-    text-shadow: none;
-    border-radius: 3px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
   }
 }
