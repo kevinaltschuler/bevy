@@ -47,18 +47,18 @@ var BevyDropdown = React.createClass({
 
   openCreateModal(ev) {
     ev.preventDefault();
+    if(_.isEmpty(window.bootstrap.user)) return;
     this.setState({
       showNewBevyModal: true
     });
   },
 
-  render() {
-    if (_.isEmpty(window.bootstrap.user)) return (
-      <Button href='/bevies' className='bevies-dropdown'>
-        Bevies
-      </Button>
-    );
+  _renderCreateNewBevyButton() {
+    if(_.isEmpty(window.bootstrap.user)) return <div />;
+    return <a className='create-new-btn' href='#' onClick={ this.openCreateModal }>Create New Bevy</a>;
+  },
 
+  render() {
     var myBevies = this.props.myBevies;
     var bevies = [];
 
@@ -73,13 +73,24 @@ var BevyDropdown = React.createClass({
       );
     }
 
+    if(_.isEmpty(bevies)) {
+      if(_.isEmpty(window.bootstrap.user)) {
+        bevies = (
+          <span className='no-bevies'>Please Log In To Subscribe to Bevies</span>
+        );
+      } else {
+        bevies = (
+          <span className='no-bevies'>No Added Bevies :(</span>
+        );
+      }
+    }
+
     return (
       <div ref='Container' style={{ position: 'relative' }}>
         <Button
           ref='BevyButton'
           className='my-bevies-btn'
-          onClick={ this.toggle }
-        >
+          onClick={ this.toggle } >
           Bevies
           <Ink />
         </Button>
@@ -95,7 +106,7 @@ var BevyDropdown = React.createClass({
             <div className='bevy-dropdown'>
               <div className='bevy-dropdown-header'>
                 <a className='view-all-btn' href='/s/'>All Bevies</a>
-                <a className='create-new-btn' href='#' onClick={ this.openCreateModal }>Create New Bevy</a>
+                { this._renderCreateNewBevyButton() }
                 <CreateNewBevyModal 
                   show={ this.state.showNewBevyModal } 
                   onHide={() => { this.setState({ showNewBevyModal: false }) }}
