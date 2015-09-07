@@ -19,6 +19,8 @@ var {
   RaisedButton
 } = require('material-ui');
 
+var constants = require('./../../constants');
+
 var {
   Button
 } = require('react-bootstrap');
@@ -114,7 +116,17 @@ var Post = React.createClass({
     images = _.reject(images, function($image_url){ return $image_url == image_url });
     var post = this.state.post;
     post.images = images;
-    console.log(post.images);
+    this.setState({
+      post: post
+    });
+  },
+
+  addImage(file) {
+    var filename = file.filename;
+    //console.log(filename);
+    var image_url = constants.apiurl + '/files/' + filename;
+    var post = this.state.post;
+    post.images.push(image_url);
     this.setState({
       post: post
     });
@@ -197,7 +209,7 @@ var Post = React.createClass({
         <div className='panel-body'>
           { panelBodyText }
         </div>
-        <PostImages post={ post } isEditing={this.state.isEditing} removeImage={this.removeImage} />
+        <PostImages post={ post } isEditing={this.state.isEditing} removeImage={this.removeImage} addImage={this.addImage} />
         <PostFooter post={ post } />
       </div>
     );

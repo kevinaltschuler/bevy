@@ -44,10 +44,11 @@ var Uploader = React.createClass({
     this.dropzone.on('success', function(file, response) {
       this.props.onUploadComplete(response);
     }.bind(this));
-
-    this.dropzone.on('removedfile', function(file) {
-      this.props.onRemovedFile(file);
-    }.bind(this));
+    if(this.props.onRemovedFile) {
+      this.dropzone.on('removedfile', function(file) {
+        this.props.onRemovedFile(file);
+      }.bind(this));
+    }
 
     PostStore.on(POST.POSTED_POST, this._onPosted);
     PostStore.on(POST.CANCELED_POST, this._onCanceled);
