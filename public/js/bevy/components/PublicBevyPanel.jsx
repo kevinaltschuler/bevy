@@ -15,7 +15,9 @@ var router = require('./../../router');
 var constants = require('./../../constants');
 
 var {
-  Button
+  Button,
+  OverlayTrigger,
+  Tooltip
 } = require('react-bootstrap');
 var {
   RaisedButton,
@@ -49,16 +51,13 @@ var PublicBevyPanel = React.createClass({
 
   onRequestJoin(ev) {
     ev.preventDefault();
-
     if(this.props.bevy.settings.privacy == 1) {
       BevyActions.requestJoin(this.props.bevy, window.bootstrap.user);
       this.refs.snackbar.show();
     } 
     else {
       BevyActions.join(this.props.bevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
-
       var joined = true;
-
       this.setState({
         joined: joined
       });
@@ -67,17 +66,21 @@ var PublicBevyPanel = React.createClass({
 
   onRequestLeave(ev) {
     ev.preventDefault();
-
     BevyActions.leave(this.props.bevy._id);
-
     var joined = false;
-
     this.setState({
       joined: joined
     });
   },
 
-  switchBevy(ev) {
+
+  _renderLock() {
+    if(this.props.bevy.settings.privacy == 0) return <div />;
+    return (
+      <OverlayTrigger placement='top' overlay={ <Tooltip>This Bevy Is Private</Tooltip> }>
+        <span className='glyphicon glyphicon-lock' />
+      </OverlayTrigger>
+    );
   },
 
   render() {
@@ -132,6 +135,7 @@ var PublicBevyPanel = React.createClass({
         <div className='panel-info'>
           <div className='panel-info-top'>
             <a className='title' href={ this.props.bevy.url } onClick={ this.switchBevy }>{ name }</a>
+            { this._renderLock() }
           </div>
           <div className='panel-info-bottom'>
             { details }
