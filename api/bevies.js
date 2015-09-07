@@ -62,6 +62,10 @@ exports.indexPublic = function(req, res, next) {
     if(err) return next(err);
     return res.json(bevies);
   })
+    .populate({
+      path: 'admins',
+      select: 'displayName username email image_url'
+    })
     .limit(20);
 }
 
