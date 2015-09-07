@@ -126,7 +126,7 @@ var PostHeader = React.createClass({
 
     return (
       <div className='panel-header'>
-        <div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
+        <div className='profile-img' title={ post.author.displayName } style={{backgroundImage: 'url(' + profileImage + ')',}} />
         <div className='post-details'>
           <div className='top'>
             <span className="details">

@@ -250,7 +250,7 @@ var ChatSidebar = React.createClass({
       );
     };
     var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? {opacity: 1} : {opacity: 0};
-    var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -30 }
+    var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -40 }
     var bevyPanel = (bevyThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftPanels }>
         <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
@@ -342,7 +342,11 @@ var ChatSidebar = React.createClass({
           ev.preventDefault();
           this.node = React.findDOMNode(this.refs.ConversationList);
           var scrollTop = this.node.scrollTop;
-          scrollTop += (ev.deltaY / 2);
+          if(ev.deltaY > 0) {
+            scrollTop += 50;
+          } else {
+            scrollTop -= 50;
+          }
           if(scrollTop < 0) scrollTop = 0;
           if(scrollTop > (this.node.scrollHeight - this.node.offsetHeight))
             scrollTop = this.node.scrollHeight - this.node.offsetHeight;
