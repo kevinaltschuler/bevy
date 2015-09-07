@@ -107,9 +107,9 @@ exports.show = function(req, res, next) {
     if(err) return next(err);
     return res.json(bevy);
   }).populate({
-      path: 'admins',
-      select: 'displayName username email image_url'
-    });
+    path: 'admins',
+    select: 'displayName username email image_url'
+  });
 }
 
 // SEARCH
@@ -159,8 +159,11 @@ exports.update = function(req, res, next) {
   }
 
   var query = { _id: id };
-  console.log(update);
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
+    .populate({
+      path: 'admins',
+      select: 'displayName username email image_url'
+    })
     .exec();
   promise.then(function(bevy) {
     if(!bevy) throw error.gen('bevy not found', req);

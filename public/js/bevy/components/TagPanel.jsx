@@ -9,13 +9,8 @@
 
 'use strict';
 
-// imports
 var React = require('react');
-var _ = require('underscore');
 var Ink = require('react-ink');
-
-var router = require('./../../router');
-
 var {
   Button,
   ButtonGroup,
@@ -23,7 +18,6 @@ var {
   Tooltip,
   OverlayTrigger
 } = require('react-bootstrap');
-
 var {
   FontIcon,
   TextField,
@@ -33,6 +27,8 @@ var {
 
 var TagItem = require('./TagItem.jsx');
 
+var _ = require('underscore');
+var router = require('./../../router');
 var BevyActions = require('./../BevyActions');
 
 var SubBevyPanel = React.createClass({

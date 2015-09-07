@@ -161,8 +161,6 @@ _.extend(BevyStore, {
         var settings = payload.settings || bevy.get('settings');
         var tags = payload.tags || bevy.get('tags');
         var siblings = payload.siblings || bevy.get('siblings');
-        
-        console.log('update sibligns', siblings);
 
         bevy.set({
           name: name,
@@ -184,7 +182,6 @@ _.extend(BevyStore, {
           patch: true
         });
 
-        this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.UPDATED_IMAGE);
         this.trigger(POST.CHANGE_ALL);
         break;
