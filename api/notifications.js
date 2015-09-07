@@ -128,8 +128,6 @@ exports.create = function(req, res, next) {
       var user_image = req.body['user_image'];
       var user_email = req.body['user_email'];
 
-      console.log('req body', req);
-
       var notifications = [];
       // send to all admins
       Bevy.findOne({ _id: bevy_id }, function(err, bevy) {

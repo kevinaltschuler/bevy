@@ -41,13 +41,9 @@ connection.once('open', function() {
     slug: 'sports',
     image_url: '/img/default-groups/sports.png',
     tags: [{name: 'general', color: '#F44336'}],
-    created: new Date(2015, 9, 2)
+    created: new Date(2015, 9, 2),
+    settings: {group_chat: false}
   }, { upsert: true }, function(err, bevy) {});
-
-  Thread.findOneAndUpdate({ _id: '11sports'}, {
-    _id: '11sports',
-    bevy: '11sports'
-  }, { upsert: true }, function(err, thread) {});
 
   Bevy.findOneAndUpdate({ _id: '22gaming' }, {
     _id: '22gaming',
@@ -56,13 +52,9 @@ connection.once('open', function() {
     slug: 'gaming',
     image_url: '/img/default-groups/gaming.png',
     tags: [{name: 'general', color: '#F44336'}],
+    settings: {group_chat: false},
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
-
-  Thread.findOneAndUpdate({ _id: '22gaming'}, {
-    _id: '22gaming',
-    bevy: '22gaming'
-  }, { upsert: true }, function(err, thread) {});
 
   Bevy.findOneAndUpdate({ _id: '3333pics' }, {
     _id: '3333pics',
@@ -71,13 +63,9 @@ connection.once('open', function() {
     slug: 'pics',
     image_url: '/img/default-groups/pictures.png',
     tags: [{name: 'general', color: '#F44336'}],
+    settings: {group_chat: false},
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
-
-  Thread.findOneAndUpdate({ _id: '3333pics'}, {
-    _id: '3333pics',
-    bevy: '3333pics'
-  }, { upsert: true }, function(err, thread) {});
 
   Bevy.findOneAndUpdate({ _id: '44videos' }, {
     _id: '44videos',
@@ -86,13 +74,9 @@ connection.once('open', function() {
     slug: 'videos',
     image_url: '/img/default-groups/videos.png',
     tags: [{name: 'general', color: '#F44336'}],
+    settings: {group_chat: false},
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
-
-  Thread.findOneAndUpdate({ _id: '44videos'}, {
-    _id: '44videos',
-    bevy: '44videos'
-  }, { upsert: true }, function(err, thread) {});
 
   Bevy.findOneAndUpdate({ _id: '555music' }, {
     _id: '555music',
@@ -101,13 +85,9 @@ connection.once('open', function() {
     slug: 'music',
     image_url: '/img/default-groups/music.png',
     tags: [{name: 'general', color: '#F44336'}],
+    settings: {group_chat: false},
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
-
-  Thread.findOneAndUpdate({ _id: '555music'}, {
-    _id: '555music',
-    bevy: '555music'
-  }, { upsert: true }, function(err, thread) {});
 
   Bevy.findOneAndUpdate({ _id: '6666news' }, {
     _id: '6666news',
@@ -116,13 +96,9 @@ connection.once('open', function() {
     slug: 'news',
     image_url: '/img/default-groups/news.png',
     tags: [{name: 'general', color: '#F44336'}],
+    settings: {group_chat: false},
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
-
-  Thread.findOneAndUpdate({ _id: '6666news'}, {
-    _id: '6666news',
-    bevy: '6666news'
-  }, { upsert: true }, function(err, thread) {});
 
   Bevy.findOneAndUpdate({ _id: '777books' }, {
     _id: '777books',
@@ -131,11 +107,8 @@ connection.once('open', function() {
     slug: 'books',
     image_url: '/img/default-groups/books.png',
     tags: [{name: 'general', color: '#F44336'}],
+    settings: {group_chat: false},
     created: new Date(2015, 9, 2)
   }, { upsert: true }, function(err, bevy) {});
 
-  Thread.findOneAndUpdate({ _id: '777books'}, {
-    _id: '777books',
-    bevy: '777books'
-  }, { upsert: true }, function(err, thread) {});
 });

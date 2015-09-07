@@ -122,13 +122,15 @@ var PostHeader = React.createClass({
     ? {display: 'none'}
     : {}
 
+    var authorButton = (_.isEmpty(window.bootstrap.user) || (post.author == window.bootstrap.user)) ? <div>{ post.author.displayName }</div> : <Button onClick={ this.startPM }>{ post.author.displayName }</Button>;
+
     return (
       <div className='panel-header'>
         <div className='profile-img' style={{backgroundImage: 'url(' + profileImage + ')',}} />
         <div className='post-details'>
           <div className='top'>
             <span className="details">
-              <Button onClick={ this.startPM }>{ post.author.displayName }</Button>
+              {authorButton}
             </span>
             <span className="glyphicon glyphicon-triangle-right"/>
             <span className="details">

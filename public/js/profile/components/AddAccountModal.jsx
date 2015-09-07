@@ -92,6 +92,7 @@ var AddAccountModal = React.createClass({
 
     if(_.isEmpty(username)) return this.setState({ errorText: 'Please enter a username' });
     if(_.isEmpty(password)) return this.setState({ errorText: 'Please enter a password' });
+    if(username == window.bootstrap.user.username) return this.setState({ errorText: 'you cant link yourself ;)' });
 
     $.ajax({
       method: 'POST',

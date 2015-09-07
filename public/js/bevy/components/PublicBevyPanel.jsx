@@ -15,7 +15,9 @@ var router = require('./../../router');
 var constants = require('./../../constants');
 
 var {
-  Button
+  Button,
+  Tooltip,
+  OverlayTrigger
 } = require('react-bootstrap');
 var {
   RaisedButton,
@@ -112,6 +114,8 @@ var PublicBevyPanel = React.createClass({
     var subCount = (bevy.subCount == 1) ? '1 member' : bevy.subCount + ' members';
     var created = new Date(bevy.created).toLocaleDateString();
 
+    var loginTip = (_.isEmpty(window.bootstrap.user)) ? <Tooltip>please login to join</Tooltip> : <div/>;
+
     var details = (bevy.settings.privacy == 1 && !this.state.joined)
     ? (
         <div className='left'>
@@ -136,7 +140,9 @@ var PublicBevyPanel = React.createClass({
           <div className='panel-info-bottom'>
             { details }
             <div className='right'>
-              { actionButton }
+              <OverlayTrigger placement='bottom' overlay={loginTip}>
+                { actionButton }
+              </OverlayTrigger>
             </div>
           </div>
         </div>

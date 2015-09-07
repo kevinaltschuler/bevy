@@ -99,7 +99,7 @@ var PostImages = React.createClass({
             style={{display: 'none'}}
           />
           <div className='add-image-post'>
-            <Ink style={{position: 'absolute', width: '100px', height: '100px', top: '0', left: '0'}}/>
+            <Ink style={{position: 'absolute', width: '134px', height: '94px', top: '0', left: '0'}}/>
             <div className='add-btn'>
               <i className="material-icons md-48">add</i>
             </div>

@@ -190,6 +190,7 @@
     flex-direction: row;
     flex-wrap: wrap;
     padding: 0px 10px;
+    margin-bottom: 5px;
     .panel-body-image {
       position: relative;
       overflow: hidden;
@@ -211,7 +212,7 @@
         border: none;
         padding: 0px;
         #image-icon;
-        box-shadow: 1px 1px 8px rgba(0,0,0,.4);
+        box-shadow: @shadow1;
         border-radius: 0px;
         background-size: 100% auto;
         position: relative;
@@ -234,15 +235,17 @@
       }
     }
     .add-image-post {
-      width: 100px;
-      height: 100px;
+      width: 134px;
+      height: 94px;
       background-color: #eee;
       margin-left: 5px;
       position: relative;
+      margin-top: 5px;
+      cursor: hand;
       .add-btn {
         display: flex;
-        width: 100px;
-        height: 100px;
+        width: 134px;
+        height: 94px;
         justify-content: center;
         align-items: center;
         i {

@@ -107,6 +107,7 @@ var NewPostPanel = React.createClass({
     ev.preventDefault();
 
     if(_.isEmpty(this.state.title) && _.isEmpty(this.state.images)) {
+      this.refs.title.setErrorText('please add text or images to post');
       return;
     }
 
@@ -126,7 +127,11 @@ var NewPostPanel = React.createClass({
     );
 
     // reset fields
-    this.setState(this.getInitialState());
+    this.setState({
+      title: '',
+      images: [],
+      showEventModal: false
+    });
   },
 
   // triggered every time a key is pressed
@@ -194,7 +199,12 @@ var NewPostPanel = React.createClass({
     var tagDropdown = (this.state.activeBevy)
     ? <div/>
     : (
-    <DropdownButton style={{backgroundColor: tags[this.state.selectedIndex].color}} title={tags[this.state.selectedIndex].name} id='bg-nested-dropdown'>
+    <DropdownButton 
+      disabled={_.isEmpty(window.bootstrap.user)} 
+      style={{backgroundColor: tags[this.state.selectedIndex].color}} 
+      title={tags[this.state.selectedIndex].name} 
+      id='bg-nested-dropdown'
+    >
       {tagItems}
     </DropdownButton>
     );
@@ -212,6 +222,10 @@ var NewPostPanel = React.createClass({
 
     var mediaTip = <Tooltip>attach pictures</Tooltip>;
     var eventTip = <Tooltip>create an event</Tooltip>;
+    if(_.isEmpty(window.bootstrap.user)) {
+      mediaTip = <div/>;
+      eventTip = <div/>;
+    }
 
     return (
       <Panel className="panel new-post-panel" postId={ this.state.id }>

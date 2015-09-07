@@ -75,8 +75,11 @@ var PostSort = React.createClass({
       var className = 'sort-btn btn';
       // if this type matches the current sorting mechanism (stored in the state)
       // make it active
-      if(type == this.state.sortType) className += ' active';
-
+      var activeStyle = {};
+      if(type == this.state.sortType) {
+       var activeStyle = {color: '#222', textDecoration: 'underline'};
+       className += ' active';
+      }
       // the dot that separates types
       // don't generate for the last one
       var dot = (key == (sort_types.length-1)) ? '' : '•';
@@ -87,6 +90,7 @@ var PostSort = React.createClass({
           className={ className }
           key={ id }
           id={ id }
+          style={activeStyle}
           onClick={ this.sort }
         > { type }
         </Button>
