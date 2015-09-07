@@ -25,7 +25,10 @@ var UserSchema = new Schema({
   email: {
     type: String
   },
-  image_url: String,
+  image_url: {
+    type: String,
+    default: '/img/user-profile-icon.png'
+  },
   points: {
     type: Number,
     default: 0
