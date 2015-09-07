@@ -30,11 +30,7 @@ var POST = constants.POST;
 var CONTACT = constants.CONTACT;
 var CHAT = constants.CHAT;
 var APP = constants.APP;
-
 var BevyActions = require('./BevyActions');
-
-//var ChatStore = require('./../chat/ChatStore');
-
 var user = window.bootstrap.user;
 
 // inherit event class first
@@ -110,7 +106,6 @@ _.extend(BevyStore, {
             this.publicBevies.add(model);
 
             // switch to bevy
-            router.navigate('/b/' + model.id);
             this.active = model.id;
 
             var bevy_ids = this.myBevies.pluck('_id');
@@ -126,6 +121,7 @@ _.extend(BevyStore, {
                 bevies: bevy_ids
               },
               success: function($user) {
+                window.location.href = constants.siteurl + model.get('url');
               }.bind(this)
             });
           }.bind(this)
@@ -144,6 +140,7 @@ _.extend(BevyStore, {
             // update posts
             BevyActions.switchBevy();
 
+            this.myBevies.remove(bevy_id);
             this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });
