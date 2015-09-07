@@ -22,12 +22,12 @@ var ImageModal = React.createClass({
 
   propTypes: {
     allImages: React.PropTypes.array.isRequired,
-    index: React.PropTypes.any,
     show: React.PropTypes.bool,
     onHide: React.PropTypes.func
   },
 
   getInitialState() {
+    this.index = 0;
     return {
       index: this.props.index,
       width: 0,
@@ -35,34 +35,17 @@ var ImageModal = React.createClass({
     };
   },
 
-  componentWillMount() {
-    this.setState({
-      index: this.props.index
-    });
-  },
-
-  componentDidMount() {
-  },
-
   componentWillReceiveProps(nextProps) {
+    this.index = nextProps.index;
     this.setState({
       index: nextProps.index
     });
-    this.resizeImage(nextProps);
+    this.resizeImage();
   },
 
-  componentWillUpdate() {
-
-  },
-
-  componentDidUpdate() {
-    //this.resizeImage();
-  },
-
-  resizeImage(nextProps) {
+  resizeImage() {
     // load this image into code so we can measure the original width and height
-    var url = this.props.allImages[this.state.index];
-    if(nextProps != undefined) url = nextProps.allImages[nextProps.index];
+    var url = this.props.allImages[this.index];
     var $image = new Image();
     $image.src = url;
     // once we have the image
@@ -98,38 +81,37 @@ var ImageModal = React.createClass({
     }.bind(this);
   },
 
-  // triggered every time a key is pressed
-  // updates the state
-  handleChange() {
-  },
-
   onLeft(ev) {
-    if(this.state.index == 0) {
-      this.setState({
-        index: this.props.allImages.length - 1
-      });
+    var index = this.state.index;
+    if(index == 0) {
+      index = this.props.allImages.length - 1;
     } else {
-      this.setState({
-        index: --this.state.index
-      });
+      index--;
     }
+    this.index = index;
+    this.setState({
+      index: index
+    });
     this.resizeImage();
   },
 
   onRight(ev) {
-    if(this.state.index == this.props.allImages.length - 1) {
-      this.setState({
-        index: 0
-      });
+    var index = this.state.index;
+    if(index == this.props.allImages.length - 1) {
+      index = 0;
     } else {
-      this.setState({
-        index: ++this.state.index
-      });
+      index++;
     }
+    this.index = index;
+    this.setState({
+      index: index
+    });
     this.resizeImage();
   },
 
   onKeyDown(ev) {
+    ev.preventDefault();
+    if(this.props.allImages.length < 2) return;
     if(ev.which == 37) {
       // left
       this.onLeft();
@@ -162,7 +144,7 @@ var ImageModal = React.createClass({
   },
 
   render() {
-    var url = this.props.allImages[this.state.index];
+    var url = this.props.allImages[this.index];
 
     return (
       <Modal
