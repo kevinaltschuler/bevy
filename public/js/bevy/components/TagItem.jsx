@@ -102,7 +102,7 @@ var TagItem = React.createClass({
     );
 
     return (
-      <div style={{width: '90%'}}>
+      <div>
         {tagItem}
       </div>
     );
