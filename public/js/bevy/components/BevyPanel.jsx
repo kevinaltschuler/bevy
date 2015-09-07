@@ -102,6 +102,7 @@ var BevyPanel = React.createClass({
           <span className='member-count'>{ this.props.activeBevy.subCount } { (this.props.activeBevy.subCount == 1) ? 'subscriber' : 'subscribers' }</span>
           <a href='#' onClick={(ev) => {
             ev.preventDefault();
+            if(this.props.activeBevy.admins.length <= 0) return;
             this.setState({
               showAdminModal: true
             });
