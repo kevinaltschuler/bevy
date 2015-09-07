@@ -96,12 +96,16 @@
         display: flex;
         flex-direction: row;
         padding-top: 5px;
+        align-items: flex-start;
       }
       span.sidebar-title-name {
         flex: 1;
         display: inline-block;
         margin: 0px;
         word-wrap: break-word;
+        max-height: 54px;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       .edit-btn {
         background-color: transparent;
@@ -109,7 +113,7 @@
         padding: 3px 5px;
         color: #757d83;
         transition: .2s all ease-in-out;
-        margin-top: -2px;
+        margin-top: 4px;
         &:focus, &:active {
           box-shadow: none;
         }
