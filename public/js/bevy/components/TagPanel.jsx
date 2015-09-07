@@ -165,8 +165,8 @@ var SubBevyPanel = React.createClass({
     var createGlyph = (this.state.editing) ? "glyphicon glyphicon-ok" : "glyphicon glyphicon-pencil";
     var editGlyph = (this.state.newTag) ? 'glyphicon glyphicon-remove' : "glyphicon glyphicon-plus";
 
-    var editTip = <Tooltip>remove tags</Tooltip>;
-    var createTip = <Tooltip>new tag</Tooltip>;
+    var editTip = (this.state.editing) ? <Tooltip>Done</Tooltip> : <Tooltip>Remove Tags</Tooltip>;
+    var createTip = (this.state.newTag) ? <Tooltip>Cancel</Tooltip> : <Tooltip>Create New Tag</Tooltip>;
 
     var editButton = <div className='glyphicon' style={{width: '38px', height: '20px'}}/>;
     if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined)
