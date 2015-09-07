@@ -34,7 +34,7 @@ var ThreadModel = Backbone.Model.extend({
     if(!_.isEmpty(this.get('name'))) return this.get('name');
     switch(this.get('type')) {
       case 'bevy':
-        if(!this.get('bevy')) return 'no bevy name';
+        if(!this.get('bevy')) return '';
         var bevy = BevyStore.getBevy(this.get('bevy')._id);
         return bevy.name;
         break;
@@ -56,12 +56,12 @@ var ThreadModel = Backbone.Model.extend({
         var otherUser = _.find(this.get('users'), function($user) {
           return $user._id != window.bootstrap.user._id;
         });
-        if(otherUser == undefined) return 'no other user';
+        if(otherUser == undefined) return '';
         return otherUser.displayName;
         break;
     }
     // something went wrong or there's no thread type/name
-    return 'no name';
+    return '';
   },
 
   // get the image_url of this thread
