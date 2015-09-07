@@ -59,21 +59,10 @@ _.extend(PostStore, {
         var BevyStore = require('./../bevy/BevyStore');
 
         // wait for bevies
-        BevyStore.on(BEVY.LOADED, function() {this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id')}.bind(this)) 
-
-        /*this.posts.fetch({
-          reset: true,
-          success: function(collection, response, options) {
-            this.posts.forEach(function(post) {
-              this.postsNestComment(post);
-            }.bind(this));
-            this.trigger(POST.CHANGE_ALL);
-          }.bind(this)
-        })*/
-        //PostStore.posts.forEach(function(post) {
-        //  PostStore.postsNestComment(post);
-        //});
-        this.trigger(POST.CHANGE_ALL);
+        BevyStore.on(BEVY.LOADED, function() {
+          this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
+          //this.trigger(POST.CHANGE_ALL);
+        }.bind(this));
 
         break;
 
@@ -97,7 +86,6 @@ _.extend(PostStore, {
             this.posts.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/frontpage';
         
         this.posts.fetch({
-          reset: true,
           success: function(collection, response, options) {
             this.posts.forEach(function(post) {
               this.postsNestComment(post);

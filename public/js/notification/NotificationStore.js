@@ -82,7 +82,7 @@ NotificationStore.notifications.on('add', function(notification) {
     case 'post:reply':
     case 'post:commentedon':
       // reload posts to get the latest
-      PostActions.fetch(notification.get('data').bevy_id);
+      //PostActions.fetch(notification.get('data').bevy_id);
       break;
   }
 });
