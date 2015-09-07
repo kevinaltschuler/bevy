@@ -249,7 +249,7 @@ var ChatSidebar = React.createClass({
       );
     };
     var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? {opacity: 1} : {opacity: 0};
-    var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -30 }
+    var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -40 }
     var bevyPanel = (bevyThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftPanels }>
         <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
