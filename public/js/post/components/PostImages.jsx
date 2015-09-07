@@ -95,7 +95,7 @@ var PostImages = React.createClass({
         );
       }
       imageButtons.push(
-        <div key={ 'postimage:' + post_id + ':' + key }>
+        <div key={ 'postimage:' + post._id + ':' + key }>
           <Uploader
             onUploadComplete={ this.props.addImage }
             dropzoneOptions={ dropzoneOptions }
