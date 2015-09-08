@@ -368,14 +368,12 @@ _.extend(BevyStore, {
   sortByAbc(bevy) {
     var name = bevy.attributes.name.toLowerCase();
     var nameValue = name.charCodeAt(0);
-    console.log(name, nameValue);
     return nameValue;
   },
 
   sortByZyx(bevy) {
     var name = bevy.attributes.name.toLowerCase();
     var nameValue = name.charCodeAt(0);
-    console.log(name, nameValue);
     return -nameValue;
   },  
 

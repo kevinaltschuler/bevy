@@ -59,9 +59,9 @@ var PostSort = React.createClass({
 
     // add to this string to add more types to the top
     // split function turns this string into an array
-    var sort_types = 'new top events'.split(' ');
+    var sort_types = 'new top'.split(' ');
     if (this.props.activeBevy.settings.default_events) {
-      sort_types = 'events new top'.split(' ');
+      sort_types = 'new top'.split(' ');
     }
     // array of react components to inject
     var sorts = [];

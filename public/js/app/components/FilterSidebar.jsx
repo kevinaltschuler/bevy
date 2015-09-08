@@ -39,6 +39,7 @@ var FilterSidebar = React.createClass({
 
   componentDidMount() {
     BevyStore.on(BEVY.SEARCHING, this.handleSearching);
+    BevyActions.filterBevies('abc');
   },
 
   componentWillUnmount() {
