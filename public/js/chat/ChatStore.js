@@ -103,7 +103,8 @@ _.extend(ChatStore, {
 
         // check to see if this thread already exists
         var duplicate = this.threads.find(function($thread) {
-          return _.difference(_.pluck(added_users, '_id'), _.pluck($thread.get('users'), '_id')).length <= 0;
+          return (_.difference(_.pluck(added_users, '_id'), _.pluck($thread.get('users'), '_id')).length <= 0)
+            && added_users.length == $thread.get('users').length;
         });
         // only dont create a new thread if this is a pm. allow for duplicate group chats
         if(duplicate != undefined && added_users.length <= 2) {
