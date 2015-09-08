@@ -242,6 +242,7 @@ var Navbar = React.createClass({
             onClick={ this.onSearch }
             style={{ width: '35px', height: '35px', padding: '5px', margin: '3px' }}
             iconStyle={{ color: 'white', fontSize: '14px' }}
+            title='Search'
           />
           { this._renderUserDropdowns() }
         </div>

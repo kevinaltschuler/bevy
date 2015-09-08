@@ -122,7 +122,7 @@ var ChatDropdown = React.createClass({
 
     return (
       <div ref='Container' style={{ position: 'relative' }}>
-        <Button ref='ChatButton' className="chat-dropdown-btn" onClick={ this.toggle }>
+        <Button ref='ChatButton' className="chat-dropdown-btn" onClick={ this.toggle } title='Messages'>
           <div className='chat-img'/>
         </Button>
         { this._renderOverlay() }

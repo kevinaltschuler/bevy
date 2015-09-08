@@ -206,6 +206,7 @@ var ProfileDropdown = React.createClass({
           className='profile-btn' 
           onClick={ this.toggle } 
           style={ buttonStyle } 
+          title='Profile'
         />
         <Overlay
           show={ this.props.show }
