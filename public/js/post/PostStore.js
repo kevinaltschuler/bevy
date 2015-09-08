@@ -338,7 +338,9 @@ _.extend(PostStore, {
 
         var expires = (pinned)
         ? new Date('2035', '1', '1') // expires in a long time
-        : new Date(Date.now() + (1000 * 60 * 30)) // unpinned - expire in 30 minutes
+        : new Date(Date.now() + (post.get('bevy').settings.posts_expire_in * 1000 * 60 * 60 * 24)) // unpinned - expire like default
+
+        if(!pinned && (post.get('bevy').settings.posts_expire_in == -1)) expires = new Date('2035', '1', '1');
 
         post.set('pinned', pinned);
         post.set('expires', expires);
