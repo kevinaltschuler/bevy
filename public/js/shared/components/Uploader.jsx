@@ -10,15 +10,19 @@
 
 var React = require('react');
 var Dropzone = require('dropzone');
+var {
+  RaisedButton,
+  FloatingActionButton
+} = require('material-ui');
+var {
+  OverlayTrigger,
+  Tooltip
+} = require('react-bootstrap');
 
-var PostStore = require('./../../post/PostStore');
-
+var _ = require('underscore');
 var constants = require('./../../constants');
 var POST = constants.POST;
-
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
-var FloatingActionButton = mui.FloatingActionButton;
+var PostStore = require('./../../post/PostStore');
 
 var Uploader = React.createClass({
 
@@ -28,7 +32,8 @@ var Uploader = React.createClass({
     onRemovedFile: React.PropTypes.func,
     className: React.PropTypes.string,
     style: React.PropTypes.object,
-    dropzoneOptions: React.PropTypes.object
+    dropzoneOptions: React.PropTypes.object,
+    tooltip: React.PropTypes.string
   },
 
   componentDidMount() {
@@ -86,16 +91,30 @@ var Uploader = React.createClass({
 
     var div = document.createElement('div');
 
-    var actionButton = (this.props.className === 'bevy-image-dropzone'
-      || this.props.className === 'profile-image-dropzone'
-      || this.props.className === 'alias-image-dropzone')
-    ? (
-      <div className='dropzone-button-container'>
-       <button className="btn btn-lg dropzone-panel-button" onClick={this.preventDefault}>
-        <span className='glyphicon glyphicon-pencil'/>
-       </button>
-     </div>
-    ) : ' ';
+    var actionButton = '';
+    var actionButtonContainer = '';
+    if (this.props.className === 'bevy-image-dropzone' || this.props.className === 'profile-image-dropzone') {
+      actionButton = (
+        <button className="btn btn-lg dropzone-panel-button" onClick={ this.preventDefault }>
+          <span className='glyphicon glyphicon-pencil'/>
+        </button>
+      );
+      if(_.isEmpty(this.props.tooltip)) {
+        actionButtonContainer = (
+          <div className='dropzone-button-container'>
+            { actionButton }
+          </div>
+        );
+      } else {
+        actionButtonContainer = (
+          <OverlayTrigger placement='top' overlay={ <Tooltip>{ this.props.tooltip }</Tooltip> }>
+            <div className='dropzone-button-container'>
+              { actionButton }
+            </div>
+          </OverlayTrigger>
+        );
+      }
+    }
 
     var style = this.props.style || {
       width: this.props.size || '100%',
@@ -104,7 +123,7 @@ var Uploader = React.createClass({
 
     return (
       <form className={ className } style={ style } id='uploader' >
-        { actionButton }
+        { actionButtonContainer }
       </form>
     );
   }

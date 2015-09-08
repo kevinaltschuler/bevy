@@ -11,7 +11,9 @@ var _ = require('underscore');
 
 var {
   Button,
-  Overlay
+  Overlay,
+  OverlayTrigger,
+  Tooltip
 } = require('react-bootstrap');
 
 var {
@@ -149,11 +151,12 @@ var ProfileDropdown = React.createClass({
                 className="profile-image-dropzone"
                 style={ profileImageStyle }
                 dropzoneOptions={ dropzoneOptions }
+                tooltip='Change Profile Picture'
               />
             </div>
             <div className="profile-details">
               <span className='profile-name'>{ name }</span>
-              { email }
+              <span className='profile-email'>{ email }</span>
               <span className='profile-points'>{ user.points }&nbsp;Points</span>
             </div>
           </div>

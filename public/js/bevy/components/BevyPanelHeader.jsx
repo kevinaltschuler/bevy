@@ -146,6 +146,7 @@ var BevyPanelHeader = React.createClass({
               className="bevy-image-dropzone"
               style={ bevyImageStyle }
               dropzoneOptions={ dropzoneOptions }
+              tooltip='Change Bevy Picture'
             />
           </div>
         );
