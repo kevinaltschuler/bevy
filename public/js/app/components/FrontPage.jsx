@@ -25,7 +25,9 @@ var FrontPage = React.createClass({
   propTypes: {
     allPosts: React.PropTypes.array,
     frontBevies: React.PropTypes.array,
-    sortType: React.PropTypes.string
+    sortType: React.PropTypes.string,
+    activeBevy: React.PropTypes.object,
+    myBevies: React.PropTypes.array
   },
 
   render() {
@@ -55,6 +57,8 @@ var FrontPage = React.createClass({
               <FrontpageSidebar 
                 frontBevies={ this.props.frontBevies }
                 myBevies={ this.props.myBevies }
+                activeBevy={ this.props.activeBevy }
+                sortType={ this.props.sortType }
               />
             </div>
             <div className='frontpage-container'>
@@ -66,18 +70,8 @@ var FrontPage = React.createClass({
                 frontBevies={ this.props.frontBevies }
               />
             </div>
-            </div>
           </div>
-        {/*<div className="footer-frontpage">
-          <div className='footer-left'>
-            Bevy © 2015 
-          </div>
-          <div className='footer-right'>
-            <Button className="bevy-logo-btn" href='/'>
-              <div className='bevy-logo-img' style={{ backgroundImage: 'url(/img/logo_100.png)' }}/>
-            </Button>
-          </div>
-        </div>*/}
+        </div>
       </div>
     );
   }
