@@ -11,12 +11,14 @@ var _ = require('underscore');
 var $ = require('jquery');
 var constants = require('./../../constants');
 
-var rbs = require('react-bootstrap');
-var Modal = rbs.Modal;
-var Button = rbs.Button;
+var {
+  Modal,
+  Button
+} = require('react-bootstrap');
 
-var mui = require('material-ui');
-var IconButton = mui.IconButton;
+var {
+  IconButton
+} = require('material-ui');
 
 var ImageModal = React.createClass({
 

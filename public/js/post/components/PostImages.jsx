@@ -12,7 +12,9 @@ var Ink = require('react-ink');
 var {
   Button
 } = require('react-bootstrap');
-
+var {
+  Snackbar
+} = require('material-ui');
 var ImageModal  = require('./ImageModal.jsx');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
@@ -33,11 +35,11 @@ var PostImages = React.createClass({
 
   showModal(ev) { 
     ev.preventDefault();
-    console.log(ev.target.id);
     this.setState({ 
       imageKey: ev.target.id,
       showImageModal: true
     });
+    this.refs.Snackbar.show();
   },
 
   render() {
@@ -120,6 +122,11 @@ var PostImages = React.createClass({
           index={ this.state.imageKey } 
           show={ this.state.showImageModal }
           onHide={() => { this.setState({ showImageModal: false }); }}
+        />
+        <Snackbar
+          ref='Snackbar'
+          message='Press Esc to Close'
+          autoHideDuration={ 1500 }
         />
       </div>
     );
