@@ -59,7 +59,6 @@ var Post = React.createClass({
   },
 
   componentWillRecieveProps(nextProps) {
-    console.log('nextProps', nextProps);
     this.setState({
       post: nextProps.post,
       title: nextProps.post.title,
@@ -67,11 +66,16 @@ var Post = React.createClass({
     });
   },
 
-  componentWillMount() {
+  componentDidMount() {
+    this.refreshInterval = setInterval(this.forceUpdate, 1000 * 60);
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
   },
 
-  componentDidUnmount() {
+  componentWillUnmount() {
+    if(this.refreshInterval != undefined) {
+      clearInterval(this.refreshInterval);
+      delete this.refreshInterval;
+    }
     PostStore.off(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
   },
 
