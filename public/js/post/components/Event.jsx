@@ -28,6 +28,7 @@ var Button = rbs.Button;
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
 var CommentPanel = require('./CommentPanel.jsx');
+var PostHeader = require('./PostHeader.jsx');
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
@@ -188,7 +189,6 @@ var Event = React.createClass({
   render() {
 
     var post = this.state.post;
-    //console.log(post);
     var title = post.title;
     var bevy = post.bevy;
     var author = post.author;
@@ -208,56 +208,17 @@ var Event = React.createClass({
     var dateTime = ($date) ? $date.toLocaleString() : '';
     var dateTime = dateTime.replace(',', '');
 
-    //console.log(event);
-
     var profileImage = (post.author.image_url)
     ? post.author.image_url
     : constants.defaultProfileImage;
 
-    var authorName;
-    authorName = 'placeholder-author';
-    if(author) {
-      if(!_.isEmpty(author.google))
-        authorName = author.google.name.givenName + ' ' + author.google.name.familyName;
-      else
-        authorName = author.email;
-    }
-
-    var deleteButton = '';
-    if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == author._id)
-        deleteButton = (
-          <MenuItem onClick={ this.destroy } >
-            Delete Post
-          </MenuItem>
-        );
-    }
-
-    var editButton = '';
-    if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == author._id)
-        editButton = (
-          <MenuItem onClick={ this.startEdit } >
-            Edit Post
-          </MenuItem>
-        );
-    }
-
-    var muteButtonText = (_.find(post.muted_by, function(muter) { return muter == user._id }))
-    ? 'Unmute Post'
-    : 'Mute Post';
-    var muteButton = (
-      <MenuItem onClick={ this.mute }>
-        { muteButtonText }
-      </MenuItem>
-    );
+    var authorName = author.displayName;
 
     var eventImage = (_.isEmpty(post.images[0])) ? '/img/default_group_img.png' : this.state.image_url;
     var eventImageStyle = {
       backgroundImage: 'url(' + post.images[0] + ')',
       backgroundSize: '100% auto',
       backgroundPosition: 'center'
-
     };
 
     var locationLink = (location) 
@@ -279,24 +240,12 @@ var Event = React.createClass({
     var postBody = (
       <div>
         <div className='event-image' style={eventImageStyle}/>
-        <div className='panel-header'>
+        <PostHeader post={ post } />
+        <div className='event-header'>
           <div className='post-details'>
             <div className='top'>
-              <div className="main-text">
-                <span className='title'>{ title }</span>
-                <span className='description'>{ description }</span>
-              </div>
-              <div className='badges'>
-                <DropdownButton
-                  noCaret
-                  pullRight
-                  className="post-settings"
-                  title={<span className="glyphicon glyphicon-triangle-bottom btn"></span>}>
-                  { deleteButton }
-                  {/* editButton */}
-                  { muteButton }
-                </DropdownButton>
-              </div>
+              <span className='title'>{ title }</span>
+              <span className='description'>{ description }</span>
             </div>
             <div className="bottom">
               <div title="Add to Calendar" className="addthisevent" style={{paddingTop: '5px', paddingBottom: '5px', marginRight: '10px'}}>

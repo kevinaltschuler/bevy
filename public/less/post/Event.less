@@ -4,37 +4,30 @@
     width: 100%;
     height: 100px;
   }
-  .panel-header {
+  .event-header {
     padding-top: 5px;
     a {
     }
     .post-details {
       width: 100%;
       .top {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        flex: 1;
+        font-size: 1.5em;
         justify-content: space-between;
-        align-items: flex-end;
+        //align-items: flex-end;
         margin-bottom: 10px;
-        .main-text {
-          display: flex;
-          flex-direction: column;
-          align-items: flex-start;
-          flex: 1;
-          font-size: 1.1em;
-          span.title {
-            color: black;
-            word-break: break-all;
-          }
-          span.description {
-            color: @light-font;
-            font-size: .7em;
-            word-break: break-all;
-          }
+        padding: 0 15px;
+        span.title {
+          color: black;
+          word-break: break-all;
         }
-        .badges {
-          flex-grow: 0;
-        }
-        .glyphicon {
-          font-size: 1.0em;
+        span.description {
+          color: @light-font;
+          font-size: .7em;
+          word-break: break-all;
         }
       }
       .bottom {
@@ -42,6 +35,7 @@
         font-size: 1em;
         align-items: center;
         width: 100%;
+        padding: 0 15px;
         .addthisevent-drop {
           border: none;
           box-shadow: none;
