@@ -185,11 +185,10 @@ var Navbar = React.createClass({
       case 'bevy':
         navbarTitle = this.props.activeBevy.name;
         var backgroundStyle = (_.isEmpty(this.props.activeBevy))
-          ? {}
+          ? { filter: 'unset' }
           : { 
             opacity: this.state.opacity,
-            backgroundImage: 'url(' + this.props.activeBevy.image_url + ')',
-            filter: 'blur(10px)'
+            backgroundImage: 'url(' + this.props.activeBevy.image_url + ')'
           };
         break;
       case 'search':
@@ -206,12 +205,12 @@ var Navbar = React.createClass({
       this.props.activeBevy.slug == 'pics' ||
       this.props.activeBevy.slug == 'books' ||
       this.props.activeBevy.slug == 'music')
-        backgroundStyle = { backgroundColor: '#939393'};
+        backgroundStyle = { backgroundColor: '#939393', filter: 'unset' };
 
     return (
       <div id='navbar' className="navbar" style={ navbarStyle }>
         <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#939393' } : { backgroundColor: '#000' }}>
-          <div className="background-image" style= { backgroundStyle } />
+          <div className="background-image" style={ backgroundStyle } />
         </div>
         <div className="left">
           <Button className="bevy-logo-btn" title='Frontpage' href={ (!_.isEmpty(window.bootstrap.user)) ? '/b/frontpage' : '/' }>
