@@ -317,7 +317,7 @@ var Event = React.createClass({
                 href={locationLink} 
                 linkButton={true} 
                 target="_blank" 
-                style={{marginRight: '10px', paddingRight: '5px', lineHeight: '1.5'}}
+                style={{marginRight: '10px', padding: '5px 10px 5px 5px', lineHeight: '1.5'}}
               >
                 <FontIcon className="glyphicon glyphicon-map-marker"/>
                 <div className='primary'>

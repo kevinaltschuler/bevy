@@ -277,7 +277,7 @@ _.extend(BevyStore, {
         var filter = payload.filter;
         
         var collection = (!_.isEmpty(this.searchQuery)) ? this.searchList : this.publicBevies;
-        collection.filter == filter;
+        collection.filter = filter;
         switch(filter) {
           case 'top':
             collection.comparator = this.sortByTop;
@@ -291,7 +291,14 @@ _.extend(BevyStore, {
           case 'old':
             collection.comparator = this.sortByOld;
             break;
+          case 'abc':
+            collection.comparator = this.sortByAbc;
+            break;
+          case 'zyx':
+            collection.comparator = this.sortByZyx;
+            break;
         }
+        collection.sort();
 
         this.trigger(BEVY.CHANGE_ALL);
         break;
@@ -358,12 +365,24 @@ _.extend(BevyStore, {
     return this.activeTags;
   },
 
+  sortByAbc(bevy) {
+    var name = bevy.attributes.name.toLowerCase();
+    var nameValue = name.charCodeAt(0);
+    return nameValue;
+  },
+
+  sortByZyx(bevy) {
+    var name = bevy.attributes.name.toLowerCase();
+    var nameValue = name.charCodeAt(0);
+    return -nameValue;
+  },  
+
   sortByTop(bevy) {
-    var subs = bevy.subs;
+    var subs = bevy.attributes.subCount;
     return -subs;
   },
   sortByBottom(bevy) {
-    var subs = bevy.subs;
+    var subs = bevy.attributes.subCount;
     return subs;
   },
   sortByNew(bevy) {
@@ -372,7 +391,6 @@ _.extend(BevyStore, {
   },
   sortByOld(bevy) {
     var date = Date.parse(bevy.get('created'));
-    console.log(date);
     return date;
   }
 });

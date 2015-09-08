@@ -147,13 +147,6 @@ var BevySettingsModal = React.createClass({
           </div>
           <div className='bevy-setting'>
             <Toggle
-              label="Show Events by default?"
-              defaultToggled={ settings.default_events }
-              ref='default_events'
-            />
-          </div>
-          <div className='bevy-setting'>
-            <Toggle
               label="Show Group Chat?"
               defaultToggled={ settings.group_chat }
               ref='group_chat'

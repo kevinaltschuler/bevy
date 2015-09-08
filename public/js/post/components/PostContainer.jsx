@@ -101,30 +101,19 @@ var PostContainer = React.createClass({
         
         //filter out for new and top
         if((sortType == 'new') || (sortType == 'top')) {
-          
-          if($post.type != 'default') {
-            return true;
-          }
 
           if(_.find(frontBevies, function($bevy) { return $post.bevy._id == $bevy }) == undefined) {
             return true; 
           }
         }
 
-        //filter out for events
-        if(sortType == ('events')) {
-          console.log('event');
-          if($post.type != 'event') return true;
-        }
-
       });
     } else {
       // filter posts here
       allPosts = _.reject(allPosts, function($post) {
+        if($post.type == 'event') return false;
         // see if the sort type matches
         if(sortType != ('events')) {
-          if($post.type != 'default') return true;
-          if($post.type == 'event') return true;
           // see if the tag matches
           if(_.find(activeTags, function($tag) {
             if(_.isEmpty($post.tag)) return false;
@@ -132,10 +121,6 @@ var PostContainer = React.createClass({
           }) == undefined) return true;
           // yep, it matches
           return false;
-        }
-        //filter out everything but events
-        if(sortType == ('events')) {
-          if($post.type != 'event') return true;
         }
       });
     }
@@ -165,6 +150,8 @@ var PostContainer = React.createClass({
           break;
       }
     }
+
+    posts.push(<div key={Math.random()} style={{height: '100px'}}/>)
 
     // render 'no events' when no events are found
     if(allPosts.length == 0 && sortType == 'events') {
