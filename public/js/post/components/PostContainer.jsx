@@ -71,7 +71,7 @@ var PostContainer = React.createClass({
       this.setState({
         postsLoaded: true
       });
-    }, 300);
+    }, 500);
   },
 
   render() {
@@ -84,7 +84,7 @@ var PostContainer = React.createClass({
 
     if(!this.state.postsLoaded) {
       return (
-        <div className='post-container'>
+        <div className='post-container' style={{ height: 100 }}>
           <div className='loading-indeterminate'>
             <CircularProgress mode="indeterminate" />
           </div>
