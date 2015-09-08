@@ -15,6 +15,7 @@ var {
 } = require('material-ui');
 
 var _ = require('underscore');
+var ChatActions = require('./../../chat/ChatActions');
 
 var AdminModal = React.createClass({
   propTypes: {
@@ -29,6 +30,12 @@ var AdminModal = React.createClass({
     };
   },
 
+  startPM(id) {
+    if(!_.isEmpty(window.bootstrap.user))
+      if(!(id == window.bootstrap.user._id))
+        ChatActions.startPM(id);
+  },
+
   hide() {
     this.props.onHide();
   },
@@ -40,7 +47,7 @@ var AdminModal = React.createClass({
       var admin = admins[key];
       var image_url = (_.isEmpty(admin.image_url)) ? '/img/user-profile-icon.png' : admin.image_url;
       adminItems.push(
-        <div key={ 'adminitem:' + key } className='admin-item'>
+        <div key={ 'adminitem:' + key } className='admin-item' onClick={() => this.startPM(admin._id)}>
           <div className='img' style={{
             backgroundImage: 'url(' + image_url + ')'
           }} />

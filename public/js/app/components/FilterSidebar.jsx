@@ -122,11 +122,13 @@ var FilterSidebar = React.createClass({
           <RaisedButton 
             disabled={_.isEmpty(window.bootstrap.user)} 
             label='new bevy'
+            labelPosition='after'
             onClick={() => { this.setState({ showNewBevyModal: true }); }}
             fullWidth={true}
-            style={{marginBottom: '10px', display: 'flex'}}
+            labelStyle={{marginRight: '-20px'}}
+            style={{marginBottom: '10px', position: 'relative'}}
           >
-            <span style={{fontSize: '13px', color: 'rgba(0,0,0,.7)'}} className="glyphicon glyphicon-plus"/>
+            <FontIcon className='material-icons' style={{position: 'absolute', top: '5px', left: '35px', color: '#333'}}>add</FontIcon>
           </RaisedButton>
         </div>
       </div>

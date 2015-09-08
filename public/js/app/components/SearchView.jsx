@@ -19,7 +19,8 @@ var {
 } = require('react-bootstrap');
 var {
   RaisedButton,
-  FontIcon
+  FontIcon,
+  CircularProgress
 } = require('material-ui');
 
 var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
@@ -103,7 +104,7 @@ var SearchView = React.createClass({
     }
 
     if(this.state.searching) {
-      content = <section className="loaders"><span className="loader loader-quart"> </span></section>
+      content = <div className='loading-indeterminate'><CircularProgress mode="indeterminate" /></div>
     }
 
     return (

@@ -1,3 +1,15 @@
+.loading-indeterminate {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  svg {
+    circle {
+      stroke: #858585 !important;
+    }
+  }
+}
+
 .example-enter {
   opacity: 0.01;
 }
@@ -110,7 +122,7 @@
   ========================================================================== */
 .loader-quart {
   border-radius: 50px;
-  border: 6px solid rgba(44,182,115,.4);;
+  border: 6px solid rgba(133,133,133,.4);
 }
 .loader-quart:after {
   content: '';
@@ -121,7 +133,7 @@
   left: -6px;
   border-radius: 50px;
   border: 6px solid transparent;
-  border-top-color: #2cb673;
+  border-top-color: #858585;
   -webkit-animation: spin 1s linear infinite;
   animation: spin 1s linear infinite;
 }
