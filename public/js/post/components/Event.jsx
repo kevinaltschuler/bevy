@@ -283,12 +283,8 @@ var Event = React.createClass({
           <div className='post-details'>
             <div className='top'>
               <div className="main-text">
-                <div className='title'>
-                  { title }
-                </div>
-                <div className='description'>
-                  { description }
-                </div>
+                <span className='title'>{ title }</span>
+                <span className='description'>{ description }</span>
               </div>
               <div className='badges'>
                 <DropdownButton
