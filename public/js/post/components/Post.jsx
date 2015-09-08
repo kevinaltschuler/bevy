@@ -67,11 +67,14 @@ var Post = React.createClass({
   },
 
   componentDidMount() {
+    // have the post rerender every minute
+    // to have the "created" field update smoothly
     this.refreshInterval = setInterval(this.forceUpdate, 1000 * 60);
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
   },
 
   componentWillUnmount() {
+    // clear the rerender interval
     if(this.refreshInterval != undefined) {
       clearInterval(this.refreshInterval);
       delete this.refreshInterval;

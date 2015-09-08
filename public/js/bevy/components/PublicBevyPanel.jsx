@@ -115,7 +115,7 @@ var PublicBevyPanel = React.createClass({
     var subCount = (bevy.subCount == 1) ? '1 member' : bevy.subCount + ' members';
     var created = new Date(bevy.created).toLocaleDateString();
 
-    var loginTip = (_.isEmpty(window.bootstrap.user)) ? <Tooltip>please login to join</Tooltip> : <div/>;
+    var loginTip = (_.isEmpty(window.bootstrap.user)) ? <Tooltip>Please Login to Join</Tooltip> : <div/>;
 
     var details = (bevy.settings.privacy == 1 && !this.state.joined)
     ? (
