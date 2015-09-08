@@ -35,11 +35,25 @@ var ImageModal = React.createClass({
     };
   },
 
+  componentDidMount() {
+    window.addEventListener('resize', this.handleWindowResize);
+  },
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.handleWindowResize);
+  },
+
   componentWillReceiveProps(nextProps) {
     this.index = nextProps.index;
     this.setState({
       index: nextProps.index
     });
+    this.resizeImage();
+  },
+
+  handleWindowResize() {
+    constants.viewportWidth = window.innerWidth;
+    constants.viewportHeight = window.innerHeight;
     this.resizeImage();
   },
 
@@ -58,16 +72,17 @@ var ImageModal = React.createClass({
       // if its a horizontal image
       if(width > height) {
         // if it overflows the viewport width
-        if(constants.viewportWidth < width) {
+        if((constants.viewportWidth - 120) < width) {
           // constrain the width to the viewport and give it some extra room
           $width = width - (width - constants.viewportWidth) - 120;
           // preserve the aspect ratio
           $height = height / (1 + ((width - $width) / $width));
         }
-      // if its a vertical image
-      } else {
+      } 
+      // if its a vertical image or if it still overflows
+      if(height > width || $height > constants.viewportHeight) {
         // if it overflows the viewport height
-        if(constants.viewportHeight < height) {
+        if((constants.viewportHeight - 120) < height) {
           // constrain the height to the viewport and give it some extra room
           $height = height - (height - constants.viewportHeight) - 120;
           // preserve the aspect ratio
