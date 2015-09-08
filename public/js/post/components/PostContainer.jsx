@@ -166,6 +166,8 @@ var PostContainer = React.createClass({
       }
     }
 
+    posts.push(<div key={Math.random()} style={{height: '100px'}}/>)
+
     // render 'no events' when no events are found
     if(allPosts.length == 0 && sortType == 'events') {
       return (

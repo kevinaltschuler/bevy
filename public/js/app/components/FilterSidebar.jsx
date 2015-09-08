@@ -54,10 +54,10 @@ var FilterSidebar = React.createClass({
   handleFilter(filter) {
     var selectedIndex = 0;
     switch(filter) {
-      case 'top':
+      case 'abc':
         selectedIndex = 0;
         break;
-      case 'bottom':
+      case 'zyx':
         selectedIndex = 1;
         break;
       case 'new':
@@ -65,6 +65,12 @@ var FilterSidebar = React.createClass({
         break;
       case 'old':
         selectedIndex = 3;
+        break;
+      case 'top':
+        selectedIndex = 4;
+        break;
+      case 'bottom':
+        selectedIndex = 5;
         break;
     };
 
@@ -89,10 +95,12 @@ var FilterSidebar = React.createClass({
     var allClass = (this.state.collection == 'all') ? 'active' : '';
 
     var filterItems = [
-      {payload: '0', text: 'top'},
-      {payload: '1', text: 'bottom'},
+      {payload: '0', text: 'abc'},
+      {payload: '1', text: 'zyx'},
       {payload: '2', text: 'new'},
-      {payload: '3', text: 'old'}
+      {payload: '3', text: 'old'},
+      {payload: '4', text: 'top'},
+      {payload: '5', text: 'bottom'}
     ];
 
     var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
@@ -128,7 +136,7 @@ var FilterSidebar = React.createClass({
             labelStyle={{marginRight: '-20px'}}
             style={{marginBottom: '10px', position: 'relative'}}
           >
-            <FontIcon className='material-icons' style={{position: 'absolute', top: '5px', left: '35px', color: '#333'}}>add</FontIcon>
+            <FontIcon className='material-icons' style={{position: 'absolute', top: '5px', left: '35px', color: '#666'}}>add</FontIcon>
           </RaisedButton>
         </div>
       </div>
