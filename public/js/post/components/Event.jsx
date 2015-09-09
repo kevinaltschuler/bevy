@@ -283,7 +283,7 @@ var Event = React.createClass({
               <span className="glyphicon glyphicon-thumbs-up" ></span>
               &nbsp;{ this.countVotes() } upvotes
             </FlatButton>
-            <FlatButton className='comment' onClick={ this.expandComments } style={{marginRight: '10px', padding: '0px 10px'}}>
+            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments } style={{marginRight: '10px', padding: '0px 10px'}}>
               <span className="glyphicon glyphicon-comment btn"></span>
               &nbsp;{ commentCount } comments
             </FlatButton>
@@ -295,6 +295,8 @@ var Event = React.createClass({
             postId={ this.props.id }
             author={ post.author }
             bevy={ bevy }
+            expandComments={ this.expandComments }
+            showComments={ this.state.showComments }
           />
         </div>
       </div>
