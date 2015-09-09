@@ -44,7 +44,7 @@ var FrontpageSidebar = React.createClass({
     for(var key in myBevies) {
       var bevy = myBevies[key];
       bevyItems.push(
-        <FrontBevyItem bevy={bevy} frontBevies={this.props.frontBevies} />
+        <FrontBevyItem key={ 'frontbevyitem:' + key } bevy={bevy} frontBevies={this.props.frontBevies} />
       );
     }
     return bevyItems;
