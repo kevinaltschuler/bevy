@@ -71,6 +71,7 @@ var Post = React.createClass({
     // to have the "created" field update smoothly
     this.refreshInterval = setInterval(this.forceUpdate, 1000 * 60);
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
+    this.highlightLinks();
   },
 
   componentWillUnmount() {
@@ -139,6 +140,16 @@ var Post = React.createClass({
     });
   },
 
+  highlightLinks() {
+    var title = React.findDOMNode(this.refs.Title);
+    var titleHTML = title.innerHTML;
+    titleHTML = titleHTML.replace(urlRegex, function(url) {
+      console.log(url);
+      return '<a href="' + url + '" title="' + url + '">' + url + '</a>';
+    });
+    title.innerHTML = titleHTML;
+  },
+
   render() {
 
     var post = this.state.post;
@@ -204,7 +215,7 @@ var Post = React.createClass({
       );
     } else {
       panelBodyText = (
-        <div className='panel-body-text'>
+        <div ref='Title' className='panel-body-text'>
           { this.state.title }
         </div>
       );
