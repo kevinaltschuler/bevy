@@ -76,10 +76,17 @@ var SiblingPanel = React.createClass({
   },
 
   onAddSiblingChange(ev) {
-    var query = this.refs.AddSiblingInput.getValue();
-    this.setState({
-      query: query
-    });
+    ev.preventDefault();
+    if(this.addSiblingTimeout != undefined) {
+      clearTimeout(this.addSiblingTimeout);
+      delete this.addSiblingTimeout;
+    }
+    this.addSiblingTimeout = setTimeout(() => {
+      var query = this.refs.AddSiblingInput.getValue();
+      this.setState({
+        query: query
+      });
+    }, 500);
   },
 
   render() {
@@ -144,7 +151,6 @@ var SiblingPanel = React.createClass({
         <TextField 
           type='text'
           ref='AddSiblingInput'
-          value={ this.state.query }
           onChange={ this.onAddSiblingChange }
           style={{width: '90%'}}
           groupClassName='participant-input'
