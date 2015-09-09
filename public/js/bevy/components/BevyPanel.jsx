@@ -63,6 +63,16 @@ var BevyPanel = React.createClass({
     });
   },
 
+  _renderPublicPrivate() {
+    if(this.props.activeBevy.settings.privacy == 0) {
+      // public
+      return <span className='bevy-privacy'><span className='glyphicon glyphicon-globe' />&nbsp;Public</span>;
+    } else {
+      // private
+      return <span className='bevy-privacy'><span className='glyphicon glyphicon-lock' />&nbsp;Private</span>;
+    }
+  },
+
   _renderBottomActions() {
     if(_.isEmpty(window.bootstrap.user)) return <div />;
     
@@ -109,6 +119,7 @@ var BevyPanel = React.createClass({
             });
           }}
           className='admin-count'>{ this.props.activeBevy.admins.length }&nbsp;{ (this.props.activeBevy.admins.length == 1) ? 'admin' : 'admins' }</a>
+          { this._renderPublicPrivate() }
           <AdminModal
             show={ this.state.showAdminModal }
             onHide={() => this.setState({ showAdminModal: false })}
