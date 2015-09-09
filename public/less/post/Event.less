@@ -31,15 +31,16 @@
         }
       }
       .bottom {
+        display: flex;
         flex-direction: row;
-        font-size: 1em;
         align-items: center;
+        justify-content: flex-start;
         width: 100%;
         padding: 0 15px;
         .addthisevent-drop {
           border: none;
           box-shadow: none;
-          z-index: 1 !important;
+          z-index: 0 !important;
           &:active, &:hover {
             top: 0px;
             border: none;
@@ -62,8 +63,9 @@
             display: none;
           }
         }
-        .glyphicon {
-          font-size: 1.2em;
+        span.glyphicon {
+          font-size: 1.6em;
+          margin-right: 15px;
         }
         .detail-button {
           margin-right: 10px;
