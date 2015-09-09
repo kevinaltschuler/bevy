@@ -82,6 +82,7 @@ var ThreadItem = React.createClass({
           style={{ width: this.props.width }}
           href='#'
           onClick={ this.openThread }
+          title={ name }
         >
           <ThreadImage thread={ thread } />
           <div className='details'>
