@@ -38,10 +38,17 @@ var NewThreadPanel = React.createClass({
   },
 
   onAddUserChange(ev) {
-    var value = this.refs.AddUserInput.getValue();
-    this.setState({
-      inputValue: value
-    });
+    ev.preventDefault();
+    if(this.addUserTimeout != undefined) {
+      clearTimeout(this.addUserTimeout);
+      delete this.addUserTimeout;
+    }
+    this.addUserTimeout = setTimeout(() => {
+      var value = this.refs.AddUserInput.getValue();
+      this.setState({
+        inputValue: value
+      });
+    }, 500);
   },
 
   onAddUserKeyDown(ev) {
@@ -155,7 +162,6 @@ var NewThreadPanel = React.createClass({
           <Input 
             type='text'
             ref='AddUserInput'
-            value={ this.state.inputValue }
             onKeyDown={ this.onAddUserKeyDown }
             onChange={ this.onAddUserChange }
             groupClassName='participant-input'

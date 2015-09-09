@@ -130,7 +130,6 @@ var Event = React.createClass({
 
   startEdit(ev) {
     ev.preventDefault();
-
     this.setState({
       isEditing: true
     });
@@ -138,11 +137,8 @@ var Event = React.createClass({
 
   stopEdit(ev) {
     ev.preventDefault();
-
     var postTitle = this.state.title;
-
     PostActions.update(this.props.post._id, postTitle);
-
     this.setState({
       isEditing: false
     });
