@@ -25,10 +25,8 @@ var DropdownButton = rbs.DropdownButton;
 var MenuItem = rbs.MenuItem;
 var Button = rbs.Button;
 
-var CommentList = require('./CommentList.jsx');
-var CommentSubmit = require('./CommentSubmit.jsx');
-var CommentPanel = require('./CommentPanel.jsx');
 var PostHeader = require('./PostHeader.jsx');
+var PostFooter = require('./PostFooter.jsx');
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
@@ -64,8 +62,7 @@ var Event = React.createClass({
     return {
       isEditing: false,
       title: this.props.post.title,
-      post: this.props.post,
-      showComments: false,
+      post: this.props.post
     };
   },
 
@@ -151,25 +148,9 @@ var Event = React.createClass({
     });
   },
 
-  mute(ev) {
-    ev.preventDefault();
-
-    var post_id = this.props.post._id;
-
-    PostActions.mute(post_id);
-  },
-
-  onTag(ev) {
-    ev.preventDefault();
-    var tag = ev.target.parentNode.getAttribute('id');
-
-    router.navigate('/s/' + tag, { trigger: true });
-  },
-
   onSwitchBevy(ev) {
     ev.preventDefault();
     var bevy_id = ev.target.parentNode.getAttribute('id');
-
     router.navigate('/b/' + bevy_id, { trigger: true });
   },
 
@@ -177,13 +158,6 @@ var Event = React.createClass({
     ev.preventDefault();
     var author_id = this.state.post.author._id;
     ChatActions.openThread(null, author_id);
-  },
-
-  expandComments(ev) {
-    ev.preventDefault();
-    this.setState({
-      showComments: !this.state.showComments
-    });
   },
 
   render() {
@@ -277,28 +251,7 @@ var Event = React.createClass({
           </div>
         </div>
 
-        <div className="panel-bottom">
-          <div className='left'>
-            <FlatButton className='upvote' onClick={ this.vote } disabled={ _.isEmpty(window.bootstrap.user) } style={ voteButtonStyle }>
-              <span className="glyphicon glyphicon-thumbs-up" ></span>
-              &nbsp;{ this.countVotes() } upvotes
-            </FlatButton>
-            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments } style={{marginRight: '10px', padding: '0px 10px'}}>
-              <span className="glyphicon glyphicon-comment btn"></span>
-              &nbsp;{ commentCount } comments
-            </FlatButton>
-          </div>
-        </div>
-        <CommentPanel expanded={this.state.showComments} post={post} />
-        <div className='panel-comment-submit'>
-          <CommentSubmit
-            postId={ this.props.id }
-            author={ post.author }
-            bevy={ bevy }
-            expandComments={ this.expandComments }
-            showComments={ this.state.showComments }
-          />
-        </div>
+        <PostFooter post={ post } />
       </div>
     );
 
@@ -306,7 +259,7 @@ var Event = React.createClass({
     if(router.post_id == post._id) postClassName += ' active';
 
     return (
-      <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id } key={Math.random()}>
+      <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
         <div>{postBody}</div>
       </div>
     );
