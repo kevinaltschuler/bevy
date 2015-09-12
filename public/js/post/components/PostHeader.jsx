@@ -80,7 +80,7 @@ var PostHeader = React.createClass({
 
     var deleteButton = '';
     if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == post.author._id)
+      if(window.bootstrap.user._id == post.author._id || _.contains(post.bevy.admins, window.bootstrap.user._id))
         deleteButton = (
           <MenuItem onClick={ this.destroy } >
             Delete Post
