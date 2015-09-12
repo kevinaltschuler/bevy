@@ -161,19 +161,16 @@ var InterfaceComponent = React.createClass({
   render() {
     switch(router.current) {
       case 'home': 
-        if(!_.isEmpty(window.bootstrap.user)) {
-          return <Frontpage {...this.props} />
-          break;
-        } 
-        else { 
-          return <HomeView {...this.props}  />
-          break;
-        }
+        return <HomeView {...this.props}  />
+        break;
       case 'search':
         return <SearchView {...this.props} />
         break;
       case 'bevy':
-        return <PostView {...this.props} />
+        if(router.bevy_id == '-1')
+          return <Frontpage { ...this.props } />
+        else 
+          return <PostView {...this.props} />
         break;
       default:
         return <FourOhFour {...this.props} />

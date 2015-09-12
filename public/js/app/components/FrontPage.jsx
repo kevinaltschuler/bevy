@@ -33,20 +33,20 @@ var FrontPage = React.createClass({
   render() {
 
     var activeBevy = {
-        "_id" : "-1",
-        "name" : "frontpage",
-        "description" : "",
-        "image_url" : "",
-        "settings" : {
-        },
-        "siblings" : [ 
-        ],
-        "tags" : [ 
-        ],
-        "admins" : [ 
-        ],
-        "subCount" : 0,
-        "__v" : 0
+      "_id" : "-1",
+      "name" : "frontpage",
+      "description" : "",
+      "image_url" : "",
+      "settings" : {
+      },
+      "siblings" : [ 
+      ],
+      "tags" : [ 
+      ],
+      "admins" : [ 
+      ],
+      "subCount" : 0,
+      "__v" : 0
     }
 
     return (

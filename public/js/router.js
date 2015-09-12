@@ -16,7 +16,6 @@ var Router = Backbone.Router.extend({
     'bevies': 'bevies',
     'b' : 'home',
     'b/' : 'home',
-    'b/frontpage': 'home',
     'b/:bevyid' : 'bevy',
     'b/:bevyid/' : 'bevy',
     'b/:bevyid/post' : 'bevy',
@@ -30,7 +29,7 @@ var Router = Backbone.Router.extend({
 
   home() {
     if(!_.isEmpty(window.bootstrap.user)) {
-      BevyActions.switchBevy('-1');
+      return this.navigate('/b/frontpage', { trigger: true });
     }
     this.current = 'home';
   },
@@ -53,6 +52,7 @@ var Router = Backbone.Router.extend({
 
   bevy(bevy_id, post_id) {
     this.current = 'bevy';
+    if(bevy_id == 'frontpage') bevy_id = '-1';
     this.bevy_id = bevy_id;
     BevyActions.switchBevy(this.bevy_id);
   },
