@@ -80,6 +80,13 @@ var LoginPanel = React.createClass({
     }.bind(this));
   },
 
+  onPasswordKeyUp(ev) {
+    ev.preventDefault();
+    if(ev.which == 13) {
+      this.submit(ev);
+    }
+  },
+
   render() {
     var error;
     if(this.state.showError) {
@@ -106,6 +113,7 @@ var LoginPanel = React.createClass({
             type='password'
             hintText='password'
             style={{marginBottom: '10px', width: '100%'}}
+            onKeyUp={ this.onPasswordKeyUp }
           />
           <RaisedButton
             className='login-submit'
