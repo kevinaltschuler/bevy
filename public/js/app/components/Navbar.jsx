@@ -177,13 +177,12 @@ var Navbar = React.createClass({
     switch(router.current) {
       case 'home':
         navbarTitle = '';
-        if(!_.isEmpty(window.bootstrap.user)) {
-          navbarTitle = 'frontpage';
-        }
         break;
         break;
       case 'bevy':
         navbarTitle = this.props.activeBevy.name;
+        if(router.bevy_id == '-1')
+          navbarTitle = 'Frontpage';
         var backgroundStyle = (_.isEmpty(this.props.activeBevy))
           ? { filter: 'unset' }
           : { 
