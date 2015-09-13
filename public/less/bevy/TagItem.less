@@ -5,7 +5,7 @@
 
 @import './../variables.less';
 
-.bevy-btn {
+.tag-item {
   label {
     width: auto !important;
   }
@@ -19,7 +19,7 @@
   align-items: center;
   justify-content: flex-start;
   .glyphicon {
-    color: #757d83;
+    color: @light-font;
     font-weight: 200;
     margin-right: 10px;
     padding: 2px;
@@ -37,6 +37,13 @@
     &:hover {
       text-decoration: none;
       background-color: rgba(0,0,0,.2);
+    }
+    &.disabled:hover {
+      background-color: transparent;
+    }
+    &.disabled:active {
+      color: @light-font;
+      background-color: transparent;
     }
   }
 }

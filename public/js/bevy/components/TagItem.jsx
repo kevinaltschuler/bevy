@@ -89,14 +89,21 @@ var TagItem = React.createClass({
     var tagName = tag.name;
     var tagColor = tag.color;
 
+    var removeButton = (this.props.activeBevy.tags.length <= 1)
+    ? (
+      <OverlayTrigger placement='right' overlay={ <Tooltip>Can't Remove a Bevy's Last Tag!</Tooltip> }>
+        <span className='glyphicon glyphicon-remove disabled' />
+      </OverlayTrigger>
+    ) : (
+      <OverlayTrigger placement='left' overlay={ <Tooltip>Remove Tag "{ this.state.name }"</Tooltip> }>
+        <a href='#' onClick={ this.removeTag } className='glyphicon glyphicon-remove' />
+      </OverlayTrigger>
+    );
+
     var tagItem = (this.props.editing) ? (
       <div className='tag-remove-btn'>
-        <a
-          href='' 
-          onClick={this.removeTag} 
-          className='glyphicon glyphicon-remove'
-        />
-        {tagName}
+        { removeButton }
+        { tagName }
      </div>
     ) : (
       <OverlayTrigger placement='right' overlay={ 
@@ -105,8 +112,8 @@ var TagItem = React.createClass({
         <Checkbox 
           name={tagName} 
           label={tagName} 
-          className='bevy-btn'
-          style={{width: '100%', color: 'rgba(0,0,0,.6)', paddingRight: 8 }}
+          className='tag-item'
+          style={{ width: 'auto', color: 'rgba(0,0,0,.6)', paddingRight: 8 }}
           defaultChecked={ this.state.checked }
           checked={ this.state.checked }
           iconStyle={{
