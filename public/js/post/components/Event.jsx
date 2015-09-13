@@ -7,41 +7,34 @@
 
 'use strict';
 
-// imports
 var React = require('react');
-var _ = require('underscore');
-
 var Ink = require('react-ink');
-
-var router = require('./../../router');
-var classNames = require('classnames');
-
-var mui = require('material-ui');
-var FlatButton = mui.FlatButton;
-var FontIcon = mui.FontIcon;
-
-var rbs = require('react-bootstrap');
-var DropdownButton = rbs.DropdownButton;
-var MenuItem = rbs.MenuItem;
-var Button = rbs.Button;
-
+var {
+  FlatButton,
+  FontIcon,
+  RaisedButton,
+  TextField
+} = require('material-ui');
+var {
+  DropdownButton,
+  MenuItem,
+  Button
+} = require('react-bootstrap');
 var PostHeader = require('./PostHeader.jsx');
 var PostFooter = require('./PostFooter.jsx');
 
+var _ = require('underscore');
+var timeAgo = require('./../../shared/helpers/timeAgo');
+var timeLeft = require('./../../shared/helpers/timeLeft');
+var $ = require('jquery');
+var router = require('./../../router');
+var constants = require('./../../constants');
+var POST = constants.POST;
+var user = window.bootstrap.user;
+var email = user.email;
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 var ChatActions = require('./../../chat/ChatActions');
-
-var POST = require('./../../constants').POST;
-
-var timeAgo = require('./../../shared/helpers/timeAgo');
-var timeLeft = require('./../../shared/helpers/timeLeft');
-
-var $ = require('jquery');
-
-var constants = require('./../../constants');
-var user = window.bootstrap.user;
-var email = user.email;
 
 var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
@@ -62,6 +55,7 @@ var Event = React.createClass({
     return {
       isEditing: false,
       title: this.props.post.title,
+      description: this.props.post.event.description,
       post: this.props.post
     };
   },
@@ -90,13 +84,6 @@ var Event = React.createClass({
     this.setState({
       post: PostStore.getPost(this.props.post._id)
     });
-  },
-
-  onHandleToggle(ev){
-      ev.preventDefault();
-      this.setState({
-        expanded: !this.state.expanded
-      });
   },
 
   onChange(ev) {
@@ -137,8 +124,9 @@ var Event = React.createClass({
 
   stopEdit(ev) {
     ev.preventDefault();
-    var postTitle = this.state.title;
-    PostActions.update(this.props.post._id, postTitle);
+    var event = this.props.post.event;
+    event.description = this.state.description;
+    PostActions.update(this.props.post._id, this.state.title, [], event);
     this.setState({
       isEditing: false
     });
@@ -154,6 +142,53 @@ var Event = React.createClass({
     ev.preventDefault();
     var author_id = this.state.post.author._id;
     ChatActions.openThread(null, author_id);
+  },
+
+  _renderTitleAndDescription() {
+    if(this.state.isEditing) {
+      return (
+        <div className='top'>
+          <TextField
+            ref='Title'
+            floatingLabelText='Event Title'
+            defaultValue={ this.state.title }
+            style={{
+              width: '100%'
+            }}
+            onChange={(ev) => {
+              this.setState({
+                title: this.refs.Title.getValue()
+              });
+            }}
+          />
+          <TextField
+            ref='Description'
+            floatingLabelText='Event Description'
+            defaultValue={ this.state.description }
+            multiLine={ true }
+            style={{
+              width: '100%'
+            }}
+            onChange={(ev) => {
+              this.setState({
+                description: this.refs.Description.getValue()
+              });
+            }}
+          />
+          <RaisedButton
+            label='Save'
+            onClick={ this.stopEdit }
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className='top'>
+          <span className='title'>{ this.state.title }</span>
+          <span className='description'>{ this.state.description }</span>
+        </div>
+      );
+    }
   },
 
   render() {
@@ -207,16 +242,16 @@ var Event = React.createClass({
       voteButtonStyle.color = '#000'
     }
 
-    var postBody = (
-      <div>
+    var postClassName = 'post panel event';
+    if(router.post_id == post._id) postClassName += ' active';
+
+    return (
+      <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
         <div className='event-image' style={eventImageStyle}/>
-        <PostHeader post={ post } />
+        <PostHeader post={ post } startEdit={ this.startEdit }/>
         <div className='event-header'>
           <div className='post-details'>
-            <div className='top'>
-              <span className='title'>{ title }</span>
-              <span className='description'>{ description }</span>
-            </div>
+            { this._renderTitleAndDescription() }
             <div className="bottom">
               <div title="Add to Calendar" className="addthisevent" style={{paddingTop: '5px', paddingBottom: '5px', marginRight: '10px', minWidth: 180}}>
                   {dateString}<br/>{timeString}
@@ -248,15 +283,6 @@ var Event = React.createClass({
         </div>
 
         <PostFooter post={ post } />
-      </div>
-    );
-
-    var postClassName = 'post panel event';
-    if(router.post_id == post._id) postClassName += ' active';
-
-    return (
-      <div className={ postClassName } postId={ post._id } id={ 'post:' + post._id }>
-        <div>{postBody}</div>
       </div>
     );
   }

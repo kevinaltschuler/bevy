@@ -124,6 +124,8 @@ exports.update = function(req, res, next) {
   if(req.body['pinned'] != undefined) {
     update.pinned = req.body['pinned'];
   }
+  if(req.body['event'] != undefined)
+    update.event = req.body['event'];
 
   async.waterfall([
     function(done) {

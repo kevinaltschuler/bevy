@@ -51,11 +51,12 @@ var PostActions = {
     });
   },
 
-  update(post_id, postTitle, images) {
+  update(post_id, postTitle, images, event) {
     dispatch(POST.UPDATE, {
       post_id: (post_id == undefined) ? '0' : post_id,
       postTitle: (postTitle == undefined) ? '' : postTitle,
-      images: (images == undefined) ? [] : images
+      images: (images == undefined) ? [] : images,
+      event: (event == undefined) ? {} : event
     });
   },
 

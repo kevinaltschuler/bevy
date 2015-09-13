@@ -199,6 +199,7 @@ _.extend(PostStore, {
         var post_id = payload.post_id;
         var title = payload.postTitle;
         var images = payload.images;
+        var event = payload.event;
         var tags = title.match(tagRegex);
 
         var tags = title.match(tagRegex);
@@ -210,20 +211,20 @@ _.extend(PostStore, {
 
         post.set('title', title);
         post.set('tags', tags);
-        post.set('images', images)
+        post.set('images', images);
+        post.set('event', event);
 
         post.save({
           title: title,
           tags: tags,
           images: images,
+          event: event,
           updated: Date.now()
         }, {
           patch: true,
           success: function($post, response, options) {
-
             post.set('images', $post.get('images'));
             post.set('links', $post.get('links'));
-
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
