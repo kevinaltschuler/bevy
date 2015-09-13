@@ -75,7 +75,7 @@ exports.create = function(req, res, next) {
   update.expires = req.body['expires'];
   update.type = req.body['type'];
   update.event = req.body['event'];
-  update.tag =  req.body['tag'];
+  update.tag = req.body['tag'];
 
   if(_.isEmpty(update.bevy)) return next('no bevy');
   if(_.isEmpty(update.author)) return next('no author');
@@ -126,6 +126,8 @@ exports.update = function(req, res, next) {
   }
   if(req.body['event'] != undefined)
     update.event = req.body['event'];
+  if(req.body['tag'] != undefined)
+    update.tag = req.body['tag'];
 
   async.waterfall([
     function(done) {
@@ -140,7 +142,6 @@ exports.update = function(req, res, next) {
         if(!post) throw error.gen('post not found');
         return post;
       }).then(function(post) {
-
         var _promise = Comment.find({ postId: post._id })
           .populate('author')
           .exec();
@@ -149,7 +150,6 @@ exports.update = function(req, res, next) {
           post.comments = comments;
           return res.send(post);
         }, function(err) { return next(err) });
-
       }, function(err) { next(err); });
     }
   ]);

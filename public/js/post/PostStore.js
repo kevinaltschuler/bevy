@@ -33,9 +33,6 @@ var Dispatcher = require('./../shared/dispatcher');
 
 var PostCollection = require('./PostCollection');
 
-//var tagRegex = new RegExp('#\w+', 'g');
-var tagRegex = /#\w+/g;
-
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
 // to this store's events
@@ -141,11 +138,6 @@ _.extend(PostStore, {
           posts_expire_in = new Date('2035', '1', '1');
         }
 
-        var tags = title.match(tagRegex);
-        tags = _.map(tags, function(tag) {
-          return tag.slice(1, tag.length); // remove the hashtag
-        });
-
         var newPost = this.posts.add({
           title: title,
           tags: tags,
@@ -159,7 +151,6 @@ _.extend(PostStore, {
           event: event,
           tag: tag
         });
-
 
         // save to server
         newPost.save(null, {
@@ -200,23 +191,15 @@ _.extend(PostStore, {
         var title = payload.postTitle;
         var images = payload.images;
         var event = payload.event;
-        var tags = title.match(tagRegex);
-
-        var tags = title.match(tagRegex);
-        tags = _.map(tags, function(tag) {
-          return tag.slice(1, tag.length); // remove the hashtag
-        });
 
         var post = this.posts.get(post_id);
 
         post.set('title', title);
-        post.set('tags', tags);
         post.set('images', images);
         post.set('event', event);
 
         post.save({
           title: title,
-          tags: tags,
           images: images,
           event: event,
           updated: Date.now()
@@ -224,11 +207,27 @@ _.extend(PostStore, {
           patch: true,
           success: function($post, response, options) {
             post.set('images', $post.get('images'));
-            post.set('links', $post.get('links'));
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
 
+        break;
+
+      case POST.UPDATE_TAG:
+        var post_id = payload.post_id;
+        var tag = payload.tag;
+
+        var post = this.posts.get(post_id);
+        if(post == undefined) break;
+
+        post.save({
+          tag: tag
+        }, {
+          patch: true,
+          success: function(model, response, collection) {
+            this.trigger(POST.CHANGE_ONE + post.id);
+          }.bind(this)
+        });
         break;
 
       case POST.VOTE:

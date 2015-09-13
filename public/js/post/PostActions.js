@@ -60,6 +60,10 @@ var PostActions = {
     });
   },
 
+  updateTag(post_id, tag) {
+
+  },
+
   /**
    * upvote a post
    * @param  {string} post_id

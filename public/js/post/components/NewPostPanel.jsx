@@ -183,17 +183,6 @@ var NewPostPanel = React.createClass({
       }
     }
 
-    /*
-      <DropDownMenu
-        className='bevies-dropdown'
-        autoWidth={false}
-        menuItems={tagItems}
-        selectedIndex={ selectedIndex }
-        onChange={ this.onTagChange }
-        underlineStyle={{borderColor: tagColor, borderTopWidth: '2px'}}
-      />
-    */
-
     var selectedIndex = this.state.selectedIndex;
 
     var tagDropdown = (this.state.activeBevy)
