@@ -27,30 +27,20 @@ var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx
 
 var FilterSidebar = React.createClass({
   propTypes: {
+    searchQuery: React.PropTypes.string
   },
 
   getInitialState() {
     return {
       filter: 'top',
-      showNewBevyModal: false,
-      searchQuery: ''
+      showNewBevyModal: false
     };
   },
 
   componentDidMount() {
-    BevyStore.on(BEVY.SEARCHING, this.handleSearching);
     BevyActions.filterBevies('abc');
   },
 
-  componentWillUnmount() {
-    BevyStore.off(BEVY.SEARCHING, this.handleSearching);
-  },
-
-  handleSearching() {
-    this.setState({
-      searchQuery: BevyStore.getSearchQuery()
-    });
-  },
 
   handleFilter(filter) {
     var selectedIndex = 0;
@@ -89,7 +79,7 @@ var FilterSidebar = React.createClass({
   },
 
   render() {
-    var searchQuery = this.state.searchQuery;
+    var searchQuery = this.props.searchQuery;
     var selectedIndex = this.state.selectedIndex;
 
     var myClass = (this.state.collection == 'my') ? 'active' : '';

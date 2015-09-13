@@ -7,13 +7,6 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-var CTG = React.addons.CSSTransitionGroup;
-var constants = require('./../../constants');
-var router = require('./../../router');
-
-var user = window.bootstrap.user;
-
 var {
   Button
 } = require('react-bootstrap');
@@ -22,12 +15,16 @@ var {
   FontIcon,
   CircularProgress
 } = require('material-ui');
-
 var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 var Footer = require('./Footer.jsx');
 
+var _ = require('underscore');
+var CTG = React.addons.CSSTransitionGroup;
+var constants = require('./../../constants');
+var router = require('./../../router');
+var user = window.bootstrap.user;
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 var BevyStore = require('./../../bevy/BevyStore');
@@ -43,7 +40,8 @@ var SearchView = React.createClass({
     return {
       showNewBevyModal: false,
       searching: false,
-      searchList: []
+      searchList: BevyStore.getSearchList(),
+      searchQuery: BevyStore.getSearchQuery()
     };
   },
 
@@ -112,7 +110,7 @@ var SearchView = React.createClass({
         <div className='mid-section'>
           <div className='left-filter-sidebar'>
             <div className='filter-fixed'>
-              <FilterSidebar searchQuery={ this.props.searchQuery } />
+              <FilterSidebar searchQuery={ this.state.searchQuery } />
               <Footer />
             </div>
           </div>

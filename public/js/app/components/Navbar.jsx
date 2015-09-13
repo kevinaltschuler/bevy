@@ -93,7 +93,6 @@ var Navbar = React.createClass({
     ev.preventDefault();
     if(ev.which == 13) {
       // trigger search
-      this.onSearch();
       router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
     }
   },
@@ -244,7 +243,9 @@ var Navbar = React.createClass({
           />
           <IconButton
             iconClassName='glyphicon glyphicon-search'
-            onClick={ this.onSearch }
+            onClick={(ev) => {
+              router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
+            }}
             style={{ width: '35px', height: '35px', padding: '5px', margin: '3px' }}
             iconStyle={{ color: 'white', fontSize: '14px' }}
             title='Search'

@@ -16,7 +16,6 @@ var BEVY = require('./../constants').BEVY;
 var PostActions = {
 
   create(name, description, image_url, slug) {
-
     dispatch(BEVY.CREATE, {
       name: (name == undefined) ? '' : name,
       description: (description == undefined) ? '' : description,

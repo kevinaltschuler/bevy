@@ -61,19 +61,15 @@ var Router = Backbone.Router.extend({
 
   search(query) {
     this.current = 'search';
-
     this.search_query = query;
-
     if(query == undefined) {
       this.search.query = '';
     }
-
     BevyActions.search(query);
   },
 
   not_found: function(nuts) {
     this.current = '404';
-
     if(!checkUser()) return;
   }
 });
