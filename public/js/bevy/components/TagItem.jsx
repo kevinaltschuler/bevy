@@ -117,11 +117,7 @@ var TagItem = React.createClass({
       </OverlayTrigger>
     );
 
-    return (
-      <div>
-        {tagItem}
-      </div>
-    );
+    return tagItem;
   }
 });
 
