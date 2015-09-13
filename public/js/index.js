@@ -93,6 +93,13 @@ var App = React.createClass({
           textColor: 'rgba(0,0,0,.8)',
           primaryTextColor: 'rgba(0,0,0,.8)',
           secondaryTextColor: 'rgba(0,0,0,.8)',
+        },
+        menuItem: {
+          selectedTextColor: '#2CB673'
+        },
+        toggle: {
+          trackOnColor: '#96DCBA',
+          thumbOnColor: '#2CB673'
         }
       });
   },

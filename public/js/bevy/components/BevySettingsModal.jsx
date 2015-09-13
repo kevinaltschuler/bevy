@@ -16,10 +16,8 @@ var {
   FlatButton,
   RaisedButton,
   Toggle,
-  DropDownMenu,
-  Styles
+  DropDownMenu
 } = require('material-ui');
-var ThemeManager = new Styles.ThemeManager();
 
 var _ = require('underscore');
 var BevyActions = require('./../BevyActions');
@@ -37,24 +35,6 @@ var BevySettingsModal = React.createClass({
       posts_expire_in: this.props.activeBevy.settings.posts_expire_in,
       privacy: this.props.activeBevy.settings.privacy
     };
-  },
-
-  componentWillMount() {
-    ThemeManager.setComponentThemes({
-      menuItem: {
-        selectedTextColor: '#2CB673'
-      },
-      toggle: {
-        trackOnColor: '#96DCBA',
-        thumbOnColor: '#2CB673'
-      }
-    });
-  },
-
-  getChildContext() { 
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    }
   },
 
   onDropDownChange(ev, selectedIndex, menuItem) {
@@ -211,9 +191,5 @@ var BevySettingsModal = React.createClass({
     );
   }
 });
-
-BevySettingsModal.childContextTypes = {
-  muiTheme: React.PropTypes.object
-};
 
 module.exports = BevySettingsModal;
