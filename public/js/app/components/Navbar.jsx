@@ -181,8 +181,10 @@ var Navbar = React.createClass({
         break;
       case 'bevy':
         navbarTitle = this.props.activeBevy.name;
-        if(router.bevy_id == '-1')
+        if(router.bevy_id == '-1') {
           navbarTitle = 'Frontpage';
+          break;
+        }
         var backgroundStyle = (_.isEmpty(this.props.activeBevy))
           ? { filter: 'unset' }
           : { 
