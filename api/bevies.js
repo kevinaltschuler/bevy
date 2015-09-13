@@ -19,6 +19,7 @@ var getSlug = require('speakingurl');
 var User = mongoose.model('User');
 var Bevy = mongoose.model('Bevy');
 var Thread = mongoose.model('ChatThread');
+var Message = mongoose.model('ChatMessage');
 var Post = mongoose.model('Post');
 Bevy.collection.ensureIndex({name: 'text'}, function(err) { return err });
 
@@ -188,7 +189,10 @@ exports.destroy = function(req, res, next) {
     .exec();
   promise.then(function(bevy) {
     // delete the thread for this bevy
-    Thread.findOneAndRemove({ bevy: id }, function(err, thread) {});
+    Thread.findOneAndRemove({ bevy: id }, function(err, thread) {
+      // and delete all messages in that thread
+      Message.remove({ thread: thread._id }, function(err, messages) {});
+    });
     // delete all posts posted to this bevy
     Post.remove({ bevy: id }, function(err, posts) {});
     // remove the reference to the bevy in all user's subscribed bevies
