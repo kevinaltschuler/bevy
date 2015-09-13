@@ -28,9 +28,6 @@ var Router = Backbone.Router.extend({
   },
 
   home() {
-    if(!_.isEmpty(window.bootstrap.user)) {
-      return this.navigate('/b/frontpage', { trigger: true });
-    }
     this.current = 'home';
   },
 

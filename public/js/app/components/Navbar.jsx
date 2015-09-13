@@ -128,6 +128,10 @@ var Navbar = React.createClass({
 
     var chatSidebar = <ChatSidebar />;
     var chatDock = <ChatDock />;
+    if(router.current == 'home') {
+      chatSidebar = '';
+      chatDock = '';
+    }
 
     return (
       <div className='profile-buttons'>
@@ -168,7 +172,7 @@ var Navbar = React.createClass({
     var navbarStyle;
     if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image_url))
       navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'};
-    if(router.current == 'home' && _.isEmpty(window.bootstrap.user))
+    if(router.current == 'home')
       navbarStyle = { boxShadow: 'none'};
 
     var backgroundStyle = {backgroundColor: '#2cb673'};
@@ -185,7 +189,7 @@ var Navbar = React.createClass({
           navbarTitle = 'Frontpage';
           break;
         }
-        var backgroundStyle = (_.isEmpty(this.props.activeBevy))
+        backgroundStyle = (_.isEmpty(this.props.activeBevy))
           ? { filter: 'unset' }
           : { 
             opacity: this.state.opacity,
