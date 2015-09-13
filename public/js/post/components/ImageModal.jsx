@@ -177,6 +177,7 @@ var ImageModal = React.createClass({
           }} />
           { this._renderLeftButton() }
           { this._renderRightButton() }
+          <span className='counter'>{ parseInt(this.state.index) + 1 }/{ this.props.allImages.length }</span>
         </Modal.Body>          
       </Modal>
     );
