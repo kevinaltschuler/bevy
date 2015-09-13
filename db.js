@@ -42,7 +42,8 @@ connection.once('open', function() {
     image_url: '/img/default-groups/sports.png',
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2),
-    settings: {group_chat: false}
+    settings: {group_chat: false},
+    admins: [ 'NySs68It', 'N1ZEVPLF' ]
   }, { upsert: true }, function(err, bevy) {});
 
   Bevy.findOneAndUpdate({ _id: '22gaming' }, {
@@ -53,7 +54,8 @@ connection.once('open', function() {
     image_url: '/img/default-groups/gaming.png',
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
-    created: new Date(2015, 9, 2)
+    created: new Date(2015, 9, 2),
+    admins: [ 'NySs68It', 'N1ZEVPLF' ]
   }, { upsert: true }, function(err, bevy) {});
 
   Bevy.findOneAndUpdate({ _id: '3333pics' }, {
@@ -64,7 +66,8 @@ connection.once('open', function() {
     image_url: '/img/default-groups/pictures.png',
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
-    created: new Date(2015, 9, 2)
+    created: new Date(2015, 9, 2),
+    admins: [ 'NySs68It', 'N1ZEVPLF' ]
   }, { upsert: true }, function(err, bevy) {});
 
   Bevy.findOneAndUpdate({ _id: '44videos' }, {
@@ -75,7 +78,8 @@ connection.once('open', function() {
     image_url: '/img/default-groups/videos.png',
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
-    created: new Date(2015, 9, 2)
+    created: new Date(2015, 9, 2),
+    admins: [ 'NySs68It', 'N1ZEVPLF' ]
   }, { upsert: true }, function(err, bevy) {});
 
   Bevy.findOneAndUpdate({ _id: '555music' }, {
@@ -86,7 +90,8 @@ connection.once('open', function() {
     image_url: '/img/default-groups/music.png',
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
-    created: new Date(2015, 9, 2)
+    created: new Date(2015, 9, 2),
+    admins: [ 'NySs68It', 'N1ZEVPLF' ]
   }, { upsert: true }, function(err, bevy) {});
 
   Bevy.findOneAndUpdate({ _id: '6666news' }, {
@@ -97,7 +102,8 @@ connection.once('open', function() {
     image_url: '/img/default-groups/news.png',
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
-    created: new Date(2015, 9, 2)
+    created: new Date(2015, 9, 2),
+    admins: [ 'NySs68It', 'N1ZEVPLF' ]
   }, { upsert: true }, function(err, bevy) {});
 
   Bevy.findOneAndUpdate({ _id: '777books' }, {
@@ -108,7 +114,8 @@ connection.once('open', function() {
     image_url: '/img/default-groups/books.png',
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
-    created: new Date(2015, 9, 2)
+    created: new Date(2015, 9, 2),
+    admins: [ 'NySs68It', 'N1ZEVPLF' ]
   }, { upsert: true }, function(err, bevy) {});
 
 });
