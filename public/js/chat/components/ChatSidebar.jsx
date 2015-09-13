@@ -191,12 +191,18 @@ var ChatSidebar = React.createClass({
   },
 
   onMouseOver() {
-    clearTimeout(this.closeDelay);
+    if(this.closeDelay != undefined) {
+      clearTimeout(this.closeDelay);
+      delete this.closeDelay;
+    }
     this.openDelay = setTimeout(this.openSidebar, 500);
   },
 
   onMouseOut() {
-    clearTimeout(this.openDelay);
+    if(this.openDelay != undefined) {
+      clearTimeout(this.openDelay);
+      delete this.openDelay;
+    }
     this.closeDelay = setTimeout(this.closeSidebar, 500);
   },
 
@@ -251,8 +257,9 @@ var ChatSidebar = React.createClass({
     };
     var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? {opacity: 1} : {opacity: 0};
     var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -40 }
+    var shiftBevyPanel = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -30 }
     var bevyPanel = (bevyThreadItems.length > 0) ? (
-      <div className='threads-title' style={ shiftPanels }>
+      <div className='threads-title' style={ shiftBevyPanel }>
         <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
           ev.preventDefault();
           this.setState({ bevyPanelOpen: !this.state.bevyPanelOpen });
