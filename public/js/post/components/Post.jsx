@@ -9,38 +9,32 @@
 
 'use strict';
 
-// imports
 var React = require('react');
-var _ = require('underscore');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-var router = require('./../../router');
+
 var {
   TextField,
   RaisedButton
 } = require('material-ui');
-
-var constants = require('./../../constants');
-
 var {
   Button
 } = require('react-bootstrap');
-
 var PostHeader = require('./PostHeader.jsx');
 var PostImages = require('./PostImages.jsx');
 var PostFooter = require('./PostFooter.jsx');
 
+var _ = require('underscore');
+var $ = require('jquery');
+var router = require('./../../router');
+var constants = require('./../../constants');
+var POST = constants.POST;
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
-
-var POST = require('./../../constants').POST;
-
-var $ = require('jquery');
-
 var user = window.bootstrap.user;
 var email = user.email;
-
 var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+var maxTextHeight = 100;
 
 // React class
 var Post = React.createClass({
@@ -55,7 +49,9 @@ var Post = React.createClass({
       post: this.props.post,
       title: this.props.post.title,
       images: this.props.post.images,
-      videos: []
+      videos: [],
+      expanded: false,
+      height: 0
     };
   },
 
@@ -75,6 +71,7 @@ var Post = React.createClass({
 
     this.findVideos();
     this.highlightLinks();
+    this.hideExtraText();
   },
 
   componentWillUnmount() {
@@ -122,6 +119,13 @@ var Post = React.createClass({
     });
   },
 
+  toggleExpanded(ev) {
+    ev.preventDefault();
+    this.setState({
+      expanded: !this.state.expanded
+    });
+  },
+
   removeImage(image_url) {
     var images = this.state.post.images;
     images = _.reject(images, function($image_url){ return $image_url == image_url });
@@ -147,7 +151,6 @@ var Post = React.createClass({
     var title = React.findDOMNode(this.refs.Title);
     var titleHTML = title.innerHTML;
     titleHTML = titleHTML.replace(urlRegex, function(url) {
-      console.log(url);
       return '<a href="' + url + '" title="' + url + '">' + url + '</a>';
     });
     title.innerHTML = titleHTML;
@@ -161,7 +164,6 @@ var Post = React.createClass({
     for(var key in videoLinks) {
       if(key != 1) continue;
       var videoLink = videoLinks[key];
-      console.log(key, videoLink);
       videos.push(
         <iframe 
           width="100%" 
@@ -177,8 +179,14 @@ var Post = React.createClass({
     });
   },
 
-  render() {
+  hideExtraText() {
+    var title = React.findDOMNode(this.refs.Title);
+    this.setState({
+      height: title.offsetHeight
+    });
+  },
 
+  render() {
     var post = this.state.post;
     var bevy = post.bevy;
     var author = post.author;
@@ -207,18 +215,29 @@ var Post = React.createClass({
         </div>
       );
     } else {
+      var style = {};
+      if(this.state.height > maxTextHeight && !this.state.expanded) {
+        style.height = maxTextHeight;
+      }
+
       panelBodyText = (
-        <div ref='Title' className='panel-body-text'>
+        <div ref='Title' className='panel-body-text' style={ style }>
           { this.state.title }
         </div>
       );
     }
+
+    var expandButton = (this.state.expanded)
+      ? <a className='expand-btn' href='#' onClick={ this.toggleExpanded }>Show Less</a>
+      : <a className='expand-btn' href='#' onClick={ this.toggleExpanded }>Show More</a>;
+    if(this.state.height <= maxTextHeight) expandButton = '';
 
     return  (
       <div className='post panel' postId={ post._id } id={ 'post:' + post._id }>
         <PostHeader post={ post } startEdit={this.startEdit} />
         <div className='panel-body'>
           { panelBodyText }
+          { expandButton }
           { this.state.videos }
         </div>
         <PostImages post={ post } isEditing={this.state.isEditing} removeImage={this.removeImage} addImage={this.addImage} />

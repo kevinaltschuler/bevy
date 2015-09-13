@@ -35,9 +35,9 @@ var email = user.email;
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 var ChatActions = require('./../../chat/ChatActions');
-
 var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
+var maxTextHeight = 100;
 
 function getPostState(id) {
   return PostStore.getPost(id);
@@ -56,7 +56,9 @@ var Event = React.createClass({
       isEditing: false,
       title: this.props.post.title,
       description: this.props.post.event.description,
-      post: this.props.post
+      post: this.props.post,
+      descHeight: 0,
+      expanded: false
     };
   },
 
@@ -70,6 +72,8 @@ var Event = React.createClass({
 
   componentDidMount() {
     addthisevent.refresh();
+
+    this.hideExtraText();
   },
 
   componentDidUpdate() {
@@ -86,33 +90,18 @@ var Event = React.createClass({
     });
   },
 
-  onChange(ev) {
+  hideExtraText() {
+    var desc = React.findDOMNode(this.refs.Description);
     this.setState({
-      title: this.refs.title.getValue()
+      descHeight: desc.offsetHeight
     });
   },
 
-  vote(ev) {
+  toggleExpanded(ev) {
     ev.preventDefault();
-    PostActions.vote(this.props.post._id, window.bootstrap.user);
-  },
-
-  destroy(ev) {
-    ev.preventDefault();
-    PostActions.destroy(this.props.post._id);
-  },
-
-  /**
-   * count the summed value of all of the votes
-   * for this post
-   * @return {int}
-   */
-  countVotes() {
-    var sum = 0;
-    this.state.post.votes.forEach(function(vote) {
-      sum += vote.score;
+    this.setState({
+      expanded: !this.state.expanded
     });
-    return sum;
   },
 
   startEdit(ev) {
@@ -130,18 +119,6 @@ var Event = React.createClass({
     this.setState({
       isEditing: false
     });
-  },
-
-  onSwitchBevy(ev) {
-    ev.preventDefault();
-    var bevy_id = ev.target.parentNode.getAttribute('id');
-    router.navigate('/b/' + bevy_id, { trigger: true });
-  },
-
-  onOpenThread(ev) {
-    ev.preventDefault();
-    var author_id = this.state.post.author._id;
-    ChatActions.openThread(null, author_id);
   },
 
   _renderTitleAndDescription() {
@@ -182,10 +159,21 @@ var Event = React.createClass({
         </div>
       );
     } else {
+      var style = {};
+      if(this.state.descHeight > maxTextHeight && !this.state.expanded) {
+        style.height = maxTextHeight;
+      }
+
+      var expandButton = (this.state.expanded)
+        ? <a className='expand-btn' href='#' onClick={ this.toggleExpanded }>Show Less</a>
+        : <a className='expand-btn' href='#' onClick={ this.toggleExpanded }>Show More</a>;
+      if(this.state.descHeight <= maxTextHeight) expandButton = '';
+
       return (
         <div className='top'>
           <span className='title'>{ this.state.title }</span>
-          <span className='description'>{ this.state.description }</span>
+          <span ref='Description' className='description' style={ style }>{ this.state.description }</span>
+          { expandButton }
         </div>
       );
     }

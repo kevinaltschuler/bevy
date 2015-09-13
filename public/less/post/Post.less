@@ -152,6 +152,9 @@
       color: #4C4C4C;
       margin-bottom: 10px;
       word-wrap: break-word;
+      overflow-y: hidden;
+      text-overflow: ellipsis;
+      transition: 0.2s all ease-in-out;
       &.editing {
         display: flex;
         align-items: flex-end;
@@ -183,6 +186,9 @@
         width: 70%;
         margin-right: 10px;
       }
+    }
+    a.expand-btn {
+      padding: 0px 20px;
     }
   }
   .post-images {
