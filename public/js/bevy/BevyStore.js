@@ -301,6 +301,7 @@ _.extend(BevyStore, {
         collection.sort();
 
         this.trigger(BEVY.CHANGE_ALL);
+        this.trigger(BEVY.SEARCH_COMPLETE);
         break;
 
       case BEVY.SEARCH:
