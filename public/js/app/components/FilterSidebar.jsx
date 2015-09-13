@@ -86,12 +86,12 @@ var FilterSidebar = React.createClass({
     var allClass = (this.state.collection == 'all') ? 'active' : '';
 
     var filterItems = [
-      {payload: '0', text: 'abc'},
-      {payload: '1', text: 'zyx'},
-      {payload: '2', text: 'new'},
-      {payload: '3', text: 'old'},
-      {payload: '4', text: 'top'},
-      {payload: '5', text: 'bottom'}
+      {payload: '0', text: 'ABC'},
+      {payload: '1', text: 'ZYX'},
+      {payload: '2', text: 'Newest'},
+      {payload: '3', text: 'Oldest'},
+      {payload: '4', text: 'Most subscribers'},
+      {payload: '5', text: 'Least subscribers'}
     ];
 
     var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
@@ -100,12 +100,12 @@ var FilterSidebar = React.createClass({
 
     var bevyContent = (
       <div className='actions'>
-        <div className='action'>
-          {searchTitle}
-        </div>
+        <span className='search-title'>
+          { searchTitle }
+        </span>
         <div className='action sort'>
           <div className='action-name'>
-            filter by
+            Filter by
           </div> 
           <DropDownMenu 
             menuItems={ filterItems }
