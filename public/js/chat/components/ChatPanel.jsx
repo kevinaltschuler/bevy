@@ -166,8 +166,10 @@ var ChatPanel = React.createClass({
     _.uniq(users); // remove duplicates
     this.setState({
       addedUsers: users,
-      inputValue: '' // reset the text field
+      inputValue: '' 
     });
+    // reset the text field
+    this.refs.AddUserInput.getInputDOMNode().value = '';
     // focus the text field
     this.refs.AddUserInput.getInputDOMNode().focus();
   },
