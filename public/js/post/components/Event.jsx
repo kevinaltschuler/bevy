@@ -207,9 +207,9 @@ var Event = React.createClass({
 
     var authorName = author.displayName;
 
-    var eventImage = (_.isEmpty(post.images[0])) ? '/img/default_group_img.png' : this.state.image_url;
+    var eventImage = (_.isEmpty(post.images[0])) ? '/img/default_group_img.png' : post.images[0];
     var eventImageStyle = {
-      backgroundImage: 'url(' + post.images[0] + ')',
+      backgroundImage: 'url(' + eventImage + ')',
       backgroundSize: '100% auto',
       backgroundPosition: 'center'
     };
