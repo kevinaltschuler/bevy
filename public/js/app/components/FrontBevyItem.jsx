@@ -60,7 +60,7 @@ var FrontBevyItem = React.createClass({
       <Checkbox 
         name={bevy.name} 
         label={bevy.name} 
-        className='bevy-btn'
+        className='front-bevy-item'
         style={{width: '100%', color: 'rgba(0,0,0,.6)'}}
         defaultChecked={true}
         iconStyle={{
@@ -69,8 +69,12 @@ var FrontBevyItem = React.createClass({
           backgroundPosition: 'center'
         }}
         labelStyle={{
-          maxWidth: '120px',
-          wordWrap: 'break-word'
+          wordWrap: 'break-word',
+          maxHeight: '3em',
+          lineHeight: 1.5,
+          overflowY: 'hidden',
+          textOverflow: 'ellipsis',
+          width: 'calc(100% - 80px)'
         }}
         onCheck={this.handleCheck}
        >
