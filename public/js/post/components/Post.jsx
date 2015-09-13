@@ -54,7 +54,8 @@ var Post = React.createClass({
       isEditing: false,
       post: this.props.post,
       title: this.props.post.title,
-      images: this.props.post.images
+      images: this.props.post.images,
+      videos: []
     };
   },
 
@@ -71,6 +72,8 @@ var Post = React.createClass({
     // to have the "created" field update smoothly
     this.refreshInterval = setInterval(this.forceUpdate, 1000 * 60);
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
+
+    this.findVideos();
     this.highlightLinks();
   },
 
@@ -150,47 +153,37 @@ var Post = React.createClass({
     title.innerHTML = titleHTML;
   },
 
+  findVideos() {
+    var title = this.state.post.title;
+    var videoLinks = youtubeRegex.exec(title);
+    var videos = [];
+    //console.log(videoLinks);
+    for(var key in videoLinks) {
+      if(key != 1) continue;
+      var videoLink = videoLinks[key];
+      console.log(key, videoLink);
+      videos.push(
+        <iframe 
+          width="100%" 
+          height="360px" 
+          src={"https://www.youtube.com/embed/" + videoLink} 
+          frameborder="0" 
+          allowfullscreen={true}
+        />
+      );
+    }
+    this.setState({
+      videos: videos
+    });
+  },
+
   render() {
 
     var post = this.state.post;
     var bevy = post.bevy;
     var author = post.author;
     var tag = post.tag;
-
-    /*if(!_.isEmpty(this.state.title)) {
-      var words = this.state.title.split(' ');
-      var $words = [];
-      var tags = post.tags;
-      var urls = _.pluck(post.links, 'url');
-      var videos = youtubeRegex.exec(this.state.title);
-      words.forEach(function(word) {
-        // take off the hashtag
-        var tag = word.slice(1, word.length);
-        var index = tags.indexOf(tag);
-        if(index > -1) {
-          return $words.push(<a href={ '/s/' + tag } key={ post._id + index + 'hash'} id={ tag } onClick={ this.onTag }>{ word } </a>);
-        }
-        // if this word is in the urls array
-        if(!_.isEmpty(urls)) {
-          index = urls.indexOf(word);
-          if(index > -1) {
-            return $words.push(<a href={ word } key={ post._id + index } target='_blank'>{ word + ' '}</a>);
-          }
-        }
-        return $words.push(word + ' ');
-      }.bind(this));
-
-      // check for youtube videos
-      if(!_.isEmpty(videos)) {
-        videos.forEach(function(video, index) {
-          if((index % 2) == 0) return;
-          $words.push(<iframe width="60%" height="200px" src={"https://www.youtube.com/embed/" + video} frameborder="0" allowfullscreen={true}></iframe>);
-        });
-      }
-
-      var bodyText = (<p>{ $words }</p>);
-    } else bodyText = '';*/
-
+    
     var panelBodyText;
     if(this.state.isEditing) {
       panelBodyText = (
@@ -226,6 +219,7 @@ var Post = React.createClass({
         <PostHeader post={ post } startEdit={this.startEdit} />
         <div className='panel-body'>
           { panelBodyText }
+          { this.state.videos }
         </div>
         <PostImages post={ post } isEditing={this.state.isEditing} removeImage={this.removeImage} addImage={this.addImage} />
         <PostFooter post={ post } />
