@@ -60,7 +60,7 @@ var PostImages = React.createClass({
       for(var key in images) {
         var url = images[key] + '?w=150&h=150';
         var more = <div />;
-        if(key == 7) {
+        if(key == 7 && post.images.length > 8) {
           // last image
           more = <span className='more'>+ { post.images.length - 8 } more</span>
         }
@@ -73,7 +73,6 @@ var PostImages = React.createClass({
               style={{ backgroundImage: 'url(' + url + ')' }}
               onClick={ this.showModal }
             />
-            
           </div>
         );
       }
