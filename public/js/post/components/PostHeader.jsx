@@ -115,7 +115,7 @@ var PostHeader = React.createClass({
     : '';
 
     var tagBadge = (post.tag)
-    ? <Badge style={{backgroundColor: tag.color, width: 'inherit'}}>{tag.name}</Badge>
+    ? <Badge style={{backgroundColor: tag.color }}>{tag.name}</Badge>
     : '';
 
     var hideDropdown = (_.isEmpty(deleteButton) && _.isEmpty(editButton) && _.isEmpty(pinButton))
