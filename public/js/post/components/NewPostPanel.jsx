@@ -107,7 +107,7 @@ var NewPostPanel = React.createClass({
     ev.preventDefault();
 
     if(_.isEmpty(this.state.title) && _.isEmpty(this.state.images)) {
-      this.refs.title.setErrorText('please add text or images to post');
+      this.refs.title.setErrorText('Please add text or images to your post.');
       return;
     }
 
