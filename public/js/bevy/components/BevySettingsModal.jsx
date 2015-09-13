@@ -16,8 +16,10 @@ var {
   FlatButton,
   RaisedButton,
   Toggle,
-  DropDownMenu
+  DropDownMenu,
+  Styles
 } = require('material-ui');
+var ThemeManager = new Styles.ThemeManager();
 
 var _ = require('underscore');
 var BevyActions = require('./../BevyActions');
@@ -35,6 +37,24 @@ var BevySettingsModal = React.createClass({
       posts_expire_in: this.props.activeBevy.settings.posts_expire_in,
       privacy: this.props.activeBevy.settings.privacy
     };
+  },
+
+  componentWillMount() {
+    ThemeManager.setComponentThemes({
+      menuItem: {
+        selectedTextColor: '#2CB673'
+      },
+      toggle: {
+        trackOnColor: '#96DCBA',
+        thumbOnColor: '#2CB673'
+      }
+    });
+  },
+
+  getChildContext() { 
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    }
   },
 
   onDropDownChange(ev, selectedIndex, menuItem) {
@@ -73,7 +93,7 @@ var BevySettingsModal = React.createClass({
 
   destroyBevy(ev) {
     ev.preventDefault();
-    if(!confirm('Are you sure?')) return;
+    if(!confirm('Are you sure? Deleting a bevy will also remove all content posted to that bevy, as well as chats within that bevy.')) return;
 
     BevyActions.destroy(this.props.activeBevy._id);
     this.props.onHide();
@@ -112,13 +132,13 @@ var BevySettingsModal = React.createClass({
       <Modal className="bevy-settings-modal" show={ this.props.show } onHide={ this.props.onHide } >
         <Modal.Header closeButton>
           <Modal.Title>
-            Settings for {this.props.activeBevy.name}
+            Settings for <b>{this.props.activeBevy.name}</b>
           </Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
           <div className='bevy-setting expire-setting'>
-            Posts expire in
+            Posts Expire In:
             <DropDownMenu
               ref='posts_expire_in'
               menuItems={ expireMenuItems }
@@ -147,14 +167,14 @@ var BevySettingsModal = React.createClass({
           </div>
           <div className='bevy-setting'>
             <Toggle
-              label="Show Group Chat?"
+              label="Show Group Chat"
               defaultToggled={ settings.group_chat }
               ref='group_chat'
             />
           </div>
           <div className='bevy-setting'>
             <Toggle
-              label="admin posting only?"
+              label="Only Admins Can Post"
               defaultToggled={ settings.admin_only }
               ref='admin_only'
             />
@@ -182,6 +202,7 @@ var BevySettingsModal = React.createClass({
             onClick={ this.props.onHide }
             label='Cancel'
           />
+          <div style={{ flexGrow: 1 }} />
           <RaisedButton
             onClick={ this.save }
             label='Save' />
@@ -190,5 +211,9 @@ var BevySettingsModal = React.createClass({
     );
   }
 });
+
+BevySettingsModal.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
 
 module.exports = BevySettingsModal;
