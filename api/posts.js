@@ -260,44 +260,7 @@ exports.userPosts = function(req, res, next) {
 // SEARCH
 // GET /users/:userid/posts/search/:query
 exports.search = function(req, res, next) {
-  ///var query = req.query['q'];
-  //var user_id = req.body['user_id'];
-  var user_id = req.params.userid;
-  var tag_query = req.params.query;
-
-  async.waterfall([
-    function(done) {
-      User.findOne({ _id: user_id }, function(err, user) {
-        if(err) return next(err);
-        done(null, user);
-      });
-    },
-    function(user, done) {
-      // find posts in all bevies with matching tags
-      var post_promise = Post.find()
-        .where('bevy').in(user.bevies)
-        .where('tags').equals(tag_query)
-        .populate('bevy author')
-        .exec();
-      post_promise.then(function(posts) {
-        done(null, posts);
-      }, function(err) { return next(err) });
-    },
-    function(posts, done) {
-      if(posts.length <= 0) return res.json(posts);
-      var _posts = [];
-      posts.forEach(function(post) {
-        Comment.find({ postId: post._id }, function(err, comments) {
-          if(err) return next(err);
-          post = post.toObject();
-          post.comments = comments;
-          _posts.push(post);
-          if(_posts.length == posts.length) return res.json(_posts);
-
-        }).populate('author');
-      });
-    }
-  ]);
+  return res.json([]);
 }
 
 function populateLinks(post, done) {
@@ -317,7 +280,7 @@ function populateLinks(post, done) {
         }
         if($links.length == links.length) {
           // add links
-          post.links = $links;
+          //post.links = $links;
           // add images
           var images = post.images || [];
           post.images = addImages($links, images);
