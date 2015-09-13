@@ -82,7 +82,7 @@ var PostImages = React.createClass({
       for(var key in images) {
         var url = images[key] + '?w=150&h=150';
         imageButtons.push(
-          <div className='panel-body-image' key={ 'postimage:' + post._id + ':' + key }>
+          <div className='panel-body-image' key={ 'postimage:' + post._id + ':' + url }>
             <Button 
               className="image-thumbnail" 
               id={ key }
@@ -97,7 +97,7 @@ var PostImages = React.createClass({
         );
       }
       imageButtons.push(
-        <div key={ 'postimage:' + post._id + ':' + key }>
+        <div key={ 'postimage:' + post._id + ':addimage' }>
           <Uploader
             onUploadComplete={ this.props.addImage }
             dropzoneOptions={ dropzoneOptions }
