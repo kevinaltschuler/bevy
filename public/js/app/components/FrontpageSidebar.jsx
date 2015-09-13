@@ -8,7 +8,6 @@
 'use strict';
 
 var React = require('react');
-
 var {
   DropDownMenu,
   RaisedButton,
@@ -52,8 +51,9 @@ var FrontpageSidebar = React.createClass({
 
   render() {
 
-    var content = (
-      <div className='actions'>
+    return (
+      <div className="panel frontpage-sidebar">
+        <div className='actions'>
           <PostSort
             activeBevy={ this.props.activeBevy }
             sortType={ this.props.sortType }
@@ -64,12 +64,7 @@ var FrontpageSidebar = React.createClass({
             </div>
             { this._renderBevies() }
           </div>
-      </div>
-    );
-
-    return (
-      <div className="panel frontpage-sidebar">
-        { content }
+        </div>
       </div>
     );
   }
