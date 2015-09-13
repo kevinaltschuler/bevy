@@ -227,7 +227,7 @@ var NewPostPanel = React.createClass({
             value={ this.state.title }
             onChange={ this.handleChange }
             disabled={ disabled }
-            style={{width: '92%', marginLeft: '20px'}}
+            style={{ width: '100%' }}
           />
         </div>
 
@@ -250,7 +250,7 @@ var NewPostPanel = React.createClass({
                 backgroundColor={'white'}
                 disabledColor={'rgba(0,0,0,.2)'}
                 iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
-                style={{marginRight: '10px'}}
+                style={{marginRight: '15px'}}
                 mini={true}
               />
             </OverlayTrigger>
