@@ -169,8 +169,8 @@ var Post = React.createClass({
           width="100%" 
           height="360px" 
           src={"https://www.youtube.com/embed/" + videoLink} 
-          frameborder="0" 
-          allowfullscreen={true}
+          frameBorder="0" 
+          allowFullScreen={true}
         />
       );
     }
