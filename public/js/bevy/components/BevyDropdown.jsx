@@ -103,7 +103,21 @@ var BevyDropdown = React.createClass({
           <div className='bevy-dropdown-container'>
             <div className='backdrop' onClick={ this.toggle } />
             <div className='arrow' />
-            <div className='bevy-dropdown'>
+            <div ref='BevyList' className='bevy-dropdown' onWheel={(ev) => {
+              ev.preventDefault();
+              // manual scroll code so that this event doesnt bubble up to other containers
+              this.node = React.findDOMNode(this.refs.BevyList);
+              var scrollTop = this.node.scrollTop;
+              if(ev.deltaY > 0) {
+                scrollTop += 50;
+              } else {
+                scrollTop -= 50;
+              }
+              if(scrollTop < 0) scrollTop = 0;
+              if(scrollTop > (this.node.scrollHeight - this.node.offsetHeight))
+                scrollTop = this.node.scrollHeight - this.node.offsetHeight;
+              this.node.scrollTop = scrollTop;
+            }}>
               <div className='bevy-dropdown-header'>
                 <a className='view-all-btn' href='/s/'>All Bevies</a>
                 { this._renderCreateNewBevyButton() }
