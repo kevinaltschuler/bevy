@@ -201,9 +201,7 @@ var PostContainer = React.createClass({
 
     return (
       <div className='post-container' onScroll={ this.onScroll }>
-        {/*<CTG transitionName='example' transitionAppear={true} style={{width: '100%'}}>*/}
-          { posts }
-        {/*</CTG>*/}
+        { posts }
       </div>
     );
   }
