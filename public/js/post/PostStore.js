@@ -262,14 +262,14 @@ _.extend(PostStore, {
         }, {
           patch: true,
           success: function(post, response, options) {
-            
+            this.trigger(POST.CHANGE_ONE + post.id);
           }.bind(this)
         });
         // instant update
         post.set('votes', votes);
         // sort posts
         this.posts.sort();
-        this.trigger(POST.CHANGE_ALL);
+        //this.trigger(POST.CHANGE_ALL);
 
         break;
 
