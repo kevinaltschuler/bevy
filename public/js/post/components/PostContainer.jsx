@@ -55,8 +55,8 @@ var PostContainer = React.createClass({
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
     // sometimes the bevy switch event completes before this is mounted
-    //BevyActions.switchBevy(this.props.activeBevy._id);
-    PostActions.fetch(this.props.activeBevy._id);
+    BevyActions.switchBevy(this.props.activeBevy._id);
+    //PostActions.fetch(this.props.activeBevy._id);
 
     var node = this.getDOMNode();
     node.scrollTop = node.scrollHeight;
