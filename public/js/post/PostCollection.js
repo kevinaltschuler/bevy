@@ -24,6 +24,10 @@ var user = window.bootstrap.user;
 var PostCollection = Backbone.Collection.extend({
   model: Post,
 
+  initialize() {
+    this.allPostsLoaded = false;
+  },
+
   sync(method, model, options) {
     Backbone.Collection.prototype.sync.apply(this, arguments); //continue using backbone's collection sync
   },

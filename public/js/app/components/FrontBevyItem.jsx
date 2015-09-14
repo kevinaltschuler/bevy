@@ -41,13 +41,9 @@ var FrontBevyItem = React.createClass({
     var frontBevies = this.props.frontBevies;
 
     if(_.find(frontBevies, function($bevyId) { return bevyId == $bevyId }) == undefined) 
-      frontBevies.push(bevyId);
-    
+      frontBevies.push(bevyId);    
     else 
       frontBevies = _.reject(frontBevies, function($bevyId) { return bevyId == $bevyId  });
-
-    console.log(frontBevies);
-    
 
     PostActions.updateFrontBevies(frontBevies);
   },

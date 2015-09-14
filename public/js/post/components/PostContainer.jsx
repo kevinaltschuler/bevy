@@ -33,34 +33,68 @@ var PostContainer = React.createClass({
     allPosts: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     sortType: React.PropTypes.string,
-    activeTags: React.PropTypes.array
+    activeTags: React.PropTypes.array,
+    frontBevies: React.PropTypes.array
   },
 
   getInitialState() {
     return {
       allPosts: PostStore.getAll(),
       activePosts: [],
-      postsLoaded: false
+      postsLoaded: false,
+      loading: false
     };
+  },
+
+  componentWillReceiveProps(nextProps) {
+    //this.setState({
+    //  allPosts: this.props.allPosts
+    //});
   },
 
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
     // sometimes the bevy switch event completes before this is mounted
-    BevyActions.switchBevy(this.props.activeBevy._id);
+    //BevyActions.switchBevy(this.props.activeBevy._id);
+    PostActions.fetch(this.props.activeBevy._id);
+
+    var node = this.getDOMNode();
+    node.scrollTop = node.scrollHeight;
   },
 
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
   },
 
+  componentWillUpdate() {
+    var node = this.getDOMNode();
+    this.shouldScrollBottom = node.scrollTop + node.offsetHeight == node.scrollHeight;
+  },
+
   componentDidUpdate() {
-    /*var post_id = router.post_id;
-    if(post_id) {
-      var post = document.getElementById('post:' + post_id);
-      if(post)
-        post.scrollIntoView();
-    }*/
+    var node = this.getDOMNode();
+    //if(this.prevScrollHeight < node.scrollHeight) {
+    //  node.scrollTop = node.scrollHeight - this.prevScrollHeight - 20;
+    //}
+    if(this.shouldScrollBottom) {
+      node.scrollTop = node.scrollHeight;
+    }
+  },
+
+  onScroll(ev) {
+    console.log(ev.deltaY);
+    var node = this.getDOMNode();
+    console.log(node.scrollTop, node.scrollHeight);
+    if(node.scrollTop >= node.scrollHeight) {
+      console.log('buts');
+      // load more
+      this.setState({
+        loading: true
+      });
+      //this.prevScrollHeight = node.scrollHeight;
+
+      //ChatActions.loadMore(this.props.thread._id);
+    }
   },
 
   handleChangeAll() {
@@ -76,7 +110,7 @@ var PostContainer = React.createClass({
 
   render() {
     // load props into local vars
-    var allPosts = this.state.allPosts;
+    var allPosts = this.state.allPosts || [];
     var posts = [];
     var sortType = this.props.sortType;
     var activeTags = this.props.activeTags;
@@ -96,17 +130,11 @@ var PostContainer = React.createClass({
       //filter posts for the frontpage here
       allPosts = _.reject(allPosts, function($post) {
         //no pinned on frontpage
-        if($post.pinned) 
+        if($post.pinned) return true;
+        if(!_.contains(frontBevies, $post.bevy._id) && frontBevies.length > 0) {
           return true;
-        
-        //filter out for new and top
-        if((sortType == 'new') || (sortType == 'top')) {
-
-          if(_.find(frontBevies, function($bevy) { return $post.bevy._id == $bevy }) == undefined) {
-            return true; 
-          }
         }
-
+        return false;
       });
     } else {
       // filter posts here
@@ -151,10 +179,8 @@ var PostContainer = React.createClass({
       }
     }
 
-    posts.push(<div key={Math.random()} style={{height: '100px'}}/>)
-
     // render 'no events' when no events are found
-    if(allPosts.length == 0 && sortType == 'events') {
+    if(posts.length == 0 && sortType == 'events') {
       return (
         <div className='post-container'>
           <span className='no-posts-text'>No Events :(</span>
@@ -163,7 +189,7 @@ var PostContainer = React.createClass({
     }
 
     // if filtering got rid of all posts, display no posts
-    if(allPosts.length == 0) {
+    if(posts.length == 0) {
       return (
         <div className='post-container'>
           <span className='no-posts-text'>No Posts :(</span>
@@ -171,8 +197,10 @@ var PostContainer = React.createClass({
       );
     }
 
+    posts.push(<div key='postcontainer:spacer' style={{height: '100px'}}/>)
+
     return (
-      <div className='post-container'>
+      <div className='post-container' onScroll={ this.onScroll }>
         {/*<CTG transitionName='example' transitionAppear={true} style={{width: '100%'}}>*/}
           { posts }
         {/*</CTG>*/}

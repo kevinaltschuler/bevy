@@ -68,7 +68,7 @@ var FrontPage = React.createClass({
               allPosts={ this.props.allPosts }
               activeBevy={activeBevy}
               sortType={this.props.sortType}
-              activeTags={{}}
+              activeTags={[]}
               frontBevies={ this.props.frontBevies }
             />
           </div>

@@ -66,16 +66,6 @@ _.extend(PostStore, {
       case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
 
-        //if(bevy_id == this.activeBevy) break;
-        /*var bevy = BevyStore.getBevy(bevy_id);
-        if(bevy != undefined) {
-          if(bevy.settings.default_events) {
-            PostStore.posts.comparator = PostStore.sortByEvents;
-          }
-        }
-        else {
-          PostStore.posts.comparator = PostStore.sortByNew;
-        }*/
         this.posts.comparator = PostStore.sortByNew;
 
         this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
@@ -97,24 +87,20 @@ _.extend(PostStore, {
         break;
 
       case POST.FETCH:
-        var bevy_id = payload.bevy_id;
-        //var bevy = this.bevies.get(bevy_id);
+        this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
+        if(router.bevy_id == '-1') 
+            this.posts.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/frontpage';
+        this.posts.url += ('?skip=' + this.posts.length);
+        this.posts.fetch({
+          success: function(collection, response, options) {
+            this.posts.forEach(function(post) {
+              this.postsNestComment(post);
+            }.bind(this));
 
-        if(bevy_id == this.activeBevy && bevy_id != -1) {
-          // load the new post
-          this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
-          this.posts.fetch({
-            success: function(collection, response, options) {
-              this.posts.forEach(function(post) {
-                this.postsNestComment(post);
-              }.bind(this));
-              this.posts.sort();
-              this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
-              this.trigger(POST.CHANGE_ALL);
-            }.bind(this)
-          });
-        }
-
+            this.posts.sort();
+            this.trigger(POST.CHANGE_ALL);
+          }.bind(this)
+        });
         break;
 
       case POST.CREATE: // create a post

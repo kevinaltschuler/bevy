@@ -185,6 +185,7 @@ exports.destroy = function(req, res, next) {
 // GET /users/:userid/frontpage
 exports.frontpage = function(req, res, next) {
   var user_id = req.params.userid;
+  var skip = req.query['skip'] || 0;
 
   async.waterfall([
     function(done) {
@@ -197,7 +198,11 @@ exports.frontpage = function(req, res, next) {
       Post.find({ bevy: { $in: user.bevies } }, function(err, posts) {
         if(err) return next(err);
         done(null, posts);
-      }).populate('bevy author');
+      })
+        .sort('-created')
+        .skip(skip)
+        .limit(10)
+        .populate('bevy author');
     },
     function(posts, done) {
       if(posts.length <= 0) return res.json(posts);
