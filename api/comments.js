@@ -51,7 +51,7 @@ exports.create = function(req, res, next) {
 	var update = collectCommentParams(req);
 	update._id = shortid.generate();
 
-	if(!update.body) return next(error.gen('comment body not specified'));
+	if(!update.body) return next('comment body not specified');
 
 	Comment.create(update, function(err, comment) {
 		if(err) return next(err);
