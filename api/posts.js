@@ -201,7 +201,7 @@ exports.frontpage = function(req, res, next) {
       })
         .sort('-created')
         .skip(skip)
-        .limit(10)
+        //.limit(10)
         .populate('bevy author');
     },
     function(posts, done) {
