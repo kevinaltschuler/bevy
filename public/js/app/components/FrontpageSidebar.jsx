@@ -53,6 +53,7 @@ var FrontpageSidebar = React.createClass({
 
     return (
       <div className="panel frontpage-sidebar">
+        <span className='sidebar-title'>Frontpage</span>
         <div className='actions'>
           <PostSort
             activeBevy={ this.props.activeBevy }
