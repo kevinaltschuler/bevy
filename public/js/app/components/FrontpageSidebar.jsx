@@ -61,7 +61,7 @@ var FrontpageSidebar = React.createClass({
           />
           <div className='bevies'>
             <div className='title'>
-              My Bevies
+              Filter By Bevy:
             </div>
             { this._renderBevies() }
           </div>
