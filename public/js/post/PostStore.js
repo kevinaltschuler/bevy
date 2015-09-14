@@ -126,7 +126,6 @@ _.extend(PostStore, {
 
         var newPost = this.posts.add({
           title: title,
-          tags: tags,
           comments: [],
           images: images,
           author: author._id,
