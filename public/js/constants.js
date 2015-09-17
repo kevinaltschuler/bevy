@@ -14,6 +14,7 @@ exports.version = '0.3.2';
 exports.env = window.bootstrap.env;
 
 var hostname = window.location.hostname;
+var port = (window.location.port == 80) ? '' : (':' + window.location.port);
 var protocol = location.protocol;
 
 var slashes = '//';
@@ -21,8 +22,8 @@ var slashes = '//';
 var api_subdomain = 'api';
 var api_version = '';
 
-exports.siteurl = protocol + slashes + hostname;
-exports.apiurl = protocol + slashes + api_subdomain + '.' + api_version + hostname;
+exports.siteurl = protocol + slashes + hostname + port;
+exports.apiurl = protocol + slashes + api_subdomain + '.' + api_version + hostname + port;
 
 exports.hostname = hostname;
 exports.protocol = protocol;
