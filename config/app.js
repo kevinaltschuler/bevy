@@ -29,7 +29,7 @@ exports.log = {
 
 if(current_env == 'development') {
 	exports.server = {
-		port: 80,
+		port: 3000,
 		// In staging and production, listen loopback. nginx listens on the network.
 		ip: '127.0.0.1',
 		hostname: 'http://bevy.dev',

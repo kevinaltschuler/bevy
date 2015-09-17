@@ -123,7 +123,7 @@ app.use(error.log_errors);
 app.use(error.error_handler);
 
 
-http.createServer(app).listen(config.app.server.port);
+http.createServer(app).listen(config.app.server.port, config.app.server.ip);
 console.log('http server listening on port', config.app.server.port);
 //https.createServer(config.app.ssl_opts, app).listen(443);
 //console.log('https server listening on port', 443);
