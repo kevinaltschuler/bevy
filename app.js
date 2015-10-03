@@ -103,15 +103,20 @@ app.set('views', './views');
 // TODO: multi level api (v1, v2, etc)
 var api_router = express.Router();
 
-api_router.use(middleware.cors);
+//api_router.use(middleware.cors);
 require('./routes/api')(api_router);
+api_router.get('/', function(req, res, next) {
+  res.json('api home');
+});
 app.use(subdomain('api', api_router));
+app.use('/api', api_router);
 
 // static directories
 app.use(serveStatic(__dirname + '/public')); // app-specific assets
 
 // load routes
 var routes = require('./routes')(app);
+
 
 // error handling
 var error = require('./error');
