@@ -21,8 +21,8 @@ var slashes = '//';
 var api_subdomain = 'api';
 var api_version = '';
 
-exports.siteurl = protocol + slashes + hostname;
-exports.apiurl = protocol + slashes + api_subdomain + '.' + api_version + hostname;
+exports.siteurl = 'http://joinbevy.com';
+exports.apiurl = 'http://api.joinbevy.com;
 
 exports.hostname = hostname;
 exports.protocol = protocol;
