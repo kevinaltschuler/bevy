@@ -289,6 +289,7 @@ exports.make = function(type, payload) {
             post_title: post.title,
             bevy_name: bevy.name,
             bevy_id: bevy._id,
+            post_id: post._id,
             comment_id: comment._id,
             comment_created: comment.created
           }
