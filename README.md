@@ -6,7 +6,8 @@ using fluxbone + react for templating
 
 to use:
 
-(need mongodb, node, and git first)
+(need mongodb, node, python 2.7.X, and git first)
+(also add python to your system's path)
 
 ```javascript
 git clone https://github.com/blahoink/bevy.git

@@ -87,34 +87,33 @@ NotificationStore.notifications.on('add', function(notification) {
   }
 });
 
-// set up long poll
-(function poll() {
-  $.ajax({
-    url: constants.apiurl + '/users/' + user._id + '/notifications/poll',
-    dataType: 'json',
-    complete: function(jqXHR) {
-      var response = jqXHR.responseJSON;
-      //console.log(response);
-      if(response == undefined) return poll();
-
-      ChatStore.addMessage(response.data);
-      var audio = document.createElement("audio");
-      audio.src = "/audio/notification.mp3";
-
-      switch(response.type) {
-        case 'notification':
-          NotificationStore.notifications.add(response.data);
-          NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
-          break;
-        case 'message':
-          audio.play();
-          break;
-      }
-      poll();
-    },
-    timeout: 60000 // one minute timeout
+if(!_.isEmpty(window.bootstrap.user)) {
+  var io = require('socket.io-client');
+  var socket = io(constants.siteurl);
+  socket.on('connect', function() {
+    console.log('client connected');
+    socket.emit('set_user_id', window.bootstrap.user._id);
   });
-})();
+  socket.on('kitty cats', function(data) {
+    console.log(data);
+  });
+  socket.on('chat:' + window.bootstrap.user._id, function(message) {
+    message = JSON.parse(message);
+    console.log('got message', message);
+    if(message.author._id == window.bootstrap.user._id) return;
+
+    var audio = document.createElement("audio");
+    audio.src = "/audio/notification.mp3";
+    audio.play();
+
+    ChatStore.addMessage(message);
+  });
+  socket.on('notification:' + window.bootstrap.user._id, function(notification) {
+    console.log('got notification', notification);
+    NotificationStore.notifications.add(notification);
+    NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
+  });
+}
 
 Dispatcher.register(NotificationStore.handleDispatch.bind(NotificationStore));
 

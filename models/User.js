@@ -88,6 +88,10 @@ var UserSchema = new Schema({
     type: String,
     ref: 'User'
   }],
+  online: {
+    type: Boolean,
+    default: false
+  },
   created: {
     type: Date,
     default: Date.now

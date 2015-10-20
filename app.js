@@ -37,6 +37,7 @@ var middleware = require('./middleware');
 
 // load express
 var app = express();
+var server = http.createServer(app);
 
 // set up gridfs
 require('./gridfs');
@@ -45,10 +46,13 @@ require('./gridfs');
 require('./db');
 
 // set up schedules
-require('./schedule')
+require('./schedule');
 
-// pretty print json by default
-//app.set('json spaces', 2);
+// set up websocket/polling server
+require('./socket')(server);
+
+// set up zeromq binding
+require('./mq');
 
 // MIDDLEWARE
 
@@ -72,14 +76,14 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 
 // sessions
 app.use(session({
-	store: new MongoStore({ mongooseConnection: mongoose.connection }),
-	secret: 'keyboard cat',
-	cookie: {
-		secret: true,
-		expires: false
-	},
-	resave: true,
-	saveUninitialized: true
+  store: new MongoStore({ mongooseConnection: mongoose.connection }),
+  secret: 'keyboard cat',
+  cookie: {
+    secret: true,
+    expires: false
+  },
+  resave: true,
+  saveUninitialized: true
 }));
 
 // passport
@@ -90,8 +94,8 @@ app.use(passport.session());
 // disable csurf until we need it
 //app.use(csrf());
 //app.use(function(req, res, next) {
-//	res.locals.csrf = req.csrfToken();
-//	return next();
+//  res.locals.csrf = req.csrfToken();
+//  return next();
 //});
 
 // templating engine for pages outside of the SPA
@@ -124,7 +128,7 @@ app.use(error.log_errors);
 app.use(error.error_handler);
 
 
-http.createServer(app).listen(config.app.server.port);
+server.listen(config.app.server.port, config.app.server.ip);
 console.log('http server listening on port', config.app.server.port);
 //https.createServer(config.app.ssl_opts, app).listen(443);
 //console.log('https server listening on port', 443);

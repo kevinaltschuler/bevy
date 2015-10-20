@@ -30,7 +30,7 @@ var ThemeManager = new mui.Styles.ThemeManager();
 // chrome and maybe other browsers like to remember the scroll position on a page reload
 // when theres a specified post in the url we need to override this by delaying this action a bit
 // very jenk. will change later.
-document.onreadystatechange = function() {
+/*document.onreadystatechange = function() {
   if(document.readyState == 'complete') {
     setTimeout(function() {
       if(router.post_id) {
@@ -43,7 +43,7 @@ document.onreadystatechange = function() {
       }
     }, 50);
   }
-};
+};*/
 
 
 // load components

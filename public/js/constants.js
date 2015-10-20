@@ -14,6 +14,7 @@ exports.version = '0.3.2';
 exports.env = window.bootstrap.env;
 
 var hostname = window.location.hostname;
+var port = (window.location.port == 80) ? '' : (':' + window.location.port);
 var protocol = location.protocol;
 
 var slashes = '//';
