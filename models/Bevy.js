@@ -69,7 +69,7 @@ var BevySchema = new Schema({
 		},
 		privacy: {
 			type: Number,
-			default: 0
+			default: 1
 		}
 	},
 	created: {
