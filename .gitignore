@@ -13,3 +13,5 @@ public/*.ttf
 public/*.woff
 public/*.woff2
 public/*.bundle.js
+
+*.DS_Store
