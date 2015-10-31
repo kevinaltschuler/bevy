@@ -27,7 +27,7 @@ var UserSchema = new Schema({
   },
   image_url: {
     type: String,
-    default: '/img/user-profile-icon.png'
+    default: 'http://joinbevy.com/img/user-profile-icon.png'
   },
   points: {
     type: Number,
