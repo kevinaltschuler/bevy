@@ -45,7 +45,7 @@ exports.index = function(req, res, next) {
   User.find(function(err, users) {
     if(err) return next(err);
     return res.json(users);
-  });
+  }).limit(15);
 }
 
 // CREATE
