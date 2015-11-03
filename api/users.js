@@ -114,14 +114,21 @@ exports.show = function(req, res, next) {
 //GET /users/search/:query
 exports.search = function(req, res, next) {
 	var query = req.params.query;
-  var promise = User.find()
-    .limit(10)
-    .or([
-      { email: { $regex: query, $options: 'i' } },
-      { username: { $regex: query, $options: 'i' } },
-      { 'google.displayName': { $regex: query, $options: 'i' } },
-    ])
-    .exec();
+  var promise;
+  if(_.isEmpty(query)) {
+    promise = User.find()
+      .limit(10)
+      .exec();
+  } else {
+    promise = User.find()
+      .limit(10)
+      .or([
+        { email: { $regex: query, $options: 'i' } },
+        { username: { $regex: query, $options: 'i' } },
+        { 'google.displayName': { $regex: query, $options: 'i' } },
+      ])
+      .exec();
+  }
   promise.then(function(users) {
     return res.json(users);
   }, function(err) { return next(err); });
