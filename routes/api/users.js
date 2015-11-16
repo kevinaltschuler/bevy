@@ -37,4 +37,9 @@ module.exports = function(router) {
 	// VERIFY USERNAME
 	router.get('/users/:username/verify', api.users.verifyUsername);
 
+	// ADD DEVICE
+	router.post('/users/:id/device', api.users.addDevice);
+	// REMOVE DEVICE
+	router.delete('/users/:id/device/:deviceid', api.users.removeDevice);
+
 };

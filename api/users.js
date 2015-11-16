@@ -226,7 +226,8 @@ exports.addLinkedAccount = function(req, res, next) {
   User.findOne({ _id: id }, function(err, orig_user) {
     if(err) return next(err);
     // push the new user onto the linked accounts of the original one
-    if(!_.contains(orig_user.linkedAccounts, account_id)) orig_user.linkedAccounts.push(account_id);
+    if(!_.contains(orig_user.linkedAccounts, account_id)) 
+      orig_user.linkedAccounts.push(account_id);
     orig_user.save(function(err, $orig_user) {
       if(err) return next(err);
 
@@ -238,7 +239,8 @@ exports.addLinkedAccount = function(req, res, next) {
         for(var key in linkedAccounts) {
           // push the other linked accounts of the original user
           var $id = linkedAccounts[key];
-          if(!_.contains(new_user.linkedAccounts, $id) && $id != account_id) new_user.linkedAccounts.push($id);
+          if(!_.contains(new_user.linkedAccounts, $id) && $id != account_id) 
+            new_user.linkedAccounts.push($id);
         }
         new_user.save(function(err, $new_user) {
           if(err) return next(err);
@@ -290,5 +292,51 @@ exports.verifyUsername = function(req, res, next) {
     if(err) return next(err);
     if(!user) return res.json({ found: false });
     else return res.json({ found: true });
+  });
+};
+
+// POST /users/:id/device
+exports.addDevice = function(req, res, next) {
+  var user_id = req.params.id;
+
+  var device_id = req.body['device_id'];
+  if(_.isEmpty(device_id)) return next('No device id supplied');
+  var device_platform = req.body['device_platform'];
+  if(_.isEmpty(device_platform)) return next('No device platform supplied');
+
+  User.findOne({ _id: user_id }, function(err, user) {
+    if(err) return next(err);
+    if(_.findWhere(user.devices, { id: device_id }) != undefined) {
+      return next('Device already added');
+    }
+    user.devices.push({
+      id: device_id,
+      platform: device_platform
+    });
+    user.save(function(err, $user) {
+      if(err) return next(err);
+      return res.json($user);
+    });
+  });
+};
+
+// DELETE /users/:id/device/:deviceid
+exports.removeDevice = function(req, res, next) {
+  var user_id = req.params.id;
+  var device_id = req.params.deviceid;
+
+  var device_id = req.body['device_id'];
+  if(_.isEmpty(device_id)) return next('No device id supplied');
+
+  User.findOne({ _id: user_id }, function(err, user) {
+    if(err) return next(err);
+    if(_.findWhere(user.devices, { id: device_id }) == undefined) {
+      return next('Device not found');
+    }
+    user.devices.pull({ id: device_id });
+    user.save(function(err, $user) {
+      if(err) return next(err);
+      return res.json($user);
+    });
   });
 };
