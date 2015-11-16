@@ -340,4 +340,8 @@ function pushNotifications(notifications) {
         emitter.emit($notifications.user, $notifications);
     }
   });
+
+  function APNRegisterDevice(data) {
+    
+  }
 }
