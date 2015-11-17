@@ -21,12 +21,14 @@ module.exports = function() {
 	//console.log('new subscriber bound to port 4000')
 	
 	//listener for a new chat message
-	subSock.on('message', function(event, data) {
+	subSock.on('pushnote', function(event, data) {
 	    event = event.toJSON();
 	    data = data.toJSON(); //the message
-	    console.log('message!');
+	    console.log('push note!');
 	    var thread = data.thread;
 	    var author = data.author;
+	    if(thread == undefined || author  == undefined) 
+	    	return;
 
 	    //for all users in a thread
 		for(var key in thread.users) {
