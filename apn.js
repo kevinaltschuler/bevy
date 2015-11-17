@@ -18,14 +18,17 @@ subSock.subscribe('chat_message');
 
 //listener for a new chat message
 subSock.on('message', function(event, data) {
-    console.log('push note!');
-    event = JSON.parse(event);
-    data = JSON.parse(data); //the message
     var thread = data.thread;
     var author = data.author;
-    if(thread == undefined || author  == undefined) 
-    	return;
+    console.log('event: ', event);
+    console.log('data: ', data);
 
+    if(thread == undefined || author  == undefined) {
+    	console.log('thread or author are undefined', 'thread: ', thread, 'author: ', author);
+    	return;
+    }
+
+    console.log('2');
     //for all users in a thread
 	for(var key in thread.users) {
 
@@ -34,7 +37,6 @@ subSock.on('message', function(event, data) {
 		if(user == author._id)  {
 			return;
 		}
-
 		else {
 			// send a notification to all devices
 			for(var key in user.devices) {
