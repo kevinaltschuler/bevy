@@ -18,13 +18,12 @@ module.exports = function() {
 
 	var subSock = zmq.socket('sub');
 	subSock.connect('tcp://127.0.0.1:4000');
-	//console.log('new subscriber bound to port 4000')
 	
 	//listener for a new chat message
 	subSock.on('pushnote', function(event, data) {
-	    event = event.toJSON();
-	    data = data.toJSON(); //the message
 	    console.log('push note!');
+	    event = JSON.parse(event);
+	    data = JSON.parse(data); //the message
 	    var thread = data.thread;
 	    var author = data.author;
 	    if(thread == undefined || author  == undefined) 
