@@ -24,7 +24,7 @@ module.exports = function() {
 	subSock.on('message', function(event, data) {
 	    event = event.toJSON();
 	    data = data.toJSON(); //the message
-	    console.log(data);
+	    //console.log(data);
 	    var thread = data.thread;
 	    var author = data.author;
 
@@ -43,6 +43,7 @@ module.exports = function() {
 					var device = user.devices[key];
 					// only send to ios for now
 					if(device.platform == 'ios') {
+						console.log('sending to ', user.displayName, ' ', device.id);
 						var iosDevice = new apn.Device(device.id);
 						var note = new apn.Notification();
 
@@ -53,7 +54,6 @@ module.exports = function() {
 						note.payload = {'messageFrom': author.displayName};
 
 						apnConnection.pushNotification(note, myDevice);
-						console.log('sent!')
 					}
 				}
 			}
