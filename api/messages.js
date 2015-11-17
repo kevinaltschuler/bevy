@@ -54,7 +54,6 @@ exports.create = function(req, res, next) {
             users.forEach(function(user) {
               emitter.emit(user._id + ':chat', $pop_message);
               mq.pubSock.send(['chat:' + user._id, JSON.stringify($pop_message)]);
-              mq.pubSock.send(['pushnote', JSON.stringify($pop_message)]);
             });
           });
         }
@@ -62,7 +61,6 @@ exports.create = function(req, res, next) {
         thread.users.forEach(function(user_id) {
           emitter.emit(user_id + ':chat', $pop_message);
           mq.pubSock.send(['chat:' + user_id, JSON.stringify($pop_message)]);
-          mq.pubSock.send(['pushnote', JSON.stringify($pop_message)]);
         });
       });
 
