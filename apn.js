@@ -9,13 +9,14 @@ var zmq = require('zmq');
 
 module.exports = function() {
 
+	console.log('1');
 	var options = { };
-
+	console.log('2');
 	var apnConnection = new apn.Connection(options);
-
+	console.log('3');
 	var subSock = zmq.socket('sub');
 	subSock.connect('tcp://127.0.0.1:4000');
-	
+	console.log('4');
 	//listener for a new chat message
 	subSock.on('pushnote', function(event, data) {
 	    console.log('push note!');
