@@ -24,7 +24,7 @@ module.exports = function() {
 	subSock.on('message', function(event, data) {
 	    event = event.toJSON();
 	    data = data.toJSON(); //the message
-	    //console.log(data);
+	    console.log('message!');
 	    var thread = data.thread;
 	    var author = data.author;
 
