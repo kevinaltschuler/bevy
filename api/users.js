@@ -309,7 +309,7 @@ exports.addDevice = function(req, res, next) {
   var user_id = req.params.id;
   var token = req.body['token'];
   if(_.isEmpty(token)) return next('No device token supplied');
-  var device_platform = req.body['device_platform'];
+  var device_platform = req.body['platform'];
   if(_.isEmpty(device_platform)) return next('No device platform supplied');
 
   User.findOne({ _id: user_id }, function(err, user) {
