@@ -22,8 +22,10 @@ subSock.on('message', function(event, data) {
     var thread = data.thread;
     var author = data.author;
 	console.log('1');
-    if(thread == undefined || author  == undefined) 
+    if(thread == undefined || author  == undefined) {
+    	console.log('thread or author are undefined', 'thread: ', thread, 'author: ', author);
     	return;
+    }
 
     console.log('2');
     //for all users in a thread
