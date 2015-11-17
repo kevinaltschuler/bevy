@@ -44,6 +44,7 @@ exports.create = function(req, res, next) {
     Message.populate($message, { path: 'author thread' }, function(err, $pop_message) {
       if(err) return next(err);
       // now lets push it to everybody
+      var event_data = JSON.stringify($pop_message);
       Thread.findOne({ _id: thread_id }, function(err, thread) {
         if(err) return next(err);
         if(!thread) return next('thread not found');
@@ -53,14 +54,16 @@ exports.create = function(req, res, next) {
             if(err) return next(err);
             users.forEach(function(user) {
               emitter.emit(user._id + ':chat', $pop_message);
-              mq.pubSock.send(['chat:' + user._id, JSON.stringify($pop_message)]);
+              mq.pubSock.send(['chat:' + user._id, event_data]);
+              mq.pubSock.send(['chat_message', event_data]);
             });
           });
         }
         // send to each user
         thread.users.forEach(function(user_id) {
           emitter.emit(user_id + ':chat', $pop_message);
-          mq.pubSock.send(['chat:' + user_id, JSON.stringify($pop_message)]);
+          mq.pubSock.send(['chat:' + user_id, event_data]);
+          mq.pubSock.send(['chat_message', event_data]);
         });
       });
 

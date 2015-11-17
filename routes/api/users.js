@@ -37,9 +37,11 @@ module.exports = function(router) {
 	// VERIFY USERNAME
 	router.get('/users/:username/verify', api.users.verifyUsername);
 
-	// ADD DEVICE
-	router.post('/users/:id/device', api.users.addDevice);
-	// REMOVE DEVICE
+	// DEVICES
+	router.get('/users/:id/devices', api.users.getDevices);
+	router.post('/users/:id/devices', api.users.addDevice);
+	router.put('/users/:id/devices/:deviceid', api.users.updateDevice);
+	router.patch('/users/:id/devices/:deviceid', api.users.updateDevice);
 	router.delete('/users/:id/device/:deviceid', api.users.removeDevice);
 	
 };

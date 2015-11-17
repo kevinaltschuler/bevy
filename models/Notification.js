@@ -1,3 +1,9 @@
+/**
+ * Notification.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
