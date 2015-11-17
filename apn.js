@@ -13,9 +13,6 @@ module.exports = function() {
 
 	var apnConnection = new apn.Connection(options);
 
-	var device = new apn.Device(token);
-
-
 	var subSock = zmq.socket('sub');
 	subSock.connect('tcp://127.0.0.1:4000');
 	
@@ -54,7 +51,7 @@ module.exports = function() {
 						note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
 						note.payload = {'messageFrom': author.displayName};
 
-						apnConnection.pushNotification(note, myDevice);
+						apnConnection.pushNotification(note, iosDevice);
 					}
 				}
 			}
