@@ -54,6 +54,9 @@ require('./socket')(server);
 // set up zeromq binding
 require('./mq');
 
+// set up apple push notifications
+require('./apn');
+
 // MIDDLEWARE
 
 // cors

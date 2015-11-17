@@ -41,7 +41,7 @@ exports.create = function(req, res, next) {
 
   Message.create(message, function(err, $message) {
     if(err) return next(err);
-    Message.populate($message, { path: 'author' }, function(err, $pop_message) {
+    Message.populate($message, { path: 'author thread' }, function(err, $pop_message) {
       if(err) return next(err);
       // now lets push it to everybody
       Thread.findOne({ _id: thread_id }, function(err, thread) {

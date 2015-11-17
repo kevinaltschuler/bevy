@@ -41,5 +41,7 @@ module.exports = function(router) {
 	router.post('/users/:id/device', api.users.addDevice);
 	// REMOVE DEVICE
 	router.delete('/users/:id/device/:deviceid', api.users.removeDevice);
+	//GET ALL DEVICES
+	router.get('/users/:id/device');
 
 };
