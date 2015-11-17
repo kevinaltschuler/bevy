@@ -23,9 +23,11 @@ subSock.on('message', function(event, data) {
     data = JSON.parse(data); //the message
     var thread = data.thread;
     var author = data.author;
+    console.log('1');
     if(thread == undefined || author  == undefined) 
     	return;
 
+    console.log('2');
     //for all users in a thread
 	for(var key in thread.users) {
 
@@ -34,7 +36,6 @@ subSock.on('message', function(event, data) {
 		if(user == author._id)  {
 			return;
 		}
-
 		else {
 			// send a notification to all devices
 			for(var key in user.devices) {
