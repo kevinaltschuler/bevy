@@ -1,4 +1,4 @@
-/* apn.js
+d/* apn.js
  * @author kevin
  */
 
@@ -12,6 +12,9 @@ var apnConnection = new apn.Connection(options);
 
 var subSock = zmq.socket('sub');
 subSock.connect('tcp://127.0.0.1:4000');
+
+// subscribe to events
+subSock.subscribe('chat_message');
 
 //listener for a new chat message
 subSock.on('message', function(event, data) {
