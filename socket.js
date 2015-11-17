@@ -20,12 +20,12 @@ module.exports = function(server) {
     subSock.on('message', function(event, data) {
       event = event.toString();
       data = data.toString();
-      console.log(event, data);
+      //console.log(event, data);
       socket.emit(event, data);
     });
 
     socket.on('set_user_id', function(user_id) {
-      console.log('user_id', user_id);
+      //console.log('user_id', user_id);
       subSock.subscribe('kitty cats');
       subSock.subscribe('chat:' + user_id);
       subSock.subscribe('notification:' + user_id);
