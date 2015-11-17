@@ -19,13 +19,9 @@ subSock.subscribe('chat_message');
 //listener for a new chat message
 subSock.on('message', function(event, data) {
     console.log('push note!');
-    event = event.toString();
-    data = data.toString();
-    event = JSON.parse(event);
-    data = JSON.parse(data); //the message
-    console.log('1');
     var thread = data.thread;
     var author = data.author;
+	console.log('1');
     if(thread == undefined || author  == undefined) 
     	return;
 
