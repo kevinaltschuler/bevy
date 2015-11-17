@@ -299,6 +299,8 @@ exports.verifyUsername = function(req, res, next) {
 exports.addDevice = function(req, res, next) {
   var user_id = req.params.id;
 
+  console.log('got to here');
+
   var device_id = req.body['device_id'];
   if(_.isEmpty(device_id)) return next('No device id supplied');
   var device_platform = req.body['device_platform'];
