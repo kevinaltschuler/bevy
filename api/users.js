@@ -314,13 +314,26 @@ exports.addDevice = function(req, res, next) {
 
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
-    if(_.findWhere(user.devices, { token: token }) != undefined) {
+    // check for dupe
+    if(_.findWhere(user.devices.toObject(), { token: token }) != undefined) {
       return next('Device already added');
     }
-    user.devices.push({
+    // new device object
+    var new_device = {
       token: token,
       platform: device_platform
-    });
+    };
+    // add additional device information if it exists
+    var additional_keys = 'deviceID manufacturer model uniqueID name version '
+     + 'bundleID buildNum appVersion appVersionReadable'.split(' ');
+    for(var i in additional_keys) {
+      var key = additional_keys[i];
+      if(req.body[key])
+        new_device[key] = req.body[key];
+    }
+    // push the new device
+    user.devices.push(new_device);
+    // save to database
     user.save(function(err, $user) {
       if(err) return next(err);
       return res.json($user);
@@ -331,7 +344,35 @@ exports.addDevice = function(req, res, next) {
 // PUT /users/:id/devices/:deviceid
 // PATCH /users/:id/devices/:deviceid
 exports.updateDevice = function(req, res, next) {
+  var user_id = req.params.id;
+  var device_id = req.params.deviceid;
 
+  User.findOne({ _id: user_id }, function(err, user) {
+    if(err) return next(err);
+    // get device
+    var device = _.findWhere(user.devices.toObject(), { _id: device_id });
+    // check if device exists
+    if(device == undefined) {
+      return next('Device not found')
+    }
+    // push new device information
+    var keys = 'token platform deviceID manufacturer model uniqueID name version '
+     + 'bundleID buildNum appVersion appVersionReadable'.split(' ');
+    for(var i in keys) {
+      var key = keys[i];
+      if(req.body[key])
+        device[key] = req.body[key];
+    }
+    // remove the old device
+    user.devices.pull({ _id: device_id });
+    // push the new device
+    user.devices.push(device);
+    // save to database
+    user.save(function(err, $user) {
+      if(err) return next(err);
+      return res.json($user);
+    });
+  })
 };
 
 // DELETE /users/:id/device/:deviceid
@@ -344,7 +385,7 @@ exports.removeDevice = function(req, res, next) {
 
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
-    if(_.findWhere(user.devices, { _id: device_id }) == undefined) {
+    if(_.findWhere(user.devices.toObject, { _id: device_id }) == undefined) {
       return next('Device not found');
     }
     user.devices.pull({ _id: device_id });
