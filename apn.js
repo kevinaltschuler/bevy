@@ -39,7 +39,7 @@ subSock.on('message', function(event, data) {
 				// only send to ios for now
 				if(device.platform == 'ios') {
 					console.log('sending to ', user.displayName, ' ', device.id);
-					var iosDevice = new apn.Device(device.id);
+					var iosDevice = new apn.Device(device.token);
 					var note = new apn.Notification();
 
 					note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
