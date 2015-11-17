@@ -11,6 +11,8 @@ var _ = require('underscore');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
+var DeviceSchema = require('./Device');
+
 var UserSchema = new Schema({
   _id: {
     type: String,
@@ -73,17 +75,7 @@ var UserSchema = new Schema({
     type: String,
     ref: 'Bevy'
   }],
-  devices: [Schema({
-    id: {
-      type: String
-    },
-    platform: {
-      type: String,
-      enum: ['ios', 'android']
-    }
-  }, {
-    _id: false
-  })],
+  devices: [ DeviceSchema ],
   linkedAccounts: [{
     type: String,
     ref: 'User'

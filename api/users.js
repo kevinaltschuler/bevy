@@ -295,24 +295,30 @@ exports.verifyUsername = function(req, res, next) {
   });
 };
 
-// POST /users/:id/device
+// GET /users/:id/devices
+exports.getDevices = function(req, res, next) {
+  var user_id = req.params.id;
+  User.findOne({ _id: user_id }, function(err, user) {
+    if(err) return next(err);
+    return res.json(user.devices);
+  });
+};
+
+// POST /users/:id/devices
 exports.addDevice = function(req, res, next) {
   var user_id = req.params.id;
-
-  console.log('got to here');
-
-  var device_id = req.body['device_id'];
-  if(_.isEmpty(device_id)) return next('No device id supplied');
+  var token = req.body['token'];
+  if(_.isEmpty(token)) return next('No device token supplied');
   var device_platform = req.body['device_platform'];
   if(_.isEmpty(device_platform)) return next('No device platform supplied');
 
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
-    if(_.findWhere(user.devices, { id: device_id }) != undefined) {
+    if(_.findWhere(user.devices, { token: token }) != undefined) {
       return next('Device already added');
     }
     user.devices.push({
-      id: device_id,
+      token: token,
       platform: device_platform
     });
     user.save(function(err, $user) {
@@ -320,6 +326,12 @@ exports.addDevice = function(req, res, next) {
       return res.json($user);
     });
   });
+};
+
+// PUT /users/:id/devices/:deviceid
+// PATCH /users/:id/devices/:deviceid
+exports.updateDevice = function(req, res, next) {
+
 };
 
 // DELETE /users/:id/device/:deviceid
@@ -332,10 +344,10 @@ exports.removeDevice = function(req, res, next) {
 
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
-    if(_.findWhere(user.devices, { id: device_id }) == undefined) {
+    if(_.findWhere(user.devices, { _id: device_id }) == undefined) {
       return next('Device not found');
     }
-    user.devices.pull({ id: device_id });
+    user.devices.pull({ _id: device_id });
     user.save(function(err, $user) {
       if(err) return next(err);
       return res.json($user);
