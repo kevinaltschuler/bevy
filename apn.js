@@ -7,7 +7,7 @@
 var apn = require('apn');
 var zmq = require('zmq');
 
-module.exports = function(server) {
+module.exports = function() {
 
 	var options = { };
 
