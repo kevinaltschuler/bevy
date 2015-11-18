@@ -43,7 +43,7 @@ subSock.on('message', function(event, data) {
     // send a notification to all devices
     for(var j in user.devices) {
       var device = user.devices[j];
-      console.log('sending to ', user.displayName, ' ', device.id);
+      console.log('sending to ', user._id, ' ', device.token);
 
       if(device.platform == 'ios') {
         var iosDevice = new apn.Device(device.token);
