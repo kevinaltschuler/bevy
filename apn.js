@@ -35,11 +35,11 @@ subSock.on('message', function(event, data) {
   for(var i in to_users) {
     var user = to_users[i];
     if(user._id == author) {
-      console.log('dont send to author: ', author);
+      //console.log('dont send to author: ', author);
       return;
     }
-    console.log('sending to all devices for: ', user._id);
-    console.log('the devices: ', user.devices);
+    //console.log('sending to all devices for: ', user._id);
+    //console.log('the devices: ', user.devices);
     // send a notification to all devices
     for(var j in user.devices) {
       var device = user.devices[j];
@@ -56,8 +56,10 @@ subSock.on('message', function(event, data) {
         note.payload = {'messageFrom': author.displayName};
 
         apnConnection.pushNotification(note, iosDevice);
+	console.log('sent!');
       } else if (device.platform == 'android') {
         android_devices.push(device.token);
+	console.log('sent to android!');
       }
     }
   }
