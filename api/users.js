@@ -309,8 +309,8 @@ exports.addDevice = function(req, res, next) {
   var user_id = req.params.id;
   var token = req.body['token'];
   if(_.isEmpty(token)) return next('No device token supplied');
-  var device_platform = req.body['device_platform'];
-  if(_.isEmpty(device_platform)) return next('No device platform supplied');
+  var platform = req.body['platform'];
+  if(_.isEmpty(platform)) return next('No device platform supplied');
 
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
@@ -321,11 +321,11 @@ exports.addDevice = function(req, res, next) {
     // new device object
     var new_device = {
       token: token,
-      platform: device_platform
+      platform: platform
     };
     // add additional device information if it exists
-    var additional_keys = 'deviceID manufacturer model uniqueID name version '
-     + 'bundleID buildNum appVersion appVersionReadable'.split(' ');
+    var additional_keys = ('deviceID manufacturer model uniqueID name version '
+     + 'bundleID buildNum appVersion appVersionReadable').split(' ');
     for(var i in additional_keys) {
       var key = additional_keys[i];
       if(req.body[key])
@@ -356,8 +356,8 @@ exports.updateDevice = function(req, res, next) {
       return next('Device not found')
     }
     // push new device information
-    var keys = 'token platform deviceID manufacturer model uniqueID name version '
-     + 'bundleID buildNum appVersion appVersionReadable'.split(' ');
+    var keys = ('token platform deviceID manufacturer model uniqueID name version '
+     + 'bundleID buildNum appVersion appVersionReadable').split(' ');
     for(var i in keys) {
       var key = keys[i];
       if(req.body[key])
