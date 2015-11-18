@@ -52,13 +52,13 @@ exports.create = function(req, res, next) {
           // send to bevy members
           User.find({ bevies: thread.bevy }, function(err, users) {
             if(err) return next(err);
-            sendChatNotification($pop_message, _.pluck(users.toObject(), '_id'));
+            sendChatNotification($pop_message, users.toObject());
           });
         } else {
           // send to each user
           sendChatNotification($pop_message, thread.users);
         }
-      });
+      }).populate('users');
       return res.json($pop_message);
     });
   });
