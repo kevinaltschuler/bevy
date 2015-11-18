@@ -81,7 +81,7 @@ subSock.on('message', function(event, data) {
         icon: 'ic_launcher',
         body: message.author.displayName + ': ' + message.body,
         tag: 'chat_message',
-        click_action: 'android.intent.action.MAIN'
+        click_action: 'android.intent.action.VIEW'
       }
     });
     gcm_sender.send($message, { registrationTokens: android_devices }, 
