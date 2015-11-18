@@ -122,7 +122,6 @@ UserSchema.set('toJSON', {
   transform: function(doc, ret, options) {
     delete ret.password;
     delete ret.token;
-    delete ret.devices;
     return ret;
   }
 });

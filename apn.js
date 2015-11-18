@@ -43,7 +43,7 @@ subSock.on('message', function(event, data) {
     // send a notification to all devices
     for(var j in user.devices) {
       var device = user.devices[j];
-      console.log('sending to ', user.displayName, ' ', device.id);
+      console.log('sending to ', user._id, ' ', device.token);
 
       if(device.platform == 'ios') {
         var iosDevice = new apn.Device(device.token);
@@ -56,8 +56,10 @@ subSock.on('message', function(event, data) {
         note.payload = {'messageFrom': author.displayName};
 
         apnConnection.pushNotification(note, iosDevice);
+	console.log('sent!');
       } else if (device.platform == 'android') {
         android_devices.push(device.token);
+	console.log('sent to android!');
       }
     }
   }
@@ -65,6 +67,7 @@ subSock.on('message', function(event, data) {
   // if theres valid android devices to send to
   if(!_.isEmpty(android_devices)) {
     var $message = new gcm.Message({
+      collapse_key: 'chat_message',
       priority: 'high',
       content_available: true,
       delay_while_idle: false,
@@ -76,7 +79,7 @@ subSock.on('message', function(event, data) {
       notification: {
         title: 'New Message',
         icon: 'ic_launcher',
-        body: message.body
+        body: message.author.displayName + ': ' + message.body
       }
     });
     gcm_sender.send($message, { registrationTokens: android_devices }, 
