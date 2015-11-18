@@ -37,7 +37,7 @@ subSock.on('message', function(event, data) {
 
 		// if theyre the author, then dont send a notification
 		if(user == author._id)  {
-			console.log('no notes to author');
+			console.log('no notes to author', author._id);
 			return;
 		}
 		else {
