@@ -18,6 +18,8 @@ subSock.subscribe('chat_message');
 
 //listener for a new chat message
 subSock.on('message', function(event, data) {
+	event = event.toString();
+	data = JSON.parse(data.toString());
     var thread = data.thread;
     var author = data.author;
     console.log('event: ', event);
