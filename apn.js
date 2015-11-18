@@ -30,7 +30,6 @@ subSock.on('message', function(event, data) {
   var author = message.author;
 
   var android_devices = [];
-  console.log(to_users);
   
   //for all users in a thread
   for(var i in to_users) {
