@@ -28,6 +28,8 @@ subSock.on('message', function(event, data) {
     	return;
     }
 
+    console.log(thread.users);
+
     //for all users in a thread
 	for(var key in thread.users) {
 
