@@ -91,9 +91,9 @@ exports.destroy = function(req, res, next) {
 
 function sendChatNotification(message, to_users) {
   for(var key in to_users) {
-    var user_id = to_users[key];
+    var user = to_users[key];
     // websocket
-    mq.pubSock.send(['chat:' + user_id, JSON.stringify(message)]);
+    mq.pubSock.send(['chat:' + user._id, JSON.stringify(message)]);
   }
   // notifications
   var payload = {
