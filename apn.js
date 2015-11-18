@@ -67,7 +67,7 @@ subSock.on('message', function(event, data) {
   // if theres valid android devices to send to
   if(!_.isEmpty(android_devices)) {
     var $message = new gcm.Message({
-      collapse_key: 'chat_message',
+      collapse_key: 'com.bevyios',
       priority: 'high',
       content_available: true,
       delay_while_idle: false,
@@ -79,7 +79,9 @@ subSock.on('message', function(event, data) {
       notification: {
         title: 'New Message',
         icon: 'ic_launcher',
-        body: message.author.displayName + ': ' + message.body
+        body: message.author.displayName + ': ' + message.body,
+        tag: 'chat_message',
+        click_action: 'android.intent.action.MAIN'
       }
     });
     gcm_sender.send($message, { registrationTokens: android_devices }, 
