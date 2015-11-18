@@ -52,21 +52,13 @@ exports.create = function(req, res, next) {
           // send to bevy members
           User.find({ bevies: thread.bevy }, function(err, users) {
             if(err) return next(err);
-            users.forEach(function(user) {
-              emitter.emit(user._id + ':chat', $pop_message);
-              mq.pubSock.send(['chat:' + user._id, event_data]);
-              mq.pubSock.send(['chat_message', event_data]);
-            });
+            sendChatNotification($pop_message, _.pluck(users.toObject(), '_id'));
           });
+        } else {
+          // send to each user
+          sendChatNotification($pop_message, thread.users);
         }
-        // send to each user
-        thread.users.forEach(function(user_id) {
-          emitter.emit(user_id + ':chat', $pop_message);
-          mq.pubSock.send(['chat:' + user_id, event_data]);
-          mq.pubSock.send(['chat_message', event_data]);
-        });
       });
-
       return res.json($pop_message);
     });
   });
@@ -96,3 +88,17 @@ exports.destroy = function(req, res, next) {
     return res.json(message);
   });
 };
+
+function sendChatNotification(message, to_users) {
+  for(var key in to_users) {
+    var user_id = to_users[key];
+    // websocket
+    mq.pubSock.send(['chat:' + user_id, JSON.stringify(message)]);
+  }
+  // notifications
+  var payload = {
+    message: message,
+    to_users: to_users
+  };
+  mq.pubSock.send(['chat_message', JSON.stringify(payload)]);
+}
