@@ -34,6 +34,7 @@
     "mongoose-deep-populate": "^1.1.0",
     "morgan": "^1.5.1",
     "multer": "^0.1.7",
+    "node-gcm": "^0.12.1",
     "node-schedule": "^0.2.9",
     "object-assign": "^2.0.0",
     "open-graph": "^0.1.5",
