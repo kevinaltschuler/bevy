@@ -20,7 +20,6 @@ module.exports = function(server) {
     subSock.on('message', function(event, data) {
       event = event.toString();
       data = data.toString();
-      console.log('message');
       socket.emit(event, data);
     });
 

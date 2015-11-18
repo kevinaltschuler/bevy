@@ -2,7 +2,9 @@
  * @author kevin
  */
 
- 'use strict';
+'use strict';
+
+var _ = require('underscore');
 
 var apn = require('apn');
 var zmq = require('zmq');
@@ -26,6 +28,8 @@ subSock.on('message', function(event, data) {
   var to_users = data.to_users;
   var thread = message.thread;
   var author = message.author;
+
+  var android_devices = [];
   
   //for all users in a thread
   for(var i in to_users) {
@@ -47,8 +51,32 @@ subSock.on('message', function(event, data) {
 
         apnConnection.pushNotification(note, iosDevice);
       } else if (device.platform == 'android') {
-        
+        android_devices.push(device.token);
       }
     }
+  }
+
+  // if theres valid android devices to send to
+  if(!_.isEmpty(android_devices)) {
+    var $message = new gcm.Message({
+      priority: 'high',
+      content_available: true,
+      delay_while_idle: false,
+      time_to_live: 1 * 60 * 60 * 24, // 1 day
+      data: {
+        from_user: message.author._id,
+        thread_id: message.thread._id
+      },
+      notification: {
+        title: 'New Message',
+        icon: 'ic_launcher',
+        body: message.body
+      }
+    });
+    gcm_sender.send($message, { registrationTokens: android_devices }, 
+      function(err, result) {
+      if(err) console.error(err);
+      else console.log(result);
+    });
   }
 });
