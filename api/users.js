@@ -315,7 +315,7 @@ exports.addDevice = function(req, res, next) {
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
     // check for dupe
-    if(_.findWhere(user.devices.toObject(), { token: token }) != undefined) {
+    if(_.findWhere(user.devices, { token: token }) != undefined) {
       return next('Device already added');
     }
     // new device object
@@ -350,7 +350,7 @@ exports.updateDevice = function(req, res, next) {
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
     // get device
-    var device = _.findWhere(user.devices.toObject(), { _id: device_id });
+    var device = _.findWhere(user.devices, { _id: device_id });
     // check if device exists
     if(device == undefined) {
       return next('Device not found')
