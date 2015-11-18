@@ -22,26 +22,27 @@ subSock.on('message', function(event, data) {
 	data = JSON.parse(data.toString());
     var thread = data.thread;
     var author = data.author;
-    console.log('event: ', event);
-    console.log('data: ', data);
 
     if(thread == undefined || author  == undefined) {
     	console.log('thread or author are undefined', 'thread: ', thread, 'author: ', author);
     	return;
     }
 
-    console.log('2');
     //for all users in a thread
 	for(var key in thread.users) {
 
 		var user = thread.users[key];
+
 		// if theyre the author, then dont send a notification
 		if(user == author._id)  {
+			console.log('no notes to author');
 			return;
 		}
 		else {
+			console.log('attempting send to: ', user);
 			// send a notification to all devices
 			for(var key in user.devices) {
+				console.log('trying to send to device');
 				var device = user.devices[key];
 				// only send to ios for now
 				if(device.platform == 'ios') {
