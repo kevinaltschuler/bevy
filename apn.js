@@ -26,6 +26,8 @@ subSock.on('message', function(event, data) {
   var to_users = data.to_users;
   var thread = message.thread;
   var author = message.author;
+
+  console.log(to_users);
   
   //for all users in a thread
   for(var i in to_users) {
