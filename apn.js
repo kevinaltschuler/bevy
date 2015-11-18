@@ -55,9 +55,11 @@ subSock.on('message', function(event, data) {
         note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
         note.payload = {'messageFrom': author.displayName};
 
-        //apnConnection.pushNotification(note, iosDevice);
+        apnConnection.pushNotification(note, iosDevice);
+	console.log('sent!');
       } else if (device.platform == 'android') {
         android_devices.push(device.token);
+	console.log('sent to android!');
       }
     }
   }
