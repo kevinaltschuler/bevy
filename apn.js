@@ -11,7 +11,12 @@ var zmq = require('zmq');
 var gcm = require('node-gcm');
 var gcm_sender = new gcm.Sender('AIzaSyAwwjrZ_RkwmCFx5Gs8ENKQvVABgZ22W4g');
 
-var options = { };
+var options = {
+	cert: './noteprod/cert.pem', 
+	key: './noteprod/key.pem', 
+	production: true
+    	
+    };
 var apnConnection = new apn.Connection(options);
 
 var subSock = zmq.socket('sub');
@@ -52,14 +57,13 @@ subSock.on('message', function(event, data) {
         note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
         note.badge = 1;
         note.sound = "ping.aiff";
-        note.alert = "Bevy";
+        note.alert = message.author.displayName + ": " + message.body;
         note.payload = {'messageFrom': author.displayName, 'thread': thread};
-
         apnConnection.pushNotification(note, iosDevice);
-	      console.log('sent!');
+	      //console.log('sent!');
       } else if (device.platform == 'android') {
         android_devices.push(device.token);
-	      console.log('sent to android!');
+	      //console.log('sent to android!');
       }
     }
   }
@@ -67,19 +71,22 @@ subSock.on('message', function(event, data) {
   // if theres valid android devices to send to
   if(!_.isEmpty(android_devices)) {
     var $message = new gcm.Message({
-      collapse_key: 'chat_message',
+      collapse_key: 'com.bevyios',
       priority: 'high',
       content_available: true,
       delay_while_idle: false,
       time_to_live: 1 * 60 * 60 * 24, // 1 day
       data: {
         from_user: message.author._id,
-        thread_id: message.thread._id
+        thread_id: message.thread._id,
+        event: 'chat_message'
       },
       notification: {
         title: 'New Message',
         icon: 'ic_launcher',
-        body: message.author.displayName + ': ' + message.body
+        body: message.author.displayName + ': ' + message.body,
+        tag: 'chat_message',
+        click_action: 'android.intent.action.MAIN'
       }
     });
     gcm_sender.send($message, { registrationTokens: android_devices }, 

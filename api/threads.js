@@ -45,7 +45,7 @@ exports.show = function(req, res, next) {
 	      thread.latest = latest;
 	      return res.json(thread);
 	    })
-	    .populate('author')
+	    .populate('created')
 	    .sort('-created')
 	    .limit(10);
 		return res.json(thread);
