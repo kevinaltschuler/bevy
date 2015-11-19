@@ -11,7 +11,7 @@ var zmq = require('zmq');
 var gcm = require('node-gcm');
 var gcm_sender = new gcm.Sender('AIzaSyAwwjrZ_RkwmCFx5Gs8ENKQvVABgZ22W4g');
 
-var options = { };
+var options = {};
 var apnConnection = new apn.Connection(options);
 
 var subSock = zmq.socket('sub');
