@@ -74,7 +74,8 @@ subSock.on('message', function(event, data) {
       time_to_live: 1 * 60 * 60 * 24, // 1 day
       data: {
         from_user: message.author._id,
-        thread_id: message.thread._id
+        thread_id: message.thread._id,
+        event: 'chat_message'
       },
       notification: {
         title: 'New Message',
