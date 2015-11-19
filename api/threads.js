@@ -39,6 +39,15 @@ exports.show = function(req, res, next) {
 	var id = req.params.id;
 	Thread.findOne({ bevy: id }, function(err, thread) {
 		if(err) return next(err);
+	    Message.find({ thread: thread._id }, function(err, latest) {
+	      if(err) return next(err);
+	      thread = thread.toObject();
+	      thread.latest = latest;
+	      return res.json(thread);
+	    })
+	    .populate('author')
+	    .sort('-created')
+	    .limit(10);
 		return res.json(thread);
 	}).populate('bevy users');
 }

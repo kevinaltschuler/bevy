@@ -34,7 +34,6 @@ var ChatThread = new Schema({
     type: String,
     ref: 'User'
   }],
-
   created: {
     type: Date,
     default: Date.now

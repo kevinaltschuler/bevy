@@ -50,16 +50,16 @@ subSock.on('message', function(event, data) {
         var note = new apn.Notification();
 
         note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-        note.badge = 3;
+        note.badge = 1;
         note.sound = "ping.aiff";
-        note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
-        note.payload = {'messageFrom': author.displayName};
+        note.alert = "Bevy";
+        note.payload = {'messageFrom': author.displayName, 'thread': thread};
 
         apnConnection.pushNotification(note, iosDevice);
-	console.log('sent!');
+	      console.log('sent!');
       } else if (device.platform == 'android') {
         android_devices.push(device.token);
-	console.log('sent to android!');
+	      console.log('sent to android!');
       }
     }
   }
