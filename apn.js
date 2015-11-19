@@ -11,7 +11,12 @@ var zmq = require('zmq');
 var gcm = require('node-gcm');
 var gcm_sender = new gcm.Sender('AIzaSyAwwjrZ_RkwmCFx5Gs8ENKQvVABgZ22W4g');
 
-var options = {};
+var options = {
+	cert: './noteprod/cert.pem', 
+	key: './noteprod/key.pem', 
+	production: true
+    	
+    };
 var apnConnection = new apn.Connection(options);
 
 var subSock = zmq.socket('sub');
@@ -52,7 +57,7 @@ subSock.on('message', function(event, data) {
         note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
         note.badge = 3;
         note.sound = "ping.aiff";
-        note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
+        note.alert = message.author.displayName + ": " + message.body;
         note.payload = {'messageFrom': author.displayName};
 
         apnConnection.pushNotification(note, iosDevice);
