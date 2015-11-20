@@ -306,6 +306,7 @@ exports.getDevices = function(req, res, next) {
 
 // POST /users/:id/devices
 exports.addDevice = function(req, res, next) {
+  console.log('attempting to add device');
   var user_id = req.params.id;
   var token = req.body['token'];
   if(_.isEmpty(token)) return next('No device token supplied');
