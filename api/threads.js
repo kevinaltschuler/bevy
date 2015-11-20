@@ -47,7 +47,7 @@ exports.show = function(req, res, next) {
 	    })
 	    .populate('created')
 	    .sort('-created')
-	    .limit(10);
+	    .limit(1);
 		return res.json(thread);
 	}).populate('bevy users');
 }
