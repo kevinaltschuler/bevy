@@ -27,15 +27,18 @@ exports.index = function(req, res, next) {
 
 			Thread.find(function(err, threads) {
 				if(err) return next(err);
-				Message.find({ thread: thread._id }, function(err, latest) {
-			      if(err) return next(err);
-			      thread = thread.toObject();
-			      thread.latest = latest;
-			      return res.json(thread);
-			    })
-			    .populate('created')
-			    .sort('-created')
-			    .limit(1);
+				for(var key in threads) {
+					var thread = threads[key];
+					Message.find({ thread: thread._id }, function(err, latest) {
+				      if(err) return next(err);
+				      thread = thread.toObject();
+				      thread.latest = latest;
+				    })
+				    .populate('created')
+				    .sort('-created')
+				    .limit(1);
+				}
+				return res.json(threads);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
 			.populate('bevy users');
