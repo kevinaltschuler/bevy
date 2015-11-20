@@ -107,14 +107,15 @@ exports.show = function(req, res, next) {
 
   Post.findOne({ _id: id }, function(err, post) {
     if(err) return next(err);
+    if(_.isEmpty(post)) return next('Post not found');
     Comment.find({ postId: post._id }, function(err, comments) {
       if(err) return next(err);
-      post = post.toObject();
+      post = JSON.parse(JSON.stringify(post));
       post.comments = comments;
       return res.json(post);
     }).populate('author');
   }).populate('bevy author');
-}
+};
 
 // UPDATE
 // PUT/PATCH /bevies/:bevyid/posts/:id
