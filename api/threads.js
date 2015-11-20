@@ -40,6 +40,7 @@ exports.index = function(req, res, next) {
 					      callback();
 					      //console.log($threads[0].latest);
 					    })
+					    .populate('author')
 					    .lean();
 					},
 					function(err) {
@@ -47,7 +48,6 @@ exports.index = function(req, res, next) {
 							return next(err);
 						}
 						else {
-console.log($threads);
 							return res.json($threads); 
 						}
 					}	
@@ -55,7 +55,7 @@ console.log($threads);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
 			.populate('bevy users')
-.lean();
+			.lean();
 		}
 	]);
 }
