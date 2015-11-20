@@ -26,7 +26,15 @@ exports.index = function(req, res, next) {
 
 			Thread.find(function(err, threads) {
 				if(err) return next(err);
-				return res.json(threads);
+				Message.find({ thread: thread._id }, function(err, latest) {
+			      if(err) return next(err);
+			      thread = thread.toObject();
+			      thread.latest = latest;
+			      return res.json(thread);
+			    })
+			    .populate('created')
+			    .sort('-created')
+			    .limit(1);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
 			.populate('bevy users');
@@ -48,7 +56,6 @@ exports.show = function(req, res, next) {
 	    .populate('created')
 	    .sort('-created')
 	    .limit(1);
-		return res.json(thread);
 	}).populate('bevy users');
 }
 
