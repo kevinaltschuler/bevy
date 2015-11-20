@@ -336,6 +336,7 @@ exports.addDevice = function(req, res, next) {
     // save to database
     user.save(function(err, $user) {
       if(err) return next(err);
+      console.log('device successfully added!')
       return res.json($user);
     });
   });

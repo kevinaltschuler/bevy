@@ -55,7 +55,7 @@ subSock.on('message', function(event, data) {
         var note = new apn.Notification();
 
         note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-        note.badge = 1;
+        note.badge = 0;
         note.sound = "ping.aiff";
         note.alert = message.author.displayName + ": " + message.body;
         note.payload = {'messageFrom': author.displayName, 'thread': thread};
