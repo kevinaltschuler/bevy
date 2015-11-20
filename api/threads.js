@@ -8,7 +8,7 @@ var shortid = require('shortid');
 var Thread = mongoose.model('ChatThread');
 var Bevy = mongoose.model('Bevy');
 var User = mongoose.model('User');
-var Message = mongoose.model('Message');
+var Message = mongoose.model('ChatMessage');
 
 
 // GET /users/:id/threads
