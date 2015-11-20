@@ -33,9 +33,10 @@ exports.index = function(req, res, next) {
 					function(thread, callback) {
 						Message.find({ thread: thread._id }, function(err, latest) {
 					      if(err) return next(err);
-					      console.log(latest);
+					      //console.log(latest);
 					      thread.latest = latest;
 					      $threads.push(thread);
+					      console.log($threads[0].latest);
 					      callback();
 					    })
 					    .populate('created')
