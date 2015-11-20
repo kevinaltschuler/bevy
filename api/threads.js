@@ -35,10 +35,10 @@ exports.index = function(req, res, next) {
 					      if(err) return next(err);
 					      //console.log(latest);
 					      thread.latest = latest;
-					      console.log(thread.latest);
+					      //console.log(thread.latest);
 					      $threads.push(thread);
 					      callback();
-					      console.log($threads[0].latest);
+					      //console.log($threads[0].latest);
 					    })
 					    .lean();
 					},
@@ -47,13 +47,15 @@ exports.index = function(req, res, next) {
 							return next(err);
 						}
 						else {
+console.log($threads);
 							return res.json($threads); 
 						}
 					}	
 				);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
-			.populate('bevy users');
+			.populate('bevy users')
+.lean();
 		}
 	]);
 }
