@@ -48,7 +48,13 @@ subSock.on('message', function(event, data) {
     // send a notification to all devices
     for(var j in user.devices) {
       var device = user.devices[j];
-      console.log('sending to ', user._id, ' ', device.token);
+      //console.log('sending to ', user._id, ' ', device.token);
+      if(thread.name != undefined) {
+          var body = message.author.displayName + ' to ' + thread.name + ": " + message.body;
+      } else {
+        var body = message.author.displayName + ": " + message.body;
+      }
+      
 
       if(device.platform == 'ios') {
         var iosDevice = new apn.Device(device.token);
@@ -57,7 +63,7 @@ subSock.on('message', function(event, data) {
         note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
         note.badge = 0;
         note.sound = "ping.aiff";
-        note.alert = message.author.displayName + ": " + message.body;
+        note.alert = body;
         note.payload = {'messageFrom': author.displayName, 'thread': thread};
         apnConnection.pushNotification(note, iosDevice);
 	      //console.log('sent!');
@@ -84,7 +90,7 @@ subSock.on('message', function(event, data) {
       notification: {
         title: 'New Message',
         icon: 'ic_launcher',
-        body: message.author.displayName + ': ' + message.body,
+        body: body,
         tag: 'chat_message',
         click_action: 'android.intent.action.MAIN'
       }
