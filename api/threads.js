@@ -40,6 +40,7 @@ exports.index = function(req, res, next) {
 					      callback();
 					      console.log($threads[0].latest);
 					    })
+					    .lean()
 					    .populate('created')
 					    .sort('-created')
 					    .limit(1);
