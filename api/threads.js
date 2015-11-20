@@ -32,16 +32,15 @@ exports.index = function(req, res, next) {
 					threads, 
 					function(thread, callback) {
 						thread = JSON.parse(JSON.stringify(thread));
-						Message.findOne({ thread: thread._id }, {}, {sort: {'created_at': -1}}, function(err, latest) {
+						Message.find({ thread: thread._id }, function(err, latest) {
 					      if(err) return next(err);
-					      //console.log(latest);
 					      latest = JSON.parse(JSON.stringify(latest));
-					      thread.latest = latest;
-					      //console.log(thread.latest);
+					      thread.latest = latest[0];
 					      $threads.push(thread);
 					      callback();
-					      //console.log($threads[0].latest);
 					    })
+					    .limit(1)
+					    .sort('-created')
 					    .populate('author');
 					},
 					function(err) {
