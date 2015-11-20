@@ -8,6 +8,7 @@ var shortid = require('shortid');
 var Thread = mongoose.model('ChatThread');
 var Bevy = mongoose.model('Bevy');
 var User = mongoose.model('User');
+var Message = mongoose.model('ChatMessage');
 
 
 // GET /users/:id/threads
@@ -26,7 +27,31 @@ exports.index = function(req, res, next) {
 
 			Thread.find(function(err, threads) {
 				if(err) return next(err);
-				return res.json(threads);
+				var $threads = [];
+				async.each(
+					threads, 
+					function(thread, callback) {
+						thread = JSON.parse(JSON.stringify(thread));
+						Message.find({ thread: thread._id }, function(err, latest) {
+					      if(err) return next(err);
+					      latest = JSON.parse(JSON.stringify(latest));
+					      thread.latest = latest[0];
+					      $threads.push(thread);
+					      callback();
+					    })
+					    .limit(1)
+					    .sort('-created')
+					    .populate('author');
+					},
+					function(err) {
+						if(err) {
+							return next(err);
+						}
+						else {
+							return res.json($threads); 
+						}
+					}	
+				);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
 			.populate('bevy users');
@@ -39,7 +64,15 @@ exports.show = function(req, res, next) {
 	var id = req.params.id;
 	Thread.findOne({ bevy: id }, function(err, thread) {
 		if(err) return next(err);
-		return res.json(thread);
+	    Message.find({ thread: thread._id }, function(err, latest) {
+	      if(err) return next(err);
+	      thread = thread.toObject();
+	      thread.latest = latest;
+	      return res.json(thread);
+	    })
+	    .populate('created')
+	    .sort('-created')
+	    .limit(1);
 	}).populate('bevy users');
 }
 

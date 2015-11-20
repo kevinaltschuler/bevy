@@ -11,7 +11,12 @@ var zmq = require('zmq');
 var gcm = require('node-gcm');
 var gcm_sender = new gcm.Sender('AIzaSyAwwjrZ_RkwmCFx5Gs8ENKQvVABgZ22W4g');
 
-var options = { };
+var options = {
+	cert: './noteprod/cert.pem', 
+	key: './noteprod/key.pem', 
+	production: true
+    	
+    };
 var apnConnection = new apn.Connection(options);
 
 var subSock = zmq.socket('sub');
@@ -43,23 +48,28 @@ subSock.on('message', function(event, data) {
     // send a notification to all devices
     for(var j in user.devices) {
       var device = user.devices[j];
-      console.log('sending to ', user._id, ' ', device.token);
+      //console.log('sending to ', user._id, ' ', device.token);
+      if(thread.name != undefined) {
+          var body = message.author.displayName + ' to ' + thread.name + ": " + message.body;
+      } else {
+        var body = message.author.displayName + ": " + message.body;
+      }
+      
 
       if(device.platform == 'ios') {
         var iosDevice = new apn.Device(device.token);
         var note = new apn.Notification();
 
         note.expiry = Math.floor(Date.now() / 1000) + 3600; // Expires 1 hour from now.
-        note.badge = 3;
+        note.badge = 0;
         note.sound = "ping.aiff";
-        note.alert = "\uD83D\uDCE7 \u2709 You have a new message";
-        note.payload = {'messageFrom': author.displayName};
-
+        note.alert = body;
+        note.payload = {'messageFrom': author.displayName, 'thread': thread};
         apnConnection.pushNotification(note, iosDevice);
-	console.log('sent!');
+	      //console.log('sent!');
       } else if (device.platform == 'android') {
         android_devices.push(device.token);
-	console.log('sent to android!');
+	      //console.log('sent to android!');
       }
     }
   }
@@ -80,7 +90,7 @@ subSock.on('message', function(event, data) {
       notification: {
         title: 'New Message',
         icon: 'ic_launcher',
-        body: message.author.displayName + ': ' + message.body,
+        body: body,
         tag: 'chat_message',
         click_action: 'android.intent.action.MAIN'
       }
