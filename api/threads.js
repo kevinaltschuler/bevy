@@ -31,19 +31,16 @@ exports.index = function(req, res, next) {
 				async.each(
 					threads, 
 					function(thread, callback) {
-						Message.find({ thread: thread._id }, function(err, latest) {
+						Message.findOne({ thread: thread._id }, {}, {sort: {'created_at': -1}}, function(err, latest) {
 					      if(err) return next(err);
 					      //console.log(latest);
-					      thread.latest = latest[0];
-					      //console.log(thread.latest);
+					      thread.latest = latest;
+					      console.log(thread.latest);
 					      $threads.push(thread);
 					      callback();
 					      console.log($threads[0].latest);
 					    })
-					    .lean()
-					    .populate('created')
-					    .sort('-created')
-					    .limit(1);
+					    .lean();
 					},
 					function(err) {
 						if(err) {
