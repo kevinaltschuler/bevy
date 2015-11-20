@@ -28,18 +28,28 @@ exports.index = function(req, res, next) {
 			Thread.find(function(err, threads) {
 				if(err) return next(err);
 				var $threads = [];
-				for(var key in threads) {
-					var thread = threads[key];
-					Message.find({ thread: thread._id }, function(err, latest) {
-				      if(err) return next(err);
-				      thread.latest = latest;
-				      $threads.push(thread);
-				    })
-				    .populate('created')
-				    .sort('-created')
-				    .limit(1);
-				}
-				return res.json($threads);
+				Asyc.each(
+					threads, 
+					function(thread, callback) {
+						Message.find({ thread: thread._id }, function(err, latest) {
+					      if(err) return next(err);
+					      thread.latest = latest;
+					      $threads.push(thread);
+					      callback();
+					    })
+					    .populate('created')
+					    .sort('-created')
+					    .limit(1);
+					},
+					function(err) {
+						if(err) {
+							return next(err);
+						}
+						else {
+							return res.json($threads); 
+						}
+					}	
+				);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
 			.populate('bevy users');
