@@ -35,10 +35,10 @@ exports.index = function(req, res, next) {
 					      if(err) return next(err);
 					      //console.log(latest);
 					      thread.latest = latest;
-					      console.log(thread.latest);
+					      //console.log(thread.latest);
 					      $threads.push(thread);
 					      callback();
-					      console.log($threads[0].latest);
+					      //console.log($threads[0].latest);
 					    })
 					    .lean();
 					},
