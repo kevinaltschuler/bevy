@@ -28,7 +28,7 @@ exports.index = function(req, res, next) {
 			Thread.find(function(err, threads) {
 				if(err) return next(err);
 				var $threads = [];
-				Async.each(
+				async.each(
 					threads, 
 					function(thread, callback) {
 						Message.find({ thread: thread._id }, function(err, latest) {
