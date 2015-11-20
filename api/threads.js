@@ -31,7 +31,6 @@ exports.index = function(req, res, next) {
 					var thread = threads[key];
 					Message.find({ thread: thread._id }, function(err, latest) {
 				      if(err) return next(err);
-				      thread = thread.toObject();
 				      thread.latest = latest;
 				    })
 				    .populate('created')
