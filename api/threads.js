@@ -31,17 +31,18 @@ exports.index = function(req, res, next) {
 				async.each(
 					threads, 
 					function(thread, callback) {
+						thread = JSON.parse(JSON.stringify(thread));
 						Message.findOne({ thread: thread._id }, {}, {sort: {'created_at': -1}}, function(err, latest) {
 					      if(err) return next(err);
 					      //console.log(latest);
+					      latest = JSON.parse(JSON.stringify(latest));
 					      thread.latest = latest;
 					      //console.log(thread.latest);
 					      $threads.push(thread);
 					      callback();
 					      //console.log($threads[0].latest);
 					    })
-					    .populate('author')
-					    .lean();
+					    .populate('author');
 					},
 					function(err) {
 						if(err) {
@@ -54,8 +55,7 @@ exports.index = function(req, res, next) {
 				);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
-			.populate('bevy users')
-			.lean();
+			.populate('bevy users');
 		}
 	]);
 }
