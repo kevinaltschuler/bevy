@@ -47,13 +47,15 @@ exports.index = function(req, res, next) {
 							return next(err);
 						}
 						else {
+console.log($threads);
 							return res.json($threads); 
 						}
 					}	
 				);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
-			.populate('bevy users');
+			.populate('bevy users')
+.lean();
 		}
 	]);
 }
