@@ -59,43 +59,42 @@ var ImageModal = React.createClass({
     this.resizeImage();
   },
 
+  // resize the image so it can fit on screen, 
+  // or blow it up so it's easier to see
   resizeImage() {
-    // load this image into code so we can measure the original width and height
-    var url = this.props.allImages[this.index];
-    var $image = new Image();
-    $image.src = url;
-    // once we have the image
-    $image.onload = function() {
-      // load the width and height
-      var width = $image.width;
-      var height = $image.height;
-      var $width = width;
-      var $height = height;
-      // if its a horizontal image
-      if(width > height) {
-        // if it overflows the viewport width
-        if((constants.viewportWidth - 120) < width) {
-          // constrain the width to the viewport and give it some extra room
-          $width = width - (width - constants.viewportWidth) - 120;
-          // preserve the aspect ratio
-          $height = height / (1 + ((width - $width) / $width));
-        }
-      } 
-      // if its a vertical image or if it still overflows
-      if(height > width || $height > constants.viewportHeight) {
-        // if it overflows the viewport height
-        if((constants.viewportHeight - 120) < height) {
-          // constrain the height to the viewport and give it some extra room
-          $height = height - (height - constants.viewportHeight) - 120;
-          // preserve the aspect ratio
-          $width = width / (1 + ((height - $height) / $height));
-        }
+    var image = this.props.allImages[this.index];
+    var url = constants.apiurl + image.path;
+
+    // load the width and height
+    var width = image.geometry.width;
+    var height = image.geometry.height;
+    var $width = width;
+    var $height = height;
+    // if its a horizontal image
+    if(image.orientation == 'landscape') {
+      // if it overflows the viewport width
+      if((constants.viewportWidth - 120) < width) {
+        // constrain the width to the viewport and give it some extra room
+        $width = width - (width - constants.viewportWidth) - 120;
+        // preserve the aspect ratio
+        $height = height / (1 + ((width - $width) / $width));
       }
-      this.setState({
-        width: $width,
-        height: $height
-      });
-    }.bind(this);
+    } 
+    // if its a vertical image or if it still overflows
+    if(image.orientation == 'portrait' || $height > constants.viewportHeight) {
+      // if it overflows the viewport height
+      if((constants.viewportHeight - 120) < height) {
+        // constrain the height to the viewport and give it some extra room
+        $height = height - (height - constants.viewportHeight) - 120;
+        // preserve the aspect ratio
+        $width = width / (1 + ((height - $height) / $height));
+      }
+    }
+    // trigger re-render
+    this.setState({
+      width: $width,
+      height: $height
+    });
   },
 
   onLeft(ev) {
@@ -171,13 +170,21 @@ var ImageModal = React.createClass({
         show={ this.props.show }
         onHide={ this.props.onHide }>
         <Modal.Body>
-          <img id='image' src={ this.props.allImages[this.state.index] } style={{
-            width: this.state.width,
-            height: this.state.height
-          }} />
+          <img 
+            id='image' 
+            src={ constants.apiurl + this.props.allImages[this.state.index].path } 
+            style={{
+              width: this.state.width,
+              height: this.state.height
+            }}
+          />
           { this._renderLeftButton() }
           { this._renderRightButton() }
-          <span className='counter'>{ parseInt(this.state.index) + 1 }/{ this.props.allImages.length }</span>
+          <span className='counter'>
+            { parseInt(this.state.index) + 1 
+             + '/'
+             + this.props.allImages.length }
+          </span>
         </Modal.Body>          
       </Modal>
     );

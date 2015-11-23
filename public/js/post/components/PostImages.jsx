@@ -18,6 +18,8 @@ var {
 var ImageModal  = require('./ImageModal.jsx');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
+var constants = require('./../../constants');
+
 var PostImages = React.createClass({
 
   propTyes: {
@@ -58,7 +60,7 @@ var PostImages = React.createClass({
     if(!this.props.isEditing) {
       var imageButtons = [];
       for(var key in images) {
-        var url = images[key] + '?w=150&h=150';
+        var url = constants.apiurl + images[key].path + '?w=150&h=150';
         var more = <div />;
         if(key == 7 && post.images.length > 8) {
           // last image
@@ -79,7 +81,7 @@ var PostImages = React.createClass({
     } else {
       imageButtons = [];
       for(var key in images) {
-        var url = images[key] + '?w=150&h=150';
+        var url = constants.apiurl + '/' + images[key].filename + '?w=150&h=150';
         imageButtons.push(
           <div className='panel-body-image' key={ 'postimage:' + post._id + ':' + url }>
             <Button 

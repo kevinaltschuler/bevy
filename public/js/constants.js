@@ -22,8 +22,10 @@ var slashes = '//';
 var api_subdomain = 'api';
 var api_version = '';
 
-exports.siteurl = 'http://joinbevy.com';
-exports.apiurl = 'http://api.joinbevy.com';
+//exports.siteurl = 'http://joinbevy.com';
+//exports.apiurl = 'http://api.joinbevy.com';
+exports.siteurl = 'http://bevy.dev';
+exports.apiurl = 'http://api.bevy.dev';
 
 exports.hostname = hostname;
 exports.protocol = protocol;

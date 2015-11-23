@@ -55,10 +55,8 @@ var CreateNewEventModal = React.createClass({
   },
 
   onUploadComplete(file) {
-    var filename = file.filename;
-    var image = constants.apiurl + '/files/' + filename
     this.setState({
-      image: image,
+      image: file,
     });
   },
 
@@ -93,7 +91,7 @@ var CreateNewEventModal = React.createClass({
     // send the create action
     PostActions.create(
       this.state.title, // title
-      [this.state.image], // image_url
+      [this.state.image], // image
       window.bootstrap.user, // author
       this.props.activeBevy, // bevy
       'event', //type

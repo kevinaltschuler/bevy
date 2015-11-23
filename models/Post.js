@@ -11,6 +11,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
+var ImageSchema = require('./ImageSchema');
 
 var post_types = 'default event'.split(' ');
 
@@ -29,7 +30,7 @@ var PostSchema = new Schema({
 		ref: 'User'
 	},
 	title: String,
-	images: [String],
+	images: [ ImageSchema ],
 	comments: [{}],
 	votes: [Schema({
 		voter: {

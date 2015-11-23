@@ -80,10 +80,8 @@ var NewPostPanel = React.createClass({
   },
 
   onUploadComplete(file) {
-    var filename = file.filename;
-    var image_url = constants.apiurl + '/files/' + filename;
     var images = this.state.images;
-    images.push(image_url);
+    images.push(file);
     this.setState({
       images: images
     });
@@ -91,11 +89,10 @@ var NewPostPanel = React.createClass({
 
   onRemovedFile(file) {
     var filename = JSON.parse(file.xhr.response).filename;
-    //console.log(filename);
-    var image_url = constants.apiurl + '/files/' + filename;
     var images = this.state.images;
-    images = _.reject(images, function($image_url){ return $image_url == image_url });
-    //console.log(images);
+    images = _.reject(images, function($image) { 
+      return $image.filename == filename;
+    });
     this.setState({
       images: images
     });

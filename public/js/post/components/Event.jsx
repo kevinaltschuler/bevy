@@ -197,7 +197,12 @@ var Event = React.createClass({
 
     var $date = new Date(date)
     var dateString = ($date) ? $date.toDateString() : '';
-    var timeString = ($date) ? $date.toLocaleTimeString(navigator.language, {hour: '2-digit', minute:'2-digit'}) : '';
+    var timeString = ($date) 
+      ? $date.toLocaleTimeString(navigator.language, { 
+        hour: '2-digit', 
+        minute:'2-digit'
+      }) 
+      : '';
     var dateTime = ($date) ? $date.toLocaleString() : '';
     var dateTime = dateTime.replace(',', '');
 
@@ -207,7 +212,9 @@ var Event = React.createClass({
 
     var authorName = author.displayName;
 
-    var eventImage = (_.isEmpty(post.images[0])) ? '/img/default_group_img.png' : post.images[0];
+    var eventImage = (_.isEmpty(post.images[0])) 
+      ? '/img/default_group_img.png' 
+      : constants.apiurl + post.images[0].path;
     var eventImageStyle = {
       backgroundImage: 'url(' + eventImage + ')',
       backgroundSize: '100% auto',

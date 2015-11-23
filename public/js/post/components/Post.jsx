@@ -126,9 +126,11 @@ var Post = React.createClass({
     });
   },
 
-  removeImage(image_url) {
+  removeImage(image) {
     var images = this.state.post.images;
-    images = _.reject(images, function($image_url){ return $image_url == image_url });
+    images = _.reject(images, function($image) { 
+      return $image.filename == image.filename; 
+    });
     var post = this.state.post;
     post.images = images;
     this.setState({
@@ -137,11 +139,8 @@ var Post = React.createClass({
   },
 
   addImage(file) {
-    var filename = file.filename;
-    //console.log(filename);
-    var image_url = constants.apiurl + '/files/' + filename;
     var post = this.state.post;
-    post.images.push(image_url);
+    post.images.push(file);
     this.setState({
       post: post
     });

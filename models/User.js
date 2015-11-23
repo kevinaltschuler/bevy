@@ -12,6 +12,7 @@ var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
 var DeviceSchema = require('./Device');
+var ImageSchema = require('./ImageSchema');
 
 var UserSchema = new Schema({
   _id: {
@@ -31,6 +32,7 @@ var UserSchema = new Schema({
     type: String,
     default: 'http://joinbevy.com/img/user-profile-icon.png'
   },
+  image: ImageSchema,
   points: {
     type: Number,
     default: 0
