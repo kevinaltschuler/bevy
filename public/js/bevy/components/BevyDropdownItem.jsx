@@ -16,6 +16,7 @@ var {
   IconButton
 } = require('material-ui');
 
+var constants = require('./../../constants');
 var router = require('./../../router');
 var ChatActions = require('./../../chat/ChatActions');
 
@@ -38,7 +39,9 @@ var BevyDropdownItem = React.createClass({
 
   render() {
     var bevy = this.props.bevy;
-    var image_url = (_.isEmpty(bevy.image_url)) ? '/img/logo_100.png' : bevy.image_url;
+    var image_url = (_.isEmpty(bevy.image)) 
+      ? '/img/logo_100.png' 
+      : constants.apiurl + bevy.image.path;
 
     var chatButton = (this.props.bevy.settings.group_chat)
     ?  <IconButton

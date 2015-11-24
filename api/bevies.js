@@ -80,8 +80,8 @@ exports.create = function(req, res, next) {
   update.name = req.body['name'];
   if(req.body['description'] != undefined)
     update.description = req.body['description'];
-  if(req.body['image_url'] != undefined)
-    update.image_url = req.body['image_url'];
+  if(req.body['image'] != undefined)
+    update.image = req.body['image'];
   if(req.body['admins'] != undefined)
     update.admins = req.body['admins'];
   if(req.body['tags'] != undefined)
@@ -168,7 +168,7 @@ exports.update = function(req, res, next) {
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
     .populate({
       path: 'admins',
-      select: 'displayName username email image_url'
+      select: 'displayName username email image'
     })
     .exec();
   promise.then(function(bevy) {

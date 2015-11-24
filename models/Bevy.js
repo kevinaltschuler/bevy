@@ -13,6 +13,8 @@ var Schema = mongoose.Schema;
 var shortid = require('shortid');
 var _ = require('underscore');
 
+var ImageSchema = require('./ImageSchema');
+
 var BevySchema = new Schema({
 	_id: {
 		type: String,
@@ -32,6 +34,7 @@ var BevySchema = new Schema({
 	image_url: {
 		type: String
 	},
+	image: ImageSchema,
 	subCount: {
 		type: Number,
 		default: 0

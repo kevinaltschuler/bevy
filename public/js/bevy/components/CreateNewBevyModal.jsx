@@ -45,7 +45,7 @@ var CreateNewBevyModal = React.createClass({
     return {
       name: '',
       description: '',
-      image_url: '',
+      image: {},
       slug: '',
       slugVerified: true,
       verifyingSlug: false
@@ -68,10 +68,8 @@ var CreateNewBevyModal = React.createClass({
   },
 
   onUploadComplete(file) {
-    var filename = file.filename;
-    var image_url = constants.apiurl + '/files/' + filename
     this.setState({
-      image_url: image_url,
+      image: file,
     });
   },
 
@@ -80,7 +78,7 @@ var CreateNewBevyModal = React.createClass({
 
     var name = this.refs.Name.getValue();
     var description = this.refs.Description.getValue();
-    var image_url = this.state.image_url;
+    var image = this.state.image;
     var slug = this.state.slug;
 
     if(_.isEmpty(name)) {
@@ -91,7 +89,7 @@ var CreateNewBevyModal = React.createClass({
       return;
     }
 
-    BevyActions.create(name, description, image_url, slug);
+    BevyActions.create(name, description, image, slug);
 
     // after, close the window
     this.hide();
@@ -101,7 +99,7 @@ var CreateNewBevyModal = React.createClass({
     this.setState({
       name: '',
       description: '',
-      image_url: '',
+      image: {},
       slug: '',
       verifyingSlug: false,
       slugVerified: true
@@ -155,7 +153,11 @@ var CreateNewBevyModal = React.createClass({
     if(_.isEmpty(this.state.slug)) return <div />;
     if(this.state.verifyingSlug) {
       // loading indicator
-      return <section className="loaders small"><span className="loader small loader-quart"> </span></section>;
+      return (
+        <section className="loaders small">
+          <span className="loader small loader-quart"> </span>
+        </section>
+      );
     }
     if(this.state.slugVerified) {
       // all good
@@ -181,11 +183,12 @@ var CreateNewBevyModal = React.createClass({
         });
       }
     };
-    var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
+    var bevyImageURL = (_.isEmpty(this.state.image)) 
+      ? '/img/default_group_img.png' 
+      : constants.apiurl + '/files/' + this.state.image.filename;
     var bevyImageStyle = {
-      backgroundImage: 'url(' + bevyImage + ')',
+      backgroundImage: 'url(' + bevyImageURL + ')',
       backgroundSize: '100% auto'
-
     };
 
     return (

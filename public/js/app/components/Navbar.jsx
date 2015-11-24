@@ -119,7 +119,9 @@ var Navbar = React.createClass({
       return <a className="login-btn" href='/login'> Log In </a>;
     }
 
-    var unread = _.reject(this.props.allNotifications, function(notification){ return notification.read });
+    var unread = _.reject(this.props.allNotifications, function(notification){ 
+      return notification.read 
+    });
 
     var counter = (unread.length <= 0)
     ? ''
@@ -140,7 +142,9 @@ var Navbar = React.createClass({
           show={ this.state.activeTab == 'chat' }
           onToggle={() => {
             this.setState({
-              activeTab: (this.state.activeTab == 'chat') ? null : 'chat'
+              activeTab: (this.state.activeTab == 'chat') 
+                ? null 
+                : 'chat'
             });
           }}
         />
@@ -149,7 +153,9 @@ var Navbar = React.createClass({
           show={ this.state.activeTab == 'notifications' }
           onToggle={() => {
             this.setState({
-              activeTab: (this.state.activeTab == 'notifications') ? null : 'notifications'
+              activeTab: (this.state.activeTab == 'notifications') 
+                ? null 
+                : 'notifications'
             });
           }}
         />
@@ -158,7 +164,9 @@ var Navbar = React.createClass({
           show={ this.state.activeTab == 'profile' }
           onToggle={() => {
             this.setState({
-              activeTab: (this.state.activeTab == 'profile') ? null : 'profile'
+              activeTab: (this.state.activeTab == 'profile') 
+                ? null 
+                : 'profile'
             });
           }}
         />
@@ -169,7 +177,7 @@ var Navbar = React.createClass({
   render() {
 
     var navbarStyle;
-    if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image_url))
+    if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image))
       navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'};
     if(router.current == 'home')
       navbarStyle = { boxShadow: 'none'};
@@ -192,11 +200,14 @@ var Navbar = React.createClass({
           ? { filter: 'unset' }
           : { 
             opacity: this.state.opacity,
-            backgroundImage: 'url(' + this.props.activeBevy.image_url + ')'
+            backgroundImage: 'url(' + constants.apiurl 
+              + this.props.activeBevy.image.path + ')'
           };
         break;
       case 'search':
-        navbarTitle = ((_.isEmpty(router.search_query)) ? 'all bevies' : 'search for ' + router.search_query);
+        navbarTitle = ((_.isEmpty(router.search_query)) 
+          ? 'all bevies' 
+          : 'search for ' + router.search_query);
         break;
       default:
         break;
@@ -213,11 +224,22 @@ var Navbar = React.createClass({
 
     return (
       <div id='navbar' className="navbar" style={ navbarStyle }>
-        <div className='background-wrapper' style={ _.isEmpty(this.props.activeBevy.image_url) ? { backgroundColor: '#939393' } : { backgroundColor: '#000' }}>
+        <div 
+          className='background-wrapper' 
+          style={ _.isEmpty(this.props.activeBevy.image) 
+            ? { backgroundColor: '#939393' } 
+            : { backgroundColor: '#000' }}
+        >
           <div className="background-image" style={ backgroundStyle } />
         </div>
         <div className="left">
-          <Button className="bevy-logo-btn" title='Frontpage' href={ (!_.isEmpty(window.bootstrap.user)) ? '/b/frontpage' : '/' }>
+          <Button 
+            className="bevy-logo-btn" 
+            title='Frontpage' 
+            href={ (!_.isEmpty(window.bootstrap.user)) 
+              ? '/b/frontpage' 
+              : '/' }
+          >
             <div className='bevy-logo-img'/>
           </Button>
           <BevyDropdown

@@ -9,11 +9,6 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
-var router = require('./../../router');
-var constants = require('./../../constants');
-
 var {
   Button,
   OverlayTrigger,
@@ -25,8 +20,10 @@ var {
   Snackbar,
 } = require('material-ui');
 
+var _ = require('underscore');
+var router = require('./../../router');
+var constants = require('./../../constants');
 var BevyActions = require('./../BevyActions');
-
 var user = window.bootstrap.user;
 
 var PublicBevyPanel = React.createClass({
@@ -37,14 +34,13 @@ var PublicBevyPanel = React.createClass({
   },
 
   getInitialState() {
-
     var bevy = this.props.bevy;
     var joined = _.findWhere(this.props.myBevies, { _id: bevy._id }) != undefined;
 
     return {
       name: bevy.name || '',
       description: bevy.description || '',
-      image_url: bevy.image_url || '',
+      image: bevy.image || {},
       joined: joined
     };
   },
@@ -56,7 +52,11 @@ var PublicBevyPanel = React.createClass({
       this.refs.snackbar.show();
     } 
     else {
-      BevyActions.join(this.props.bevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
+      BevyActions.join(
+        this.props.bevy._id, 
+        window.bootstrap.user._id, 
+        window.bootstrap.user.email
+      );
       var joined = true;
       this.setState({
         joined: joined
@@ -79,7 +79,9 @@ var PublicBevyPanel = React.createClass({
       <div />
     );
     return (
-      <OverlayTrigger placement='top' overlay={ <Tooltip>This Bevy Is Private</Tooltip> }>
+      <OverlayTrigger placement='top' overlay={ 
+        <Tooltip>This Bevy Is Private</Tooltip> 
+      }>
         <span className='glyphicon glyphicon-lock' />
       </OverlayTrigger>
     );
@@ -88,16 +90,28 @@ var PublicBevyPanel = React.createClass({
   render() {
 
     var bevy = this.props.bevy;
-    var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
-    var bevyImageStyle = {backgroundImage: 'url(' + bevyImage + ')'};
+    var bevyImage = (_.isEmpty(this.state.image)) 
+      ? '/img/default_group_img.png' 
+      : constants.apiurl + this.state.image.path;
+    var bevyImageStyle = { backgroundImage: 'url(' + bevyImage + ')' };
 
-    var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
-    var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
+    var name = (_.isEmpty(bevy)) 
+      ? 'not in a bevy' 
+      : this.state.name;
+    var description = (_.isEmpty(bevy)) 
+      ? 'no description' 
+      : this.state.description;
     if(_.isEmpty(description)) description = 'no description';
 
     var joinButton = (this.state.joined)
     ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
-    : <RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='join' onClick={ this.onRequestJoin } /> 
+    : (
+      <RaisedButton 
+        disabled={_.isEmpty(window.bootstrap.user)} 
+        label='join' 
+        onClick={ this.onRequestJoin } 
+      />
+    ); 
 
     var requestButton = (
       <div>
@@ -106,39 +120,57 @@ var PublicBevyPanel = React.createClass({
           autoHideDuration={5000}
           ref='snackbar'
         />
-        <RaisedButton disabled={_.isEmpty(window.bootstrap.user)} label='request join' onClick={ this.onRequestJoin } />
+        <RaisedButton 
+          disabled={_.isEmpty(window.bootstrap.user)} 
+          label='request join' 
+          onClick={ this.onRequestJoin } 
+        />
       </div>
     );
 
     var actionButton = (bevy.settings.privacy == 1 && !this.state.joined)
-    ? requestButton
-    : joinButton;
+      ? requestButton
+      : joinButton;
 
-    var subCount = (bevy.subCount == 1) ? '1 member' : bevy.subCount + ' members';
+    var subCount = (bevy.subCount == 1) 
+      ? '1 member' 
+      : bevy.subCount + ' members';
     var created = new Date(bevy.created).toLocaleDateString();
 
-    var loginTip = (_.isEmpty(window.bootstrap.user)) ? <Tooltip>Please Login to Join</Tooltip> : <div/>;
+    var loginTip = (_.isEmpty(window.bootstrap.user)) 
+      ? <Tooltip>Please Login to Join</Tooltip> 
+      : <div/>;
 
     var details = (bevy.settings.privacy == 1 && !this.state.joined)
     ? (
-        <div className='left'>
-          <span>private</span>
-          <span></span>
-        </div>
-      )
-    : (
-        <div className='left'>
-          <span>{ subCount }</span>
-          <span>Created on { created }</span>
-        </div>
-      )
+      <div className='left'>
+        <span>private</span>
+        <span></span>
+      </div>
+    ) : (
+      <div className='left'>
+        <span>{ subCount }</span>
+        <span>Created on { created }</span>
+      </div>
+    );
 
     return (
       <div className="panel public-bevy-panel">
-        <a className="bevy-panel-top" href={ this.props.bevy.url } onClick={ this.switchBevy } style={ bevyImageStyle }/>
+        <a 
+          className="bevy-panel-top" 
+          href={ this.props.bevy.url } 
+          onClick={ this.switchBevy } 
+          style={ bevyImageStyle }
+        />
         <div className='panel-info'>
           <div className='panel-info-top'>
-            <a className='title' href={ this.props.bevy.url } onClick={ this.switchBevy }>{ name }</a>
+            <a 
+              className='title' 
+              href={ this.props.bevy.url } 
+              onClick={ this.switchBevy }
+            >
+              { name }
+            </a>
             { this._renderLock() }
           </div>
           <div className='panel-info-bottom'>

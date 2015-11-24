@@ -1,4 +1,4 @@
-  /**
+/**
  * BevyPanelHeader.jsx
  * formerly RightSidebar.jsx
  *
@@ -9,10 +9,6 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
-var constants = require('./../../constants');
-
 var {
   IconButton,
   TextField,
@@ -23,28 +19,25 @@ var {
   Tooltip,
   OverlayTrigger
 } = require('react-bootstrap');
-
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
+var _ = require('underscore');
+var constants = require('./../../constants');
 var BevyActions = require('./../BevyActions');
-
 var user = window.bootstrap.user;
 
 var BevyPanelHeader = React.createClass({
-
   propTypes: {
     activeBevy: React.PropTypes.object,
     hidden: React.PropTypes.bool
   },
 
   getInitialState() {
-
     var bevy = this.props.activeBevy;
-
     return {
       name: bevy.name || '',
       description: bevy.description || '',
-      image_url: bevy.image_url || '',
+      image: bevy.image || {},
       isEditing: false
     };
   },
@@ -55,7 +48,7 @@ var BevyPanelHeader = React.createClass({
     this.setState({
       name: bevy.name,
       description: bevy.description,
-      image_url: bevy.image_url,
+      image: bevy.image,
     });
   },
 
@@ -69,9 +62,9 @@ var BevyPanelHeader = React.createClass({
     var bevy_id = this.props.activeBevy.id;
     var name = this.state.name;
     var description = this.state.description;
-    var image_url = this.state.image_url;
+    var image = this.state.image;
 
-    BevyActions.update(bevy_id, name, description, image_url);
+    BevyActions.update(bevy_id, name, description, image);
 
     this.setState({
       isEditing: false
@@ -79,17 +72,15 @@ var BevyPanelHeader = React.createClass({
   },
 
   onUploadComplete(file) {
-    var filename = file.filename;
-    var image_url = constants.apiurl + '/files/' + filename;
     this.setState({
-      image_url: image_url
+      image: file
     });
 
     var bevy_id = this.props.activeBevy.id;
     var name = this.state.name;
     var description = this.state.description;
 
-    BevyActions.update(bevy_id, name, description, image_url);
+    BevyActions.update(bevy_id, name, description, file);
   },
 
   onChange(ev) {
@@ -102,13 +93,17 @@ var BevyPanelHeader = React.createClass({
   render() {
 
     var bevy = this.props.activeBevy;
-    var bevyImage = (_.isEmpty(this.state.image_url)) ? '/img/default_group_img.png' : this.state.image_url;
-    var bevyImageStyle = (this.state.image_url === '/img/default_group_img.png')
-    ? { backgroundImage: 'url(' + bevyImage + ')' }
-    : { backgroundImage: 'url(' + bevyImage + ')' };
+    var bevyImageURL = (_.isEmpty(this.state.image)) 
+      ? '/img/default_group_img.png' 
+      : constants.apiurl + this.state.image.path;
+    var bevyImageStyle = { backgroundImage: 'url(' + bevyImageURL + ')' };
 
-    var name = (_.isEmpty(bevy)) ? 'not in a bevy' : this.state.name;
-    var description = (_.isEmpty(bevy)) ? 'no description' : this.state.description;
+    var name = (_.isEmpty(bevy)) 
+      ? 'not in a bevy' 
+      : this.state.name;
+    var description = (_.isEmpty(bevy)) 
+      ? 'no description' 
+      : this.state.description;
     if(_.isEmpty(description)) description = 'no description';
 
     var dropzoneOptions = {
@@ -133,7 +128,9 @@ var BevyPanelHeader = React.createClass({
     if(window.bootstrap.user) {
       if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id}) != undefined) {
         editButton = (
-          <OverlayTrigger placement='top' overlay={<Tooltip>Edit Name/Description</Tooltip>}>
+          <OverlayTrigger placement='top' overlay={
+            <Tooltip>Edit Name/Description</Tooltip>
+          }>
             <Button className='edit-btn' onClick={ this.startEditing }>
               <span className='glyphicon glyphicon-pencil' />
             </Button>
@@ -157,7 +154,7 @@ var BevyPanelHeader = React.createClass({
       return (
         <div>
           <div className="sidebar-top">
-            {sidebarPicture}
+            { sidebarPicture }
             <div className="sidebar-title">
               <TextField
                 type='text'
@@ -167,7 +164,7 @@ var BevyPanelHeader = React.createClass({
                 placeholder='Group Name'
                 onKeyUp={ this.onKeyUp }
                 onChange={ this.onChange }
-                style={{marginLeft: '10px', width: '90%'}}
+                style={{ marginLeft: '10px', width: '90%' }}
               />
               <TextField
                 type='text'
@@ -178,9 +175,18 @@ var BevyPanelHeader = React.createClass({
                 onKeyUp={ this.onKeyUp }
                 onChange={ this.onChange }
                 multiLine= { true }
-                style={{marginLeft: '10px', width: '90%'}}
+                style={{ marginLeft: '10px', width: '90%' }}
               />
-              <RaisedButton label="save" onClick={ this.stopEditing } style={{marginLeft: '10px', width: '90%', marginBottom: '10px', marginTop: '5px'}} />
+              <RaisedButton 
+                label="save" 
+                onClick={ this.stopEditing } 
+                style={{ 
+                  marginLeft: '10px', 
+                  width: '90%', 
+                  marginBottom: '10px', 
+                  marginTop: '5px'
+                }} 
+              />
             </div>
           </div>
         </div>

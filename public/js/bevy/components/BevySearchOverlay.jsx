@@ -7,18 +7,16 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
 var {
   Button,
   Overlay
 } = require('react-bootstrap');
 
+var _ = require('underscore');
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
-
-var noop = function() {};
 
 var BevySearchOverlay = React.createClass({
 
@@ -32,7 +30,7 @@ var BevySearchOverlay = React.createClass({
 
   getDefaultProps() {
     return {
-      addSibling: noop
+      addSibling: _.noop
     };
   },
 
@@ -137,7 +135,9 @@ var BevySearchOverlay = React.createClass({
     for(var key in this.state.bevies) {
       var bevy = this.state.bevies[key];
 
-      var image_url = bevy.image_url;
+      var image_url = (_.isEmpty(bevy.image))
+        ? '/img/default_group_img.png'
+        : constants.apiurl + bevy.image.path;
       var name = bevy.name;
       var imageStyle = {
         backgroundImage: 'url(' + image_url + ')',
@@ -149,13 +149,18 @@ var BevySearchOverlay = React.createClass({
         <Button  
           key={ 'bevysearchoverlay:bevy:' + bevy._id } 
           id={ key } 
-          className={ 'user-item' + ((this.state.selected == key) ? ' active' : '') }
+          className={ 'user-item' + ((this.state.selected == key) 
+            ? ' active' 
+            : '') 
+          }
           onClick={ this.addSibling }
           onMouseOver={ this.onItemMouseOver }
         >
           <div className='image' id={ key } style={ imageStyle }/>
           <div className='details' id={ key }>
-            <span className='name' id={ key }>{ name }</span>
+            <span className='name' id={ key }>
+              { name }
+            </span>
           </div>
         </Button>
       );
@@ -168,7 +173,13 @@ var BevySearchOverlay = React.createClass({
         placement='bottom'
         container={ this.props.container }
       >
-        <div style={{marginLeft: '30px', marginTop: '-10px'}} className='user-search-overlay'>
+        <div 
+          style={{
+            marginLeft: '30px',
+            marginTop: '-10px'
+          }} 
+          className='user-search-overlay'
+        >
           { bevies }
         </div>
       </Overlay>

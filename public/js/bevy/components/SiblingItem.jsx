@@ -37,9 +37,18 @@ var SiblingItem = React.createClass({
     var siblings = this.props.activeBevy.siblings;
     var bevy = this.props.bevy;
 
-    var siblings = _.reject(this.props.activeBevy.siblings, function($sibling) { return $sibling == bevy._id });
+    var siblings = _.reject(this.props.activeBevy.siblings, function($sibling) { 
+      return $sibling == bevy._id;
+    });
 
-    BevyActions.update(this.props.activeBevy._id, null, null, null, null, siblings);
+    BevyActions.update(
+      this.props.activeBevy._id, 
+      null, 
+      null, 
+      null, 
+      null, 
+      siblings
+    );
   },
 
   render() {
@@ -49,7 +58,9 @@ var SiblingItem = React.createClass({
       return <div />;
     }
 
-    var image_url = (_.isEmpty(bevy.image_url)) ? '/img/logo_100.png' : bevy.image_url;
+    var image_url = (_.isEmpty(bevy.image)) 
+      ? '/img/logo_100.png' 
+      : constants.apiurl + bevy.image.path;
 
     var bevyButton = (this.props.editing)
     ? (
@@ -66,20 +77,25 @@ var SiblingItem = React.createClass({
       <FlatButton 
         linkButton={true} 
         href={ bevy.url }
-        style={{width: '100%', display: 'flex', flexDirection: 'row', padding: '5px 10px'}}
+        style={{ 
+          width: '100%', 
+          display: 'flex', 
+          flexDirection: 'row', 
+          padding: '5px 10px'
+        }}
         className='sibling-item'
-        labelStyle={{fontWeight: '700'}}
+        labelStyle={{ fontWeight: '700' }}
       >
         <div
           className='bevy-image'
           style={{ backgroundImage: 'url(' + image_url + ')' }}
         />
-        <span className='bevy-name'>{bevy.name}</span>
+        <span className='bevy-name'>{ bevy.name }</span>
       </FlatButton>
     );
 
     return (
-      <div style={{width: '100%'}}>
+      <div style={{ width: '100%' }}>
         { bevyButton }
       </div>
     );

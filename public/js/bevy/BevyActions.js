@@ -15,11 +15,11 @@ var BEVY = require('./../constants').BEVY;
 
 var PostActions = {
 
-  create(name, description, image_url, slug) {
+  create(name, description, image, slug) {
     dispatch(BEVY.CREATE, {
       name: (name == undefined) ? '' : name,
       description: (description == undefined) ? '' : description,
-      image_url: (image_url == undefined) ? '' : image_url,
+      image: (image == undefined) ? {} : image,
       slug: slug
     });
   },
@@ -30,12 +30,12 @@ var PostActions = {
     });
   },
 
-  update(bevy_id, name, description, image_url, tags, siblings, settings) {
+  update(bevy_id, name, description, image, tags, siblings, settings) {
     dispatch(BEVY.UPDATE, {
       bevy_id: (bevy_id == undefined) ? '' : bevy_id,
       name: (name == undefined) ? null : name,
       description: (description == undefined) ? null : description,
-      image_url: (image_url == undefined) ? null : image_url,
+      image: (image == undefined) ? null : image,
       tags: (tags == undefined) ? null : tags,
       siblings: (siblings == undefined) ? null : siblings,
       settings: (settings == undefined) ? null : settings

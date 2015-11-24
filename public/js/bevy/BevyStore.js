@@ -77,7 +77,7 @@ _.extend(BevyStore, {
       case BEVY.CREATE:
         var name = payload.name;
         var description = payload.description;
-        var image_url = payload.image_url;
+        var image = payload.image;
         var slug = payload.slug;
         var user = window.bootstrap.user;
 
@@ -92,7 +92,7 @@ _.extend(BevyStore, {
         var newBevy = this.myBevies.add({
           name: name,
           description: description,
-          image_url: image_url,
+          image: image,
           slug: slug,
           admins: [user._id],
           tags: [{name: 'general', color: '#F44336'}]
@@ -154,7 +154,7 @@ _.extend(BevyStore, {
 
         var name = payload.name || bevy.get('name');
         var description = payload.description || bevy.get('description');
-        var image_url = payload.image_url || bevy.get('image_url');
+        var image = payload.image || bevy.get('image');
         var settings = payload.settings || bevy.get('settings');
         var tags = payload.tags || bevy.get('tags');
         var siblings = payload.siblings || bevy.get('siblings');
@@ -162,7 +162,7 @@ _.extend(BevyStore, {
         bevy.set({
           name: name,
           description: description,
-          image_url: image_url,
+          image: image,
           tags: tags,
           siblings: siblings,
           settings: settings
@@ -171,7 +171,7 @@ _.extend(BevyStore, {
         bevy.save({
           name: name,
           description: description,
-          image_url: image_url,
+          image: image,
           tags: tags,
           siblings: siblings,
           settings: settings
