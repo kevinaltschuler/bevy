@@ -200,7 +200,9 @@ var Navbar = React.createClass({
           ? { filter: 'unset' }
           : { 
             opacity: this.state.opacity,
-            backgroundImage: 'url(' + this.props.activeBevy.image.path + ')'
+            backgroundImage: (_.isEmpty(this.props.activeBevy.image))
+              ? ''
+              : 'url(' + this.props.activeBevy.image.path + ')'
           };
         break;
       case 'search':
