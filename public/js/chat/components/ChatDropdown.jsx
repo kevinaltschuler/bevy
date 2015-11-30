@@ -7,24 +7,21 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
 var {
   Button,
   Overlay
 } = require('react-bootstrap');
-
 var ThreadItem = require('./ThreadItem.jsx');
 
+var _ = require('underscore');
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
 var ChatStore = require('./../ChatStore');
 var ChatActions = require('./../ChatActions');
-
 var user = window.bootstrap.user;
 var email = user.email;
 
 var ChatDropdown = React.createClass({
-
   propTypes: {
     show: React.PropTypes.bool,
     onToggle: React.PropTypes.func
@@ -106,12 +103,14 @@ var ChatDropdown = React.createClass({
           <div className='chat-dropdown'>
             <div className='header'>
               <span className='inbox-text'>Inbox</span>
-              <Button className='create-new-message-btn' onClick={ this.createMessage }>Send a New Message</Button>
+              <Button 
+                className='create-new-message-btn' 
+                onClick={ this.createMessage }
+              >
+                Send a New Message
+              </Button>
             </div>
             { this._renderThreadList() }
-            {/*
-            <Button className='see-all-btn'>See all</Button>
-            */}
           </div>
         </div>
       </Overlay>
@@ -122,8 +121,13 @@ var ChatDropdown = React.createClass({
 
     return (
       <div ref='Container' style={{ position: 'relative' }}>
-        <Button ref='ChatButton' className="chat-dropdown-btn" onClick={ this.toggle } title='Messages'>
-          <div className='chat-img'/>
+        <Button 
+          ref='ChatButton' 
+          className="chat-dropdown-btn" 
+          onClick={ this.toggle } 
+          title='Messages'
+        >
+          <div className='chat-img' />
         </Button>
         { this._renderOverlay() }
       </div>

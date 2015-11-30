@@ -6,28 +6,21 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
 var Ink = require('react-ink');
-
 var {
   Button,
   OverlayTrigger,
   Tooltip
 } = require('react-bootstrap');
+var ThreadImage = require('./ThreadImage.jsx');
 
+var _ = require('underscore');
 var constants = require('./../../constants');
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
-
-var ThreadImage = require('./ThreadImage.jsx');
-
 var user = window.bootstrap.user;
 
-var noop = function() {};
-
 var ThreadItem = React.createClass({
-
   propTypes: {
     thread: React.PropTypes.object.isRequired,
     width: React.PropTypes.any,
@@ -39,7 +32,7 @@ var ThreadItem = React.createClass({
   getDefaultProps() {
     return {
       width: '100%',
-      onClick: noop,
+      onClick: _.noop,
       showTooltip: false
     }
   },

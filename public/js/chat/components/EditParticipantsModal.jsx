@@ -28,7 +28,10 @@ var EditParticipantsModal = React.createClass({
   _renderParticipants() {
     var users = [];
     var threadUsers = this.props.thread.users;
-    threadUsers = _.reject(threadUsers, function($user) { return $user._id == window.bootstrap.user._id }); // skip self
+    threadUsers = _.reject(threadUsers, function($user) { 
+      // skip self
+      return $user._id == window.bootstrap.user._id 
+    }); 
     for(var key in threadUsers) {
       var participant = threadUsers[key];
       users.push(
@@ -43,9 +46,12 @@ var EditParticipantsModal = React.createClass({
   },
 
   render() {
-
     return (
-      <Modal className='edit-participants-modal' show={ this.props.show } onHide={ this.props.onHide }>
+      <Modal 
+        className='edit-participants-modal' 
+        show={ this.props.show } 
+        onHide={ this.props.onHide }
+      >
         <Modal.Header closeButton>
           <Modal.Title>Edit Participants</Modal.Title>
         </Modal.Header>
@@ -58,7 +64,10 @@ var EditParticipantsModal = React.createClass({
           <FlatButton
             onClick={ this.props.onHide }
             label='Close'
-            style={{marginRight: '0px', marginBottom: '0px'}} 
+            style={{
+              marginRight: '0px', 
+              marginBottom: '0px'
+            }} 
           />
         </Modal.Footer>
       </Modal>
@@ -77,7 +86,9 @@ var ParticipantItem = React.createClass({
     return (
       <li className='participant'>
         <div className='img' style={{
-          backgroundImage: 'url(' + ((_.isEmpty(participant.image_url)) ? '/img/user-profile-icon.png' : participant.image_url) + ')'
+          backgroundImage: 'url(' + ((_.isEmpty(participant.image.filename)) 
+            ? '/img/user-profile-icon.png' 
+            : participant.image.filename) + ')'
         }} />
         <span className='name'>{ participant.displayName }</span>
         <FlatButton
@@ -86,7 +97,6 @@ var ParticipantItem = React.createClass({
           }}
           label='Remove'
           style={{
-            
           }}
         />
       </li>

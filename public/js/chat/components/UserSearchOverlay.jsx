@@ -17,10 +17,7 @@ var UserStore = require('./../../profile/UserStore');
 var constants = require('./../../constants');
 var USER = constants.USER;
 
-var noop = function() {};
-
 var UserSearchOverlay = React.createClass({
-
   propTypes: {
     container: React.PropTypes.any, // the DOM node the overlay is rendered in
     target: React.PropTypes.func, // the DOM node the overlay is relative to
@@ -31,7 +28,7 @@ var UserSearchOverlay = React.createClass({
 
   getDefaultProps() {
     return {
-      addUser: noop,
+      addUser: _.noop,
       addedUsers: []
     };
   },
@@ -130,12 +127,13 @@ var UserSearchOverlay = React.createClass({
   },
 
   render() {
-
     var users = [];
     for(var key in this.state.users) {
       var user = this.state.users[key];
 
-      var image_url = (_.isEmpty(user.image_url)) ? '/img/user-profile-icon.png' : user.image_url;
+      var image_url = (_.isEmpty(user.image.filename)) 
+        ? '/img/user-profile-icon.png' 
+        : user.image.filename;
       var name = user.displayName;
       var imageStyle = {
         backgroundImage: 'url(' + image_url + ')',
@@ -147,13 +145,17 @@ var UserSearchOverlay = React.createClass({
         <Button  
           key={ 'usersearchoverlay:user:' + user._id } 
           id={ key } 
-          className={ 'user-item' + ((this.state.selected == key) ? ' active' : '') }
+          className={ 'user-item' + ((this.state.selected == key) 
+            ? ' active' 
+            : '') }
           onClick={ this.addUser }
           onMouseOver={ this.onItemMouseOver }
         >
           <div className='image' id={ key } style={ imageStyle }/>
           <div className='details' id={ key }>
-            <span className='name' id={ key }>{ name }</span>
+            <span className='name' id={ key }>
+              { name }
+            </span>
           </div>
         </Button>
       );

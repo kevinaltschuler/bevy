@@ -83,14 +83,13 @@ _.extend(UserStore, {
         break;
 
       case USER.UPDATE:
-        var image_url = payload.image_url;
+        var image = payload.image;
 
         this.user.save({
-          image_url: image_url
+          image: image
         }, {
           patch: true,
           success: function(model, response, options) {
-
           }.bind(this)
         });
         break;

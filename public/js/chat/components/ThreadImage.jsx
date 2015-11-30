@@ -57,7 +57,9 @@ var ThreadImage = React.createClass({
         for(var key in threadUsers) {
           if(key > 3) continue; // limit these icons to 4
           var user = threadUsers[key];
-          var image_url = _.isEmpty(user.image_url) ? '/img/user-profile-icon.png' : user.image_url;
+          var image_url = _.isEmpty(user.image.filename) 
+            ? '/img/user-profile-icon.png' 
+            : user.image.filename;
           var iconStyle = {
             backgroundImage: 'url(' + image_url + ')',
             backgroundSize: 'auto 100%',

@@ -23,7 +23,6 @@ var ChatActions = require('./../../chat/ChatActions');
 var PostActions = require('./../PostActions');
 
 var PostHeader = React.createClass({
-
   propTypes: {
     post: React.PropTypes.object,
     startEdit: React.PropTypes.func
@@ -63,8 +62,8 @@ var PostHeader = React.createClass({
     var post = this.props.post;
     var tag = post.tag;
 
-    var profileImage = (post.author.image_url)
-    ? post.author.image_url
+    var profileImage = (post.author.image.filename)
+    ? post.author.image.filename
     : constants.defaultProfileImage;
 
     var ago = timeAgo(Date.parse(post.created));
@@ -80,7 +79,8 @@ var PostHeader = React.createClass({
 
     var deleteButton = '';
     if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == post.author._id || _.contains(post.bevy.admins, window.bootstrap.user._id))
+      if(window.bootstrap.user._id == post.author._id 
+        || _.contains(post.bevy.admins, window.bootstrap.user._id))
         deleteButton = (
           <MenuItem onClick={ this.destroy } >
             Delete Post
@@ -99,7 +99,9 @@ var PostHeader = React.createClass({
     }
 
     var pinButton = '';
-    var pinButtonText = (post.pinned) ? 'Unpin Post' : 'Pin Post';
+    var pinButtonText = (post.pinned) 
+      ? 'Unpin Post' 
+      : 'Pin Post';
     if(window.bootstrap.user) {
       if(_.contains(post.bevy.admins, window.bootstrap.user._id)) {
         pinButton = (
@@ -118,28 +120,53 @@ var PostHeader = React.createClass({
     ? <Badge style={{backgroundColor: tag.color }}>{tag.name}</Badge>
     : '';
 
-    var hideDropdown = (_.isEmpty(deleteButton) && _.isEmpty(editButton) && _.isEmpty(pinButton))
+    var hideDropdown = (_.isEmpty(deleteButton) 
+      && _.isEmpty(editButton) && _.isEmpty(pinButton))
     ? {display: 'none'}
     : {}
 
-    var authorButton = (_.isEmpty(window.bootstrap.user) || (post.author == window.bootstrap.user)) ? <div>{ post.author.displayName }</div> : <Button onClick={ this.startPM }>{ post.author.displayName }</Button>;
+    var authorButton = (_.isEmpty(window.bootstrap.user) 
+      || (post.author == window.bootstrap.user)) 
+      ? (
+        <div>
+          { post.author.displayName }
+        </div>
+      ) : (
+        <Button onClick={ this.startPM }>
+          { post.author.displayName }
+        </Button>
+      );
 
     return (
       <div className='panel-header'>
-        <div className='profile-img' title={ post.author.displayName } style={{backgroundImage: 'url(' + profileImage + ')',}} />
+        <div 
+          className='profile-img' 
+          title={ post.author.displayName } 
+          style={{ backgroundImage: 'url(' + profileImage + ')' }} 
+        />
         <div className='post-details'>
           <div className='top'>
             <span className="details">
-              {authorButton}
+              { authorButton }
             </span>
             <span className="glyphicon glyphicon-triangle-right"/>
             <span className="details">
-              <a className='bevy-link' href={ post.bevy.url } onClick={ this.onSwitchBevy }>{ post.bevy.name }</a>
+              <a 
+                className='bevy-link' 
+                href={ post.bevy.url } 
+                onClick={ this.onSwitchBevy }
+              >
+                { post.bevy.name }
+              </a>
             </span>
           </div>
           <div className="bottom">
-            <span className="detail-time">{ ago }</span>
-            <span className='detail-time'>{ expireText }</span>
+            <span className="detail-time">
+              { ago }
+            </span>
+            <span className='detail-time'>
+              { expireText }
+            </span>
           </div>
         </div>
         <div className='badges'>

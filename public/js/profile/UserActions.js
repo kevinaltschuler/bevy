@@ -6,9 +6,9 @@ var constants = require('./../constants');
 var USER = constants.USER;
 
 var UserActions = {
-  update(image_url) {
+  update(image) {
     dispatch(USER.UPDATE, {
-      image_url: (image_url == undefined) ? null : image_url
+      image: (image == undefined) ? null : image
     });
   },
   search(query) {

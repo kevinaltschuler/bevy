@@ -27,7 +27,6 @@ var BevyActions = require('./../BevyActions');
 var user = window.bootstrap.user;
 
 var PublicBevyPanel = React.createClass({
-
   propTypes: {
     bevy: React.PropTypes.object,
     myBevies: React.PropTypes.array.isRequired

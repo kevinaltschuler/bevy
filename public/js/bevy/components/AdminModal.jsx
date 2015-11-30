@@ -26,7 +26,6 @@ var AdminModal = React.createClass({
 
   getInitialState() {
     return {
-
     };
   },
 
@@ -45,13 +44,21 @@ var AdminModal = React.createClass({
     var adminItems = [];
     for(var key in admins) {
       var admin = admins[key];
-      var image_url = (_.isEmpty(admin.image_url)) ? '/img/user-profile-icon.png' : admin.image_url;
+      var image_url = (_.isEmpty(admin.image.filename)) 
+        ? '/img/user-profile-icon.png' 
+        : admin.image.filename;
       adminItems.push(
-        <div key={ 'adminitem:' + key } className='admin-item' onClick={() => this.startPM(admin._id)}>
+        <div 
+          key={ 'adminitem:' + key } 
+          className='admin-item' 
+          onClick={() => this.startPM(admin._id)}
+        >
           <div className='img' style={{
             backgroundImage: 'url(' + image_url + ')'
           }} />
-          <span className='name'>{ admin.displayName }</span>
+          <span className='name'>
+            { admin.displayName }
+          </span>
         </div>
       );
     }
@@ -62,7 +69,9 @@ var AdminModal = React.createClass({
     return (
       <Modal show={ this.props.show } onHide={ this.hide } className='admin-modal'>
         <Modal.Header closeButton>
-          <Modal.Title>Administrators of { this.props.activeBevy.name }</Modal.Title>
+          <Modal.Title>
+            Administrators of { this.props.activeBevy.name }
+          </Modal.Title>
         </Modal.Header>
         <Modal.Body>
           { this._renderAdmins() }

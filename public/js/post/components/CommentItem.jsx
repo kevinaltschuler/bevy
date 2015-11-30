@@ -8,19 +8,16 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
+var CommentSubmit = require('./CommentSubmit.jsx');
 
+var _ = require('underscore');
 var constants = require('./../../constants');
 var timeAgo = require('./../../shared/helpers/timeAgo');
-
-var CommentSubmit = require('./CommentSubmit.jsx');
 var CommentActions = require('./../CommentActions');
 var ChatActions = require('./../../chat/ChatActions');
-
 var user = window.bootstrap.user;
 
 var CommentList = React.createClass({
-
   propTypes: {
     comments: React.PropTypes.array,
     post: React.PropTypes.object
@@ -51,7 +48,6 @@ var CommentList = React.createClass({
 });
 
 var CommentItem = React.createClass({
-
   propTypes: {
     comment: React.PropTypes.object.isRequired,
     post: React.PropTypes.object.isRequired
@@ -97,8 +93,8 @@ var CommentItem = React.createClass({
 
     var authorName = author.displayName || 'placeholder author';
 
-    var profileImage = (author.image_url)
-    ? author.image_url
+    var profileImage = (author.image.filename)
+    ? author.image.filename
     : constants.defaultProfileImage;
 
     var replyText = (this.state.isReplying)
@@ -123,9 +119,16 @@ var CommentItem = React.createClass({
     : '';
 
     var deleteButton = '';
-    if(window.bootstrap.user) {
-      if(author._id == window.bootstrap.user._id)
-        deleteButton = (<a className='reply-link' href='#' onClick={ this.destroy }>delete</a>);
+    if(window.bootstrap.user && author._id == window.bootstrap.user._id) {
+      deleteButton = (
+        <a 
+          className='reply-link' 
+          href='#' 
+          onClick={ this.destroy }
+        >
+          delete
+        </a>
+      );
     }
 
     var collapseBody = (this.state.collapsed)
@@ -133,9 +136,14 @@ var CommentItem = React.createClass({
       <div className="comment">
         <div className='comment-col collapsed' >
           <div className="comment-title" onClick={this.onCollapse}>
-            <a className="comment-name">{ authorName }</a>
+            <a className="comment-name">
+              { authorName }
+            </a>
             <div className="comment-collapse">
-              <span className="glyphicon glyphicon-plus btn collapse-btn" onClick={this.onCollapse}></span>
+              <span 
+                className="glyphicon glyphicon-plus btn collapse-btn" 
+                onClick={this.onCollapse}>
+              </span>
             </div>
           </div>
         </div>
@@ -146,9 +154,17 @@ var CommentItem = React.createClass({
           <div className="comment-text">
             <div className="comment-title">
               <div className="comment-name">
-                <a className="comment-name" href="#" onClick={ this.startPM }>{ authorName }</a>&nbsp;
+                <a 
+                  className="comment-name" 
+                  href="#" 
+                  onClick={ this.startPM }
+                >
+                  { authorName }
+                </a>
+                &nbsp;
                 <div className="detail-time">
-                  { timeAgo(Date.parse(comment.created)) }&nbsp;&nbsp;
+                  { timeAgo(Date.parse(comment.created)) }
+                  &nbsp;&nbsp;
                 </div>
                 <a className="reply-link" href="#" onClick={ this.onReply }>
                   { replyText }
@@ -157,10 +173,15 @@ var CommentItem = React.createClass({
                 { deleteButton }
               </div>
               <div className="comment-collapse">
-                <span className="glyphicon glyphicon-minus btn collapse-btn" onClick={this.onCollapse}></span>
+                <span 
+                  className="glyphicon glyphicon-minus btn collapse-btn" 
+                  onClick={this.onCollapse}>
+                </span>
               </div>
             </div>
-            <div className="comment-body">{ comment.body }</div>
+            <div className="comment-body">
+              { comment.body }
+            </div>
             <div className='comment-actions'>
             </div>
           </div>

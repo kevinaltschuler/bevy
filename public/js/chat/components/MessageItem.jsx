@@ -39,7 +39,9 @@ var MessageItem = React.createClass({
       borderRadius: (isMe) ? '3px 0px 3px 3px' : '0px 3px 3px 3px'
     };
 
-    var authorImage = (_.isEmpty(author.image_url)) ? constants.defaultProfileImage : author.image_url;
+    var authorImage = (_.isEmpty(author.image.filename)) 
+      ? constants.defaultProfileImage 
+      : author.image.filename;
     var authorName = author.displayName;
 
     var createDate = new Date(message.created);
@@ -66,9 +68,17 @@ var MessageItem = React.createClass({
         <div className='arrow' style={ arrowStyle }/>
         <div className='message-body'>
           <div className='message-text-wrapper' style={ bodyStyle }>
-            <span title={ created } className='message-text' style={ messageTextStyle }>{ message.$body }</span>
+            <span 
+              title={ created } 
+              className='message-text' 
+              style={ messageTextStyle }
+            >
+              { message.$body }
+            </span>
           </div>
-          <span className='message-info'>{ authorName }</span>
+          <span className='message-info'>
+            { authorName }
+          </span>
         </div>
       </div>
     );

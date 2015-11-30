@@ -1,40 +1,33 @@
 /**
  * ProfileDropdown.jsx
- *
  * @author albert
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
 var {
   Button,
   Overlay,
   OverlayTrigger,
   Tooltip
 } = require('react-bootstrap');
-
 var {
   FlatButton,
   TextField
 } = require('material-ui');
-
 var AddAccountModal = require('./AddAccountModal.jsx');
 var LinkedAccountItem = require('./LinkedAccountItem.jsx');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
+var _ = require('underscore');
 var UserActions = require('./../UserActions');
 var UserStore = require('./../UserStore');
 var constants = require('./../../constants');
 var USER = constants.USER;
-
 var user = window.bootstrap.user;
 
-
 var ProfileDropdown = React.createClass({
-
   propTypes: {
     show: React.PropTypes.bool,
     onToggle: React.PropTypes.func
@@ -42,10 +35,10 @@ var ProfileDropdown = React.createClass({
 
   getInitialState() {
     return {
-      image_url: (user.image_url) ? user.image_url : constants.defaultProfileImage,
+      image: user.image,
       showAddAccountModal: false,
       linkedAccounts: []
-    }
+    };
   },
 
   componentDidMount() {
@@ -68,14 +61,9 @@ var ProfileDropdown = React.createClass({
   },
 
   onUploadComplete(file) {
-    //console.log(file);
-    var filename = file.filename;
-    var image_url = constants.apiurl + '/files/' + filename;
-    image_url += '?w=100&h=100';
     this.setState({
-      image_url: image_url
+      image: file
     });
-
     UserActions.update(image_url);
   },
 
@@ -126,14 +114,14 @@ var ProfileDropdown = React.createClass({
     };
 
     var profileImage;
-    if(_.isEmpty(this.state.image_url)) {
+    if(_.isEmpty(this.state.image.filename)) {
       profileImage = defaultProfileImage;
       var profileImageStyle= {
         backgroundImage: 'url(' + profileImage + ')',
         backgroundSize: '75px 75px'
       };
     } else {
-      profileImage =  this.state.image_url;
+      profileImage = this.state.image.filename;
       var profileImageStyle = {
         backgroundImage: 'url(' + profileImage + ')',
       }
@@ -183,16 +171,15 @@ var ProfileDropdown = React.createClass({
   },
 
   render() {
-
     var profileImage;
-    if(_.isEmpty(this.state.image_url)) {
-      profileImage = constants.defaultProfileImage;
+    if(_.isEmpty(this.state.image.filename)) {
+      profileImage = defaultProfileImage;
       var profileImageStyle= {
         backgroundImage: 'url(' + profileImage + ')',
         backgroundSize: '75px 75px'
       };
     } else {
-      profileImage =  this.state.image_url;
+      profileImage = this.state.image.filename;
       var profileImageStyle = {
         backgroundImage: 'url(' + profileImage + ')',
       }

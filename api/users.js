@@ -145,6 +145,8 @@ exports.update = function(req, res, next) {
     update.bevies = req.body['bevies'];
   if(req.body['image_url'] != undefined)
     update.image_url = req.body['image_url'];
+  if(req.body['image'] != undefined)
+    update.image = req.body['image'];
   if(req.body['linkedAccounts'] != undefined)
     update.linkedAccounts = req.body['linkedAccounts'];
 

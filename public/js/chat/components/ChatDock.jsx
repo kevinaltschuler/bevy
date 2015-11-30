@@ -1,11 +1,15 @@
+/**
+ * ChatDock.jsx
+ * @author albert
+ */
+
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
 var ChatPanel = require('./ChatPanel.jsx');
 var NewThreadPanel = require('./NewThreadPanel.jsx');
 
+var _ = require('underscore');
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
 var ChatStore = require('./../ChatStore');
