@@ -15,6 +15,7 @@ var {
 } = require('material-ui');
 
 var _ = require('underscore');
+var constants = require('./../../constants');
 var ChatActions = require('./../../chat/ChatActions');
 
 var AdminModal = React.createClass({
@@ -44,9 +45,9 @@ var AdminModal = React.createClass({
     var adminItems = [];
     for(var key in admins) {
       var admin = admins[key];
-      var image_url = (_.isEmpty(admin.image.filename)) 
-        ? '/img/user-profile-icon.png' 
-        : admin.image.filename;
+      var image_url = (_.isEmpty(admin.image))
+        ? constants.defaultProfileImage
+        : admin.image.path;
       adminItems.push(
         <div 
           key={ 'adminitem:' + key } 

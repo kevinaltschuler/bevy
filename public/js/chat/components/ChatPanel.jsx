@@ -1,8 +1,6 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
 var {
   Button,
   Input,
@@ -17,20 +15,18 @@ var {
   Styles,
 } = require('material-ui');
 var ThemeManager = new Styles.ThemeManager();
-
 var MessageList = require('./MessageList.jsx');
 var UserSearchOverlay = require('./UserSearchOverlay.jsx');
 var EditParticipantsModal = require('./EditParticipantsModal.jsx');
+var Uploader = require('./../../shared/components/Uploader.jsx');
 
-var ChatActions = require('./../ChatActions');
-var ChatStore = require('./../ChatStore');
-var BevyStore = require('./../../bevy/BevyStore');
-
+var _ = require('underscore');
 var classNames = require('classnames');
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
-var Uploader = require('./../../shared/components/Uploader.jsx');
-
+var ChatActions = require('./../ChatActions');
+var ChatStore = require('./../ChatStore');
+var BevyStore = require('./../../bevy/BevyStore');
 var user = window.bootstrap.user;
 
 var ChatPanel = React.createClass({
@@ -47,7 +43,7 @@ var ChatPanel = React.createClass({
       inputValue: '', // the value of the add user input
       showEditParticipantsModal: false,
       accordionType: 'add-user',
-      image_url: this.props.thread.image_url,
+      image: this.props.thread.image,
       expanded: false
     };
   },
@@ -186,15 +182,11 @@ var ChatPanel = React.createClass({
   },
 
   onUploadComplete(file) {
-    var filename = file.filename;
-    var image_url = constants.apiurl + '/files/' + filename;
     this.setState({
-      image_url: image_url
+      image: file
     });
-
     var thread_id = this.props.thread._id;
-
-    ChatActions.updateImage(thread_id, image_url);
+    ChatActions.updateImage(thread_id, file);
   },
 
   _renderAddedUsers() {
@@ -366,7 +358,9 @@ var ChatPanel = React.createClass({
     var name = ChatStore.getThreadName(thread._id);
     var image_url = ChatStore.getThreadImageURL(thread._id);
     // only show a background for bevy chats or group chats WITH custom images
-    var backgroundStyle = (!_.isEmpty(thread.bevy) || ( thread.type == 'group' && !_.isEmpty(thread.image_url) ))
+    var backgroundStyle = (!_.isEmpty(thread.bevy) 
+      || ( thread.type == 'group' 
+        && !_.isEmpty(thread.image) ))
     ? {
       backgroundImage: 'url(' + image_url + ')',
       opacity: 0.6

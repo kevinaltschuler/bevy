@@ -264,14 +264,14 @@ _.extend(ChatStore, {
         if(thread == undefined) break;
 
         var name = payload.name || thread.get('name');
-        var image_url = payload.image_url || thread.get('image_url');
+        var image = payload.image || thread.get('image');
 
         var tempBevy = thread.get('bevy');
         var tempUsers = thread.get('users');
 
         thread.save({
           name: name,
-          image_url: image_url
+          image: image
         }, {
           patch: true,
           success: function(model, response, options) {
@@ -394,12 +394,12 @@ _.extend(ChatStore, {
         break;
       case CHAT.UPDATE_IMAGE:
         var thread_id = payload.thread_id;
-        var url = payload.url;
+        var image = payload.image;
         var thread = this.threads.get(thread_id);
         if(thread == undefined) break;
 
         thread.save({
-          image_url: url
+          image: image
         }, {
           patch: true,
           success: function(model, response, options) {

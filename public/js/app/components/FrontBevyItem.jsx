@@ -54,7 +54,7 @@ var FrontBevyItem = React.createClass({
     var bevy = this.props.bevy;
     var image_url = (_.isEmpty(bevy.image)) 
       ? '/img/logo_100.png' 
-      : constants.apiurl + bevy.image.path;
+      : bevy.image.path;
 
     var bevyItem = (
       <Checkbox 

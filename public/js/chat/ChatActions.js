@@ -49,11 +49,11 @@ var ChatActions = {
     });
   },
 
-  editThread(thread_id, name, image_url) {
+  editThread(thread_id, name, image) {
     dispatch(CHAT.EDIT_THREAD, {
       thread_id: thread_id,
       name: (name == undefined) ? null : name,
-      image_url: (image_url == undefined) ? null : image_url
+      image: (image == undefined) ? null : image
     });
   },
 
@@ -95,10 +95,10 @@ var ChatActions = {
     });
   },
 
-  updateImage(thread_id, url) {
+  updateImage(thread_id, image) {
     dispatch(CHAT.UPDATE_IMAGE, {
       thread_id: thread_id,
-      url: (url == undefined) ? null : url
+      image: (image == undefined) ? null : image
     });
   }
 };

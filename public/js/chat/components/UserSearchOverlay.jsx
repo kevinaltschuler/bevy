@@ -131,9 +131,9 @@ var UserSearchOverlay = React.createClass({
     for(var key in this.state.users) {
       var user = this.state.users[key];
 
-      var image_url = (_.isEmpty(user.image.filename)) 
+      var image_url = (_.isEmpty(user.image)) 
         ? '/img/user-profile-icon.png' 
-        : user.image.filename;
+        : user.image.path;
       var name = user.displayName;
       var imageStyle = {
         backgroundImage: 'url(' + image_url + ')',

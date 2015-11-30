@@ -6,9 +6,6 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-var router = require('./../../router');
-
 var {
   DropdownButton,
   Button,
@@ -16,6 +13,8 @@ var {
   Badge
 } = require('react-bootstrap');
 
+var _ = require('underscore');
+var router = require('./../../router');
 var constants = require('./../../constants');
 var timeAgo = require('./../../shared/helpers/timeAgo');
 var timeLeft = require('./../../shared/helpers/timeLeft');
@@ -62,9 +61,9 @@ var PostHeader = React.createClass({
     var post = this.props.post;
     var tag = post.tag;
 
-    var profileImage = (post.author.image.filename)
-    ? post.author.image.filename
-    : constants.defaultProfileImage;
+    var profileImage = (_.isEmpty(post.author.image))
+      ? constants.defaultProfileImage
+      : post.author.image.path;
 
     var ago = timeAgo(Date.parse(post.created));
 

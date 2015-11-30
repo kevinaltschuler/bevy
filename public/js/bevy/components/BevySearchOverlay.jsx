@@ -137,7 +137,7 @@ var BevySearchOverlay = React.createClass({
 
       var image_url = (_.isEmpty(bevy.image))
         ? '/img/default_group_img.png'
-        : constants.apiurl + bevy.image.path;
+        : bevy.image.path;
       var name = bevy.name;
       var imageStyle = {
         backgroundImage: 'url(' + image_url + ')',

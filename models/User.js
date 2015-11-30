@@ -28,10 +28,6 @@ var UserSchema = new Schema({
   email: {
     type: String
   },
-  image_url: {
-    type: String,
-    default: 'http://joinbevy.com/img/user-profile-icon.png'
-  },
   image: ImageSchema,
   points: {
     type: Number,

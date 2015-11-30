@@ -93,9 +93,9 @@ var CommentItem = React.createClass({
 
     var authorName = author.displayName || 'placeholder author';
 
-    var profileImage = (author.image.filename)
-    ? author.image.filename
-    : constants.defaultProfileImage;
+    var profileImage = (_.isEmpty(author.image))
+      ? constants.defaultProfileImage
+      : author.image.path;
 
     var replyText = (this.state.isReplying)
     ? 'close'

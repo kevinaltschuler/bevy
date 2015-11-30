@@ -82,7 +82,7 @@ exports.create = function(req, res, next) {
 	var thread = {};
 	thread._id = shortid.generate();
 	thread.name = req.body['name'];
-	thread.image_url = req.body['image_url'];
+	thread.image = req.body['image'];
 	thread.type = req.body['type'];
 	thread.bevy = req.body['bevy'];
 	thread.users = req.body['users'];
@@ -110,10 +110,12 @@ exports.update = function(req, res, next) {
 		thread.type = req.body['type'];
 	if(req.body['name'] != undefined)
 		thread.name = req.body['name'];
-	if(req.body['image_url'] != undefined)
-		thread.image_url = req.body['image_url'];
+	if(req.body['image'] != undefined)
+		thread.image = req.body['image'];
 
-	var promise = Thread.findOneAndUpdate({ _id: thread_id }, thread, { new: true }).populate('bevy users').exec();
+	var promise = Thread.findOneAndUpdate({ _id: thread_id }, thread, { new: true })
+		.populate('bevy users')
+		.exec();
 	promise.then(function($thread) {
 		return res.json($thread);
 	}, function(err) { return next(err); })

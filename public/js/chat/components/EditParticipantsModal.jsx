@@ -15,6 +15,7 @@ var {
 } = require('material-ui');
 
 var _ = require('underscore');
+var constants = require('./../../constants');
 var ChatStore = require('./../ChatStore');
 var ChatActions = require('./../ChatActions');
 
@@ -86,9 +87,9 @@ var ParticipantItem = React.createClass({
     return (
       <li className='participant'>
         <div className='img' style={{
-          backgroundImage: 'url(' + ((_.isEmpty(participant.image.filename)) 
-            ? '/img/user-profile-icon.png' 
-            : participant.image.filename) + ')'
+          backgroundImage: 'url(' + ((_.isEmpty(participant.image))
+            ? constants.defaultProfileImage
+            : participant.image.path) + ')'
         }} />
         <span className='name'>{ participant.displayName }</span>
         <FlatButton

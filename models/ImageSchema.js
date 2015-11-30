@@ -60,10 +60,14 @@ ImageSchema.virtual('orientation').get(function() {
 });
 
 ImageSchema.virtual('path').get(function() {
+  var hostname = (process.env.NODE_ENV == 'development')
+    ? 'bevy.dev'
+    : 'joinbevy.com';
+
   var res = '';
   res = (_.isEmpty(this.filename))
-    ? '/img/user-profile-icon.png'
-    : '/files/' + this.filename;
+    ? 'http://' + hostname + '/img/user-profile-icon.png'
+    : 'http://api.' + hostname + '/files/' + this.filename;
   if(this.foreign) res = this.filename;
 
   return (_.isEmpty(res))

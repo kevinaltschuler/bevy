@@ -35,7 +35,7 @@ var LinkedAccountItem = React.createClass({
     var account = this.props.account;
     var image_url = (_.isEmpty(account.image)) 
       ? constants.defaultProfileImage 
-      : account.image.filename;
+      : account.image.path;
     return (
       <div className='linked-account'>
         <a 

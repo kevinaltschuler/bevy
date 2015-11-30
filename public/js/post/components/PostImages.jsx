@@ -60,7 +60,7 @@ var PostImages = React.createClass({
     if(!this.props.isEditing) {
       var imageButtons = [];
       for(var key in images) {
-        var url = constants.apiurl + images[key].path + '?w=150&h=150';
+        var url = images[key].path + '?w=150&h=150';
         var more = <div />;
         if(key == 7 && post.images.length > 8) {
           // last image

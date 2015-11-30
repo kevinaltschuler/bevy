@@ -8,6 +8,7 @@
 var React = require('react');
 
 var _ = require('underscore');
+var constants = require('./../../constants');
 var ChatStore = require('./../ChatStore');
 
 var ThreadImage = React.createClass({
@@ -45,7 +46,7 @@ var ThreadImage = React.createClass({
       case 'pm':
         return this._renderSingleImage();
       case 'group':
-        if(this.props.thread.image_url) {
+        if(this.props.thread.image) {
           // if theres a set image, use that instead
           return this._renderSingleImage();
         }
@@ -57,9 +58,9 @@ var ThreadImage = React.createClass({
         for(var key in threadUsers) {
           if(key > 3) continue; // limit these icons to 4
           var user = threadUsers[key];
-          var image_url = _.isEmpty(user.image.filename) 
-            ? '/img/user-profile-icon.png' 
-            : user.image.filename;
+          var image_url = (_.isEmpty(user.image))
+            ? constants.defaultProfileImage
+            : user.image.path
           var iconStyle = {
             backgroundImage: 'url(' + image_url + ')',
             backgroundSize: 'auto 100%',

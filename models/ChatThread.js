@@ -3,6 +3,7 @@
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
+var ImageSchema = require('./ImageSchema');
 
 var thread_types = 'pm group bevy'.split(' ');
 // pms can only contain two users
@@ -18,9 +19,7 @@ var ChatThread = new Schema({
   name: {
     type: String
   },
-  image_url: {
-    type: String
-  },
+  image: ImageSchema,
   type: {
     type: String,
     enum: thread_types,

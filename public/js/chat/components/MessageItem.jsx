@@ -1,8 +1,8 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
 
+var _ = require('underscore');
 var constants = require('./../../constants');
 var user = window.bootstrap.user;
 
@@ -39,9 +39,9 @@ var MessageItem = React.createClass({
       borderRadius: (isMe) ? '3px 0px 3px 3px' : '0px 3px 3px 3px'
     };
 
-    var authorImage = (_.isEmpty(author.image.filename)) 
-      ? constants.defaultProfileImage 
-      : author.image.filename;
+    var authorImage = (_.isEmpty(author.image))
+      ? constants.defaultProfileImage
+      : author.image.path;
     var authorName = author.displayName;
 
     var createDate = new Date(message.created);

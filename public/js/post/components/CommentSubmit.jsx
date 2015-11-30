@@ -19,7 +19,6 @@ var constants = require('./../../constants');
 var CommentActions = require('./../CommentActions');
 
 var CommentSubmit = React.createClass({
-
   propTypes: {
     postId: React.PropTypes.string,
     commentId: React.PropTypes.string,
@@ -75,9 +74,9 @@ var CommentSubmit = React.createClass({
 
     var user = window.bootstrap.user;
 
-    var profileImage = (user.image_url)
-    ? user.image_url
-    : constants.defaultProfileImage;
+    var profileImage = (_.isEmpty(user.image))
+      ? constants.defaultProfileImage
+      : user.image.path;
 
     var submitButton = (_.isEmpty(this.state.body)) 
     ? (

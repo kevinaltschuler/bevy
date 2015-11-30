@@ -64,7 +64,7 @@ var ProfileDropdown = React.createClass({
     this.setState({
       image: file
     });
-    UserActions.update(image_url);
+    UserActions.update(file);
   },
 
   onChange(ev) {
@@ -100,7 +100,6 @@ var ProfileDropdown = React.createClass({
   },
 
   renderOverlay() {
-
     var name = user.displayName;
     var email = (_.isEmpty(user.google.name))
     ? ''
@@ -113,18 +112,11 @@ var ProfileDropdown = React.createClass({
       dictDefaultMessage: ' ',
     };
 
-    var profileImage;
-    if(_.isEmpty(this.state.image.filename)) {
-      profileImage = defaultProfileImage;
-      var profileImageStyle= {
-        backgroundImage: 'url(' + profileImage + ')',
-        backgroundSize: '75px 75px'
-      };
-    } else {
-      profileImage = this.state.image.filename;
-      var profileImageStyle = {
-        backgroundImage: 'url(' + profileImage + ')',
-      }
+    var profileImage = (_.isEmpty(this.state.image))
+      ? constants.defaultProfileImage
+      : this.state.image.path;
+    var profileImageStyle = {
+      backgroundImage: 'url(' + profileImage + ')',
     }
 
     return (
@@ -171,18 +163,11 @@ var ProfileDropdown = React.createClass({
   },
 
   render() {
-    var profileImage;
-    if(_.isEmpty(this.state.image.filename)) {
-      profileImage = defaultProfileImage;
-      var profileImageStyle= {
-        backgroundImage: 'url(' + profileImage + ')',
-        backgroundSize: '75px 75px'
-      };
-    } else {
-      profileImage = this.state.image.filename;
-      var profileImageStyle = {
-        backgroundImage: 'url(' + profileImage + ')',
-      }
+    var profileImage = (_.isEmpty(this.state.image))
+      ? constants.defaultProfileImage
+      : this.state.image.path;
+    var profileImageStyle = {
+      backgroundImage: 'url(' + profileImage + ')',
     }
 
     var buttonStyle = {

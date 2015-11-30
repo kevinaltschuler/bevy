@@ -69,13 +69,14 @@ var ThreadModel = Backbone.Model.extend({
   // or will default to the hard-set one if it exists
   getImageURL() {
     var default_img = '/img/logo_100.png';
-    if(!_.isEmpty(this.get('image'))) return this.get('image').path;
+    if(!_.isEmpty(this.get('image'))) 
+      return this.get('image').path;
     switch(this.get('type')) {
       case 'bevy':
         if(!this.get('bevy')) return default_img;
         var bevy = BevyStore.getBevy(this.get('bevy')._id);
         if(_.isEmpty(bevy.image)) return default_img;
-        return constants.apiurl + bevy.image.path;
+        return bevy.image.path;
         break;
       case 'group':
         // TODO: @kevin do some magic here
@@ -85,11 +86,9 @@ var ThreadModel = Backbone.Model.extend({
         var otherUser = _.find(this.get('users'), function($user) {
           return $user._id != window.bootstrap.user._id;
         });
-        if(otherUser == undefined) return default_img;
-        if(_.isEmpty(otherUser.image)) 
-          return '/img/user-profile-icon.png';
-        else 
-          return otherUser.image.filename;
+        if(otherUser == undefined || _.isEmpty(otherUser.image)) 
+          return constants.defaultProfileImage;
+        return otherUser.image.path;
         break;
     }
     // something went wrong

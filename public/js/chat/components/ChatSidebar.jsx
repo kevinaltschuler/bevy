@@ -7,9 +7,6 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-var $ = require('jquery');
-
 var {
   Button,
   Accordion,
@@ -21,10 +18,11 @@ var {
   Styles,
   CircularProgress
 } = require('material-ui');
-
 var ThreadItem = require('./ThreadItem.jsx');
 var UserSearchItem = require('./UserSearchItem.jsx');
 
+var _ = require('underscore');
+var $ = require('jquery');
 var user = window.bootstrap.user;
 var email = user.email;
 var constants = require('./../../constants');
@@ -38,7 +36,6 @@ var UserStore = require('./../../profile/UserStore');
 var ThemeManager = new Styles.ThemeManager();
 
 var ChatSidebar = React.createClass({
-
   propTypes: {
     allThreads: React.PropTypes.array,
     userSearchResults: React.PropTypes.array,

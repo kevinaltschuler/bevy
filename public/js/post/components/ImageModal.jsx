@@ -7,21 +7,19 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-var $ = require('jquery');
-var constants = require('./../../constants');
-
 var {
   Modal,
   Button
 } = require('react-bootstrap');
-
 var {
   IconButton
 } = require('material-ui');
 
-var ImageModal = React.createClass({
+var _ = require('underscore');
+var $ = require('jquery');
+var constants = require('./../../constants');
 
+var ImageModal = React.createClass({
   propTypes: {
     allImages: React.PropTypes.array.isRequired,
     show: React.PropTypes.bool,
@@ -63,7 +61,6 @@ var ImageModal = React.createClass({
   // or blow it up so it's easier to see
   resizeImage() {
     var image = this.props.allImages[this.index];
-    var url = constants.apiurl + image.path;
 
     // load the width and height
     var width = image.geometry.width;
@@ -172,7 +169,7 @@ var ImageModal = React.createClass({
         <Modal.Body>
           <img 
             id='image' 
-            src={ constants.apiurl + this.props.allImages[this.state.index].path } 
+            src={ this.props.allImages[this.state.index].path } 
             style={{
               width: this.state.width,
               height: this.state.height

@@ -41,7 +41,7 @@ var BevyDropdownItem = React.createClass({
     var bevy = this.props.bevy;
     var image_url = (_.isEmpty(bevy.image)) 
       ? '/img/logo_100.png' 
-      : constants.apiurl + bevy.image.path;
+      : bevy.image.path;
 
     var chatButton = (this.props.bevy.settings.group_chat)
     ?  <IconButton
