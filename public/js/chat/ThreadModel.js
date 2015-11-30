@@ -86,8 +86,10 @@ var ThreadModel = Backbone.Model.extend({
           return $user._id != window.bootstrap.user._id;
         });
         if(otherUser == undefined) return default_img;
-        if(_.isEmpty(otherUser.image.filename)) return '/img/user-profile-icon.png';
-        else return otherUser.image.filename;
+        if(_.isEmpty(otherUser.image)) 
+          return '/img/user-profile-icon.png';
+        else 
+          return otherUser.image.filename;
         break;
     }
     // something went wrong

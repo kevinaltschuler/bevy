@@ -52,7 +52,7 @@ exports.index = function(req, res, next) {
       return res.json(bevies);
     }).populate({
       path: 'admins',
-      select: 'displayName username email image_url'
+      select: 'displayName username email image'
     });
   }); 
 }
@@ -66,7 +66,7 @@ exports.indexPublic = function(req, res, next) {
   })
     .populate({
       path: 'admins',
-      select: 'displayName username email image_url'
+      select: 'displayName username email image'
     })
     .limit(20);
 }
@@ -114,7 +114,7 @@ exports.show = function(req, res, next) {
     return res.json(bevy);
   }).populate({
     path: 'admins',
-    select: 'displayName username email image_url'
+    select: 'displayName username email image'
   });
 }
 

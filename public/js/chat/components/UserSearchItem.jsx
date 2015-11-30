@@ -33,7 +33,7 @@ var UserSearchItem = React.createClass({
   render() {
     var user = this.props.searchUser;
 
-    var image_url = (_.isEmpty(user.image.filename)) 
+    var image_url = (_.isEmpty(user.image)) 
       ? '/img/user-profile-icon.png' 
       : user.image.filename;
     var name = user.displayName;
