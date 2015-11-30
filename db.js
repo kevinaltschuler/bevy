@@ -39,7 +39,10 @@ connection.once('open', function() {
     name: 'Sports',
     description: 'Default - Sports',
     slug: 'sports',
-    image_url: '/img/default-groups/sports.png',
+    image: {
+      filename: 'http://joinbevy.com/img/default-groups/sports.png',
+      foreign: true
+    },
     tags: [{name: 'general', color: '#F44336'}],
     created: new Date(2015, 9, 2),
     settings: {group_chat: false},
@@ -51,7 +54,10 @@ connection.once('open', function() {
     name: 'Gaming',
     description: 'Default - Gaming',
     slug: 'gaming',
-    image_url: '/img/default-groups/gaming.png',
+    image: {
+      filename: 'http://joinbevy.com/img/default-groups/gaming.png',
+      foreign: true
+    },
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
     created: new Date(2015, 9, 2),
@@ -63,7 +69,10 @@ connection.once('open', function() {
     name: 'Pictures',
     description: 'Default - Pictures',
     slug: 'pics',
-    image_url: '/img/default-groups/pictures.png',
+    image: {
+      filename: 'http://joinbevy.com/img/default-groups/pictures.png',
+      foreign: true
+    },
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
     created: new Date(2015, 9, 2),
@@ -75,7 +84,10 @@ connection.once('open', function() {
     name: 'Videos',
     description: 'Default - Videos',
     slug: 'videos',
-    image_url: '/img/default-groups/videos.png',
+    image: {
+      filename: 'http://joinbevy.com/img/default-groups/videos.png',
+      foreign: true
+    },
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
     created: new Date(2015, 9, 2),
@@ -87,7 +99,10 @@ connection.once('open', function() {
     name: 'Music',
     description: 'Default - Music',
     slug: 'music',
-    image_url: '/img/default-groups/music.png',
+    image: {
+      filename: 'http://joinbevy.com/img/default-groups/music.png',
+      foreign: true
+    },
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
     created: new Date(2015, 9, 2),
@@ -99,7 +114,10 @@ connection.once('open', function() {
     name: 'News',
     description: 'Default - News',
     slug: 'news',
-    image_url: '/img/default-groups/news.png',
+    image: {
+      filename: 'http://joinbevy.com/img/default-groups/news.png',
+      foreign: true
+    },
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
     created: new Date(2015, 9, 2),
@@ -111,7 +129,10 @@ connection.once('open', function() {
     name: 'Books',
     description: 'Default - Books',
     slug: 'books',
-    image_url: '/img/default-groups/books.png',
+    image: {
+      filename: 'http://joinbevy.com/img/default-groups/books.png',
+      foreign: true
+    },
     tags: [{name: 'general', color: '#F44336'}],
     settings: {group_chat: false},
     created: new Date(2015, 9, 2),
