@@ -165,9 +165,9 @@ var ImageModal = React.createClass({
   },
 
   render() {
-    var url = this.props.allImages[this.state.index].path;
-    if(_.isEmpty(url))
-      url = '/img/logo_100.png';
+    var url = (_.isEmpty(this.props.allImages[this.index]))
+      ? '/img/logo_100.png'
+      : this.props.allImages[this.index].path;
 
     return (
       <Modal
