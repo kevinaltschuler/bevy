@@ -21,9 +21,17 @@ var constants = require('./../../constants');
 
 var ImageModal = React.createClass({
   propTypes: {
-    allImages: React.PropTypes.array.isRequired,
+    allImages: React.PropTypes.array,
     show: React.PropTypes.bool,
     onHide: React.PropTypes.func
+  },
+
+  getDefaultProps() {
+    return {
+      allImages: [],
+      show: false,
+      onHide: _.noop
+    };
   },
 
   getInitialState() {
@@ -157,7 +165,9 @@ var ImageModal = React.createClass({
   },
 
   render() {
-    var url = this.props.allImages[this.index];
+    var url = this.props.allImages[this.state.index].path;
+    if(_.isEmpty(url))
+      url = '/img/logo_100.png';
 
     return (
       <Modal
@@ -169,7 +179,7 @@ var ImageModal = React.createClass({
         <Modal.Body>
           <img 
             id='image' 
-            src={ this.props.allImages[this.state.index].path } 
+            src={ url } 
             style={{
               width: this.state.width,
               height: this.state.height

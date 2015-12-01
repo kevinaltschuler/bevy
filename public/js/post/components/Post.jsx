@@ -240,7 +240,12 @@ var Post = React.createClass({
           { expandButton }
           { this.state.videos }
         </div>
-        <PostImages post={ post } isEditing={this.state.isEditing} removeImage={this.removeImage} addImage={this.addImage} />
+        <PostImages 
+          post={ post } 
+          isEditing={this.state.isEditing} 
+          removeImage={this.removeImage} 
+          addImage={this.addImage} 
+        />
         <PostFooter post={ post } />
       </div>
     );
