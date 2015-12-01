@@ -69,6 +69,13 @@ var ImageModal = React.createClass({
   // or blow it up so it's easier to see
   resizeImage() {
     var image = this.props.allImages[this.index];
+    if(image.foreign) {
+      this.setState({
+        width: '100%',
+        height: '100%'
+      });
+      return;
+    }
 
     // load the width and height
     var width = image.geometry.width;
