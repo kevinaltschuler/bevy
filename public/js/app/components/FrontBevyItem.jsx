@@ -61,7 +61,9 @@ var FrontBevyItem = React.createClass({
         name={ bevy.name } 
         label={ bevy.name } 
         className='front-bevy-item'
-        style={{ width: '100%', color: 'rgba(0,0,0,.6)' }}
+        style={{ 
+          width: '100%', 
+          color: 'rgba(0,0,0,.6)' }}
         defaultChecked={true}
         iconStyle={{
           fill: '#666',

@@ -91,7 +91,7 @@ var PublicBevyPanel = React.createClass({
     var bevy = this.props.bevy;
     var bevyImage = (_.isEmpty(this.state.image)) 
       ? '/img/default_group_img.png' 
-      : constants.apiurl + this.state.image.path;
+      : this.state.image.path;
     var bevyImageStyle = { backgroundImage: 'url(' + bevyImage + ')' };
 
     var name = (_.isEmpty(bevy)) 
