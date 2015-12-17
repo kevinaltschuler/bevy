@@ -23,7 +23,7 @@ exports.index = function(req, res, next) {
     .populate('author')
     .sort('-created')
     .skip(skip)
-    .limit(10);
+    .limit(25);
 };
 
 // POST /threads/:threadid/messages
