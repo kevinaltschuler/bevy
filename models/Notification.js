@@ -26,6 +26,10 @@ var NotificationSchema = new Schema({
 	read: {
 		type: Boolean,
 		default: false
+	},
+	created: {
+		type: Date,
+		default: Date.now
 	}
 });
 
