@@ -12,7 +12,7 @@
 var mongoose = require('mongoose');
 var error = require('./../error');
 var _ = require('underscore');
-var shortid = require('shortid'); 
+var shortid = require('shortid');
 var async = require('async');
 var getSlug = require('speakingurl');
 
@@ -50,11 +50,15 @@ exports.index = function(req, res, next) {
     Bevy.find({ _id: { $in: user.bevies } }, function(err, bevies) {
       if(err) return next(err);
       return res.json(bevies);
-    }).populate({
+    })
+    .populate({
       path: 'admins',
       select: 'displayName username email image'
+    })
+    .populate({
+      path: 'siblings'
     });
-  }); 
+  });
 }
 
 //INDEX
@@ -67,6 +71,9 @@ exports.indexPublic = function(req, res, next) {
     .populate({
       path: 'admins',
       select: 'displayName username email image'
+    })
+    .populate({
+      path: 'siblings'
     })
     .limit(20);
 }
@@ -115,6 +122,9 @@ exports.show = function(req, res, next) {
   }).populate({
     path: 'admins',
     select: 'displayName username email image'
+  })
+  .populate({
+    path: 'siblings'
   });
 }
 
@@ -169,6 +179,9 @@ exports.update = function(req, res, next) {
     .populate({
       path: 'admins',
       select: 'displayName username email image'
+    })
+    .populate({
+      path: 'siblings'
     })
     .exec();
   promise.then(function(bevy) {
