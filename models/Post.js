@@ -84,6 +84,10 @@ var PostSchema = new Schema({
 			type: String
 		}
 	},
+	edited: {
+		type: Boolean,
+		default: false
+	},
 	created: {
 		type: Date,
 		default: Date.now
