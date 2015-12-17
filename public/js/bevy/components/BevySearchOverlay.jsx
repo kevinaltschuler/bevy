@@ -19,7 +19,6 @@ var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 
 var BevySearchOverlay = React.createClass({
-
   propTypes: {
     container: React.PropTypes.any, // the DOM node the overlay is rendered in
     target: React.PropTypes.any, // the DOM node the overlay is relative to
@@ -93,7 +92,7 @@ var BevySearchOverlay = React.createClass({
     this.setState({
       show: false
     });
-    this.props.addSibling(this.state.bevies[key]._id);
+    this.props.addSibling(this.state.bevies[key]);
   },
 
   onItemMouseOver(ev) {
@@ -146,12 +145,12 @@ var BevySearchOverlay = React.createClass({
       };
 
       bevies.push(
-        <Button  
-          key={ 'bevysearchoverlay:bevy:' + bevy._id } 
-          id={ key } 
-          className={ 'user-item' + ((this.state.selected == key) 
-            ? ' active' 
-            : '') 
+        <Button
+          key={ 'bevysearchoverlay:bevy:' + bevy._id }
+          id={ key }
+          className={ 'user-item' + ((this.state.selected == key)
+            ? ' active'
+            : '')
           }
           onClick={ this.addSibling }
           onMouseOver={ this.onItemMouseOver }
@@ -173,11 +172,11 @@ var BevySearchOverlay = React.createClass({
         placement='bottom'
         container={ this.props.container }
       >
-        <div 
+        <div
           style={{
             marginLeft: '30px',
             marginTop: '-10px'
-          }} 
+          }}
           className='user-search-overlay'
         >
           { bevies }

@@ -37,16 +37,16 @@ var SiblingItem = React.createClass({
     var siblings = this.props.activeBevy.siblings;
     var bevy = this.props.bevy;
 
-    var siblings = _.reject(this.props.activeBevy.siblings, function($sibling) { 
-      return $sibling == bevy._id;
+    var siblings = _.reject(this.props.activeBevy.siblings, function($sibling) {
+      return $sibling._id == bevy._id;
     });
 
     BevyActions.update(
-      this.props.activeBevy._id, 
-      null, 
-      null, 
-      null, 
-      null, 
+      this.props.activeBevy._id,
+      null,
+      null,
+      null,
+      null,
       siblings
     );
   },
@@ -58,29 +58,29 @@ var SiblingItem = React.createClass({
       return <div />;
     }
 
-    var image_url = (_.isEmpty(bevy.image)) 
-      ? '/img/logo_100.png' 
+    var image_url = (_.isEmpty(bevy.image))
+      ? '/img/logo_100.png'
       : bevy.image.path;
 
     var bevyButton = (this.props.editing)
     ? (
       <div className='sibling-edit'>
         <a
-          href='' 
-          onClick={this.removeSibling} 
+          href=''
+          onClick={this.removeSibling}
           className='glyphicon glyphicon-remove'
         />
         <span className='bevy-name'>{ bevy.name }</span>
       </div>
     )
   : (
-      <FlatButton 
-        linkButton={true} 
+      <FlatButton
+        linkButton={true}
         href={ bevy.url }
-        style={{ 
-          width: '100%', 
-          display: 'flex', 
-          flexDirection: 'row', 
+        style={{
+          width: '100%',
+          display: 'flex',
+          flexDirection: 'row',
           padding: '5px 10px'
         }}
         className='sibling-item'

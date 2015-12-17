@@ -11,33 +11,32 @@
 
 // imports
 var React = require('react');
-var _ = require('underscore');
 var Ink = require('react-ink');
-
-var router = require('./../../router');
-
 var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-var ButtonGroup = rbs.ButtonGroup;
-var Input = rbs.Input;
-var Tooltip = rbs.Tooltip;
-var OverlayTrigger = rbs.OverlayTrigger;
-
+var {
+  Button,
+  ButtonGroup,
+  Input,
+  Tooltip,
+  OverlayTrigger
+} = rbs;
 var mui = require('material-ui');
-var FontIcon = mui.FontIcon;
-var TextField = mui.TextField;
-var Checkbox = mui.Checkbox;
-var IconButton = mui.IconButton;
-var FlatButton = mui.FlatButton;
-
+var {
+  FontIcon,
+  TextField,
+  Checkbox,
+  IconButton,
+  FlatButton
+} = mui;
 var BevySearchOverlay = require('./BevySearchOverlay.jsx');
 var SiblingItem = require('./SiblingItem.jsx');
 
+var _ = require('underscore');
+var router = require('./../../router');
 var BevyActions = require('./../BevyActions');
 var BevyStore = require('./../BevyStore');
 
 var SiblingPanel = React.createClass({
-
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object.isRequired,
@@ -61,7 +60,7 @@ var SiblingPanel = React.createClass({
       router.navigate('/b/' + this.props.activeBevy._id, { trigger: true });
     } else {
       router.navigate('/b/' + this.props.activeBevy._id + '/' + id, { trigger: true });
-    } 
+    }
   },
 
   addSibling(sibling) {
@@ -102,7 +101,7 @@ var SiblingPanel = React.createClass({
     if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       editButton = (
         <OverlayTrigger placement='bottom' overlay={ editTip }>
-          <Button 
+          <Button
             className='edit-btn'
             disabled={this.state.adding}
             onClick={() => { this.setState({ editing: !this.state.editing }); }}
@@ -117,7 +116,7 @@ var SiblingPanel = React.createClass({
     if(_.findWhere(bevy.admins, { _id: window.bootstrap.user._id }) != undefined) {
       createButton = (
       <OverlayTrigger placement='bottom' overlay={ createTip }>
-        <Button 
+        <Button
           className='create-btn'
           disabled={this.state.editing}
           onClick={() => { this.setState({ adding: !this.state.adding }); }}
@@ -131,13 +130,12 @@ var SiblingPanel = React.createClass({
     var siblingButtons = [];
     for(var key in siblings) {
       var sibling = siblings[key];
-      var bevy = BevyStore.getBevy(sibling);
       var siblingItem = (
-        <SiblingItem 
-          key={'SiblingItem:' + sibling}
-          bevy={ bevy }
+        <SiblingItem
+          key={ 'SiblingItem:' + sibling._id }
+          bevy={ sibling }
           activeBevy={ this.props.activeBevy }
-          editing={ this.state.editing } 
+          editing={ this.state.editing }
         />
       );
       if(!_.isEmpty(bevy.name))
@@ -148,7 +146,7 @@ var SiblingPanel = React.createClass({
     ? (
       <div style={{display: 'flex', alignItems: 'center', height: '30px'}} ref='SearchContainer' key='searchDiv'>
         <span className='glyphicon glyphicon-search' style={{padding: '6px 12px'}} ref='SearchIcon'/>
-        <TextField 
+        <TextField
           type='text'
           ref='AddSiblingInput'
           onChange={ this.onAddSiblingChange }
