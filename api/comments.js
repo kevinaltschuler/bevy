@@ -10,7 +10,7 @@ var mongoose = require('mongoose');
 var error = require('./../error');
 var _ = require('underscore');
 var async = require('async');
-var shortid = require('shortid'); 
+var shortid = require('shortid');
 
 var Post = mongoose.model('Post');
 var Comment = mongoose.model('Comment');
@@ -76,9 +76,7 @@ exports.show = function(req, res, next) {
 	});
 }
 
-// GET /posts/:postid/comments/:id/edit
-// GET /posts/:postid/comments/:id/update
-// PUT /posts/:postid/comments/:id/
+// PUT/PATCH /posts/:postid/comments/:id/
 exports.update = function(req, res, next) {
 	var update = collectCommentParams(req);
 	var id = req.params.id;
