@@ -17,13 +17,13 @@ var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
-var GOOGLE_CLIENT_ID 
+var GOOGLE_CLIENT_ID
   = "540892787949-cmbd34cttgcd4mde0jkqb3snac67tcdq.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "TETz_3VIhSBbuQeTtIQFL3d-";
 
 module.exports = function(app) {
 
-  var User = mongoose.model('User');
+  var User = require('./../models/User');
 
   passport.use('login', new LocalStrategy({
       usernameField: 'username',
@@ -32,7 +32,7 @@ module.exports = function(app) {
     function(username, password, done) {
       User.findOne({ username: username }, function(err, user) {
         if(err) return done(err);
-        if(_.isEmpty(user)) 
+        if(_.isEmpty(user))
           return done(null, false, { message: 'No User With That Username Exists' });
 
         var hash = user.password;
@@ -44,33 +44,6 @@ module.exports = function(app) {
       });
     }
   ));
-
-  passport.use('switch', new LocalStrategy({
-    usernameField: 'username',
-    passwordField: 'password',
-    passReqToCallback: true
-  }, function(req, username, password, done) {
-    var user_id = req.body['user_id'];
-    var switch_to_id = req.body['switch_to_id'];
-
-    if(_.isEmpty(user_id) || _.isEmpty(switch_to_id)) 
-      return done(null, false, { message: 'Invalid Credentials' });
-
-    User.findOne({ _id: user_id }, function(err, user) {
-      if(err) return done(err);
-      if(_.isEmpty(user)) 
-        return done(null, false, { message: 'User Does Not Exist' });
-      var linkedAccounts = user.linkedAccounts;
-      User.findOne({ _id: switch_to_id }, function(err, $user) {
-        if(err) return done(err);
-        if(_.isEmpty($user)) 
-          return done(null, false, { message: 'Linked Account Does Not Exist' });
-        if(!_.contains(linkedAccounts, $user._id)) 
-          return done(null, false, { message: 'Account Not Linked' });
-        return done(null, $user);
-      });
-    }).lean();
-  }));
 
   passport.use(new GoogleStrategy({
       clientID: GOOGLE_CLIENT_ID,
@@ -106,8 +79,6 @@ module.exports = function(app) {
           } else return done(null, user);
         } else {
           // user not found. let's create an account
-          var defaultBevies = ('11sports 22gaming 3333pics '
-            + '44videos 555music 6666news 777books').split(' ');
           User.create({
             _id: shortid.generate(),
             token: accessToken,
@@ -118,7 +89,7 @@ module.exports = function(app) {
             email: emails[0], // use the first email as default.
                               // let the user change this later
             google: profile,  // load the entire profile object into the 'google' object
-            bevies: defaultBevies
+            bevies: []
           }, function(err, new_user) {
             if(err) return done(err);
 
