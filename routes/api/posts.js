@@ -10,12 +10,13 @@
 var postController = require('./../../controllers/posts');
 
 module.exports = function(router) {
-	router.get('/bevies/:bevyid/posts', postController.getBevyPosts);
-	router.post('/bevies/:bevyid/posts', postController.createPost);
-	router.get('/bevies/:bevyid/posts/:id', postController.getPost);
-	router.put('/bevies/:bevyid/posts/:id', postController.updatePost);
-	router.patch('/bevies/:bevyid/posts/:id', postController.updatePost);
-	router.delete('/bevies/:bevyid/posts/:id', postController.destroyPost);
-	router.get('/users/:userid/posts/search/:query', postController.searchPosts);
-	router.get('/users/:userid/posts', postController.getUserPosts);
+	router.get('/boards/:id/posts', postController.getBoardPosts);
+  router.get('/bevies/:id/posts', postController.getBevyPosts);
+  router.get('/posts/search/:query', postController.searchPosts);
+  router.get('/users/:id/posts', postController.getUserPosts);
+  router.post('/posts', postController.createPost);
+  router.get('/posts/:id', postController.getPost);
+  router.put('/posts/:id', postController.updatePost);
+  router.patch('/posts/:id', postController.updatePost);
+  router.delete('/posts/:id', postController.destroyPost);
 }

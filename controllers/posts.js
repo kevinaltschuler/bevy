@@ -21,19 +21,20 @@ var Post = require('./../models/Post');
 var Bevy = require('./../models/Bevy');
 var Comment = require('./../models/Comment');
 
-// INDEX
-// GET /bevies/:bevyid/posts
-exports.getBevyPosts = function(req, res, next) {
-  var bevy_id = req.params.bevyid;
-
-  var promise = Post.find({ bevy: bevy_id }, function(err, posts) {
+// GET /boards/:id/posts
+exports.getBoardPosts = function(req, res, next) {
+  var board_id = req.params.id;
+  Post.find({ board: board_id }, function(err, posts) {
     if(err) return next(err);
     if(posts.length <= 0) return res.json(posts);
 
     var _posts = [];
     posts.forEach(function(post) {
       var comment_promise = Comment.find({ postId: post._id })
-        .populate('author')
+        .populate({
+          path: 'author',
+          select: '_id displayName email image'
+        })
         .exec();
       comment_promise.then(function(comments) {
         post = post.toJSON();
@@ -42,12 +43,57 @@ exports.getBevyPosts = function(req, res, next) {
         if(_posts.length == posts.length) return res.json(_posts);
       }, function(err) { return next(err) });
     });
+  })
+  .populate({
+    path: 'board',
+    select: '_id name image settings'
+  })
+  .populate({
+    path: 'author',
+    select: '_id displayName email image'
+  });
+};
 
-  }).populate('bevy author');
-}
+// GET /bevies/:id/posts
+exports.getBevyPosts = function(req, res, next) {
+  var bevy_id = req.params.id;
+  Bevy.find({ _id: bevy_id }, function(err, bevy) {
+    if(err) return next(err);
+    if(_.isEmpty(bevy)) return res.json([]);
+    if(_.isEmpty(bevy.boards)) return res.json([]);
+    Post.find({ board: { $in: bevy.boards }}, function(err, posts) {
+      if(err) return next(err);
+      if(posts.length <= 0) return res.json(posts);
 
-// CREATE
-// POST /bevies/:bevyid/posts
+      var _posts = [];
+      posts.forEach(function(post) {
+        var comment_promise = Comment.find({ postId: post._id })
+          .populate({
+            path: 'author',
+            select: '_id displayName email image'
+          })
+          .exec();
+        comment_promise.then(function(comments) {
+          post = post.toJSON();
+          post.comments = comments;
+          _posts.push(post);
+          if(_posts.length == posts.length) return res.json(_posts);
+        }, function(err) { return next(err) });
+      });
+    })
+    //.limit(10)
+    .populate({
+      path: 'board',
+      select: '_id name image settings'
+    })
+    .populate({
+      path: 'author',
+      select: '_id displayName email image'
+    });
+  });
+};
+
+// POST /posts
 exports.createPost = function(req, res, next) {
   var update = collectPostParams(req);
   update._id = shortid.generate();
@@ -84,8 +130,7 @@ exports.createPost = function(req, res, next) {
   ]);
 }
 
-// SHOW
-// GET /bevies/:bevyid/posts/:id
+// GET /posts/:id
 exports.getPost = function(req, res, next) {
   var id = req.params.id;
 
@@ -101,8 +146,7 @@ exports.getPost = function(req, res, next) {
   }).populate('bevy author');
 };
 
-// UPDATE
-// PUT/PATCH /bevies/:bevyid/posts/:id
+// PUT/PATCH /posts/:id
 exports.updatePost = function(req, res, next) {
   var id = req.params.id;
   var update = collectPostParams(req);
@@ -138,8 +182,7 @@ exports.updatePost = function(req, res, next) {
   ]);
 }
 
-// DESTROY
-// DELETE /bevies/:bevyid/posts/:id
+// DELETE /posts/:id
 exports.destroyPost = function(req, res, next) {
   var id = req.params.id;
 
@@ -164,10 +207,9 @@ exports.destroyPost = function(req, res, next) {
   }, function(err) { next(err); });
 }
 
-// get posts by this user
-// GET /users/:userid/posts
+// GET /users/:id/posts
 exports.getUserPosts = function(req, res, next) {
-  var user_id = req.params.userid;
+  var user_id = req.params.id;
 
   Post.find({ author: user_id }, function(err, posts) {
     if(err) return next(err);
@@ -180,13 +222,24 @@ exports.getUserPosts = function(req, res, next) {
         post.comments = comments;
         _posts.push(post);
         if(_posts.length == posts.length) return res.json(_posts);
-      }).populate('author');
+      })
+      .populate({
+        path: 'author',
+        select: '_id displayName email image'
+      });
     });
-  }).populate('bevy author');
+  })
+  .populate({
+    path: 'board',
+    select: '_id name image settings'
+  })
+  .populate({
+    path: 'author',
+    select: '_id displayName email image'
+  });
 }
 
-// SEARCH
-// GET /users/:userid/posts/search/:query
+// GET /posts/search/:query
 exports.searchPosts = function(req, res, next) {
   return res.json([]);
 }
@@ -251,7 +304,6 @@ var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var urlPartsRegex = /(.*:)\/\/([A-Za-z0-9\-\.]+)(:[0-9]+)?(.+)/i;
 
 function getMeta(link, callback) {
-
   var url = link.match(urlPartsRegex);
   var host = url[2];
   var path = url[4];
@@ -259,16 +311,13 @@ function getMeta(link, callback) {
   var youtubeUrls = 'www.youtube.com youtube.com youtu.be www.youtu.be'.split(' ');
   // lets not process videos
   if(youtubeUrls.indexOf(host) > -1) {
-    callback({
-      url: link
-    });
+    callback({ url: link });
   }
 
   // first try opengraph
   og(link, function(err, meta) {
     if(err || _.isEmpty(meta)) {
       // open graph didn't work, send a HEAD request
-
       var options = { method:'HEAD', host:host, port:'80', path:path };
       var req = http.request(options, function(res) {
         var headers = res.headers;
@@ -277,17 +326,12 @@ function getMeta(link, callback) {
           // its an image!
           callback({
             url: link,
-            image: {
-              url: link
-            }
+            image: { url: link }
           });
         } else {
           // it's just a link!
-          callback({
-            url: link
-          });
+          callback({ url: link });
         }
-
       });
       req.end();
     } else {
