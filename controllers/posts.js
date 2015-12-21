@@ -98,14 +98,12 @@ exports.createPost = function(req, res, next) {
   var update = collectPostParams(req);
   update._id = shortid.generate();
   update.title = req.body['title'];
-  update.tags = req.body['tags'];
   update.images = req.body['images'];
   update.author = req.body['author'];
   update.bevy = req.body['bevy'];
   update.expires = req.body['expires'];
   update.type = req.body['type'];
   update.event = req.body['event'];
-  update.tag = req.body['tag'];
 
   if(_.isEmpty(update.bevy)) return next('no bevy');
   if(_.isEmpty(update.author)) return next('no author');
