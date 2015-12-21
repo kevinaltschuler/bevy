@@ -14,5 +14,5 @@ fs.readdirSync('./models').forEach(function(file) {
 	// generate file name (lop off .js)
 	var schema_name = file.substring(0, file.length - 3);
 	// load schema into mongoose
-	mongoose.model(schema_name, schema);
+	//mongoose.model(schema_name, schema);
 });

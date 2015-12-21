@@ -1,9 +1,8 @@
 /**
  * Post.js
- *
  * Post database model
- *
- * @author albert
+ * @author albertd
+ * @flow
  */
 
 'use strict';
@@ -94,4 +93,4 @@ PostSchema.set('toJSON', {
 	virtuals: true
 });
 
-module.exports = PostSchema;
+module.exports = mongoose.model('Post', PostSchema);

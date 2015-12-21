@@ -1,35 +1,21 @@
 /**
  * comments.js
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
-var api = require('./../../api');
+var commentController = require('./../../controllers/comments');
 
 module.exports = function(router) {
-
-	// INDEX
-	router.get('/posts/:postid/comments', api.comments.index);
-
-	// CREATE
-	router.post('/comments/', api.comments.create);
-
-	// SHOW
-	router.get('/posts/:postid/comments/:id', api.comments.show);
-	router.get('/comments/:id', api.comments.show);
-
-	// EDIT
-	router.get('/comments/:id/edit', api.comments.update);
-
-	// UPDATE
-	router.put('/posts/:postid/comments/:id', api.comments.update);
-	router.patch('/posts/:postid/comments/:id', api.comments.update);
-
-	router.put('/comments/:id', api.comments.update);
-	router.patch('/comments/:id', api.comments.update);
-
-	// DESTROY
-	router.delete('/comments/:id', api.comments.destroy);
+	router.get('/posts/:postid/comments', commentController.getComments);
+	router.post('/comments/', commentController.createComment);
+	router.get('/posts/:postid/comments/:id', commentController.getComment);
+	router.get('/comments/:id', commentController.getComment);
+	router.put('/posts/:postid/comments/:id', commentController.updateComment);
+	router.patch('/posts/:postid/comments/:id', commentController.updateComment);
+	router.put('/comments/:id', commentController.updateComment);
+	router.patch('/comments/:id', commentController.updateComment);
+	router.delete('/comments/:id', commentController.destroyComment);
 }

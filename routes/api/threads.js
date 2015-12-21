@@ -1,29 +1,19 @@
+/**
+ * threads.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
-// load api functions
-var api = require('./../../api');
+var threadController = require('./../../controllers/threads');
 
 module.exports = function(router) {
-
-  // INDEX
-  router.get('/users/:id/threads', api.threads.index);
-
-  //SHOW
-  router.get('/bevies/:id/thread', api.threads.show);
-  router.get('/threads/:id', api.threads.show);
-
-  // CREATE
-  router.post('/users/:id/threads/', api.threads.create);
-  router.post('/threads', api.threads.create);
-
-  // UPDATE
-  router.put('/users/:id/threads/:threadid', api.threads.update);
-  router.patch('/users/:id/threads/:threadid', api.threads.update);
-  router.put('/threads/:threadid', api.threads.update);
-  router.patch('/threads/:threadid', api.threads.update);
-
-  // DESTROY
-  router.delete('/users/:id/threads/:threadid', api.threads.destroy);
-  router.delete('/threads/:threadid', api.threads.destroy);
-
+  router.get('/users/:id/threads', threadController.getThreads);
+  router.get('/bevies/:id/thread', threadController.getThread);
+  router.get('/threads/:id', threadController.getThread);
+  router.post('/threads', threadController.createThread);
+  router.put('/threads/:threadid', threadController.updateThread);
+  router.patch('/threads/:threadid', threadController.updateThread);
+  router.delete('/threads/:threadid', threadController.destroyThread);
 }

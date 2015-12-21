@@ -1,9 +1,8 @@
 /**
  * notifications.js
- *
  * API for notifications
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -18,11 +17,11 @@ var error = require('./../error');
 var shortid = require('shortid');
 
 var mailgun = require('./../config/mailgun')();
-var User = mongoose.model('User');
-var Comment = mongoose.model('Comment');
-var Post = mongoose.model('Post');
-var Bevy = mongoose.model('Bevy');
-var Notification = mongoose.model('Notification');
+var User = require('./../models/User');
+var Comment = require('./../models/Comment');
+var Post = require('./../models/Post');
+var Bevy = require('./../models/Bevy');
+var Notification = require('./../models/Notification');
 
 var paramNames = 'event message email bevy user members';
 
@@ -31,21 +30,22 @@ emitter.setMaxListeners(0);
 
 exports.emitter = emitter;
 
-function collectParams(req) {
-  var params = {};
-  paramNames.split(' ').forEach(function(param) {
-    var val = null;
-    if(req.body != undefined) val = req.body[param];
-    if(!val && !_.isEmpty(req.query)) val = req.query[param];
-    if(!val) return;
-    params[param] = val;
-  });
-  return params;
-}
-
 // POST /notifications
-exports.create = function(req, res, next) {
-  var params = collectParams(req);
+exports.createNotification = function(req, res, next) {
+  var params = {};
+  params._id = shortid.generate();
+  if(req.body['user'] != undefined) {
+    params.user = req.body['user'];
+  }
+  if(req.body['email'] != undefined) {
+    params.email = req.body['email'];
+  }
+  if(req.body['event'] != undefined) {
+    params.event = req.body['event'];
+  }
+  if(req.body['data'] != undefined) {
+    params.data = req.body['data'];
+  }
 
   if(!params.event) {
     return next(error.gen('no event supplied'));
@@ -158,7 +158,7 @@ exports.create = function(req, res, next) {
 }
 
 // GET /users/:userid/notifications
-exports.index = function(req, res, next) {
+exports.getNotifications = function(req, res, next) {
   var userid = req.params.userid;
   var query = { user: userid };
   var promise = Notification.find(query).exec();
@@ -170,7 +170,7 @@ exports.index = function(req, res, next) {
 }
 
 // GET /users/:userid/notifications/:id
-exports.show = function(req, res, next) {
+exports.getNotification = function(req, res, next) {
   var id = req.params.id;
   Notification.findOne({ _id: id }, function(err, notification) {
     if(err) return next(err);
@@ -180,7 +180,7 @@ exports.show = function(req, res, next) {
 
 // GET /users/:userid/notifications/:id/destroy
 // DELETE /users/:userid/notifications
-exports.destroy = function(req, res, next) {
+exports.destroyNotification = function(req, res, next) {
   var id = req.params.id;
   Notification.findOneAndRemove({ _id: id }, function(err, notification) {
     if(err) return next(err);
@@ -189,7 +189,7 @@ exports.destroy = function(req, res, next) {
 }
 
 // GET /users/:userid/notifications/poll
-exports.poll = function(req, res, next) {
+exports.pollNotifications = function(req, res, next) {
   var user_id = req.params.userid;
 
     // user started polling
@@ -217,13 +217,13 @@ exports.poll = function(req, res, next) {
 }
 
 // PATCH /users/:userid/notifications/:id
-exports.update = function(req, res, next) {
+exports.updateNotification = function(req, res, next) {
   var id = req.params.id;
   var update = {};
   if(req.body['read'] != undefined)
     update.read = req.body['read'];
   var query = { _id: id };
-  var promise = Notification.findOneAndUpdate(query, update, {new: true})   
+  var promise = Notification.findOneAndUpdate(query, update, {new: true})
     .exec();
   promise.then(function(notification) {
     if(!notification) next('notification not found');
@@ -342,6 +342,6 @@ function pushNotifications(notifications) {
   });
 
   function APNRegisterDevice(data) {
-    
+
   }
 }

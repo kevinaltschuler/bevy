@@ -1,30 +1,23 @@
+/**
+ * bevies.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 // load api functions
-var api = require('./../../api');
+var bevyController = require('./../../controllers/bevies');
 
 module.exports = function(router) {
-	// INDEX
-	router.get('/users/:userid/bevies', api.bevies.index);
-	router.get('/bevies', api.bevies.indexPublic);
-
-	// CREATE
-	router.post('/users/:userid/bevies', api.bevies.create);
-
-	// SHOW
-	router.get('/users/:userid/bevies/:id', api.bevies.show);
-	router.get('/bevies/:id', api.bevies.show);
-
-	// SEARCH
-	router.get('/bevies/search/:query', api.bevies.search);
-
-	// UPDATE
-	router.put('/users/:userid/bevies/:id', api.bevies.update);
-	router.patch('/users/:userid/bevies/:id', api.bevies.update);
-
-	// DESTROY
-	router.delete('/users/:userid/bevies/:id', api.bevies.destroy);
-
-	// VERIFY SLUG
-	router.get('/bevies/:slug/verify', api.bevies.verifySlug);
+  router.get('/users/:userid/bevies', bevyController.getBevies);
+  router.get('/bevies', bevyController.getPublicBevies);
+  router.post('/users/:userid/bevies', bevyController.createBevy);
+  router.get('/users/:userid/bevies/:id', bevyController.getBevy);
+  router.get('/bevies/:id', bevyController.getBevy);
+  router.get('/bevies/search/:query', bevyController.searchBevies);
+  router.put('/users/:userid/bevies/:id', bevyController.updateBevy);
+  router.patch('/users/:userid/bevies/:id', bevyController.updateBevy);
+  router.delete('/users/:userid/bevies/:id', bevyController.destroyBevy);
+  router.get('/bevies/:slug/verify', bevyController.verifySlug);
 };

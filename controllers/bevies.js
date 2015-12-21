@@ -1,9 +1,8 @@
 /**
  * bevies.js
- *
  * API for bevies
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -16,32 +15,15 @@ var shortid = require('shortid');
 var async = require('async');
 var getSlug = require('speakingurl');
 
-var User = mongoose.model('User');
-var Bevy = mongoose.model('Bevy');
-var Thread = mongoose.model('ChatThread');
-var Message = mongoose.model('ChatMessage');
-var Post = mongoose.model('Post');
-Bevy.collection.ensureIndex({name: 'text'}, function(err) { return err });
-
-var ChatThread = mongoose.model('ChatThread');
-
-function collectBevyParams(req) {
-  var update = {};
-  // dynamically load schema values from request object
-  Bevy.schema.eachPath(function(pathname, schema_type) {
-    // collect path value
-    var val = null;
-    if(req.body != undefined) val = req.body[pathname];
-    if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
-    if(!val) return;
-    update[pathname] = val;
-  });
-  return update;
-}
+var User = require('./../models/User');
+var Bevy = require('./../models/Bevy');
+var Thread = require('./../models/Thread');
+var Message = require('./../models/Message');
+var Post = require('./../models/Post');
 
 // INDEX
 // GET /users/:userid/bevies
-exports.index = function(req, res, next) {
+exports.getBevies = function(req, res, next) {
   var userid = req.params.userid;
   //console.log(req.user);
   User.findOne({ _id: userid }, function(err, user) {
@@ -54,16 +36,13 @@ exports.index = function(req, res, next) {
     .populate({
       path: 'admins',
       select: 'displayName username email image'
-    })
-    .populate({
-      path: 'siblings'
     });
   });
 }
 
 //INDEX
 //GET /bevies
-exports.indexPublic = function(req, res, next) {
+exports.getPublicBevies = function(req, res, next) {
   Bevy.find(function(err, bevies) {
     if(err) return next(err);
     return res.json(bevies);
@@ -72,27 +51,22 @@ exports.indexPublic = function(req, res, next) {
       path: 'admins',
       select: 'displayName username email image'
     })
-    .populate({
-      path: 'siblings'
-    })
     .limit(20);
 }
 
 // CREATE
 // POST /bevies
-exports.create = function(req, res, next) {
+exports.createBevy = function(req, res, next) {
   var update = {};
   update._id = shortid.generate();
   if(req.body['name'] == undefined) return next('New Bevy has no name');
-  update.name = req.body['name'];
+    update.name = req.body['name'];
   if(req.body['description'] != undefined)
     update.description = req.body['description'];
   if(req.body['image'] != undefined)
     update.image = req.body['image'];
   if(req.body['admins'] != undefined)
     update.admins = req.body['admins'];
-  if(req.body['tags'] != undefined)
-    update.tags = req.body['tags'];
 
   if(!update.name) throw error.gen('bevy name not specified', req);
 
@@ -113,7 +87,7 @@ exports.create = function(req, res, next) {
 
 // SHOW
 // GET /bevies/:id
-exports.show = function(req, res, next) {
+exports.getBevy = function(req, res, next) {
   var id = req.params.id;
 
   Bevy.findOne({ _id: id }, function(err, bevy) {
@@ -122,15 +96,12 @@ exports.show = function(req, res, next) {
   }).populate({
     path: 'admins',
     select: 'displayName username email image'
-  })
-  .populate({
-    path: 'siblings'
   });
 }
 
 // SEARCH
 // GET /bevies/search/:query
-exports.search = function(req, res, next) {
+exports.searchBevies = function(req, res, next) {
   var query = req.params.query;
   var promise = Bevy.find()
     .limit(20)
@@ -148,30 +119,37 @@ exports.search = function(req, res, next) {
 
 // UPDATE
 // PUT/PATCH /bevies/:id
-exports.update = function(req, res, next) {
+exports.updateBevy = function(req, res, next) {
   var id = req.params.id;
 
-  var update = collectBevyParams(req);
+  var update = {};
+  update._id = shortid.generate();
+  if(req.body['name'] != undefined)
+    update.name = req.body['name'];
+  if(req.body['description'] != undefined)
+    update.description = req.body['description'];
+  if(req.body['image'] != undefined)
+    update.image = req.body['image'];
+  if(req.body['admins'] != undefined)
+    update.admins = req.body['admins'];
+
+  if(req.body['slug'] != undefined)
+    update.slug = req.body['slug'];
+  else
+    update.slug = getSlug(update.name);
+
   if(req.body['settings']) {
     update.settings = req.body['settings'];
     if(update.settings.group_chat) {
       // group chat was enabled, create thread
       // use update func so we dont create one if it already exists
       ChatThread.update({ bevy: id }, { bevy: id }, { upsert: true }, function(err, thread) {
-
       });
     } else {
       // group chat was disabled, destroy thread
       ChatThread.findOneAndRemove({ bevy: id }, function(err, thread) {
-
       });
     }
-  }
-  if(req.body['tags']) {
-    update.tags = req.body['tags'];
-  }
-  if(req.body['siblings']) {
-    update.siblings = req.body['siblings'];
   }
 
   var query = { _id: id };
@@ -179,9 +157,6 @@ exports.update = function(req, res, next) {
     .populate({
       path: 'admins',
       select: 'displayName username email image'
-    })
-    .populate({
-      path: 'siblings'
     })
     .exec();
   promise.then(function(bevy) {
@@ -194,7 +169,7 @@ exports.update = function(req, res, next) {
 
 // DESTROY
 // DELETE /bevies/:id
-exports.destroy = function(req, res, next) {
+exports.destroyBevy = function(req, res, next) {
   var id = req.params.id;
 
   var query = { _id: id };

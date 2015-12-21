@@ -42,4 +42,4 @@ NotificationSchema.set('toJSON', {
 	virtuals: true
 });
 
-module.exports = NotificationSchema;
+module.exports = mongoose.model('Notification', NotificationSchema);

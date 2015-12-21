@@ -1,9 +1,7 @@
 /**
  * posts.js
- *
- *  posts resource API
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -18,28 +16,14 @@ var shortid = require('shortid');
 
 var notifications = require('./notifications');
 
-var User = mongoose.model('User');
-var Post = mongoose.model('Post');
-var Bevy = mongoose.model('Bevy');
-var Comment = mongoose.model('Comment');
-
-function collectPostParams(req) {
-  var update = {};
-  // dynamically load schema values from request object
-  Post.schema.eachPath(function(pathname, schema_type) {
-    // collect path value
-    var val = null;
-    if(req.body != undefined) val = req.body[pathname];
-    if(!val && !_.isEmpty(req.query)) val = req.query[pathname];
-    if(!val) return;
-    update[pathname] = val;
-  });
-  return update;
-}
+var User = require('./../models/User');
+var Post = require('./../models/Post');
+var Bevy = require('./../models/Bevy');
+var Comment = require('./../models/Comment');
 
 // INDEX
 // GET /bevies/:bevyid/posts
-exports.index = function(req, res, next) {
+exports.getBevyPosts = function(req, res, next) {
   var bevy_id = req.params.bevyid;
 
   var promise = Post.find({ bevy: bevy_id }, function(err, posts) {
@@ -64,7 +48,7 @@ exports.index = function(req, res, next) {
 
 // CREATE
 // POST /bevies/:bevyid/posts
-exports.create = function(req, res, next) {
+exports.createPost = function(req, res, next) {
   var update = collectPostParams(req);
   update._id = shortid.generate();
   update.title = req.body['title'];
@@ -87,7 +71,7 @@ exports.create = function(req, res, next) {
     },
     function($update, done) {
       Post.create($update, function(err, post) {
-        if(err) return next(err); 
+        if(err) return next(err);
         // populate bevy
         Post.populate(post, { path: 'bevy author' }, function(err, pop_post) {
           // create notification
@@ -102,7 +86,7 @@ exports.create = function(req, res, next) {
 
 // SHOW
 // GET /bevies/:bevyid/posts/:id
-exports.show = function(req, res, next) {
+exports.getPost = function(req, res, next) {
   var id = req.params.id;
 
   Post.findOne({ _id: id }, function(err, post) {
@@ -119,7 +103,7 @@ exports.show = function(req, res, next) {
 
 // UPDATE
 // PUT/PATCH /bevies/:bevyid/posts/:id
-exports.update = function(req, res, next) {
+exports.updatePost = function(req, res, next) {
   var id = req.params.id;
   var update = collectPostParams(req);
   if(req.body['pinned'] != undefined) {
@@ -127,8 +111,6 @@ exports.update = function(req, res, next) {
   }
   if(req.body['event'] != undefined)
     update.event = req.body['event'];
-  if(req.body['tag'] != undefined)
-    update.tag = req.body['tag'];
 
   async.waterfall([
     function(done) {
@@ -158,7 +140,7 @@ exports.update = function(req, res, next) {
 
 // DESTROY
 // DELETE /bevies/:bevyid/posts/:id
-exports.destroy = function(req, res, next) {
+exports.destroyPost = function(req, res, next) {
   var id = req.params.id;
 
   var query = { _id: id };
@@ -182,69 +164,9 @@ exports.destroy = function(req, res, next) {
   }, function(err) { next(err); });
 }
 
-// FRONTPAGE
-// GET /users/:userid/frontpage
-exports.frontpage = function(req, res, next) {
-  var user_id = req.params.userid;
-  var skip = req.query['skip'] || 0;
-
-  async.waterfall([
-    function(done) {
-      User.findOne({ _id: user_id }, function(err, user) {
-        if(err) return next(err);
-        done(null, user);
-      });
-    },
-    function(user, done) {
-      Post.find({ bevy: { $in: user.bevies } }, function(err, posts) {
-        if(err) return next(err);
-        done(null, posts);
-      })
-        .sort('-created')
-        .skip(skip)
-        //.limit(10)
-        .populate('bevy author');
-    },
-    function(posts, done) {
-      if(posts.length <= 0) return res.json(posts);
-      var _posts = [];
-      posts.forEach(function(post) {
-        Comment.find({ postId: post._id }, function(err, comments) {
-          if(err) return next(err);
-          post = post.toObject();
-          post.comments = comments;
-          _posts.push(post);
-          if(_posts.length == posts.length) return res.json(_posts);
-
-        }).populate('author');
-      });
-    }
-  ]);
-};
-
-// GET /frontpage
-exports.publicFrontpage = function(req, res, next) {
-  Post.find(function(err, posts) {
-    if(err) return next(err);
-    var _posts = [];
-    posts.forEach(function(post) {
-      Comment.find({ postId: post._id }, function(err, comments) {
-        if(err) return next(err);
-        post = post.toObject();
-        post.comments = comments;
-        _posts.push(post);
-        if(_posts.length == posts.length) return res.json(_posts);
-
-      }).populate('author');
-    });
-  })
-    .populate('bevy author')
-    .limit(15);
-};
-  
 // get posts by this user
 // GET /users/:userid/posts
-exports.userPosts = function(req, res, next) {
+exports.getUserPosts = function(req, res, next) {
   var user_id = req.params.userid;
 
   Post.find({ author: user_id }, function(err, posts) {
@@ -265,7 +187,7 @@ exports.userPosts = function(req, res, next) {
 
 // SEARCH
 // GET /users/:userid/posts/search/:query
-exports.search = function(req, res, next) {
+exports.searchPosts = function(req, res, next) {
   return res.json([]);
 }
 

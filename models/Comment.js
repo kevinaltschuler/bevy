@@ -1,9 +1,7 @@
 /**
  * Comment.js
- *
- * Comment mongoose model
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -21,7 +19,8 @@ var CommentSchema = new Schema({
   },
   postId: { // post comment is under
     type: String,
-    ref: 'Post'
+    ref: 'Post',
+    required: true
   },
   parentId: { // parent comment, if one exists
     type: String,
@@ -53,4 +52,4 @@ CommentSchema.set('toJSON', {
 });
 
 
-module.exports = CommentSchema;
+module.exports = mongoose.model('Comment', CommentSchema);

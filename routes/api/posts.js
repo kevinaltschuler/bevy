@@ -1,43 +1,21 @@
 /**
  * posts.js
- *
  * post API routes
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
-// load api functions
-var api = require('./../../api');
+var postController = require('./../../controllers/posts');
 
 module.exports = function(router) {
-
-	// INDEX
-	router.get('/bevies/:bevyid/posts', api.posts.index);
-
-	// CREATE
-	router.post('/bevies/:bevyid/posts', api.posts.create);
-
-	// SHOW
-	router.get('/bevies/:bevyid/posts/:id', api.posts.show);
-
-	// UPDATE
-	router.put('/bevies/:bevyid/posts/:id', api.posts.update);
-	router.patch('/bevies/:bevyid/posts/:id', api.posts.update);
-
-	// DESTROY
-	router.delete('/bevies/:bevyid/posts/:id', api.posts.destroy);
-
-	// SEARCH
-	router.get('/users/:userid/posts/search/:query', api.posts.search);
-
-	// posts by that user
-	router.get('/users/:userid/posts', api.posts.userPosts);
-
-	// frontpage
-	router.get('/users/:userid/frontpage', api.posts.frontpage);
-
-	// public frontpage
-	router.get('/frontpage', api.posts.publicFrontpage);
+	router.get('/bevies/:bevyid/posts', postController.getBevyPosts);
+	router.post('/bevies/:bevyid/posts', postController.createPost);
+	router.get('/bevies/:bevyid/posts/:id', postController.getPost);
+	router.put('/bevies/:bevyid/posts/:id', postController.updatePost);
+	router.patch('/bevies/:bevyid/posts/:id', postController.updatePost);
+	router.delete('/bevies/:bevyid/posts/:id', postController.destroyPost);
+	router.get('/users/:userid/posts/search/:query', postController.searchPosts);
+	router.get('/users/:userid/posts', postController.getUserPosts);
 }

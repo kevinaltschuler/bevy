@@ -1,6 +1,7 @@
 /**
  * Event.js
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -36,6 +37,15 @@ var EventSchema = new Schema({
     type: String,
     ref: 'User'
   }]
+});
+
+EventSchema.set('toObject', {
+  getters: true,
+  virtuals: true
+});
+EventSchema.set('toJSON', {
+  getters: true,
+  virtuals: true
 });
 
 module.exports = EventSchema;

@@ -1,9 +1,7 @@
 /**
  * Bevy.js
- *
- * Bevy database model
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -39,20 +37,6 @@ var BevySchema = new Schema({
   admins: [{
     type: String,
     ref: 'User'
-  }],
-  tags: [Schema({
-    name: {
-      type: String
-    },
-    color: {
-      type: String
-    }
-  }, {
-    _id: false
-  })],
-  siblings: [{
-    type: String,
-    ref: 'Bevy'
   }],
   settings: {
     posts_expire_in: {
@@ -96,4 +80,4 @@ BevySchema.set('toJSON', {
   virtuals: true
 });
 
-module.exports = BevySchema;
+module.exports = mongoose.model('Bevy', BevySchema);

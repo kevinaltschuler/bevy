@@ -1,3 +1,9 @@
+/**
+ * messages.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
@@ -7,13 +13,13 @@ var shortid = require('shortid');
 var mq = require('./../mq');
 var emitter = require('./notifications').emitter;
 
-var Message = mongoose.model('ChatMessage');
-var Thread = mongoose.model('ChatThread');
-var Bevy = mongoose.model('Bevy');
-var User = mongoose.model('User');
+var Message = require('./../models/Message');
+var Thread = require('./../models/Thread');
+var Bevy = require('./../models/Bevy');
+var User = require('./../models/User');
 
 // GET /threads/:threadid/messages
-exports.index = function(req, res, next) {
+exports.getMessages = function(req, res, next) {
   var thread_id = req.params.threadid;
   var skip = req.query['skip'] || 0;
   Message.find({ thread: thread_id }, function(err, messages) {
@@ -27,7 +33,7 @@ exports.index = function(req, res, next) {
 };
 
 // POST /threads/:threadid/messages
-exports.create = function(req, res, next) {
+exports.createMessage = function(req, res, next) {
   var thread_id = req.params.threadid;
   var author_id = req.body['author'];
   var body = req.body['body'];
@@ -65,7 +71,7 @@ exports.create = function(req, res, next) {
 };
 
 // PUT/PATCH /threads/:threadid/messages/:id
-exports.update = function(req, res, next) {
+exports.updateMessage = function(req, res, next) {
   var thread_id = req.params.threadid;
   var id = req.params.id;
 
@@ -80,7 +86,7 @@ exports.update = function(req, res, next) {
 };
 
 // DELETE /threads/:threadid/messages/:id
-exports.destroy = function(req, res, next) {
+exports.destroyMessage = function(req, res, next) {
   var thread_id = req.params.threadid;
   var id = req.params.id;
 

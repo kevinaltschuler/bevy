@@ -1,21 +1,18 @@
+/**
+ * messages.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 // load api functions
-var api = require('./../../api');
+var messageController = require('./../../controllers/messages');
 
 module.exports = function(router) {
-
-	// INDEX
-	router.get('/threads/:threadid/messages', api.messages.index);
-
-	// CREATE
-	router.post('/threads/:threadid/messages', api.messages.create);
-
-	// UPDATE
-	router.put('/threads/:threadid/messages/:id', api.messages.update);
-	router.patch('/threads/:threadid/messages/:id', api.messages.update);
-
-	// DESTROY
-	router.delete('/threads/:threadid/messages/:id', api.messages.destroy);
-
+	router.get('/threads/:threadid/messages', messageController.getMessages);
+	router.post('/threads/:threadid/messages', messageController.createMessage);
+	router.put('/threads/:threadid/messages/:id', messageController.updateMessage);
+	router.patch('/threads/:threadid/messages/:id', messageController.updateMessage);
+	router.delete('/threads/:threadid/messages/:id', messageController.destroyMessage);
 }

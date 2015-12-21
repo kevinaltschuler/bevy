@@ -2,6 +2,7 @@
  * User.js
  * Mongoose models for bevy users
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -69,15 +70,7 @@ var UserSchema = new Schema({
     type: String,
     ref: 'Bevy'
   }],
-  activeBevies: [{
-    type: String,
-    ref: 'Bevy'
-  }],
   devices: [ DeviceSchema ],
-  linkedAccounts: [{
-    type: String,
-    ref: 'User'
-  }],
   online: {
     type: Boolean,
     default: false
@@ -130,4 +123,4 @@ UserSchema.index({
   'google.displayName': 'text'
 });
 
-module.exports = UserSchema;
+module.exports = mongoose.model('User', UserSchema);

@@ -1,3 +1,9 @@
+/**
+ * threads.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
@@ -5,14 +11,13 @@ var async = require('async');
 var _ = require('underscore');
 var shortid = require('shortid');
 
-var Thread = mongoose.model('ChatThread');
-var Bevy = mongoose.model('Bevy');
-var User = mongoose.model('User');
-var Message = mongoose.model('ChatMessage');
-
+var Thread = require('./../models/Thread');
+var Bevy = require('./../models/Bevy');
+var User = require('./../models/User');
+var Message = require('./../models/Message');
 
 // GET /users/:id/threads
-exports.index = function(req, res, next) {
+exports.getThreads = function(req, res, next) {
 	var id = req.params.id;
 
 	async.waterfall([
@@ -29,7 +34,7 @@ exports.index = function(req, res, next) {
 				if(err) return next(err);
 				var $threads = [];
 				async.each(
-					threads, 
+					threads,
 					function(thread, callback) {
 						thread = JSON.parse(JSON.stringify(thread));
 						Message.find({ thread: thread._id }, function(err, latest) {
@@ -48,9 +53,9 @@ exports.index = function(req, res, next) {
 							return next(err);
 						}
 						else {
-							return res.json($threads); 
+							return res.json($threads);
 						}
-					}	
+					}
 				);
 			})
 			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
@@ -60,7 +65,7 @@ exports.index = function(req, res, next) {
 }
 
 // GET /bevies/:id/thread
-exports.show = function(req, res, next) {
+exports.getThread = function(req, res, next) {
 	var id = req.params.id;
 	Thread.findOne({ bevy: id }, function(err, thread) {
 		if(err) return next(err);
@@ -78,7 +83,7 @@ exports.show = function(req, res, next) {
 
 
 // POST /threads
-exports.create = function(req, res, next) {
+exports.createThread = function(req, res, next) {
 	var thread = {};
 	thread._id = shortid.generate();
 	thread.name = req.body['name'];
@@ -98,7 +103,7 @@ exports.create = function(req, res, next) {
 
 // PUT/PATCH /users/:id/threads/:threadid
 // PUT/PATCH /threads/:threadid
-exports.update = function(req, res, next) {
+exports.updateThread = function(req, res, next) {
 	var thread_id = req.params.threadid;
 
 	var thread = {};
@@ -122,7 +127,7 @@ exports.update = function(req, res, next) {
 }
 
 // DELETE /users/:id/threads/:threadid
-exports.destroy = function(req, res, next) {
+exports.destroyThread = function(req, res, next) {
 	var thread_id = req.params.threadid;
 
 	Thread.findOneAndRemove({ _id: thread_id }, function(err, thread) {

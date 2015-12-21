@@ -22,7 +22,7 @@ var IMAGE_TYPES = 'jpg jpeg gif png jpe bmp';
 
 // GET /files/upload
 // POST /files
-exports.upload = function(req, res, next) {
+exports.createFile = function(req, res, next) {
   var is, $is, os;
   var id = shortid.generate();
 
@@ -36,7 +36,7 @@ exports.upload = function(req, res, next) {
   }
 
   // start upload
-  
+
   // jenk solution - gm plugin doesn't support asynchronous piping
   // so we need to create to input streams
   // one for gm to process image data (is => gm)
@@ -87,7 +87,7 @@ exports.upload = function(req, res, next) {
 }
 
 // GET /files/:fileid
-exports.retrieve = function(req, res, next) {
+exports.getFile = function(req, res, next) {
   var fileid = req.params.fileid;
 
   var width = req.query['w'];
@@ -122,7 +122,7 @@ exports.retrieve = function(req, res, next) {
 
 // GET /files/:filename/remove
 // DELETE /files/:filename
-exports.remove = function(req, res, next) {
+exports.removeFile = function(req, res, next) {
   var filename = req.params.filename;
 
   var options = { filename: filename };

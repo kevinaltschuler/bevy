@@ -1,38 +1,21 @@
 /**
  * notifications.js
- *
  * notification API routes
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 // load api functions
-var api = require('./../../api');
+var noteController = require('./../../controllers/notifications');
 
 module.exports = function(router) {
-	// CREATE
-	router.post('/notifications', api.notifications.create);
-
-	// INDEX
-	router.get('/users/:userid/notifications', api.notifications.index);
-
-	// LONG POLL
-	router.get('/users/:userid/notifications/poll', api.notifications.poll);
-
-	// leaving page
-	router.get('/users/:userid/offline', api.notifications.offline);
-
-	//UPDATE
-	router.put('/users/:userid/notifications/:id', api.notifications.update);
-	router.patch('/users/:userid/notifications/:id', api.notifications.update);
-
-	// SHOW
-	//router.get('/users/:userid/notifications/:id', api.notifications.show);
-
-	// DESTROY
-	router.delete('/users/:userid/notifications/:id', api.notifications.destroy);
-
-
+	router.post('/notifications', noteController.createNotification);
+	router.get('/users/:userid/notifications', noteController.getNotifications);
+	router.get('/users/:userid/notifications/poll', noteController.pollNotifications);
+	//router.get('/users/:userid/offline', api.notifications.offline);
+	router.put('/users/:userid/notifications/:id', noteController.updateNotification);
+	router.patch('/users/:userid/notifications/:id', noteController.updateNotification);
+	router.delete('/users/:userid/notifications/:id', noteController.destroyNotification);
 }

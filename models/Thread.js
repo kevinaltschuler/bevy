@@ -1,3 +1,9 @@
+/**
+ * Thread.js
+ * @author albert
+ * @flow
+ */
+
 'use strict'
 
 var mongoose = require('mongoose');
@@ -10,7 +16,7 @@ var thread_types = 'pm group bevy'.split(' ');
 // group chats can contain multiple users
 // bevy chats are attached to a bevy, and rely on the bevies' suscribers instead of the users field
 
-var ChatThread = new Schema({
+var ThreadSchema = new Schema({
   _id: {
     type: String,
     unique: true,
@@ -43,4 +49,13 @@ var ChatThread = new Schema({
   }
 });
 
-module.exports = ChatThread;
+ThreadSchema.set('toObject', {
+  getters: true,
+  virtuals: true
+});
+ThreadSchema.set('toJSON', {
+  getters: true,
+  virtuals: true
+});
+
+module.exports = mongoose.model('Thread', ThreadSchema);

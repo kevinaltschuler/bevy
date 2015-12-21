@@ -1,10 +1,16 @@
+/**
+ * ChatMessage.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
-var ChatMessage = new Schema({
+var MessageSchema = new Schema({
 	_id: {
 		type: String,
 		unique: true,
@@ -25,4 +31,13 @@ var ChatMessage = new Schema({
 	}
 });
 
-module.exports = ChatMessage;
+MessageSchema.set('toObject', {
+  getters: true,
+  virtuals: true
+});
+MessageSchema.set('toJSON', {
+  getters: true,
+  virtuals: true
+});
+
+module.exports = mongoose.model('Message', MessageSchema);

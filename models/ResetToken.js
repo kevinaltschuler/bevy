@@ -1,10 +1,8 @@
 /**
  * ResetToken.js
- *
- * Mongoose model
  * used for resetting a forgotten password
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -13,7 +11,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
-module.exports = new Schema({
+var ResetTokenSchema = new Schema({
 	_id: {
 		type: String,
 		unique: true,
@@ -31,3 +29,5 @@ module.exports = new Schema({
 		expires: 3600
 	}
 });
+
+module.exports = mongoose.model('ResetToken', ResetTokenSchema);
