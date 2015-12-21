@@ -8,54 +8,43 @@
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
+
 var shortid = require('shortid');
 var _ = require('underscore');
-
 var ImageSchema = require('./ImageSchema');
 
 var BevySchema = new Schema({
   _id: {
     type: String,
+    default: shortid.generate(),
     unique: true,
-    default: shortid.generate()
+    required: true
   },
   name: {
     type: String
   },
-  description: {
+  slug: {
     type: String
   },
-  slug: {
-    type: String,
-    unique: true
-  },
   image: ImageSchema,
-  subCount: {
-    type: Number,
-    default: 0
+  settings: {
+    privacy: {
+      type: String,
+      default: 'Public'
+    }
   },
   admins: [{
     type: String,
     ref: 'User'
   }],
-  settings: {
-    posts_expire_in: {
-      type: Number,
-      default: -1
-    },
-    anonymise_users: {
-      type: Boolean,
-      default: false
-    },
-    group_chat: {
-      type: Boolean,
-      default: true
-    },
-    privacy: {
-      type: Number,
-      default: 1
-    }
+  subCount: {
+    type: Number,
+    default: 0
   },
+  boards: [{
+    type: String,
+    ref: 'Board'
+  }],
   created: {
     type: Date,
     default: Date.now

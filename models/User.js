@@ -1,6 +1,5 @@
 /**
  * User.js
- * Mongoose models for bevy users
  * @author albert
  * @flow
  */
@@ -12,7 +11,7 @@ var _ = require('underscore');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
-var DeviceSchema = require('./Device');
+var DeviceSchema = require('./DeviceSchema');
 var ImageSchema = require('./ImageSchema');
 
 var UserSchema = new Schema({
@@ -69,6 +68,10 @@ var UserSchema = new Schema({
   bevies: [{
     type: String,
     ref: 'Bevy'
+  }],
+  boards: [{
+    type: String,
+    ref: 'Board'
   }],
   devices: [ DeviceSchema ],
   online: {

@@ -21,14 +21,12 @@ var Thread = require('./../models/Thread');
 var Message = require('./../models/Message');
 var Post = require('./../models/Post');
 
-// INDEX
-// GET /users/:userid/bevies
-exports.getBevies = function(req, res, next) {
-  var userid = req.params.userid;
-  //console.log(req.user);
-  User.findOne({ _id: userid }, function(err, user) {
+// GET /users/:id/bevies
+exports.getUserBevies = function(req, res, next) {
+  var user_id = req.params.id;
+  User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
-    if(!user) return res.json([]);
+    if(_.isEmpty(user)) return ('User not found');
     Bevy.find({ _id: { $in: user.bevies } }, function(err, bevies) {
       if(err) return next(err);
       return res.json(bevies);
@@ -38,23 +36,21 @@ exports.getBevies = function(req, res, next) {
       select: 'displayName username email image'
     });
   });
-}
+};
 
-//INDEX
 //GET /bevies
 exports.getPublicBevies = function(req, res, next) {
   Bevy.find(function(err, bevies) {
     if(err) return next(err);
     return res.json(bevies);
   })
-    .populate({
-      path: 'admins',
-      select: 'displayName username email image'
-    })
-    .limit(20);
+  .populate({
+    path: 'admins',
+    select: 'displayName username email image'
+  })
+  .limit(20);
 }
 
-// CREATE
 // POST /bevies
 exports.createBevy = function(req, res, next) {
   var update = {};
@@ -132,6 +128,8 @@ exports.updateBevy = function(req, res, next) {
     update.image = req.body['image'];
   if(req.body['admins'] != undefined)
     update.admins = req.body['admins'];
+  if(req.body['boards'] != undefined)
+    update.boards = req.body['boards'];
 
   if(req.body['slug'] != undefined)
     update.slug = req.body['slug'];
@@ -184,7 +182,7 @@ exports.destroyBevy = function(req, res, next) {
     // delete all posts posted to this bevy
     Post.remove({ bevy: id }, function(err, posts) {});
     // remove the reference to the bevy in all user's subscribed bevies
-    User.find({bevies: id}, function(err, users) {
+    User.find({ bevies: id }, function(err, users) {
       async.each(users, function(user, callback) {
         user.bevies.pull(id);
         user.save(function(err) {
@@ -194,13 +192,6 @@ exports.destroyBevy = function(req, res, next) {
       },
       function(err) {
         if(err) return next(err);
-      });
-    });
-    // remove all references to this bevy from other bevies' siblings field
-    Bevy.find({ siblings: id }, function(err, bevies) {
-      bevies.forEach(function($bevy) {
-        $bevy.siblings.pull(id);
-        $bevy.save(function(err, $$bevy) {});
       });
     });
 

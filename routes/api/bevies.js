@@ -6,11 +6,10 @@
 
 'use strict';
 
-// load api functions
 var bevyController = require('./../../controllers/bevies');
 
 module.exports = function(router) {
-  router.get('/users/:userid/bevies', bevyController.getBevies);
+  router.get('/users/:userid/bevies', bevyController.getUserBevies);
   router.get('/bevies', bevyController.getPublicBevies);
   router.post('/users/:userid/bevies', bevyController.createBevy);
   router.get('/users/:userid/bevies/:id', bevyController.getBevy);

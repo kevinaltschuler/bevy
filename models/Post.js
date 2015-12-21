@@ -1,6 +1,5 @@
 /**
  * Post.js
- * Post database model
  * @author albertd
  * @flow
  */
@@ -11,7 +10,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 var ImageSchema = require('./ImageSchema');
-var Event = require('./Event');
+var EventSchema = require('./EventSchema');
 
 var post_types = 'default event'.split(' ');
 
@@ -21,9 +20,13 @@ var PostSchema = new Schema({
 		unique: true,
 		default: shortid.generate()
 	},
-	bevy: {
+	/*bevy: {
 		type: String,
 		ref: 'Bevy'
+	},*/
+	board: {
+		type: String,
+		ref: 'Board'
 	},
 	author: {
 		type: String,
@@ -45,10 +48,6 @@ var PostSchema = new Schema({
 		type: Boolean,
 		default: false
 	},
-	muted_by: [{
-		type: String,
-		ref: 'User'
-	}],
 	expires: {
 		type: Date,
 		default: new Date('2035', '1', '1'), // expires in a long time
@@ -61,15 +60,7 @@ var PostSchema = new Schema({
 		enum: post_types,
 		default: 'default'
 	},
-	event: Event,
-	tag: {
-		name: {
-			type: String
-		},
-		color: {
-			type: String
-		}
-	},
+	event: EventSchema,
 	edited: {
 		type: Boolean,
 		default: false
