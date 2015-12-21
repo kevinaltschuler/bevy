@@ -12,6 +12,7 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 var ImageSchema = require('./ImageSchema');
+var Event = require('./Event');
 
 var post_types = 'default event'.split(' ');
 
@@ -61,21 +62,7 @@ var PostSchema = new Schema({
 		enum: post_types,
 		default: 'default'
 	},
-	event: {
-		date: {
-			type: Date
-		},
-		location: {
-			type: String
-		},
-		description: {
-			type: String
-		},
-		attendees: [{
-			type: String,
-			ref: 'User'
-		}]
-	},
+	event: Event,
 	tag: {
 		name: {
 			type: String
