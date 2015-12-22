@@ -45,6 +45,8 @@ var MyBevies = React.createClass({
   render() {
     var myBevies = this.props.myBevies;
 
+    console.log(myBevies);
+
     var bevies = myBevies;
 
     var myBevyPanels = [];

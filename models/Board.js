@@ -70,6 +70,11 @@ var BoardSchema = new Schema({
   }
 });
 
+BoardSchema.virtual('url').get(function() {
+  if(_.isEmpty(this.slug)) return ('/boards/' + this._id + '/');
+  return ('/boards/' + this.slug + '/');
+});
+
 BoardSchema.set('toObject', {
   getters: true,
   virtuals: true

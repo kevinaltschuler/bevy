@@ -94,6 +94,16 @@ exports.BEVY = {
   UPDATED_IMAGE: 'bevy_updated_image'
 };
 
+exports.BOARD = {
+  CREATE: 'board_create',
+  DESTROY: 'board_destroy',
+  UPDATE: 'board_update',
+  SWITCH: 'board_switch',
+  LOADED: 'board_loaded',
+  JOIN: 'bevy_join',
+  LEAVE: 'bevy_leave',
+};
+
 exports.USER = {
   UPDATE: 'user_update',
   SEARCH: 'user_search',

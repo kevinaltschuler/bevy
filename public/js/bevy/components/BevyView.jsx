@@ -11,16 +11,19 @@ var _ = require('underscore');
 
 var router = require('./../../router');
 
+var Ink = require('react-ink');
+
 var {
   RaisedButton,
-  Snackbar
+  Snackbar,
+  FontIcon
 } = require('material-ui');
 
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
-var LeftSidebar = require('./LeftSidebar.jsx');
-var RightSidebar = require('./RightSidebar.jsx');
+var BoardPanel = require('./../../board/components/BoardPanel.jsx');
+var Footer = require('./../../app/components/Footer.jsx');
 
 var BevyActions = require('./../../bevy/BevyActions');
 
@@ -31,14 +34,52 @@ var BevyView = React.createClass({
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
     allPosts: React.PropTypes.array,
-    activeTags: React.PropTypes.array,
+    //activeTags: React.PropTypes.array,
     allBevies: React.PropTypes.array
+  },
+
+  getInitialState() {
+    return {
+      newBoardModal: false
+    }
   },
 
   onRequestJoin(ev) {
     ev.preventDefault();
     BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
     this.refs.snackbar.show();
+  },
+
+  _renderBoards() {
+    var boardList = [];
+    var bevy = this.props.activeBevy;
+    for(var key in bevy.boards) {
+      var board = bevy.boards[key];
+      boardList.push(
+        <BoardPanel
+          board={board}
+          boards={boards}
+        />
+      );
+    }
+    boardList.push(
+      <div className='new-board-card' onClick={() => { this.setState({ showNewBoardModal: true }); }}>
+        <div className='plus-icon'>
+          <FontIcon 
+            className='material-icons' 
+            style={{color: 'rgba(0,0,0,.2)', fontSize: '40px'}}
+          >
+            add
+          </FontIcon>
+        </div>
+        <div className='new-board-text'>
+          Create a New Board
+        </div>
+        <Ink style={{width: '100%', height: '100%', top: 0, left: 0}}/>
+      </div>
+    );
+
+    return boardList;
   },
 
   render() {
@@ -103,6 +144,17 @@ var BevyView = React.createClass({
 
     return (
       <div className='main-section'>
+        <div className='left-sidebar'>
+          <div className='fixed'>
+            <div className='hide-scroll'>
+              <div className='board-list'>
+                { this._renderBoards() }
+                <div style={{height: 10}}/>
+                <Footer />
+              </div>
+            </div>
+          </div>
+        </div>
 
         <div className='post-view-body'>
           { body }

@@ -29,7 +29,7 @@ var BevyCollection = Backbone.Collection.extend({
   url() {
     return constants.apiurl + '/users/' + user._id + '/bevies';
   },
-  filter: 'top'
+  //filter: 'top'
 });
 
 module.exports = BevyCollection;

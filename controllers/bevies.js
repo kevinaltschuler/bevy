@@ -23,7 +23,7 @@ var Post = require('./../models/Post');
 
 // GET /users/:id/bevies
 exports.getUserBevies = function(req, res, next) {
-  var user_id = req.params.id;
+  var user_id = req.params.userid;
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
     if(_.isEmpty(user)) return ('User not found');
@@ -59,7 +59,7 @@ exports.createBevy = function(req, res, next) {
     update.name = req.body['name'];
   if(req.body['description'] != undefined)
     update.description = req.body['description'];
-  if(req.body['image'] != undefined)
+  if(req.body['image'] == undefined) 
     update.image = req.body['image'];
   if(req.body['admins'] != undefined)
     update.admins = req.body['admins'];
@@ -74,7 +74,7 @@ exports.createBevy = function(req, res, next) {
   Bevy.create(update, function(err, bevy) {
     if(err) return next(err);
     // create chat thread
-    ChatThread.create({ bevy: bevy._id }, function(err, thread) {
+    Thread.create({ bevy: bevy._id }, function(err, thread) {
 
     });
     return res.json(bevy);
@@ -141,11 +141,11 @@ exports.updateBevy = function(req, res, next) {
     if(update.settings.group_chat) {
       // group chat was enabled, create thread
       // use update func so we dont create one if it already exists
-      ChatThread.update({ bevy: id }, { bevy: id }, { upsert: true }, function(err, thread) {
+      Thread.update({ bevy: id }, { bevy: id }, { upsert: true }, function(err, thread) {
       });
     } else {
       // group chat was disabled, destroy thread
-      ChatThread.findOneAndRemove({ bevy: id }, function(err, thread) {
+      Thread.findOneAndRemove({ bevy: id }, function(err, thread) {
       });
     }
   }

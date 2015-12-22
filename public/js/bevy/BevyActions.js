@@ -13,12 +13,12 @@ var dispatch = require('./../shared/helpers/dispatch');
 
 var BEVY = require('./../constants').BEVY;
 
-var PostActions = {
+var BevyActions = {
 
-  create(name, description, image, slug) {
+  create(name, image, slug) {
     dispatch(BEVY.CREATE, {
       name: (name == undefined) ? '' : name,
-      description: (description == undefined) ? '' : description,
+      //description: (description == undefined) ? '' : description,
       image: (image == undefined) ? {} : image,
       slug: slug
     });
@@ -95,4 +95,4 @@ var PostActions = {
   }
 };
 
-module.exports = PostActions;
+module.exports = BevyActions;

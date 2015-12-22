@@ -1,5 +1,5 @@
 /**
- * CreateNewBevy.jsx
+ * NewBoardModal.jsx
  *
  * @author albert
  * @author kevin
@@ -34,7 +34,7 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var user = window.bootstrap.user;
 
-var CreateNewBevyModal = React.createClass({
+var NewBoardModal = React.createClass({
 
   propTypes: {
     show: React.PropTypes.bool,
@@ -272,4 +272,4 @@ CreateNewBevyModal.childContextTypes = {
   muiTheme: React.PropTypes.object
 };
 
-module.exports = CreateNewBevyModal;
+module.exports = NewBoardModal;

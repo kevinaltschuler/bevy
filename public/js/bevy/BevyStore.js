@@ -76,10 +76,14 @@ _.extend(BevyStore, {
 
       case BEVY.CREATE:
         var name = payload.name;
-        var description = payload.description;
+        //var description = payload.description;
         var image = payload.image;
         var slug = payload.slug;
         var user = window.bootstrap.user;
+
+        if(image == {}) {
+          image = {filename: constants.siteurl + '/img/logo_100.png', foreign: true};
+        }
 
         // sanitize slug before we continue;
         if(_.isEmpty(slug)) {
@@ -91,11 +95,11 @@ _.extend(BevyStore, {
 
         var newBevy = this.myBevies.add({
           name: name,
-          description: description,
+          //description: description,
           image: image,
           slug: slug,
           admins: [user._id],
-          tags: [{name: 'general', color: '#F44336'}]
+          boards: []
         });
 
         newBevy.save(null, {
@@ -361,7 +365,7 @@ _.extend(BevyStore, {
   getSearchQuery() {
     return this.searchQuery;
   },
-
+  /*
   getActiveTags() {
     return this.activeTags;
   },
@@ -394,6 +398,7 @@ _.extend(BevyStore, {
     var date = Date.parse(bevy.get('created'));
     return date;
   }
+  */
 });
 
 var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));

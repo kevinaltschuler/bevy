@@ -17,6 +17,7 @@ var router = require('./../../router');
 var Navbar = require('./Navbar.jsx');
 var HomeView = require('./../../homepage/components/HomeView.jsx');
 var PostView = require('./PostView.jsx');
+var BevyView = require('./../../bevy/components/BevyView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
 var MyBevies = require('./MyBevies.jsx');
@@ -26,6 +27,7 @@ var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 var UserStore = require('./../../profile/UserStore');
+var BoardStore = require('./../../board/BoardStore');
 
 var AppActions = require('./../../app/AppActions');
 
@@ -35,12 +37,14 @@ var POST = constants.POST;
 var BEVY = constants.BEVY;
 var NOTIFICATION = constants.NOTIFICATION;
 var USER = constants.USER;
+var BOARD = constants.BOARD;
 
 var change_all_events = [
   POST.CHANGE_ALL,
   BEVY.CHANGE_ALL,
   NOTIFICATION.CHANGE_ALL,
-  USER.CHANGE_ALL
+  USER.CHANGE_ALL,
+  BOARD.CHANGE_ALL
 ].join(' ');
 
 // create app
@@ -57,6 +61,7 @@ var MainSection = React.createClass({
     BevyStore.on(change_all_events, this._onBevyChange);
     NotificationStore.on(change_all_events, this._onNotificationChange);
     UserStore.on(change_all_events, this._onUserChange);
+    BoardStore.on(change_all_events, this._onBoardChange);
 
     AppActions.load();
   },
@@ -67,6 +72,7 @@ var MainSection = React.createClass({
     BevyStore.off(change_all_events, this._onBevyChange);
     NotificationStore.off(change_all_events, this._onNotificationChange);
     UserStore.off(change_all_events, this._onUserChange);
+    BoardStore.off(change_all_events, this._onBoardChange);
   },
 
   getPostState: function() {
@@ -81,14 +87,13 @@ var MainSection = React.createClass({
     var myBevies = BevyStore.getMyBevies();
     var active = BevyStore.getActive();
     var publicBevies = BevyStore.getPublicBevies();
-    var activeTags = BevyStore.getActiveTags();
 
     return {
       // later, load this from session/cookies
       myBevies: myBevies,
       activeBevy: active,
       publicBevies: publicBevies,
-      activeTags: activeTags
+      //activeTags: activeTags
     }
   },
 
@@ -105,13 +110,21 @@ var MainSection = React.createClass({
     };
   },
 
+  getBoardState: function() {
+    return {
+      boards: BoardStore.getBoards(),
+      activeBoard: BoardStore.getActive()
+    };
+  },
+
   collectState: function() {
     var state = {};
     _.extend(state,
       this.getPostState(),
       this.getBevyState(),
       this.getNotificationState(),
-      this.getUserState()       
+      this.getUserState(),
+      this.getBoardState()
     );
     return state;
   },
@@ -128,6 +141,9 @@ var MainSection = React.createClass({
   },
   _onUserChange: function() {
     this.setState(_.extend(this.state, this.getUserState()));
+  },
+  _onBoardChange: function() {
+    this.setState(_.extend(this.state, this.getBoardState()));
   },
 
   componentWillReceiveProps: function(nextProps) {
@@ -171,10 +187,10 @@ var InterfaceComponent = React.createClass({
         return <SearchView {...this.props} />
         break;
       case 'bevy':
-        if(router.bevy_id == '-1')
-          return <Frontpage { ...this.props } />
-        else 
-          return <PostView {...this.props} />
+        return <BevyView {...this.props} />
+        break;
+      case 'board':
+        return <PostView {...this.props} />
         break;
       default:
         return <FourOhFour {...this.props} />
