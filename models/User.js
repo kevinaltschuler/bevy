@@ -10,6 +10,7 @@ var mongoose = require('mongoose');
 var _ = require('underscore');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
+var bcrypt = require('bcryptjs');
 
 var DeviceSchema = require('./DeviceSchema');
 var ImageSchema = require('./ImageSchema');
@@ -105,6 +106,10 @@ UserSchema.virtual('displayName').get(function() {
   }
   return name;
 });
+
+UserSchema.methods.verifyPassword = function(password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 UserSchema.set('toObject', {
   getters: true,

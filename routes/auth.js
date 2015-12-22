@@ -16,62 +16,15 @@ var config = require('./../config');
 var mailgun = require('./../config').mailgun();
 
 var mongoose = require('mongoose');
-var User = mongoose.model('User');
-var ResetToken = mongoose.model('ResetToken');
+var User = require('./../models/User');
+var ResetToken = require('./../models/ResetToken');
+
+var oauth2Controller = require('./../controllers/oauth2');
 
 module.exports = function(app) {
-  app.post('/login', function(req, res, next) {
-    passport.authenticate('login', function(err, user, info) {
-      // a passport or database error
-      if(err) return next(err);
 
-      // user not found
-      if(!user) {
-        // return error message set by
-        // /config/passport.js
-        return next(error.gen(info.message));
-      }
-
-      // log in
-      req.logIn(user, function(err) {
-        if(err) return next(err);
-        // user found
-        return res.json(user);
-      });
-    })(req, res, next);
-  });
-
-  app.post('/verify', function(req, res, next) {
-    var username = req.body['username'];
-    var password = req.body['password'];
-
-    if(_.isEmpty(username)) return next('No username provided');
-    if(_.isEmpty(password)) return next('No password provided');
-
-    User.findOne({ username: username }, function(err, user) {
-      if(err) return next(err);
-      if(_.isEmpty(user)) return next('No user with that username found');
-
-      var hash = user.password;
-      if(bcrypt.compareSync(password, hash)) {
-        // found it
-        return res.json(user);
-      }
-      return next('Incorrect password');
-    });
-  });
-
-  app.post('/switch', function(req, res, next) {
-    passport.authenticate('switch', function(err, user, info) {
-      if(err) return next(err);
-      if(!user) return next(info.message);
-      req.logout();
-      req.login(user, function(err) {
-        if(err) return next(err);
-        return res.json(user);
-      });
-    })(req, res, next);
-  });
+  app.post('/token', oauth2Controller.token);
+  app.post('/login', oauth2Controller.loginUsername);
 
   // google sign in
   app.get('/auth/google', passport.authenticate('google', {
@@ -79,11 +32,9 @@ module.exports = function(app) {
   }));
 
   app.get('/auth/google/callback',
-    passport.authenticate('google', {
-      failureRedirect: '/login',
-      successRedirect: '/'
-    }
-  ));
+    passport.authenticate('google', { failureRedirect: '/login' }),
+    oauth2Controller.loginGoogle
+  );
 
   app.get('/logout', function(req, res, next) {
     // weren't logged in in the first place

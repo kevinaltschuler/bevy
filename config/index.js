@@ -1,5 +1,7 @@
 /**
  * collection point for all config files
+ * @author albert
+ * @flow
  */
 
 'use strict';
@@ -13,3 +15,4 @@ exports.app = app;
 exports.database = database;
 exports.passport = passport;
 exports.mailgun = mailgun;
+exports.auth = require('./auth');

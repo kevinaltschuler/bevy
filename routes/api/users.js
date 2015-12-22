@@ -6,12 +6,12 @@
 
 'use strict';
 
-// load api functions
 var userController = require('./../../controllers/users');
+var oauth2Controller = require('./../../controllers/oauth2');
 
 module.exports = function(router) {
 	router.get('/users/google/:id', userController.getUserFromGoogle);
-	router.get('/users', userController.getUsers);
+	router.get('/users', oauth2Controller.bearer, userController.getUsers);
 	router.post('/users', userController.createUser);
 	router.get('/users/:id', userController.getUser);
 	router.get('/users/search', userController.searchUsers);

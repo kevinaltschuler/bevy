@@ -1,18 +1,25 @@
 /**
  * passport.js
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var error = require('./../error');
-var config = require('./../config');
+var config = {
+  app: require('./app'),
+  auth: require('./auth')
+};
 var _ = require('underscore');
 
 var passport = require('passport');
 var shortid = require('shortid');
-var LocalStrategy = require('passport-local').Strategy;
+//var LocalStrategy = require('passport-local').Strategy;
 var GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
+var BasicStrategy = require('passport-http').BasicStrategy;
+var ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy;
+var BearerStrategy = require('passport-http-bearer').Strategy;
 
 var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
@@ -21,95 +28,112 @@ var GOOGLE_CLIENT_ID
   = "540892787949-cmbd34cttgcd4mde0jkqb3snac67tcdq.apps.googleusercontent.com";
 var GOOGLE_CLIENT_SECRET = "TETz_3VIhSBbuQeTtIQFL3d-";
 
-module.exports = function(app) {
+var User = require('./../models/User');
+var Client = require('./../models/Client');
+var AccessToken = require('./../models/AccessToken');
+var RefreshToken = require('./../models/RefreshToken');
 
-  var User = require('./../models/User');
+/*passport.use('basic', new BasicStrategy(
+  function(client_id, secret, done) {
+    Client.findOne({ client_id: client_id }, function(err, client) {
+      if(err) return done(err);
+      // client not found
+      if (!client) return done(null, false);
+      // secret key doesnt match
+      if (client.secret !== secret) return done(null, false);
+      // success
+      return done(null, client);
+    });
+  }
+));*/
 
-  passport.use('login', new LocalStrategy({
-      usernameField: 'username',
-      passwordField: 'password'
-    },
-    function(username, password, done) {
-      User.findOne({ username: username }, function(err, user) {
+passport.use('client-password', new ClientPasswordStrategy(
+  function(client_id, secret, done) {
+    Client.findOne({ client_id: client_id }, function(err, client) {
+      if(err) return done(err);
+      // client not found
+      if (!client) return done(null, false);
+      // secret key doesn't match
+      if (client.secret !== secret) return done(null, false);
+      // success
+      return done(null, client);
+    });
+  }
+));
+
+passport.use('bearer', new BearerStrategy(
+  function(accessToken, done) {
+    AccessToken.findOne({ token: accessToken }, function(err, token) {
+      if(err) return done(err);
+      if(!token) return done(null, false);
+
+      if(Math.round((Date.now()-token.created)/1000) > config.auth.expiresIn.seconds) {
+        AccessToken.remove({ token: accessToken }, function(err) {
+          if(err) return done(err);
+        });
+        return done(null, false, { message: 'Token expired' });
+      }
+
+      User.findOne({ _id: token.user_id }, function(err, user) {
         if(err) return done(err);
-        if(_.isEmpty(user))
-          return done(null, false, { message: 'No User With That Username Exists' });
-
-        var hash = user.password;
-        if(bcrypt.compareSync(password, hash)) {
-          // found it
-          return done(null, user);
-        }
-        return done(null, false, { message: 'Incorrect password' });
+        if(!user) return done(null, false, { message: 'User Not Found' });
+        var info = { scope: '*' };
+        done(null, user, info);
       });
-    }
-  ));
+    });
+  }
+));
 
-  passport.use(new GoogleStrategy({
-      clientID: GOOGLE_CLIENT_ID,
-      clientSecret: GOOGLE_CLIENT_SECRET,
-      callbackURL: config.app.server.hostname + '/auth/google/callback',
-      realm: config.app.server.hostname
-    },
-    function(accessToken, refreshToken, profile, done) {
-      var emails = _.pluck(profile.emails, 'value');
+passport.use(new GoogleStrategy({
+    clientID: GOOGLE_CLIENT_ID,
+    clientSecret: GOOGLE_CLIENT_SECRET,
+    callbackURL: config.app.server.hostname + '/auth/google/callback',
+    realm: config.app.server.hostname
+  },
+  function(accessToken, refreshToken, profile, done) {
+    var emails = _.pluck(profile.emails, 'value');
 
-      var id_query = { 'google.id': profile.id };
-      // match emails as well as id so we can prevent users from
-      // having both an email account and a google account (confusing!)
-      var email_query = { email: { $in: emails } };
+    var id_query = { 'google.id': profile.id };
+    // match emails as well as id so we can prevent users from
+    // having both an email account and a google account (confusing!)
+    var email_query = { email: { $in: emails } };
 
-      User.findOne({ $or: [ id_query, email_query ] }, function (err, user) {
-        if(err) return done(err);
-        if(user) {
-          // user found
-          if(_.isEmpty(user.google.emails)) {
-            // google profile has not yet been set
-            user.google = profile;
-            if(profile.photos) {
-              user.image = {
-                filename: (profile.photos) ? profile.photos[0].value : undefined,
-                foreign: true
-              };
-            }
-            user.save(function(err) {
-              if(err) return done(err);
-              return done(null, user);
-            });
-          } else return done(null, user);
-        } else {
-          // user not found. let's create an account
-          User.create({
-            _id: shortid.generate(),
-            token: accessToken,
-            image: {
+    User.findOne({ $or: [ id_query, email_query ] }, function (err, user) {
+      if(err) return done(err);
+      if(user) {
+        // user found
+        if(_.isEmpty(user.google.emails)) {
+          // google profile has not yet been set
+          user.google = profile;
+          if(profile.photos) {
+            user.image = {
               filename: (profile.photos) ? profile.photos[0].value : undefined,
               foreign: true
-            },
-            email: emails[0], // use the first email as default.
-                              // let the user change this later
-            google: profile,  // load the entire profile object into the 'google' object
-            bevies: []
-          }, function(err, new_user) {
+            };
+          }
+          user.save(function(err) {
             if(err) return done(err);
-
-            return done(null, new_user);
+            return done(null, user);
           });
-        }
-      });
-    }
-  ));
+        } else return done(null, user);
+      } else {
+        // user not found. let's create an account
+        User.create({
+          _id: shortid.generate(),
+          image: {
+            filename: (profile.photos) ? profile.photos[0].value : undefined,
+            foreign: true
+          },
+          email: emails[0], // use the first email as default.
+                            // let the user change this later
+          google: profile,  // load the entire profile object into the 'google' object
+          bevies: [],
+          boards: []
+        }, function(err, new_user) {
+          if(err) return done(err);
 
-  passport.serializeUser(function(user, done) {
-    if(user)
-      done(null, user._id);
-  });
-
-  passport.deserializeUser(function(id, done) {
-    var query = { _id: id };
-    User.findOne(query).exec(function(err, user) {
-      if(err) done(err, null);
-      else done(null, user);
+          return done(null, new_user);
+        });
+      }
     });
-  });
-}
+  }));
