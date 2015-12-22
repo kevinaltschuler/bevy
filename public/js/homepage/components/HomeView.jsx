@@ -41,18 +41,21 @@ var HomeView = React.createClass({
             The Social Network For Your Community 
           </div>
           <div className='actions'>
-            <RaisedButton linkButton={true} label='view bevies' href='/bevies' onClick={(ev) => {
-              ev.preventDefault();
-              router.navigate('/s/', { trigger: true });
-            }}/>
             <RaisedButton 
-              disabled={_.isEmpty(window.bootstrap.user)} 
-              label='New Bevy'
-              onClick={() => { this.setState({ showNewBevyModal: true }); }}
+              linkButton={true} 
+              label='Register' href='/bevies' 
+              onClick={(ev) => {
+                ev.preventDefault();
+                router.navigate('/register', { trigger: true });
+              }}
             />
-            <CreateNewBevyModal 
-              show={ this.state.showNewBevyModal } 
-              onHide={() => { this.setState({ showNewBevyModal: false }); }}
+            <RaisedButton  
+              linkButton={true} 
+              label='Login' href='/bevies' 
+              onClick={(ev) => {
+                ev.preventDefault();
+                router.navigate('/login', { trigger: true });
+              }}
             />
           </div>
         </div>

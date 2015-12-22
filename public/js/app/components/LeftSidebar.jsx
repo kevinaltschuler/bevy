@@ -2,8 +2,10 @@
 
 var React = require('react');
 
-var TagPanel = require('./../../bevy/components/TagPanel.jsx');
-var SiblingPanel = require('./../../bevy/components/SiblingPanel.jsx');
+//var TagPanel = require('./../../bevy/components/TagPanel.jsx');
+//var SiblingPanel = require('./../../bevy/components/SiblingPanel.jsx');
+var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
+var Footer = require('./Footer.jsx');
 
 var LeftSidebar = React.createClass({
 
@@ -23,7 +25,12 @@ var LeftSidebar = React.createClass({
       <div className='left-sidebar'>
         <div className='fixed'>
           <div className='hide-scroll'>
-            <TagPanel
+            <BevyPanel
+              activeBevy={ this.props.activeBevy }
+              myBevies={ this.props.myBevies }
+            />
+            <Footer />
+            {/*<TagPanel
               myBevies={ this.props.myBevies }
               activeBevy={ this.props.activeBevy }
               activeTags={ this.props.activeTags }
@@ -33,7 +40,7 @@ var LeftSidebar = React.createClass({
               activeBevy={ this.props.activeBevy }
               allBevies={ this.props.allBevies }
               myBevies={ this.props.myBevies }
-            />
+            />*/}
           </div>
         </div>
       </div>

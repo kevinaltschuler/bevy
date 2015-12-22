@@ -1,7 +1,6 @@
 /**
- * PostView.jsx
+ * BevyView.jsx
  *
- * @author albert
  * @author kevin
  */
 
@@ -25,7 +24,7 @@ var RightSidebar = require('./RightSidebar.jsx');
 
 var BevyActions = require('./../../bevy/BevyActions');
 
-var PostView = React.createClass({
+var BevyView = React.createClass({
 
   propTypes: {
     myBevies: React.PropTypes.array,
@@ -93,16 +92,6 @@ var PostView = React.createClass({
 
     var body = (
       <div>
-        <NewPostPanel
-          activeBevy={ this.props.activeBevy }
-          myBevies={ this.props.myBevies }
-          disabled={disabled}
-        />
-        {/*<PostSort 
-          activeBevy={ this.props.activeBevy}
-          sortType={ this.props.sortType }
-          disabled={ disabled }
-        />*/}
         <PostContainer
           allPosts={ this.props.allPosts }
           activeBevy={ this.props.activeBevy }
@@ -114,24 +103,13 @@ var PostView = React.createClass({
 
     return (
       <div className='main-section'>
-        <LeftSidebar
-          myBevies={ this.props.myBevies }
-          activeBevy={ this.props.activeBevy }
-          allThreads={ this.props.allThreads }
-          activeTags={ this.props.activeTags }
-          allBevies={ this.props.allBevies }
-        />
+
         <div className='post-view-body'>
           { body }
         </div>
-        {/*<RightSidebar
-          activeBevy={ this.props.activeBevy }
-          disabled={ _.isEmpty(window.bootstrap.user) }
-          myBevies={ this.props.myBevies }
-        />*/}
       </div>
     );
     }
 });
 
-module.exports = PostView;
+module.exports = BevyView;

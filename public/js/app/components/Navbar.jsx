@@ -129,7 +129,7 @@ var Navbar = React.createClass({
 
     var chatSidebar = <ChatSidebar />;
     var chatDock = <ChatDock />;
-    if(router.current == 'home') {
+    if(_.isEmpty(window.bootstrap.user)) {
       chatSidebar = '';
       chatDock = '';
     }
@@ -189,6 +189,8 @@ var Navbar = React.createClass({
       case 'home':
         navbarTitle = '';
         break;
+      case 'myBevies':
+        navbarTitle = 'My Bevies';
         break;
       case 'bevy':
         navbarTitle = this.props.activeBevy.name;
@@ -223,6 +225,18 @@ var Navbar = React.createClass({
       this.props.activeBevy.slug == 'music')
         backgroundStyle = { backgroundColor: '#939393', filter: 'unset' };
 
+    var searchButton = (_.isEmpty(window.bootstrap.user))
+    ? <div/>
+    : (<IconButton
+          iconClassName='glyphicon glyphicon-search'
+          onClick={(ev) => {
+            router.navigate('/s', { trigger: true });
+          }}
+          style={{ width: '35px', height: '35px', padding: '5px', margin: '3px', marginLeft: '10px' }}
+          iconStyle={{ color: 'white', fontSize: '14px' }}
+          title='Search'
+        />);
+
     return (
       <div id='navbar' className="navbar" style={ navbarStyle }>
         <div 
@@ -238,15 +252,12 @@ var Navbar = React.createClass({
             className="bevy-logo-btn" 
             title='Frontpage' 
             href={ (!_.isEmpty(window.bootstrap.user)) 
-              ? '/b/frontpage' 
+              ? '/' 
               : '/' }
           >
             <div className='bevy-logo-img'/>
           </Button>
-          <BevyDropdown
-            myBevies={ this.props.myBevies }
-            activeBevy={ this.props.activeBevy }
-          />
+          { searchButton}
         </div>
 
         <div className="center">
@@ -256,23 +267,6 @@ var Navbar = React.createClass({
         </div>
 
         <div className="right">
-          <TextField
-            type='text'
-            className='search-input'
-            ref='search'
-            onChange={ this.onChange }
-            onKeyUp={ this.onKeyUp }
-            defaultValue={ router.search_query || '' }
-          />
-          <IconButton
-            iconClassName='glyphicon glyphicon-search'
-            onClick={(ev) => {
-              router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
-            }}
-            style={{ width: '35px', height: '35px', padding: '5px', margin: '3px' }}
-            iconStyle={{ color: 'white', fontSize: '14px' }}
-            title='Search'
-          />
           { this._renderUserDropdowns() }
         </div>
       </div>
