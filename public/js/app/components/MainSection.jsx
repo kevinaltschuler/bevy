@@ -19,6 +19,7 @@ var HomeView = require('./../../homepage/components/HomeView.jsx');
 var PostView = require('./PostView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
+var MyBevies = require('./MyBevies.jsx');
 var Frontpage = require('./Frontpage.jsx');
 
 var PostStore = require('./../../post/PostStore');
@@ -162,6 +163,9 @@ var InterfaceComponent = React.createClass({
     switch(router.current) {
       case 'home': 
         return <HomeView {...this.props}  />
+        break;
+      case 'myBevies':
+        return <MyBevies {...this.props } />
         break;
       case 'search':
         return <SearchView {...this.props} />

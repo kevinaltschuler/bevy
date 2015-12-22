@@ -98,11 +98,11 @@ var PostView = React.createClass({
           myBevies={ this.props.myBevies }
           disabled={disabled}
         />
-        <PostSort 
+        {/*<PostSort 
           activeBevy={ this.props.activeBevy}
           sortType={ this.props.sortType }
           disabled={ disabled }
-        />
+        />*/}
         <PostContainer
           allPosts={ this.props.allPosts }
           activeBevy={ this.props.activeBevy }
@@ -124,11 +124,11 @@ var PostView = React.createClass({
         <div className='post-view-body'>
           { body }
         </div>
-        <RightSidebar
+        {/*<RightSidebar
           activeBevy={ this.props.activeBevy }
           disabled={ _.isEmpty(window.bootstrap.user) }
           myBevies={ this.props.myBevies }
-        />
+        />*/}
       </div>
     );
     }

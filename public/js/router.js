@@ -28,7 +28,19 @@ var Router = Backbone.Router.extend({
   },
 
   home() {
-    this.current = 'home';
+    if(!checkUser()) {
+      this.current = 'home';
+      return;
+    }
+    this.current = 'myBevies';
+  },
+
+  myBevies() {
+    if(!checkUser()) {
+      this.current = 'home';
+      return;
+    }
+    this.current = 'myBevies';
   },
 
   login() {
@@ -48,6 +60,10 @@ var Router = Backbone.Router.extend({
   },
 
   bevy(bevy_id, post_id) {
+    if(!checkUser()) {
+      this.current = 'home;'
+      return;
+    }
     this.current = 'bevy';
     if(bevy_id == 'frontpage') bevy_id = '-1';
     this.bevy_id = bevy_id;
@@ -55,11 +71,19 @@ var Router = Backbone.Router.extend({
   },
 
   bevies() {
+    if(!checkUser()) {
+      this.current = 'home;'
+      return;
+    }
     //this.navigate('s/?collection=bevies', { trigger: true });
     this.navigate('/s/', { trigger: true });
   },
 
   search(query) {
+    if(!checkUser()) {
+      this.current = 'home;'
+      return;
+    }
     this.current = 'search';
     this.search_query = query;
     if(query == undefined) {
@@ -70,13 +94,15 @@ var Router = Backbone.Router.extend({
 
   not_found: function(nuts) {
     this.current = '404';
-    if(!checkUser()) return;
+    if(!checkUser()) {
+      this.current = 'home;'
+      return;
+    }
   }
 });
 
 function checkUser() {
   if(_.isEmpty(window.bootstrap.user)) {
-    router.navigate('login', { trigger: true });
     return false
   }
   return true

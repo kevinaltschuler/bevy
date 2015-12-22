@@ -341,21 +341,7 @@ var ChatSidebar = React.createClass({
             this.onMouseOut();
         }}
       >
-        <div className='conversation-list' ref='ConversationList' onWheel={(ev) => {
-          // stop scroll from bubbling up
-          ev.preventDefault();
-          this.node = React.findDOMNode(this.refs.ConversationList);
-          var scrollTop = this.node.scrollTop;
-          if(ev.deltaY > 0) {
-            scrollTop += 50;
-          } else {
-            scrollTop -= 50;
-          }
-          if(scrollTop < 0) scrollTop = 0;
-          if(scrollTop > (this.node.scrollHeight - this.node.offsetHeight))
-            scrollTop = this.node.scrollHeight - this.node.offsetHeight;
-          this.node.scrollTop = scrollTop;
-        }}>
+        <div className='conversation-list' ref='ConversationList'>
           { this._renderThreads() }
         </div>
         <div 
