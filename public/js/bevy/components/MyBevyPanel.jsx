@@ -88,7 +88,6 @@ var MyBevyPanel = React.createClass({
         <a 
           className="bevy-panel-top" 
           href={ this.props.bevy.url } 
-          onClick={ this.switchBevy } 
           style={ bevyImageStyle }
         />
         <div className='panel-info'>
@@ -96,7 +95,6 @@ var MyBevyPanel = React.createClass({
             <a 
               className='title' 
               href={ this.props.bevy.url } 
-              onClick={ this.switchBevy }
             >
               { name }
             </a>

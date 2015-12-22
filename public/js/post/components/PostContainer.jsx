@@ -32,9 +32,9 @@ var PostContainer = React.createClass({
   propTypes: {
     allPosts: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
-    sortType: React.PropTypes.string,
-    activeTags: React.PropTypes.array,
-    frontBevies: React.PropTypes.array
+    //sortType: React.PropTypes.string,
+    //activeTags: React.PropTypes.array,
+    //frontBevies: React.PropTypes.array
   },
 
   getInitialState() {
@@ -112,9 +112,9 @@ var PostContainer = React.createClass({
     // load props into local vars
     var allPosts = this.state.allPosts || [];
     var posts = [];
-    var sortType = this.props.sortType;
-    var activeTags = this.props.activeTags;
-    var frontBevies = this.props.frontBevies;
+    //var sortType = this.props.sortType;
+    //var activeTags = this.props.activeTags;
+    //var frontBevies = this.props.frontBevies;
 
     if(!this.state.postsLoaded) {
       return (
