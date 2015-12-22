@@ -29,7 +29,7 @@ var {
 
 var ThemeManager = new Styles.ThemeManager();
 
-var BevyActions = require('./../BevyActions');
+var BoardActions = require('./../BoardActions');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var user = window.bootstrap.user;
@@ -46,9 +46,6 @@ var NewBoardModal = React.createClass({
       name: '',
       description: '',
       image: {},
-      slug: '',
-      slugVerified: true,
-      verifyingSlug: false
     };
   },
 
@@ -77,19 +74,16 @@ var NewBoardModal = React.createClass({
     ev.preventDefault();
 
     var name = this.refs.Name.getValue();
-    //var description = this.refs.Description.getValue();
+    var description = this.refs.Description.getValue();
     var image = this.state.image;
-    var slug = this.state.slug;
+    var parent = this.props.activeBevy._id;
 
     if(_.isEmpty(name)) {
-      this.refs.Name.setErrorText('Please enter a name for your bevy');
-      return;
-    }
-    if(!this.state.slugVerified) {
+      this.refs.Name.setErrorText('Please enter a name for your board');
       return;
     }
 
-    BevyActions.create(name, image, slug);
+    BoardActions.create(name, description, image, parent);
 
     // after, close the window
     this.hide();
@@ -100,72 +94,8 @@ var NewBoardModal = React.createClass({
       name: '',
       description: '',
       image: {},
-      slug: '',
-      verifyingSlug: false,
-      slugVerified: true
     });
     this.props.onHide();
-  },
-
-  onSlugChange() {
-    this.setState({
-      verifyingSlug: true
-    });
-    // delay the request until the user stops typing
-    // to reduce lag and such
-    if(this.slugTimeoutID != undefined) {
-      clearTimeout(this.slugTimeoutID);
-      delete this.slugTimeoutID;
-    }
-    this.slugTimeoutID = setTimeout(this.verifySlug, 500);
-  },
-
-  verifySlug() {
-    // send the request
-    $.ajax({
-      url: constants.apiurl + '/bevies/' + this.state.slug + '/verify',
-      method: 'GET',
-      success: function(data) {
-        if(data.found) {
-          console.log('found');
-          this.setState({
-            slugVerified: false,
-            verifyingSlug: false
-          });
-        } else {
-          console.log('not found');
-          this.setState({
-            slugVerified: true,
-            verifyingSlug: false
-          });
-        }
-      }.bind(this),
-      error: function(error) {
-        console.log(error);
-        this.setState({
-          verifyingSlug: false
-        });
-      }.bind(this)
-    })
-  },
-
-  _renderSlugVerifyStatus() {
-    if(_.isEmpty(this.state.slug)) return <div />;
-    if(this.state.verifyingSlug) {
-      // loading indicator
-      return (
-        <section className="loaders small">
-          <span className="loader small loader-quart"> </span>
-        </section>
-      );
-    }
-    if(this.state.slugVerified) {
-      // all good
-      return <span className='glyphicon glyphicon-ok'/>
-    } else {
-      // not good
-      return <span className='glyphicon glyphicon-remove' />
-    }
   },
 
   render() {
@@ -183,25 +113,25 @@ var NewBoardModal = React.createClass({
         });
       }
     };
-    var bevyImageURL = (_.isEmpty(this.state.image)) 
-      ? '/img/default_group_img.png' 
+    var boardImageURL = (_.isEmpty(this.state.image)) 
+      ? '/img/default_board_img.png' 
       : constants.apiurl + '/files/' + this.state.image.filename;
-    var bevyImageStyle = {
-      backgroundImage: 'url(' + bevyImageURL + ')',
+    var boardImageStyle = {
+      backgroundImage: 'url(' + boardImageURL + ')',
       backgroundSize: '100% auto'
     };
 
     return (
-      <Modal show={ this.props.show } onHide={ this.hide } className="create-bevy">
+      <Modal show={ this.props.show } onHide={ this.hide } className="create-board">
         <Modal.Header closeButton>
-          <Modal.Title>Create a New Bevy</Modal.Title>
+          <Modal.Title>New Board For "{this.props.activeBevy.name}"</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="bevy-info">
-          <div className="new-bevy-picture">
+        <Modal.Body className="board-info">
+          <div className="new-board-picture">
             <Uploader
               onUploadComplete={ this.onUploadComplete }
               className="bevy-image-dropzone"
-              style={ bevyImageStyle }
+              style={ boardImageStyle }
               dropzoneOptions={ dropzoneOptions }
             />
           </div>
@@ -209,46 +139,19 @@ var NewBoardModal = React.createClass({
             <TextField
               type='text'
               ref='Name'
-              placeholder='Group Name'
-              onChange={() => { 
-                this.setState({ 
-                  slug: getSlug(this.refs.Name.getValue()) 
-                }); 
-                this.onSlugChange();
+              placeholder='Board Name'
+              onChange={() => {
+                this.setState({
+                  name: this.refs.Name.getValue()
+                });
               }}
             />
-            {/*<TextField
+            <TextField
               type='text'
               ref='Description'
-              placeholder='Group Description'
+              placeholder='Board Description'
               multiLine={true}
-            />*/}
-            <div className='slug'>
-              <TextField
-                type='text'
-                ref='Slug'
-                floatingLabelText='Bevy URL'
-                errorText={ (this.state.slugVerified) ? '' : 'URL taken' }
-                value={ constants.siteurl + '/b/' + this.state.slug }
-                onChange={() => {
-                  this.setState({ 
-                    slug: this.refs.Slug.getValue().slice((constants.siteurl.length + 3))
-                  });
-                  this.onSlugChange();
-                }}
-                onBlur={() => {
-                  this.setState({ 
-                    slug: getSlug(this.refs.Slug.getValue().slice((constants.siteurl.length + 3)))
-                  });
-                }}
-                style={{
-                  flex: 1
-                }}
-              />
-              <div className='verify-status'>
-                { this._renderSlugVerifyStatus() }
-              </div>
-            </div>
+            />
           </div>
         </Modal.Body>
         <Modal.Footer className="panel-bottom">
@@ -260,7 +163,7 @@ var NewBoardModal = React.createClass({
             onClick={ this.create }
             label="Create"
             style={{ marginLeft: '10px' }}
-            disabled={ !this.state.slugVerified }
+            disabled={this.state.name == '' || _.isEmpty(this.props.activeBevy)}
           />
         </Modal.Footer>
       </Modal>
@@ -268,7 +171,7 @@ var NewBoardModal = React.createClass({
   }
 });
 
-CreateNewBevyModal.childContextTypes = {
+NewBoardModal.childContextTypes = {
   muiTheme: React.PropTypes.object
 };
 

@@ -23,11 +23,11 @@ var SearchView = require('./SearchView.jsx');
 var MyBevies = require('./MyBevies.jsx');
 var Frontpage = require('./Frontpage.jsx');
 
+var BoardStore = require('./../../board/BoardStore');
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 var UserStore = require('./../../profile/UserStore');
-var BoardStore = require('./../../board/BoardStore');
 
 var AppActions = require('./../../app/AppActions');
 
@@ -62,7 +62,7 @@ var MainSection = React.createClass({
     NotificationStore.on(change_all_events, this._onNotificationChange);
     UserStore.on(change_all_events, this._onUserChange);
     BoardStore.on(change_all_events, this._onBoardChange);
-
+    
     AppActions.load();
   },
 

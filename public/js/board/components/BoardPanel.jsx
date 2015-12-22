@@ -23,7 +23,8 @@ var {
 var _ = require('underscore');
 var router = require('./../../router');
 var constants = require('./../../constants');
-var BevyActions = require('./../BoardActions');
+var BoardActions = require('./../BoardActions');
+var BoardStore = require('./../BoardStore');
 var user = window.bootstrap.user;
 
 var BoardPanel = React.createClass({
@@ -42,10 +43,10 @@ var BoardPanel = React.createClass({
     };
   },
 
-
   render() {
 
     var board = this.props.board;
+    //console.log(board);
     var boardImage = (_.isEmpty(this.state.image)) 
       ? '/img/default_group_img.png' 
       : this.state.image.path;
@@ -59,6 +60,8 @@ var BoardPanel = React.createClass({
       : this.state.description;
     if(_.isEmpty(description)) description = 'no description';
 
+    var created = new Date(board.created).toLocaleDateString();
+
     var details = (
       <div className='left'>
         <span>Created on { created }</span>
@@ -70,23 +73,15 @@ var BoardPanel = React.createClass({
         <a 
           className="board-panel-top" 
           href={ this.props.board.url } 
-          onClick={ this.switchBoard } 
           style={ boardImageStyle }
         />
         <div className='panel-info'>
-          <div className='panel-info-top'>
             <a 
               className='title' 
               href={ this.props.board.url }
             >
               { name }
             </a>
-          </div>
-          <div className='panel-info-bottom'>
-            { details }
-            <div className='right'>
-            </div>
-          </div>
         </div>
       </div>
     );

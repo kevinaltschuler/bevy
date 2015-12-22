@@ -100,8 +100,10 @@ exports.BOARD = {
   UPDATE: 'board_update',
   SWITCH: 'board_switch',
   LOADED: 'board_loaded',
-  JOIN: 'bevy_join',
-  LEAVE: 'bevy_leave',
+  JOIN: 'board_join',
+  LEAVE: 'board_leave',
+
+  CHANGE_ALL: 'board_change_all'
 };
 
 exports.USER = {

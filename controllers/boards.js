@@ -39,7 +39,7 @@ exports.getUserBoards = function(req, res, next) {
 exports.getBevyBoards = function(req, res, next) {
   var bevy_id = req.params.id;
 
-  Board.find({ parents: bevy_id }, function(err, boards) {
+  Board.find({ parent: bevy_id }, function(err, boards) {
     if(err) return next(err);
     return res.json(boards);
   });
@@ -57,16 +57,18 @@ exports.createBoard = function(req, res, next) {
     update.name = req.body['name'];
   if(req.body['description'] != undefined)
     update.description = req.body['description'];
-  if(req.body['parents'] != undefined)
-    update.parents = req.body['parents'];
-  if(req.body['slug'] != undefined)
-    update.slug = req.body['slug'];
+  if(req.body['parent'] != undefined)
+    update.parent = req.body['parent'];
   if(req.body['image'] != undefined)
     update.image = req.body['image'];
   if(req.body['admins'] != undefined)
     update.admins = req.body['admins'];
   if(req.body['settings'] != undefined)
     update.settings = req.body['settings'];
+
+  if(!update.parent) throw error.gen('parent not specified', req);
+
+  if(!update.name) throw error.gen('board name not specified', req);
 
   Board.create(update, function(err, board) {
     if(err) return next(err);

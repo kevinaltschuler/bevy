@@ -24,6 +24,7 @@ var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
 var BoardPanel = require('./../../board/components/BoardPanel.jsx');
 var Footer = require('./../../app/components/Footer.jsx');
+var NewBoardModal = require('./../../board/components/NewBoardModal.jsx');
 
 var BevyActions = require('./../../bevy/BevyActions');
 
@@ -40,7 +41,7 @@ var BevyView = React.createClass({
 
   getInitialState() {
     return {
-      newBoardModal: false
+      showNewBoardModal: false
     }
   },
 
@@ -51,14 +52,16 @@ var BevyView = React.createClass({
   },
 
   _renderBoards() {
-    var boardList = [];
     var bevy = this.props.activeBevy;
-    for(var key in bevy.boards) {
-      var board = bevy.boards[key];
+    var boardList = [];
+    var boards = this.props.boards;
+    for(var key in boards) {
+      var board = boards[key];
+      //console.log(board);
       boardList.push(
         <BoardPanel
           board={board}
-          boards={boards}
+          boards={bevy.boards}
         />
       );
     }
@@ -144,14 +147,18 @@ var BevyView = React.createClass({
 
     return (
       <div className='main-section'>
+        <NewBoardModal 
+          show={ this.state.showNewBoardModal } 
+          onHide={() => { this.setState({ showNewBoardModal: false }) }}
+          activeBevy={ this.props.activeBevy }
+        />
+
         <div className='left-sidebar'>
-          <div className='fixed'>
-            <div className='hide-scroll'>
-              <div className='board-list'>
-                { this._renderBoards() }
-                <div style={{height: 10}}/>
-                <Footer />
-              </div>
+          <div className='hide-scroll'>
+            <div className='board-list'>
+              { this._renderBoards() }
+              <div style={{height: 10}}/>
+              <Footer />
             </div>
           </div>
         </div>

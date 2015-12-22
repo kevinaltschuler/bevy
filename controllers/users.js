@@ -133,6 +133,28 @@ exports.updateUser = function(req, res, next) {
   });
 }
 
+// AddBoard
+// PUT/PATCH /users/:id/boards
+exports.addBoard = function(req, res, next) {
+  var id = req.params.id;
+
+  if(req.body['board'] != undefined)
+    var board = req.body['board'];
+
+  User.findOne({ _id: id }, function(err, user) {
+    if(err) return next(err);
+    if(!user) return next('user not found');
+    // push the new board
+    user.boards.push(board);
+    // save to database
+    user.save(function(err, $user) {
+      if(err) return next(err);
+      console.log('board add success');
+      return res.json($user);
+    });
+  });
+}
+
 // DESTROY
 // DELETE /users/:id
 exports.destroyUser = function(req, res, next) {

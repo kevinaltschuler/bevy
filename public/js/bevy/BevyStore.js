@@ -30,6 +30,7 @@ var POST = constants.POST;
 var CONTACT = constants.CONTACT;
 var CHAT = constants.CHAT;
 var APP = constants.APP;
+var BOARD = constants.BOARD;
 var BevyActions = require('./BevyActions');
 var user = window.bootstrap.user;
 
@@ -51,6 +52,7 @@ _.extend(BevyStore, {
   // handle calls from the dispatcher
   // these are created from BevyActions.js
   handleDispatch(payload) {
+    console.log(payload.actionType);
     switch(payload.actionType) {
 
       case APP.LOAD:
@@ -81,8 +83,8 @@ _.extend(BevyStore, {
         var slug = payload.slug;
         var user = window.bootstrap.user;
 
-        if(image == {}) {
-          image = {filename: constants.siteurl + '/img/logo_100.png', foreign: true};
+        if(_.isEmpty(image)) {
+          image = {filename: constants.siteurl + '/img/default_group_img.png', foreign: true};
         }
 
         // sanitize slug before we continue;
@@ -264,16 +266,6 @@ _.extend(BevyStore, {
           break;
         }
 
-        var bevy = this.myBevies.get(bevy_id);
-        if(bevy == undefined) {
-          // look in the public bevy list
-          bevy = this.publicBevies.get(bevy_id);
-          if(bevy == undefined) {
-            // now fetch from the server
-            break;
-          }
-        }
-        this.activeTags = bevy.get('tags');
         this.trigger(BEVY.CHANGE_ALL);
         break;
 
@@ -342,15 +334,11 @@ _.extend(BevyStore, {
   },
 
   getActive() {
-    var active = this.myBevies.get(this.active) || this.publicBevies.get(this.active);
-    if(_.isEmpty(active)) {
-      return {};
-    }
-    else return active.toJSON();
+    return this.getBevy(this.active);
   },
 
   getBevy(bevy_id) {
-    var bevy = this.myBevies.get(bevy_id);
+    var bevy = this.myBevies.get(bevy_id) || this.publicBevies.get(this.active);
     return (bevy)
     ? bevy.toJSON()
     : {};

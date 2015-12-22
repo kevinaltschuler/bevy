@@ -4,6 +4,7 @@ var Backbone = require('backbone');
 var _ = require('underscore');
 
 var BevyActions = require('./bevy/BevyActions');
+var BoardActions = require('./board/BoardActions');
 
 var Router = Backbone.Router.extend({
   routes: {
@@ -21,6 +22,8 @@ var Router = Backbone.Router.extend({
     'b/:bevyid/post' : 'bevy',
     'b/:bevyid/post/' : 'bevy',
     'b/:bevyid/post/:postid' : 'bevy',
+    'boards/:boardid' : 'board',
+    'boards/:boardid/' : 'board',
     's/' : 'search',
     's' : 'search',
     's/:query' : 'search',
@@ -70,6 +73,16 @@ var Router = Backbone.Router.extend({
     BevyActions.switchBevy(this.bevy_id);
   },
 
+  board(board_id) {
+    if(!checkUser()) {
+      this.current = 'home'
+      return;
+    }
+    this.current = 'board';
+    this.board_id = board_id;
+    BoardActions.switchBoard(this.board_id);
+  },
+
   bevies() {
     if(!checkUser()) {
       this.current = 'home;'
@@ -93,6 +106,7 @@ var Router = Backbone.Router.extend({
   },
 
   not_found: function(nuts) {
+    console.log('page not found :(');
     this.current = '404';
     if(!checkUser()) {
       this.current = 'home;'
@@ -117,5 +131,6 @@ var BevyStore = require('./bevy/BevyStore');
 var NotificationStore = require('./notification/NotificationStore');
 var UserStore = require('./profile/UserStore');
 var ChatStore = require('./chat/ChatStore');
+var BoardStore = require('./board/BoardStore');
 
 Backbone.history.start({ pushState: true });

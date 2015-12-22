@@ -17,6 +17,7 @@ module.exports = function(router) {
   router.get('/bevies/search/:query', bevyController.searchBevies);
   router.put('/users/:userid/bevies/:id', bevyController.updateBevy);
   router.patch('/users/:userid/bevies/:id', bevyController.updateBevy);
+  router.patch('/bevies/:id/boards', bevyController.addBoard);
   router.delete('/users/:userid/bevies/:id', bevyController.destroyBevy);
   router.get('/bevies/:slug/verify', bevyController.verifySlug);
 };

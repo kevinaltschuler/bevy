@@ -165,6 +165,28 @@ exports.updateBevy = function(req, res, next) {
   }, function(err) { next(err); });
 }
 
+// AddBoard
+// PUT/PATCH /bevies/:id/boards
+exports.addBoard = function(req, res, next) {
+  var id = req.params.id;
+
+  if(req.body['board'] != undefined)
+    var board = req.body['board'];
+
+  Bevy.findOne({ _id: id }, function(err, bevy) {
+    if(err) return next(err);
+    if(!bevy) return next('bevy not found');
+    // push the new board
+    bevy.boards.push(board);
+    // save to database
+    bevy.save(function(err, $bevy) {
+      if(err) return next(err);
+      console.log('board add success');
+      return res.json($bevy);
+    });
+  });
+}
+
 // DESTROY
 // DELETE /bevies/:id
 exports.destroyBevy = function(req, res, next) {

@@ -32,8 +32,8 @@ var PostView = React.createClass({
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
     allPosts: React.PropTypes.array,
-    activeTags: React.PropTypes.array,
-    allBevies: React.PropTypes.array
+    allBevies: React.PropTypes.array,
+    activeBoard: React.PropTypes.object
   },
 
   onRequestJoin(ev) {
@@ -67,9 +67,9 @@ var PostView = React.createClass({
     }
       
 
-    var activeBevy = this.props.activeBevy;
+    var activeBoard = this.props.activeBoard;
 
-    if(this.props.activeBevy.name == null) {
+    if(this.props.activeBoard.name == null) {
       return <div/>
     }
 
@@ -95,6 +95,7 @@ var PostView = React.createClass({
       <div>
         <NewPostPanel
           activeBevy={ this.props.activeBevy }
+          activeBoard={this.props.activeBoard}
           myBevies={ this.props.myBevies }
           disabled={disabled}
         />

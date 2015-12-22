@@ -20,10 +20,9 @@ var user = window.bootstrap.user;
 // backbone collection
 var BoardCollection = Backbone.Collection.extend({
   model: Board,
-  get(id_or_slug) {
+  get(id) {
     return this.find(function(board) {
-      if(bevy.get('_id') == id_or_slug) return true;
-      if(bevy.get('slug') == id_or_slug) return true;
+      if(board.get('_id') == id) return true;
       return false;
     });
   },

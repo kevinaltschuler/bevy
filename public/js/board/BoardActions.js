@@ -15,12 +15,12 @@ var BOARD = require('./../constants').BOARD;
 
 var BoardActions = {
 
-  create(name, description, image, slug) {
+  create(name, description, image, parent_id) {
     dispatch(BOARD.CREATE, {
       name: (name == undefined) ? '' : name,
       description: (description == undefined) ? '' : description,
       image: (image == undefined) ? {} : image,
-      slug: slug
+      parent_id: (parent_id == undefined) ? '' : parent_id
     });
   },
 
@@ -54,7 +54,7 @@ var BoardActions = {
 
   switchBoard(board_id) {
     dispatch(BOARD.SWITCH, {
-      board_id: board_id
+      board_id: (board_id == undefined) ? '0' : board_id
     });
   },
 };

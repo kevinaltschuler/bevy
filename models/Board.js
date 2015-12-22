@@ -19,19 +19,15 @@ var BoardSchema = new Schema({
     unique: true,
     default: shortid.generate()
   },
-  parents: [{
+  parent: {
     type: String,
     ref: 'Bevy'
-  }],
+  },
   name: {
     type: String
   },
   description: {
     type: String
-  },
-  slug: {
-    type: String,
-    unique: true
   },
   image: ImageSchema,
   subCount: {
@@ -71,8 +67,7 @@ var BoardSchema = new Schema({
 });
 
 BoardSchema.virtual('url').get(function() {
-  if(_.isEmpty(this.slug)) return ('/boards/' + this._id + '/');
-  return ('/boards/' + this.slug + '/');
+  return ('/boards/' + this._id + '/');
 });
 
 BoardSchema.set('toObject', {
