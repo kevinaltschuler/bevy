@@ -100,14 +100,19 @@ exports.createPost = function(req, res, next) {
   update.title = req.body['title'];
   update.images = req.body['images'];
   update.author = req.body['author'];
-  update.bevy = req.body['bevy'];
+  update.board = req.body['board'];
   update.expires = req.body['expires'];
   update.type = req.body['type'];
   update.event = req.body['event'];
 
-  if(_.isEmpty(update.bevy)) return next('no bevy');
+  console.log('board', update.board);
+  console.log('author', update.author);
+  console.log('type', update.type);
+
+  if(_.isEmpty(update.board)) return next('no board');
   if(_.isEmpty(update.author)) return next('no author');
   if(_.isEmpty(update.type)) return next('no type');
+
 
   async.waterfall([
     function(done) {
@@ -116,8 +121,8 @@ exports.createPost = function(req, res, next) {
     function($update, done) {
       Post.create($update, function(err, post) {
         if(err) return next(err);
-        // populate bevy
-        Post.populate(post, { path: 'bevy author' }, function(err, pop_post) {
+        // populate board
+        Post.populate(post, { path: 'board author' }, function(err, pop_post) {
           // create notification
           notifications.make('post:create', { post: pop_post });
 

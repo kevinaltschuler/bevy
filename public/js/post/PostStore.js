@@ -26,6 +26,7 @@ var ALIAS = constants.ALIAS;
 var BEVY = constants.BEVY;
 var APP = constants.APP;
 var COMMENT = constants.COMMENT;
+var BOARD = constants.BOARD;
 
 var BevyStore = require('./../bevy/BevyStore');
 
@@ -45,6 +46,7 @@ _.extend(PostStore, {
   frontBevies: [],
 
   activeBevy: router.bevy_id,
+  activeBoard: router.board_id,
 
   // handle calls from the dispatcher
   // these are created from PostActions.js
@@ -56,10 +58,10 @@ _.extend(PostStore, {
         var BevyStore = require('./../bevy/BevyStore');
 
         // wait for bevies
-        BevyStore.on(BEVY.LOADED, function() {
+        /*BevyStore.on(BEVY.LOADED, function() {
           this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
           //this.trigger(POST.CHANGE_ALL);
-        }.bind(this));
+        }.bind(this));*/
 
         break;
 
@@ -80,6 +82,28 @@ _.extend(PostStore, {
 
             this.activeBevy = bevy_id;
             this.posts.sort();
+            console.log('change all');
+            this.trigger(POST.CHANGE_ALL);
+          }.bind(this)
+        });
+
+        break;
+
+      case BOARD.SWITCH:
+        var board_id = payload.board_id;
+
+        this.posts.comparator = PostStore.sortByNew;
+
+        this.posts.url = constants.apiurl + '/boards/' + board_id + '/posts';
+        
+        this.posts.fetch({
+          success: function(collection, response, options) {
+            this.posts.forEach(function(post) {
+              this.postsNestComment(post);
+            }.bind(this));
+
+            this.activeBoard = board_id;
+            this.posts.sort();
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
@@ -87,9 +111,8 @@ _.extend(PostStore, {
         break;
 
       case POST.FETCH:
-        this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
-        if(router.bevy_id == '-1') 
-            this.posts.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/frontpage';
+        var board_id = payload.board_id;
+        this.posts.url = constants.apiurl + '/boards/' + board_id + '/posts';
         this.posts.url += ('?skip=' + this.posts.length);
         this.posts.fetch({
           success: function(collection, response, options) {
@@ -109,14 +132,13 @@ _.extend(PostStore, {
         var title = payload.title;
         var images = payload.images;
         var author = payload.author;
-        var bevy = payload.bevy;
-        var type = payload.type;
+        var board = payload.board;
         var event = payload.event;
-        var tag = payload.tag;
+        var type = payload.type;
 
         var posts_expire_in;
-        if(bevy.settings.posts_expire_in && bevy.settings.posts_expire_in > 0) {
-          posts_expire_in = bevy.settings.posts_expire_in // in days
+        if(board.settings.posts_expire_in && board.settings.posts_expire_in > 0) {
+          posts_expire_in = board.settings.posts_expire_in // in days
           posts_expire_in *= (1000 * 60 * 60 * 24); // convert to seconds
           posts_expire_in += Date.now(); // add now
         } else {
@@ -129,13 +151,16 @@ _.extend(PostStore, {
           comments: [],
           images: images,
           author: author._id,
-          bevy: bevy._id,
+          board: board._id,
+          event: event,
+          type: type,
           created: Date.now(),
           expires: posts_expire_in,
-          type: type,
-          event: event,
-          tag: tag
         });
+
+        console.log(newPost);
+
+        newPost.url = constants.apiurl + '/posts';
 
         // save to server
         newPost.save(null, {
@@ -145,7 +170,7 @@ _.extend(PostStore, {
             newPost.set('images', post.get('images'));
             newPost.set('links', post.get('links'));
             newPost.set('author', author);
-            newPost.set('bevy', bevy);
+            newPost.set('board', board);
             newPost.set('type', type);
             newPost.set('event', event);
             newPost.set('commentCount', 0);
@@ -175,18 +200,15 @@ _.extend(PostStore, {
         var post_id = payload.post_id;
         var title = payload.postTitle;
         var images = payload.images;
-        var event = payload.event;
 
         var post = this.posts.get(post_id);
 
         post.set('title', title);
         post.set('images', images);
-        post.set('event', event);
 
         post.save({
           title: title,
           images: images,
-          event: event,
           updated: Date.now()
         }, {
           patch: true,
@@ -198,7 +220,7 @@ _.extend(PostStore, {
 
         break;
 
-      case POST.UPDATE_TAG:
+      /*case POST.UPDATE_TAG:
         var post_id = payload.post_id;
         var tag = payload.tag;
 
@@ -213,7 +235,7 @@ _.extend(PostStore, {
             this.trigger(POST.CHANGE_ONE + post.id);
           }.bind(this)
         });
-        break;
+        break;*/
 
       case POST.VOTE:
         var post_id = payload.post_id;
@@ -273,22 +295,22 @@ _.extend(PostStore, {
             this.sortType = 'top';
             this.posts.comparator = this.sortByTop;
             break;
-          case 'events':
+          /*case 'events':
             this.sortType = 'events';
             this.posts.comparator = this.sortByEvents;
-            break;
+            break;*/
         }
         this.posts.sort();
 
         this.trigger(POST.CHANGE_ALL);
         break;
 
-      case POST.UPDATE_FRONTBEVIES:
+      /*case POST.UPDATE_FRONTBEVIES:
         var bevies = payload.bevies;
         this.frontBevies = bevies;
 
         this.trigger(POST.CHANGE_ALL);
-        break;
+        break;*/
 
       case POST.MUTE:
         var post_id = payload.post_id;
@@ -323,9 +345,9 @@ _.extend(PostStore, {
 
         var expires = (pinned)
         ? new Date('2035', '1', '1') // expires in a long time
-        : new Date(Date.now() + (post.get('bevy').settings.posts_expire_in * 1000 * 60 * 60 * 24)) // unpinned - expire like default
+        : new Date(Date.now() + (post.get('board').settings.posts_expire_in * 1000 * 60 * 60 * 24)) // unpinned - expire like default
 
-        if(!pinned && (post.get('bevy').settings.posts_expire_in == -1)) expires = new Date('2035', '1', '1');
+        if(!pinned && (post.get('board').settings.posts_expire_in == -1)) expires = new Date('2035', '1', '1');
 
         post.set('pinned', pinned);
         post.set('expires', expires);

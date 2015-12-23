@@ -59,7 +59,6 @@ var PostHeader = React.createClass({
   render() {
 
     var post = this.props.post;
-    var tag = post.tag;
 
     var profileImage = (_.isEmpty(post.author.image))
       ? constants.defaultProfileImage
@@ -115,10 +114,6 @@ var PostHeader = React.createClass({
     ? <span className='badge pinned'>PINNED</span>
     : '';
 
-    var tagBadge = (post.tag)
-    ? <Badge style={{backgroundColor: tag.color }}>{tag.name}</Badge>
-    : '';
-
     var hideDropdown = (_.isEmpty(deleteButton) 
       && _.isEmpty(editButton) && _.isEmpty(pinButton))
     ? {display: 'none'}
@@ -170,7 +165,6 @@ var PostHeader = React.createClass({
         </div>
         <div className='badges'>
           { pinnedBadge }
-          { tagBadge }
           <DropdownButton
             noCaret
             pullRight

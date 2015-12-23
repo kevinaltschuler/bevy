@@ -17,6 +17,7 @@ var Event = require('./Event.jsx');
 
 var router = require('./../../router');
 var BevyActions = require('./../../bevy/BevyActions');
+var BoardActions = require('./../../board/BoardActions');
 var PostStore = require('./../PostStore');
 var PostActions = require('./../PostActions');
 var constants = require('./../../constants');
@@ -34,7 +35,8 @@ var PostContainer = React.createClass({
     activeBevy: React.PropTypes.object,
     //sortType: React.PropTypes.string,
     //activeTags: React.PropTypes.array,
-    //frontBevies: React.PropTypes.array
+    //frontBevies: React.PropTypes.array,
+    activeBoard: React.PropTypes.object
   },
 
   getInitialState() {
@@ -55,7 +57,7 @@ var PostContainer = React.createClass({
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
     // sometimes the bevy switch event completes before this is mounted
-    BevyActions.switchBevy(this.props.activeBevy._id);
+    BoardActions.switchBoard(this.props.activeBoard._id);
     //PostActions.fetch(this.props.activeBevy._id);
 
     var node = this.getDOMNode();
@@ -98,6 +100,7 @@ var PostContainer = React.createClass({
   },
 
   handleChangeAll() {
+    console.log('loaded');
     this.setState({
       allPosts: PostStore.getAll()
     });
