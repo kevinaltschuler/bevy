@@ -76,6 +76,7 @@ _.extend(UserStore, {
             'Accept': 'application/json',
             'Content-Type': 'application/json'
           },
+          credentials: 'include',
           body: JSON.stringify({
             client_id: constants.client_id,
             client_secret: constants.client_secret,
