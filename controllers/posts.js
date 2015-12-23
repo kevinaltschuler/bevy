@@ -95,7 +95,7 @@ exports.getBevyPosts = function(req, res, next) {
 
 // POST /posts
 exports.createPost = function(req, res, next) {
-  var update = collectPostParams(req);
+  var update = {};
   update._id = shortid.generate();
   update.title = req.body['title'];
   update.images = req.body['images'];
@@ -104,10 +104,6 @@ exports.createPost = function(req, res, next) {
   update.expires = req.body['expires'];
   update.type = req.body['type'];
   update.event = req.body['event'];
-
-  console.log('board', update.board);
-  console.log('author', update.author);
-  console.log('type', update.type);
 
   if(_.isEmpty(update.board)) return next('no board');
   if(_.isEmpty(update.author)) return next('no author');
@@ -152,7 +148,7 @@ exports.getPost = function(req, res, next) {
 // PUT/PATCH /posts/:id
 exports.updatePost = function(req, res, next) {
   var id = req.params.id;
-  var update = collectPostParams(req);
+  var update = {};
   if(req.body['pinned'] != undefined) {
     update.pinned = req.body['pinned'];
   }

@@ -21,9 +21,10 @@ var User = require('./../models/User');
 var Comment = require('./../models/Comment');
 var Post = require('./../models/Post');
 var Bevy = require('./../models/Bevy');
+var Board = require('./../models/Board');
 var Notification = require('./../models/Notification');
 
-var paramNames = 'event message email bevy user members';
+var paramNames = 'event message email board user members';
 
 var emitter = new EventEmitter();
 emitter.setMaxListeners(0);
@@ -242,11 +243,11 @@ exports.make = function(type, payload) {
     case 'post:create':
       var post = JSON.parse(JSON.stringify(payload.post));
       var author = post.author;
-      var bevy = post.bevy;
+      var board = post.board;
 
       var notifications = [];
       // get all users of the bevy
-      User.find({ bevies: bevy._id }, function(err, users) {
+      User.find({ boards: board._id }, function(err, users) {
         if(err) return;
         users.forEach(function(user) {
           //TODO: check user notification preferences here
@@ -257,15 +258,15 @@ exports.make = function(type, payload) {
             data: {
               author_name: author.displayName,
               author_img: author.image_url,
-              bevy_id: bevy._id,
-              bevy_name: bevy.name,
+              board_id: board._id,
+              board_name: board.name,
               post_title: post.title,
               post_id: post._id,
               post_created: post.created
             }
           });
         });
-        pushNotifications(notifications);
+        //pushNotifications(notifications);
       });
       break;
 
@@ -277,7 +278,7 @@ exports.make = function(type, payload) {
       var notifications = [];
       // send post reply to author
       // query for bevy because we need its name
-      Bevy.findOne({ _id: post.bevy }, function(err, bevy) {
+      Board.findOne({ _id: post.board }, function(err, board) {
         if(err) return;
         if(author._id == post.author) return; // dont send to self
         notifications.push({
@@ -287,8 +288,8 @@ exports.make = function(type, payload) {
             author_name: author.displayName,
             author_image: author.image_url,
             post_title: post.title,
-            bevy_name: bevy.name,
-            bevy_id: bevy._id,
+            board_name: board.name,
+            board_id: board._id,
             post_id: post._id,
             comment_id: comment._id,
             comment_created: comment.created
@@ -311,13 +312,13 @@ exports.make = function(type, payload) {
               author_name: author.displayName,
               author_image: author.image_url,
               post_title: post.title,
-              bevy_name: bevy.name,
-              bevy_id: bevy._id,
+              board_name: board.name,
+              board_id: board._id,
               comment_id: comment._id,
               comment_created: comment.created
             }
           });
-          pushNotifications(notifications);
+          //pushNotifications(notifications);
         });
       });
 
