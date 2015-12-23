@@ -18,7 +18,8 @@ module.exports = function(router) {
 	router.get('/users/search/:query', userController.searchUsers);
 	router.put('/users/:id', userController.updateUser);
 	router.patch('/users/:id', userController.updateUser);
-	router.patch('/users/:id/boards', userController.addBoard);
+	router.post('/users/:id/boards', userController.addBoard);
+	//router.delete('/users/:id/boards/:id', userController.removeBoard);
 	router.delete('/users/:id', userController.destroyUser);
 
 	// VERIFY USERNAME
