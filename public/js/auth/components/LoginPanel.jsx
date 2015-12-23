@@ -3,34 +3,60 @@
  *
  * @author albert
  * @author kevin
+ * @flow
  */
 
 'use strict';
 
-// imports
 var React = require('react');
+var {
+  Panel,
+  Input
+} = require('react-bootstrap');
+var {
+  RaisedButton,
+  FlatButton,
+  TextField
+} = require('material-ui');
+
 var $ = require('jquery');
 var _ = require('underscore');
 var constants = require('./../../constants');
-
-var rbs = require('react-bootstrap');
-var Panel = rbs.Panel;
-var Input = rbs.Input;
-
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
-var FlatButton = mui.FlatButton;
-var TextField = mui.TextField;
-
 var router = require('./../../router');
+var UserActions = require('./../../profile/UserActions');
+var UserStore = require('./../../profile/UserStore');
+var USER = constants.USER;
 
 var LoginPanel = React.createClass({
-
   getInitialState() {
     return {
       errorText: '',
       showError: false
     };
+  },
+
+  componentDidMount() {
+    UserStore.on(USER.LOGGING_IN, this.onLoggingIn);
+    UserStore.on(USER.LOGIN_SUCCESS, this.onLoginSuccess);
+    UserStore.on(USER.LOGIN_ERROR, this.onLoginError);
+  },
+  componentWillUnmount() {
+    UserStore.off(USER.LOGGING_IN, this.onLoggingIn);
+    UserStore.off(USER.LOGIN_SUCCESS, this.onLoginSuccess);
+    UserStore.off(USER.LOGIN_ERROR, this.onLoginError);
+  },
+
+  onLoggingIn() {
+
+  },
+  onLoginSuccess() {
+    window.location.href = '/';
+  },
+  onLoginError(err) {
+    this.setState({
+      showError: true,
+      errorText: err
+    });
   },
 
   submit(e) {
@@ -57,7 +83,9 @@ var LoginPanel = React.createClass({
       return;
     }
 
-    $.post(
+    UserActions.login(username, password);
+
+    /*$.post(
       constants.siteurl + '/login',
       {
         username: username,
@@ -77,7 +105,7 @@ var LoginPanel = React.createClass({
         errorText: response.message,
         showError: true
       });
-    }.bind(this));
+    }.bind(this));*/
   },
 
   onPasswordKeyUp(ev) {
@@ -87,28 +115,32 @@ var LoginPanel = React.createClass({
     }
   },
 
-  render() {
-    var error;
-    if(this.state.showError) {
-      error = (
-        <div className='login-error'>
-          <span>{ this.state.errorText }</span>
-        </div>
-      );
-    }
+  _renderError() {
+    if(!this.state.showError) return <div />;
+    return(
+      <div className='login-error'>
+        <span>{ this.state.errorText }</span>
+      </div>
+    );
+  },
 
+  render() {
     return (
       <Panel className="login-panel">
-        <img className="profile-img" src="/img/user-profile-icon.png" alt="Avatar"/>
-        { error }
+        <img
+          className="profile-img"
+          src="/img/user-profile-icon.png"
+          alt="Avatar"
+        />
+        { this._renderError() }
         <form method='post' action='/login'>
-          <TextField 
+          <TextField
             ref='username'
             type='text'
             hintText='username'
             style={{width: '100%'}}
           />
-          <TextField 
+          <TextField
             ref='password'
             type='password'
             hintText='password'
@@ -122,7 +154,8 @@ var LoginPanel = React.createClass({
             onClick={ this.submit }
             backgroundColor='#2cb673'
             labelColor='white'
-            fullWidth={true}/>
+            fullWidth={true}
+          />
         </form>
         <RaisedButton
           className='login-google-submit'
@@ -132,14 +165,16 @@ var LoginPanel = React.createClass({
           style={{marginBottom: '10px',textAlign: 'center'}}
           backgroundColor='#d34836'
           labelColor='white'
-          href={ constants.siteurl + '/auth/google' } />
+          href={ constants.siteurl + '/auth/google' }
+        />
         <FlatButton
           className='register-button'
           label='Create an Account'
           linkButton={true}
           fullWidth={true}
           style={{width: '100%'}}
-          href={ constants.siteurl + '/register'} />
+          href={ constants.siteurl + '/register'}
+        />
       </Panel>
     );
   }

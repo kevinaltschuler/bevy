@@ -5,6 +5,7 @@
  * also sets some nifty environment variables
  *
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -26,6 +27,9 @@ var api_version = '';
 //exports.apiurl = 'http://api.joinbevy.com';
 exports.siteurl = 'http://bevy.dev';
 exports.apiurl = 'http://api.bevy.dev';
+
+exports.client_id = 'web';
+exports.client_secret = 'THE-ROCK-WE-ALL-PUSH';
 
 exports.hostname = hostname;
 exports.protocol = protocol;
@@ -107,12 +111,27 @@ exports.BOARD = {
 };
 
 exports.USER = {
+  // actions
   UPDATE: 'user_update',
   SEARCH: 'user_search',
-  LINK_ACCOUNT: 'user_link_account',
-  UNLINK_ACCOUNT: 'user_unlink_account',
-  SWITCH_USER: 'user_switch_user',
+  LOGIN: 'user_login',
+  REGISTER: 'user_register',
+  REFRESH_TOKEN: 'user_refresh_token',
+  VERIFY_USERNAME: 'user_verify_username',
 
+  // events
+  LOGGING_IN: 'user_logging_in',
+  LOGIN_SUCCESS: 'user_login_success',
+  LOGIN_ERROR: 'user_login_error',
+  REGISTERING: 'user_registering',
+  REGISTER_SUCCESS: 'user_register_success',
+  REGISTER_ERROR: 'user_register_error',
+  REFRESHING_TOKEN: 'user_refreshing_token',
+  REFRESH_TOKEN_SUCCESS: 'user_refresh_token_success',
+  REFRESH_TOKEN_ERROR: 'user_refresh_token_error',
+  VERIFYING_USERNAME: 'user_verifying_username',
+  VERIFY_USERNAME_SUCCESS: 'user_verify_username_success',
+  VERIFY_USERNAME_ERROR: 'user_verify_username_error',
   SEARCHING: 'user_searching',
   SEARCH_COMPLETE: 'user_search_complete'
 };

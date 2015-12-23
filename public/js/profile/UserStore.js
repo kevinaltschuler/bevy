@@ -1,3 +1,10 @@
+/**
+ * UserStore.js
+ * @author albert
+ * @author kevin
+ * @flow
+ */
+
 'use strict';
 
 // imports
@@ -22,26 +29,92 @@ var UserStore = _.extend({}, Backbone.Events);
 _.extend(UserStore, {
 
   user: new User,
+  loggedIn: false,
   userSearchQuery: '',
   userSearchResults: new Users,
 
-  linkedAccounts: new Users,
+  accessToken: '',
+  refreshToken: '',
+  expires_in: 0,
 
   handleDispatch(payload) {
     switch(payload.actionType) {
       case APP.LOAD:
+        if(_.isEmpty(window.bootstrap.user)) {
+          this.loggedIn = false;
+        } else {
+          this.setUser(window.bootstrap.user);
+          this.loggedIn = true;
+        }
+        // check if auth tokens have been passed in from the server
+        if(!_.isEmpty(window.bootstrap.access_token)
+          && !_.isEmpty(window.bootstrap.refresh_token)
+          && !_.isEmpty(window.bootstrap.expires_in)) {
+          this.setTokens(
+            window.bootstrap.access_token,
+            window.bootstrap.refresh_token,
+            window.bootstrap.expires_in
+          );
+        } else {
+          // if not, then try to load from local storage
+          this.setTokens(
+            localStorage.getItem('accessToken'),
+            localStorage.getItem('refreshToken'),
+            localStorage.getItem('expires_in')
+          );
+        }
+        break;
 
-        this.user = new User(window.bootstrap.user);
-        this.user.url = constants.apiurl + '/users/' + this.user.get('_id');
+      case USER.LOGIN:
+        var username = payload.username;
+        var password = payload.password;
 
-        this.linkedAccounts.url = constants.apiurl + '/users/' + this.user.get('_id') + '/linkedaccounts';
-        this.linkedAccounts.fetch({
-          success: function(collection, response, options) {
-            this.trigger(USER.CHANGE_ALL);
-          }.bind(this)
+        this.trigger(USER.LOGGING_IN);
+        fetch(constants.siteurl + '/login', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            client_id: constants.client_id,
+            client_secret: constants.client_secret,
+            grant_type: 'password',
+            username: username,
+            password: password
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          console.log('login success', res.user._id);
+          // set the access and refresh tokens
+          this.setTokens(
+            res.accessToken,
+            res.refreshToken,
+            res.expires_in
+          );
+          // set the new user
+          this.setUser(res.user);
+          // trigger success
+          this.trigger(USER.LOGIN_SUCCESS);
+        })
+        .catch(err => {
+          console.log('login error', err.toString());
+          // trigger error and pass along error message
+          this.trigger(USER.LOGIN_ERROR, err.toString());
         });
+        break;
+
+      case USER.REGISTER:
+        var username = payload.username;
+        var password = payload.password;
+        var email = payload.email;
+        break;
+
+      case USER.REFRESH_TOKEN:
 
         break;
+
       case BEVY.JOIN:
         // add to users bevies array
         var bevy_id = payload.bevy_id;
@@ -84,88 +157,12 @@ _.extend(UserStore, {
 
       case USER.UPDATE:
         var image = payload.image;
-
         this.user.save({
           image: image
         }, {
           patch: true,
           success: function(model, response, options) {
           }.bind(this)
-        });
-        break;
-
-      case USER.LINK_ACCOUNT:
-        var account = payload.account;
-
-        var linkedAccounts = this.user.get('linkedAccounts');
-        if(_.isEmpty(linkedAccounts)) linkedAccounts = [];
-
-        linkedAccounts.push(account._id);
-        _.uniq(linkedAccounts); // remove dupes
-
-        $.ajax({
-          url: constants.apiurl + '/users/' + this.user.get('_id') + '/linkedaccounts',
-          method: 'POST',
-          data: {
-            account_id: account._id
-          },
-          success: function(data) {
-
-          },
-          error: function(error) {
-            console.log(error);
-          }
-        });
-
-        // add to collection
-        this.linkedAccounts.push(account);
-        this.trigger(USER.CHANGE_ALL);
-        break;
-
-      case USER.UNLINK_ACCOUNT:
-        var account = payload.account;
-
-        var linkedAccounts = this.user.get('linkedAccounts');
-        if(_.isEmpty(linkedAccounts)) linkedAccounts = [];
-
-        linkedAccounts = _.without(linkedAccounts, account._id);
-        _.uniq(linkedAccounts); // remove dupes
-
-        $.ajax({
-          url: constants.apiurl + '/users/' + this.user.get('_id') + '/linkedaccounts/' + account._id,
-          method: 'DELETE',
-          success: function(data) {
-
-          },
-          error: function(error) {
-            console.log(error);
-          }
-        });
-
-        // remove from collection
-        this.linkedAccounts.remove(account._id);
-        this.trigger(USER.CHANGE_ALL);
-        break;
-
-      case USER.SWITCH_USER:
-        var account_id = payload.account_id;
-        console.log('switch account', account_id);
-
-        $.ajax({
-          url: constants.siteurl + '/switch',
-          method: 'POST',
-          data: {
-            username: 'dummy',
-            password: 'dummy',
-            user_id: this.user.get('_id'),
-            switch_to_id: account_id
-          },
-          success: function(data) {
-            window.location.reload();
-          },
-          error: function(error) {
-            console.log(error);
-          }
         });
         break;
 
@@ -191,16 +188,45 @@ _.extend(UserStore, {
     }
   },
 
+  setUser(user) {
+    this.user = new User(user);
+    this.user.url = constants.apiurl + '/users/' + this.user.get('_id');
+    this.trigger(USER.CHANGE_ALL);
+  },
+
   getUser() {
     return this.user.toJSON();
   },
 
   getLoggedIn() {
-    return _.isEmpty(window.bootstrap.user);
+    return this.loggedIn;
   },
 
-  getLinkedAccounts() {
-    return this.linkedAccounts.toJSON();
+  setTokens(accessToken, refreshToken, expires_in) {
+    if(_.isEmpty(accessToken) || _.isEmpty(refreshToken) || _.isEmpty(expires_in)) {
+      // if one of them is missing, then we need to clear all
+      this.clearTokens();
+      return;
+    }
+    // set locally
+    this.accessToken = accessToken;
+    this.refreshToken = refreshToken;
+    this.expires_in = expires_in;
+    // and save
+    localStorage.setItem('access_token', accessToken);
+    localStorage.setItem('refresh_token', refreshToken);
+    localStorage.setItem('expires_in', expires_in);
+  },
+  clearTokens() {
+    localStorage.removeItem('access_token');
+    localStorage.removeItem('refresh_token');
+    localStorage.removeItem('expires_in');
+  },
+  getAccessToken() {
+    return this.accessToken;
+  },
+  getRefreshToken() {
+    return this.refreshToken;
   },
 
   getUserSearchQuery() {

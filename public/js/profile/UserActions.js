@@ -1,37 +1,47 @@
+/**
+ * UserActions.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
-// imports
-var dispatch = require('./../shared/helpers/dispatch');
+var Dispatcher = require('./../shared/dispatcher');
 var constants = require('./../constants');
 var USER = constants.USER;
 
 var UserActions = {
   update(image) {
-    dispatch(USER.UPDATE, {
+    Dispatcher.dispatch({
+      actionType: USER.UPDATE,
       image: (image == undefined) ? null : image
     });
   },
   search(query) {
-    dispatch(USER.SEARCH, {
+    Dispatcher.dispatch({
+      actionType: USER.SEARCH,
       query: (query == undefined) ? null : query
     });
   },
-
-  linkAccount(account) {
-    dispatch(USER.LINK_ACCOUNT, {
-      account: account
+  login(username, password) {
+    Dispatcher.dispatch({
+      actionType: USER.LOGIN,
+      username: username,
+      password: password
     });
   },
-
-  unlinkAccount(account) {
-    dispatch(USER.UNLINK_ACCOUNT, {
-      account: account
+  register(username, password, email) {
+    Dispatcher.dispatch({
+      actionType: USER.REGISTER,
+      username: username,
+      password: password,
+      email: (email == undefined) ? '' : email
     });
   },
-
-  switchUser(account_id) {
-    dispatch(USER.SWITCH_USER, {
-      account_id: account_id
+  refreshToken(refreshToken) {
+    Dispatcher.dispatch({
+      actionType: USER.REFRESH_TOKEN,
+      refreshToken: refreshToken
     });
   }
 }

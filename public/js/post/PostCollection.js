@@ -33,9 +33,8 @@ var PostCollection = Backbone.Collection.extend({
   },
 
   url() {
-
     var bevy_id = router.bevy_id;
-    
+
     if((router.current == 'front')) // frontpage
       return constants.apiurl + '/users/' + user._id + '/frontpage';
 

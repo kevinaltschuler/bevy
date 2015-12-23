@@ -14,7 +14,7 @@ module.exports = function(router) {
   router.post('/bevies', bevyController.createBevy);
   router.get('/bevies/:id', bevyController.getBevy);
   router.get('/bevies/search/:query', bevyController.searchBevies);
-  router.patch('/bevies/:id/boards', bevyController.addBoard);]
+  router.patch('/bevies/:id/boards', bevyController.addBoard);
   router.put('/bevies/:id', bevyController.updateBevy);
   router.patch('/bevies/:id', bevyController.updateBevy);
   router.delete('/bevies/:id', bevyController.destroyBevy);
