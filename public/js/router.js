@@ -27,6 +27,7 @@ var Router = Backbone.Router.extend({
     's/' : 'search',
     's' : 'search',
     's/:query' : 'search',
+    'auth/google/callback': 'googleCallback',
     '*nuts' : 'not_found'
   },
 
@@ -103,6 +104,10 @@ var Router = Backbone.Router.extend({
       this.search.query = '';
     }
     BevyActions.search(query);
+  },
+
+  googleCallback() {
+    this.navigate('/', { trigger: true });
   },
 
   not_found: function(nuts) {
