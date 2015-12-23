@@ -32,6 +32,7 @@ var CHAT = constants.CHAT;
 var APP = constants.APP;
 var BOARD = constants.BOARD;
 var BevyActions = require('./BevyActions');
+var UserStore = require('./../profile/UserStore');
 var user = window.bootstrap.user;
 
 // inherit event class first
@@ -53,19 +54,16 @@ _.extend(BevyStore, {
   // these are created from BevyActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
-
       case APP.LOAD:
+        Dispatcher.waitFor([ UserStore.dispatchToken ]);
         var user = window.bootstrap.user;
-
         this.myBevies.fetch({
           success: function(collection, response, options) {
             this.trigger(BEVY.CHANGE_ALL);
             this.trigger(BEVY.LOADED);
           }.bind(this)
         });
-
         this.publicBevies.url = constants.apiurl + '/bevies';
-
         //load public bevies
         this.publicBevies.fetch({
           success: function(collection, response, options) {
@@ -237,7 +235,7 @@ _.extend(BevyStore, {
         var user = payload.user;
 
         if(this.myBevies.get(bevy._id) != undefined) break; // already joined
-        
+
         $.ajax({
           method: 'POST',
           url: constants.apiurl + '/notifications',
@@ -252,7 +250,7 @@ _.extend(BevyStore, {
           },
           success: function(res) {
           }.bind(this)
-        });     
+        });
 
         break;
 
@@ -270,7 +268,7 @@ _.extend(BevyStore, {
 
       case BEVY.SORT:
         var filter = payload.filter;
-        
+
         var collection = (!_.isEmpty(this.searchQuery)) ? this.searchList : this.publicBevies;
         collection.filter = filter;
         switch(filter) {
@@ -367,7 +365,7 @@ _.extend(BevyStore, {
     var name = bevy.attributes.name.toLowerCase();
     var nameValue = name.charCodeAt(0);
     return -nameValue;
-  },  
+  },
 
   sortByTop(bevy) {
     var subs = bevy.attributes.subCount;

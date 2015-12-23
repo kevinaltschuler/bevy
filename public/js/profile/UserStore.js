@@ -231,8 +231,9 @@ _.extend(UserStore, {
   },
 
   setTokens(accessToken, refreshToken, expires_in) {
-    if(_.isEmpty(accessToken) || _.isEmpty(refreshToken) || _.isEmpty(expires_in)) {
+    if(_.isEmpty(accessToken) || _.isEmpty(refreshToken)) {
       // if one of them is missing, then we need to clear all
+      console.log('clearing oauth2 tokens');
       this.clearTokens();
       return;
     }
@@ -243,7 +244,7 @@ _.extend(UserStore, {
     // and save
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
-    localStorage.setItem('expires_in', expires_in);
+    localStorage.setItem('expires_in', expires_in.toString());
   },
   clearTokens() {
     localStorage.removeItem('access_token');
