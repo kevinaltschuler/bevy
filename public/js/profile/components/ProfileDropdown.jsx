@@ -56,7 +56,7 @@ var ProfileDropdown = React.createClass({
 
   handleChangeAll() {
     this.setState({
-      linkedAccounts: UserStore.getLinkedAccounts()
+      //linkedAccounts: UserStore.getLinkedAccounts()
     });
   },
 
@@ -140,7 +140,7 @@ var ProfileDropdown = React.createClass({
               <span className='profile-points'>{ user.points }&nbsp;Points</span>
             </div>
           </div>
-          { this._renderLinkedAccounts() }
+          {/* this._renderLinkedAccounts() }
           <div className="profile-dropdown-buttons">
             <FlatButton
               label="Add Account"
@@ -156,7 +156,7 @@ var ProfileDropdown = React.createClass({
             show={ this.state.showAddAccountModal }
             onHide={() => this.setState({ showAddAccountModal: false })}
             linkedAccounts={ this.state.linkedAccounts }
-          />
+          />*/}
         </div>
       </div>
     );

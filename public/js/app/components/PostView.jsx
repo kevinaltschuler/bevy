@@ -23,6 +23,7 @@ var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx');
 
+var BevyStore = require('./../../bevy/BevyStore');
 var BevyActions = require('./../../bevy/BevyActions');
 
 var PostView = React.createClass({
@@ -38,27 +39,30 @@ var PostView = React.createClass({
 
   onRequestJoin(ev) {
     ev.preventDefault();
-    BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
+    //BoardActions.requestJoin(this.props.board, window.bootstrap.user);
     this.refs.snackbar.show();
   },
 
   render() {
     var disabled = false;
     var hidden = false;
-    var activeBevy = this.props.activeBevy;
+    if(_.isEmpty(this.props.activeBoard)) {
+      return <div/>;
+    }
+    var parent = BevyStore.getBevy(this.props.activeBoard.parent);
 
     if(_.isEmpty(window.bootstrap.user)) {
       disabled = true;
     }
-    if(!_.isEmpty(activeBevy)) {
-      if(activeBevy.settings.privacy == 1) {
+    if(!_.isEmpty(parent)) {
+      if(parent.settings.privacy == 1) {
         if(_.isEmpty(window.bootstrap.user)) {
           hidden = true;
           disabled = true;
         }
         else if(!_.find(window.bootstrap.user.bevies, 
           function(bevyId) { 
-          return bevyId == this.props.activeBevy._id 
+          return bevyId == this.props.parent._id 
         }.bind(this))) {
           hidden = true;
           disabled = true;

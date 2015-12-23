@@ -47,18 +47,34 @@ var Router = Backbone.Router.extend({
   },
 
   login() {
+    if(checkUser()) {
+      this.current = 'myBevies';
+      return;
+    }
     this.current = 'login';
   },
 
   register() {
+    if(checkUser()) {
+      this.current = 'myBevies';
+      return;
+    }
     this.current = 'register';
   },
 
   forgot() {
+    if(checkUser()) {
+      this.current = 'myBevies';
+      return;
+    }
     this.current = 'forgot';
   },
 
   reset(token) {
+    if(checkUser()) {
+      this.current = 'myBevies';
+      return;
+    }
     this.current = 'reset';
   },
 

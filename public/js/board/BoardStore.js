@@ -165,9 +165,8 @@ _.extend(BoardStore, {
         method: 'GET',
         url: constants.apiurl + '/boards/' + board_id,
         success: function($board, more) {
-          return ($board)
-          ? $board.toJSON()
-          : {};
+          console.log($board);
+          return ($board) ? $board : {};
         }.bind(this)
       });
     } else {
