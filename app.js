@@ -85,8 +85,8 @@ app.use(session({
     secret: true,
     expires: false
   },
-  resave: true,
-  saveUninitialized: true
+  resave: false,
+  saveUninitialized: false
 }));
 
 // passport

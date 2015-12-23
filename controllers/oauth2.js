@@ -88,7 +88,7 @@ var loginUsername = function(req, res, next) {
     generateTokens(user, req['user'], function(err, accessToken, refreshToken, data) {
       if(err) return next(err);
       // clear serialized client
-      req.logout();
+      //req.logout();
       // serialize user into session
       // and pass access & refresh tokens for the client
       // also give client expiration date so it can request new token by itself

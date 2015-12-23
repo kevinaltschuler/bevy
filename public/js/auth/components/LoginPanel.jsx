@@ -84,28 +84,6 @@ var LoginPanel = React.createClass({
     }
 
     UserActions.login(username, password);
-
-    /*$.post(
-      constants.siteurl + '/login',
-      {
-        username: username,
-        password: password
-      },
-      function(data) {
-        // success
-        // let's redirect to the app
-        window.location.href = '/b/frontpage';
-      }
-    ).fail(function(jqXHR) {
-      // a server-side error has occured (500 internal error)
-      // load response from jqXHR
-      var response = jqXHR.responseJSON;
-      // show error
-      this.setState({
-        errorText: response.message,
-        showError: true
-      });
-    }.bind(this));*/
   },
 
   onPasswordKeyUp(ev) {
