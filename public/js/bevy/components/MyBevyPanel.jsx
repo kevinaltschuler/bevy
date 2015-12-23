@@ -4,6 +4,7 @@
  *
  * @author albert
  * @author kevin
+ * @flow
  */
 
 'use strict';
@@ -49,8 +50,8 @@ var MyBevyPanel = React.createClass({
       <div />
     );
     return (
-      <OverlayTrigger placement='top' overlay={ 
-        <Tooltip>This Bevy Is Private</Tooltip> 
+      <OverlayTrigger placement='top' overlay={
+        <Tooltip>This Bevy Is Private</Tooltip>
       }>
         <span className='glyphicon glyphicon-lock' />
       </OverlayTrigger>
@@ -60,21 +61,21 @@ var MyBevyPanel = React.createClass({
   render() {
 
     var bevy = this.props.bevy;
-    var bevyImage = (_.isEmpty(this.state.image)) 
-      ? '/img/default_group_img.png' 
+    var bevyImage = (_.isEmpty(this.state.image))
+      ? '/img/default_group_img.png'
       : this.state.image.path;
     var bevyImageStyle = { backgroundImage: 'url(' + bevyImage + ')' };
 
-    var name = (_.isEmpty(bevy)) 
-      ? 'not in a bevy' 
+    var name = (_.isEmpty(bevy))
+      ? 'not in a bevy'
       : this.state.name;
-    var description = (_.isEmpty(bevy)) 
-      ? 'no description' 
+    var description = (_.isEmpty(bevy))
+      ? 'no description'
       : this.state.description;
     if(_.isEmpty(description)) description = 'no description';
 
-    var subCount = (bevy.subCount == 1) 
-      ? '1 member' 
+    var subCount = (bevy.subCount == 1)
+      ? '1 member'
       : bevy.subCount + ' members';
     var created = new Date(bevy.created).toLocaleDateString();
 
@@ -87,16 +88,16 @@ var MyBevyPanel = React.createClass({
 
     return (
       <div className="panel public-bevy-panel">
-        <a 
-          className="bevy-panel-top" 
-          href={ this.props.bevy.url } 
+        <a
+          className="bevy-panel-top"
+          href={ this.props.bevy.url }
           style={ bevyImageStyle }
         />
         <div className='panel-info'>
           <div className='panel-info-top'>
-            <a 
-              className='title' 
-              href={ this.props.bevy.url } 
+            <a
+              className='title'
+              href={ this.props.bevy.url }
             >
               { name }
             </a>
