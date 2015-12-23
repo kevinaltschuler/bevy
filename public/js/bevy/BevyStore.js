@@ -52,7 +52,6 @@ _.extend(BevyStore, {
   // handle calls from the dispatcher
   // these are created from BevyActions.js
   handleDispatch(payload) {
-    console.log(payload.actionType);
     switch(payload.actionType) {
 
       case APP.LOAD:

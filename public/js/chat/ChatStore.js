@@ -30,7 +30,6 @@ _.extend(ChatStore, {
   openThreads: [],
 
   handleDispatch(payload) {
-    console.log(payload.actionType);
     switch(payload.actionType) {
       case APP.LOAD:
         if(!_.isEmpty(window.bootstrap.user)) {
