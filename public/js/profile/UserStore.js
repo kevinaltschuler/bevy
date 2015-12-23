@@ -58,8 +58,8 @@ _.extend(UserStore, {
         } else {
           // if not, then try to load from local storage
           this.setTokens(
-            localStorage.getItem('accessToken'),
-            localStorage.getItem('refreshToken'),
+            localStorage.getItem('access_token'),
+            localStorage.getItem('refresh_token'),
             localStorage.getItem('expires_in')
           );
         }
