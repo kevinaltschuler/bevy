@@ -70,39 +70,39 @@ var HomeView = React.createClass({
           </div>
           <div className='features'>
             <div className='feature'>
-              <span className='glyphicon glyphicon-user'/>
-              <div className='title'>
-                Any Size
-              </div>
-              <div className='description'>
-                Tagging and sorting allows bevy to handle any volume of posts and users.
-              </div>
-            </div>
-            <div className='feature'>
-              <span className='glyphicon glyphicon-calendar'/>
-              <div className='title'>
-                Event System
-              </div>
-              <div className='description'>
-                A built in event manager allows communities to organize their next meetup.
-              </div>
-            </div>
-            <div className='feature'>
               <span className='glyphicon glyphicon-modal-window'/>
               <div className='title'>
-                Associations
+                Organize. 
               </div>
               <div className='description'>
-                Link your bevies to similar ones to form a network of groups.
+                Bevy organizes your community into its smaller parts
+              </div>
+            </div>
+            <div className='feature'>
+              <span className='glyphicon glyphicon-user'/>
+              <div className='title'>
+                Grow.
+              </div>
+              <div className='description'>
+                Our powerful servers and well designed database can handle anything
+              </div>
+            </div>
+            <div className='feature'>
+              <span className='glyphicon glyphicon-comment'/>
+              <div className='title'>
+                Talk.
+              </div>
+              <div className='description'>
+                Each Bevy has a chat containing every member
               </div>
             </div>
             <div className='feature'>
               <span className='glyphicon glyphicon-king'/>
               <div className='title'>
-                World Class Design
+                Enjoy.
               </div>
               <div className='description'>
-                Our amazing interface designers have crafted Bevy so even your grandma can use it.
+                Our amazing interface designers have crafted Bevy so even your grandma can use it
               </div>
             </div>
           </div>
