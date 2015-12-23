@@ -46,7 +46,7 @@ require('./gridfs');
 require('./db');
 
 // set up schedules
-require('./schedule');
+//require('./schedule');
 
 // set up websocket/polling server
 require('./socket')(server);
@@ -80,7 +80,7 @@ app.use(cookieParser(process.env.COOKIE_SECRET));
 // sessions
 app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
-  secret: 'keyboard cat',
+  secret: 'burlapsack',
   cookie: {
     secret: true,
     expires: false
@@ -90,7 +90,8 @@ app.use(session({
 }));
 
 // passport
-config.passport(app);
+// load strategies and config
+require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -124,12 +125,10 @@ app.use(serveStatic(__dirname + '/public')); // app-specific assets
 // load routes
 var routes = require('./routes')(app);
 
-
 // error handling
 var error = require('./error');
 app.use(error.log_errors);
 app.use(error.error_handler);
-
 
 server.listen(config.app.server.port);
 console.log('http server listening on port', config.app.server.port);

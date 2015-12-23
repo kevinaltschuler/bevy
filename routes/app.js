@@ -10,6 +10,9 @@ var _ = require('underscore');
 module.exports = function(app) {
 
   var emailHTML = template;
+  app.get('/usertest', function(req, res, next) {
+    res.json(req.user);
+  });
 
   //test email
   app.get('/emailtest', function(req, res, next) {
