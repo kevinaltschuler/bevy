@@ -43,7 +43,7 @@ var Uploader = React.createClass({
 
     // instantiate dropzone
     var options = this.props.dropzoneOptions;
-    options.url = constants.apiurl + '/files/upload';
+    options.url = constants.apiurl + '/files';
     this.dropzone = new Dropzone(this.getDOMNode(), options);
 
     this.dropzone.on('success', function(file, response) {
