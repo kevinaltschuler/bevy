@@ -68,48 +68,37 @@ _.extend(UserStore, {
       case USER.LOGIN:
         var username = payload.username;
         var password = payload.password;
-
-        this.trigger(USER.LOGGING_IN);
-        fetch(constants.siteurl + '/login', {
-          method: 'POST',
-          headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-          },
-          credentials: 'include',
-          body: JSON.stringify({
-            client_id: constants.client_id,
-            client_secret: constants.client_secret,
-            grant_type: 'password',
-            username: username,
-            password: password
-          })
-        })
-        .then(res => res.json())
-        .then(res => {
-          console.log('login success', res.user._id);
-          // set the access and refresh tokens
-          this.setTokens(
-            res.accessToken,
-            res.refreshToken,
-            res.expires_in
-          );
-          // set the new user
-          this.setUser(res.user);
-          // trigger success
-          this.trigger(USER.LOGIN_SUCCESS);
-        })
-        .catch(err => {
-          console.log('login error', err.toString());
-          // trigger error and pass along error message
-          this.trigger(USER.LOGIN_ERROR, err.toString());
-        });
+        this.login(username, password);
         break;
 
       case USER.REGISTER:
         var username = payload.username;
         var password = payload.password;
         var email = payload.email;
+
+        fetch(constants.apiurl + '/users', {
+          method: 'POST',
+          //credentials: 'include',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            username: username,
+            password: password,
+            email: email
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          console.log('register success', res._id);
+          this.trigger(USER.REGISTER_SUCCESS);
+          this.login(username, password);
+        })
+        .catch(error => {
+          console.log('register error', error.toString());
+          this.trigger(USER.REGISTER_ERROR);
+        })
         break;
 
       case USER.REFRESH_TOKEN:
@@ -187,6 +176,44 @@ _.extend(UserStore, {
         });
         break;
     }
+  },
+
+  login(username, password) {
+    this.trigger(USER.LOGGING_IN);
+    fetch(constants.siteurl + '/login', {
+      method: 'POST',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      credentials: 'include',
+      body: JSON.stringify({
+        client_id: constants.client_id,
+        client_secret: constants.client_secret,
+        grant_type: 'password',
+        username: username,
+        password: password
+      })
+    })
+    .then(res => res.json())
+    .then(res => {
+      console.log('login success', res.user._id);
+      // set the access and refresh tokens
+      this.setTokens(
+        res.accessToken,
+        res.refreshToken,
+        res.expires_in
+      );
+      // set the new user
+      this.setUser(res.user);
+      // trigger success
+      this.trigger(USER.LOGIN_SUCCESS);
+    })
+    .catch(err => {
+      console.log('login error', err.toString());
+      // trigger error and pass along error message
+      this.trigger(USER.LOGIN_ERROR, err.toString());
+    });
   },
 
   setUser(user) {
