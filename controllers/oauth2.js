@@ -113,10 +113,12 @@ var loginGoogle = function(req, res, next) {
   };
   generateTokens(user, client, function(err, accessToken, refreshToken, data) {
     if(err) return next(err);
-    return res.json({
-      accessToken: accessToken,
-      refreshToken: refreshToken,
+    return res.render('app', {
+      env: process.env.NODE_ENV,
+      hostname: req.hostname,
       user: user,
+      access_token: accessToken,
+      refresh_token: refreshToken,
       expires_in: data['expires_in']
     });
   });

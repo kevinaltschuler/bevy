@@ -1,23 +1,22 @@
+/**
+ * LeftSidebar.jsx
+ * @author albert
+ * @author kevin
+ * @flow
+ */
+
 'use strict';
 
 var React = require('react');
 
-//var TagPanel = require('./../../bevy/components/TagPanel.jsx');
-//var SiblingPanel = require('./../../bevy/components/SiblingPanel.jsx');
 var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
 var Footer = require('./Footer.jsx');
 
 var LeftSidebar = React.createClass({
-
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object.isRequired,
     allBevies: React.PropTypes.array
-  },
-
-  getInitialState() {
-    return {
-    };
   },
 
   render() {
@@ -30,17 +29,6 @@ var LeftSidebar = React.createClass({
               myBevies={ this.props.myBevies }
             />
             <Footer />
-            {/*<TagPanel
-              myBevies={ this.props.myBevies }
-              activeBevy={ this.props.activeBevy }
-              activeTags={ this.props.activeTags }
-              allBevies={ this.props.allBevies }
-            />
-            <SiblingPanel
-              activeBevy={ this.props.activeBevy }
-              allBevies={ this.props.allBevies }
-              myBevies={ this.props.myBevies }
-            />*/}
           </div>
         </div>
       </div>

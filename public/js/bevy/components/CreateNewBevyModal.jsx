@@ -1,41 +1,36 @@
 /**
  * CreateNewBevy.jsx
- *
  * @author albert
  * @author kevin
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-var $ = require('jquery');
-var constants = require('./../../constants');
-var getSlug = require('speakingurl');
-
 var {
   Panel,
   Input,
   Button,
   Modal
 } = require('react-bootstrap');
-
 var {
   FlatButton,
   RaisedButton,
   TextField,
   Styles
 } = require('material-ui');
-
 var ThemeManager = new Styles.ThemeManager();
-
-var BevyActions = require('./../BevyActions');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
+var _ = require('underscore');
+var $ = require('jquery');
+var constants = require('./../../constants');
+var getSlug = require('speakingurl');
+var BevyActions = require('./../BevyActions');
 var user = window.bootstrap.user;
 
 var CreateNewBevyModal = React.createClass({
-
   propTypes: {
     show: React.PropTypes.bool,
     onHide: React.PropTypes.func
@@ -52,7 +47,7 @@ var CreateNewBevyModal = React.createClass({
     };
   },
 
-  getChildContext() { 
+  getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     }
@@ -183,8 +178,8 @@ var CreateNewBevyModal = React.createClass({
         });
       }
     };
-    var bevyImageURL = (_.isEmpty(this.state.image)) 
-      ? '/img/default_group_img.png' 
+    var bevyImageURL = (_.isEmpty(this.state.image))
+      ? '/img/default_group_img.png'
       : constants.apiurl + '/files/' + this.state.image.filename;
     var bevyImageStyle = {
       backgroundImage: 'url(' + bevyImageURL + ')',
@@ -210,10 +205,10 @@ var CreateNewBevyModal = React.createClass({
               type='text'
               ref='Name'
               placeholder='Group Name'
-              onChange={() => { 
-                this.setState({ 
-                  slug: getSlug(this.refs.Name.getValue()) 
-                }); 
+              onChange={() => {
+                this.setState({
+                  slug: getSlug(this.refs.Name.getValue())
+                });
                 this.onSlugChange();
               }}
             />
@@ -231,13 +226,13 @@ var CreateNewBevyModal = React.createClass({
                 errorText={ (this.state.slugVerified) ? '' : 'URL taken' }
                 value={ constants.siteurl + '/b/' + this.state.slug }
                 onChange={() => {
-                  this.setState({ 
+                  this.setState({
                     slug: this.refs.Slug.getValue().slice((constants.siteurl.length + 3))
                   });
                   this.onSlugChange();
                 }}
                 onBlur={() => {
-                  this.setState({ 
+                  this.setState({
                     slug: getSlug(this.refs.Slug.getValue().slice((constants.siteurl.length + 3)))
                   });
                 }}

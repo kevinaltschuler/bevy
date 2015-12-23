@@ -1,39 +1,62 @@
 /**
  * RegisterPanel.jsx
- *
  * @author albert
  * @author kevin
+ * @flow
  */
 
 'use strict';
 
-// imports
 var React = require('react');
-var $ = require('jquery');
-var _ = require('underscore');
-var constants = require('./../../constants');
-
 var {
   Panel,
   Input,
   Button
 } = require('react-bootstrap');
-
 var {
   RaisedButton,
   TextField
 } = require('material-ui');
 
+var $ = require('jquery');
+var _ = require('underscore');
+var constants = require('./../../constants');
+var UserStore = require('./../../profile/UserStore');
+var UserActions = require('./../../profile/UserActions');
+var USER = constants.USER;
+
 var usernameRegex = /^[a-z0-9_-]{3,16}$/;
 var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
 var RegisterPanel = React.createClass({
-
   getInitialState() {
     return {
       usernameColor: '#e0e0e0',
       validUsername: false
     };
+  },
+
+  componentDidMount() {
+    UserStore.on(USER.LOGIN_ERROR, this.onError);
+    UserStore.on(USER.REGISTER_ERROR, this.onError);
+    UserStore.on(USER.REGISTER_SUCCESS, this.onRegisterSuccess);
+    UserStore.on(USER.LOGIN_SUCCESS, this.onLoginSuccess);
+  },
+  componentWillUnmount() {
+    UserStore.off(USER.LOGIN_ERROR, this.onError);
+    UserStore.off(USER.REGISTER_ERROR, this.onError);
+    UserStore.off(USER.REGISTER_SUCCESS, this.onRegisterSuccess);
+    UserStore.off(USER.LOGIN_SUCCESS, this.onLoginSuccess);
+  },
+
+  onError(error) {
+
+  },
+  onRegisterSuccess() {
+
+  },
+  onLoginSuccess() {
+    window.location.href = '/';
   },
 
   onUsernameChange(ev) {
@@ -119,7 +142,7 @@ var RegisterPanel = React.createClass({
   },
 
   submit(ev) {
-    
+
   },
 
   register(ev) {
@@ -133,50 +156,17 @@ var RegisterPanel = React.createClass({
     var password = this.refs.Password.getValue();
     var email = this.refs.Email.getValue();
 
-    // send api request
-    $.ajax({
-      url: constants.apiurl + '/users/',
-      method: 'POST',
-      data: {
-        username: username,
-        password: password,
-        email: (_.isEmpty(email)) ? undefined : email
-      },
-      success: function(data) {
-        //success
-        // login the new user immediately
-        $.ajax({
-          url: constants.siteurl + '/login',
-          method: 'POST',
-          data: {
-            username: username,
-            password: password
-          },
-          success: function(response) {
-            // assume the login ajax worked
-            // and redirect to the main app
-            window.location.href = constants.siteurl;
-          }.bind(this),
-          error: function(error) {
-            console.log(error.responseJSON);
-          }
-        });
-      }.bind(this),
-      error: function(error) {
-        console.log(error.responseJSON);
-      }
-    });
+    UserActions.register(username, password, email);
   },
 
   _renderUsernameVerified() {
-    /*var username = (this.refs.Username == undefined) ? '' : this.refs.Username.getValue();
+    var username = (this.refs.Username == undefined) ? '' : this.refs.Username.getValue();
     if(_.isEmpty(username)) return <div />;
     if(this.state.validUsername) {
       return <span className='glyphicon glyphicon-ok' />;
     } else {
       return <span className='glyphicon glyphicon-remove' />;
-    }*/
-    return <div />;
+    }
   },
 
   render() {
@@ -185,7 +175,7 @@ var RegisterPanel = React.createClass({
         <img className="profile-img" src={ constants.defaultProfileImage } alt="Avatar"/>
         <div className='register-fields'>
           <div className='username-field'>
-            <TextField 
+            <TextField
               ref='Username'
               type='text'
               hintText='username (3-16 characters)'
@@ -195,14 +185,14 @@ var RegisterPanel = React.createClass({
             />
             { this._renderUsernameVerified() }
           </div>
-          <TextField 
+          <TextField
             ref='Password'
             type='password'
             hintText='password'
             style={{width: '100%'}}
             onChange={ this.onPasswordChange }
           />
-          <TextField 
+          <TextField
             ref='Email'
             type='text'
             hintText='email (optional)'
