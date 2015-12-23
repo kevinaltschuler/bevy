@@ -46,7 +46,6 @@ _.extend(BoardStore, {
   // handle calls from the dispatcher
   // these are created from BoardActions.js
   handleDispatch(payload) {
-    console.log(payload.actionType);
     switch(payload.actionType) {
       case APP.LOAD:
         var user = window.bootstrap.user;
@@ -145,12 +144,13 @@ _.extend(BoardStore, {
   },
 
   getBoards() {
-    //console.log(this.boards.toJSON());
-    return this.boards.toJSON();
+    return this.boards.toJSON() || [];
   },
 
   getActive() {
-    return this.getBoard(this.active);
+    console.log('the active board', this.active, this.getBoard(this.active));
+    var board = this.getBoard(this.active);
+    return board;
   },
 
   getBoard(board_id) {
@@ -165,11 +165,17 @@ _.extend(BoardStore, {
         method: 'GET',
         url: constants.apiurl + '/boards/' + board_id,
         success: function($board, more) {
-          console.log($board);
-          return ($board) ? $board : {};
+          if(_.isEmpty($board)) {
+            console.log('its empty?');
+            return {};
+          } else {
+            console.log('its not empty');
+            return $board;
+          }
         }.bind(this)
       });
     } else {
+      // we found it so return 
       return (board)
         ? board.toJSON()
         : {};

@@ -145,13 +145,13 @@ var ProfileDropdown = React.createClass({
             <FlatButton
               label="Add Account"
               onClick={() => this.setState({ showAddAccountModal: true })}
-            />
+            />*/}
             <FlatButton
               label="Logout"
               linkButton={ true }
               href='/logout' 
             />
-          </div>
+          {/*</div>
           <AddAccountModal
             show={ this.state.showAddAccountModal }
             onHide={() => this.setState({ showAddAccountModal: false })}
