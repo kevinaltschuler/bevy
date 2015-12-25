@@ -4,12 +4,17 @@
   float: right;
   display: inline-block;
 
+  .bevy-panel {
+    padding-bottom: 5px;
+  }
+
   .dropdown-button {
     .panel {
       word-wrap: normal;
       background-color: rgba(0,0,0,0);
       border: 0px;
       -webkit-box-shadow: none;
+      padding-bottom: 5px;
       .panel-heading {
         background-color: rgba(0,0,0,0);
         .panel-title {
@@ -87,7 +92,8 @@
       font-size: 1.3em;
       color: black;
       width: 100%;
-      padding: 0 10px;
+      padding: 0 20px;
+
       span{
         display: block;
         margin: 0 auto;
@@ -124,8 +130,8 @@
       .sidebar-title-description-container {
       }
       span.sidebar-title-description {
-        font-size: 0.7em;
-        color: #4c4c4c;
+        font-size: 0.8em;
+        color: #777;
         width: 100%;
       }
       &.frontpage {
@@ -265,11 +271,11 @@
 
   .bevy-info {
     display: flex;
-    flex-direction: row;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     justify-content: flex-start;
-    padding: 0px 10px;
-    margin-bottom: 20px;
+    padding: 0px 20px;
+    margin-bottom: 10px;
     span.member-count {
       color: @light-font;
       margin-right: 10px;
@@ -284,13 +290,32 @@
       margin-left: 15px;
       color: @light-font;
     }
+    .info-item {
+      color: @light-font;
+      display: flex;
+      flex-direction: row;
+      height: 30px;
+      align-items: center;
+      i {
+        height: 30px;
+        width: 30px;
+      }
+      .glyphicon {
+        height: 30px;
+        width: 30px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
+    }
   }
 
   .sidebar-bottom {
     display: flex;
     justify-content: space-between;
     padding: 0px 10px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     flex-wrap: wrap;
     .sidebar-action-link-bottom {
       margin-top: 20px;

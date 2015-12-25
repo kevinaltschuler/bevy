@@ -39,7 +39,6 @@ var CreateNewBevyModal = React.createClass({
   getInitialState() {
     return {
       name: '',
-      description: '',
       image: {},
       slug: '',
       slugVerified: true,
@@ -72,7 +71,6 @@ var CreateNewBevyModal = React.createClass({
     ev.preventDefault();
 
     var name = this.refs.Name.getValue();
-    //var description = this.refs.Description.getValue();
     var image = this.state.image;
     var slug = this.state.slug;
 
@@ -83,6 +81,8 @@ var CreateNewBevyModal = React.createClass({
     if(!this.state.slugVerified) {
       return;
     }
+
+    console.log(image);
 
     BevyActions.create(name, image, slug);
 
@@ -164,7 +164,6 @@ var CreateNewBevyModal = React.createClass({
   },
 
   render() {
-
     var dropzoneOptions = {
       maxFiles: 1,
       acceptedFiles: 'image/*',
@@ -179,8 +178,10 @@ var CreateNewBevyModal = React.createClass({
       }
     };
     var bevyImageURL = (_.isEmpty(this.state.image))
-      ? '/img/default_group_img.png'
-      : constants.apiurl + '/files/' + this.state.image.filename;
+      ? constants.siteurl + '/img/default_group_img.png'
+      : (this.state.image.foreign)
+        ? this.state.image.filename
+        : constants.apiurl + '/files/' + this.state.image.filename;
     var bevyImageStyle = {
       backgroundImage: 'url(' + bevyImageURL + ')',
       backgroundSize: '100% auto'
@@ -212,12 +213,6 @@ var CreateNewBevyModal = React.createClass({
                 this.onSlugChange();
               }}
             />
-            {/*<TextField
-              type='text'
-              ref='Description'
-              placeholder='Group Description'
-              multiLine={true}
-            />*/}
             <div className='slug'>
               <TextField
                 type='text'

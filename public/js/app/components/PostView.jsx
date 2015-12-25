@@ -22,6 +22,7 @@ var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
 var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx');
+var BoardSidebar = require('./../../board/components/BoardSidebar.jsx');
 
 var BevyStore = require('./../../bevy/BevyStore');
 var BevyActions = require('./../../bevy/BevyActions');
@@ -120,13 +121,9 @@ var PostView = React.createClass({
 
     return (
       <div className='main-section'>
-        {/*<LeftSidebar
-          myBevies={ this.props.myBevies }
-          activeBevy={ this.props.activeBevy }
-          allThreads={ this.props.allThreads }
-          activeTags={ this.props.activeTags }
-          allBevies={ this.props.allBevies }
-        />*/}
+        <BoardSidebar
+          board={activeBoard}
+        />
         <div className='post-view-body'>
           { body }
         </div>

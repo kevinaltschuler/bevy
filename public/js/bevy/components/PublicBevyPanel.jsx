@@ -134,6 +134,7 @@ var PublicBevyPanel = React.createClass({
     var subCount = (bevy.subCount == 1) 
       ? '1 member' 
       : bevy.subCount + ' members';
+    console.log(bevy);
     var created = new Date(bevy.created).toLocaleDateString();
 
     var loginTip = (_.isEmpty(window.bootstrap.user)) 

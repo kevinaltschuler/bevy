@@ -33,239 +33,241 @@
       filter: blur(10px);
     }
   }
-
-  .left {
-    flex: 1;
-    height: 100%;
-    padding-left: 30px;
+  .content {
+    width: 100%;
+    //position: absolute;
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-start;
-    z-index: 3;
-    .bevy-logo-btn {
-      width: 35px;
-      height: 35px;
-      padding: 0px;
-      background-color: rgba(0,0,0,0);
-      border: none;
-      outline: 0;
-      box-shadow: none;
-      z-index: 2;
-      .bevy-logo-img {
-        background-image: url(/img/logo_100_reversed.png);
-        background-repeat: no-repeat;
-        background-position: center;
-        background-size: 35px 35px;
+    justify-content: space-between;
+    .left {
+      height: 100%;
+      padding-left: 30px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      z-index: 3;
+      .bevy-logo-btn {
         width: 35px;
         height: 35px;
-        border-radius: 20px;
-        transition: all 0.4s ease;
-        &:active {
-          box-shadow: @shadow3;
-        }
-      }
-    }
-    .my-bevies-btn {
-      position: relative;
-      &:active {
-        box-shadow: none;
-      }
-    }
-    .all-bevies-btn {
-      color: white;
-      background-color: rgba(0,0,0,0);
-      text-shadow: none;
-      box-shadow: none;
-      border: none;
-      position: relative;
-      &:hover {
-        background-color: rgba(255,255,255,.1);
-      }
-      &:active {
-        background-color: rgba(255,255,255,.3);
-      }
-    }
-    .btn-group {
-      &:hover .dropdown-menu {
-      }
-      color: white;
-    }
-    .bevies-dropdown {
-      background-color: rgba(0,0,0,0);
-        color: white;
-        border: none;
-      .dropdown-toggle {
+        padding: 0px;
         background-color: rgba(0,0,0,0);
         border: none;
         outline: 0;
         box-shadow: none;
-        color: white;
-        text-shadow: 0 0 5px rgba(0,0,0,.5);
+        z-index: 2;
+        .bevy-logo-img {
+          background-image: url(/img/logo_100_reversed.png);
+          background-repeat: no-repeat;
+          background-position: center;
+          background-size: 35px 35px;
+          width: 35px;
+          height: 35px;
+          border-radius: 20px;
+          transition: all 0.4s ease;
+          &:active {
+            box-shadow: @shadow3;
+          }
+        }
+      }
+      .my-bevies-btn {
+        position: relative;
         &:active {
           box-shadow: none;
         }
       }
+      .all-bevies-btn {
+        color: white;
+        background-color: rgba(0,0,0,0);
+        text-shadow: none;
+        box-shadow: none;
+        border: none;
+        position: relative;
+        &:hover {
+          background-color: rgba(255,255,255,.1);
+        }
+        &:active {
+          background-color: rgba(255,255,255,.3);
+        }
+      }
+      .btn-group {
+        &:hover .dropdown-menu {
+        }
+        color: white;
+      }
+      .bevies-dropdown {
+        background-color: rgba(0,0,0,0);
+          color: white;
+          border: none;
+        .dropdown-toggle {
+          background-color: rgba(0,0,0,0);
+          border: none;
+          outline: 0;
+          box-shadow: none;
+          color: white;
+          text-shadow: 0 0 5px rgba(0,0,0,.5);
+          &:active {
+            box-shadow: none;
+          }
+        }
+      }
+      .dropdown-menu {
+        text-shadow: none;
+      }
     }
-    .dropdown-menu {
-      text-shadow: none;
-    }
-  }
 
-  .center {
-    position: absolute;
-    top: 0px;
-    left: 0px;
-    width: 100%;
-    display: flex;
-    height: 100%;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    margin: 0;
-    color: #fff;
-    font-size: 1.2em;
-    text-shadow: 0px 0px 5px rgba(0,0,0,.5);
-    padding: 0px;
-    background-color: rgba(0,0,0,0);
-    border: none;
-    z-index: 2;
-    &:focus {
-      color: #e6e6e6;
-    }
-    &:active {
-      color: rgba(255,255,255,.7);
-      box-shadow: none;
-    }
-    span.title {
-      max-width: 250px;
-      overflow-x: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-
-  .right {
-    z-index: 3;
-    padding-right: 30px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: flex-end;
-    .login-btn {
+    .center {
+      display: flex;
+      height: 100%;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
       color: #fff;
       font-size: 1.2em;
-      margin-left: 15px;
-      text-shadow: none;
-      box-shadow: none;
-    }
-    //SEARCH
-    .search-input.mui-text-field {
-      width: 80%;
+      text-shadow: 0px 0px 5px rgba(0,0,0,.5);
+      padding: 0px;
       background-color: rgba(0,0,0,0);
-      border-bottom: none;
-      border-left: 0px;
-      border-top: 0px;
-      border-right: 0px;
-      box-shadow: none;
-      border-radius: 0px;
-      color: #fff;
-      padding-left: 4px;
-      padding-bottom: 2px;
-
-      hr.mui-text-field-focus-underline {
-        border-color: white;
+      border: none;
+      z-index: 2;
+      &:focus {
+        color: #e6e6e6;
       }
-      hr.mui-text-field-underline {
-        border-top: 1px solid rgba(255,255,255,.2);
+      &:active {
+        color: rgba(255,255,255,.7);
+        box-shadow: none;
       }
-      .mui-text-field-input, .mui-text-field-textarea {
-        box-shadow: none !important;
-        color: white;
+      span.title {
+        max-width: 250px;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
     }
 
-    .mui-icon-button {
-      width: 20%;
-      padding: 5px;
-      text-shadow: 0 0 5px rgba(0,0,0,.5);
-      .glyphicon-search {
-        color: white;
-        font-size: 1em;
-      }
-    }
-    .profile-buttons {
+    .right {
+      z-index: 3;
+      padding-right: 30px;
       display: flex;
       flex-direction: row;
       align-items: center;
-      width: 50%;
       justify-content: flex-end;
-      .notification-dropdown-btn {
+      .login-btn {
+        color: #fff;
+        font-size: 1.2em;
+        margin-left: 15px;
         text-shadow: none;
-        padding: 10px;
-        .notification-img {
-          background-image: url(/img/notification-icon.png);
-          background-repeat: no-repeat;
+        box-shadow: none;
+      }
+      //SEARCH
+      .search-input.mui-text-field {
+        width: 80%;
+        background-color: rgba(0,0,0,0);
+        border-bottom: none;
+        border-left: 0px;
+        border-top: 0px;
+        border-right: 0px;
+        box-shadow: none;
+        border-radius: 0px;
+        color: #fff;
+        padding-left: 4px;
+        padding-bottom: 2px;
+
+        hr.mui-text-field-focus-underline {
+          border-color: white;
+        }
+        hr.mui-text-field-underline {
+          border-top: 1px solid rgba(255,255,255,.2);
+        }
+        .mui-text-field-input, .mui-text-field-textarea {
+          box-shadow: none !important;
+          color: white;
+        }
+      }
+
+      .mui-icon-button {
+        width: 20%;
+        padding: 5px;
+        text-shadow: 0 0 5px rgba(0,0,0,.5);
+        .glyphicon-search {
+          color: white;
+          font-size: 1em;
+        }
+      }
+      .profile-buttons {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        width: 50%;
+        justify-content: flex-end;
+        .notification-dropdown-btn {
+          text-shadow: none;
+          padding: 10px;
+          .notification-img {
+            background-image: url(/img/notification-icon.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 25px 25px;
+            width: 25px;
+            height: 25px;
+            border-radius: 10px;
+            transition: all 0.4s ease;
+            box-shadow: @shadow1;
+            &:active {
+              box-shadow: @shadow3;
+            }
+          }
+          &:hover, &:active, &:focus {
+            background-color: rgba(0,0,0,0);
+            box-shadow: none;
+          }
+        }
+        .notification-counter {
+          float: left;
+          margin-left: -20px;
+          margin-top: 15px;
+          background-color: #FF0000;
+          z-index: 7;
+        }
+        .chat-dropdown-btn {
+          text-shadow: none;
+          padding: 10px;
+          &:hover, &:active, &:focus {
+            background-color: rgba(0,0,0,0);
+            box-shadow: none;
+          }
+          .chat-img {
+            background-image: url(/img/chat-icon.png);
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 25px 25px;
+            width: 25px;
+            height: 25px;
+            border-radius: 10px;
+            transition: all 0.4s ease;
+            box-shadow: @shadow1;
+            &:active {
+              box-shadow: @shadow3;
+            }
+          }
+        }
+        .profile-btn {
+          text-shadow: none;
+          margin-top: 14px;
+          margin-bottom: 14px;
+          margin-left: 10px;
+          margin-right: 10px; 
+          border-radius: 50px;
+          width: 40px;
+          height: 40px;
+          background-size: auto 100%;
           background-position: center;
-          background-size: 25px 25px;
-          width: 25px;
-          height: 25px;
-          border-radius: 10px;
           transition: all 0.4s ease;
           box-shadow: @shadow1;
           &:active {
             box-shadow: @shadow3;
           }
-        }
-        &:hover, &:active, &:focus {
-          background-color: rgba(0,0,0,0);
-          box-shadow: none;
-        }
-      }
-      .notification-counter {
-        float: left;
-        margin-left: -20px;
-        margin-top: 15px;
-        background-color: #FF0000;
-        z-index: 7;
-      }
-      .chat-dropdown-btn {
-        text-shadow: none;
-        padding: 10px;
-        &:hover, &:active, &:focus {
-          background-color: rgba(0,0,0,0);
-          box-shadow: none;
-        }
-        .chat-img {
-          background-image: url(/img/chat-icon.png);
-          background-repeat: no-repeat;
-          background-position: center;
-          background-size: 25px 25px;
-          width: 25px;
-          height: 25px;
-          border-radius: 10px;
-          transition: all 0.4s ease;
-          box-shadow: @shadow1;
-          &:active {
-            box-shadow: @shadow3;
-          }
-        }
-      }
-      .profile-btn {
-        text-shadow: none;
-        margin-top: 14px;
-        margin-bottom: 14px;
-        margin-left: 10px;
-        margin-right: 10px; 
-        border-radius: 50px;
-        width: 40px;
-        height: 40px;
-        background-size: auto 100%;
-        background-position: center;
-        transition: all 0.4s ease;
-        box-shadow: @shadow1;
-        &:active {
-          box-shadow: @shadow3;
         }
       }
     }

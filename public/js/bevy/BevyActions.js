@@ -18,7 +18,6 @@ var BevyActions = {
   create(name, image, slug) {
     dispatch(BEVY.CREATE, {
       name: (name == undefined) ? '' : name,
-      //description: (description == undefined) ? '' : description,
       image: (image == undefined) ? {} : image,
       slug: slug
     });
@@ -30,14 +29,12 @@ var BevyActions = {
     });
   },
 
-  update(bevy_id, name, description, image, tags, siblings, settings) {
+  update(bevy_id, name, description, image, settings) {
     dispatch(BEVY.UPDATE, {
       bevy_id: (bevy_id == undefined) ? '' : bevy_id,
       name: (name == undefined) ? null : name,
       description: (description == undefined) ? null : description,
       image: (image == undefined) ? null : image,
-      tags: (tags == undefined) ? null : tags,
-      siblings: (siblings == undefined) ? null : siblings,
       settings: (settings == undefined) ? null : settings
     });
   },

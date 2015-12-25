@@ -154,16 +154,18 @@ var BevyView = React.createClass({
         />
 
         <div className='left-sidebar'>
-          <div className='hide-scroll'>
-            <div className='board-list'>
-              { this._renderBoards() }
-              <div style={{height: 10}}/>
-              <Footer />
+            <div className='hide-scroll'>
+              <div className='board-list'>
+                <div className='bevy-view-title'>Boards</div>
+                { this._renderBoards() }
+                <div style={{height: 10}}/>
+                <Footer />
+              </div>
             </div>
-          </div>
         </div>
 
         <div className='post-view-body'>
+          <div className='bevy-view-title'>Feed</div>
           { body }
         </div>
       </div>

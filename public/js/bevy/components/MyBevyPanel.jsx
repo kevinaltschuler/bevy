@@ -36,7 +36,7 @@ var MyBevyPanel = React.createClass({
   getInitialState() {
     var bevy = this.props.bevy;
 
-    console.log(bevy);
+    //console.log(bevy);
 
     return {
       name: bevy.name || '',

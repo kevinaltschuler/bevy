@@ -159,6 +159,7 @@ var MainSection = React.createClass({
           allNotifications={ this.state.allNotifications }
           myBevies={ this.state.myBevies }
           linkedAccounts={ this.state.linkedAccounts }
+          activeBoard={ this.state.activeBoard }
         />
         <InterfaceComponent {...this.state} />
       </div>

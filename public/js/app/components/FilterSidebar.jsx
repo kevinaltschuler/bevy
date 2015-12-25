@@ -20,7 +20,8 @@ var Footer = require('./Footer.jsx');
 var {
   DropDownMenu,
   RaisedButton,
-  FontIcon
+  FontIcon,
+  FlatButton
 } = require('material-ui');
 
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
@@ -33,34 +34,35 @@ var FilterSidebar = React.createClass({
   getInitialState() {
     return {
       filter: 'top',
-      showNewBevyModal: false
+      showNewBevyModal: false,
+      selectedIndex: 4
     };
   },
 
   componentDidMount() {
-    BevyActions.filterBevies('abc');
+    BevyActions.filterBevies('Most Subscribers');
   },
 
 
   handleFilter(filter) {
     var selectedIndex = 0;
     switch(filter) {
-      case 'abc':
+      case 'ABC':
         selectedIndex = 0;
         break;
-      case 'zyx':
+      case 'ZYX':
         selectedIndex = 1;
         break;
-      case 'new':
+      case 'Newest':
         selectedIndex = 2;
         break;
-      case 'old':
+      case 'Oldest':
         selectedIndex = 3;
         break;
-      case 'top':
+      case 'Most Subscribers':
         selectedIndex = 4;
         break;
-      case 'bottom':
+      case 'Least Subscribers':
         selectedIndex = 5;
         break;
     };
@@ -68,6 +70,8 @@ var FilterSidebar = React.createClass({
     this.setState({
       selectedIndex: selectedIndex
     });
+
+    console.log(filter);
 
     BevyActions.filterBevies(filter);
   },
@@ -90,8 +94,8 @@ var FilterSidebar = React.createClass({
       {payload: '1', text: 'ZYX'},
       {payload: '2', text: 'Newest'},
       {payload: '3', text: 'Oldest'},
-      {payload: '4', text: 'Most subscribers'},
-      {payload: '5', text: 'Least subscribers'}
+      {payload: '4', text: 'Most Subscribers'},
+      {payload: '5', text: 'Least Subscribers'}
     ];
 
     var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
@@ -105,7 +109,7 @@ var FilterSidebar = React.createClass({
         </span>
         <div className='action sort'>
           <div className='action-name'>
-            Filter by
+            Filter
           </div> 
           <DropDownMenu 
             menuItems={ filterItems }
@@ -118,17 +122,15 @@ var FilterSidebar = React.createClass({
             show={ this.state.showNewBevyModal } 
             onHide={() => { this.setState({ showNewBevyModal: false }) }}
           />
-          <RaisedButton 
+          <FlatButton 
             disabled={_.isEmpty(window.bootstrap.user)} 
             label='new bevy'
-            labelPosition='after'
             onClick={() => { this.setState({ showNewBevyModal: true }); }}
-            fullWidth={true}
-            labelStyle={{marginRight: '-20px'}}
-            style={{marginBottom: '10px', position: 'relative'}}
+            style={{width: '100%', marginBottom: 10}}
+            labelStyle={{marginRight: -10}}
           >
-            <FontIcon className='material-icons' style={{position: 'absolute', top: '5px', left: '35px', color: '#666'}}>add</FontIcon>
-          </RaisedButton>
+            <i className='material-icons' style={{position: 'absolute', top: '5px', left: '30px', color: '#666'}}>add</i>
+          </FlatButton>
         </div>
       </div>
     );

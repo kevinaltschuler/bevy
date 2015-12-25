@@ -83,7 +83,10 @@ _.extend(BevyStore, {
         var user = window.bootstrap.user;
 
         if(_.isEmpty(image)) {
-          image = {filename: constants.siteurl + '/img/default_group_img.png', foreign: true};
+          image = {
+            filename: constants.siteurl + '/img/default_group_img.png', 
+            foreign: true
+          };
         }
 
         // sanitize slug before we continue;
@@ -274,25 +277,26 @@ _.extend(BevyStore, {
         var collection = (!_.isEmpty(this.searchQuery)) ? this.searchList : this.publicBevies;
         collection.filter = filter;
         switch(filter) {
-          case 'top':
+          case 'Most Subscribers':
             collection.comparator = this.sortByTop;
             break;
-          case 'bottom':
+          case 'Least Subscribers':
             collection.comparator = this.sortByBottom;
             break;
-          case 'new':
+          case 'Newest':
             collection.comparator = this.sortByNew;
             break;
-          case 'old':
+          case 'Oldest':
             collection.comparator = this.sortByOld;
             break;
-          case 'abc':
+          case 'ABC':
             collection.comparator = this.sortByAbc;
             break;
-          case 'zyx':
+          case 'ZYX':
             collection.comparator = this.sortByZyx;
             break;
         }
+        console.log(filter);
         collection.sort();
 
         this.trigger(BEVY.CHANGE_ALL);
@@ -309,6 +313,7 @@ _.extend(BevyStore, {
           reset: true,
           success: function(collection, response, options) {
             this.trigger(BEVY.SEARCH_COMPLETE);
+            this.searchList.comparator = this.sortByTop;
           }.bind(this)
         });
         break;
@@ -355,7 +360,7 @@ _.extend(BevyStore, {
   /*
   getActiveTags() {
     return this.activeTags;
-  },
+  },*/
 
   sortByAbc(bevy) {
     var name = bevy.attributes.name.toLowerCase();
@@ -385,7 +390,7 @@ _.extend(BevyStore, {
     var date = Date.parse(bevy.get('created'));
     return date;
   }
-  */
+  
 });
 
 var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));
