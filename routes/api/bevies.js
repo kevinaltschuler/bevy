@@ -7,16 +7,74 @@
 'use strict';
 
 var bevyController = require('./../../controllers/bevies');
+var oauth2Controller = require('./../../controllers/oauth2');
+var permissionsController = require('./../../controllers/permissions');
 
 module.exports = function(router) {
-  router.get('/users/:userid/bevies', bevyController.getUserBevies);
+  router.get('/users/:userid/bevies', [
+      oauth2Controller.bearer,
+      permissionsController.isSameUser,
+      permissionsController.errorHandler
+    ],
+    bevyController.getUserBevies
+  );
+
   router.get('/bevies', bevyController.getPublicBevies);
-  router.post('/bevies', bevyController.createBevy);
-  router.get('/bevies/:id', bevyController.getBevy);
-  router.get('/bevies/search/:query', bevyController.searchBevies);
-  router.post('/bevies/:id/boards', bevyController.addBoard);
-  router.put('/bevies/:id', bevyController.updateBevy);
-  router.patch('/bevies/:id', bevyController.updateBevy);
-  router.delete('/bevies/:id', bevyController.destroyBevy);
+
+  router.post('/bevies', [
+      oauth2Controller.bearer
+    ],
+    bevyController.createBevy
+  );
+
+  router.get('/bevies/:bevyid', [
+      oauth2Controller.bearer,
+      permissionsController.hasPrivateBevyAccess,
+      permissionsController.errorHandler
+    ],
+    bevyController.getBevy
+  );
+
+  router.get('/bevies/search/:query', [
+      oauth2Controller.bearer,
+      permissionsController.errorHandler
+    ],
+    bevyController.searchBevies
+  );
+
+  router.post('/bevies/:bevyid/boards', [
+      oauth2Controller.bearer,
+      permissionsController.isBevyMember,
+      permissionsController.errorHandler
+    ],
+    bevyController.addBoard
+  );
+
+  router.put('/bevies/:bevyid', [
+      oauth2Controller.bearer,
+      permissionsController.isBevyMember,
+      permissionsController.isBevyAdmin,
+      permissionsController.errorHandler
+    ],
+    bevyController.updateBevy
+  );
+  router.patch('/bevies/:bevyid', [
+      oauth2Controller.bearer,
+      permissionsController.isBevyMember,
+      permissionsController.isBevyAdmin,
+      permissionsController.errorHandler
+    ],
+    bevyController.updateBevy
+  );
+
+  router.delete('/bevies/:bevyid', [
+      oauth2Controller.bearer,
+      permissionsController.isBevyMember,
+      permissionsController.isBevyAdmin,
+      permissionsController.errorHandler
+    ],
+    bevyController.destroyBevy
+  );
+
   router.get('/bevies/:slug/verify', bevyController.verifySlug);
 };

@@ -21,7 +21,7 @@ var Thread = require('./../models/Thread');
 var Message = require('./../models/Message');
 var Post = require('./../models/Post');
 
-// GET /users/:id/bevies
+// GET /users/:userid/bevies
 exports.getUserBevies = function(req, res, next) {
   var user_id = req.params.userid;
   User.findOne({ _id: user_id }, function(err, user) {
@@ -75,18 +75,18 @@ exports.createBevy = function(req, res, next) {
     if(err) return next(err);
     // create chat thread
     Thread.create({ bevy: bevy._id }, function(err, thread) {
-
+      if(err) return next(err);
     });
     return res.json(bevy);
   });
 }
 
 // SHOW
-// GET /bevies/:id
+// GET /bevies/:bevyid
 exports.getBevy = function(req, res, next) {
-  var id = req.params.id;
+  var bevy_id = req.params.bevyid;
 
-  Bevy.findOne({ _id: id }, function(err, bevy) {
+  Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
     if(err) return next(err);
     return res.json(bevy);
   }).populate({
@@ -113,10 +113,9 @@ exports.searchBevies = function(req, res, next) {
   });
 }
 
-// UPDATE
-// PUT/PATCH /bevies/:id
+// PUT/PATCH /bevies/:bevyid
 exports.updateBevy = function(req, res, next) {
-  var id = req.params.id;
+  var bevy_id = req.params.bevyid;
 
   var update = {};
   update._id = shortid.generate();
@@ -141,16 +140,16 @@ exports.updateBevy = function(req, res, next) {
     if(update.settings.group_chat) {
       // group chat was enabled, create thread
       // use update func so we dont create one if it already exists
-      Thread.update({ bevy: id }, { bevy: id }, { upsert: true }, function(err, thread) {
+      Thread.update({ bevy: bevy_id }, { bevy: bevy_id }, { upsert: true }, function(err, thread) {
       });
     } else {
       // group chat was disabled, destroy thread
-      Thread.findOneAndRemove({ bevy: id }, function(err, thread) {
+      Thread.findOneAndRemove({ bevy: bevy_id }, function(err, thread) {
       });
     }
   }
 
-  var query = { _id: id };
+  var query = { _id: bevy_id };
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
     .populate({
       path: 'admins',
@@ -166,14 +165,14 @@ exports.updateBevy = function(req, res, next) {
 }
 
 // AddBoard
-// PUT/PATCH /bevies/:id/boards
+// PUT/PATCH /bevies/:bevyid/boards
 exports.addBoard = function(req, res, next) {
-  var id = req.params.id;
+  var bevy_id = req.params.bevyid;
 
   if(req.body['board'] != undefined)
     var board = req.body['board'];
 
-  Bevy.findOne({ _id: id }, function(err, bevy) {
+  Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
     if(err) return next(err);
     if(!bevy) return next('bevy not found');
     // push the new board
@@ -188,25 +187,25 @@ exports.addBoard = function(req, res, next) {
 }
 
 // DESTROY
-// DELETE /bevies/:id
+// DELETE /bevies/:bevyid
 exports.destroyBevy = function(req, res, next) {
-  var id = req.params.id;
+  var bevy_id = req.params.bevyid;
 
-  var query = { _id: id };
+  var query = { _id: bevy_id };
   var promise = Bevy.findOneAndRemove(query)
     .exec();
   promise.then(function(bevy) {
     // delete the thread for this bevy
-    Thread.findOneAndRemove({ bevy: id }, function(err, thread) {
+    Thread.findOneAndRemove({ bevy: bevy_id }, function(err, thread) {
       // and delete all messages in that thread
       Message.remove({ thread: thread._id }, function(err, messages) {});
     });
     // delete all posts posted to this bevy
-    Post.remove({ bevy: id }, function(err, posts) {});
+    Post.remove({ bevy: bevy_id }, function(err, posts) {});
     // remove the reference to the bevy in all user's subscribed bevies
-    User.find({ bevies: id }, function(err, users) {
+    User.find({ bevies: bevy_id }, function(err, users) {
       async.each(users, function(user, callback) {
-        user.bevies.pull(id);
+        user.bevies.pull(bevy_id);
         user.save(function(err) {
           if(err) next(err);
         });

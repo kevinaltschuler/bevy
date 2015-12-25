@@ -26,15 +26,19 @@ exports.getMessages = function(req, res, next) {
     if(err) return next(err);
     return res.json(messages);
   })
-    .populate('author')
-    .sort('-created')
-    .skip(skip)
-    .limit(25);
+  .populate({
+    path: 'author',
+    select: '_id displayName email image'
+  })
+  .sort('-created')
+  .skip(skip)
+  .limit(25)
+  .lean();
 };
 
-// POST /threads/:threadid/messages
+// POST /messages
 exports.createMessage = function(req, res, next) {
-  var thread_id = req.params.threadid;
+  var thread_id = req.body['thread'];
   var author_id = req.body['author'];
   var body = req.body['body'];
 
@@ -70,29 +74,50 @@ exports.createMessage = function(req, res, next) {
   });
 };
 
-// PUT/PATCH /threads/:threadid/messages/:id
-exports.updateMessage = function(req, res, next) {
-  var thread_id = req.params.threadid;
-  var id = req.params.id;
-
-  // only update body for now... no real need to update thread/author
-  var body = req.body['body'];
-  var message = {
-    body: body
-  };
-  Message.findOneAndUpdate({ _id: id }, message, { new: true, upsert: true }, function(err, $message) {
-    return res.json($message);
-  });
+// GET /messages/:messageid
+exports.getMessage = function(req, res, next) {
+  var message_id = req.params.messageid;
+  Message.findOne({ _id: message_id }, function(err, message) {
+    if(err) return next(err);
+    if(_.isEmpty(message)) return next('Message not found');
+    return res.json(message);
+  })
+  .populate({
+    path: 'author',
+    select: '_id displayName email image'
+  })
+  .lean();
 };
 
-// DELETE /threads/:threadid/messages/:id
-exports.destroyMessage = function(req, res, next) {
-  var thread_id = req.params.threadid;
-  var id = req.params.id;
-
-  Message.findOneAndRemove({ _id: id }, function(err, message) {
+// PUT/PATCH /messages/:messageid
+exports.updateMessage = function(req, res, next) {
+  var message_id = req.params.messageid;
+  var body = req.body['body'];
+  var update = { body: body };
+  Message.findOneAndUpdate({ _id: message_id }, update, { new: true, upsert: true },
+    function(err, message) {
+    if(err) return next(err);
     return res.json(message);
-  });
+  })
+  .populate({
+    path: 'author',
+    select: '_id displayName email image'
+  })
+  .lean();
+};
+
+// DELETE /messages/:messageid
+exports.destroyMessage = function(req, res, next) {
+  var message_id = req.params.messageid;
+  Message.findOneAndRemove({ _id: message_id }, function(err, message) {
+    if(err) return next(err);
+    return res.json(message);
+  })
+  .populate({
+    path: 'author',
+    select: '_id displayName email image'
+  })
+  .lean();
 };
 
 function sendChatNotification(message, to_users) {

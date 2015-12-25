@@ -18,9 +18,73 @@ if(constants.env == 'development')
 
 var _ = require('underscore');
 var $ = require('jquery');
+var UserStore = require('./profile/UserStore');
 
 // load globals
 var Backbone = require('backbone');
+// backbone shim
+Backbone.sync = function(method, model, options) {
+  var headers = {
+    'Accept': 'application/json'
+  };
+  var body = {};
+
+  var url = model.url;
+  if (!options.url) {
+    url = _.result(model, 'url');
+  } else {
+    url = options.url;
+  }
+  console.log(localStorage.getItem('access_token'));
+  // if this is an api call
+  if(url.includes(constants.apiurl)) {
+    // if we have an authorization token
+    if(!_.isEmpty(UserStore.getAccessToken())) {
+      headers['Authorization'] = 'Bearer ' + UserStore.getAccessToken();
+    }
+  } else {
+    // if this is going back to the main site
+    // include the cookie it sent to maintain the session
+    options.credentials = 'include';
+  }
+
+  if(options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
+    headers['Content-Type'] = 'application/json';
+    body = options.attrs || model.toJSON(options);
+  }
+
+  var methodMap = {
+    'create': 'POST',
+    'update': 'PUT',
+    'patch':  'PATCH',
+    'delete': 'DELETE',
+    'read':   'GET'
+  };
+  method = methodMap[method];
+
+  var startTime = Date.now();
+  console.log('START ' + method + ' ' + url);
+
+  var opts = {
+    method: method,
+    headers: headers,
+    body: JSON.stringify(body)
+  };
+  if(method === 'GET' || method === 'HEAD')
+    delete opts.body;
+
+  return fetch(url, opts)
+  .then(res => res.json())
+  .then(res => {
+    var endTime = Date.now();
+    var deltaTime = endTime - startTime;
+    console.log('END', method, url);
+    options.success(res, options);
+  })
+  .catch(error => {
+    options.error(error.toString())
+  });
+};
 
 var React = require('react');
 var router = require('./router');
@@ -62,7 +126,7 @@ var App = React.createClass({
     muiTheme: React.PropTypes.object
   },
 
-  getChildContext() { 
+  getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     };

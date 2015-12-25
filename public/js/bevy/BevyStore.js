@@ -32,6 +32,7 @@ var CHAT = constants.CHAT;
 var APP = constants.APP;
 var BOARD = constants.BOARD;
 var BevyActions = require('./BevyActions');
+var UserStore = require('./../profile/UserStore');
 var user = window.bootstrap.user;
 
 // inherit event class first
@@ -53,19 +54,16 @@ _.extend(BevyStore, {
   // these are created from BevyActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
-
       case APP.LOAD:
+        Dispatcher.waitFor([ UserStore.dispatchToken ]);
         var user = window.bootstrap.user;
-
         this.myBevies.fetch({
           success: function(collection, response, options) {
             this.trigger(BEVY.CHANGE_ALL);
             this.trigger(BEVY.LOADED);
           }.bind(this)
         });
-
         this.publicBevies.url = constants.apiurl + '/bevies';
-
         //load public bevies
         this.publicBevies.fetch({
           success: function(collection, response, options) {
@@ -77,7 +75,6 @@ _.extend(BevyStore, {
 
       case BEVY.CREATE:
         var name = payload.name;
-        //var description = payload.description;
         var image = payload.image;
         var slug = payload.slug;
         var user = window.bootstrap.user;
@@ -99,26 +96,22 @@ _.extend(BevyStore, {
 
         var newBevy = this.myBevies.add({
           name: name,
-          //description: description,
           image: image,
           slug: slug,
           admins: [user._id],
           boards: []
         });
+        newBevy.url = constants.apiurl + '/bevies';
 
         newBevy.save(null, {
           success: function(model, response, options) {
             // success
             newBevy.set('_id', model.id);
-
             this.publicBevies.add(model);
-
             // switch to bevy
             this.active = model.id;
-
             var bevy_ids = this.myBevies.pluck('_id');
             bevy_ids.push(model.id);
-
             this.trigger(BEVY.CHANGE_ALL);
 
             // TODO: move this to user store
@@ -129,12 +122,11 @@ _.extend(BevyStore, {
                 bevies: bevy_ids
               },
               success: function($user) {
-                window.location.href = constants.siteurl + model.get('url');
+                //window.location.href = constants.siteurl + model.get('url');
               }.bind(this)
             });
           }.bind(this)
         });
-
         break;
 
       case BEVY.DESTROY:
@@ -240,7 +232,7 @@ _.extend(BevyStore, {
         var user = payload.user;
 
         if(this.myBevies.get(bevy._id) != undefined) break; // already joined
-        
+
         $.ajax({
           method: 'POST',
           url: constants.apiurl + '/notifications',
@@ -255,7 +247,7 @@ _.extend(BevyStore, {
           },
           success: function(res) {
           }.bind(this)
-        });     
+        });
 
         break;
 
@@ -273,7 +265,7 @@ _.extend(BevyStore, {
 
       case BEVY.SORT:
         var filter = payload.filter;
-        
+
         var collection = (!_.isEmpty(this.searchQuery)) ? this.searchList : this.publicBevies;
         collection.filter = filter;
         switch(filter) {
@@ -372,7 +364,7 @@ _.extend(BevyStore, {
     var name = bevy.attributes.name.toLowerCase();
     var nameValue = name.charCodeAt(0);
     return -nameValue;
-  },  
+  },
 
   sortByTop(bevy) {
     var subs = bevy.attributes.subCount;

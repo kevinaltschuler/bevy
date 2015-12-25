@@ -17,9 +17,9 @@ var User = require('./../models/User');
 var Thread = require('./../models/Thread');
 var Post = require('./../models/Post');
 
-// GET /users/:id/boards
+// GET /users/:userid/boards
 exports.getUserBoards = function(req, res, next) {
-  var user_id = req.params.id;
+  var user_id = req.params.userid;
 
   User.findOne({ _id: user_id }, function(err, user) {
     if(err) return next(err);
@@ -35,9 +35,9 @@ exports.getUserBoards = function(req, res, next) {
   });
 };
 
-// GET /bevies/:id/boards
+// GET /bevies/:bevyid/boards
 exports.getBevyBoards = function(req, res, next) {
-  var bevy_id = req.params.id;
+  var bevy_id = req.params.bevyid;
 
   Board.find({ parent: bevy_id }, function(err, boards) {
     if(err) return next(err);
@@ -76,9 +76,9 @@ exports.createBoard = function(req, res, next) {
   });
 };
 
-// GET /boards/:id
+// GET /boards/:boardid
 exports.getBoard = function(req, res, next) {
-  var board_id = req.params.id;
+  var board_id = req.params.boardid;
   Board.findOne({ _id: board_id }, function(err, board) {
     if(err) return next(err);
     if(_.isEmpty(board)) return next('Board not found');
@@ -90,10 +90,10 @@ exports.getBoard = function(req, res, next) {
   });
 };
 
-// PUT /boards/:id
-// PATCH /boards/:id
+// PUT /boards/:boardid
+// PATCH /boards/:boardid
 exports.updateBoard = function(req, res, next) {
-  var board_id = req.params.id;
+  var board_id = req.params.boardid;
   var update = {};
   if(req.body['name'] != undefined)
     update.name = req.body['name'];

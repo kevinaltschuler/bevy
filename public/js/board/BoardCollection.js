@@ -1,8 +1,6 @@
 /**
  * BoardCollection.js
- *
  * Backbone collection for boards
- *
  * @author kevin
  */
 

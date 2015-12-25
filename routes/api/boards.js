@@ -7,13 +7,64 @@
 'use strict';
 
 var boardController = require('./../../controllers/boards');
+var oauth2Controller = require('./../../controllers/oauth2');
+var permissionsController = require('./../../controllers/permissions');
 
 module.exports = function(router) {
-  router.get('/users/:id/boards', boardController.getUserBoards);
-  router.get('/bevies/:id/boards', boardController.getBevyBoards);
-  router.post('/boards', boardController.createBoard);
-  router.get('/boards/:id', boardController.getBoard);
-  router.put('/boards/:id', boardController.updateBoard);
-  router.patch('/boards/:id', boardController.updateBoard);
-  router.delete('/boards/:id', boardController.destroyBoard);
+  router.get('/users/:userid/boards', [
+      oauth2Controller.bearer,
+      permissionsController.isSameUser,
+      permissionsController.errorHandler
+    ],
+    boardController.getUserBoards
+  );
+
+  router.get('/bevies/:bevyid/boards', [
+      oauth2Controller.bearer,
+      permissionsController.hasPrivateBevyAccess,
+      permissionsController.errorHandler
+    ],
+    boardController.getBevyBoards
+  );
+
+  router.post('/boards', [
+      oauth2Controller.bearer,
+      permissionsController.errorHandler
+    ],
+    boardController.createBoard
+  );
+
+  router.get('/boards/:boardid', [
+      oauth2Controller.bearer,
+      permissionsController.hasPrivateBoardAccess,
+      permissionsController.errorHandler
+    ],
+    boardController.getBoard
+  );
+
+  router.put('/boards/:boardid', [
+      oauth2Controller.bearer,
+      permissionsController.isBoardMember,
+      permissionsController.isBoardAdmin,
+      permissionsController.errorHandler
+    ],
+    boardController.updateBoard
+  );
+  router.patch('/boards/:boardid', [
+      oauth2Controller.bearer,
+      permissionsController.isBoardMember,
+      permissionsController.isBoardAdmin,
+      permissionsController.errorHandler
+    ],
+    boardController.updateBoard
+  );
+
+  router.delete('/boards/:id', [
+      oauth2Controller.bearer,
+      permissionsController.isBoardMember,
+      permissionsController.isBoardAdmin,
+      permissionsController.errorHandler
+    ],
+    boardController.destroyBoard
+  );
 };

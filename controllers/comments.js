@@ -17,7 +17,7 @@ var Comment = require('./../models/Comment');
 
 var notifications = require('./notifications');
 
-// GET /bevies/:bevyid/posts/:postid/comments
+// GET /posts/:postid/comments
 exports.getComments = function(req, res, next) {
 	var postid = req.params.postid;
 	var query = { postId: postid };
@@ -29,10 +29,9 @@ exports.getComments = function(req, res, next) {
 	}, function(err) {
 		return next(err);
 	});
-}
+};
 
-// GET /posts/:postid/comments/create
-// POST /posts/:postid/comments/
+// POST /comments
 exports.createComment = function(req, res, next) {
 	var update = {};
 	update._id = shortid.generate();
@@ -57,13 +56,12 @@ exports.createComment = function(req, res, next) {
 		});
 		return res.json(comment);
 	});
-}
+};
 
-// GET /posts/:postid/comments/:id
+// GET /comments/:commentid
 exports.getComment = function(req, res, next) {
-	var id = req.params.id;
-	var query = { _id: id };
-	var promise = Comment.findOne(query)
+	var comment_id = req.params.commentid;
+	var promise = Comment.findOne({ _id: comment_id })
 		.exec();
 	promise.then(function(comment) {
 		if(!comment) return next(error.gen('comment not found'));
@@ -71,9 +69,9 @@ exports.getComment = function(req, res, next) {
 	}, function(err) {
 		return next(err);
 	});
-}
+};
 
-// PUT/PATCH /posts/:postid/comments/:id/
+// PUT/PATCH /comments/:commentid/
 exports.updateComment = function(req, res, next) {
 	var update = {};
 	if(req.body['postId'] != undefined) {
@@ -90,9 +88,8 @@ exports.updateComment = function(req, res, next) {
 	}
 	if(!update.body) return next('Comment body not specified');
 
-	var id = req.params.id;
-	var query = { _id: id };
-	var promise = Comment.findOneAndUpdate(query, update)
+	var comment_id = req.params.commentid;
+	var promise = Comment.findOneAndUpdate({ _id: comment_id }, update)
 		.exec();
 	promise.then(function(comment) {
 		if(!comment) return next(error.gen('comment not found'));
@@ -100,19 +97,16 @@ exports.updateComment = function(req, res, next) {
 	}, function(err) {
 		return next(err);
 	});
-}
+};
 
-// GET /posts/:postid/comments/:id/destroy
-// DELETE /posts/:postid/comments/:id/
+// DELETE /comments/:commentid/
 exports.destroyComment = function(req, res, next) {
-	// delete comment
-	var id = req.params.id;
-	var query = { _id: id };
-	var promise = Comment.findOneAndRemove(query).exec();
+	var comment_id = req.params.id;
+	var promise = Comment.findOneAndRemove({ _id: comment_id }).exec();
 	promise.then(function(comment) {
 		if(!comment) return next(error.gen('comment not found'));
 		return res.json(comment);
 	}, function(err) {
 		return next(err);
 	});
-}
+};

@@ -19,6 +19,10 @@ module.exports = {
     ios: "ios",
     android: "android"
   },
+  backdoor: {
+    key: "kevin",
+    value: "farts"
+  },
   keys: keys,
   expiresIn: {
     seconds: 60 * 60 * 24 * 7, // 1 week
