@@ -14,17 +14,21 @@ var MessageSchema = new Schema({
 	_id: {
 		type: String,
 		unique: true,
+		required: true,
 		default: shortid.generate()
 	},
 	thread: {
 		type: String,
+		required: true,
 		ref: 'ChatThread'
 	},
 	author: {
 		type: String,
 		ref: 'User'
 	},
-	body: String,
+	body: {
+		type: String
+	},
 	created: {
 		type: Date,
 		default: Date.now

@@ -75,13 +75,15 @@ _.extend(BevyStore, {
 
       case BEVY.CREATE:
         var name = payload.name;
-        //var description = payload.description;
         var image = payload.image;
         var slug = payload.slug;
         var user = window.bootstrap.user;
 
         if(_.isEmpty(image)) {
-          image = {filename: constants.siteurl + '/img/default_group_img.png', foreign: true};
+          image = {
+            filename: constants.siteurl + '/img/default_group_img.png',
+            foreign: true
+          };
         }
 
         // sanitize slug before we continue;
@@ -94,26 +96,22 @@ _.extend(BevyStore, {
 
         var newBevy = this.myBevies.add({
           name: name,
-          //description: description,
           image: image,
           slug: slug,
           admins: [user._id],
           boards: []
         });
+        newBevy.url = constants.apiurl + '/bevies';
 
         newBevy.save(null, {
           success: function(model, response, options) {
             // success
             newBevy.set('_id', model.id);
-
             this.publicBevies.add(model);
-
             // switch to bevy
             this.active = model.id;
-
             var bevy_ids = this.myBevies.pluck('_id');
             bevy_ids.push(model.id);
-
             this.trigger(BEVY.CHANGE_ALL);
 
             // TODO: move this to user store
@@ -124,12 +122,11 @@ _.extend(BevyStore, {
                 bevies: bevy_ids
               },
               success: function($user) {
-                window.location.href = constants.siteurl + model.get('url');
+                //window.location.href = constants.siteurl + model.get('url');
               }.bind(this)
             });
           }.bind(this)
         });
-
         break;
 
       case BEVY.DESTROY:

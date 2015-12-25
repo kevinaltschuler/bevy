@@ -50,7 +50,6 @@ Backbone.sync = function(method, model, options) {
 
   if(options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
     headers['Content-Type'] = 'application/json';
-    headers['Content-Encoding'] = 'gzip';
     body = options.attrs || model.toJSON(options);
   }
 
