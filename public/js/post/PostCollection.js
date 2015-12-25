@@ -34,6 +34,7 @@ var PostCollection = Backbone.Collection.extend({
 
   url() {
     var bevy_id = router.bevy_id;
+    var board_id = router.board_id;
 
     if((router.current == 'front')) // frontpage
       return constants.apiurl + '/users/' + user._id + '/frontpage';
@@ -41,7 +42,7 @@ var PostCollection = Backbone.Collection.extend({
     if(router.current == 'search' && !_.isEmpty(router.search_query))
       return constants.apiurl + '/users/' + user._id + '/posts/search/' + router.search_query;
 
-    return constants.apiurl + '/bevies/' + bevy_id + '/posts';
+    return constants.apiurl + '/boards/' + board_id + '/posts';
   }
 });
 

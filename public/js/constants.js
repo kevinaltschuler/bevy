@@ -106,6 +106,7 @@ exports.BOARD = {
   LOADED: 'board_loaded',
   JOIN: 'board_join',
   LEAVE: 'board_leave',
+  GET: 'board_get',
 
   CHANGE_ALL: 'board_change_all'
 };

@@ -27,7 +27,7 @@ var BevyCollection = Backbone.Collection.extend({
     });
   },
   url() {
-    return constants.apiurl + '/users/' + user._id + '/bevies';
+    return constants.apiurl + '/bevies';
   },
   //filter: 'top'
 });

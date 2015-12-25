@@ -47,6 +47,9 @@ var PostImages = React.createClass({
   render() {
     var post = this.props.post;
     var images = post.images;
+    if(_.isEmpty(images)) {
+      return <div/>;
+    }
     var dropzoneOptions = {
       acceptedFiles: 'image/*',
       thumbnailWidth: 500,

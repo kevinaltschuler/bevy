@@ -41,7 +41,7 @@ var BoardStore = _.extend({}, Backbone.Events);
 _.extend(BoardStore, {
 
   boards: new Boards,
-  active: 0,
+  active: {},
 
   // handle calls from the dispatcher
   // these are created from BoardActions.js
@@ -58,12 +58,20 @@ _.extend(BoardStore, {
         });
         break;
       case BOARD.SWITCH:
-        console.log('BOARD STORE');
+        //console.log('BOARD STORE');
         var board_id = payload.board_id;
-        console.log('switching to: ', board_id);
-        this.active = board_id;
-        
-        this.trigger(BOARD.CHANGE_ALL);
+        //console.log('switching to: ', board_id);
+        $.ajax({
+          method: 'GET',
+          url: constants.apiurl + '/boards/' + board_id,
+          success: function($board, more) {
+            if(!_.isEmpty($board)) {
+              this.active = $board;
+              this.trigger(BOARD.CHANGE_ALL);
+            }
+          }.bind(this)
+        });
+      
         break;
       case BOARD.CREATE:
         var name = payload.name;
@@ -104,7 +112,7 @@ _.extend(BoardStore, {
 
             // TODO: move this to user store
             $.ajax({
-              method: 'PATCH',
+              method: 'POST',
               url: constants.apiurl + '/users/' + user._id + '/boards',
               data: {
                 board: board_id
@@ -115,7 +123,7 @@ _.extend(BoardStore, {
             });
             // TODO: move to bevy store
             $.ajax({
-              method: 'PATCH',
+              method: 'POST',
               url: constants.apiurl + '/bevies/' + model.toJSON().parent + '/boards',
               data: {
                 board: board_id
@@ -127,6 +135,7 @@ _.extend(BoardStore, {
         });
 
         break;
+
       case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
         var user = window.bootstrap.user;
@@ -148,9 +157,7 @@ _.extend(BoardStore, {
   },
 
   getActive() {
-    console.log('the active board', this.active, this.getBoard(this.active));
-    var board = this.getBoard(this.active);
-    return board;
+    return this.active;
   },
 
   getBoard(board_id) {
@@ -166,11 +173,9 @@ _.extend(BoardStore, {
         url: constants.apiurl + '/boards/' + board_id,
         success: function($board, more) {
           if(_.isEmpty($board)) {
-            console.log('its empty?');
-            return {};
+            var board = {};
           } else {
-            console.log('its not empty');
-            return $board;
+            var board =$board;
           }
         }.bind(this)
       });

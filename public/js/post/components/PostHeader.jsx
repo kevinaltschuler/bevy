@@ -59,7 +59,6 @@ var PostHeader = React.createClass({
   render() {
 
     var post = this.props.post;
-    var tag = post.tag;
 
     var profileImage = (_.isEmpty(post.author.image))
       ? constants.defaultProfileImage
@@ -79,7 +78,7 @@ var PostHeader = React.createClass({
     var deleteButton = '';
     if(window.bootstrap.user) {
       if(window.bootstrap.user._id == post.author._id 
-        || _.contains(post.bevy.admins, window.bootstrap.user._id))
+        || _.contains(post.board.admins, window.bootstrap.user._id))
         deleteButton = (
           <MenuItem onClick={ this.destroy } >
             Delete Post
@@ -102,7 +101,7 @@ var PostHeader = React.createClass({
       ? 'Unpin Post' 
       : 'Pin Post';
     if(window.bootstrap.user) {
-      if(_.contains(post.bevy.admins, window.bootstrap.user._id)) {
+      if(_.contains(post.board.admins, window.bootstrap.user._id)) {
         pinButton = (
           <MenuItem onClick={ this.pin }>
             { pinButtonText }
@@ -113,10 +112,6 @@ var PostHeader = React.createClass({
 
     var pinnedBadge = (post.pinned)
     ? <span className='badge pinned'>PINNED</span>
-    : '';
-
-    var tagBadge = (post.tag)
-    ? <Badge style={{backgroundColor: tag.color }}>{tag.name}</Badge>
     : '';
 
     var hideDropdown = (_.isEmpty(deleteButton) 
@@ -152,10 +147,9 @@ var PostHeader = React.createClass({
             <span className="details">
               <a 
                 className='bevy-link' 
-                href={ post.bevy.url } 
-                onClick={ this.onSwitchBevy }
+                href={ post.board.url } 
               >
-                { post.bevy.name }
+                { post.board.name }
               </a>
             </span>
           </div>
@@ -170,7 +164,6 @@ var PostHeader = React.createClass({
         </div>
         <div className='badges'>
           { pinnedBadge }
-          { tagBadge }
           <DropdownButton
             noCaret
             pullRight

@@ -61,7 +61,8 @@ var NewPostPanel = React.createClass({
   propTypes: {
     activeBevy: React.PropTypes.object.isRequired,
     myBevies: React.PropTypes.array.isRequired,
-    disabled: React.PropTypes.bool
+    disabled: React.PropTypes.bool,
+    activeBoard: React.PropTypes.object.isRequired
   },
 
   // start with an empty title
@@ -70,7 +71,6 @@ var NewPostPanel = React.createClass({
     return {
       title: '',
       images: [],
-      selectedIndex: 0,
       disabled: this.props.disabled,
       showEventModal: false
     };
@@ -108,19 +108,14 @@ var NewPostPanel = React.createClass({
       return;
     }
 
-    var tag = this.props.activeBevy.tags[this.state.selectedIndex];
-
-    //console.log(tag);
-
     // send the create action
     PostActions.create(
       this.state.title, // title
       this.state.images, // image_url
       window.bootstrap.user, // author
-      this.props.activeBevy, // bevy
+      this.props.activeBoard, // board
       undefined,
-      undefined,
-      tag
+      undefined
     );
 
     // reset fields
@@ -139,18 +134,6 @@ var NewPostPanel = React.createClass({
     });
   },
 
-  onTagChange(e, selectedIndex, menuItem) {
-    this.setState({
-      selectedIndex: selectedIndex
-    });
-  },
-
-  setIndex(key) {
-    this.setState({
-      selectedIndex: key
-    });
-  },
-
   render() {
 
     var dropzoneOptions = {
@@ -162,55 +145,22 @@ var NewPostPanel = React.createClass({
       clickable: '.attach-picture'
     };
 
-    var tags = (this.props.activeBevy) ? this.props.activeBevy.tags : [];
-    var tagColor = this.props.activeBevy.tags[this.state.selectedIndex].color;
-    var tagName = this.props.activeBevy.tags[this.state.selectedIndex].name;
-
-    var tagItems = [];
-
-    if(this.props.activeBevy) {
-      for(var key in tags) {
-        var tag = tags[key];
-        tagItems.push(
-        <MenuItem eventKey={ key } key={ 'newpostpanel:tag:' + key } onSelect={this.setIndex}>
-          <span className='color-dot' style={{backgroundColor: tag.color, padding: '1px 9px'}}/>
-            {tag.name}
-        </MenuItem>
-        );
-      }
-    }
-
-    var selectedIndex = this.state.selectedIndex;
-
-    var tagDropdown = (this.state.activeBevy)
-    ? <div/>
-    : (
-    <DropdownButton 
-      disabled={_.isEmpty(window.bootstrap.user)} 
-      style={{backgroundColor: tags[this.state.selectedIndex].color}} 
-      title={tags[this.state.selectedIndex].name} 
-      id='bg-nested-dropdown'
-    >
-      {tagItems}
-    </DropdownButton>
-    );
-
     var disabled = this.props.disabled;
 
     hintText = (disabled)
     ? 'you must be logged in to post'
     : hintText
 
-    if(this.props.activeBevy.admin_only) {
+    if(this.props.activeBoard.admin_only) {
       disabled = true;
       hintText = 'only admins may post in this bevy';
     }
 
     var mediaTip = <Tooltip>attach pictures</Tooltip>;
-    var eventTip = <Tooltip>create an event</Tooltip>;
+    //var eventTip = <Tooltip>create an event</Tooltip>;
     if(_.isEmpty(window.bootstrap.user)) {
       mediaTip = <div/>;
-      eventTip = <div/>;
+      //eventTip = <div/>;
     }
 
     return (
@@ -251,7 +201,7 @@ var NewPostPanel = React.createClass({
                 mini={true}
               />
             </OverlayTrigger>
-            <OverlayTrigger overlay={eventTip} placement='bottom'>
+            {/*<OverlayTrigger overlay={eventTip} placement='bottom'>
               <FloatingActionButton
                 title="New Event"
                 iconClassName="glyphicon glyphicon-calendar"
@@ -262,15 +212,15 @@ var NewPostPanel = React.createClass({
                 iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
                 mini={true}
               />
-            </OverlayTrigger>
-            <CreateNewEventModal
+            </OverlayTrigger>*/}
+            {/*<CreateNewEventModal
               show={ this.state.showEventModal }
               onHide={() => { this.setState({ showEventModal: false }); }}
               {...this.props}
-            />
+            />*/}
           </div>
           {/*<Badge className='tag-indicator' style={{backgroundColor: tagColor, position: 'absolute', marginLeft: '5px', marginTop: '13px'}}>{tagName}</Badge>*/}
-          { tagDropdown }
+          {/* tagDropdown */}
           <RaisedButton
             label="post"
             onClick={this.submit}

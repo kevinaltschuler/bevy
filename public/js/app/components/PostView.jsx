@@ -73,7 +73,7 @@ var PostView = React.createClass({
 
     var activeBoard = this.props.activeBoard;
 
-    if(this.props.activeBoard.name == null) {
+    if(_.isEmpty(this.props.activeBoard)) {
       return <div/>
     }
 
@@ -113,19 +113,20 @@ var PostView = React.createClass({
           activeBevy={ this.props.activeBevy }
           sortType={ this.props.sortType }
           activeTags={ this.props.activeTags }
+          activeBoard={this.props.activeBoard}
         />
       </div>
     );
 
     return (
       <div className='main-section'>
-        <LeftSidebar
+        {/*<LeftSidebar
           myBevies={ this.props.myBevies }
           activeBevy={ this.props.activeBevy }
           allThreads={ this.props.allThreads }
           activeTags={ this.props.activeTags }
           allBevies={ this.props.allBevies }
-        />
+        />*/}
         <div className='post-view-body'>
           { body }
         </div>

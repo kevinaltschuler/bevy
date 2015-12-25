@@ -57,6 +57,12 @@ var BoardActions = {
       board_id: (board_id == undefined) ? '0' : board_id
     });
   },
+
+  getBoard(board_id) {
+    dispatch(BOARD.GET, {
+      board_id: (board_id == undefined) ? '0' : board_id
+    });
+  }
 };
 
 module.exports = BoardActions;

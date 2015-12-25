@@ -190,7 +190,6 @@ var Post = React.createClass({
     var post = this.state.post;
     var bevy = post.bevy;
     var author = post.author;
-    var tag = post.tag;
     
     var panelBodyText;
     if(this.state.isEditing) {

@@ -121,7 +121,7 @@ var Router = Backbone.Router.extend({
 });
 
 function checkUser() {
-  console.log(window.bootstrap);
+  //console.log(window.bootstrap);
   if(_.isEmpty(window.bootstrap.user)) {
     return false
   }
