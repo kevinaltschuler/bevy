@@ -18,6 +18,9 @@ var {
   RaisedButton,
   FlatButton,
   Snackbar,
+  Avatar,
+  Card,
+  CardHeader
 } = require('material-ui');
 
 var _ = require('underscore');
@@ -48,7 +51,7 @@ var BoardPanel = React.createClass({
     var board = this.props.board;
     //console.log(board);
     var boardImage = (_.isEmpty(this.state.image)) 
-      ? '/img/default_group_img.png' 
+      ? '/img/default_board_img.png' 
       : this.state.image.path;
     var boardImageStyle = { backgroundImage: 'url(' + boardImage + ')' };
 
@@ -68,13 +71,18 @@ var BoardPanel = React.createClass({
       </div>
     );
 
+    if(boardImage == 'http://bevy.dev/img/default_board_img.png' ) {
+      var avatar = <Avatar size={40} icon={<i className="material-icons">view_carousel</i>}/>
+    } else {
+      var avatar = <Avatar size={40} src={boardImage} />;
+    }
+
+    console.log(boardImage);
+
     return (
+    <div>
       <div className="panel public-board-panel">
-        <a 
-          className="board-panel-top" 
-          href={ this.props.board.url } 
-          style={ boardImageStyle }
-        />
+        {avatar}
         <div className='panel-info'>
             <a 
               className='title' 
@@ -82,8 +90,12 @@ var BoardPanel = React.createClass({
             >
               { name }
             </a>
+            <div className='description'>
+              { description }
+            </div>
         </div>
       </div>
+    </div>
     );
   }
 });

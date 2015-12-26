@@ -47,7 +47,8 @@ var Navbar = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object,
-    allNotifications: React.PropTypes.array
+    allNotifications: React.PropTypes.array,
+    activeBoard: React.PropTypes.object
   },
 
   getInitialState() {
@@ -207,23 +208,39 @@ var Navbar = React.createClass({
               : 'url(' + this.props.activeBevy.image.path + ')'
           };
         break;
+      case 'board':
+        var parent = BevyStore.getBevy(this.props.activeBoard.parent);
+
+        if(parent.name == undefined || this.props.activeBoard.name == undefined) 
+          navbarTitle = '';
+        else
+          navbarTitle = (
+            <div>
+              <a href={parent.url} style={{color: '#fff'}}>{parent.name}</a>
+              &nbsp;
+              <span style={{fontSize: '.7em'}} className="glyphicon glyphicon-triangle-right"/> 
+              &nbsp;
+              {this.props.activeBoard.name} 
+            </div>
+          );
+
+        backgroundStyle = (_.isEmpty(parent))
+          ? { filter: 'unset' }
+          : { 
+            opacity: this.state.opacity,
+            backgroundImage: (_.isEmpty(parent.image))
+              ? ''
+              : 'url(' + parent.image.path + ')'
+          };
+        break;
       case 'search':
         navbarTitle = ((_.isEmpty(router.search_query)) 
-          ? 'all bevies' 
+          ? 'public bevies' 
           : 'search for ' + router.search_query);
         break;
       default:
         break;
     }
-
-    if(this.props.activeBevy.slug == 'sports' ||
-      this.props.activeBevy.slug == 'gaming' ||
-      this.props.activeBevy.slug == 'news' ||
-      this.props.activeBevy.slug == 'videos' ||
-      this.props.activeBevy.slug == 'pics' ||
-      this.props.activeBevy.slug == 'books' ||
-      this.props.activeBevy.slug == 'music')
-        backgroundStyle = { backgroundColor: '#939393', filter: 'unset' };
 
     var searchButton = (_.isEmpty(window.bootstrap.user))
     ? <div/>
@@ -247,27 +264,29 @@ var Navbar = React.createClass({
         >
           <div className="background-image" style={ backgroundStyle } />
         </div>
-        <div className="left">
-          <Button 
-            className="bevy-logo-btn" 
-            title='Frontpage' 
-            href={ (!_.isEmpty(window.bootstrap.user)) 
-              ? '/' 
-              : '/' }
-          >
-            <div className='bevy-logo-img'/>
-          </Button>
-          { searchButton}
-        </div>
+        <div className='content'>
+          <div className="left">
+            <Button 
+              className="bevy-logo-btn" 
+              title='Frontpage' 
+              href={ (!_.isEmpty(window.bootstrap.user)) 
+                ? '/' 
+                : '/' }
+            >
+              <div className='bevy-logo-img'/>
+            </Button>
+            { searchButton}
+          </div>
 
-        <div className="center">
-          <span className='title'>
-            { navbarTitle }
-          </span>
-        </div>
+          <div className="center">
+            <span className='title'>
+              { navbarTitle }
+            </span>
+          </div>
 
-        <div className="right">
-          { this._renderUserDropdowns() }
+          <div className="right">
+            { this._renderUserDropdowns() }
+          </div>
         </div>
       </div>
     );

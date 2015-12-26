@@ -55,11 +55,11 @@ exports.getPublicBevies = function(req, res, next) {
 exports.createBevy = function(req, res, next) {
   var update = {};
   update._id = shortid.generate();
-  if(req.body['name'] == undefined) return next('New Bevy has no name');
+  if(req.body['name'] != undefined) 
     update.name = req.body['name'];
   if(req.body['description'] != undefined)
     update.description = req.body['description'];
-  if(req.body['image'] == undefined)
+  if(req.body['image'] != undefined) 
     update.image = req.body['image'];
   if(req.body['admins'] != undefined)
     update.admins = req.body['admins'];

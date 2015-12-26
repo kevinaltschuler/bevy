@@ -71,8 +71,6 @@ _.extend(PostStore, {
         this.posts.comparator = PostStore.sortByNew;
 
         this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
-        if(bevy_id == '-1') 
-            this.posts.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/frontpage';
         
         this.posts.fetch({
           success: function(collection, response, options) {
@@ -220,23 +218,6 @@ _.extend(PostStore, {
 
         break;
 
-      /*case POST.UPDATE_TAG:
-        var post_id = payload.post_id;
-        var tag = payload.tag;
-
-        var post = this.posts.get(post_id);
-        if(post == undefined) break;
-
-        post.save({
-          tag: tag
-        }, {
-          patch: true,
-          success: function(model, response, collection) {
-            this.trigger(POST.CHANGE_ONE + post.id);
-          }.bind(this)
-        });
-        break;*/
-
       case POST.VOTE:
         var post_id = payload.post_id;
         var voter = payload.voter;
@@ -244,7 +225,7 @@ _.extend(PostStore, {
         var post = this.posts.get(post_id);
         if(post == undefined) break;
 
-        this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
+        //this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
 
         var votes = post.get('votes');
         var vote = _.findWhere(votes, { voter: voter._id });
@@ -258,25 +239,26 @@ _.extend(PostStore, {
           votes = _.map(votes, function($vote) {
             if($vote.voter == voter._id) {
               // found the voter
-              //console.log($vote);
               $vote.score = ($vote.score > 0) ? 0 : 1;
             }
             return $vote;
           });
         }
+        post.url = constants.apiurl + '/posts/' + post.get('_id');
         post.save({
           votes: votes
         }, {
           patch: true,
           success: function(post, response, options) {
-            this.trigger(POST.CHANGE_ONE + post.id);
+            
           }.bind(this)
         });
         // instant update
         post.set('votes', votes);
         // sort posts
         this.posts.sort();
-        //this.trigger(POST.CHANGE_ALL);
+        this.trigger(POST.CHANGE_ONE + post.id);
+        this.trigger(POST.CHANGE_ALL);
 
         break;
 
@@ -303,38 +285,6 @@ _.extend(PostStore, {
         this.posts.sort();
 
         this.trigger(POST.CHANGE_ALL);
-        break;
-
-      /*case POST.UPDATE_FRONTBEVIES:
-        var bevies = payload.bevies;
-        this.frontBevies = bevies;
-
-        this.trigger(POST.CHANGE_ALL);
-        break;*/
-
-      case POST.MUTE:
-        var post_id = payload.post_id;
-        var post = this.posts.get(post_id);
-
-        var user = window.bootstrap.user;
-
-        var muted_by = post.get('muted_by') || [];
-        // unmute post if user is found
-        muted_by = _.reject(muted_by, function(muter) {
-          return muter == user._id;
-        });
-        // else, add user to muted by
-        if(muted_by.length == (post.get('muted_by') || []).length)
-          muted_by.push(user._id);
-
-        post.save({
-          muted_by: muted_by
-        }, {
-          patch: true
-        });
-
-        this.trigger(POST.CHANGE_ALL);
-
         break;
 
       case POST.PIN:

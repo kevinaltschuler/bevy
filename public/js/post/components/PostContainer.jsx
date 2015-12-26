@@ -57,7 +57,10 @@ var PostContainer = React.createClass({
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
     // sometimes the bevy switch event completes before this is mounted
-    BoardActions.switchBoard(this.props.activeBoard._id);
+    if(router.current == 'board')
+      BoardActions.switchBoard(this.props.activeBoard._id);
+    if(router.current == 'bevy')
+      BevyActions.switchBevy(this.props.activeBevy._id);
     //PostActions.fetch(this.props.activeBevy._id);
 
     var node = this.getDOMNode();
