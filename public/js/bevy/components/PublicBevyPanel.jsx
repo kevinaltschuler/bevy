@@ -74,8 +74,12 @@ var PublicBevyPanel = React.createClass({
 
 
   _renderLock() {
-    if(this.props.bevy.settings.privacy == 0) return (
-      <div />
+    if(this.props.bevy.settings.privacy == 'Public') return (
+      <OverlayTrigger placement='top' overlay={ 
+        <Tooltip>This Bevy Is Public</Tooltip> 
+      }>
+        <span className='glyphicon glyphicon-globe' />
+      </OverlayTrigger>
     );
     return (
       <OverlayTrigger placement='top' overlay={ 
@@ -89,6 +93,9 @@ var PublicBevyPanel = React.createClass({
   render() {
 
     var bevy = this.props.bevy;
+    if(this.props.bevy.settings.privacy == 'Private') {
+      //return <div/>;
+    }
     var bevyImage = (_.isEmpty(this.state.image)) 
       ? '/img/default_group_img.png' 
       : this.state.image.path;

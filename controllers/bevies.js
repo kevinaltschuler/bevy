@@ -82,9 +82,9 @@ exports.createBevy = function(req, res, next) {
 // SHOW
 // GET /bevies/:bevyid
 exports.getBevy = function(req, res, next) {
-  var bevy_id = req.params.bevyid;
+  var bevy_id_or_slug = req.params.bevyid;
 
-  Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
     if(err) return next(err);
     return res.json(bevy);
   }).populate({
@@ -113,7 +113,7 @@ exports.searchBevies = function(req, res, next) {
 
 // PUT/PATCH /bevies/:bevyid
 exports.updateBevy = function(req, res, next) {
-  var bevy_id = req.params.bevyid;
+  var bevy_id_or_slug = req.params.bevyid;
 
   var update = {};
   update._id = shortid.generate();
@@ -145,7 +145,7 @@ exports.updateBevy = function(req, res, next) {
     }
   }
 
-  var query = { _id: bevy_id };
+  var query = { $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]};
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
     .populate({
       path: 'admins',
@@ -163,12 +163,12 @@ exports.updateBevy = function(req, res, next) {
 // AddBoard
 // PUT/PATCH /bevies/:bevyid/boards
 exports.addBoard = function(req, res, next) {
-  var bevy_id = req.params.bevyid;
+  var bevy_id_or_slug = req.params.bevyid;
 
   if(req.body['board'] != undefined)
     var board = req.body['board'];
 
-  Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
     if(err) return next(err);
     if(!bevy) return next('bevy not found');
     // push the new board
@@ -185,9 +185,9 @@ exports.addBoard = function(req, res, next) {
 // DESTROY
 // DELETE /bevies/:bevyid
 exports.destroyBevy = function(req, res, next) {
-  var bevy_id = req.params.bevyid;
+  var bevy_id_or_slug = req.params.bevyid;
 
-  var query = { _id: bevy_id };
+  var query = { $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]};
   var promise = Bevy.findOneAndRemove(query)
     .exec();
   promise.then(function(bevy) {

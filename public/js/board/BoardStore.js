@@ -32,6 +32,7 @@ var CHAT = constants.CHAT;
 var APP = constants.APP;
 var BOARD = constants.BOARD;
 var BoardActions = require('./BoardActions');
+var BevyStore = require('./../bevy/BevyStore');
 var user = window.bootstrap.user;
 
 // inherit event class first
@@ -58,9 +59,8 @@ _.extend(BoardStore, {
         });
         break;
       case BOARD.SWITCH:
-        //console.log('BOARD STORE');
         var board_id = payload.board_id;
-        //console.log('switching to: ', board_id);
+        console.log('switching to: ', board_id);
         $.ajax({
           method: 'GET',
           url: constants.apiurl + '/boards/' + board_id,
@@ -118,7 +118,7 @@ _.extend(BoardStore, {
                 board: board_id
               },
               success: function($user) {
-                //window.location.href = constants.siteurl + model.get('url');
+                window.location.href = constants.siteurl + model.get('url');
               }.bind(this)
             });
             // TODO: move to bevy store

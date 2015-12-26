@@ -30,7 +30,7 @@ var BevySchema = new Schema({
   settings: {
     privacy: {
       type: String,
-      default: 'Public'
+      default: 'Private'
     }
   },
   admins: [{

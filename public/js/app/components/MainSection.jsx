@@ -111,7 +111,6 @@ var MainSection = React.createClass({
   },
 
   getBoardState: function() {
-    //console.log(BoardStore.getActive());
     return {
       boards: BoardStore.getBoards(),
       activeBoard: BoardStore.getActive()

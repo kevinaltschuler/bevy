@@ -12,6 +12,7 @@ var Backbone = require('backbone');
 var Board = require('./BoardModel');
 var constants = require('./../constants');
 var router = require('./../router');
+var BevyStore = require('./../bevy/BevyStore');
 
 var user = window.bootstrap.user;
 
@@ -25,10 +26,10 @@ var BoardCollection = Backbone.Collection.extend({
     });
   },
   url() {
-    var bevy_id = router.bevy_id;
+    var bevy = BevyStore.getBevy(router.bevy_slug);
+    var bevy_id = bevy._id;
     return constants.apiurl + '/bevies/' + bevy_id + '/boards';
   },
-  filter: 'top'
 });
 
 module.exports = BoardCollection;

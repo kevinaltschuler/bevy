@@ -35,7 +35,7 @@ Backbone.sync = function(method, model, options) {
   } else {
     url = options.url;
   }
-  console.log(localStorage.getItem('access_token'));
+  //console.log(localStorage.getItem('access_token'));
   // if this is an api call
   if(url.includes(constants.apiurl)) {
     // if we have an authorization token
@@ -63,7 +63,7 @@ Backbone.sync = function(method, model, options) {
   method = methodMap[method];
 
   var startTime = Date.now();
-  console.log('START ' + method + ' ' + url);
+  //console.log('START ' + method + ' ' + url);
 
   var opts = {
     method: method,
@@ -78,13 +78,15 @@ Backbone.sync = function(method, model, options) {
   .then(res => {
     var endTime = Date.now();
     var deltaTime = endTime - startTime;
-    console.log('END', method, url);
+    //console.log('END', method, url);
     options.success(res, options);
   })
   .catch(error => {
     options.error(error.toString())
   });
 };
+
+//console.log(window.bootstrap.user);
 
 var React = require('react');
 var router = require('./router');
