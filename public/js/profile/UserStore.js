@@ -48,8 +48,7 @@ _.extend(UserStore, {
         }
         // check if auth tokens have been passed in from the server
         if(!_.isEmpty(window.bootstrap.access_token)
-          && !_.isEmpty(window.bootstrap.refresh_token)
-          && !_.isEmpty(window.bootstrap.expires_in)) {
+          && !_.isEmpty(window.bootstrap.refresh_token)) {
           this.setTokens(
             window.bootstrap.access_token,
             window.bootstrap.refresh_token,
