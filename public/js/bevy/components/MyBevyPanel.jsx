@@ -46,12 +46,16 @@ var MyBevyPanel = React.createClass({
   },
 
   _renderLock() {
-    if(this.props.bevy.settings.privacy == 0) return (
-      <div />
+    if(this.props.bevy.settings.privacy == 'Public') return (
+      <OverlayTrigger placement='top' overlay={ 
+        <Tooltip>This Bevy Is Public</Tooltip> 
+      }>
+        <span className='glyphicon glyphicon-globe' />
+      </OverlayTrigger>
     );
     return (
-      <OverlayTrigger placement='top' overlay={
-        <Tooltip>This Bevy Is Private</Tooltip>
+      <OverlayTrigger placement='top' overlay={ 
+        <Tooltip>This Bevy Is Private</Tooltip> 
       }>
         <span className='glyphicon glyphicon-lock' />
       </OverlayTrigger>

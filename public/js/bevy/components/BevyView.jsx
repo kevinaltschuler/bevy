@@ -86,49 +86,32 @@ var BevyView = React.createClass({
   },
 
   render() {
-    var disabled = false;
-    var hidden = false;
+    var joined = false;
     var activeBevy = this.props.activeBevy;
 
-    if(_.isEmpty(window.bootstrap.user)) {
-      disabled = true;
+    if(_.isEmpty(window.bootstrap.user) || this.props.activeBevy.name == null) {
+      return <div/>;
     }
+
     if(!_.isEmpty(activeBevy)) {
-      if(activeBevy.settings.privacy == 1) {
-        if(_.isEmpty(window.bootstrap.user)) {
-          hidden = true;
-          disabled = true;
-        }
-        else if(!_.find(window.bootstrap.user.bevies, 
+      if(activeBevy.settings.privacy == 'Private') {
+        if(_.find(window.bootstrap.user.bevies, 
           function(bevyId) { 
           return bevyId == this.props.activeBevy._id 
         }.bind(this))) {
-          hidden = true;
-          disabled = true;
+          joined = true;
         }
+      } else {
+        joined = true;
       }
     }
-      
 
-    var activeBevy = this.props.activeBevy;
-
-    if(this.props.activeBevy.name == null) {
-      return <div/>
-    }
-
-    if(hidden) {
+    if(!joined) {
       return (
       <div className='main-section private-container'>
         <div className='private panel'>
           <div className='private-img'/>
-          you must be approved by an <br/>admin to view this community<br/><br/>
-          <RaisedButton label='request join' onClick={ this.onRequestJoin }/>
-          <Snackbar
-            message="Invitation Requested"
-            autoHideDuration={5000}
-            ref='snackbar'
-            style={{fontSize: '14px', fontWeight: '300'}}
-          />
+          you must be invited by an <br/>admin to view this community<br/><br/>
         </div>
       </div>
       );

@@ -63,15 +63,14 @@ var Router = Backbone.Router.extend({
     this.current = 'reset';
   },
 
-  bevy(bevy_id, post_id) {
+  bevy(bevy_slug, post_id) {
     if(!checkUser()) {
       this.current = 'home;'
       return;
     }
     this.current = 'bevy';
-    if(bevy_id == 'frontpage') bevy_id = '-1';
-    this.bevy_id = bevy_id;
-    BevyActions.switchBevy(this.bevy_id);
+    this.bevy_slug = bevy_slug;
+    BevyActions.switchBevy(this.bevy_slug);
   },
 
   board(board_id) {

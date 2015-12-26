@@ -44,7 +44,7 @@ var BevyStore = _.extend({}, Backbone.Events);
 _.extend(BevyStore, {
 
   myBevies: new Bevies,
-  active: -2,
+  active: 0,
   publicBevies: new Bevies,
   searchQuery: '',
   searchList: new Bevies,
@@ -57,6 +57,7 @@ _.extend(BevyStore, {
       case APP.LOAD:
         Dispatcher.waitFor([ UserStore.dispatchToken ]);
         var user = window.bootstrap.user;
+        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies'
         this.myBevies.fetch({
           success: function(collection, response, options) {
             this.trigger(BEVY.CHANGE_ALL);
@@ -99,7 +100,10 @@ _.extend(BevyStore, {
           image: image,
           slug: slug,
           admins: [user._id],
-          boards: []
+          boards: [],
+          settings: {
+            privacy: 'Private'
+          }
         });
         newBevy.url = constants.apiurl + '/bevies';
 
@@ -253,12 +257,8 @@ _.extend(BevyStore, {
 
       case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
-        this.active = bevy_id;
 
-        if(bevy_id == '-1') {
-          this.trigger(BEVY.CHANGE_ALL);
-          break;
-        }
+        this.active = bevy_id;
 
         this.trigger(BEVY.CHANGE_ALL);
         break;
@@ -288,7 +288,7 @@ _.extend(BevyStore, {
             collection.comparator = this.sortByZyx;
             break;
         }
-        console.log(filter);
+        //console.log(filter);
         collection.sort();
 
         this.trigger(BEVY.CHANGE_ALL);
@@ -330,11 +330,11 @@ _.extend(BevyStore, {
   },
 
   getActive() {
-    return this.getBevy(this.active);
+    return this.getBevy(this.active) || this.publicBevies.get(this.active);
   },
 
   getBevy(bevy_id) {
-    var bevy = this.myBevies.get(bevy_id) || this.publicBevies.get(this.active);
+    var bevy = this.myBevies.get(bevy_id) || this.publicBevies.get(bevy_id);
     return (bevy)
     ? bevy.toJSON()
     : {};
@@ -349,6 +349,7 @@ _.extend(BevyStore, {
   getSearchQuery() {
     return this.searchQuery;
   },
+
   /*
   getActiveTags() {
     return this.activeTags;

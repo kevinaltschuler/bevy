@@ -45,45 +45,63 @@ var PostView = React.createClass({
   },
 
   render() {
-    var disabled = false;
-    var hidden = false;
-    if(_.isEmpty(this.props.activeBoard)) {
+    var joinedBoard = true;
+    var joinedParent = true;
+    var activeBoard = this.props.activeBoard;
+    var parent = BevyStore.getBevy(activeBoard.parent);
+    
+    if(_.isEmpty(activeBoard)) {
+      console.log('whoops', activeBoard);
       return <div/>;
     }
-    var parent = BevyStore.getBevy(this.props.activeBoard.parent);
 
     if(_.isEmpty(window.bootstrap.user)) {
-      disabled = true;
+      joinedParent = false;
     }
-    if(!_.isEmpty(parent)) {
-      if(parent.settings.privacy == 1) {
-        if(_.isEmpty(window.bootstrap.user)) {
-          hidden = true;
-          disabled = true;
-        }
-        else if(!_.find(window.bootstrap.user.bevies, 
-          function(bevyId) { 
-          return bevyId == this.props.parent._id 
-        }.bind(this))) {
-          hidden = true;
-          disabled = true;
-        }
+
+    if(parent.settings.privacy == 'Private') {
+      if(_.find(window.bootstrap.user.bevies, 
+        function(bevyId) { 
+        return bevyId == parent._id 
+      }.bind(this))) {
+        joinedParent = true;
+      } 
+    } else {
+      joinedParent = true;
+    }
+
+    console.log('joined board', joinedBoard);
+    console.log('joined parent', joinedParent);
+
+    if(activeBoard.settings.privacy == 'Private') {
+      if(_.find(window.bootstrap.user.boards, 
+        function(boardId) { 
+        return boardId == activeBoard._id 
+      }.bind(this))) {
+        joinedBoard = true;
       }
-    }
-      
-
-    var activeBoard = this.props.activeBoard;
-
-    if(_.isEmpty(this.props.activeBoard)) {
-      return <div/>
+    } else {
+      joinedBoard = true;
     }
 
-    if(hidden) {
+
+    if(!joinedParent) {
+      return (
+        <div className='main-section private-container'>
+          <div className='private panel'>
+            <div className='private-img'/>
+            This commmunity is private
+          </div>
+        </div>
+      );
+    }
+
+    if(!joinedBoard) {
       return (
       <div className='main-section private-container'>
         <div className='private panel'>
           <div className='private-img'/>
-          you must be approved by an <br/>admin to view this community<br/><br/>
+          you must be approved by an <br/>admin to view this board<br/><br/>
           <RaisedButton label='request join' onClick={ this.onRequestJoin }/>
           <Snackbar
             message="Invitation Requested"
