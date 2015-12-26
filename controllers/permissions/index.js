@@ -21,10 +21,17 @@ var messagePermissions = require('./message');
 // any error passed by permissions middleware will go through this
 // it returns a 401 Unauthorized status and a relevant error message
 exports.errorHandler = function(err, req, res, next) {
-  if(err) {
+  if(_.isEmpty(err)) return next();
+  else if(_.isObject(err)) {
+    return res.status(err.code).send(
+      (typeof err.message === 'string')
+        ? err.message
+        : err.message.toString()
+    );
+  } else {
+    // generic unauthorized error
     return res.status(401).send(err.toString());
   }
-  return next();
 };
 
 exports.isSameUser = userPermissions.isSameUser;

@@ -14,17 +14,23 @@ var Bevy = require('./../../models/Bevy');
 exports.hasPrivateBevyAccess = function(req, res, next) {
   if(checkBackdoor(req)) return next();
   var user = req.user;
-  var bevy_id = req.params.bevyid;
-  Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+  var bevy_id_or_slug = req.params.bevyid;
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
     if(err) return next(err);
-    if(_.isEmpty(bevy)) return next('Bevy not found');
+    if(_.isEmpty(bevy)) return next({
+      code: 404,
+      message: 'Bevy not found'
+    });
     // if its public, dont need to check for membership
     if(bevy.settings.privacy == 'Public') return next();
     // if private or secret, then we need to check
     else if (bevy.settings.privacy == 'Private' || bevy.settings.privacy == 'Secret') {
       // see if this bevy is inside the user's collection
       if(_.contains(user.bevies, bevy._id)) return next();
-      else return next('User does not have permission to view this bevy');
+      else return next({
+        code: 403,
+        message: 'User does not have permission to view this bevy'
+      });
     }
   });
 };
@@ -33,11 +39,18 @@ exports.hasPrivateBevyAccess = function(req, res, next) {
 exports.isBevyAdmin = function(req, res, next) {
   if(checkBackdoor(req)) return next();
   var user = req.user;
-  var bevy_id = req.params.bevyid;
-  Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+  var bevy_id_or_slug = req.params.bevyid;
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
     if(err) return next(err);
+    if(_.isEmpty(bevy)) return next({
+      code: 404,
+      message: 'Bevy not found'
+    });
     if(_.contains(bevy.admins, user._id)) return next();
-    else return next('User is not an admin of this bevy');
+    else return next({
+      code: 403,
+      message: 'User is not an admin of this bevy'
+    });
   });
 };
 
@@ -45,7 +58,18 @@ exports.isBevyAdmin = function(req, res, next) {
 exports.isBevyMember = function(req, res, next) {
   if(checkBackdoor(req)) return next();
   var user = req.user;
-  var bevy_id = req.params.bevyid;
-  if(_.contains(user.bevies, bevy_id)) return next();
-  else return next('User is not a member of this bevy');
+  var bevy_id_or_slug = req.params.bevyid;
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
+    if(err) return next(err);
+    if(_.isEmpty(bevy)) return next({
+      code: 404,
+      message: 'Bevy not found'
+    });
+    if(_.contains(user.bevies, bevy._id)) return next();
+    else return next({
+      code: 403,
+      message: 'User is not a member of this bevy'
+    });
+  });
+
 };
