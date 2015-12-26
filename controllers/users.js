@@ -171,11 +171,10 @@ exports.destroyUser = function(req, res, next) {
   }, function(err) { next(err); });
 }
 
-// GET /users/google/:id
+// GET /users/google/:googleid
 exports.getUserFromGoogle = function(req, res, next) {
-  var id = req.params.id;
-
-  User.findOne({ 'google.id': id }, function(err, user) {
+  var google_id = req.params.googleid;
+  User.findOne({ 'google.id': google_id }, function(err, user) {
     if(err) return next(err);
     return res.json(user);
   });

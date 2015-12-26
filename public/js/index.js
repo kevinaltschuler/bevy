@@ -35,11 +35,11 @@ Backbone.sync = function(method, model, options) {
   } else {
     url = options.url;
   }
-  //console.log(localStorage.getItem('access_token'));
   // if this is an api call
   if(url.includes(constants.apiurl)) {
     // if we have an authorization token
     if(!_.isEmpty(UserStore.getAccessToken())) {
+      console.log(localStorage.getItem('access_token'));
       headers['Authorization'] = 'Bearer ' + UserStore.getAccessToken();
     }
   } else {

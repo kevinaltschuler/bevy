@@ -8,10 +8,11 @@
 
 var userController = require('./../../controllers/users');
 var oauth2Controller = require('./../../controllers/oauth2');
+var permissionsController = require('./../../controllers/permissions');
 
 module.exports = function(router) {
-	router.get('/users/google/:id', userController.getUserFromGoogle);
-	router.get('/users', oauth2Controller.bearer, userController.getUsers);
+	router.get('/users/google/:googleid', userController.getUserFromGoogle);
+	router.get('/users', userController.getUsers);
 	router.post('/users', userController.createUser);
 	router.get('/users/:id', userController.getUser);
 	router.get('/users/search', userController.searchUsers);

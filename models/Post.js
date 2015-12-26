@@ -20,10 +20,6 @@ var PostSchema = new Schema({
 		unique: true,
 		default: shortid.generate()
 	},
-	/*bevy: {
-		type: String,
-		ref: 'Bevy'
-	},*/
 	board: {
 		type: String,
 		ref: 'Board'

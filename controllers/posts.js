@@ -21,27 +21,25 @@ var Post = require('./../models/Post');
 var Bevy = require('./../models/Bevy');
 var Comment = require('./../models/Comment');
 
-// GET /boards/:id/posts
+// GET /boards/:boardid/posts
 exports.getBoardPosts = function(req, res, next) {
-  var board_id = req.params.id;
+  var board_id = req.params.boardid;
   Post.find({ board: board_id }, function(err, posts) {
     if(err) return next(err);
     if(posts.length <= 0) return res.json(posts);
-
     var _posts = [];
     posts.forEach(function(post) {
-      var comment_promise = Comment.find({ postId: post._id })
-        .populate({
-          path: 'author',
-          select: '_id displayName email image'
-        })
-        .exec();
-      comment_promise.then(function(comments) {
-        post = post.toJSON();
+      Comment.find({ postId: post_id }, function(err, comments) {
+        if(err) return next(err);
         post.comments = comments;
         _posts.push(post);
         if(_posts.length == posts.length) return res.json(_posts);
-      }, function(err) { return next(err) });
+      })
+      .populate({
+        path: 'author',
+        select: '_id displayName email image'
+      })
+      .lean();
     });
   })
   .populate({
@@ -51,18 +49,19 @@ exports.getBoardPosts = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id displayName email image'
-  });
+  })
+  .lean();
 };
 
-// GET /bevies/:id/posts
+// GET /bevies/:bevyid/posts
 exports.getBevyPosts = function(req, res, next) {
-  var bevy_id = req.params.id;
-  Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+  var bevy_id_or_slug = req.params.bevyid;
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
     if(err) return next(err);
     if(_.isEmpty(bevy))  {
       return res.json([]);
     }
-    if(_.isEmpty(bevy.boards)) { 
+    if(_.isEmpty(bevy.boards)) {
       return res.json([]);
     }
     Post.find({ board: { $in: bevy.boards }}, function(err, posts) {
@@ -71,18 +70,17 @@ exports.getBevyPosts = function(req, res, next) {
 
       var _posts = [];
       posts.forEach(function(post) {
-        var comment_promise = Comment.find({ postId: post._id })
-          .populate({
-            path: 'author',
-            select: '_id displayName email image'
-          })
-          .exec();
-        comment_promise.then(function(comments) {
-          post = post.toJSON();
+        Comment.find({ postId: post_id }, function(err, comments) {
+          if(err) return next(err);
           post.comments = comments;
           _posts.push(post);
           if(_posts.length == posts.length) return res.json(_posts);
-        }, function(err) { return next(err) });
+        })
+        .populate({
+          path: 'author',
+          select: '_id displayName email image'
+        })
+        .lean();
       });
     })
     //.limit(10)
@@ -93,7 +91,8 @@ exports.getBevyPosts = function(req, res, next) {
     .populate({
       path: 'author',
       select: '_id displayName email image'
-    });
+    })
+    .lean();
   });
 };
 
@@ -113,7 +112,6 @@ exports.createPost = function(req, res, next) {
   if(_.isEmpty(update.author)) return next('no author');
   if(_.isEmpty(update.type)) return next('no type');
 
-
   async.waterfall([
     function(done) {
       populateLinks(update, done);
@@ -125,7 +123,6 @@ exports.createPost = function(req, res, next) {
         Post.populate(post, { path: 'board author' }, function(err, pop_post) {
           // create notification
           notifications.make('post:create', { post: pop_post });
-
           return res.json(pop_post);
         });
       });
@@ -133,86 +130,107 @@ exports.createPost = function(req, res, next) {
   ]);
 }
 
-// GET /posts/:id
+// GET /posts/:postid
 exports.getPost = function(req, res, next) {
-  var id = req.params.id;
-
-  Post.findOne({ _id: id }, function(err, post) {
+  var post_id = req.params.postid;
+  Post.findOne({ _id: post_id }, function(err, post) {
     if(err) return next(err);
     if(_.isEmpty(post)) return next('Post not found');
-    Comment.find({ postId: post._id }, function(err, comments) {
+    Comment.find({ postId: post_id }, function(err, comments) {
       if(err) return next(err);
-      post = JSON.parse(JSON.stringify(post));
       post.comments = comments;
       return res.json(post);
-    }).populate('author');
-  }).populate('bevy author');
+    })
+    .populate({
+      path: 'author',
+      select: '_id displayName email image'
+    })
+    .lean();
+  })
+  .populate({
+    path: 'board',
+    select: '_id name image settings'
+  })
+  .populate({
+    path: 'author',
+    select: '_id displayName email image'
+  })
+  .lean();
 };
 
-// PUT/PATCH /posts/:id
+// PUT/PATCH /posts/:postid
 exports.updatePost = function(req, res, next) {
-  var id = req.params.id;
+  var post_id = req.params.postid;
   var update = {};
-  if(req.body['pinned'] != undefined) {
+  if(req.body['title'] != undefined)
+    update.body = req.body['title']
+  if(req.body['pinned'] != undefined)
     update.pinned = req.body['pinned'];
-  }
   if(req.body['event'] != undefined)
     update.event = req.body['event'];
+  if(req.body['votes'] != undefined)
+    update.votes = req.body['votes'];
+  if(req.body['expires'] != undefined)
+    update.expires = req.body['expires'];
+  if(req.body['images'] != undefined)
+    update.images = req.body['images'];
+  if(req.body['edited'] != undefined)
+    update.edited = req.body['edited'];
 
   async.waterfall([
     function(done) {
       populateLinks(update, done);
     },
     function($update, done) {
-      var query = { _id: id };
-      var promise = Post.findOneAndUpdate(query, $update, { new: true, upsert: true })
-        .populate('bevy author')
-        .exec();
-      promise.then(function(post) {
-        if(!post) throw error.gen('post not found');
-        return post;
-      }).then(function(post) {
-        var _promise = Comment.find({ postId: post._id })
-          .populate('author')
-          .exec();
-        _promise.then(function(comments) {
-          post = post.toObject();
+      Post.findOneAndUpdate({ _id: post_id }, $update, { new: true, upsert: true }, function(err, post) {
+        if(err) return next(err);
+        if(_.isEmpty(post)) return next('Post not found');
+        Comment.find({ postId: post_id }, function(err, comments) {
+          if(err) return next(err);
           post.comments = comments;
-          return res.send(post);
-        }, function(err) { return next(err) });
-      }, function(err) { next(err); });
+          return res.json(post);
+        })
+        .populate({
+          path: 'author',
+          select: '_id displayName email image'
+        })
+        .lean();
+      })
+      .populate({
+        path: 'board',
+        select: '_id name image settings'
+      })
+      .populate({
+        path: 'author',
+        select: '_id displayName email image'
+      })
+      .lean();
     }
   ]);
 }
 
-// DELETE /posts/:id
+// DELETE /posts/:postid
 exports.destroyPost = function(req, res, next) {
-  var id = req.params.id;
-
-  var query = { _id: id };
-  var promise = Post.findOneAndRemove(query)
-    .populate('bevy author')
-    .exec();
-  promise.then(function(post) {
-    if(!post) throw error.gen('post not found');
-    return post;
-  }).then(function(post) {
-
-    var _promise = Comment.find({ postId: post._id })
-      .populate('author')
-      .exec();
-    _promise.then(function(comments) {
-      post = post.toObject();
-      post.comments = comments;
-      return res.send(post);
-    }, function(err) { return next(err) });
-
-  }, function(err) { next(err); });
+  var post_id = req.params.postid;
+  Post.findOneAndRemove({ _id: post_id }, function(err, post) {
+    if(err) return next(err);
+    if(_.isEmpty(post)) return next('Post not found');
+    return res.json(post);
+  })
+  .populate({
+    path: 'board',
+    select: '_id name image settings'
+  })
+  .populate({
+    path: 'author',
+    select: '_id displayName email image'
+  })
+  .lean();
 }
 
-// GET /users/:id/posts
+// GET /users/:userid/posts
 exports.getUserPosts = function(req, res, next) {
-  var user_id = req.params.id;
+  var user_id = req.params.userid;
 
   Post.find({ author: user_id }, function(err, posts) {
     if(err) return next(err);
@@ -221,7 +239,6 @@ exports.getUserPosts = function(req, res, next) {
     posts.forEach(function(post) {
       Comment.find({ postId: post._id }, function(err, comments) {
         if(err) return next(err);
-        post = post.toObject();
         post.comments = comments;
         _posts.push(post);
         if(_posts.length == posts.length) return res.json(_posts);
@@ -229,7 +246,8 @@ exports.getUserPosts = function(req, res, next) {
       .populate({
         path: 'author',
         select: '_id displayName email image'
-      });
+      })
+      .lean();
     });
   })
   .populate({
@@ -239,7 +257,8 @@ exports.getUserPosts = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id displayName email image'
-  });
+  })
+  .lean();
 }
 
 // GET /posts/search/:query

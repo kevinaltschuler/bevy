@@ -6,6 +6,7 @@
 
 'use strict';
 
+var _ = require('underscore');
 var checkBackdoor = require('./backdoor');
 
 var Message = require('./../../models/Message');

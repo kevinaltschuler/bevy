@@ -12,11 +12,11 @@ var gcm = require('node-gcm');
 var gcm_sender = new gcm.Sender('AIzaSyAwwjrZ_RkwmCFx5Gs8ENKQvVABgZ22W4g');
 
 var options = {
-	cert: './noteprod/cert.pem', 
-	key: './noteprod/key.pem', 
+	cert: './noteprod/cert.pem',
+	key: './noteprod/key.pem',
 	production: true
-    	
-    };
+};
+
 var apnConnection = new apn.Connection(options);
 
 var subSock = zmq.socket('sub');
@@ -35,7 +35,7 @@ subSock.on('message', function(event, data) {
   var author = message.author;
 
   var android_devices = [];
-  
+
   //for all users in a thread
   for(var i in to_users) {
     var user = to_users[i];
@@ -54,7 +54,7 @@ subSock.on('message', function(event, data) {
       } else {
         var body = message.author.displayName + ": " + message.body;
       }
-      
+
 
       if(device.platform == 'ios') {
         var iosDevice = new apn.Device(device.token);
@@ -95,7 +95,7 @@ subSock.on('message', function(event, data) {
         click_action: 'android.intent.action.MAIN'
       }
     });
-    gcm_sender.send($message, { registrationTokens: android_devices }, 
+    gcm_sender.send($message, { registrationTokens: android_devices },
       function(err, result) {
       if(err) console.error(err);
       else console.log(result);

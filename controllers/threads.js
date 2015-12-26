@@ -16,69 +16,84 @@ var Bevy = require('./../models/Bevy');
 var User = require('./../models/User');
 var Message = require('./../models/Message');
 
-// GET /users/:id/threads
-exports.getThreads = function(req, res, next) {
-	var id = req.params.id;
-
+// GET /users/:userid/threads
+exports.getUserThreads = function(req, res, next) {
+	var user_id = req.params.userid;
 	async.waterfall([
 		function(done) {
-			User.findOne({ _id: id }, function(err, user) {
+			User.findOne({ _id: user_id }, function(err, user) {
 				if(err) return next(err);
 				return done(null, user);
-			}).populate('bevies');
+			})
+			.lean();
 		},
 		function(user, done) {
-			var bevy_id_list = _.pluck(user.bevies, '_id');
-
-			Thread.find(function(err, threads) {
+			Thread.find({ $or: [{ users: user_id }, { bevy: { $in: user.bevies } }]},
+			function(err, threads) {
 				if(err) return next(err);
 				var $threads = [];
-				async.each(
-					threads,
-					function(thread, callback) {
-						thread = JSON.parse(JSON.stringify(thread));
-						Message.find({ thread: thread._id }, function(err, latest) {
-					      if(err) return next(err);
-					      latest = JSON.parse(JSON.stringify(latest));
-					      thread.latest = latest[0];
-					      $threads.push(thread);
-					      callback();
-					    })
-					    .limit(1)
-					    .sort('-created')
-					    .populate('author');
-					},
-					function(err) {
-						if(err) {
-							return next(err);
-						}
-						else {
-							return res.json($threads);
-						}
-					}
-				);
+				async.each(threads, function(thread, callback) {
+					Message.find({ thread: thread._id }, function(err, latest) {
+			      if(err) return next(err);
+			      latest = JSON.parse(JSON.stringify(latest));
+			      thread.latest = latest[0];
+			      $threads.push(thread);
+			      callback();
+			    })
+			    .limit(1)
+			    .sort('-created')
+			    .populate({
+						path: 'author',
+						select: '_id displayName email image'
+					})
+					.lean();
+				},
+				function(err) {
+					if(err) return next(err);
+					else return res.json($threads);
+				});
 			})
-			.or([{ users: id }, { bevy: { $in: bevy_id_list } }])
-			.populate('bevy users');
+			.populate({
+				path: 'bevy',
+				select: '_id name image settings'
+			})
+			.populate({
+				path: 'users',
+				select: '_id displayName email image'
+			})
+			.lean()
 		}
 	]);
 }
 
-// GET /bevies/:id/thread
-exports.getThread = function(req, res, next) {
-	var id = req.params.id;
-	Thread.findOne({ bevy: id }, function(err, thread) {
+// GET /bevies/:bevyid/thread
+exports.getBevyThreads = function(req, res, next) {
+	var bevy_id = req.params.bevyid;
+	Thread.findOne({ bevy: bevy_id }, function(err, thread) {
 		if(err) return next(err);
-	    Message.find({ thread: thread._id }, function(err, latest) {
-	      if(err) return next(err);
-	      thread = thread.toObject();
-	      thread.latest = latest;
-	      return res.json(thread);
-	    })
-	    .populate('created')
-	    .sort('-created')
-	    .limit(1);
-	}).populate('bevy users');
+    Message.find({ thread: thread._id }, function(err, latest) {
+      if(err) return next(err);
+      thread.latest = latest;
+      return res.json(thread);
+    })
+    .populate('created')
+    .sort('-created')
+    .limit(1)
+		.populate({
+			path: 'author',
+			select: '_id displayName email image'
+		})
+		.lean();
+	})
+	.populate({
+		path: 'bevy',
+		select: '_id name image settings'
+	})
+	.populate({
+		path: 'users',
+		select: '_id displayName email image'
+	})
+	.lean()
 }
 
 
@@ -101,11 +116,27 @@ exports.createThread = function(req, res, next) {
 	});
 };
 
-// PUT/PATCH /users/:id/threads/:threadid
+// GET /threads/:threadid
+exports.getThread = function(req, res, next) {
+	var thread_id = req.params.threadid;
+	Thread.findOne({ _id: thread_id }, function(err, thread) {
+		if(err) return next(err);
+		return res.json(thread);
+	})
+	.populate({
+		path: 'bevy',
+		select: '_id name image settings'
+	})
+	.populate({
+		path: 'users',
+		select: '_id displayName email image'
+	})
+	.lean()
+};
+
 // PUT/PATCH /threads/:threadid
 exports.updateThread = function(req, res, next) {
 	var thread_id = req.params.threadid;
-
 	var thread = {};
 	if(req.body['users'] != undefined)
 		thread.users = req.body['users'];
@@ -126,10 +157,9 @@ exports.updateThread = function(req, res, next) {
 	}, function(err) { return next(err); })
 }
 
-// DELETE /users/:id/threads/:threadid
+// DELETE /threads/:threadid
 exports.destroyThread = function(req, res, next) {
 	var thread_id = req.params.threadid;
-
 	Thread.findOneAndRemove({ _id: thread_id }, function(err, thread) {
 		if(err) return next(err);
 		return res.json(thread);

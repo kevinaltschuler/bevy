@@ -29,15 +29,32 @@ module.exports = function(router) {
 
 	router.get('/messages/:messageid', [
 			oauth2Controller.bearer,
+			permissionsController.isThreadMember,
+			permissionsController.errorHandler
 		],
 		messageController.getMessage
 	);
 
 	router.put('/messages/:messageid', [
 			oauth2Controller.bearer,
+			permissionsController.isThreadMember,
+			permissionsController.errorHandler
 		],
 		messageController.updateMessage
 	);
-	router.patch('/threads/:threadid/messages/:id', messageController.updateMessage);
-	router.delete('/threads/:threadid/messages/:id', messageController.destroyMessage);
+	router.patch('/messages/:messageid', [
+			oauth2Controller.bearer,
+			permissionsController.isThreadMember,
+			permissionsController.errorHandler
+		],
+		messageController.updateMessage
+	);
+	
+	router.delete('/messages/:messageid', [
+			oauth2Controller.bearer,
+			permissionsController.isThreadMember,
+			permissionsController.errorHandler
+		],
+		messageController.destroyMessage
+	);
 }

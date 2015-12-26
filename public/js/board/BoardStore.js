@@ -50,7 +50,6 @@ _.extend(BoardStore, {
     switch(payload.actionType) {
       case APP.LOAD:
         var user = window.bootstrap.user;
-
         this.boards.fetch({
           success: function(collection, response, options) {
             this.trigger(BOARD.CHANGE_ALL);
@@ -71,7 +70,6 @@ _.extend(BoardStore, {
             }
           }.bind(this)
         });
-      
         break;
       case BOARD.CREATE:
         var name = payload.name;
@@ -180,7 +178,7 @@ _.extend(BoardStore, {
         }.bind(this)
       });
     } else {
-      // we found it so return 
+      // we found it so return
       return (board)
         ? board.toJSON()
         : {};

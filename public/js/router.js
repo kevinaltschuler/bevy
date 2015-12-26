@@ -6,6 +6,14 @@ var _ = require('underscore');
 var BevyActions = require('./bevy/BevyActions');
 var BoardActions = require('./board/BoardActions');
 
+// include these just to register the dispatchers immediately
+var PostStore = require('./post/PostStore');
+var BevyStore = require('./bevy/BevyStore');
+var NotificationStore = require('./notification/NotificationStore');
+var UserStore = require('./profile/UserStore');
+var ChatStore = require('./chat/ChatStore');
+var BoardStore = require('./board/BoardStore');
+
 var Router = Backbone.Router.extend({
   routes: {
     '' : 'home',
@@ -129,13 +137,5 @@ function checkUser() {
 
 var router = new Router();
 module.exports = router;
-
-// include these just to register the dispatchers immediately
-var PostStore = require('./post/PostStore');
-var BevyStore = require('./bevy/BevyStore');
-var NotificationStore = require('./notification/NotificationStore');
-var UserStore = require('./profile/UserStore');
-var ChatStore = require('./chat/ChatStore');
-var BoardStore = require('./board/BoardStore');
 
 Backbone.history.start({ pushState: true });

@@ -66,9 +66,9 @@ exports.createBoard = function(req, res, next) {
   if(req.body['settings'] != undefined)
     update.settings = req.body['settings'];
 
-  if(!update.parent) throw error.gen('parent not specified', req);
+  if(!update.parent) return next('parent not specified');
 
-  if(!update.name) throw error.gen('board name not specified', req);
+  if(!update.name) return next('board name not specified');
 
   Board.create(update, function(err, board) {
     if(err) return next(err);
