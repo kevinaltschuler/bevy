@@ -56,9 +56,8 @@ _.extend(BevyStore, {
   // these are created from BevyActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
-      
+
       case BEVY.LOADMYBEVIES:
-        Dispatcher.waitFor([ UserStore.dispatchToken ]);
         var user = window.bootstrap.user;
         this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
 
