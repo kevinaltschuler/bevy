@@ -82,11 +82,12 @@ _.extend(BevyStore, {
 
               var active = this.myBevies.get(bevy_id_or_slug);
               this.active = active.toJSON();
-              console.log(this.active);
+              //console.log(this.active);
               this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active._id + '/boards';
 
               this.bevyBoards.fetch({
                 success: function(collection, response, options) {
+                  console.log('the repsonse', response);
                   this.trigger(BEVY.LOADED);
                   this.trigger(BEVY.CHANGE_ALL);
                 }.bind(this)
@@ -95,6 +96,16 @@ _.extend(BevyStore, {
           }.bind(this)
         });
 
+        break;
+      case BOARD.LOADBOARDVIEW:
+        Dispatcher.waitFor([ UserStore.dispatchToken ]);
+        var user = window.bootstrap.user;
+        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
+        this.myBevies.fetch({
+          success: function(collection, response, options) {
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
         break;
       /*case APP.LOAD:
         Dispatcher.waitFor([ UserStore.dispatchToken ]);
@@ -360,6 +371,70 @@ _.extend(BevyStore, {
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(POST.CHANGE_ALL);
         break;
+
+      case BOARD.CREATE:
+        var name = payload.name;
+        var description = payload.description;
+        var image = payload.image;
+        var user = window.bootstrap.user;
+        var parent_id = payload.parent_id;
+
+        if(_.isEmpty(image)) {
+          image = {filename: constants.siteurl + '/img/default_board_img.png', foreign: true};
+        }
+
+        if(_.isEmpty(parent_id))
+          break;
+
+        var newBoard = this.bevyBoards.add({
+          name: name,
+          description: description,
+          image: image,
+          admins: [user._id],
+          parent: parent_id
+        });
+
+        newBoard.url = constants.apiurl + '/boards';
+
+        newBoard.save(null, {
+          success: function(model, response, options) {
+            console.log(model.toJSON());
+            // success
+            newBoard.set('_id', model.id);
+
+            board_id = model.id;
+
+            // switch to board
+            this.active = board_id;
+
+            this.trigger(BOARD.CHANGE_ALL);
+
+            // TODO: move this to user store
+            $.ajax({
+              method: 'POST',
+              url: constants.apiurl + '/users/' + user._id + '/boards',
+              data: {
+                board: board_id
+              },
+              success: function($user) {
+                window.location.href = constants.siteurl + model.get('url');
+              }.bind(this)
+            });
+            // TODO: move to bevy store
+            $.ajax({
+              method: 'POST',
+              url: constants.apiurl + '/bevies/' + model.toJSON().parent + '/boards',
+              data: {
+                board: board_id
+              },
+              success: function($user) {
+                this.trigger(BEVY.CHANGE_ALL);
+              }.bind(this)
+            });
+          }.bind(this)
+        });
+
+        break;
     }
   },
 
@@ -385,7 +460,7 @@ _.extend(BevyStore, {
   },
 
   getBevyBoards() {
-    return this.bevyBoards || [];
+    return this.bevyBoards.toJSON() || [];
   },
 
   getSearchList() {

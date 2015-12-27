@@ -68,7 +68,7 @@ var BevyView = React.createClass({
     var boards = this.props.boards;
     for(var key in boards) {
       var board = boards[key];
-      //console.log(board);
+      console.log(board);
       boardList.push(
         <BoardPanel
           board={board}

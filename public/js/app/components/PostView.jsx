@@ -26,6 +26,7 @@ var BoardSidebar = require('./../../board/components/BoardSidebar.jsx');
 
 var BevyStore = require('./../../bevy/BevyStore');
 var BevyActions = require('./../../bevy/BevyActions');
+var BoardActions = require('./../../board/BoardActions');
 
 var PostView = React.createClass({
 
@@ -44,14 +45,19 @@ var PostView = React.createClass({
     this.refs.snackbar.show();
   },
 
+  componentDidMount() {
+    setTimeout(function() {
+      BoardActions.loadBoardView(router.board_id);
+    }, 1);
+  },
+
   render() {
     var joinedBoard = true;
     var joinedParent = true;
     var activeBoard = this.props.activeBoard;
     var parent = BevyStore.getBevy(activeBoard.parent);
     
-    if(_.isEmpty(activeBoard)) {
-      console.log('whoops', activeBoard);
+    if(_.isEmpty(activeBoard) || _.isEmpty(parent)) {
       return <div/>;
     }
 
@@ -120,7 +126,6 @@ var PostView = React.createClass({
           activeBevy={ this.props.activeBevy }
           activeBoard={this.props.activeBoard}
           myBevies={ this.props.myBevies }
-          disabled={disabled}
         />
         {/*<PostSort 
           activeBevy={ this.props.activeBevy}

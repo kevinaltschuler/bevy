@@ -101,6 +101,7 @@ exports.BEVY = {
 };
 
 exports.BOARD = {
+  LOADBOARDVIEW: 'board_load_board_view',
   CREATE: 'board_create',
   DESTROY: 'board_destroy',
   UPDATE: 'board_update',

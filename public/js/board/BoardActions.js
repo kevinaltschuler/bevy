@@ -15,6 +15,12 @@ var BOARD = require('./../constants').BOARD;
 
 var BoardActions = {
 
+  loadBoardView(board_id) {
+    dispatch(BOARD.LOADBOARDVIEW, {
+      board_id: (board_id == undefined) ? '' : board_id
+    });
+  },
+
   create(name, description, image, parent_id) {
     dispatch(BOARD.CREATE, {
       name: (name == undefined) ? '' : name,

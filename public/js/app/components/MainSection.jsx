@@ -181,11 +181,8 @@ var InterfaceComponent = React.createClass({
   render() {
 
     if(_.isEmpty(localStorage.getItem("access_token"))) {
-      console.log('ITS EMPTY');
       return <div/>;
     }
-
-    console.log(localStorage.getItem("access_token"));
 
     switch(router.current) {
       case 'home': 
