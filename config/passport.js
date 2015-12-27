@@ -100,7 +100,7 @@ function(accessToken, refreshToken, profile, done) {
     if(user) {
       // user found
       if(_.isEmpty(user.facebook.emails)) {
-        // google profile has not yet been set
+        // facebook profile has not yet been set
         user.facebook = profile;
         if(profile.photos) {
           user.image = {
@@ -123,7 +123,7 @@ function(accessToken, refreshToken, profile, done) {
         },
         email: emails[0], // use the first email as default.
                           // let the user change this later
-        facebook: profile,  // load the entire profile object into the 'google' object
+        facebook: profile,  // load the entire profile object into the facebook object
         bevies: [],
         boards: []
       }, function(err, new_user) {
