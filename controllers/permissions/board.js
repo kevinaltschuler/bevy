@@ -6,6 +6,7 @@
 
 'use strict';
 
+var _ = require('underscore');
 var checkBackdoor = require('./backdoor');
 var Board = require('./../../models/Board');
 
@@ -14,8 +15,17 @@ exports.hasPrivateBoardAccess = function(req, res, next) {
   if(checkBackdoor(req)) return next();
   var user = req.user;
   var board_id = req.params.boardid;
+  if(_.isEmpty(board_id)) board_id = req.body['board'];
+  if(_.isEmpty(board_id)) return next({
+    code: 400,
+    message: 'Board ID not supplied'
+  });
   Board.findOne({ _id: board_id }, function(err, board) {
     if(err) return next(err);
+    if(_.isEmpty(board)) return next({
+      code: 404,
+      message: 'Board not found'
+    });
     checkPrivateBoardAccess(user, board, next);
   });
 };
@@ -26,7 +36,10 @@ var checkPrivateBoardAccess = function(user, board, next) {
   else if (board.settings.privacy == 'Private' || board.settings.privacy == 'Secret') {
     // continue if user is a member of this private board
     if(_.contains(user.boards, board._id)) return next();
-    else return next('User does not have permission to view this board');
+    else return next({
+      code: 403,
+      message: 'User does not have permission to view this board'
+    });
   }
 };
 exports.checkPrivateBoardAccess = checkPrivateBoardAccess;

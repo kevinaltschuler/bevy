@@ -7,13 +7,60 @@
 'use strict';
 
 var threadController = require('./../../controllers/threads');
+var oauth2Controller = require('./../../controllers/oauth2');
+var permissionsController = require('./../../controllers/permissions');
 
 module.exports = function(router) {
-  router.get('/users/:id/threads', threadController.getThreads);
-  router.get('/bevies/:id/thread', threadController.getThread);
-  router.get('/threads/:id', threadController.getThread);
-  router.post('/threads', threadController.createThread);
-  router.put('/threads/:threadid', threadController.updateThread);
-  router.patch('/threads/:threadid', threadController.updateThread);
-  router.delete('/threads/:threadid', threadController.destroyThread);
-}
+  router.get('/users/:userid/threads', [
+      oauth2Controller.bearer,
+      permissionsController.isSameUser,
+      permissionsController.errorHandler
+    ],
+    threadController.getUserThreads
+  );
+
+  router.get('/bevies/:bevyid/thread', [
+      oauth2Controller.bearer,
+      permissionsController.hasPrivateBevyAccess,
+      permissionsController.errorHandler
+    ],
+    threadController.getBevyThreads
+  );
+
+  router.get('/threads/:threadid', [
+      oauth2Controller.bearer,
+      permissionsController.isThreadMember,
+      permissionsController.errorHandler
+    ],
+    threadController.getThread
+  );
+
+  router.post('/threads', [
+      oauth2Controller.bearer,
+    ],
+    threadController.createThread
+  );
+
+  router.put('/threads/:threadid', [
+      oauth2Controller.bearer,
+      permissionsController.isThreadMember,
+      permissionsController.errorHandler
+    ],
+    threadController.updateThread
+  );
+  router.patch('/threads/:threadid', [
+      oauth2Controller.bearer,
+      permissionsController.isThreadMember,
+      permissionsController.errorHandler
+    ],
+    threadController.updateThread
+  );
+
+  router.delete('/threads/:threadid', [
+      oauth2Controller.bearer,
+      permissionsController.isThreadMember,
+      permissionsController.errorHandler
+    ],
+    threadController.destroyThread
+  );
+};

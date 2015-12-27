@@ -17,6 +17,7 @@ var commentPermissions = require('./comment');
 var postPermissions = require('./post');
 var threadPermissions = require('./thread');
 var messagePermissions = require('./message');
+var notificationPermissions = require('./notification');
 
 // any error passed by permissions middleware will go through this
 // it returns a 401 Unauthorized status and a relevant error message
@@ -49,7 +50,10 @@ exports.canModifyComment = commentPermissions.canModifyComment;
 exports.canViewComment = commentPermissions.canViewComment;
 
 exports.canViewPost = postPermissions.canViewPost;
+exports.canModifyPost = postPermissions.canModifyPost;
 
 exports.isThreadMember = threadPermissions.isThreadMember;
+
+exports.isUserNotification = notificationPermissions.isUserNotification;
 
 exports.checkBackdoor = checkBackdoor;

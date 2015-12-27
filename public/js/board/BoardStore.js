@@ -77,7 +77,6 @@ _.extend(BoardStore, {
             }
           }.bind(this)
         });
-      
         break;
       case BOARD.CREATE:
         var name = payload.name;
@@ -186,7 +185,7 @@ _.extend(BoardStore, {
         }.bind(this)
       });
     } else {
-      // we found it so return 
+      // we found it so return
       return (board)
         ? board.toJSON()
         : {};

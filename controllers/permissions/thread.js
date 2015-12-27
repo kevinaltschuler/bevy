@@ -20,7 +20,16 @@ exports.isThreadMember = function(req, res, next) {
   if(_.isEmpty(thread_id)) thread_id = req.body['thread'];
 
   if(_.isEmpty(thread_id) && !_.isEmpty(req.params.messageid)) {
-    
+    var message_id = req.params.messageid;
+    Message.findOne({ _id: message_id }, function(err, message) {
+      if(err) return next(err);
+      if(_.isEmpty(message)) return next({
+        code: 404,
+        message: 'Chat message not found'
+      });
+      thread_id = message.thread;
+      checkThreadMembership(user, thread_id, next);
+    });
   } else {
     checkThreadMembership(user, thread_id, next);
   }
@@ -29,19 +38,34 @@ exports.isThreadMember = function(req, res, next) {
 var checkThreadMembership = function(user, thread_id, next) {
   Thread.findOne({ _id: thread_id }, function(err, thread) {
     if(err) return next(err);
-    if(_.isEmpty(thread)) return next('Thread not found');
+    if(_.isEmpty(thread)) return next({
+      code: 404,
+      message: 'Thread not found'
+    });
     // if this is a bevy thread
     if(!_.isEmpty(thread.bevy)) {
       if(_.contains(user.bevies, thread.bevy)) return next();
-      else return next('User is not a member of this bevy chat');
+      else return next({
+        code: 403,
+        message: 'User is not a member of this bevy chat'
+      });
     } else if(thread.type == 'group') {
       if(_.contains(thread.users, user._id)) return next();
-      else return next('User is not a member of this group chat');
+      else return next({
+        code: 403,
+        message: 'User is not a member of this group chat'
+      });
     } else if(thread.type == 'pm') {
       if(_.contains(thread.users, user._id)) return next();
-      else return next('User is not a member of this private chat');
+      else return next({
+        code: 403,
+        message: 'User is not a member of this private chat'
+      });
     } else {
-      return next('Unknown thread verification error');
+      return next({
+        code: 500,
+        message: 'Unknown thread verification error'
+      });
     }
   });
 };

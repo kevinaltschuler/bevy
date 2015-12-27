@@ -55,11 +55,9 @@ exports.getPublicBevies = function(req, res, next) {
 exports.createBevy = function(req, res, next) {
   var update = {};
   update._id = shortid.generate();
-  if(req.body['name'] != undefined) 
+  if(req.body['name'] != undefined)
     update.name = req.body['name'];
-  if(req.body['description'] != undefined)
-    update.description = req.body['description'];
-  if(req.body['image'] != undefined) 
+  if(req.body['image'] != undefined)
     update.image = req.body['image'];
   if(req.body['admins'] != undefined)
     update.admins = req.body['admins'];
@@ -81,7 +79,6 @@ exports.createBevy = function(req, res, next) {
   });
 }
 
-// SHOW
 // GET /bevies/:bevyid
 exports.getBevy = function(req, res, next) {
   var bevy_id_or_slug = req.params.bevyid;
@@ -95,7 +92,6 @@ exports.getBevy = function(req, res, next) {
   });
 }
 
-// SEARCH
 // GET /bevies/search/:query
 exports.searchBevies = function(req, res, next) {
   var query = req.params.query;
@@ -118,11 +114,8 @@ exports.updateBevy = function(req, res, next) {
   var bevy_id_or_slug = req.params.bevyid;
 
   var update = {};
-  update._id = shortid.generate();
   if(req.body['name'] != undefined)
     update.name = req.body['name'];
-  if(req.body['description'] != undefined)
-    update.description = req.body['description'];
   if(req.body['image'] != undefined)
     update.image = req.body['image'];
   if(req.body['admins'] != undefined)
@@ -157,14 +150,13 @@ exports.updateBevy = function(req, res, next) {
     })
     .exec();
   promise.then(function(bevy) {
-    if(!bevy) throw error.gen('bevy not found', req);
+    if(!bevy) return next('Bevy not found');
     return bevy;
   }).then(function(bevy) {
-    res.json(bevy);
+    return res.json(bevy);
   }, function(err) { next(err); });
 }
 
-// AddBoard
 // PUT/PATCH /bevies/:bevyid/boards
 exports.addBoard = function(req, res, next) {
   var bevy_id_or_slug = req.params.bevyid;
@@ -217,7 +209,7 @@ exports.destroyBevy = function(req, res, next) {
     });
 
     return res.json(bevy);
-  }, function(err) { next(err); })
+  }, function(err) { return next(err); })
 };
 
 

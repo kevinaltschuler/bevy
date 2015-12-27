@@ -159,7 +159,7 @@ exports.createNotification = function(req, res, next) {
 }
 
 // GET /users/:userid/notifications
-exports.getNotifications = function(req, res, next) {
+exports.getUserNotifications = function(req, res, next) {
   var userid = req.params.userid;
   var query = { user: userid };
   var promise = Notification.find(query).exec();
@@ -170,72 +170,37 @@ exports.getNotifications = function(req, res, next) {
   });
 }
 
-// GET /users/:userid/notifications/:id
+// GET /notifications/:notificationid
 exports.getNotification = function(req, res, next) {
-  var id = req.params.id;
-  Notification.findOne({ _id: id }, function(err, notification) {
+  var notification_id = req.params.notificationid;
+  Notification.findOne({ _id: notification_id }, function(err, notification) {
     if(err) return next(err);
     return res.json(notification);
   });
 }
 
-// GET /users/:userid/notifications/:id/destroy
-// DELETE /users/:userid/notifications
+// DELETE /notifications/:notificationid
 exports.destroyNotification = function(req, res, next) {
-  var id = req.params.id;
-  Notification.findOneAndRemove({ _id: id }, function(err, notification) {
+  var notification_id = req.params.notificationid;
+  Notification.findOneAndRemove({ _id: notification_id }, function(err, notification) {
     if(err) return next(err);
     return res.json(notification);
   });
 }
 
-// GET /users/:userid/notifications/poll
-exports.pollNotifications = function(req, res, next) {
-  var user_id = req.params.userid;
-
-    // user started polling
-    // check if theyre in the online users list
-    // if not add.
-
-    // set a timer - 40 seconds - if this isnt hit again then set them as offline
-
-  emitter.on(user_id, function(notification) {
-    if(!res.headersSent)
-      return res.json({
-        type: 'notification',
-        data: notification
-      });
-    else return res.end();
-  });
-  emitter.on(user_id + ':chat', function(message) {
-    if(!res.headersSent)
-      return res.json({
-        type: 'message',
-        data: message
-      });
-    else return res.end();
-  });
-}
-
-// PATCH /users/:userid/notifications/:id
+// PUT/PATCH /notifications/:notificationid
 exports.updateNotification = function(req, res, next) {
-  var id = req.params.id;
+  var notification_id = req.params.notificationid;
   var update = {};
   if(req.body['read'] != undefined)
     update.read = req.body['read'];
-  var query = { _id: id };
+  var query = { _id: notification_id };
   var promise = Notification.findOneAndUpdate(query, update, {new: true})
     .exec();
   promise.then(function(notification) {
     if(!notification) next('notification not found');
     return notification;
   });
-}
-
-exports.offline = function(req, res, next) {
-  // check if in the online users list
-  // if yes, remove
-  console.log('caught offline');
 }
 
 exports.make = function(type, payload) {
