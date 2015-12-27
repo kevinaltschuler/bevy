@@ -37,7 +37,7 @@ module.exports = function(app) {
 
   // facebook sign in
   app.get('/auth/facebook', passport.authenticate('facebook', {
-    scope: ['email']
+    scope: ['email', 'public_profile']
   }));
   app.get('/auth/facebook/callback',
     passport.authenticate('facebook', { failureRedirect: '/login' }),

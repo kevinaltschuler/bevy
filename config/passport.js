@@ -91,16 +91,18 @@ passport.use('bearer', new BearerStrategy(
 passport.use(new FacebookStrategy({
   clientID: FACEBOOK_CLIENT_ID,
   clientSecret: FACEBOOK_CLIENT_SECRET,
-  callbackURL: config.app.server.hostname + '/auth/facebook/callback'
+  callbackURL: config.app.server.hostname + '/auth/facebook/callback',
+  passReqToCallback: true,
+  profileFields: ["id", "name", "email", "photos", "displayName"]
 },
-function(accessToken, refreshToken, profile, done) {
-  var emails = _.pluck(profile.emails, 'value');
-  User.findOne({ $or: [{'facebook.id': profile.id }, { email: { $in: emails } }]}, function(err, user) {
-    if(err) return done(err);
-    if(user) {
-      // user found
-      if(_.isEmpty(user.facebook.emails)) {
-        // google profile has not yet been set
+function(req, accessToken, refreshToken, profile, done) {
+  process.nextTick(function() {
+    var emails = _.pluck(profile.emails, 'value');
+    User.findOne({ $or: [{'facebook.id': profile.id }, { email: { $in: emails } }]}, function(err, user) {
+      if(err) return done(err);
+      if(user) {
+        // save the facebook profile to the db all the time
+        // just for kicks
         user.facebook = profile;
         if(profile.photos) {
           user.image = {
@@ -112,25 +114,25 @@ function(accessToken, refreshToken, profile, done) {
           if(err) return done(err);
           return done(null, user);
         });
-      } else return done(null, user);
-    } else {
-      // user not found. let's create an account
-      User.create({
-        _id: shortid.generate(),
-        image: {
-          filename: (profile.photos) ? profile.photos[0].value : undefined,
-          foreign: true
-        },
-        email: emails[0], // use the first email as default.
-                          // let the user change this later
-        facebook: profile,  // load the entire profile object into the 'google' object
-        bevies: [],
-        boards: []
-      }, function(err, new_user) {
-        if(err) return done(err);
-        return done(null, new_user);
-      });
-    }
+      } else {
+        // user not found. let's create an account
+        User.create({
+          _id: shortid.generate(),
+          image: {
+            filename: (profile.photos) ? profile.photos[0].value : undefined,
+            foreign: true
+          },
+          email: emails[0], // use the first email as default.
+                            // let the user change this later
+          facebook: profile,  // load the entire profile object into the facebook object
+          bevies: [],
+          boards: []
+        }, function(err, new_user) {
+          if(err) return done(err);
+          return done(null, new_user);
+        });
+      }
+    });
   });
 }));
 
