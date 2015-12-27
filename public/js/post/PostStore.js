@@ -51,11 +51,10 @@ _.extend(PostStore, {
   // handle calls from the dispatcher
   // these are created from PostActions.js
   handleDispatch(payload) {
+    console.log(payload.actionType);
     switch(payload.actionType) {
 
       case APP.LOAD:
-
-        var BevyStore = require('./../bevy/BevyStore');
 
         // wait for bevies
         /*BevyStore.on(BEVY.LOADED, function() {
@@ -66,6 +65,7 @@ _.extend(PostStore, {
         break;
 
       case BEVY.SWITCH:
+        console.log('JUST SWITCH YOU BITCH');
         var bevy_id = payload.bevy_id;
 
         this.posts.comparator = PostStore.sortByNew;
@@ -88,6 +88,7 @@ _.extend(PostStore, {
         break;
 
       case BOARD.SWITCH:
+
         var board_id = payload.board_id;
 
         this.posts.comparator = PostStore.sortByNew;

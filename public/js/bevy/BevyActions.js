@@ -15,6 +15,18 @@ var BEVY = require('./../constants').BEVY;
 
 var BevyActions = {
 
+  loadMyBevies() {
+    dispatch(BEVY.LOADMYBEVIES, {
+    });
+  },
+
+  loadBevyView(bevy_id) {
+    console.log(bevy_id);
+    dispatch(BEVY.LOADBEVYVIEW, {
+      bevy_id: (bevy_id == undefined) ? '' : bevy_id
+    });
+  },
+
   create(name, image, slug) {
     dispatch(BEVY.CREATE, {
       name: (name == undefined) ? '' : name,

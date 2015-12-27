@@ -26,7 +26,7 @@ var BoardCollection = Backbone.Collection.extend({
     });
   },
   url() {
-    var bevy = BevyStore.getBevy(router.bevy_slug);
+    var bevy = BevyStore.getActive();
     var bevy_id = bevy._id;
     return constants.apiurl + '/bevies/' + bevy_id + '/boards';
   },

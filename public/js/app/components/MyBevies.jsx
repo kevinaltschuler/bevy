@@ -28,6 +28,7 @@ var user = window.bootstrap.user;
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 var BevyStore = require('./../../bevy/BevyStore');
+var BevyActions = require('./../../bevy/BevyActions');
 var Ink = require('react-ink');
 
 var MyBevies = React.createClass({
@@ -40,6 +41,10 @@ var MyBevies = React.createClass({
     return {
       showNewBevyModal: false,
     };
+  },
+
+  componentDidMount() {
+    BevyActions.loadMyBevies();
   },
 
   render() {

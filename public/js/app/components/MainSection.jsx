@@ -63,7 +63,7 @@ var MainSection = React.createClass({
     UserStore.on(change_all_events, this._onUserChange);
     BoardStore.on(change_all_events, this._onBoardChange);
     
-    AppActions.load();
+    UserStore.on(USER.LOADED, AppActions.load());
   },
 
   // unmount event listeners
@@ -87,12 +87,14 @@ var MainSection = React.createClass({
     var myBevies = BevyStore.getMyBevies();
     var active = BevyStore.getActive();
     var publicBevies = BevyStore.getPublicBevies();
+    var bevyBoards = BevyStore.getBevyBoards();
 
     return {
       // later, load this from session/cookies
       myBevies: myBevies,
       activeBevy: active,
       publicBevies: publicBevies,
+      boards: bevyBoards,
       //activeTags: activeTags
     }
   },
@@ -112,7 +114,7 @@ var MainSection = React.createClass({
 
   getBoardState: function() {
     return {
-      boards: BoardStore.getBoards(),
+      //boards: BoardStore.getBoards(),
       activeBoard: BoardStore.getActive()
     };
   },

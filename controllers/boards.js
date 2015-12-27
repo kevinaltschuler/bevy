@@ -37,12 +37,21 @@ exports.getUserBoards = function(req, res, next) {
 
 // GET /bevies/:bevyid/boards
 exports.getBevyBoards = function(req, res, next) {
-  var bevy_id = req.params.bevyid;
+  var bevy_id_or_slug = req.params.bevyid;
 
-  Board.find({ parent: bevy_id }, function(err, boards) {
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
     if(err) return next(err);
-    return res.json(boards);
+    if(_.isEmpty(bevy)) return next({
+      code: 404,
+      message: 'Bevy not found'
+    });
+    Board.find({ parent: bevy._id }, function(err, boards) {
+      if(err) return next(err);
+      return res.json(boards);
+    });
   });
+
+
   /*.populate({
     path: 'parents',
     select: '_id name slug image'

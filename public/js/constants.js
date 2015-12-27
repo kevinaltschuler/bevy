@@ -78,6 +78,8 @@ exports.COMMENT = {
 }
 
 exports.BEVY = {
+  LOADMYBEVIES: 'bevy_load_my_bevies',
+  LOADBEVYVIEW: 'bevy_load_bevy_view',
   CREATE: 'bevy_create',
   DESTROY: 'bevy_destroy',
   UPDATE: 'bevy_update',
@@ -119,6 +121,7 @@ exports.USER = {
   REGISTER: 'user_register',
   REFRESH_TOKEN: 'user_refresh_token',
   VERIFY_USERNAME: 'user_verify_username',
+  LOADED: 'user_loaded',
 
   // events
   LOGGING_IN: 'user_logging_in',

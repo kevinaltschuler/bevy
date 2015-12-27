@@ -40,8 +40,6 @@ var BoardStore = _.extend({}, Backbone.Events);
 
 // now add some custom functions
 _.extend(BoardStore, {
-
-  boards: new Boards,
   active: {},
 
   // handle calls from the dispatcher
@@ -49,14 +47,22 @@ _.extend(BoardStore, {
   handleDispatch(payload) {
     switch(payload.actionType) {
       case APP.LOAD:
-        var user = window.bootstrap.user;
+        /*var user = window.bootstrap.user;
 
-        this.boards.fetch({
-          success: function(collection, response, options) {
-            this.trigger(BOARD.CHANGE_ALL);
-            this.trigger(BOARD.LOADED);
-          }.bind(this)
-        });
+        if(router.current == 'bevy') {
+          BevyStore.on(BEVY.LOADED, function() {
+              this.boards.fetch({
+                success: function(collection, response, options) {
+                  this.trigger(BOARD.CHANGE_ALL);
+                  this.trigger(BOARD.LOADED);
+                }.bind(this)
+              });
+          }.bind(this));
+        }
+
+        if(router.current == 'board') {
+          BoardActions.switchBoard(router.board_id);
+        }*/
         break;
       case BOARD.SWITCH:
         var board_id = payload.board_id;
@@ -152,9 +158,9 @@ _.extend(BoardStore, {
     }
   },
 
-  getBoards() {
+  /*getBoards() {
     return this.boards.toJSON() || [];
-  },
+  },*/
 
   getActive() {
     return this.active;

@@ -56,8 +56,8 @@ exports.getBoardPosts = function(req, res, next) {
 
 // GET /bevies/:id/posts
 exports.getBevyPosts = function(req, res, next) {
-  var bevy_id = req.params.id;
-  Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+  var bevy_id_or_slug = req.params.id;
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
     if(err) return next(err);
     if(_.isEmpty(bevy))  {
       return res.json([]);

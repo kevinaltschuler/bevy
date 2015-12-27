@@ -220,6 +220,7 @@ _.extend(UserStore, {
     this.user = new User(user);
     this.user.url = constants.apiurl + '/users/' + this.user.get('_id');
     this.trigger(USER.CHANGE_ALL);
+    this.trigger(USER.LOADED);
   },
 
   getUser() {

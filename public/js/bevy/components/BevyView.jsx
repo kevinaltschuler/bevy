@@ -25,6 +25,10 @@ var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
 var BoardPanel = require('./../../board/components/BoardPanel.jsx');
 var Footer = require('./../../app/components/Footer.jsx');
 var NewBoardModal = require('./../../board/components/NewBoardModal.jsx');
+var constants = require('./../../constants');
+
+var UserStore = require('./../../profile/UserStore');
+var USER = constants.USER;
 
 var BevyActions = require('./../../bevy/BevyActions');
 
@@ -45,6 +49,11 @@ var BevyView = React.createClass({
     }
   },
 
+  componentDidMount() {
+    console.log('eyyy');
+    BevyActions.loadBevyView(router.bevy_slug);
+  },
+
   onRequestJoin(ev) {
     ev.preventDefault();
     BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
@@ -62,6 +71,7 @@ var BevyView = React.createClass({
         <BoardPanel
           board={board}
           boards={bevy.boards}
+          key={'boardpanel:' + board._id}
         />
       );
     }
