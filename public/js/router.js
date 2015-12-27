@@ -36,6 +36,7 @@ var Router = Backbone.Router.extend({
     's' : 'search',
     's/:query' : 'search',
     'auth/google/callback': 'googleCallback',
+    'auth/facebook/callback': 'facebookCallback',
     '*nuts' : 'not_found'
   },
 
@@ -114,6 +115,9 @@ var Router = Backbone.Router.extend({
   },
 
   googleCallback() {
+    this.navigate('/', { trigger: true });
+  },
+  facebookCallback() {
     this.navigate('/', { trigger: true });
   },
 

@@ -66,6 +66,30 @@ var UserSchema = new Schema({
       _id: false
     })]
   },
+  facebook: {
+    provider: String,
+    id: String,
+    name: {
+      familyName: String,
+      givenName: String,
+      middleName:String
+    },
+    displayName: String,
+    token: String,
+    emails: [Schema({
+      value: String,
+      type: {
+        type: String
+      }
+    }, {
+      _id: false
+    })],
+    photos: [Schema({
+      value: String
+    }, {
+      _id: false
+    })]
+  },
   bevies: [{
     type: String,
     ref: 'Bevy'
@@ -94,13 +118,23 @@ UserSchema.virtual('displayName').get(function() {
   if(!_.isEmpty(this.username)) {
     name = this.username;
   } else {
-    if(_.isEmpty(this.google.emails)) {
-      name = this.email;
-    } else {
+    if(!_.isEmpty(this.google.id)) {
+      // use google data
       if(_.isEmpty(this.google.name)) {
+        // use google email
         name = this.email;
       } else {
-        name = this.google.name.givenName + ' ' + this.google.name.familyName;
+        // use google name
+        name = this.google.displayName;
+      }
+    } else if(!_.isEmpty(this.facebook.id)) {
+      // use facebook data
+      if(_.isEmpty(this.facebook.name)) {
+        // use facebook email
+        name = this.email;
+      } else {
+        // use facebook name
+        name = this.facebook.displayName;
       }
     }
   }

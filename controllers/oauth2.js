@@ -107,7 +107,7 @@ var loginUsername = function(req, res, next) {
   });
 };
 
-var loginGoogle = function(req, res, next) {
+var loginSocial = function(req, res, next) {
   var user = req.user;
   var client = {
     client_id: config.auth.clients.web,
@@ -145,8 +145,8 @@ exports.loginUsername = [
   error.error_handler
 ];
 
-exports.loginGoogle = [
-  loginGoogle
+exports.loginSocial = [
+  loginSocial
 ];
 
 // bearer endpoint
