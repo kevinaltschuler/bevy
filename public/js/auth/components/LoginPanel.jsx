@@ -145,6 +145,16 @@ var LoginPanel = React.createClass({
           labelColor='white'
           href={ constants.siteurl + '/auth/google' }
         />
+        <RaisedButton
+          className='login-facebook-submit'
+          label='Sign In With Facebook'
+          linkButton={true}
+          fullWidth={true}
+          style={{marginBottom: '10px',textAlign: 'center'}}
+          backgroundColor='#3B5998'
+          labelColor='white'
+          href={ constants.siteurl + '/auth/facebook' }
+        />
         <FlatButton
           className='register-button'
           label='Create an Account'
