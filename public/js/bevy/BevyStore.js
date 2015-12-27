@@ -23,6 +23,7 @@ var Dispatcher = require('./../shared/dispatcher');
 
 var Bevy = require('./BevyModel');
 var Bevies = require('./BevyCollection');
+var Boards = require('./../board/BoardCollection');
 
 var constants = require('./../constants');
 var BEVY = constants.BEVY;
@@ -44,24 +45,65 @@ var BevyStore = _.extend({}, Backbone.Events);
 _.extend(BevyStore, {
 
   myBevies: new Bevies,
-  active: 0,
+  active: {},
   publicBevies: new Bevies,
   searchQuery: '',
   searchList: new Bevies,
   activeTags: [],
+  bevyBoards: new Boards,
 
   // handle calls from the dispatcher
   // these are created from BevyActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
-      case APP.LOAD:
-        Dispatcher.waitFor([ UserStore.dispatchToken ]);
+
+      case BEVY.LOADMYBEVIES:
         var user = window.bootstrap.user;
-        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies'
+        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
+
         this.myBevies.fetch({
           success: function(collection, response, options) {
-            this.trigger(BEVY.CHANGE_ALL);
+            console.log(response);
             this.trigger(BEVY.LOADED);
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
+        });
+        break;
+
+      case BEVY.LOADBEVYVIEW:
+        Dispatcher.waitFor([ UserStore.dispatchToken ]);
+        var bevy_id_or_slug = payload.bevy_id;
+        console.log('load bevy view', bevy_id_or_slug);
+        var user = window.bootstrap.user;
+        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
+
+        this.myBevies.fetch({
+          success: function(collection, response, options) {
+
+              var active = this.myBevies.get(bevy_id_or_slug);
+              this.active = active.toJSON();
+              console.log(this.active);
+              this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active._id + '/boards';
+
+              this.bevyBoards.fetch({
+                success: function(collection, response, options) {
+                  this.trigger(BEVY.LOADED);
+                  this.trigger(BEVY.CHANGE_ALL);
+                }.bind(this)
+              });
+
+          }.bind(this)
+        });
+
+        break;
+      /*case APP.LOAD:
+        Dispatcher.waitFor([ UserStore.dispatchToken ]);
+        var user = window.bootstrap.user;
+        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
+        this.myBevies.fetch({
+          success: function(collection, response, options) {
+              this.trigger(BEVY.LOADED);
+              this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });
         this.publicBevies.url = constants.apiurl + '/bevies';
@@ -72,7 +114,7 @@ _.extend(BevyStore, {
           }.bind(this)
         });
 
-        break;
+        break;*/
 
       case BEVY.CREATE:
         var name = payload.name;
@@ -139,10 +181,7 @@ _.extend(BevyStore, {
         bevy.destroy({
           success: function(model, response) {
             // switch to the frontpage
-            router.navigate('/b/frontpage', { trigger: true });
-
-            // update posts
-            BevyActions.switchBevy();
+            router.navigate('/', { trigger: true });
 
             this.myBevies.remove(bevy_id);
             this.trigger(BEVY.CHANGE_ALL);
@@ -255,13 +294,18 @@ _.extend(BevyStore, {
 
         break;
 
-      case BEVY.SWITCH:
+      /*case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
 
-        this.active = bevy_id;
+        var bevy = this.getBevy(bevy_id);
 
+        console.log(bevy_id, bevy);
+
+        this.active = bevy;
+
+        this.trigger(BEVY.LOADED);
         this.trigger(BEVY.CHANGE_ALL);
-        break;
+        break;*/
 
       case BEVY.SORT:
         var filter = payload.filter;
@@ -330,7 +374,7 @@ _.extend(BevyStore, {
   },
 
   getActive() {
-    return this.getBevy(this.active) || this.publicBevies.get(this.active);
+    return this.active;
   },
 
   getBevy(bevy_id) {
@@ -338,6 +382,10 @@ _.extend(BevyStore, {
     return (bevy)
     ? bevy.toJSON()
     : {};
+  },
+
+  getBevyBoards() {
+    return this.bevyBoards || [];
   },
 
   getSearchList() {

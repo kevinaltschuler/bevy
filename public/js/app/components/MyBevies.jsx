@@ -19,6 +19,8 @@ var MyBevyPanel = require('./../../bevy/components/MyBevyPanel.jsx');
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 var Footer = require('./Footer.jsx');
+var constants = require('./../../constants');
+var UserStore = require('./../../profile/UserStore');
 
 var _ = require('underscore');
 var CTG = React.addons.CSSTransitionGroup;
@@ -27,7 +29,9 @@ var router = require('./../../router');
 var user = window.bootstrap.user;
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
+var USER = constants.USER;
 var BevyStore = require('./../../bevy/BevyStore');
+var BevyActions = require('./../../bevy/BevyActions');
 var Ink = require('react-ink');
 
 var MyBevies = React.createClass({
@@ -40,6 +44,17 @@ var MyBevies = React.createClass({
     return {
       showNewBevyModal: false,
     };
+  },
+
+  componentDidMount() {
+    UserStore.on(USER.LOADED, this.loadMyBevies);
+  },
+
+  loadMyBevies() {
+    console.log('user loaded was called');
+    setTimeout(function() {
+      BevyActions.loadMyBevies();
+    }, 1);
   },
 
   render() {

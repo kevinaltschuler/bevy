@@ -62,6 +62,8 @@ _.extend(UserStore, {
             localStorage.getItem('expires_in')
           );
         }
+        console.log('user was loaded');
+        this.trigger(USER.LOADED);
         break;
 
       case USER.LOGIN:

@@ -39,8 +39,9 @@ Backbone.sync = function(method, model, options) {
   if(url.includes(constants.apiurl)) {
     // if we have an authorization token
     if(!_.isEmpty(UserStore.getAccessToken())) {
-      console.log(localStorage.getItem('access_token'));
+      //console.log(localStorage.getItem('access_token'));
       headers['Authorization'] = 'Bearer ' + UserStore.getAccessToken();
+      console.log(UserStore.getAccessToken(), url);
     }
   } else {
     // if this is going back to the main site

@@ -79,7 +79,7 @@ var Router = Backbone.Router.extend({
     }
     this.current = 'bevy';
     this.bevy_slug = bevy_slug;
-    BevyActions.switchBevy(this.bevy_slug);
+    //BevyActions.switchBevy(this.bevy_slug);
   },
 
   board(board_id) {
@@ -89,7 +89,7 @@ var Router = Backbone.Router.extend({
     }
     this.current = 'board';
     this.board_id = board_id;
-    BoardActions.switchBoard(this.board_id);
+    //BoardActions.switchBoard(this.board_id);
   },
 
   bevies() {
