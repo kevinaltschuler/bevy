@@ -31,7 +31,7 @@ exports.errorHandler = function(err, req, res, next) {
     );
   } else {
     // generic unauthorized error
-    return res.status(401).send(err.toString());
+    return res.status(500).send(err.toString());
   }
 };
 
