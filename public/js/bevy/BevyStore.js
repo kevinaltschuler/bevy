@@ -81,7 +81,8 @@ _.extend(BevyStore, {
           success: function(collection, response, options) {
 
               var active = this.myBevies.get(bevy_id_or_slug);
-              this.active = active;
+              this.active = active.toJSON();
+              console.log(this.active);
               this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active._id + '/boards';
 
               this.bevyBoards.fetch({

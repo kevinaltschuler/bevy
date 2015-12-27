@@ -51,7 +51,9 @@ var BevyView = React.createClass({
 
   componentDidMount() {
     console.log('LOADING DATA');
-    BevyActions.loadBevyView(router.bevy_slug);
+    setTimeout(function() {
+      BevyActions.loadBevyView(router.bevy_slug);
+    }, 1);
   },
 
   onRequestJoin(ev) {
