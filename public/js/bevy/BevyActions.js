@@ -95,12 +95,6 @@ var BevyActions = {
     dispatch(BEVY.SEARCH, {
       query: (query == undefined) ? null : query
     });
-  },
-
-  updateTags(tags) {
-    dispatch(BEVY.UPDATE_TAGS,{
-      tags: (tags == undefined) ? null : tags
-    });
   }
 };
 

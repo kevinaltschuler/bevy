@@ -56,8 +56,6 @@ exports.POST = {
   SORT: 'post_sort',
   CANCEL: 'post_cancel',
   UPDATE: 'post_update',
-  UPDATE_TAG: 'post_update_tag',
-  MUTE: 'post_mute',
   PIN: 'post_pin',
   UPDATE_FRONTBEVIES: 'post_update_frontbevies',
 
@@ -90,7 +88,6 @@ exports.BEVY = {
   SWITCH: 'bevy_switch',
   SORT: 'bevy_sort',
   SEARCH: 'bevy_search',
-  UPDATE_TAGS: 'bevy_update_tags',
   LOADED: 'bevy_loaded',
 
   SEARCHING: 'bevy_searching',
