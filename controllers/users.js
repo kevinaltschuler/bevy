@@ -105,6 +105,7 @@ exports.searchUsers = function(req, res, next) {
         { email: { $regex: query, $options: 'i' } },
         { username: { $regex: query, $options: 'i' } },
         { 'google.displayName': { $regex: query, $options: 'i' } },
+        { 'facebook.displayName': { $regex: query, $options: 'i' } }
       ])
       .exec();
   }

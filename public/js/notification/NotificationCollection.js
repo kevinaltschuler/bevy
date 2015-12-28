@@ -16,6 +16,7 @@ var user = window.bootstrap.user;
 
 var NotificationCollection = Backbone.Collection.extend({
   model: NotificationModel,
+  comparator: '-created',
   url() {
     return constants.apiurl + '/users/' + user._id + '/notifications/';
   }

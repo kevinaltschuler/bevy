@@ -21,6 +21,9 @@ var Thread = require('./../models/Thread');
 var Message = require('./../models/Message');
 var Post = require('./../models/Post');
 
+var userPopFields = '_id displayName email image username '
+ + 'google.displayName facebook.displayName';
+
 // GET /users/:userid/bevies
 exports.getUserBevies = function(req, res, next) {
   var user_id = req.params.userid;
@@ -33,7 +36,7 @@ exports.getUserBevies = function(req, res, next) {
     })
     .populate({
       path: 'admins',
-      select: '_id displayName username email image'
+      select: userPopFields
     });
   });
 };
@@ -46,7 +49,7 @@ exports.getPublicBevies = function(req, res, next) {
   })
   .populate({
     path: 'admins',
-    select: '_id displayName username email image'
+    select: userPopFields
   })
   .limit(20);
 }
@@ -88,7 +91,7 @@ exports.getBevy = function(req, res, next) {
     return res.json(bevy);
   }).populate({
     path: 'admins',
-    select: '_id displayName username email image'
+    select: userPopFields
   });
 }
 
@@ -146,7 +149,7 @@ exports.updateBevy = function(req, res, next) {
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
     .populate({
       path: 'admins',
-      select: '_id displayName username email image'
+      select: userPopFields
     })
     .exec();
   promise.then(function(bevy) {
