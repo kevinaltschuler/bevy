@@ -83,7 +83,38 @@ exports.createBoard = function(req, res, next) {
 
   if(!update.name) return next('board name not specified');
 
-  Board.create(update, function(err, board) {
+  async.waterfall([
+    function(done) {
+      Board.create(update, function(err, board) {
+        if(err) return done(err);
+        done(null, board);
+      });
+    },
+    // add board to parent bevy's collection of boards
+    function(board, done) {
+      Bevy.findOne({ _id: update.parent }, function(err, bevy) {
+        if(err) return done(err);
+        if(_.isEmpty(bevy)) return done('Board parent bevy not found');
+        bevy.boards.push(board._id);
+        bevy.save(function(err) {
+          if(err) return done(err);
+          done(null, board);
+        });
+      });
+    },
+    // add board to admin's collection of boards
+    function(board, done) {
+      User.findOne({ _id: update.admins[0] }, function(err, user) {
+        if(err) return done(err);
+        if(_.isEmpty(user)) return done('Board admin user not found');
+        user.boards.push(board._id);
+        user.save(function(err) {
+          if(err) return done(err);
+          done(null, board);
+        })
+      });
+    }
+  ], function(err, board) {
     if(err) return next(err);
     return res.json(board);
   });
