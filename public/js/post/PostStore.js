@@ -374,10 +374,7 @@ _.extend(PostStore, {
               
               comments.push(new_comment);
               allComments.push(new_comment);
-
-            }
-
-            
+            }            
             // increment comment count
             var commentCount = post.get('commentCount') || 0;
             post.set('commentCount', ++commentCount);

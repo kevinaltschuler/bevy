@@ -60,7 +60,7 @@ var InfoPanel = React.createClass({
   },
 
   _renderPublicPrivate() {
-    if(this.props.board.settings.privacy == 0) {
+    if(this.props.board.settings.privacy == 'Public') {
       // public
       return <span className='info-item'><i className="material-icons">public</i>&nbsp;Public</span>;
     } else {
