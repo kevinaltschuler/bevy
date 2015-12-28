@@ -44,6 +44,7 @@ _.extend(UserStore, {
       case APP.LOAD:
         if(_.isEmpty(window.bootstrap.user)) {
           this.loggedIn = false;
+          break;
         } else {
           this.setUser(window.bootstrap.user);
           this.loggedIn = true;

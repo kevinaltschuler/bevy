@@ -32,20 +32,18 @@ _.extend(ChatStore, {
   handleDispatch(payload) {
     switch(payload.actionType) {
       case APP.LOAD:
-        /*if(!_.isEmpty(window.bootstrap.user)) {
-          this.threads.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/threads';
-          this.threads.fetch({
-            success: function(collection, response, options) {
-              this.threads.forEach(function(thread) {
-                thread.messages.fetch({
-                  success: function(collection, response, options) {
-                    this.trigger(CHAT.CHANGE_ALL);
-                  }.bind(this)
-                });
-              }.bind(this));
-            }.bind(this)
-          });
-        }*/
+        this.threads.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/threads';
+        this.threads.fetch({
+          success: function(collection, response, options) {
+            this.threads.forEach(function(thread) {
+              thread.messages.fetch({
+                success: function(collection, response, options) {
+                  this.trigger(CHAT.CHANGE_ALL);
+                }.bind(this)
+              });
+            }.bind(this));
+          }.bind(this)
+        });
         break;
 
       case BEVY.JOIN:

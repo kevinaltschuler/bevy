@@ -74,7 +74,7 @@ var BoardPanel = React.createClass({
     if(boardImage == 'http://bevy.dev/img/default_board_img.png' ) {
       var avatar = <Avatar size={40} icon={<i className="material-icons">view_carousel</i>}/>
     } else {
-      var avatar = <Avatar size={40} src={boardImage} />;
+      var avatar = <Avatar size={40} style={{width: 40, height: 40}} src={boardImage} />;
     }
 
     console.log(boardImage);
@@ -82,17 +82,22 @@ var BoardPanel = React.createClass({
     return (
     <div>
       <div className="panel public-board-panel">
-        {avatar}
-        <div className='panel-info'>
-            <a 
-              className='title' 
-              href={ this.props.board.url }
-            >
-              { name }
-            </a>
-            <div className='description'>
-              { description }
-            </div>
+        <div className='top'>
+          {avatar}
+          <div className='panel-info'>
+              <a 
+                className='title' 
+                href={ this.props.board.url }
+              >
+                { name + 'dnaisjbdbiasfbiufbuifsbui'}
+              </a>
+              <div className='description'>
+                { description }
+              </div>
+          </div>
+        </div>
+        <div className='bottom'>
+          asdasasd
         </div>
       </div>
     </div>
