@@ -161,7 +161,7 @@ var BoardPanel = React.createClass({
                 className='title' 
                 href={ this.props.board.url }
               >
-                { name + 'dnaisjbdbiasfbiufbuifsbui'}
+                { name }
               </a>
               <div className='description'>
                 { description }

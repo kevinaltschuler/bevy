@@ -50,6 +50,15 @@ var hintTexts = [
   "What's good?",
   "What do you have to say?",
   "Spit a verse",
+  "What would your mother think?",
+  "Tell me about yourself",
+  "What are you thinking about?",
+  "Gimme a bar",
+  "Lets talk about our feelings",
+  "Tell me how you really feel",
+  "How was last night?",
+  "What's gucci?",
+
 ];
 var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 
