@@ -10,6 +10,7 @@
 var _ = require('underscore');
 var Dispatcher = require('./../shared/dispatcher');
 var BEVY = require('./../constants').BEVY;
+var constants = require('./../constants');
 
 var BevyActions = {
 

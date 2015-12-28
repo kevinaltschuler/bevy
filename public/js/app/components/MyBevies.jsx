@@ -52,6 +52,7 @@ var MyBevies = React.createClass({
 
   render() {
     var myBevies = this.props.myBevies;
+    //console.log(myBevies);
 
     var bevies = myBevies;
 
@@ -60,12 +61,12 @@ var MyBevies = React.createClass({
     for(var key in bevies) {
       var bevy = bevies[key];
       myBevyPanels.push(
-        <MyBevyPanel bevy={ bevy } key={ 'MyBevyPanel:' + key } />
+        <MyBevyPanel bevy={ bevy } key={ 'MyBevyPanel:' + bevy._id } />
       );
     };
 
     myBevyPanels.push(
-      <div className='new-bevy-card' onClick={() => { this.setState({ showNewBevyModal: true }); }}>
+      <div className='new-bevy-card' onClick={() => { this.setState({ showNewBevyModal: true }); }} key={'new panel'}>
         <div className='plus-icon'>
           <FontIcon 
             className='material-icons' 
