@@ -16,6 +16,10 @@ var Bevy = require('./../models/Bevy');
 var User = require('./../models/User');
 var Message = require('./../models/Message');
 
+var userPopFields = '_id displayName email image username '
+ + 'google.displayName facebook.displayName';
+var bevyPopFields = '_id name slug image admins settings';
+
 // GET /users/:userid/threads
 exports.getUserThreads = function(req, res, next) {
 	var user_id = req.params.userid;
@@ -44,7 +48,7 @@ exports.getUserThreads = function(req, res, next) {
 			    .sort('-created')
 			    .populate({
 						path: 'author',
-						select: '_id displayName email image'
+						select: userPopFields
 					});
 				},
 				function(err) {
@@ -54,11 +58,11 @@ exports.getUserThreads = function(req, res, next) {
 			})
 			.populate({
 				path: 'bevy',
-				select: '_id name image settings'
+				select: bevyPopFields
 			})
 			.populate({
 				path: 'users',
-				select: '_id displayName email image'
+				select: userPopFields
 			});
 		}
 	]);
@@ -69,7 +73,6 @@ exports.getBevyThreads = function(req, res, next) {
 	var bevy_id = req.params.bevyid;
 	Thread.findOne({ bevy: bevy_id }, function(err, thread) {
 		if(err) return next(err);
-		if(_.isEmpty(thread)) return next('no threads');
 	    Message.find({ thread: thread._id }, function(err, latest) {
 	      if(err) return next(err);
 	      thread.latest = latest;
@@ -78,18 +81,18 @@ exports.getBevyThreads = function(req, res, next) {
 	    .populate('created')
 	    .sort('-created')
 	    .limit(1)
-			.populate({
-				path: 'author',
-				select: '_id displayName email image'
-			});
+		.populate({
+			path: 'author',
+			select: userPopFields
+		});
 	})
 	.populate({
 		path: 'bevy',
-		select: '_id name image settings'
+		select: bevyPopFields
 	})
 	.populate({
 		path: 'users',
-		select: '_id displayName email image'
+		select: userPopFields
 	});
 }
 
@@ -122,11 +125,11 @@ exports.getThread = function(req, res, next) {
 	})
 	.populate({
 		path: 'bevy',
-		select: '_id name image settings'
+		select: bevyPopFields
 	})
 	.populate({
 		path: 'users',
-		select: '_id displayName email image'
+		select: userPopFields
 	})
 	.lean()
 };
@@ -147,7 +150,14 @@ exports.updateThread = function(req, res, next) {
 		thread.image = req.body['image'];
 
 	var promise = Thread.findOneAndUpdate({ _id: thread_id }, thread, { new: true })
-		.populate('bevy users')
+		.populate({
+			path: 'bevy',
+			select: bevyPopFields
+		})
+		.populate({
+			path: 'users',
+			select: userPopFields
+		})
 		.exec();
 	promise.then(function($thread) {
 		return res.json($thread);
