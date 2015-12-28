@@ -37,6 +37,7 @@ _.extend(UserStore, {
   accessToken: '',
   refreshToken: '',
   expires_in: 0,
+  tokensLoaded: false,
 
   handleDispatch(payload) {
     switch(payload.actionType) {
@@ -285,9 +286,11 @@ _.extend(UserStore, {
     this.refreshToken = refreshToken;
     this.expires_in = expires_in;
     // and save
+    console.log('tokens set!');
     localStorage.setItem('access_token', accessToken);
     localStorage.setItem('refresh_token', refreshToken);
     localStorage.setItem('expires_in', expires_in.toString());
+    this.tokensLoaded = true;
   },
   clearTokens() {
     localStorage.removeItem('access_token');
@@ -299,6 +302,9 @@ _.extend(UserStore, {
   },
   getRefreshToken() {
     return this.refreshToken;
+  },
+  getTokensLoaded() {
+    return this.tokensLoaded;
   },
 
   getUserSearchQuery() {

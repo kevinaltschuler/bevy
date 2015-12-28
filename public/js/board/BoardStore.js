@@ -40,7 +40,7 @@ var BoardStore = _.extend({}, Backbone.Events);
 
 // now add some custom functions
 _.extend(BoardStore, {
-  active: {},
+  active: new Board,
 
   // handle calls from the dispatcher
   // these are created from BoardActions.js
@@ -48,31 +48,26 @@ _.extend(BoardStore, {
     switch(payload.actionType) {
       case BOARD.LOADBOARDVIEW:
         var board_id = payload.board_id;
-        $.ajax({
-          method: 'GET',
-          url: constants.apiurl + '/boards/' + board_id,
-          success: function($board, more) {
-            if(!_.isEmpty($board)) {
-              this.active = $board;
-              this.trigger(BOARD.CHANGE_ALL);
-            }
+        console.log('switching to: ', board_id);
+        this.active.url = constants.apiurl + '/boards/' + board_id;
+        this.active.fetch({
+          success: function(model, response, options) {
+            this.active = model;
+            this.trigger(BOARD.CHANGE_ALL);
           }.bind(this)
-        });
+        })
         break;
 
       case BOARD.SWITCH:
         var board_id = payload.board_id;
         console.log('switching to: ', board_id);
-        $.ajax({
-          method: 'GET',
-          url: constants.apiurl + '/boards/' + board_id,
-          success: function($board, more) {
-            if(!_.isEmpty($board)) {
-              this.active = $board;
-              this.trigger(BOARD.CHANGE_ALL);
-            }
+        this.active.url = constants.apiurl + '/boards/' + board_id;
+        this.active.fetch({
+          success: function(model, response, options) {
+            this.active = model;
+            this.trigger(BOARD.CHANGE_ALL);
           }.bind(this)
-        });
+        })
         break;
 
     }
@@ -84,7 +79,7 @@ _.extend(BoardStore, {
 
   getActive() {
     var active = (this.active)
-    ? this.active
+    ? this.active.toJSON()
     : {};
     return active;
   },

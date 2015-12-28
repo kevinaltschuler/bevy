@@ -179,8 +179,8 @@ var InterfaceComponent = React.createClass({
     router.off('route', this.callback);
   },
   render() {
-
-    if(_.isEmpty(localStorage.getItem("access_token"))) {
+    
+    if(!UserStore.getTokensLoaded() && router.current != 'home') {
       return <div/>;
     }
 

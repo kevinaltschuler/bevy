@@ -69,18 +69,19 @@ exports.getBevyThreads = function(req, res, next) {
 	var bevy_id = req.params.bevyid;
 	Thread.findOne({ bevy: bevy_id }, function(err, thread) {
 		if(err) return next(err);
-    Message.find({ thread: thread._id }, function(err, latest) {
-      if(err) return next(err);
-      thread.latest = latest;
-      return res.json(thread);
-    })
-    .populate('created')
-    .sort('-created')
-    .limit(1)
-		.populate({
-			path: 'author',
-			select: '_id displayName email image'
-		});
+		if(_.isEmpty(thread)) return next('no threads');
+	    Message.find({ thread: thread._id }, function(err, latest) {
+	      if(err) return next(err);
+	      thread.latest = latest;
+	      return res.json(thread);
+	    })
+	    .populate('created')
+	    .sort('-created')
+	    .limit(1)
+			.populate({
+				path: 'author',
+				select: '_id displayName email image'
+			});
 	})
 	.populate({
 		path: 'bevy',

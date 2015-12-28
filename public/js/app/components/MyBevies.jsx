@@ -47,20 +47,11 @@ var MyBevies = React.createClass({
   },
 
   componentDidMount() {
-    UserStore.on(USER.LOADED, this.loadMyBevies);
-  },
-
-  loadMyBevies() {
-    console.log('user loaded was called');
-    setTimeout(function() {
-      BevyActions.loadMyBevies();
-    }, 1);
+    BevyActions.loadMyBevies();
   },
 
   render() {
     var myBevies = this.props.myBevies;
-
-    console.log(myBevies);
 
     var bevies = myBevies;
 

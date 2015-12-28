@@ -242,9 +242,8 @@ var Navbar = React.createClass({
     ? <div/>
     : (<IconButton
           iconClassName='glyphicon glyphicon-search'
-          onClick={(ev) => {
-            router.navigate('/s', { trigger: true });
-          }}
+          linkButton={true}
+          href='/s'
           style={{ width: '35px', height: '35px', padding: '5px', margin: '3px', marginLeft: '10px' }}
           iconStyle={{ color: 'white', fontSize: '14px' }}
           title='Search'

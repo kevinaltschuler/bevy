@@ -28,6 +28,7 @@ var user = window.bootstrap.user;
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 var BevyStore = require('./../../bevy/BevyStore');
+var BevyActions = require('./../../bevy/BevyActions');
 
 var SearchView = React.createClass({
 
@@ -46,6 +47,8 @@ var SearchView = React.createClass({
   },
 
   componentDidMount() {
+    BevyActions.loadMyBevies();
+    BevyActions.search(router.searchQuery);
     BevyStore.on(BEVY.SEARCHING, this.handleSearching);
     BevyStore.on(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
   },
@@ -77,17 +80,16 @@ var SearchView = React.createClass({
     var searchList = this.state.searchList;
     var searchQuery = this.state.searchQuery;
 
-    var bevies = publicBevies;
-    if(!_.isEmpty(searchQuery)) {
-      bevies = searchList;
-    }
+    var bevies = searchList;
 
     var publicBevyPanels = [];
+
+    
 
     for(var key in bevies) {
       var bevy = bevies[key];
       publicBevyPanels.push(
-        <PublicBevyPanel bevy={ bevy } myBevies={ this.props.myBevies } key={ Math.random() } />
+        <PublicBevyPanel bevy={ bevy } myBevies={ this.props.myBevies } key={ 'bevypanel:' + bevy._id } />
       );
     };
 

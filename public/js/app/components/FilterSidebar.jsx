@@ -71,8 +71,6 @@ var FilterSidebar = React.createClass({
       selectedIndex: selectedIndex
     });
 
-    console.log(filter);
-
     BevyActions.filterBevies(filter);
   },
 

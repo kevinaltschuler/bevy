@@ -111,7 +111,6 @@ var Router = Backbone.Router.extend({
     if(query == undefined) {
       this.search.query = '';
     }
-    BevyActions.search(query);
   },
 
   googleCallback() {

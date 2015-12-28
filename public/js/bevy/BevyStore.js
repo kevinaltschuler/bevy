@@ -160,24 +160,12 @@ _.extend(BevyStore, {
           success: function(model, response, options) {
             // success
             newBevy.set('_id', model.id);
-            this.publicBevies.add(model);
+            //this.myBevies.add(model);
             // switch to bevy
-            this.active = model.id;
-            var bevy_ids = this.myBevies.pluck('_id');
-            bevy_ids.push(model.id);
+            BevyActions.join(model.id);
             this.trigger(BEVY.CHANGE_ALL);
-
             // TODO: move this to user store
-            $.ajax({
-              method: 'PATCH',
-              url: constants.apiurl + '/users/' + user._id,
-              data: {
-                bevies: bevy_ids
-              },
-              success: function($user) {
-                window.location.href = constants.siteurl + model.get('url');
-              }.bind(this)
-            });
+
           }.bind(this)
         });
         break;
@@ -317,7 +305,7 @@ _.extend(BevyStore, {
       case BEVY.SORT:
         var filter = payload.filter;
 
-        var collection = (!_.isEmpty(this.searchQuery)) ? this.searchList : this.publicBevies;
+        var collection = this.searchList;
         collection.filter = filter;
         switch(filter) {
           case 'Most Subscribers':
@@ -339,8 +327,10 @@ _.extend(BevyStore, {
             collection.comparator = this.sortByZyx;
             break;
         }
-        //console.log(filter);
+        console.log(filter);
+        console.log(collection);
         collection.sort();
+        console.log(collection);
 
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.SEARCH_COMPLETE);
@@ -351,7 +341,12 @@ _.extend(BevyStore, {
         this.searchQuery = query;
         this.searchList.reset();
         this.trigger(BEVY.SEARCHING);
-        this.searchList.url = constants.apiurl + '/bevies/search/' + query;
+
+        if(_.isEmpty(query)) 
+          this.searchList.url = constants.apiurl + '/bevies';
+        else 
+          this.searchList.url = constants.apiurl + '/bevies/search/' + query;
+        
         this.searchList.fetch({
           reset: true,
           success: function(collection, response, options) {
@@ -442,9 +437,7 @@ _.extend(BevyStore, {
   },
 
   getSearchList() {
-    return (this.searchList.models.length <= 0)
-    ? []
-    : this.searchList.toJSON();
+    return this.searchList.toJSON();
   },
 
   getSearchQuery() {

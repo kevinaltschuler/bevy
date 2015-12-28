@@ -34,13 +34,11 @@ var PublicBevyPanel = React.createClass({
 
   getInitialState() {
     var bevy = this.props.bevy;
-    var joined = _.findWhere(this.props.myBevies, { _id: bevy._id }) != undefined;
 
     return {
       name: bevy.name || '',
       description: bevy.description || '',
-      image: bevy.image || {},
-      joined: joined
+      image: bevy.image || {}
     };
   },
 
@@ -74,25 +72,30 @@ var PublicBevyPanel = React.createClass({
 
 
   _renderLock() {
-    if(this.props.bevy.settings.privacy == 'Public') return (
-      <OverlayTrigger placement='top' overlay={ 
-        <Tooltip>This Bevy Is Public</Tooltip> 
-      }>
-        <span className='glyphicon glyphicon-globe' />
-      </OverlayTrigger>
-    );
-    return (
-      <OverlayTrigger placement='top' overlay={ 
-        <Tooltip>This Bevy Is Private</Tooltip> 
-      }>
-        <span className='glyphicon glyphicon-lock' />
-      </OverlayTrigger>
-    );
+    console.log(this.props.bevy.name, this.props.bevy.settings.privacy);
+    if(this.props.bevy.settings.privacy == 'Private') {
+      return (
+        <OverlayTrigger placement='top' overlay={ 
+          <Tooltip>This Bevy Is Private</Tooltip> 
+        }>
+          <span className='glyphicon glyphicon-lock' />
+        </OverlayTrigger>
+      );
+    } else {
+      return (
+        <OverlayTrigger placement='top' overlay={ 
+          <Tooltip>This Bevy Is Public</Tooltip> 
+        }>
+          <span className='glyphicon glyphicon-globe' />
+        </OverlayTrigger>
+      );
+    }
   },
 
   render() {
 
     var bevy = this.props.bevy;
+    var joined = _.findWhere(this.props.myBevies, { _id: bevy._id}) != undefined;
     if(this.props.bevy.settings.privacy == 'Private') {
       //return <div/>;
     }
@@ -109,7 +112,7 @@ var PublicBevyPanel = React.createClass({
       : this.state.description;
     if(_.isEmpty(description)) description = 'no description';
 
-    var joinButton = (this.state.joined)
+    var joinButton = (joined)
     ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
     : (
       <RaisedButton 
@@ -128,27 +131,27 @@ var PublicBevyPanel = React.createClass({
         />
         <RaisedButton 
           disabled={_.isEmpty(window.bootstrap.user)} 
-          label='request join' 
+          label='request' 
           onClick={ this.onRequestJoin } 
         />
       </div>
     );
 
-    var actionButton = (bevy.settings.privacy == 1 && !this.state.joined)
+    var actionButton = (bevy.settings.privacy == 'Private' && !joined)
       ? requestButton
       : joinButton;
+
 
     var subCount = (bevy.subCount == 1) 
       ? '1 member' 
       : bevy.subCount + ' members';
-    console.log(bevy);
     var created = new Date(bevy.created).toLocaleDateString();
 
     var loginTip = (_.isEmpty(window.bootstrap.user)) 
       ? <Tooltip>Please Login to Join</Tooltip> 
       : <div/>;
 
-    var details = (bevy.settings.privacy == 1 && !this.state.joined)
+    var details = (bevy.settings.privacy == 'Private' && !joined)
     ? (
       <div className='left'>
         <span>private</span>
