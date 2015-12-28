@@ -17,12 +17,17 @@ var Comment = require('./../models/Comment');
 
 var notifications = require('./notifications');
 
+var userPopFields = '_id displayName email image username '
+ + 'google.displayName facebook.displayName';
+
 // GET /posts/:postid/comments
 exports.getComments = function(req, res, next) {
-	var postid = req.params.postid;
-	var query = { postId: postid };
-	var promise = Comment.find(query)
-		.populate('author')
+	var post_id = req.params.postid;
+	var promise = Comment.find({ postId: post_id })
+		.populate({
+			path: 'author',
+			select: userPopFields
+		})
 		.exec();
 	promise.then(function(comments) {
 		return res.json(comments);
@@ -35,18 +40,14 @@ exports.getComments = function(req, res, next) {
 exports.createComment = function(req, res, next) {
 	var update = {};
 	update._id = shortid.generate();
-	if(req.body['postId'] != undefined) {
+	if(req.body['postId'] != undefined)
 		update.postId = req.body['postId'];
-	}
-	if(req.body['parentId'] != undefined) {
+	if(req.body['parentId'] != undefined)
 		update.parentId = req.body['parentId'];
-	}
-	if(req.body['author'] != undefined) {
+	if(req.body['author'] != undefined)
 		update.author = req.body['author'];
-	}
-	if(req.body['body'] != undefined) {
+	if(req.body['body'] != undefined)
 		update.body = req.body['body'];
-	}
 	if(!update.body) return next('Comment body not specified');
 
 	Comment.create(update, function(err, comment) {
@@ -62,6 +63,10 @@ exports.createComment = function(req, res, next) {
 exports.getComment = function(req, res, next) {
 	var comment_id = req.params.commentid;
 	var promise = Comment.findOne({ _id: comment_id })
+		.populate({
+			path: 'author',
+			select: userPopFields
+		})
 		.exec();
 	promise.then(function(comment) {
 		if(!comment) return next(error.gen('comment not found'));
@@ -90,9 +95,13 @@ exports.updateComment = function(req, res, next) {
 
 	var comment_id = req.params.commentid;
 	var promise = Comment.findOneAndUpdate({ _id: comment_id }, update)
+		.populate({
+			path: 'author',
+			select: userPopFields
+		})
 		.exec();
 	promise.then(function(comment) {
-		if(!comment) return next(error.gen('comment not found'));
+		if(!comment) return next('comment not found');
 		return res.json(comment);
 	}, function(err) {
 		return next(err);
@@ -104,7 +113,7 @@ exports.destroyComment = function(req, res, next) {
 	var comment_id = req.params.id;
 	var promise = Comment.findOneAndRemove({ _id: comment_id }).exec();
 	promise.then(function(comment) {
-		if(!comment) return next(error.gen('comment not found'));
+		if(!comment) return next('comment not found');
 		return res.json(comment);
 	}, function(err) {
 		return next(err);

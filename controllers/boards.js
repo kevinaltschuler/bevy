@@ -17,6 +17,10 @@ var User = require('./../models/User');
 var Thread = require('./../models/Thread');
 var Post = require('./../models/Post');
 
+var userPopFields = '_id displayName email image username '
+ + 'google.displayName facebook.displayName';
+var bevyPopFields = '_id name slug image';
+
 // GET /users/:userid/boards
 exports.getUserBoards = function(req, res, next) {
   var user_id = req.params.userid;
@@ -30,7 +34,7 @@ exports.getUserBoards = function(req, res, next) {
     })
     .populate({
       path: 'parents',
-      select: '_id name slug image'
+      select: bevyPopFields
     });
   });
 };
@@ -95,7 +99,7 @@ exports.getBoard = function(req, res, next) {
   })
   .populate({
     path: 'parents',
-    select: '_id name slug image'
+    select: bevyPopFields
   });
 };
 

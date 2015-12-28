@@ -18,6 +18,9 @@ var Thread = require('./../models/Thread');
 var Bevy = require('./../models/Bevy');
 var User = require('./../models/User');
 
+var userPopFields = '_id displayName email image username '
+ + 'google.displayName facebook.displayName';
+
 // GET /threads/:threadid/messages
 exports.getMessages = function(req, res, next) {
   var thread_id = req.params.threadid;
@@ -28,7 +31,7 @@ exports.getMessages = function(req, res, next) {
   })
   .populate({
     path: 'author',
-    select: '_id displayName email image'
+    select: userPopFields
   })
   .sort('-created')
   .skip(skip)
@@ -83,7 +86,7 @@ exports.getMessage = function(req, res, next) {
   })
   .populate({
     path: 'author',
-    select: '_id displayName email image'
+    select: userPopFields
   });
 };
 
@@ -99,7 +102,7 @@ exports.updateMessage = function(req, res, next) {
   })
   .populate({
     path: 'author',
-    select: '_id displayName email image'
+    select: userPopFields
   });
 };
 
@@ -112,7 +115,7 @@ exports.destroyMessage = function(req, res, next) {
   })
   .populate({
     path: 'author',
-    select: '_id displayName email image'
+    select: userPopFields
   });
 };
 

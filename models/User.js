@@ -114,31 +114,35 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('displayName').get(function() {
-  var name = 'nameless';
+  console.log(this);
+  return this.username;
   if(!_.isEmpty(this.username)) {
-    name = this.username;
+    return this.username;
   } else {
     if(!_.isEmpty(this.google.id)) {
       // use google data
-      if(_.isEmpty(this.google.name)) {
+      if(_.isEmpty(this.google.displayName)) {
         // use google email
-        name = this.email;
+        return this.email;
       } else {
         // use google name
-        name = this.google.displayName;
+        return this.google.displayName;
       }
     } else if(!_.isEmpty(this.facebook.id)) {
       // use facebook data
-      if(_.isEmpty(this.facebook.name)) {
+      if(_.isEmpty(this.facebook.displayName)) {
         // use facebook email
-        name = this.email;
+        return this.email;
       } else {
         // use facebook name
-        name = this.facebook.displayName;
+        return this.facebook.displayName;
       }
+    } else if (!_.isEmpty(this.email)) {
+      return this.email;
+    } else {
+      return "[deleted]";
     }
   }
-  return name;
 });
 
 UserSchema.methods.verifyPassword = function(password) {
@@ -162,7 +166,8 @@ UserSchema.set('toJSON', {
 UserSchema.index({
   email: 'text',
   username: 'text',
-  'google.displayName': 'text'
+  'google.displayName': 'text',
+  'facebook.displayName': 'text'
 });
 
 module.exports = mongoose.model('User', UserSchema);

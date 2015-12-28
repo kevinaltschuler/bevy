@@ -33,7 +33,7 @@ exports.getUserBevies = function(req, res, next) {
     })
     .populate({
       path: 'admins',
-      select: 'displayName username email image'
+      select: '_id displayName username email image'
     });
   });
 };
@@ -46,7 +46,7 @@ exports.getPublicBevies = function(req, res, next) {
   })
   .populate({
     path: 'admins',
-    select: 'displayName username email image'
+    select: '_id displayName username email image'
   })
   .limit(20);
 }
@@ -88,7 +88,7 @@ exports.getBevy = function(req, res, next) {
     return res.json(bevy);
   }).populate({
     path: 'admins',
-    select: 'displayName username email image'
+    select: '_id displayName username email image'
   });
 }
 
@@ -146,7 +146,7 @@ exports.updateBevy = function(req, res, next) {
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
     .populate({
       path: 'admins',
-      select: 'displayName username email image'
+      select: '_id displayName username email image'
     })
     .exec();
   promise.then(function(bevy) {

@@ -22,6 +22,10 @@ var Bevy = require('./../models/Bevy');
 var Comment = require('./../models/Comment');
 var Board = require('./../models/Board');
 
+var authorPopFields = '_id displayName email image username '
+ + 'google.displayName facebook.displayName';
+var boardPopFields = '_id name image settings';
+
 // GET /boards/:boardid/posts
 exports.getBoardPosts = function(req, res, next) {
   var board_id = req.params.boardid;
@@ -38,17 +42,17 @@ exports.getBoardPosts = function(req, res, next) {
       })
       .populate({
         path: 'author',
-        select: '_id displayName email image'
+        select: authorPopFields
       });
     });
   })
   .populate({
     path: 'board',
-    select: '_id name image settings'
+    select: boardPopFields
   })
   .populate({
     path: 'author',
-    select: '_id image displayName'
+    select: authorPopFields
   });
 };
 
@@ -77,18 +81,18 @@ exports.getBevyPosts = function(req, res, next) {
         })
         .populate({
           path: 'author',
-          select: '_id displayName email image'
+          select: authorPopFields
         });
       });
     })
     //.limit(10)
     .populate({
       path: 'board',
-      select: '_id name image settings'
+      select: boardPopFields
     })
     .populate({
       path: 'author',
-      select: '_id displayName email image'
+      select: authorPopFields
     });
   });
 };
@@ -140,16 +144,16 @@ exports.getPost = function(req, res, next) {
     })
     .populate({
       path: 'author',
-      select: '_id displayName email image'
+      select: authorPopFields
     });
   })
   .populate({
     path: 'board',
-    select: '_id name image settings'
+    select: boardPopFields
   })
   .populate({
     path: 'author',
-    select: '_id displayName email image'
+    select: authorPopFields
   });
 };
 
@@ -180,11 +184,11 @@ exports.updatePost = function(req, res, next) {
       Post.findOneAndUpdate({ _id: post_id }, $update, { new: true, upsert: true })
       .populate({
         path: 'board',
-        select: '_id name image settings'
+        select: boardPopFields
       })
       .populate({
         path: 'author',
-        select: '_id displayName email image'
+        select: authorPopFields
       })
       .exec(function(err, post) {
         if(err) return next(err);
@@ -196,7 +200,7 @@ exports.updatePost = function(req, res, next) {
         })
         .populate({
           path: 'author',
-          select: '_id displayName email image'
+          select: authorPopFields
         });
       })
     }
@@ -213,11 +217,11 @@ exports.destroyPost = function(req, res, next) {
   })
   .populate({
     path: 'board',
-    select: '_id name image settings'
+    select: boardPopFields
   })
   .populate({
     path: 'author',
-    select: '_id displayName email image'
+    select: authorPopFields
   });
 }
 
@@ -238,17 +242,17 @@ exports.getUserPosts = function(req, res, next) {
       })
       .populate({
         path: 'author',
-        select: '_id displayName email image'
+        select: authorPopFields
       });
     });
   })
   .populate({
     path: 'board',
-    select: '_id name image settings'
+    select: boardPopFields
   })
   .populate({
     path: 'author',
-    select: '_id displayName email image'
+    select: authorPopFields
   });
 }
 
