@@ -9,10 +9,12 @@
 var schedule = require('node-schedule');
 var async = require('async');
 var mongoose = require('mongoose');
-var Bevy = mongoose.model('Bevy');
-var User = mongoose.model('User');
-var Post = mongoose.model('Post');
-var Comment = mongoose.model('Comment');
+
+var Bevy = require('./models/Bevy');
+var User = require('./models/User');
+var Post = require('./models/Post');
+var Comment = require('./models/Comment');
+var Board = require('./models/Board');
 
 var bevySubCountJob = schedule.scheduleJob('* * * * *', function() {
   var limit = 20; // do 20 bevies at once
@@ -36,6 +38,45 @@ var bevySubCountJob = schedule.scheduleJob('* * * * *', function() {
             },
             function(err) {
               // done going through each bevy
+              i += limit;
+              callback();
+            }
+          );
+        })
+          .sort('-created')
+          .limit(limit)
+          .skip(i);
+      },
+      function(err) {
+        // done
+        //console.log('done counting subscribers');
+      }
+    );
+  });
+});
+
+var boardSubCountJob = schedule.scheduleJob('* * * * *', function() {
+  var limit = 20; // do 20 boards at once
+  var i = 0;
+  //console.log('starting board sub count job');
+  Board.count(function(err, numBoards) {
+    //console.log(numBevies, 'boards found');
+    async.whilst(
+      function() { return i < numBoards },
+      function(callback) {
+        Board.find(function(err, boards) {
+          async.each(boards,
+            function(board, $callback) {
+              //console.log('counting subscribers of', board._id);
+              User.count({ boards: board._id }, function(err, subCount) {
+                Board.update({ _id: board._id }, { subCount: subCount }, function(err, $board) {
+                  //console.log(board._id, 'has', subCount, 'subscribers');
+                  $callback();
+                });
+              });
+            },
+            function(err) {
+              // done going through each board
               i += limit;
               callback();
             }

@@ -46,7 +46,7 @@ require('./gridfs');
 require('./db');
 
 // set up schedules
-//require('./schedule');
+require('./schedule');
 
 // set up websocket/polling server
 require('./socket')(server);

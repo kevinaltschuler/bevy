@@ -356,13 +356,6 @@ _.extend(BevyStore, {
           }.bind(this)
         });
         break;
-
-      case BEVY.UPDATE_TAGS:
-        var tags = payload.tags || [];
-        this.activeTags = tags;
-        this.trigger(BEVY.CHANGE_ALL);
-        this.trigger(POST.CHANGE_ALL);
-        break;
     }
   },
 
