@@ -100,6 +100,7 @@ var BevyView = React.createClass({
     var activeBevy = this.props.activeBevy;
 
     if(_.isEmpty(window.bootstrap.user) || this.props.activeBevy.name == null) {
+      console.log('crap');
       return <div/>;
     }
 

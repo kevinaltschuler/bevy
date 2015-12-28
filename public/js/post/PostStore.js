@@ -33,6 +33,7 @@ var BevyStore = require('./../bevy/BevyStore');
 var Dispatcher = require('./../shared/dispatcher');
 
 var PostCollection = require('./PostCollection');
+var Comment = require('./CommentModel');
 
 // inherit event class first
 // VERY IMPORTANT, as the PostContainer view binds functions
@@ -325,17 +326,18 @@ _.extend(PostStore, {
 
         var post = this.posts.get(post_id);
 
-        $.post(
-          constants.apiurl + '/comments',
-          {
-            postId: post_id,
-            parentId: (comment_id) ? comment_id : null,
-            author: author._id,
-            body: body
-          },
-          function(data) {
-            // optimistic update
-            var id = data._id;
+        var newComment = new Comment({
+          postId: post_id,
+          parentId: (comment_id) ? comment_id : null,
+          author: author._id,
+          body: body
+        });
+
+        newComment.url = constants.apiurl + '/comments';
+
+        newComment.save(null, {
+          success: function(model, response, options) {
+            var id = model.id;
 
             if(comment_id) {
               // replied to a comment
@@ -367,19 +369,21 @@ _.extend(PostStore, {
                 parentId: undefined,
                 author: author,
                 body: body,
-                created: data.created
+                created: response.created
               };
+              
               comments.push(new_comment);
               allComments.push(new_comment);
+
             }
+
             
             // increment comment count
             var commentCount = post.get('commentCount') || 0;
             post.set('commentCount', ++commentCount);
-
             this.trigger(POST.CHANGE_ONE + post_id);
           }.bind(this)
-        );
+        });
 
         break;
 
