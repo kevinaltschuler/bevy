@@ -39,8 +39,7 @@ exports.getBoardPosts = function(req, res, next) {
       .populate({
         path: 'author',
         select: '_id displayName email image'
-      })
-      .lean();
+      });
     });
   })
   .populate({
@@ -50,8 +49,7 @@ exports.getBoardPosts = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id image displayName'
-  })
-  .lean();
+  });
 };
 
 // GET /bevies/:bevyid/posts
@@ -80,8 +78,7 @@ exports.getBevyPosts = function(req, res, next) {
         .populate({
           path: 'author',
           select: '_id displayName email image'
-        })
-        .lean();
+        });
       });
     })
     //.limit(10)
@@ -92,8 +89,7 @@ exports.getBevyPosts = function(req, res, next) {
     .populate({
       path: 'author',
       select: '_id displayName email image'
-    })
-    .lean();
+    });
   });
 };
 
@@ -145,8 +141,7 @@ exports.getPost = function(req, res, next) {
     .populate({
       path: 'author',
       select: '_id displayName email image'
-    })
-    .lean();
+    });
   })
   .populate({
     path: 'board',
@@ -155,8 +150,7 @@ exports.getPost = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id displayName email image'
-  })
-  .lean();
+  });
 };
 
 // PUT/PATCH /posts/:postid
@@ -192,7 +186,6 @@ exports.updatePost = function(req, res, next) {
         path: 'author',
         select: '_id displayName email image'
       })
-      .lean()
       .exec(function(err, post) {
         if(err) return next(err);
         if(_.isEmpty(post)) return next('Post not found');
@@ -204,8 +197,7 @@ exports.updatePost = function(req, res, next) {
         .populate({
           path: 'author',
           select: '_id displayName email image'
-        })
-        .lean();
+        });
       })
     }
   ]);
@@ -226,8 +218,7 @@ exports.destroyPost = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id displayName email image'
-  })
-  .lean();
+  });
 }
 
 // GET /users/:userid/posts
@@ -248,8 +239,7 @@ exports.getUserPosts = function(req, res, next) {
       .populate({
         path: 'author',
         select: '_id displayName email image'
-      })
-      .lean();
+      });
     });
   })
   .populate({
@@ -259,8 +249,7 @@ exports.getUserPosts = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id displayName email image'
-  })
-  .lean();
+  });
 }
 
 // GET /posts/search/:query
