@@ -43,7 +43,79 @@ var BoardPanel = React.createClass({
       name: board.name || '',
       description: board.description || '',
       image: board.image || {},
+      joined: (_.contains(window.bootstrap.user.boards, this.props.board._id))
     };
+  },
+
+  onRequestJoin(ev) {
+    ev.preventDefault();
+    console.log('join');
+    BoardActions.join(this.props.board._id);
+    this.setState({
+      joined: true
+    });
+  },
+
+  onRequestLeave(ev) {
+    ev.preventDefault();
+    console.log('leave');
+    BoardActions.leave(this.props.board._id);
+    this.setState({
+      joined: false
+    });
+  },
+
+  _renderBottomActions() {
+
+    var board = this.props.board;
+    var user = window.bootstrap.user;
+
+    console.log(user.boards);
+
+    var joinLabel = (board.settings.privacy == 'Private')
+    ? 'request'
+    : 'join';
+
+    var joinButton = <RaisedButton label={joinLabel} onClick={this.onRequestJoin}/>
+    var leaveButton = <RaisedButton label='leave' onClick={this.onRequestLeave}/>
+
+    var joinLeave = (this.state.joined)
+    ? leaveButton
+    : joinButton;
+
+    var publicPrivate = (board.settings.privacy == 'Private')
+    ?  (
+        <OverlayTrigger placement='bottom' overlay={<Tooltip>Private</Tooltip>}>
+          <i className="material-icons">lock</i>
+        </OverlayTrigger>
+      )
+    : (
+      <OverlayTrigger placement='bottom' overlay={<Tooltip>Public</Tooltip>}>
+        <i className="material-icons">public</i>
+      </OverlayTrigger>
+    );
+
+    var subs = (
+      <OverlayTrigger placement='bottom' overlay={<Tooltip>{board.subCount + " subscribers"}</Tooltip>}>
+        <i className="material-icons">people</i>
+      </OverlayTrigger>
+    );
+
+    return(
+      <div className='bottom'>
+        <div className='left'>
+          <div className='info-item'>
+            { subs }
+          </div>
+          <div className='info-item'>
+            { publicPrivate }
+          </div>
+        </div>
+        <div className='right'>
+          {joinLeave}
+        </div>
+      </div>
+    );
   },
 
   render() {
@@ -96,9 +168,7 @@ var BoardPanel = React.createClass({
               </div>
           </div>
         </div>
-        <div className='bottom'>
-          asdasasd
-        </div>
+        { this._renderBottomActions() }
       </div>
     </div>
     );
