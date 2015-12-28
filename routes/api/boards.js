@@ -34,11 +34,11 @@ module.exports = function(router) {
     boardController.createBoard
   );
 
-  router.get('/boards/:boardid', /*[
+  router.get('/boards/:boardid', [
       oauth2Controller.bearer,
       permissionsController.hasPrivateBoardAccess,
       permissionsController.errorHandler
-    ],*/
+    ],
     boardController.getBoard
   );
 
