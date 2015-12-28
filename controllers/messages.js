@@ -32,8 +32,7 @@ exports.getMessages = function(req, res, next) {
   })
   .sort('-created')
   .skip(skip)
-  .limit(25)
-  .lean();
+  .limit(25);
 };
 
 // POST /messages
@@ -85,8 +84,7 @@ exports.getMessage = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id displayName email image'
-  })
-  .lean();
+  });
 };
 
 // PUT/PATCH /messages/:messageid
@@ -102,8 +100,7 @@ exports.updateMessage = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id displayName email image'
-  })
-  .lean();
+  });
 };
 
 // DELETE /messages/:messageid
@@ -116,8 +113,7 @@ exports.destroyMessage = function(req, res, next) {
   .populate({
     path: 'author',
     select: '_id displayName email image'
-  })
-  .lean();
+  });
 };
 
 function sendChatNotification(message, to_users) {

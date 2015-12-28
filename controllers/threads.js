@@ -45,8 +45,7 @@ exports.getUserThreads = function(req, res, next) {
 			    .populate({
 						path: 'author',
 						select: '_id displayName email image'
-					})
-					.lean();
+					});
 				},
 				function(err) {
 					if(err) return next(err);
@@ -60,8 +59,7 @@ exports.getUserThreads = function(req, res, next) {
 			.populate({
 				path: 'users',
 				select: '_id displayName email image'
-			})
-			.lean()
+			});
 		}
 	]);
 }
@@ -82,8 +80,7 @@ exports.getBevyThreads = function(req, res, next) {
 		.populate({
 			path: 'author',
 			select: '_id displayName email image'
-		})
-		.lean();
+		});
 	})
 	.populate({
 		path: 'bevy',
@@ -92,8 +89,7 @@ exports.getBevyThreads = function(req, res, next) {
 	.populate({
 		path: 'users',
 		select: '_id displayName email image'
-	})
-	.lean()
+	});
 }
 
 
