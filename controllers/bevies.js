@@ -73,6 +73,8 @@ exports.createBevy = function(req, res, next) {
   else
     update.slug = getSlug(update.name);
 
+  update.subCount = 1;
+
   async.waterfall([
     // first create the bevy
     function(done) {
