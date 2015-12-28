@@ -20,6 +20,7 @@ var Bevy = require('./../models/Bevy');
 var Thread = require('./../models/Thread');
 var Message = require('./../models/Message');
 var Post = require('./../models/Post');
+var Board = require('./../models/Board');
 
 var userPopFields = '_id displayName email image username '
  + 'google.displayName facebook.displayName';
@@ -72,12 +73,34 @@ exports.createBevy = function(req, res, next) {
   else
     update.slug = getSlug(update.name);
 
-  Bevy.create(update, function(err, bevy) {
+  async.waterfall([
+    // first create the bevy
+    function(done) {
+      Bevy.create(update, function(err, bevy) {
+        if(err) return done(err);
+        return done(null, bevy);
+      });
+    },
+    // then create its associated chat thread
+    function(bevy, done) {
+      Thread.create({ bevy: bevy._id }, function(err, thread) {
+        if(err) return done(err);
+        return done(null, bevy);
+      });
+    },
+    // then add bevy to first admin's bevy collection
+    function(bevy, done) {
+      User.findOne({ _id: update.admins[0] }, function(err, user) {
+        if(err) return done(err);
+        user.bevies.push(bevy._id);
+        user.save(function(err) {
+          if(err) return done(err);
+          return done(null, bevy);
+        });
+      });
+    }
+  ], function(err, bevy) {
     if(err) return next(err);
-    // create chat thread
-    Thread.create({ bevy: bevy._id }, function(err, thread) {
-      if(err) return next(err);
-    });
     return res.json(bevy);
   });
 }
@@ -181,38 +204,108 @@ exports.addBoard = function(req, res, next) {
   });
 }
 
-// DESTROY
 // DELETE /bevies/:bevyid
 exports.destroyBevy = function(req, res, next) {
-  var bevy_id_or_slug = req.params.bevyid;
+  var bevy_id = req.params.bevyid;
 
-  var query = { $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]};
-  var promise = Bevy.findOneAndRemove(query)
-    .exec();
-  promise.then(function(bevy) {
+  async.waterfall([
     // delete the thread for this bevy
-    Thread.findOneAndRemove({ bevy: bevy_id }, function(err, thread) {
-      // and delete all messages in that thread
-      Message.remove({ thread: thread._id }, function(err, messages) {});
-    });
-    // delete all posts posted to this bevy
-    Post.remove({ bevy: bevy_id }, function(err, posts) {});
-    // remove the reference to the bevy in all user's subscribed bevies
-    User.find({ bevies: bevy_id }, function(err, users) {
-      async.each(users, function(user, callback) {
-        user.bevies.pull(bevy_id);
-        user.save(function(err) {
-          if(err) next(err);
-        });
-        callback();
-      },
-      function(err) {
-        if(err) return next(err);
+    function(done) {
+      Thread.findOneAndRemove({ bevy: bevy_id }, function(err, thread) {
+        if(err) return done(err);
+        return done(null, thread);
       });
-    });
-
+    },
+    // remove all messages in that thread
+    function(thread, done) {
+      Message.remove({ thread: thread._id }, function(err, messages) {
+        if(err) return done(err);
+        return done(null);
+      });
+    },
+    // delete all boards directly related to this bevy
+    function(done) {
+      Board.remove({ parent: bevy_id }, function(err, boards) {
+        if(err) return done(err);
+        return done(null, boards);
+      });
+    },
+    // remove all posts posted to those boards
+    function(boards, done) {
+      Post.remove({ board: { $in: _.pluck(boards, '_id') }}, function(err, posts) {
+        if(err) return done(err);
+        return done(null, boards);
+      });
+    },
+    // remove board refs from all bevies with those boards in their collection
+    function(boards, done) {
+      async.each(boards, function(board, callback) {
+        Bevy.find({ boards: board._id }, function(err, bevies) {
+          if(err) return callback(err);
+          async.each(bevies, function(bevy, $callback) {
+            bevy.boards.pull(board._id);
+            bevy.save(function(err) {
+              if(err) return $callback(err);
+              return $callback(null);
+            });
+          }, function(err) {
+            if(err) return callback(err);
+            return callback(null);
+          });
+        });
+      }, function(err) {
+        if(err) return done(err);
+        return done(null, boards);
+      });
+    },
+    // remove board refs from all users with those boards in their collection
+    function(boards, done) {
+      async.each(boards, function(board, callback) {
+        User.find({ boards: board._id }, function(err, users) {
+          if(err) return callback(err);
+          async.each(users, function(user, $callback) {
+            user.boards.pull(board._id);
+            user.save(function(err) {
+              if(err) return $callback(err);
+              return $callback(null);
+            });
+          }, function(err) {
+            if(err) return callback(err);
+            return callback(null);
+          });
+        });
+      }, function(err) {
+        if(err) return done(err);
+        return done(null);
+      });
+    },
+    // remove all refs to this bevy from users subbed to it
+    function(done) {
+      User.find({ bevies: bevy_id }, function(err, users) {
+        async.each(users, function(user, callback) {
+          user.bevies.pull(bevy_id);
+          user.save(function(err) {
+            if(err) return callback(err);
+            return callback(null);
+          });
+        }, function(err) {
+          if(err) return done(err);
+          return done(null);
+        });
+      });
+    },
+    // finally, remove the bevy from the database
+    function(done) {
+      Bevy.findOneAndRemove({ _id: bevy_id }, function(err, bevy) {
+        if(err) return next(err);
+        if(_.isEmpty(bevy)) return next('Bevy not found');
+        done(null, bevy);
+      });
+    }
+  ], function(err, bevy) {
+    if(err) return next(err);
     return res.json(bevy);
-  }, function(err) { return next(err); })
+  });
 };
 
 
