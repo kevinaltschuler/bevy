@@ -52,8 +52,8 @@ var PostView = React.createClass({
   },
 
   render() {
-    var joinedBoard = true;
-    var joinedParent = true;
+    var joinedBoard = false;
+    var joinedParent = false;
     var activeBoard = this.props.activeBoard;
     var parent = BevyStore.getBevy(activeBoard.parent);
     
@@ -65,30 +65,23 @@ var PostView = React.createClass({
       joinedParent = false;
     }
 
-    if(parent.settings.privacy == 'Private') {
-      if(_.find(window.bootstrap.user.bevies, 
-        function(bevyId) { 
-        return bevyId == parent._id 
-      }.bind(this))) {
-        joinedParent = true;
-      } 
-    } else {
+    if(_.find(window.bootstrap.user.bevies, 
+      function(bevyId) { 
+      return bevyId == parent._id 
+    }.bind(this))) {
       joinedParent = true;
-    }
+    } 
 
-    if(activeBoard.settings.privacy == 'Private') {
-      if(_.find(window.bootstrap.user.boards, 
-        function(boardId) { 
-        return boardId == activeBoard._id 
-      }.bind(this))) {
-        joinedBoard = true;
-      }
-    } else {
+    if(_.find(window.bootstrap.user.boards, 
+      function(boardId) { 
+      return boardId == activeBoard._id 
+    }.bind(this))) {
       joinedBoard = true;
     }
 
+    console.log(joinedBoard, joinedParent);
 
-    if(!joinedParent) {
+    if(!joinedParent && parent.settings.privacy == 'Private') {
       return (
         <div className='main-section private-container'>
           <div className='private panel'>
@@ -99,7 +92,9 @@ var PostView = React.createClass({
       );
     }
 
-    if(!joinedBoard) {
+    console.log(activeBoard);
+
+    if(!joinedBoard && activeBoard.settings.privacy == 'Private') {
       return (
       <div className='main-section private-container'>
         <div className='private panel'>
