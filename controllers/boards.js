@@ -79,6 +79,8 @@ exports.createBoard = function(req, res, next) {
   if(req.body['settings'] != undefined)
     update.settings = req.body['settings'];
 
+  update.subCount = 1;
+
   if(!update.parent) return next('parent not specified');
 
   if(!update.name) return next('board name not specified');

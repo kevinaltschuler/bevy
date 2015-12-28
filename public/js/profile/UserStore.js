@@ -228,6 +228,11 @@ _.extend(UserStore, {
     this.trigger(USER.CHANGE_ALL);
   },
 
+  addBevy(bevy) {
+    this.user.bevies.push(bevy.get('_id'));
+    this.trigger(USER.CHANGE_ALL);
+  },
+
   login(username, password) {
     this.trigger(USER.LOGGING_IN);
     fetch(constants.siteurl + '/login', {
