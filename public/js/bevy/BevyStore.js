@@ -70,7 +70,6 @@ _.extend(BevyStore, {
         break;
 
       case BEVY.LOADBEVYVIEW:
-        Dispatcher.waitFor([ UserStore.dispatchToken ]);
         var bevy_id_or_slug = payload.bevy_id;
         var user = window.bootstrap.user;
         this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
@@ -79,6 +78,8 @@ _.extend(BevyStore, {
           success: function(collection, response, options) {
 
               var active = this.myBevies.get(bevy_id_or_slug);
+              console.log(bevy_id_or_slug, response);
+              console.log(active);
               this.active = active;
               this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/boards';
 

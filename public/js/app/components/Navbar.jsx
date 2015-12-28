@@ -203,6 +203,10 @@ var Navbar = React.createClass({
               ? ''
               : 'url(' + this.props.activeBevy.image.path + ')'
           };
+        if(!_.isEmpty(this.props.activeBevy)) {
+          if(this.props.activeBevy.image.path == "http://bevy.dev/img/default_group_img.png")
+            backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
+        } 
         break;
       case 'board':
         var parent = BevyStore.getBevy(this.props.activeBoard.parent);
@@ -228,6 +232,10 @@ var Navbar = React.createClass({
               ? ''
               : 'url(' + parent.image.path + ')'
           };
+          if(!_.isEmpty(parent)) {
+            if(parent.image.path == "http://bevy.dev/img/default_group_img.png")
+              backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
+          } 
         break;
       case 'search':
         navbarTitle = ((_.isEmpty(router.search_query)) 
@@ -244,7 +252,7 @@ var Navbar = React.createClass({
           iconClassName='glyphicon glyphicon-search'
           linkButton={true}
           href='/s'
-          style={{ width: '35px', height: '35px', padding: '5px', margin: '3px', marginLeft: '10px' }}
+          style={{ width: '35px', height: '35px', padding: '5px', margin: '3px', marginLeft: '10px', paddingLeft: 12, paddingTop: 10 }}
           iconStyle={{ color: 'white', fontSize: '14px' }}
           title='Search'
         />);
