@@ -114,7 +114,6 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('displayName').get(function() {
-  console.log(this);
   return this.username;
   if(!_.isEmpty(this.username)) {
     return this.username;

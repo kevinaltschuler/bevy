@@ -222,6 +222,11 @@ _.extend(UserStore, {
     }
   },
 
+  addBoard(board) {
+    this.user.boards.push(board.get('_id'));
+    this.trigger(USER.CHANGE_ALL);
+  },
+
   login(username, password) {
     this.trigger(USER.LOGGING_IN);
     fetch(constants.siteurl + '/login', {
