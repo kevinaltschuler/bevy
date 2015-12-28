@@ -51,7 +51,6 @@ exports.getBoardPosts = function(req, res, next) {
     path: 'author',
     select: '_id image displayName'
   })
-  .lean();
 };
 
 // GET /bevies/:bevyid/posts
@@ -93,7 +92,6 @@ exports.getBevyPosts = function(req, res, next) {
       path: 'author',
       select: '_id displayName email image'
     })
-    .lean();
   });
 };
 
@@ -192,7 +190,6 @@ exports.updatePost = function(req, res, next) {
         path: 'author',
         select: '_id displayName email image'
       })
-      .lean()
       .exec(function(err, post) {
         if(err) return next(err);
         if(_.isEmpty(post)) return next('Post not found');
