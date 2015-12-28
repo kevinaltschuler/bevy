@@ -204,8 +204,9 @@ var Navbar = React.createClass({
               : 'url(' + this.props.activeBevy.image.path + ')'
           };
         if(!_.isEmpty(this.props.activeBevy)) {
-          if(this.props.activeBevy.image.path == "http://bevy.dev/img/default_group_img.png")
-            backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
+          if(!_.isEmpty(this.props.activeBevy.image))
+            if(this.props.activeBevy.image.path == "http://bevy.dev/img/default_group_img.png")
+              backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
         } 
         break;
       case 'board':
@@ -233,8 +234,9 @@ var Navbar = React.createClass({
               : 'url(' + parent.image.path + ')'
           };
           if(!_.isEmpty(parent)) {
-            if(parent.image.path == "http://bevy.dev/img/default_group_img.png")
-              backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
+            if(!_.isEmpty(parent.image))
+              if(parent.image.path == "http://bevy.dev/img/default_group_img.png")
+                backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
           } 
         break;
       case 'search':
