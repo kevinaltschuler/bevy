@@ -20,6 +20,7 @@ var User = require('./../models/User');
 var Post = require('./../models/Post');
 var Bevy = require('./../models/Bevy');
 var Comment = require('./../models/Comment');
+var Board = require('./../models/Board');
 
 // GET /boards/:boardid/posts
 exports.getBoardPosts = function(req, res, next) {
@@ -29,7 +30,7 @@ exports.getBoardPosts = function(req, res, next) {
     if(posts.length <= 0) return res.json(posts);
     var _posts = [];
     posts.forEach(function(post) {
-      Comment.find({ postId: post_id }, function(err, comments) {
+      Comment.find({ postId: post._id }, function(err, comments) {
         if(err) return next(err);
         post.comments = comments;
         _posts.push(post);
@@ -48,7 +49,7 @@ exports.getBoardPosts = function(req, res, next) {
   })
   .populate({
     path: 'author',
-    select: '_id displayName email image'
+    select: '_id image displayName'
   })
   .lean();
 };
@@ -70,7 +71,7 @@ exports.getBevyPosts = function(req, res, next) {
 
       var _posts = [];
       posts.forEach(function(post) {
-        Comment.find({ postId: post_id }, function(err, comments) {
+        Comment.find({ postId: post._id }, function(err, comments) {
           if(err) return next(err);
           post.comments = comments;
           _posts.push(post);
@@ -182,7 +183,17 @@ exports.updatePost = function(req, res, next) {
       populateLinks(update, done);
     },
     function($update, done) {
-      Post.findOneAndUpdate({ _id: post_id }, $update, { new: true, upsert: true }, function(err, post) {
+      Post.findOneAndUpdate({ _id: post_id }, $update, { new: true, upsert: true })
+      .populate({
+        path: 'board',
+        select: '_id name image settings'
+      })
+      .populate({
+        path: 'author',
+        select: '_id displayName email image'
+      })
+      .lean()
+      .exec(function(err, post) {
         if(err) return next(err);
         if(_.isEmpty(post)) return next('Post not found');
         Comment.find({ postId: post_id }, function(err, comments) {
@@ -196,15 +207,6 @@ exports.updatePost = function(req, res, next) {
         })
         .lean();
       })
-      .populate({
-        path: 'board',
-        select: '_id name image settings'
-      })
-      .populate({
-        path: 'author',
-        select: '_id displayName email image'
-      })
-      .lean();
     }
   ]);
 }

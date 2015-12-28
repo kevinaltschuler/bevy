@@ -76,9 +76,6 @@ var PostView = React.createClass({
       joinedParent = true;
     }
 
-    console.log('joined board', joinedBoard);
-    console.log('joined parent', joinedParent);
-
     if(activeBoard.settings.privacy == 'Private') {
       if(_.find(window.bootstrap.user.boards, 
         function(boardId) { 

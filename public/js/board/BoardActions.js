@@ -54,19 +54,19 @@ var BoardActions = {
 
   join(board_id) {
     dispatch(BOARD.JOIN, {
-      board_id: (board_id == undefined) ? '0' : board_id
+      board_id: (board_id == undefined) ? '' : board_id,
     });
   },
 
   switchBoard(board_id) {
     dispatch(BOARD.SWITCH, {
-      board_id: (board_id == undefined) ? '0' : board_id
+      board_id: (board_id == undefined) ? '' : board_id
     });
   },
 
   getBoard(board_id) {
     dispatch(BOARD.GET, {
-      board_id: (board_id == undefined) ? '0' : board_id
+      board_id: (board_id == undefined) ? '' : board_id
     });
   }
 };

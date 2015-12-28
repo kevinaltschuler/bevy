@@ -124,6 +124,8 @@ exports.updateUser = function(req, res, next) {
     update.bevies = req.body['bevies'];
   if(req.body['image'] != undefined)
     update.image = req.body['image'];
+  if(req.body['boards'] != undefined)
+    update.boards = req.body['boards'];
 
   var promise = User.findOneAndUpdate({ _id: id }, update, { new: true });
   promise.then(function(user) {

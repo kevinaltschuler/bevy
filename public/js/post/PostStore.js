@@ -51,7 +51,6 @@ _.extend(PostStore, {
   // handle calls from the dispatcher
   // these are created from PostActions.js
   handleDispatch(payload) {
-    console.log(payload.actionType);
     switch(payload.actionType) {
 
       case APP.LOAD:
@@ -65,7 +64,6 @@ _.extend(PostStore, {
         break;
 
       case BEVY.SWITCH:
-        console.log('JUST SWITCH YOU BITCH');
         var bevy_id = payload.bevy_id;
 
         this.posts.comparator = PostStore.sortByNew;
@@ -156,8 +154,6 @@ _.extend(PostStore, {
           created: Date.now(),
           expires: posts_expire_in,
         });
-
-        console.log(newPost);
 
         newPost.url = constants.apiurl + '/posts';
 
@@ -251,15 +247,15 @@ _.extend(PostStore, {
         }, {
           patch: true,
           success: function(post, response, options) {
-            
+            console.log(response);
           }.bind(this)
         });
         // instant update
         post.set('votes', votes);
         // sort posts
-        this.posts.sort();
+        //this.posts.sort();
         this.trigger(POST.CHANGE_ONE + post.id);
-        this.trigger(POST.CHANGE_ALL);
+        //this.trigger(POST.CHANGE_ALL);
 
         break;
 
@@ -431,6 +427,7 @@ _.extend(PostStore, {
 
   // send all posts to the App.jsx in JSON form
   getAll() {
+    console.log(this.posts.toJSON());
     return this.posts.toJSON();
   },
 
@@ -440,7 +437,6 @@ _.extend(PostStore, {
    * @return {[type]}
    */
   getPost(id) {
-    //console.log(this.posts);
     return this.posts.get(id).toJSON();
   },
 

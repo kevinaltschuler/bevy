@@ -199,7 +199,7 @@ var PostContainer = React.createClass({
     if(posts.length == 0) {
       return (
         <div className='post-container'>
-          <span className='no-posts-text'>No Posts :(</span>
+          <span className='no-posts-text'>No Posts Yet</span>
         </div>
       );
     }

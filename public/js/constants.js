@@ -123,6 +123,7 @@ exports.USER = {
   REFRESH_TOKEN: 'user_refresh_token',
   VERIFY_USERNAME: 'user_verify_username',
   LOADED: 'user_loaded',
+  ADDBEVY: 'user_add_bevy',
 
   // events
   LOGGING_IN: 'user_logging_in',

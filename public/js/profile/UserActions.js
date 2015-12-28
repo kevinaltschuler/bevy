@@ -43,7 +43,7 @@ var UserActions = {
       actionType: USER.REFRESH_TOKEN,
       refreshToken: refreshToken
     });
-  }
+  },
 }
 
 module.exports = UserActions;

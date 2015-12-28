@@ -16,6 +16,7 @@ var {
 var BoardSettingsModal = require('./BoardSettingsModal.jsx');
 var InfoPanelHeader = require('./InfoPanelHeader.jsx');
 var AdminModal = require('./../../bevy/components/AdminModal.jsx');
+var BoardActions = require('./../BoardActions');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -27,9 +28,9 @@ var InfoPanel = React.createClass({
   },
 
   getInitialState() {
-    //var joined = (_.findWhere(this.props.myBevies, { _id: this.props.activeBevy._id }) != undefined);
+    var joined = (_.contains(window.bootstrap.user.boards, this.props.board._id));
     return {
-      //joined: joined,
+      joined: joined,
       showSettingsModal: false,
       showAdminModal: false
     };
@@ -42,10 +43,9 @@ var InfoPanel = React.createClass({
     });*/
   },
 
-  /*onRequestJoin(ev) {
+  onRequestJoin(ev) {
     ev.preventDefault();
-    BevyActions.join(this.props.activeBevy._id, window.bootstrap.user._id, window.bootstrap.user.email);
-    var bevy = this.props.bevy;
+    BoardActions.join(this.props.board._id);
     this.setState({
       joined: true
     });
@@ -53,12 +53,11 @@ var InfoPanel = React.createClass({
 
   onRequestLeave(ev) {
     ev.preventDefault();
-    BevyActions.leave(this.props.activeBevy._id);
-    var bevy = this.props.bevy;
+    BoardActions.leave(this.props.board._id);
     this.setState({
       joined: false
     });
-  },*/
+  },
 
   _renderPublicPrivate() {
     if(this.props.board.settings.privacy == 0) {
@@ -76,8 +75,6 @@ var InfoPanel = React.createClass({
     var joinButton = (this.state.joined)
     ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
     : <RaisedButton label='join' onClick={ this.onRequestJoin } /> 
-
-    console.log(this.props.board.admins, window.bootstrap.user._id);
 
     if(_.findWhere(this.props.board.admins, window.bootstrap.user._id ) != undefined) {
       return (

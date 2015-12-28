@@ -18,6 +18,7 @@ var constants = require('./../constants');
 var USER = constants.USER;
 var BEVY = constants.BEVY;
 var APP = constants.APP;
+var BOARD = constants.BOARD;
 
 var Users = require('./UserCollection');
 var User = require('./UserModel');
@@ -138,6 +139,47 @@ _.extend(UserStore, {
 
         this.user.save({
           bevies: bevies
+        }, {
+          patch: true,
+          success: function(model, response, options) {
+
+          }.bind(this)
+        });
+        break;
+
+      case BOARD.JOIN:
+        // add to users bevies array
+        var board_id = payload.board_id;
+
+        var boards = this.user.get('boards');
+        if(_.contains(boards, board_id)) break; // already joined
+
+        boards.push(board_id);
+        _.uniq(boards); // ensure that theres no dupes
+
+        this.user.save({
+          boards: boards
+        }, {
+          patch: true,
+          success: function(model, response, options) {
+            this.trigger(USER.CHANGE_ALL);
+          }.bind(this)
+        });
+        break;
+
+      case BOARD.DESTROY:
+      case BOARD.LEAVE:
+        // remove from users bevies array
+        var board_id = payload.board_id;
+
+        var boards = this.user.get('boards');
+        boards = _.reject(boards, function($board_id) {
+          return $board_id == board_id;
+        });
+        _.uniq(boards); // ensure that theres no dupes
+
+        this.user.save({
+          boards: boards
         }, {
           patch: true,
           success: function(model, response, options) {

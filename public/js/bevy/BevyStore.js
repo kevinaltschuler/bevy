@@ -63,7 +63,6 @@ _.extend(BevyStore, {
 
         this.myBevies.fetch({
           success: function(collection, response, options) {
-            console.log(response);
             this.trigger(BEVY.LOADED);
             this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
@@ -73,7 +72,6 @@ _.extend(BevyStore, {
       case BEVY.LOADBEVYVIEW:
         Dispatcher.waitFor([ UserStore.dispatchToken ]);
         var bevy_id_or_slug = payload.bevy_id;
-        console.log('load bevy view', bevy_id_or_slug);
         var user = window.bootstrap.user;
         this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
 
@@ -81,13 +79,11 @@ _.extend(BevyStore, {
           success: function(collection, response, options) {
 
               var active = this.myBevies.get(bevy_id_or_slug);
-              this.active = active.toJSON();
-              //console.log(this.active);
-              this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active._id + '/boards';
+              this.active = active;
+              this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/boards';
 
               this.bevyBoards.fetch({
                 success: function(collection, response, options) {
-                  console.log('the repsonse', response);
                   this.trigger(BEVY.LOADED);
                   this.trigger(BEVY.CHANGE_ALL);
                 }.bind(this)
@@ -179,7 +175,7 @@ _.extend(BevyStore, {
                 bevies: bevy_ids
               },
               success: function($user) {
-                //window.location.href = constants.siteurl + model.get('url');
+                window.location.href = constants.siteurl + model.get('url');
               }.bind(this)
             });
           }.bind(this)
@@ -398,39 +394,21 @@ _.extend(BevyStore, {
 
         newBoard.save(null, {
           success: function(model, response, options) {
-            console.log(model.toJSON());
             // success
             newBoard.set('_id', model.id);
-
-            board_id = model.id;
-
-            // switch to board
-            this.active = board_id;
-
-            this.trigger(BOARD.CHANGE_ALL);
-
-            // TODO: move this to user store
-            $.ajax({
-              method: 'POST',
-              url: constants.apiurl + '/users/' + user._id + '/boards',
-              data: {
-                board: board_id
-              },
-              success: function($user) {
-                window.location.href = constants.siteurl + model.get('url');
-              }.bind(this)
-            });
-            // TODO: move to bevy store
-            $.ajax({
-              method: 'POST',
-              url: constants.apiurl + '/bevies/' + model.toJSON().parent + '/boards',
-              data: {
-                board: board_id
-              },
-              success: function($user) {
+            var boards = this.active.get('boards');
+            boards.push(model.id);
+            this.active.url = constants.apiurl + '/bevies/' + this.active.get('_id');
+            this.active.save({
+              boards: boards
+            }, {
+              patch: true,
+              success: function(model, response, options) {
+                this.trigger(BOARD.CHANGE_ALL);
                 this.trigger(BEVY.CHANGE_ALL);
               }.bind(this)
             });
+            BoardActions.join(model.id);
           }.bind(this)
         });
 
@@ -449,7 +427,7 @@ _.extend(BevyStore, {
   },
 
   getActive() {
-    return this.active;
+    return (!_.isEmpty(this.active)) ? this.active.toJSON() : {};
   },
 
   getBevy(bevy_id) {
