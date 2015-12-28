@@ -83,7 +83,38 @@ exports.createBoard = function(req, res, next) {
 
   if(!update.name) return next('board name not specified');
 
-  Board.create(update, function(err, board) {
+  async.waterfall([
+    function(done) {
+      Board.create(update, function(err, board) {
+        if(err) return done(err);
+        done(null, board);
+      });
+    },
+    // add board to parent bevy's collection of boards
+    function(board, done) {
+      Bevy.findOne({ _id: update.parent }, function(err, bevy) {
+        if(err) return done(err);
+        if(_.isEmpty(bevy)) return done('Board parent bevy not found');
+        bevy.boards.push(board._id);
+        bevy.save(function(err) {
+          if(err) return done(err);
+          done(null, board);
+        });
+      });
+    },
+    // add board to admin's collection of boards
+    function(board, done) {
+      User.findOne({ _id: update.admins[0] }, function(err, user) {
+        if(err) return done(err);
+        if(_.isEmpty(user)) return done('Board admin user not found');
+        user.boards.push(board._id);
+        user.save(function(err) {
+          if(err) return done(err);
+          done(null, board);
+        })
+      });
+    }
+  ], function(err, board) {
     if(err) return next(err);
     return res.json(board);
   });
@@ -140,31 +171,58 @@ exports.updateBoard = function(req, res, next) {
   });
 };
 
-// DELETE /boards/:id
+// DELETE /boards/:boardid
 exports.destroyBoard = function(req, res, next) {
-  var board_id = req.params.id;
-  Bevy.findOneAndRemove({ _id: board_id }, function(err, board) {
-    if(err) return next(err);
-    // TODO delete all threads associated with this board
-    // delete all posts associated with this board
-    Post.remove({ board: board_id }, function(err, posts) {
-      if(err) return next(err);
-    });
-    // remove refs to this board from all users
-    User.find({ boards: board_id }, function(err, users) {
-      if(err) return next(err);
-      async.each(users, function(user, callback) {
-        user.boards.pull(board_id);
-        user.save(function(err) {
-          if(err) next(err);
+  var board_id = req.params.boardid;
+  async.waterfall([
+    // first remove board from all bevies with that board in their collection
+    function(done) {
+      Bevy.find({ boards: board_id }, function(err, bevies) {
+        if(err) return done(err);
+        async.each(bevies, function(bevy, callback) {
+          bevy.boards.pull(board_id);
+          bevy.save(function(err) {
+            if(err) return callback(err);
+            callback(null);
+          });
+        }, function(err) {
+          if(err) return done(err);
+          return done(null);
         });
-        callback();
-      },
-      function(err) {
-        if(err) return next(err);
       });
-    });
-
+    },
+    // then remove board from all users with that board in their collection
+    function(done) {
+      User.find({ boards: board_id }, function(err, users) {
+        if(err) return done(err);
+        async.each(users, function(user, callback) {
+          user.boards.pull(board_id);
+          user.save(function(err) {
+            if(err) return callback(err);
+            callback(null);
+          });
+        }, function(err) {
+          if(err) return done(err);
+          return done(null);
+        });
+      });
+    },
+    // then remove all posts posted to that board
+    function(done) {
+      Post.find({ board: board_id }, function(err, posts) {
+        if(err) return done(err);
+        return done(null);
+      });
+    },
+    // finally remove the board from the database
+    function(done) {
+      Board.findOneAndRemove({ _id: board_id }, function(err, board) {
+        if(err) return done(err);
+        return done(null, board);
+      })
+    }
+  ], function(err, board) {
+    if(err) return next(err);
     return res.json(board);
   });
 };

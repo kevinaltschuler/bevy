@@ -132,7 +132,7 @@ _.extend(BevyStore, {
 
         if(_.isEmpty(image)) {
           image = {
-            filename: constants.siteurl + '/img/default_group_img.png', 
+            filename: constants.siteurl + '/img/default_group_img.png',
             foreign: true
           };
         }
@@ -343,11 +343,11 @@ _.extend(BevyStore, {
         this.searchList.reset();
         this.trigger(BEVY.SEARCHING);
 
-        if(_.isEmpty(query)) 
+        if(_.isEmpty(query))
           this.searchList.url = constants.apiurl + '/bevies';
-        else 
+        else
           this.searchList.url = constants.apiurl + '/bevies/search/' + query;
-        
+
         this.searchList.fetch({
           reset: true,
           success: function(collection, response, options) {
@@ -363,53 +363,13 @@ _.extend(BevyStore, {
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(POST.CHANGE_ALL);
         break;
-
-      case BOARD.CREATE:
-        var name = payload.name;
-        var description = payload.description;
-        var image = payload.image;
-        var user = window.bootstrap.user;
-        var parent_id = payload.parent_id;
-
-        if(_.isEmpty(image)) {
-          image = {filename: constants.siteurl + '/img/default_board_img.png', foreign: true};
-        }
-
-        if(_.isEmpty(parent_id))
-          break;
-
-        var newBoard = this.bevyBoards.add({
-          name: name,
-          description: description,
-          image: image,
-          admins: [user._id],
-          parent: parent_id
-        });
-
-        newBoard.url = constants.apiurl + '/boards';
-
-        newBoard.save(null, {
-          success: function(model, response, options) {
-            // success
-            newBoard.set('_id', model.id);
-            var boards = this.active.get('boards');
-            boards.push(model.id);
-            this.active.url = constants.apiurl + '/bevies/' + this.active.get('_id');
-            this.active.save({
-              boards: boards
-            }, {
-              patch: true,
-              success: function(model, response, options) {
-                this.trigger(BOARD.CHANGE_ALL);
-                this.trigger(BEVY.CHANGE_ALL);
-              }.bind(this)
-            });
-            BoardActions.join(model.id);
-          }.bind(this)
-        });
-
-        break;
     }
+  },
+
+  addBoard(board) {
+    this.bevyBoards.add(board);
+    this.trigger(BOARD.CHANGE_ALL);
+    this.trigger(BEVY.CHANGE_ALL);
   },
 
   getMyBevies() {
@@ -478,7 +438,7 @@ _.extend(BevyStore, {
     var date = Date.parse(bevy.get('created'));
     return date;
   }
-  
+
 });
 
 var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));

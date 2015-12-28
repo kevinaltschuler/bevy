@@ -33,6 +33,7 @@ var APP = constants.APP;
 var BOARD = constants.BOARD;
 var BoardActions = require('./BoardActions');
 var BevyStore = require('./../bevy/BevyStore');
+var UserStore = require('./../profile/UserStore');
 var user = window.bootstrap.user;
 
 // inherit event class first
@@ -46,6 +47,29 @@ _.extend(BoardStore, {
   // these are created from BoardActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
+      case BOARD.CREATE:
+        var name = payload.name;
+        var description = payload.description;
+        var image = payload.image;
+        var user = window.bootstrap.user;
+        var parent_id = payload.parent_id;
+
+        var board = new Board({
+          name: name,
+          description: description,
+          image: image,
+          admins: [user._id],
+          parent: parent_id
+        });
+        board.url = constants.apiurl + '/boards';
+        board.save(null, {
+          success: function(model, response, options) {
+            BevyStore.addBoard(board);
+            UserStore.addBoard(board);
+          }.bind(this)
+        });
+        break;
+
       case BOARD.LOADBOARDVIEW:
         var board_id = payload.board_id;
         console.log('switching to: ', board_id);

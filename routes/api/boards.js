@@ -59,7 +59,7 @@ module.exports = function(router) {
     boardController.updateBoard
   );
 
-  router.delete('/boards/:id', [
+  router.delete('/boards/:boardid', [
       oauth2Controller.bearer,
       permissionsController.isBoardMember,
       permissionsController.isBoardAdmin,
