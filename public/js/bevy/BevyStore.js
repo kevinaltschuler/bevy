@@ -130,13 +130,6 @@ _.extend(BevyStore, {
         var slug = payload.slug;
         var user = window.bootstrap.user;
 
-        if(_.isEmpty(image)) {
-          image = {
-            filename: constants.siteurl + '/img/default_group_img.png',
-            foreign: true
-          };
-        }
-
         // sanitize slug before we continue;
         if(_.isEmpty(slug)) {
           slug = getSlug(name);
@@ -145,7 +138,7 @@ _.extend(BevyStore, {
           slug = getSlug(slug);
         }
 
-        var newBevy = this.myBevies.add({
+        var bevy = this.myBevies.add({
           name: name,
           image: image,
           slug: slug,
@@ -155,18 +148,11 @@ _.extend(BevyStore, {
             privacy: 'Private'
           }
         });
-        newBevy.url = constants.apiurl + '/bevies';
-
-        newBevy.save(null, {
+        bevy.url = constants.apiurl + '/bevies';
+        bevy.save(null, {
           success: function(model, response, options) {
-            // success
-            newBevy.set('_id', model.id);
-            //this.myBevies.add(model);
-            // switch to bevy
-            BevyActions.join(model.id);
+            UserStore.addBevy(bevy);
             this.trigger(BEVY.CHANGE_ALL);
-            // TODO: move this to user store
-
           }.bind(this)
         });
         break;
