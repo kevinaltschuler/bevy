@@ -109,30 +109,7 @@ _.extend(BoardStore, {
   },
 
   getBoard(board_id) {
-    if(board_id == 0) {
-      return {};
-    }
-    var board = this.boards.get(board_id);
-    if(board == undefined) {
-      // couldnt find so fetch from server
-      $.ajax({
-        method: 'GET',
-        url: constants.apiurl + '/boards/' + board_id,
-        success: function($board, more) {
-          if(_.isEmpty($board)) {
-            var board = {};
-          } else {
-            var board = $board;
-          }
-        }.bind(this)
-      });
-    } else {
-      // we found it so return
-      return (board)
-        ? board.toJSON()
-        : {};
-    }
-
+    return BevyStore.getBoard(board_id);
   },
 
 });

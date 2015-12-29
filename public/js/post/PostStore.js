@@ -79,7 +79,6 @@ _.extend(PostStore, {
 
             this.activeBevy = bevy_id;
             this.posts.sort();
-            console.log('change all');
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
@@ -248,7 +247,6 @@ _.extend(PostStore, {
         }, {
           patch: true,
           success: function(post, response, options) {
-            console.log(response);
           }.bind(this)
         });
         // instant update
@@ -428,7 +426,6 @@ _.extend(PostStore, {
 
   // send all posts to the App.jsx in JSON form
   getAll() {
-    console.log(this.posts.toJSON());
     return this.posts.toJSON();
   },
 

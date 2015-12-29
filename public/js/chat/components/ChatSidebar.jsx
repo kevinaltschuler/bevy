@@ -208,14 +208,11 @@ var ChatSidebar = React.createClass({
     allThreads = _.reject(allThreads, ($thread) => $thread._id == -1); // dont render the new message panel/thread
     if(allThreads.length == 0) return <div>no conversations</div>;
 
-    console.log(allThreads);
-
     // collect and render all thread items - sorted by type
     var boardThreads = _.where(allThreads, { type: 'board' });
     var boardThreadItems = [];
     var sidebarOpen = (this.state.sidebarWidth == constants.chatSidebarWidthOpen)
     for(var key in boardThreads) {
-      console.log(key);
       var thread = boardThreads[key];
       boardThreadItems.push(
         <ThreadItem

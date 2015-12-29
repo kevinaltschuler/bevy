@@ -37,6 +37,7 @@ var ChatDock = React.createClass({
   },
 
   render() {
+    console.log(this.state.openThreads);
     var threads = [];
     var openThreads = this.state.openThreads;
     for(var key in openThreads) {

@@ -36,8 +36,7 @@ var ThreadModel = Backbone.Model.extend({
     switch(this.get('type')) {
       case 'board':
         if(!this.get('board')) return '';
-        var board = BoardStore.getBoard(this.get('board')._id);
-        return board.name;
+        return this.get('board').name;
         break;
       case 'group':
         var usernames = _.pluck(this.get('users'), 'displayName');
@@ -69,16 +68,13 @@ var ThreadModel = Backbone.Model.extend({
   // does this based on the thread type
   // or will default to the hard-set one if it exists
   getImageURL() {
-    return '/img/logo_100.png';
     var default_img = '/img/logo_100.png';
     if(!_.isEmpty(this.get('image'))) 
       return this.get('image').path;
     switch(this.get('type')) {
       case 'board':
         if(!this.get('board')) return default_img;
-        var board = BoardStore.getBoard(this.get('board')._id);
-        if(_.isEmpty(board.image)) return default_img;
-        return board.image.path;
+        return this.get('board').image.path;
         break;
       case 'group':
         // TODO: @kevin do some magic here

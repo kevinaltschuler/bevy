@@ -53,6 +53,7 @@ exports.createMessage = function(req, res, next) {
   };
 
   Message.create(message, function(err, $message) {
+    console.log($message);
     if(err) return next(err);
     Message.populate($message, { path: 'author thread' }, function(err, $pop_message) {
       if(err) return next(err);
