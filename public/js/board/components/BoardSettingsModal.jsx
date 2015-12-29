@@ -1,5 +1,5 @@
 /**
- * BevySettingsModal.jsx
+ * BoardSettingsModal.jsx
  *
  * @author kevin
  */
@@ -48,8 +48,10 @@ var BoardSettingsModal = React.createClass({
   onPrivacyChange(ev, selectedIndex, menuItem) {
     ev.preventDefault();
 
+    console.log(menuItem);
+
     this.setState({
-      privacy: menuItem.payload
+      privacy: menuItem.text
     });
   },
 
@@ -57,15 +59,11 @@ var BoardSettingsModal = React.createClass({
     //var anonymise_users = this.refs.anonymise_users.isToggled();
     var group_chat = this.refs.group_chat.isToggled();
     var admin_only = this.refs.admin_only.isToggled();
-    var default_events = this.refs.default_events.isToggled();
 
-    BoardActions.update(this.props.board._id, null, null, null, null, null, {
-      //anonymise_users: anonymise_users,
-      posts_expire_in: this.state.posts_expire_in,
+    BoardActions.update(this.props.board._id, null, null, null, {
       group_chat: group_chat,
       admin_only: admin_only,
       privacy: this.state.privacy,
-      default_events: default_events
     });
 
     this.props.onHide();
@@ -83,28 +81,14 @@ var BoardSettingsModal = React.createClass({
 
     var board = this.props.board;
     var settings = board.settings;
-    var expireMenuItems = [
-      { payload: '-1', text: 'Never', defaultIndex: 0 },
-      { payload: '1', text: '1 day', defaultIndex: 1 },
-      { payload: '2', text: '2 days', defaultIndex: 2  },
-      { payload: '5', text: '5 days', defaultIndex: 3  },
-      { payload: '7', text: '7 days', defaultIndex: 4  }
-    ];
-    var itemIndex = 0;
-    var item = _.findWhere(expireMenuItems, { payload: this.state.posts_expire_in.toString() });
-    if(!_.isEmpty(item)) {
-      itemIndex = item.defaultIndex;
-    }
 
     var privacyMenuItems = [
       { payload: '0', text: 'Public', defaultIndex: 0 },
       { payload: '1', text: 'Private', defaultIndex: 1 }
     ];
-    var privacyIndex = 0;
-    var privacyItem = _.findWhere(privacyMenuItems, { payload: this.state.privacy.toString() });
-    if(!_.isEmpty(privacyItem)) {
-      privacyIndex = privacyItem.defaultIndex;
-    }
+    var privacyIndex = (this.state.privacy == 'Private')
+    ? 1
+    : 0;
 
     var posts_expire_in = this.state.posts_expire_in;
 
@@ -117,15 +101,6 @@ var BoardSettingsModal = React.createClass({
         </Modal.Header>
 
         <Modal.Body>
-          <div className='bevy-setting expire-setting'>
-            Posts Expire In:
-            <DropDownMenu
-              ref='posts_expire_in'
-              menuItems={ expireMenuItems }
-              onChange={ this.onDropDownChange }
-              selectedIndex={ itemIndex }
-            />
-          </div>
           <div className='bevy-setting expire-setting'>
             Privacy
             <OverlayTrigger placement='right' overlay={ 

@@ -34,6 +34,7 @@ var BOARD = constants.BOARD;
 var BoardActions = require('./BoardActions');
 var BevyStore = require('./../bevy/BevyStore');
 var UserStore = require('./../profile/UserStore');
+var ChatStore = require('./../chat/ChatStore');
 var user = window.bootstrap.user;
 
 // inherit event class first
@@ -94,6 +95,38 @@ _.extend(BoardStore, {
         })
         break;
 
+      case BOARD.UPDATE:
+        var board_id = payload.board_id;
+
+        var board = this.active;
+
+        var name = payload.name || board.get('name');
+        var description = payload.description || board.get('description');
+        var image = payload.image || board.get('image');
+        var settings = payload.settings || board.get('settings');
+
+        board.set({
+          name: name,
+          description: description,
+          image: image,
+          settings: settings
+        });
+
+        board.save({
+          name: name,
+          description: description,
+          image: image,
+          settings: settings
+        }, {
+          patch: true,
+          success: function() {
+            ChatStore.fetchThreads();
+          }
+        });
+
+        this.trigger(BOARD.CHANGE_ALL);
+        break;
+
     }
   },
 
@@ -109,6 +142,8 @@ _.extend(BoardStore, {
   },
 
   getBoard(board_id) {
+    if(board_id == this.active.get('_id'))
+      return this.active.toJSON();
     return BevyStore.getBoard(board_id);
   },
 

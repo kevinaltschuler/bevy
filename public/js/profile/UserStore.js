@@ -22,7 +22,7 @@ var BOARD = constants.BOARD;
 
 var Users = require('./UserCollection');
 var User = require('./UserModel');
-
+var ChatStore = require('./../chat/ChatStore');
 var user = window.bootstrap.user;
 
 var UserStore = _.extend({}, Backbone.Events);
@@ -41,7 +41,7 @@ _.extend(UserStore, {
 
   handleDispatch(payload) {
     switch(payload.actionType) {
-      case APP.LOAD:
+      case APP.LOAD_USER:
         if(_.isEmpty(window.bootstrap.user)) {
           this.loggedIn = false;
           break;
@@ -65,7 +65,6 @@ _.extend(UserStore, {
             localStorage.getItem('expires_in')
           );
         }
-        console.log('user was loaded');
         this.trigger(USER.LOADED);
         break;
 
@@ -164,6 +163,7 @@ _.extend(UserStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
+            ChatStore.fetchThreads();
             this.trigger(USER.CHANGE_ALL);
           }.bind(this)
         });
@@ -185,7 +185,9 @@ _.extend(UserStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-
+            ChatStore.fetchThreads();
+            this.trigger(CHAT.CHANGE_ALL);
+            this.trigger(USER.CHANGE_ALL);           
           }.bind(this)
         });
         break;

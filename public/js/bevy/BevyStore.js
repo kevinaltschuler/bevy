@@ -93,7 +93,7 @@ _.extend(BevyStore, {
 
         break;
       case BOARD.LOADBOARDVIEW:
-        Dispatcher.waitFor([ UserStore.dispatchToken ]);
+        //Dispatcher.waitFor([ UserStore.dispatchToken ]);
         var user = window.bootstrap.user;
         this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
         this.myBevies.fetch({

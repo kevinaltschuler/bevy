@@ -17,9 +17,11 @@ var APP = constants.APP;
 var CHAT = constants.CHAT;
 var BEVY = constants.BEVY;
 var BOARD = constants.BOARD;
+var USER = constants.USER;
 
 var BevyStore = require('./../bevy/BevyStore');
 var BoardStore = require('./../board/BoardStore');
+var UserStore = require('./../profile/UserStore');
 
 var ThreadCollection = require('./ThreadCollection');
 var Thread = require('./ThreadModel');
@@ -48,29 +50,16 @@ _.extend(ChatStore, {
         });
         break;
 
-      case BOARD.JOIN:
-        var board_id = payload.board_id;
-
-        var thread = new Thread;
-        thread.url = constants.apiurl + '/boards/' + board_id + '/thread';
-        thread.fetch({
-          success: function(model, response, option) {
-            this.threads.add(thread);
-            this.trigger(CHAT.CHANGE_ALL);
-          }.bind(this)
-        });
-        break;
       case BOARD.DESTROY:
       case BOARD.LEAVE:
         // remove the board chat from your list of chats
         var board_id = payload.board_id;
 
         var thread = this.threads.find(function($thread) {
-          if(_.isEmpty($thread.board)) return false;
-          return $thread.board._id == board_id;
+          if(_.isEmpty($thread.get('board'))) return false;
+          return $thread.get('board')._id == board_id;
         });
         if(thread == undefined) break;
-
         this.threads.remove(thread);
         this.trigger(CHAT.CHANGE_ALL);
         break;
@@ -409,6 +398,14 @@ _.extend(ChatStore, {
         });
         break;
     }
+  },
+
+  fetchThreads() {
+    this.threads.fetch({
+      success: function(collection, response, option) {
+        this.trigger(CHAT.CHANGE_ALL);
+      }.bind(this)
+    })
   },
 
   openThread(thread_id) {

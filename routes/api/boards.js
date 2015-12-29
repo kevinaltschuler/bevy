@@ -44,7 +44,6 @@ module.exports = function(router) {
 
   router.put('/boards/:boardid', [
       oauth2Controller.bearer,
-      permissionsController.isBoardMember,
       permissionsController.isBoardAdmin,
       permissionsController.errorHandler
     ],
@@ -52,7 +51,6 @@ module.exports = function(router) {
   );
   router.patch('/boards/:boardid', [
       oauth2Controller.bearer,
-      permissionsController.isBoardMember,
       permissionsController.isBoardAdmin,
       permissionsController.errorHandler
     ],

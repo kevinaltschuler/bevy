@@ -39,17 +39,13 @@ var BoardSchema = new Schema({
     ref: 'User'
   }],
   settings: {
-    posts_expire_in: {
-      type: Number,
-      default: -1
-    },
     admin_post_only: {
       type: Boolean,
       default: false
     },
     group_chat: {
       type: Boolean,
-      default: false
+      default: true
     },
     privacy: {
       type: String,

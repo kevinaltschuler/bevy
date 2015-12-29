@@ -46,7 +46,8 @@ exports.chatSidebarSearchHeight = 'calc(100% - 40px)';
 exports.defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 
 exports.APP = {
-  LOAD: 'app_load'
+  LOAD: 'app_load',
+  LOAD_USER: 'app_load_user'
 };
 
 exports.POST = {

@@ -22,10 +22,6 @@ var ThreadModel = Backbone.Model.extend({
     this.messages = new Messages;
     this.messages.url = constants.apiurl + '/threads/' + this.id + '/messages';
 
-    if(this.get('bevy')) {
-      var bevy = BevyStore.getBevy(this.get('bevy')._id);
-      this.set('bevy', bevy);
-    }
   },
 
   // get the name of the thread. 

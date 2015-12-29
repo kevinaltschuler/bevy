@@ -30,7 +30,6 @@ var user = window.bootstrap.user;
 var MyBevyPanel = React.createClass({
   propTypes: {
     bevy: React.PropTypes.object,
-    myBevies: React.PropTypes.array.isRequired
   },
 
   getInitialState() {

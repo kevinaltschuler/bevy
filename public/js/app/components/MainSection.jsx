@@ -57,6 +57,8 @@ var MainSection = React.createClass({
 
   // mount event listeners
   componentDidMount: function() {
+    AppActions.loadUser();
+
     PostStore.on(change_all_events, this._onPostChange);
     BevyStore.on(change_all_events, this._onBevyChange);
     NotificationStore.on(change_all_events, this._onNotificationChange);

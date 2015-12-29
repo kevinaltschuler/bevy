@@ -16,6 +16,11 @@ var AppActions = {
   load() {
     dispatch(APP.LOAD, {
     });
+  },
+
+  loadUser() {
+    dispatch(APP.LOAD_USER, {
+    });
   }
 
 };

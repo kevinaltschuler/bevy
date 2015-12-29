@@ -85,13 +85,13 @@ var BoardPanel = React.createClass({
           autoHideDuration={5000}
           ref='snackbar'
         />
-        <RaisedButton 
+        <FlatButton 
           disabled={_.isEmpty(window.bootstrap.user)} 
           label='request' 
           onClick={ this.onRequestJoin } 
         />
       </div>)
-    : <RaisedButton label='join' onClick={this.onRequestJoin}/>;
+    : <FlatButton label='join' onClick={this.onRequestJoin}/>;
     var leaveButton = <FlatButton label='leave' onClick={this.onRequestLeave}/>
 
     var joinLeave = (this.state.joined)

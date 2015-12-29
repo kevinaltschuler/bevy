@@ -47,7 +47,7 @@ exports.checkPrivateBoardAccess = checkPrivateBoardAccess;
 exports.isBoardMember = function(req, res, next) {
   if(checkBackdoor(req)) return next();
   var user = req.user;
-  var board_id = req.boardid;
+  var board_id = req.params.boardid;
   // if the board id is in the user's collection of boards, then continue
   if(_.contains(user.boards, board_id)) return next();
   else return next('User is not a member of this board');
@@ -56,7 +56,8 @@ exports.isBoardMember = function(req, res, next) {
 exports.isBoardAdmin = function(req, res, next) {
   if(checkBackdoor(req)) return next();
   var user = req.user;
-  var board_id = req.boardid;
+  var board_id = req.params.boardid;
+  console.log(req);
   Board.findOne({ _id: board_id}, function(err, board) {
     if(err) return next(err);
     // if the user is in the board's admins collection, then continue
