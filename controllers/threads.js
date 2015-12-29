@@ -130,8 +130,7 @@ exports.getThread = function(req, res, next) {
 	.populate({
 		path: 'users',
 		select: userPopFields
-	})
-	.lean()
+	});
 };
 
 // PUT/PATCH /threads/:threadid

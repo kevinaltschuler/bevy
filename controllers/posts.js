@@ -23,7 +23,7 @@ var Comment = require('./../models/Comment');
 var Board = require('./../models/Board');
 
 var authorPopFields = '_id displayName email image username '
- + 'google.displayName facebook.displayName';
+ + 'google facebook';
 var boardPopFields = '_id name image settings';
 
 // GET /boards/:boardid/posts

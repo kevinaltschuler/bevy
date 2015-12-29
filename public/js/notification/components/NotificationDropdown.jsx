@@ -1,22 +1,22 @@
 /**
  * NotificationDropdown.jsx
- *
  * @author KEVIN
+ * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
 var {
   Button,
   Popover,
   Overlay
 } = require('react-bootstrap');
-
 var NotificationList = require('./NotificationList.jsx');
+var InviteList = require('./InviteList.jsx');
 
+var _ = require('underscore');
 var NotificationActions = require('./../NotificationActions');
 var user = window.bootstrap.user;
 var email = user.email;
@@ -24,6 +24,7 @@ var email = user.email;
 var NotificationDropdown = React.createClass({
   propTypes: {
     allNotifications: React.PropTypes.array,
+    userInvites: React.PropTypes.array,
     show: React.PropTypes.bool,
     onToggle: React.PropTypes.func
   },
@@ -80,6 +81,9 @@ var NotificationDropdown = React.createClass({
               </div>
               <NotificationList
                 allNotifications={ this.props.allNotifications }
+              />
+              <InviteList
+                userInvites={ this.props.userInvites }
               />
             </div>
           </div>

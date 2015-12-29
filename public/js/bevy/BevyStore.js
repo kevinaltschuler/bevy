@@ -258,22 +258,20 @@ _.extend(BevyStore, {
 
         if(this.myBevies.get(bevy._id) != undefined) break; // already joined
 
-        $.ajax({
+        fetch(constants.apiurl + '/invites', {
           method: 'POST',
-          url: constants.apiurl + '/notifications',
-          data: {
-            event: 'bevy:requestjoin',
-            bevy_id: bevy._id,
-            bevy_name: bevy.name,
-            user_id: user._id,
-            user_name: user.displayName,
-            user_image: user.image_url,
-            user_email: user.email
-          },
-          success: function(res) {
-          }.bind(this)
-        });
-
+          body: JSON.stringify({
+            user: user._id,
+            type: 'bevy',
+            requestType: 'request_join',
+            bevy: bevy._id
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => console.error(err));
         break;
 
       /*case BEVY.SWITCH:

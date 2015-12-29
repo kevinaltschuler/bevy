@@ -1,7 +1,7 @@
 /**
  * NotificationCollection.js
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
