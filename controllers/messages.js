@@ -20,7 +20,7 @@ var User = require('./../models/User');
 var Board = require('./../models/Board');
 
 var userPopFields = '_id displayName email image username '
- + 'google.displayName facebook.displayName';
+ + 'google facebook';
 
 // GET /threads/:threadid/messages
 exports.getMessages = function(req, res, next) {
