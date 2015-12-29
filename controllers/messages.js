@@ -17,9 +17,10 @@ var Message = require('./../models/Message');
 var Thread = require('./../models/Thread');
 var Bevy = require('./../models/Bevy');
 var User = require('./../models/User');
+var Board = require('./../models/Board');
 
 var userPopFields = '_id displayName email image username '
- + 'google.displayName facebook.displayName';
+ + 'google facebook';
 
 // GET /threads/:threadid/messages
 exports.getMessages = function(req, res, next) {
@@ -52,6 +53,7 @@ exports.createMessage = function(req, res, next) {
   };
 
   Message.create(message, function(err, $message) {
+    console.log($message);
     if(err) return next(err);
     Message.populate($message, { path: 'author thread' }, function(err, $pop_message) {
       if(err) return next(err);
@@ -60,9 +62,9 @@ exports.createMessage = function(req, res, next) {
       Thread.findOne({ _id: thread_id }, function(err, thread) {
         if(err) return next(err);
         if(!thread) return next('thread not found');
-        if(!_.isEmpty(thread.bevy)) { // if its a bevy chat
-          // send to bevy members
-          User.find({ bevies: thread.bevy }, function(err, users) {
+        if(!_.isEmpty(thread.board)) { // if its a board chat
+          // send to board members
+          User.find({ boards: thread.board }, function(err, users) {
             if(err) return next(err);
             sendChatNotification($pop_message, users);
           });

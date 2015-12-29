@@ -154,6 +154,11 @@ var MainSection = React.createClass({
   },
 
   render: function() {
+
+    if(!UserStore.getTokensLoaded() && router.current != 'home') {
+      return <div/>;
+    }
+    
     return (
       <div className='main-section-wrapper'>
         <Navbar
@@ -181,11 +186,6 @@ var InterfaceComponent = React.createClass({
     router.off('route', this.callback);
   },
   render() {
-
-    if(!UserStore.getTokensLoaded() && router.current != 'home') {
-      return <div/>;
-    }
-    console.log('user token recieved');
 
     switch(router.current) {
       case 'home':

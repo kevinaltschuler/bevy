@@ -58,7 +58,7 @@ connection.once('open', function() {
 
 function updateThreads() {
   console.log('updating all threads...');
-  var Thread = mongoose.model('ChatThread');
+  var Thread = mongoose.model('Thread');
   Thread.find({}, function(err, threads) {
     async.eachLimit(threads, 50, function(thread, callback) {
       // if its already been updated, then return

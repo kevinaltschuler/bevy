@@ -66,7 +66,7 @@ var ChatSidebar = React.createClass({
       searching: false,
       query: '',
       searchUsers: [],
-      bevyPanelOpen: true,
+      boardPanelOpen: true,
       groupPanelOpen: true,
       pmPanelOpen: true
     };
@@ -209,14 +209,14 @@ var ChatSidebar = React.createClass({
     if(allThreads.length == 0) return <div>no conversations</div>;
 
     // collect and render all thread items - sorted by type
-    var bevyThreads = _.where(allThreads, { type: 'bevy' });
-    var bevyThreadItems = [];
+    var boardThreads = _.where(allThreads, { type: 'board' });
+    var boardThreadItems = [];
     var sidebarOpen = (this.state.sidebarWidth == constants.chatSidebarWidthOpen)
-    for(var key in bevyThreads) {
-      var thread = bevyThreads[key];
-      bevyThreadItems.push(
+    for(var key in boardThreads) {
+      var thread = boardThreads[key];
+      boardThreadItems.push(
         <ThreadItem
-          key={ 'sidebar:bevythread:' + thread._id }
+          key={ 'sidebar:boardthread:' + thread._id }
           width={ this.state.sidebarWidth }
           thread={ thread }
           sidebarOpen={ sidebarOpen }
@@ -254,15 +254,15 @@ var ChatSidebar = React.createClass({
     };
     var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? {opacity: 1} : {opacity: 0};
     var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -40 }
-    var shiftBevyPanel = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -30 }
-    var bevyPanel = (bevyThreadItems.length > 0) ? (
-      <div className='threads-title' style={ shiftBevyPanel }>
+    var shiftBoardPanel = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -30 }
+    var boardPanel = (boardThreadItems.length > 0) ? (
+      <div className='threads-title' style={ shiftBoardPanel }>
         <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
           ev.preventDefault();
-          this.setState({ bevyPanelOpen: !this.state.bevyPanelOpen });
-        }}>bevy conversations</a>
-        <Panel collapsible expanded={ this.state.bevyPanelOpen }>
-          { bevyThreadItems }
+          this.setState({ boardPanelOpen: !this.state.boardPanelOpen });
+        }}>board conversations</a>
+        <Panel collapsible expanded={ this.state.boardPanelOpen }>
+          { boardThreadItems }
         </Panel>
       </div>
     ) : <div />;
@@ -290,7 +290,7 @@ var ChatSidebar = React.createClass({
     ) : <div />;
     return (
       <div className='threads-container' style={{ width: constants.chatSidebarWidthOpen }}>
-        { bevyPanel }
+        { boardPanel }
         { groupPanel }
         { pmPanel }
       </div>

@@ -206,7 +206,7 @@ var ChatPanel = React.createClass({
   },
 
   _renderAddUsersButton() {
-    if(this.props.thread.type == 'bevy' || !this.state.isOpen) return <div />;
+    if(this.props.thread.type == 'board' || !this.state.isOpen) return <div />;
     return (
       <OverlayTrigger placement='top' overlay={ <Tooltip>Add Users to Chat</Tooltip> }>
         <Button className='close-btn' onClick={() => { this.setState({ expanded: true, accordionType: 'add-user' }) }}>
@@ -233,15 +233,8 @@ var ChatPanel = React.createClass({
       }
     };
     switch(this.props.thread.type) {
-      case 'bevy':
-        button = (
-          <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
-            <MenuItem eventKey='4' onSelect={() => {
-              if(confirm('Are You Sure?')) {
-                ChatActions.removeUser(this.props.thread._id, window.bootstrap.user._id);
-              }
-            }}>Leave Conversation</MenuItem>
-          </DropdownButton>
+      case 'board':
+        button = (<div/>
         );
         break;
       case 'group':
@@ -353,18 +346,21 @@ var ChatPanel = React.createClass({
 
   render() {
     var thread = this.props.thread;
-    var bevy = thread.bevy;
+    var board = thread.board;
 
     var name = ChatStore.getThreadName(thread._id);
     var image_url = ChatStore.getThreadImageURL(thread._id);
     // only show a background for bevy chats or group chats WITH custom images
-    var backgroundStyle = (!_.isEmpty(thread.bevy) 
+    var backgroundStyle = (!_.isEmpty(thread.board) 
       || ( thread.type == 'group' 
-        && !_.isEmpty(thread.image) ))
+      && !_.isEmpty(thread.image) ))
     ? {
       backgroundImage: 'url(' + image_url + ')',
       opacity: 0.6
     } : {};
+
+    if(board.image.path == '/img/default_board_img.png' || board.image.path == 'http://bevy.dev/img/default_board_img.png')
+      backgroundStyle = {};
 
     var body = (this.state.isOpen) ? (
       <div ref='ChatPanelBody' className='chat-panel-body'>
@@ -381,7 +377,7 @@ var ChatPanel = React.createClass({
         <MessageList
           thread={ thread }
           messages={ this.state.messages }
-          bevy={ bevy }
+          board={ board }
         />
         <div className='chat-panel-input'>
           <div className='chat-text-field'>

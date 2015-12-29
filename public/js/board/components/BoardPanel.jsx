@@ -49,11 +49,19 @@ var BoardPanel = React.createClass({
 
   onRequestJoin(ev) {
     ev.preventDefault();
-    console.log('join');
-    BoardActions.join(this.props.board._id);
-    this.setState({
-      joined: true
-    });
+    if(this.props.board.settings.privacy == "Private") {
+      BoardActions.requestJoin(this.props.bevy, window.bootstrap.user);
+      this.refs.snackbar.show();
+    } 
+    else {
+      BoardActions.join(
+        this.props.board._id
+      );
+      var joined = true;
+      this.setState({
+        joined: joined
+      });
+    }
   },
 
   onRequestLeave(ev) {
@@ -70,14 +78,21 @@ var BoardPanel = React.createClass({
     var board = this.props.board;
     var user = window.bootstrap.user;
 
-    console.log(user.boards);
-
-    var joinLabel = (board.settings.privacy == 'Private')
-    ? 'request'
-    : 'join';
-
-    var joinButton = <RaisedButton label={joinLabel} onClick={this.onRequestJoin}/>
-    var leaveButton = <RaisedButton label='leave' onClick={this.onRequestLeave}/>
+    var joinButton = (board.settings.privacy == 'Private')
+    ? (<div>
+        <Snackbar
+          message="Invitation Requested"
+          autoHideDuration={5000}
+          ref='snackbar'
+        />
+        <RaisedButton 
+          disabled={_.isEmpty(window.bootstrap.user)} 
+          label='request' 
+          onClick={ this.onRequestJoin } 
+        />
+      </div>)
+    : <RaisedButton label='join' onClick={this.onRequestJoin}/>;
+    var leaveButton = <FlatButton label='leave' onClick={this.onRequestLeave}/>
 
     var joinLeave = (this.state.joined)
     ? leaveButton
@@ -143,13 +158,11 @@ var BoardPanel = React.createClass({
       </div>
     );
 
-    if(boardImage == 'http://bevy.dev/img/default_board_img.png' ) {
-      var avatar = <Avatar size={40} style={{width: 40, height: 40}} sicon={<i className="material-icons">view_carousel</i>}/>
+    if(boardImage == 'http://bevy.dev/img/default_board_img.png' || boardImage == '/img/default_board_img.png') {
+      var avatar = <Avatar size={40} style={{width: 40, height: 40, minWidth: 40}} sicon={<i className="material-icons">view_carousel</i>}/>
     } else {
-      var avatar = <Avatar size={40} style={{width: 40, height: 40}} src={boardImage} />;
+      var avatar = <Avatar size={40} style={{width: 40, height: 40, minWidth: 40}} src={boardImage} />;
     }
-
-    console.log(boardImage);
 
     return (
     <div>

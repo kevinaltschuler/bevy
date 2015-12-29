@@ -58,6 +58,7 @@ var hintTexts = [
   "Tell me how you really feel",
   "How was last night?",
   "What's gucci?",
+  "Anything worth sharing?",
 ];
 var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 

@@ -10,14 +10,14 @@ var MessageItem = React.createClass({
 
   propTypes: {
     message: React.PropTypes.object,
-    bevy: React.PropTypes.object
+    board: React.PropTypes.object
   },
 
   render() {
 
     var message = this.props.message;
     var author = message.author;
-    var bevy = this.props.bevy;
+    var board = this.props.board;
 
     var isMe = (author._id == user._id);
 

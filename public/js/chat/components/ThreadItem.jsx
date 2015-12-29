@@ -53,12 +53,15 @@ var ThreadItem = React.createClass({
   },
 
   render() {
+    if(_.isEmpty(this.props.thread))
+      return <div/>;
+
     var thread = this.props.thread;
-    var bevy = this.props.thread.bevy;
+
+    //var board = this.props.thread.board;
     var name = ChatStore.getThreadName(thread._id);
 
     var hideTooltip = (this.props.sidebarOpen) ? {display: 'none'} : {};
-
     var tooltip = (this.props.showTooltip) ? (
       <Tooltip style={hideTooltip}>{name}</Tooltip>
     ) : <div />;

@@ -16,7 +16,7 @@ var MessageList = React.createClass({
   propTypes: {
     thread: React.PropTypes.object,
     messages: React.PropTypes.array,
-    bevy: React.PropTypes.object
+    board: React.PropTypes.object
   },
 
   getInitialState() {
@@ -108,7 +108,7 @@ var MessageList = React.createClass({
         <MessageItem
           key={ 'message:' + message._id }
           message={ message }
-          bevy={ this.props.bevy }
+          board={ this.props.board }
         />
       );
     }

@@ -83,13 +83,6 @@ exports.createBevy = function(req, res, next) {
         return done(null, bevy);
       });
     },
-    // then create its associated chat thread
-    function(bevy, done) {
-      Thread.create({ bevy: bevy._id }, function(err, thread) {
-        if(err) return done(err);
-        return done(null, bevy);
-      });
-    },
     // then add bevy to first admin's bevy collection
     function(bevy, done) {
       User.findOne({ _id: update.admins[0] }, function(err, user) {
@@ -150,25 +143,13 @@ exports.updateBevy = function(req, res, next) {
     update.admins = req.body['admins'];
   if(req.body['boards'] != undefined)
     update.boards = req.body['boards'];
+  if(req.body['settings'] != undefined)
+    update.settings = req.body['settings'];
 
   if(req.body['slug'] != undefined)
     update.slug = req.body['slug'];
   else
     update.slug = getSlug(update.name);
-
-  if(req.body['settings']) {
-    update.settings = req.body['settings'];
-    if(update.settings.group_chat) {
-      // group chat was enabled, create thread
-      // use update func so we dont create one if it already exists
-      Thread.update({ bevy: bevy_id }, { bevy: bevy_id }, { upsert: true }, function(err, thread) {
-      });
-    } else {
-      // group chat was disabled, destroy thread
-      Thread.findOneAndRemove({ bevy: bevy_id }, function(err, thread) {
-      });
-    }
-  }
 
   var query = { $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]};
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
@@ -211,20 +192,6 @@ exports.destroyBevy = function(req, res, next) {
   var bevy_id = req.params.bevyid;
 
   async.waterfall([
-    // delete the thread for this bevy
-    function(done) {
-      Thread.findOneAndRemove({ bevy: bevy_id }, function(err, thread) {
-        if(err) return done(err);
-        return done(null, thread);
-      });
-    },
-    // remove all messages in that thread
-    function(thread, done) {
-      Message.remove({ thread: thread._id }, function(err, messages) {
-        if(err) return done(err);
-        return done(null);
-      });
-    },
     // delete all boards directly related to this bevy
     function(done) {
       Board.remove({ parent: bevy_id }, function(err, boards) {

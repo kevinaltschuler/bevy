@@ -78,8 +78,6 @@ _.extend(BevyStore, {
           success: function(collection, response, options) {
 
               var active = this.myBevies.get(bevy_id_or_slug);
-              console.log(bevy_id_or_slug, response);
-              console.log(active);
               this.active = active;
               this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/boards';
 
@@ -151,8 +149,8 @@ _.extend(BevyStore, {
         bevy.url = constants.apiurl + '/bevies';
         bevy.save(null, {
           success: function(model, response, options) {
-            UserStore.addBevy(bevy);
             this.trigger(BEVY.CHANGE_ALL);
+            UserStore.addBevy(bevy);
           }.bind(this)
         });
         break;
@@ -312,10 +310,7 @@ _.extend(BevyStore, {
             collection.comparator = this.sortByZyx;
             break;
         }
-        console.log(filter);
-        console.log(collection);
         collection.sort();
-        console.log(collection);
 
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.SEARCH_COMPLETE);
@@ -380,6 +375,30 @@ _.extend(BevyStore, {
 
   getSearchQuery() {
     return this.searchQuery;
+  },
+
+  getBoard(board_id) {
+    if(_.isEmpty(board_id)) {
+      return {};
+    }
+    var board = this.bevyBoards.get(board_id);
+    if(board == undefined) {
+      console.log('is here');
+      // couldnt find so fetch from server
+      var board = new Board;
+      board.url = constants.apiurl + '/boards/' + board_id;
+      board.fetch({
+        success: function(model, res, options){
+          console.log('success');
+        }.bind(this)
+      })
+      return {};
+    } else {
+      // we found it so return
+      return (board)
+        ? board.toJSON()
+        : {};
+    }
   },
 
   /*

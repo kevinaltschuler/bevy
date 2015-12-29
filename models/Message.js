@@ -20,7 +20,7 @@ var MessageSchema = new Schema({
 	thread: {
 		type: String,
 		required: true,
-		ref: 'ChatThread'
+		ref: 'Thread'
 	},
 	author: {
 		type: String,

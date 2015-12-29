@@ -19,6 +19,7 @@ var Message = require('./../models/Message');
 var userPopFields = '_id displayName email image username '
  + 'google.displayName facebook.displayName';
 var bevyPopFields = '_id name slug image admins settings';
+var boardPopFields = '_id name image admins settings parent description'
 
 // GET /users/:userid/threads
 exports.getUserThreads = function(req, res, next) {
@@ -32,7 +33,7 @@ exports.getUserThreads = function(req, res, next) {
 			.lean();
 		},
 		function(user, done) {
-			Thread.find({ $or: [{ users: user_id }, { bevy: { $in: user.bevies } }]},
+			Thread.find({ $or: [{ users: user_id }, { board: { $in: user.boards } }]},
 			function(err, threads) {
 				if(err) return next(err);
 				var $threads = [];
@@ -57,8 +58,8 @@ exports.getUserThreads = function(req, res, next) {
 				});
 			})
 			.populate({
-				path: 'bevy',
-				select: bevyPopFields
+				path: 'board',
+				select: boardPopFields
 			})
 			.populate({
 				path: 'users',
@@ -68,10 +69,10 @@ exports.getUserThreads = function(req, res, next) {
 	]);
 }
 
-// GET /bevies/:bevyid/thread
-exports.getBevyThreads = function(req, res, next) {
-	var bevy_id = req.params.bevyid;
-	Thread.findOne({ bevy: bevy_id }, function(err, thread) {
+// GET /boards/:boardid/thread
+exports.getBoardThreads = function(req, res, next) {
+	var board_id = req.params.boardid;
+	Thread.findOne({ board: board_id }, function(err, thread) {
 		if(err) return next(err);
 	    Message.find({ thread: thread._id }, function(err, latest) {
 	      if(err) return next(err);
@@ -87,8 +88,8 @@ exports.getBevyThreads = function(req, res, next) {
 		});
 	})
 	.populate({
-		path: 'bevy',
-		select: bevyPopFields
+		path: 'board',
+		select: boardPopFields
 	})
 	.populate({
 		path: 'users',
@@ -104,12 +105,12 @@ exports.createThread = function(req, res, next) {
 	thread.name = req.body['name'];
 	thread.image = req.body['image'];
 	thread.type = req.body['type'];
-	thread.bevy = req.body['bevy'];
+	thread.board = req.body['board'];
 	thread.users = req.body['users'];
 
 	Thread.create(thread, function(err, $thread) {
 		if(err) return next(err);
-		Thread.populate($thread, 'bevy users', function(err, pop_thread) {
+		Thread.populate($thread, 'board users', function(err, pop_thread) {
 			if(err) return next(err);
 			return res.json(pop_thread);
 		});
@@ -124,8 +125,8 @@ exports.getThread = function(req, res, next) {
 		return res.json(thread);
 	})
 	.populate({
-		path: 'bevy',
-		select: bevyPopFields
+		path: 'board',
+		select: boardPopFields
 	})
 	.populate({
 		path: 'users',
@@ -139,8 +140,8 @@ exports.updateThread = function(req, res, next) {
 	var thread = {};
 	if(req.body['users'] != undefined)
 		thread.users = req.body['users'];
-	if(req.body['bevy'] != undefined)
-		thread.bevy = req.body['bevy'];
+	if(req.body['board'] != undefined)
+		thread.board = req.body['board'];
 	if(req.body['type'] != undefined)
 		thread.type = req.body['type'];
 	if(req.body['name'] != undefined)
@@ -150,8 +151,8 @@ exports.updateThread = function(req, res, next) {
 
 	var promise = Thread.findOneAndUpdate({ _id: thread_id }, thread, { new: true })
 		.populate({
-			path: 'bevy',
-			select: bevyPopFields
+			path: 'board',
+			select: boardPopFields
 		})
 		.populate({
 			path: 'users',

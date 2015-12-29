@@ -42,12 +42,12 @@ var checkThreadMembership = function(user, thread_id, next) {
       code: 404,
       message: 'Thread not found'
     });
-    // if this is a bevy thread
-    if(!_.isEmpty(thread.bevy)) {
-      if(_.contains(user.bevies, thread.bevy)) return next();
+    // if this is a board thread
+    if(!_.isEmpty(thread.board)) {
+      if(_.contains(user.boards, thread.board)) return next();
       else return next({
         code: 403,
-        message: 'User is not a member of this bevy chat'
+        message: 'User is not a member of this board chat'
       });
     } else if(thread.type == 'group') {
       if(_.contains(thread.users, user._id)) return next();
