@@ -12,6 +12,7 @@ var _ = require('underscore');
 var Messages = require('./MessageCollection');
 var constants = require('./../constants');
 var BevyStore = require('./../bevy/BevyStore');
+var BoardStore = require('./../board/BoardStore');
 
 var ThreadModel = Backbone.Model.extend({
   defaults: {
@@ -33,10 +34,10 @@ var ThreadModel = Backbone.Model.extend({
   getName() {
     if(!_.isEmpty(this.get('name'))) return this.get('name');
     switch(this.get('type')) {
-      case 'bevy':
-        if(!this.get('bevy')) return '';
-        var bevy = BevyStore.getBevy(this.get('bevy')._id);
-        return bevy.name;
+      case 'board':
+        if(!this.get('board')) return '';
+        var board = BoardStore.getBoard(this.get('board')._id);
+        return board.name;
         break;
       case 'group':
         var usernames = _.pluck(this.get('users'), 'displayName');
@@ -68,15 +69,16 @@ var ThreadModel = Backbone.Model.extend({
   // does this based on the thread type
   // or will default to the hard-set one if it exists
   getImageURL() {
+    return '/img/logo_100.png';
     var default_img = '/img/logo_100.png';
     if(!_.isEmpty(this.get('image'))) 
       return this.get('image').path;
     switch(this.get('type')) {
-      case 'bevy':
-        if(!this.get('bevy')) return default_img;
-        var bevy = BevyStore.getBevy(this.get('bevy')._id);
-        if(_.isEmpty(bevy.image)) return default_img;
-        return bevy.image.path;
+      case 'board':
+        if(!this.get('board')) return default_img;
+        var board = BoardStore.getBoard(this.get('board')._id);
+        if(_.isEmpty(board.image)) return default_img;
+        return board.image.path;
         break;
       case 'group':
         // TODO: @kevin do some magic here

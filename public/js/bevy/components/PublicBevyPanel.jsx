@@ -44,7 +44,7 @@ var PublicBevyPanel = React.createClass({
 
   onRequestJoin(ev) {
     ev.preventDefault();
-    if(this.props.bevy.settings.privacy == 1) {
+    if(this.props.bevy.settings.privacy == "Private") {
       BevyActions.requestJoin(this.props.bevy, window.bootstrap.user);
       this.refs.snackbar.show();
     } 

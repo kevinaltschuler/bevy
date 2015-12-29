@@ -183,7 +183,7 @@ var InterfaceComponent = React.createClass({
     if(!UserStore.getTokensLoaded() && router.current != 'home') {
       return <div/>;
     }
-    console.log('user token recieved');
+    console.log(this.props.myBevies);
 
     switch(router.current) {
       case 'home': 

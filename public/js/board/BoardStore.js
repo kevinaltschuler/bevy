@@ -109,7 +109,6 @@ _.extend(BoardStore, {
   },
 
   getBoard(board_id) {
-    //console.log('get board: ', board_id);
     if(board_id == 0) {
       return {};
     }
@@ -123,7 +122,7 @@ _.extend(BoardStore, {
           if(_.isEmpty($board)) {
             var board = {};
           } else {
-            var board =$board;
+            var board = $board;
           }
         }.bind(this)
       });

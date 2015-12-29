@@ -82,8 +82,6 @@ var CreateNewBevyModal = React.createClass({
       return;
     }
 
-    console.log(image);
-
     BevyActions.create(name, image, slug);
 
     // after, close the window

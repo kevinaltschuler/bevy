@@ -11,7 +11,7 @@ var Schema = mongoose.Schema;
 var shortid = require('shortid');
 var ImageSchema = require('./ImageSchema');
 
-var thread_types = 'pm group bevy'.split(' ');
+var thread_types = 'pm group board'.split(' ');
 // pms can only contain two users
 // group chats can contain multiple users
 // bevy chats are attached to a bevy, and rely on the bevies' suscribers instead of the users field
@@ -29,11 +29,11 @@ var ThreadSchema = new Schema({
   type: {
     type: String,
     enum: thread_types,
-    default: 'bevy'
+    default: 'board'
   },
-  bevy: {
+  board: {
     type: String,
-    ref: 'Bevy'
+    ref: 'Board'
   },
   users: [{
     type: String,

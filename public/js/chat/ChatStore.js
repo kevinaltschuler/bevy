@@ -16,8 +16,10 @@ var constants = require('./../constants');
 var APP = constants.APP;
 var CHAT = constants.CHAT;
 var BEVY = constants.BEVY;
+var BOARD = constants.BOARD;
 
 var BevyStore = require('./../bevy/BevyStore');
+var BoardStore = require('./../board/BoardStore');
 
 var ThreadCollection = require('./ThreadCollection');
 var Thread = require('./ThreadModel');
@@ -46,11 +48,11 @@ _.extend(ChatStore, {
         });
         break;
 
-      case BEVY.JOIN:
-        var bevy_id = payload.bevy_id;
+      case BOARD.JOIN:
+        var board_id = payload.board_id;
 
         var thread = new Thread;
-        thread.url = constants.apiurl + '/bevies/' + bevy_id + '/thread';
+        thread.url = constants.apiurl + '/boards/' + board_id + '/thread';
         thread.fetch({
           success: function(model, response, option) {
             this.threads.add(thread);
@@ -58,14 +60,14 @@ _.extend(ChatStore, {
           }.bind(this)
         });
         break;
-      case BEVY.DESTROY:
-      case BEVY.LEAVE:
-        // remove the bevy chat from your list of chats
-        var bevy_id = payload.bevy_id;
+      case BOARD.DESTROY:
+      case BOARD.LEAVE:
+        // remove the board chat from your list of chats
+        var board_id = payload.board_id;
 
         var thread = this.threads.find(function($thread) {
-          if(_.isEmpty($thread.bevy)) return false;
-          return $thread.bevy._id == bevy_id;
+          if(_.isEmpty($thread.board)) return false;
+          return $thread.board._id == board_id;
         });
         if(thread == undefined) break;
 
@@ -76,7 +78,7 @@ _.extend(ChatStore, {
       case CHAT.SEND_NEW_MESSAGE:
         this.threads.add({
           _id: '-1',
-          bevy: null,
+          board: null,
           users: []
         });
         this.openThreads.push('-1');
@@ -169,7 +171,7 @@ _.extend(ChatStore, {
 
         var thread = this.threads.get(thread_id);
         if(thread == undefined) break;
-        if(thread.get('type') == 'bevy') break; // dont add users to bevy threads. shouldnt happen anyways
+        if(thread.get('type') == 'board') break; // dont add users to board threads. shouldnt happen anyways
 
         // merge user lists
         var thread_users = thread.get('users');
@@ -264,7 +266,7 @@ _.extend(ChatStore, {
         var name = payload.name || thread.get('name');
         var image = payload.image || thread.get('image');
 
-        var tempBevy = thread.get('bevy');
+        var tempBoard = thread.get('board');
         var tempUsers = thread.get('users');
 
         thread.save({
@@ -275,7 +277,7 @@ _.extend(ChatStore, {
           success: function(model, response, options) {
             // repopulate
             thread.set('users', tempUsers);
-            thread.set('bevy', tempBevy);
+            thread.set('board', tempBoard);
             this.trigger(CHAT.CHANGE_ALL);
           }.bind(this)
         });
@@ -316,13 +318,13 @@ _.extend(ChatStore, {
         }
         break;
 
-      case CHAT.START_BEVY_CHAT:
-        var bevy_id = payload.bevy_id;
+      case CHAT.START_BOARD_CHAT:
+        var board_id = payload.board_id;
 
         var thread = this.threads.find(function($thread) {
-          var bevy = $thread.get('bevy');
-          if(_.isEmpty(bevy)) return false;
-          return bevy._id == bevy_id;
+          var board = $thread.get('board');
+          if(_.isEmpty(board)) return false;
+          return board._id == board_id;
         });
 
         if(thread == undefined) break;

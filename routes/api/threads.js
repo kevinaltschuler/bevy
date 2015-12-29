@@ -19,12 +19,12 @@ module.exports = function(router) {
     threadController.getUserThreads
   );
 
-  router.get('/bevies/:bevyid/thread', [
+  router.get('/bevies/:boardid/thread', [
       oauth2Controller.bearer,
-      permissionsController.hasPrivateBevyAccess,
+      permissionsController.hasPrivateBoardAccess,
       permissionsController.errorHandler
     ],
-    threadController.getBevyThreads
+    threadController.getBoardThreads
   );
 
   router.get('/threads/:threadid', [

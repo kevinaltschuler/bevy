@@ -10,6 +10,7 @@
 
 var _ = require('underscore');
 var Dispatcher = require('./../shared/dispatcher');
+var constants = require('./../constants');
 var BOARD = require('./../constants').BOARD;
 
 var BoardActions = {

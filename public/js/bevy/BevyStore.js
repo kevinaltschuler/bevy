@@ -151,8 +151,8 @@ _.extend(BevyStore, {
         bevy.url = constants.apiurl + '/bevies';
         bevy.save(null, {
           success: function(model, response, options) {
-            UserStore.addBevy(bevy);
             this.trigger(BEVY.CHANGE_ALL);
+            UserStore.addBevy(bevy);
           }.bind(this)
         });
         break;
