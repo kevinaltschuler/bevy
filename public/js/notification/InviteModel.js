@@ -1,5 +1,5 @@
 /**
- * NotificationModel.js
+ * InviteModel.js
  * @author albert
  * @flow
  */
@@ -8,8 +8,8 @@
 
 var Backbone = require('backbone');
 
-var NotificationModel = Backbone.Model.extend({
+var InviteModel = Backbone.Model.extend({
   idAttribute: '_id'
 });
 
-module.exports = NotificationModel;
+module.exports = InviteModel;

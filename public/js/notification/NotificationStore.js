@@ -17,6 +17,7 @@ var NOTIFICATION = require('./../constants').NOTIFICATION;
 var APP = require('./../constants').APP;
 
 var Notifications = require('./NotificationCollection');
+var Invites = require('./InviteCollection');
 
 var ChatStore = require('./../chat/ChatStore');
 var PostActions = require('./../post/PostActions');
@@ -32,20 +33,28 @@ var user = window.bootstrap.user;
 _.extend(NotificationStore, {
 
   notifications: new Notifications,
+  invites: new Invites,
   unread: 0,
 
   // handle calls from the dispatcher
   handleDispatch(payload) {
     switch(payload.actionType) {
-
       case APP.LOAD:
-          this.notifications.fetch({
-            success: function(collection, response, options) {
-              this.trigger(NOTIFICATION.CHANGE_ALL);
-            }.bind(this)
-          });
-          this.unread = this.notifications.filter(function(notification){ return notification.read == false; })
-            .length; // count all notifications that are unread
+        this.notifications.fetch({
+          success: function(collection, response, options) {
+            // count all notifications that are unread
+            this.unread = this.notifications.filter(function(notification) {
+              return notification.read == false;
+            }).length;
+            this.trigger(NOTIFICATION.CHANGE_ALL);
+          }.bind(this)
+        });
+        this.invites.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/invites';
+        this.invites.fetch({
+          success: function(collection, response, options) {
+            this.trigger(NOTIFICATION.CHANGE_ALL);
+          }.bind(this)
+        });
         break;
 
       case NOTIFICATION.DISMISS:
@@ -69,11 +78,12 @@ _.extend(NotificationStore, {
   },
 
   getAll() {
-    return (this.notifications.models.length <= 0)
-    ? []
-    : this.notifications.toJSON();
-  }
+    return this.notifications.toJSON();
+  },
 
+  getUserInvites() {
+    return this.invites.toJSON();
+  },
 });
 
 NotificationStore.notifications.on('add', function(notification) {

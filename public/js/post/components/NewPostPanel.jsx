@@ -59,7 +59,6 @@ var hintTexts = [
   "How was last night?",
   "What's gucci?",
   "Anything worth sharing?",
-
 ];
 var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 
@@ -100,7 +99,7 @@ var NewPostPanel = React.createClass({
   onRemovedFile(file) {
     var filename = JSON.parse(file.xhr.response).filename;
     var images = this.state.images;
-    images = _.reject(images, function($image) { 
+    images = _.reject(images, function($image) {
       return $image.filename == filename;
     });
     this.setState({

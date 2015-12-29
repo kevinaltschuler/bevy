@@ -41,13 +41,12 @@ var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 
-// react component
 var Navbar = React.createClass({
-
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
     activeBevy: React.PropTypes.object,
     allNotifications: React.PropTypes.array,
+    userInvites: React.PropTypes.array,
     activeBoard: React.PropTypes.object
   },
 
@@ -61,7 +60,7 @@ var Navbar = React.createClass({
     };
   },
 
-  getChildContext() { 
+  getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     }
@@ -79,7 +78,6 @@ var Navbar = React.createClass({
   componentDidMount() {
     BevyStore.on(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
   },
-
   componentWillUnmount() {
     BevyStore.off(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
   },
@@ -120,8 +118,8 @@ var Navbar = React.createClass({
       return <a className="login-btn" href='/login'> Log In </a>;
     }
 
-    var unread = _.reject(this.props.allNotifications, function(notification){ 
-      return notification.read 
+    var unread = _.reject(this.props.allNotifications, function(notification){
+      return notification.read
     });
 
     var counter = (unread.length <= 0)
@@ -139,34 +137,35 @@ var Navbar = React.createClass({
       <div className='profile-buttons'>
         {chatSidebar}
         {chatDock}
-        <ChatDropdown 
+        <ChatDropdown
           show={ this.state.activeTab == 'chat' }
           onToggle={() => {
             this.setState({
-              activeTab: (this.state.activeTab == 'chat') 
-                ? null 
+              activeTab: (this.state.activeTab == 'chat')
+                ? null
                 : 'chat'
             });
           }}
         />
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
+          userInvites={ this.props.userInvites }
           show={ this.state.activeTab == 'notifications' }
           onToggle={() => {
             this.setState({
-              activeTab: (this.state.activeTab == 'notifications') 
-                ? null 
+              activeTab: (this.state.activeTab == 'notifications')
+                ? null
                 : 'notifications'
             });
           }}
         />
         { counter }
-        <ProfileDropdown 
+        <ProfileDropdown
           show={ this.state.activeTab == 'profile' }
           onToggle={() => {
             this.setState({
-              activeTab: (this.state.activeTab == 'profile') 
-                ? null 
+              activeTab: (this.state.activeTab == 'profile')
+                ? null
                 : 'profile'
             });
           }}
@@ -197,7 +196,7 @@ var Navbar = React.createClass({
         navbarTitle = this.props.activeBevy.name;
         backgroundStyle = (_.isEmpty(this.props.activeBevy))
           ? { filter: 'unset' }
-          : { 
+          : {
             opacity: this.state.opacity,
             backgroundImage: (_.isEmpty(this.props.activeBevy.image))
               ? ''
@@ -207,27 +206,27 @@ var Navbar = React.createClass({
           if(!_.isEmpty(this.props.activeBevy.image))
             if(this.props.activeBevy.image.path == "http://bevy.dev/img/default_group_img.png")
               backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
-        } 
+        }
         break;
       case 'board':
         var parent = BevyStore.getBevy(this.props.activeBoard.parent);
 
-        if(parent.name == undefined || this.props.activeBoard.name == undefined) 
+        if(parent.name == undefined || this.props.activeBoard.name == undefined)
           navbarTitle = '';
         else
           navbarTitle = (
             <div>
               <a href={parent.url} style={{color: '#fff'}}>{parent.name}</a>
               &nbsp;
-              <span style={{fontSize: '.7em'}} className="glyphicon glyphicon-triangle-right"/> 
+              <span style={{fontSize: '.7em'}} className="glyphicon glyphicon-triangle-right"/>
               &nbsp;
-              {this.props.activeBoard.name} 
+              {this.props.activeBoard.name}
             </div>
           );
 
         backgroundStyle = (_.isEmpty(parent))
           ? { filter: 'unset' }
-          : { 
+          : {
             opacity: this.state.opacity,
             backgroundImage: (_.isEmpty(parent.image))
               ? ''
@@ -237,11 +236,11 @@ var Navbar = React.createClass({
             if(!_.isEmpty(parent.image))
               if(parent.image.path == "http://bevy.dev/img/default_group_img.png")
                 backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
-          } 
+          }
         break;
       case 'search':
-        navbarTitle = ((_.isEmpty(router.search_query)) 
-          ? 'public bevies' 
+        navbarTitle = ((_.isEmpty(router.search_query))
+          ? 'public bevies'
           : 'search for ' + router.search_query);
         break;
       default:
@@ -261,21 +260,21 @@ var Navbar = React.createClass({
 
     return (
       <div id='navbar' className="navbar" style={ navbarStyle }>
-        <div 
-          className='background-wrapper' 
-          style={ _.isEmpty(this.props.activeBevy.image) 
-            ? { backgroundColor: '#939393' } 
+        <div
+          className='background-wrapper'
+          style={ _.isEmpty(this.props.activeBevy.image)
+            ? { backgroundColor: '#939393' }
             : { backgroundColor: '#000' }}
         >
           <div className="background-image" style={ backgroundStyle } />
         </div>
         <div className='content'>
           <div className="left">
-            <Button 
-              className="bevy-logo-btn" 
-              title='Frontpage' 
-              href={ (!_.isEmpty(window.bootstrap.user)) 
-                ? '/' 
+            <Button
+              className="bevy-logo-btn"
+              title='Frontpage'
+              href={ (!_.isEmpty(window.bootstrap.user))
+                ? '/'
                 : '/' }
             >
               <div className='bevy-logo-img'/>

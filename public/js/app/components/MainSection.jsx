@@ -62,7 +62,7 @@ var MainSection = React.createClass({
     NotificationStore.on(change_all_events, this._onNotificationChange);
     UserStore.on(change_all_events, this._onUserChange);
     BoardStore.on(change_all_events, this._onBoardChange);
-    
+
     UserStore.on(USER.LOADED, AppActions.load());
   },
 
@@ -101,7 +101,8 @@ var MainSection = React.createClass({
 
   getNotificationState: function() {
     return {
-      allNotifications: NotificationStore.getAll()
+      allNotifications: NotificationStore.getAll(),
+      userInvites: NotificationStore.getUserInvites()
     };
   },
 
@@ -163,6 +164,7 @@ var MainSection = React.createClass({
         <Navbar
           activeBevy={ this.state.activeBevy }
           allNotifications={ this.state.allNotifications }
+          userInvites={ this.state.userInvites }
           myBevies={ this.state.myBevies }
           linkedAccounts={ this.state.linkedAccounts }
           activeBoard={ this.state.activeBoard }
@@ -186,7 +188,7 @@ var InterfaceComponent = React.createClass({
   render() {
 
     switch(router.current) {
-      case 'home': 
+      case 'home':
         return <HomeView {...this.props}  />
         break;
       case 'myBevies':

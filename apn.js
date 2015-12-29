@@ -1,5 +1,8 @@
-/* apn.js
+/**
+ * apn.js
  * @author kevin
+ * @author albert
+ * @flow
  */
 
 'use strict';
