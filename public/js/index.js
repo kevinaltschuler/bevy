@@ -35,19 +35,6 @@ Backbone.sync = function(method, model, options) {
   } else {
     url = options.url;
   }
-  // if this is an api call
-  if(url.includes(constants.apiurl)) {
-    // if we have an authorization token
-    if(!_.isEmpty(UserStore.getAccessToken())) {
-      //console.log(localStorage.getItem('access_token'));
-      headers['Authorization'] = 'Bearer ' + UserStore.getAccessToken();
-      //console.log(UserStore.getAccessToken(), url);
-    }
-  } else {
-    // if this is going back to the main site
-    // include the cookie it sent to maintain the session
-    options.credentials = 'include';
-  }
 
   if(options.data == null && model && (method === 'create' || method === 'update' || method === 'patch')) {
     headers['Content-Type'] = 'application/json';
@@ -86,6 +73,34 @@ Backbone.sync = function(method, model, options) {
     options.error(error.toString())
   });
 };
+
+var $fetch = window.fetch;
+window.fetch = function(input, init) {
+  var url = input;
+  var options = init;
+  if(_.isEmpty(options.headers)) {
+    options.headers = {
+      'Accept': 'application/json'
+    };
+    if(!_.isEmpty(options.body)) {
+      options.headers['Content-Type'] = 'application/json';
+    }
+  }
+  // if this is an api call
+  if(url.includes(constants.apiurl)) {
+    // if we have an authorization token
+    if(!_.isEmpty(UserStore.getAccessToken())) {
+      //console.log(localStorage.getItem('access_token'));
+      options.headers['Authorization'] = 'Bearer ' + UserStore.getAccessToken();
+      //console.log(UserStore.getAccessToken(), url);
+    }
+  } else {
+    // if this is going back to the main site
+    // include the cookie it sent to maintain the session
+    options.credentials = 'include';
+  }
+  return $fetch(url, options);
+}
 
 //console.log(window.bootstrap.user);
 
