@@ -1,45 +1,40 @@
 /**
  * BevyView.jsx
- *
  * @author kevin
+ * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
-var router = require('./../../router');
-
 var Ink = require('react-ink');
-
 var {
   RaisedButton,
   Snackbar,
   FontIcon
 } = require('material-ui');
-
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
 var BoardPanel = require('./../../board/components/BoardPanel.jsx');
 var Footer = require('./../../app/components/Footer.jsx');
 var NewBoardModal = require('./../../board/components/NewBoardModal.jsx');
-var constants = require('./../../constants');
+var BevyInfoBar = require('./BevyInfoBar.jsx');
 
+var _ = require('underscore');
+var constants = require('./../../constants');
+var router = require('./../../router');
 var UserStore = require('./../../profile/UserStore');
+var BevyActions = require('./../../bevy/BevyActions');
 var USER = constants.USER;
 
-var BevyActions = require('./../../bevy/BevyActions');
-
 var BevyView = React.createClass({
-
   propTypes: {
     myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
     allPosts: React.PropTypes.array,
-    //activeTags: React.PropTypes.array,
     allBevies: React.PropTypes.array
   },
 
@@ -78,8 +73,8 @@ var BevyView = React.createClass({
     boardList.push(
       <div className='new-board-card' onClick={() => { this.setState({ showNewBoardModal: true }); }}>
         <div className='plus-icon'>
-          <FontIcon 
-            className='material-icons' 
+          <FontIcon
+            className='material-icons'
             style={{color: 'rgba(0,0,0,.2)', fontSize: '40px'}}
           >
             add
@@ -100,15 +95,14 @@ var BevyView = React.createClass({
     var activeBevy = this.props.activeBevy;
 
     if(_.isEmpty(window.bootstrap.user) || this.props.activeBevy.name == null) {
-      console.log('crap');
       return <div/>;
     }
 
     if(!_.isEmpty(activeBevy)) {
       if(activeBevy.settings.privacy == 'Private') {
-        if(_.find(window.bootstrap.user.bevies, 
-          function(bevyId) { 
-          return bevyId == this.props.activeBevy._id 
+        if(_.find(window.bootstrap.user.bevies,
+          function(bevyId) {
+          return bevyId == this.props.activeBevy._id
         }.bind(this))) {
           joined = true;
         }
@@ -119,52 +113,54 @@ var BevyView = React.createClass({
 
     if(!joined) {
       return (
-      <div className='main-section private-container'>
-        <div className='private panel'>
-          <div className='private-img'/>
-          you must be invited by an <br/>admin to view this community<br/><br/>
+        <div className='main-section private-container'>
+          <div className='private panel'>
+            <div className='private-img'/>
+            you must be invited by an <br/>admin to view this community<br/><br/>
+          </div>
         </div>
-      </div>
       );
     }
 
-    var body = (
-      <div>
-        <PostContainer
-          allPosts={ this.props.allPosts }
-          activeBevy={ this.props.activeBevy }
-          sortType={ this.props.sortType }
-          activeTags={ this.props.activeTags }
-        />
-      </div>
-    );
-
     return (
-      <div className='main-section'>
-        <NewBoardModal 
-          show={ this.state.showNewBoardModal } 
-          onHide={() => { this.setState({ showNewBoardModal: false }) }}
+      <div className='nonsense'>
+        <BevyInfoBar
           activeBevy={ this.props.activeBevy }
         />
+        <div className='main-section' style={{
+          paddingTop: 0
+        }}>
+          <NewBoardModal
+            show={ this.state.showNewBoardModal }
+            onHide={() => { this.setState({ showNewBoardModal: false }) }}
+            activeBevy={ this.props.activeBevy }
+          />
 
-        <div className='left-sidebar'>
-            <div className='hide-scroll'>
-              <div className='board-list'>
-                <div className='bevy-view-title'>Boards</div>
-                { this._renderBoards() }
-                <div style={{height: 10}}/>
-                <Footer />
+          <div className='left-sidebar'>
+              <div className='hide-scroll'>
+                <div className='board-list'>
+                  <div className='bevy-view-title'>Boards</div>
+                  { this._renderBoards() }
+                  <div style={{height: 10}}/>
+                  <Footer />
+                </div>
               </div>
-            </div>
-        </div>
+          </div>
 
-        <div className='post-view-body'>
-          <div className='bevy-view-title'>Feed</div>
-          { body }
+          <div className='post-view-body'>
+            <div className='bevy-view-title'>Feed</div>
+            <div>
+              <PostContainer
+                allPosts={ this.props.allPosts }
+                activeBevy={ this.props.activeBevy }
+                sortType={ this.props.sortType }
+              />
+            </div>
+          </div>
         </div>
       </div>
     );
-    }
+  }
 });
 
 module.exports = BevyView;
