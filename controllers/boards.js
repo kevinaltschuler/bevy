@@ -97,7 +97,7 @@ exports.createBoard = function(req, res, next) {
     },
     // then create its associated chat thread
     function(board, done) {
-      Thread.create({ board: board._id }, function(err, thread) {
+      Thread.create({ _id: shortid.generate(), board: board._id }, function(err, thread) {
         if(err) return done(err);
         return done(null, board);
       });
