@@ -49,23 +49,14 @@ var BevySettingsModal = React.createClass({
     ev.preventDefault();
 
     this.setState({
-      privacy: menuItem.payload
+      privacy: menuItem.text
     });
   },
 
   save(ev) {
-    //var anonymise_users = this.refs.anonymise_users.isToggled();
-    var group_chat = this.refs.group_chat.isToggled();
-    var admin_only = this.refs.admin_only.isToggled();
-    var default_events = this.refs.default_events.isToggled();
 
-    BevyActions.update(this.props.activeBevy._id, null, null, null, null, null, {
-      //anonymise_users: anonymise_users,
-      posts_expire_in: this.state.posts_expire_in,
-      group_chat: group_chat,
-      admin_only: admin_only,
+    BevyActions.update(this.props.activeBevy._id, null, null, {
       privacy: this.state.privacy,
-      default_events: default_events
     });
 
     this.props.onHide();
@@ -83,30 +74,16 @@ var BevySettingsModal = React.createClass({
 
     var bevy = this.props.activeBevy;
     var settings = bevy.settings;
-    var expireMenuItems = [
-      { payload: '-1', text: 'Never', defaultIndex: 0 },
-      { payload: '1', text: '1 day', defaultIndex: 1 },
-      { payload: '2', text: '2 days', defaultIndex: 2  },
-      { payload: '5', text: '5 days', defaultIndex: 3  },
-      { payload: '7', text: '7 days', defaultIndex: 4  }
-    ];
-    var itemIndex = 0;
-    var item = _.findWhere(expireMenuItems, { payload: this.state.posts_expire_in.toString() });
-    if(!_.isEmpty(item)) {
-      itemIndex = item.defaultIndex;
-    }
 
     var privacyMenuItems = [
       { payload: '0', text: 'Public', defaultIndex: 0 },
       { payload: '1', text: 'Private', defaultIndex: 1 }
     ];
-    var privacyIndex = 0;
-    var privacyItem = _.findWhere(privacyMenuItems, { payload: this.state.privacy.toString() });
-    if(!_.isEmpty(privacyItem)) {
-      privacyIndex = privacyItem.defaultIndex;
-    }
+    var privacyIndex = (this.state.privacy == 'Private')
+    ? 1
+    : 0;
 
-    var posts_expire_in = this.state.posts_expire_in;
+    console.log(this.state.privacy);
 
     return (
       <Modal className="bevy-settings-modal" show={ this.props.show } onHide={ this.props.onHide } >
@@ -117,15 +94,6 @@ var BevySettingsModal = React.createClass({
         </Modal.Header>
 
         <Modal.Body>
-          <div className='bevy-setting expire-setting'>
-            Posts Expire In:
-            <DropDownMenu
-              ref='posts_expire_in'
-              menuItems={ expireMenuItems }
-              onChange={ this.onDropDownChange }
-              selectedIndex={ itemIndex }
-            />
-          </div>
           <div className='bevy-setting expire-setting'>
             Privacy
             <OverlayTrigger placement='right' overlay={ 
@@ -143,20 +111,6 @@ var BevySettingsModal = React.createClass({
               menuItems={ privacyMenuItems }
               onChange={ this.onPrivacyChange }
               selectedIndex={ privacyIndex }
-            />
-          </div>
-          <div className='bevy-setting'>
-            <Toggle
-              label="Show Group Chat"
-              defaultToggled={ settings.group_chat }
-              ref='group_chat'
-            />
-          </div>
-          <div className='bevy-setting'>
-            <Toggle
-              label="Only Admins Can Post"
-              defaultToggled={ settings.admin_only }
-              ref='admin_only'
             />
           </div>
           <div className='bevy-setting'>

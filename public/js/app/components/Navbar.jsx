@@ -41,6 +41,8 @@ var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 
+var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
+
 var Navbar = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array.isRequired,
@@ -113,6 +115,15 @@ var Navbar = React.createClass({
       router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
   },
 
+  _renderBevyInfoBar() {
+    var content = (router.current == 'bevy')
+    ? <BevyInfoBar
+        activeBevy={ this.props.activeBevy }
+      />
+    : <div/>
+    return content;
+  },
+
   _renderUserDropdowns() {
     if(_.isEmpty(window.bootstrap.user)) {
       return <a className="login-btn" href='/login'> Log In </a>;
@@ -176,11 +187,15 @@ var Navbar = React.createClass({
 
   render() {
 
+    var navbarHeight = (router.current == 'bevy')
+    ? '98px'
+    :'68px';
+
     var navbarStyle;
     if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image))
-      navbarStyle = { backgroundColor: 'rgba(0,0,0,0)'};
+      navbarStyle = { backgroundColor: 'rgba(0,0,0,0)', height: navbarHeight};
     if(router.current == 'home')
-      navbarStyle = { boxShadow: 'none'};
+      navbarStyle = { boxShadow: 'none', height: navbarHeight};
 
     var backgroundStyle = {backgroundColor: '#2cb673'};
 
@@ -200,7 +215,7 @@ var Navbar = React.createClass({
             opacity: this.state.opacity,
             backgroundImage: (_.isEmpty(this.props.activeBevy.image))
               ? ''
-              : 'url(' + this.props.activeBevy.image.path + ')'
+              : 'url(' + this.props.activeBevy.image.path + ')',
           };
         if(!_.isEmpty(this.props.activeBevy)) {
           if(!_.isEmpty(this.props.activeBevy.image))
@@ -259,14 +274,14 @@ var Navbar = React.createClass({
         />);
 
     return (
-      <div id='navbar' className="navbar" style={ navbarStyle }>
+      <div id='navbar' className="navbar" style={navbarStyle}>
         <div
           className='background-wrapper'
           style={ _.isEmpty(this.props.activeBevy.image)
-            ? { backgroundColor: '#939393' }
-            : { backgroundColor: '#000' }}
+            ? { backgroundColor: '#939393', height: navbarHeight }
+            : { backgroundColor: '#000', height: navbarHeight }}
         >
-          <div className="background-image" style={ backgroundStyle } />
+        <div className="background-image" style={ backgroundStyle } />
         </div>
         <div className='content'>
           <div className="left">
@@ -286,6 +301,7 @@ var Navbar = React.createClass({
             <span className='title'>
               { navbarTitle }
             </span>
+            { this._renderBevyInfoBar() }
           </div>
 
           <div className="right">

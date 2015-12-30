@@ -124,12 +124,7 @@ var BevyView = React.createClass({
 
     return (
       <div className='nonsense'>
-        <BevyInfoBar
-          activeBevy={ this.props.activeBevy }
-        />
-        <div className='main-section' style={{
-          paddingTop: 0
-        }}>
+        <div className='main-section' style={{paddingTop: 115}}>
           <NewBoardModal
             show={ this.state.showNewBoardModal }
             onHide={() => { this.setState({ showNewBoardModal: false }) }}

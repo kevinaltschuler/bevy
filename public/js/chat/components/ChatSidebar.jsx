@@ -20,6 +20,7 @@ var {
 } = require('material-ui');
 var ThreadItem = require('./ThreadItem.jsx');
 var UserSearchItem = require('./UserSearchItem.jsx');
+var router = require('./../../router');
 
 var _ = require('underscore');
 var $ = require('jquery');
@@ -326,12 +327,17 @@ var ChatSidebar = React.createClass({
       searchResults = <div className='loading-indeterminate'><CircularProgress mode="indeterminate" /></div>
     }
 
+    var chatHeight = (router.current == 'bevy')
+    ? 'calc(100% - 98px)'
+    : 'calc(100% - 69px)';
+
     return (
       <div 
         className='chat-sidebar' 
         style={{ 
           width: constants.chatSidebarWidthOpen,
-          right: this.state.sidebarWidth - constants.chatSidebarWidthOpen
+          right: this.state.sidebarWidth - constants.chatSidebarWidthOpen,
+          height: chatHeight
         }}
         onMouseOver={() => { 
           this.onMouseOver();

@@ -56,14 +56,13 @@ var BevyActions = {
     });
   },
 
-  update(bevy_id, name, description, image, settings) {
+  update(bevy_id, name, image, settings) {
     if(_.isEmpty(bevy_id)) return;
 
     Dispatcher.dispatch({
       actionType: BEVY.UPDATE,
       bevy_id: bevy_id,
       name: (name == undefined) ? null : name,
-      description: (description == undefined) ? null : description,
       image: (image == undefined) ? null : image,
       settings: (settings == undefined) ? null : settings
     });

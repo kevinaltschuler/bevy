@@ -176,27 +176,20 @@ _.extend(BevyStore, {
         var bevy = this.myBevies.get(bevy_id);
 
         var name = payload.name || bevy.get('name');
-        var description = payload.description || bevy.get('description');
         var image = payload.image || bevy.get('image');
         var settings = payload.settings || bevy.get('settings');
-        var tags = payload.tags || bevy.get('tags');
-        var siblings = payload.siblings || bevy.get('siblings');
 
         bevy.set({
           name: name,
-          description: description,
           image: image,
-          tags: tags,
-          siblings: siblings,
           settings: settings
         });
 
+        bevy.url = constants.apiurl + '/bevies/' + bevy_id;
+
         bevy.save({
           name: name,
-          description: description,
           image: image,
-          tags: tags,
-          siblings: siblings,
           settings: settings
         }, {
           patch: true
