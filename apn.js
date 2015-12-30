@@ -42,6 +42,10 @@ subSock.on('message', function(event, data) {
 			case 'post:create':
 				sendNewPostNotifications(data);
 				break;
+			case 'comment:reply':
+			case 'post:reply':
+				sendCommentNotifications(data);
+				break;
 			default:
 				break;
 		}
@@ -158,7 +162,72 @@ var sendNewPostNotifications = function(data) {
 						title: 'New Post',
 						icon: config.apn.android.icon,
 						body: body,
-						tag: 'NEW_POST',
+						tag: config.mq.events.NEW_POST,
+						click_action: config.apn.android.click_action
+					}
+				});
+				gcm_sender.send(message, { registrationTokens: [device.token] },
+					function(err, result) {
+					if(err) console.error(err);
+					else console.log(result);
+				});
+			}
+		}
+	})
+	.select('devices');
+};
+
+var sendCommentNotifications = function(data) {
+	var user_id = data.user;
+	var payload = data.data;
+	payload.event = config.mq.events.NEW_COMMENT;
+
+	var author_name = payload.author_name;
+	var board_name = payload.board_name;
+	var post_title = payload.post_title;
+	var comment_body = payload.comment_body;
+
+	var body;
+	if(data.event == 'post:reply') {
+		body = author_name + ' replied to your post ' + post_title + ' in ' + board_name;
+	} else if (data.event == 'comment:reply') {
+		body = author_name + ' replied to your comment ' + comment_body + ' in ' + board_name;
+	}
+
+	// get user devices
+	User.findOne({ _id: user_id }, function(err, user) {
+		if(err) {
+			console.error(err);
+			return;
+		}
+		if(_.isEmpty(user)) {
+			console.error('Notification user not found');
+			return;
+		}
+		for(var i in user.devices) {
+			var device = user.devices[i];
+			if(device.platform == 'ios') {
+				var iosDevice = new apn.Device(device.token);
+				var note = new apn.Notification();
+				note.expiry = config.apn.ios.expires_in;
+				note.badge = config.apn.ios.badge;
+				note.sound = config.apn.ios.sound;
+				note.alert = body;
+				note.payload = payload;
+				apnConnection.pushNotification(note, iosDevice);
+			} else if (device.platform == 'android') {
+				var message = new gcm.Message({
+					collapse_key: config.apn.android.collapse_key,
+					priority: 'high',
+					content_available: true,
+					delay_while_idle: false,
+					time_to_live: config.apn.android.time_to_live,
+					data: payload,
+					notification: {
+						title: 'New Comment',
+						icon: config.apn.android.icon,
+						body: body,
+						tag: config.mq.events.NEW_COMMENT,
 						click_action: config.apn.android.click_action
 					}
 				});

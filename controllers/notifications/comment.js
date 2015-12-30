@@ -116,7 +116,6 @@ var createNewCommentNotifications = function(comment) {
       pubSock.send(['newcomment.' + notification.user, JSON.stringify(comment)]);
     }
 
-
     Notification.create(notifications, function(err, $notifications) {
       if(err) {
         console.error('new post notification create:', err);
