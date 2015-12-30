@@ -29,7 +29,7 @@ var PostActions = require('./../PostActions');
 
 var user = window.bootstrap.user;
 
-var CreateNewEventModal = React.createClass({
+var CreateNewEventPanel = React.createClass({
 
   propTypes: {
     activeBevy: React.PropTypes.object.isRequired,

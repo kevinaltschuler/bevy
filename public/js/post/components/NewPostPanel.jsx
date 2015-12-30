@@ -70,7 +70,6 @@ var NewPostPanel = React.createClass({
   propTypes: {
     activeBevy: React.PropTypes.object.isRequired,
     myBevies: React.PropTypes.array.isRequired,
-    disabled: React.PropTypes.bool,
     activeBoard: React.PropTypes.object.isRequired
   },
 
@@ -80,7 +79,6 @@ var NewPostPanel = React.createClass({
     return {
       title: '',
       images: [],
-      disabled: this.props.disabled,
       showEventModal: false
     };
   },
@@ -145,6 +143,8 @@ var NewPostPanel = React.createClass({
 
   render() {
 
+    var board = this.props.activeBoard;
+
     var dropzoneOptions = {
       acceptedFiles: 'image/*',
       thumbnailWidth: 500,
@@ -154,15 +154,12 @@ var NewPostPanel = React.createClass({
       clickable: '.attach-picture'
     };
 
-    var disabled = this.props.disabled;
+    if(this.props.activeBoard.type == 'announcement' && !_.contains(board.admins, window.bootstrap.user)) {
+      return <div/>;
+    }
 
-    hintText = (disabled)
-    ? 'you must be logged in to post'
-    : hintText
-
-    if(this.props.activeBoard.admin_only) {
-      disabled = true;
-      hintText = 'only admins may post in this bevy';
+    if(this.props.activeBoard.type == 'event') {
+      return <div/>;
     }
 
     var mediaTip = <Tooltip>attach pictures</Tooltip>;

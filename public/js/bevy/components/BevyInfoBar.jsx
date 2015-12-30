@@ -103,8 +103,6 @@ var BevyInfoBar = React.createClass({
       imageButton = <div/>;
     }
 
-    console.log(bevy.admins);
-
     return (
       <div className='bevy-info-bar'>
         <div className='info-item'>

@@ -23,9 +23,12 @@ var BoardActions = {
     });
   },
 
-  create(name, description, image, parent_id) {
+  create(name, description, image, parent_id, type) {
     if(_.isEmpty(name)) return;
     if(_.isEmpty(parent_id)) return;
+    if(_.isEmpty(type)) {
+      type = 'discussion';
+    }
     if(_.isEmpty(image)) {
       image = {
         filename: constants.siteurl + '/img/default_board_img.png',
@@ -38,7 +41,8 @@ var BoardActions = {
       name: name,
       description: (description == undefined) ? '' : description,
       image: image,
-      parent_id: parent_id
+      parent_id: parent_id,
+      type: type
     });
   },
 

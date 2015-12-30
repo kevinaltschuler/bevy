@@ -13,6 +13,8 @@ var $ = require('jquery');
 var constants = require('./../../constants');
 var getSlug = require('speakingurl');
 
+var Ink = require('React-Ink')
+
 var {
   Panel,
   Input,
@@ -24,7 +26,8 @@ var {
   FlatButton,
   RaisedButton,
   TextField,
-  Styles
+  Styles,
+  RadioButton
 } = require('material-ui');
 
 var ThemeManager = new Styles.ThemeManager();
@@ -46,6 +49,7 @@ var NewBoardModal = React.createClass({
       name: '',
       description: '',
       image: {},
+      type: 'discussion'
     };
   },
 
@@ -60,7 +64,17 @@ var NewBoardModal = React.createClass({
       textField: {
         textColor: '#666',
         focusColor: '#666'
-      }
+      },
+      radioButton: {
+        borderColor:  '#666',
+        backgroundColor: '#fff',
+        checkedColor: '#222',
+        requiredColor: '#222',
+        disabledColor: 'rgba(0,0,0,.2)',
+        size: 24,
+        labelColor: '#222',
+        labelDisabledColor: 'rgba(0,0,0,.2)',
+      },
     });
   },
 
@@ -83,7 +97,7 @@ var NewBoardModal = React.createClass({
       return;
     }
 
-    BoardActions.create(name, description, image, parent);
+    BoardActions.create(name, description, image, parent, type);
 
     // after, close the window
     this.hide();
@@ -152,6 +166,39 @@ var NewBoardModal = React.createClass({
               placeholder='Board Description'
               multiLine={true}
             />
+          </div>
+          <div className='type-buttons'>
+            <div className='section-title'>
+              Board Type
+            </div>
+            <div className='type' onClick={() => this.setState({type: 'discussion' })}>
+              <div className='type-title'>
+                <RadioButton
+                  label=""
+                  style={{width: 15, marginRight: -10}}
+                  checked={this.state.type == 'discussion'}
+                />
+                <i className="material-icons">question_answer</i> 
+                Discussion
+              </div>
+              <div className='type-description'>
+                All users may post, and no notifications will be sent to members
+              </div>
+            </div>
+            <div className='type' onClick={() => this.setState({type: 'announcement' })}>
+              <div className='type-title'>
+                <RadioButton
+                  label=""
+                  style={{width: 15, marginRight: -10}}
+                  checked={this.state.type == 'announcement'}
+                />
+                <i className="material-icons">flag</i> 
+                Announcements
+              </div>
+              <div className='type-description'>
+                Only admins can post & every post sends a notification to all members
+              </div>
+            </div>
           </div>
         </Modal.Body>
         <Modal.Footer className="panel-bottom">

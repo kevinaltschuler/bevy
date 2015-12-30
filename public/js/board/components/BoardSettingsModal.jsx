@@ -101,7 +101,7 @@ var BoardSettingsModal = React.createClass({
         </Modal.Header>
 
         <Modal.Body>
-          <div className='bevy-setting expire-setting'>
+          {/*<div className='bevy-setting expire-setting'>
             Privacy
             <OverlayTrigger placement='right' overlay={ 
               <Popover title='Bevy Privacy'>
@@ -119,7 +119,7 @@ var BoardSettingsModal = React.createClass({
               onChange={ this.onPrivacyChange }
               selectedIndex={ privacyIndex }
             />
-          </div>
+          </div>*/}
           <div className='bevy-setting'>
             <Toggle
               label="Show Group Chat"

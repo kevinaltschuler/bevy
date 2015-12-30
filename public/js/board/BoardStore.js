@@ -53,6 +53,7 @@ _.extend(BoardStore, {
         var description = payload.description;
         var image = payload.image;
         var user = window.bootstrap.user;
+        var type = payload.type;
         var parent_id = payload.parent_id;
 
         var board = new Board({
@@ -60,6 +61,7 @@ _.extend(BoardStore, {
           description: description,
           image: image,
           admins: [user._id],
+          type: type,
           parent: parent_id
         });
         board.url = constants.apiurl + '/boards';
