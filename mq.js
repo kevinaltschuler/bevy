@@ -6,13 +6,12 @@
 'use strict';
 
 var zmq = require('zmq');
-var pubSock = zmq.socket('pub');
 
+var pubSock = zmq.socket('pub');
 pubSock.bindSync('tcp://127.0.0.1:4000');
 console.log('publisher bound to port 4000');
 
 setInterval(function(){
-  //console.log('sending a multipart message envelope');
   pubSock.send(['kitty cats', 'meow!']);
 }, 3000);
 

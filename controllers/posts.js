@@ -13,6 +13,7 @@ var async = require('async');
 var og = require('open-graph');
 var http = require('http');
 var shortid = require('shortid');
+var mq = require('./../mq');
 
 var notifications = require('./notifications');
 
@@ -121,9 +122,15 @@ exports.createPost = function(req, res, next) {
       Post.create($update, function(err, post) {
         if(err) return next(err);
         // populate board
-        Post.populate(post, { path: 'board author' }, function(err, pop_post) {
+        Post.populate(post, [
+          { path: 'author',
+            select: authorPopFields },
+          { path: 'board',
+            select: boardPopFields }
+        ], function(err, pop_post) {
+          if(err) return next(err);
           // create notification
-          notifications.make('post:create', { post: pop_post });
+          mq.pubSock.send(['NEW_POST', JSON.stringify(pop_post)]);
           return res.json(pop_post);
         });
       });

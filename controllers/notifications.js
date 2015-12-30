@@ -138,36 +138,6 @@ exports.updateNotification = function(req, res, next) {
 
 exports.make = function(type, payload) {
   switch(type) {
-    case 'post:create':
-      var post = JSON.parse(JSON.stringify(payload.post));
-      var author = post.author;
-      var board = post.board;
-
-      var notifications = [];
-      // get all users of the bevy
-      User.find({ boards: board._id }, function(err, users) {
-        if(err) return;
-        users.forEach(function(user) {
-          //TODO: check user notification preferences here
-          if(user._id == author._id) return; // dont send to author of post
-          notifications.push({
-            user: user._id,
-            event: 'post:create',
-            data: {
-              author_name: author.displayName,
-              author_img: author.image_url,
-              board_id: board._id,
-              board_name: board.name,
-              post_title: post.title,
-              post_id: post._id,
-              post_created: post.created
-            }
-          });
-        });
-        //pushNotifications(notifications);
-      });
-      break;
-
     case 'comment:create':
       var comment = JSON.parse(JSON.stringify(payload.comment));
       var post = comment.postId;

@@ -11,8 +11,6 @@ module.exports = function(server) {
   var io = require('socket.io')(server);
 
   io.on('connection', function(socket) {
-    //console.log(socket, 'connected');
-
     var subSock = zmq.socket('sub');
     subSock.connect('tcp://127.0.0.1:4000');
     //console.log('new subscriber bound to port 4000');
@@ -25,9 +23,10 @@ module.exports = function(server) {
 
     socket.on('set_user_id', function(user_id) {
       //console.log('user_id', user_id);
-      subSock.subscribe('kitty cats');
-      subSock.subscribe('chat:' + user_id);
-      subSock.subscribe('notification:' + user_id);
+      //subSock.subscribe('kitty cats');
+      subSock.subscribe('chat.' + user_id);
+      subSock.subscribe('notification.' + user_id);
+      subSock.subscribe('newpost.' + user_id);
     });
 
     socket.on('disconnect', function() {
