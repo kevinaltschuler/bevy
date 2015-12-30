@@ -23,6 +23,7 @@ var BOARD = constants.BOARD;
 var Users = require('./UserCollection');
 var User = require('./UserModel');
 var ChatStore = require('./../chat/ChatStore');
+var BevyStore = require('./../bevy/BevyStore');
 var user = window.bootstrap.user;
 
 var UserStore = _.extend({}, Backbone.Events);
@@ -118,12 +119,15 @@ _.extend(UserStore, {
         _.uniq(bevies); // ensure that theres no dupes
 
         var boards = this.user.get('boards'); // get all boards from bevy
-        var bevyBoards = BevyStore.getBevy(bevy_id).boards;
-        for(var key in bevyBoards) {
+        var bevyBoards = BevyStore.getBevy(bevy_id);
+        console.log(bevyBoards);
+        /*for(var key in bevyBoards) {
           var board = bevyBoards[key];
           boards.push(board);
         }
         _.uniq(boards);
+
+        console.log(boards);*/
 
         this.user.save({
           bevies: bevies,
