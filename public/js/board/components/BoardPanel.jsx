@@ -165,8 +165,10 @@ var BoardPanel = React.createClass({
       </div>
     );
 
+    console.log(boardImage);
+
     if(boardImage == 'http://bevy.dev/img/default_board_img.png' || boardImage == '/img/default_board_img.png') {
-      var avatar = <Avatar size={40} style={{width: 40, height: 40, minWidth: 40}} sicon={<i className="material-icons">view_carousel</i>}/>
+      var avatar = <Avatar size={40} style={{width: 40, height: 40, minWidth: 40}} icon={<i className="material-icons">view_carousel</i>}/>
     } else {
       var avatar = <Avatar size={40} style={{width: 40, height: 40, minWidth: 40}} src={boardImage} />;
     }
