@@ -57,7 +57,6 @@ exports.isBoardAdmin = function(req, res, next) {
   if(checkBackdoor(req)) return next();
   var user = req.user;
   var board_id = req.params.boardid;
-  console.log(req);
   Board.findOne({ _id: board_id}, function(err, board) {
     if(err) return next(err);
     // if the user is in the board's admins collection, then continue

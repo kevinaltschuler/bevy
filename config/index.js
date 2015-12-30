@@ -6,13 +6,10 @@
 
 'use strict';
 
-var app = require('./app');
-var database = require('./database');
-var passport = require('./passport');
-var mailgun = require('./mailgun');
-
-exports.app = app;
-exports.database = database;
-exports.passport = passport;
-exports.mailgun = mailgun;
+exports.app = require('./app');
+exports.database = require('./database');
+exports.passport = require('./passport');
+exports.mailgun = require('./mailgun');
 exports.auth = require('./auth');
+exports.apn = require('./apn');
+exports.mq = require(;'./mq');

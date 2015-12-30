@@ -53,6 +53,8 @@ require('./socket')(server);
 
 // set up zeromq binding
 require('./mq');
+// set up zeromq notification listeners
+require('./controllers/notifications/index')();
 
 // set up apple push notifications
 require('./apn');
