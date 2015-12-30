@@ -12,3 +12,4 @@ exports.passport = require('./passport');
 exports.mailgun = require('./mailgun');
 exports.auth = require('./auth');
 exports.apn = require('./apn');
+exports.mq = require(;'./mq');

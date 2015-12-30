@@ -118,7 +118,7 @@ var sendChatNotifications = function(data) {
 var sendNewPostNotifications = function(data) {
 	var user_id = data.user;
 	var payload = data.data;
-	payload.event = 'NEW_POST';
+	payload.event = config.mq.events.NEW_POST;
 
 	var author_name = payload.author_name;
 	var board_name = payload.board_name;

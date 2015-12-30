@@ -7,21 +7,22 @@
 
 'use strict';
 
+var _ = require('underscore');
+var config = require('./../../config');
+var shortid = require('shortid');
+var mq = require('./../../mq');
+var zmq = require('zmq');
+
 var User = require('./../../models/User');
 var Post = require('./../../models/Post');
 var Bevy = require('./../../models/Bevy');
 var Board = require('./../../models/Board');
 var Notification = require('./../../models/Notification');
 
-var _ = require('underscore');
-var shortid = require('shortid');
-var mq = require('./../../mq');
-var zmq = require('zmq');
-
 // configure subscriber socket
 var subSock = zmq.socket('sub');
 subSock.connect('tcp://127.0.0.1:4000');
-subSock.subscribe('NEW_POST');
+subSock.subscribe(config.mq.events.NEW_POST);
 
 // link pubsocket
 var pubSock = mq.pubSock;
@@ -31,7 +32,7 @@ subSock.on('message', function(event, data) {
   data = JSON.parse(data.toString());
 
   switch(event) {
-    case 'NEW_POST':
+    case config.mq.events.NEW_POST:
       createNewPostNotifications(data);
       break;
     default:

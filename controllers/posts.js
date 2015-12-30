@@ -14,6 +14,7 @@ var og = require('open-graph');
 var http = require('http');
 var shortid = require('shortid');
 var mq = require('./../mq');
+var config = require('./../config');
 
 var notifications = require('./notifications');
 
@@ -130,7 +131,7 @@ exports.createPost = function(req, res, next) {
         ], function(err, pop_post) {
           if(err) return next(err);
           // create notification
-          mq.pubSock.send(['NEW_POST', JSON.stringify(pop_post)]);
+          mq.pubSock.send([config.mq.events.NEW_POST, JSON.stringify(pop_post)]);
           return res.json(pop_post);
         });
       });
