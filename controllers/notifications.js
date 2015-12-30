@@ -136,64 +136,6 @@ exports.updateNotification = function(req, res, next) {
   });
 }
 
-exports.make = function(type, payload) {
-  switch(type) {
-    case 'comment:create':
-      var comment = JSON.parse(JSON.stringify(payload.comment));
-      var post = comment.postId;
-      var author = comment.author;
-
-      var notifications = [];
-      // send post reply to author
-      // query for bevy because we need its name
-      Board.findOne({ _id: post.board }, function(err, board) {
-        if(err) return;
-        if(author._id == post.author) return; // dont send to self
-        notifications.push({
-          user: post.author,
-          event: 'post:reply',
-          data: {
-            author_name: author.displayName,
-            author_image: author.image_url,
-            post_title: post.title,
-            board_name: board.name,
-            board_id: board._id,
-            post_id: post._id,
-            comment_id: comment._id,
-            comment_created: comment.created
-          }
-        });
-
-        // send commentedon notifications to parent comment
-        Comment.findOne({ _id: comment.parentId }, function(err, $comment) {
-          if(err) return;
-          if(author._id == $comment.author) return; // dont send to self
-          if(_.isEmpty($comment)) {
-            // parent comment not found
-            pushNotifications(notifications);
-            return;
-          }
-          notifications.push({
-            user: $comment.author,
-            event: 'post:commentedon', //TODO: change to comment:reply
-            data: {
-              author_name: author.displayName,
-              author_image: author.image_url,
-              post_title: post.title,
-              board_name: board.name,
-              board_id: board._id,
-              comment_id: comment._id,
-              comment_created: comment.created
-            }
-          });
-          //pushNotifications(notifications);
-        });
-      });
-
-      break;
-  }
-}
-
 function pushNotifications(notifications) {
   Notification.create(notifications, function(err, $notifications) {
     if(err) return;
