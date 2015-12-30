@@ -69,8 +69,6 @@ var Post = React.createClass({
     this.refreshInterval = setInterval(this.forceUpdate, 1000 * 60);
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
 
-    console.log(this.props.post._id);
-
     this.findVideos();
     this.highlightLinks();
     this.hideExtraText();

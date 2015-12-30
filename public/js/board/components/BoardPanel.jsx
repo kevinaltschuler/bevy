@@ -98,17 +98,24 @@ var BoardPanel = React.createClass({
     ? leaveButton
     : joinButton;
 
-    var publicPrivate = (board.settings.privacy == 'Private')
-    ?  (
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>Private</Tooltip>}>
-          <i className="material-icons">lock</i>
-        </OverlayTrigger>
-      )
-    : (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip>Public</Tooltip>}>
-        <i className="material-icons">public</i>
-      </OverlayTrigger>
-    );
+    var type = <div/>;
+    switch(board.type) {
+      case 'discussion':
+        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip>Discussion</Tooltip>}>
+          <i className="material-icons">question_answer</i>
+        </OverlayTrigger>);
+        break;
+      case 'event':
+        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip>Events</Tooltip>}>
+          <i className="material-icons">event</i>
+        </OverlayTrigger>);        
+        break;
+      case 'announcement':
+        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip>Announcements</Tooltip>}>
+          <i className="material-icons">flag</i>
+        </OverlayTrigger>);        
+        break;
+    }
 
     var subs = (
       <OverlayTrigger placement='bottom' overlay={<Tooltip>{board.subCount + " subscribers"}</Tooltip>}>
@@ -123,7 +130,7 @@ var BoardPanel = React.createClass({
             { subs }
           </div>
           <div className='info-item'>
-            { publicPrivate }
+            { type }
           </div>
         </div>
         <div className='right'>

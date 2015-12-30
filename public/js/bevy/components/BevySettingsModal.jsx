@@ -83,8 +83,6 @@ var BevySettingsModal = React.createClass({
     ? 1
     : 0;
 
-    console.log(this.state.privacy);
-
     return (
       <Modal className="bevy-settings-modal" show={ this.props.show } onHide={ this.props.onHide } >
         <Modal.Header closeButton>

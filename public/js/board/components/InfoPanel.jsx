@@ -101,6 +101,22 @@ var InfoPanel = React.createClass({
     }
   },
 
+  _renderType() {
+    var type = <div/>
+    switch(this.props.board.type) {
+      case 'discussion':
+        type = <span className='info-item'><i className="material-icons">question_answer</i>&nbsp;Discussion</span>;
+        break;
+      case 'event':
+        type = <span className='info-item'><i className="material-icons">flag</i>&nbsp;Announcements</span>;
+        break;
+      case 'announcement':
+        type = <span className='info-item'><i className="material-icons">event</i>&nbsp;Events</span>;
+        break;
+    }
+    return type;
+  },
+
   render() {
     var board = this.props.board;
 
@@ -129,7 +145,8 @@ var InfoPanel = React.createClass({
             <i className="material-icons">person</i>
             { board.admins.length }&nbsp;{ (board.admins.length == 1) ? 'admin' : 'admins' }
           </div>
-          { this._renderPublicPrivate() }
+          {/* this._renderPublicPrivate() */}
+          { this._renderType() }
           <AdminModal
             show={ this.state.showAdminModal }
             onHide={() => this.setState({ showAdminModal: false })}
