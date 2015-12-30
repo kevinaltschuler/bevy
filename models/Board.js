@@ -12,6 +12,7 @@ var shortid = require('shortid');
 var _ = require('underscore');
 
 var ImageSchema = require('./ImageSchema');
+var board_types = 'discussion event announcement'.split(' ');
 
 var BoardSchema = new Schema({
   _id: {
@@ -21,13 +22,20 @@ var BoardSchema = new Schema({
   },
   parent: {
     type: String,
-    ref: 'Bevy'
+    ref: 'Bevy',
+    required: true
   },
   name: {
-    type: String
+    type: String,
+    required: true
   },
   description: {
     type: String
+  },
+  type: {
+    type: String,
+    required: true,
+    enum: board_types
   },
   image: ImageSchema,
   subCount: {

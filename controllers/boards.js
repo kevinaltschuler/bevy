@@ -64,26 +64,29 @@ exports.getBevyBoards = function(req, res, next) {
 
 // POST /boards
 exports.createBoard = function(req, res, next) {
+  // verify required fields
+  if(req.body['name'] == undefined) return next('Board name not defined');
+  if(req.body['parent'] == undefined) return next("Board's parent not defined");
+  if(req.body['type'] == undefined) return next('Board type not defined');
+  if(req.body['admins'] == undefined) return next("Board's initial admins not defined");
+
   var update = {};
   update._id = shortid.generate();
-  if(req.body['name'] != undefined)
-    update.name = req.body['name'];
+  update.name = req.body['name'];
+  update.parent = req.body['parent'];
+  update.admins = req.body['admins'];
+  update.type = req.body['type'];
+
+  // optional fields
   if(req.body['description'] != undefined)
     update.description = req.body['description'];
-  if(req.body['parent'] != undefined)
-    update.parent = req.body['parent'];
   if(req.body['image'] != undefined)
     update.image = req.body['image'];
-  if(req.body['admins'] != undefined)
-    update.admins = req.body['admins'];
   if(req.body['settings'] != undefined)
     update.settings = req.body['settings'];
 
+  // automatically set subcount to 1
   update.subCount = 1;
-
-  if(!update.parent) return next('parent not specified');
-
-  if(!update.name) return next('board name not specified');
 
   async.waterfall([
     function(done) {
@@ -152,6 +155,8 @@ exports.updateBoard = function(req, res, next) {
     update.name = req.body['name'];
   if(req.body['description'] != undefined)
     update.description = req.body['description'];
+  if(req.body['type'] != undefined)
+    update.type = req.body['type'];
   if(req.body['parents'] != undefined)
     update.parents = req.body['parents'];
   if(req.body['slug'] != undefined)
@@ -163,7 +168,6 @@ exports.updateBoard = function(req, res, next) {
   if(!_.isEmpty(update)) {
     update.updated = Date.now();
   }
-
 
   if(req.body['settings']) {
     update.settings = req.body['settings'];
