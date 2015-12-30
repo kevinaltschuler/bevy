@@ -124,6 +124,7 @@ var BevyActions = {
   },
 
   search(query) {
+    console.log('seraching', query);
     Dispatcher.dispatch({
       actionType: BEVY.SEARCH,
       query: (query == undefined) ? null : query

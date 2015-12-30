@@ -21,7 +21,9 @@ var {
   DropDownMenu,
   RaisedButton,
   FontIcon,
-  FlatButton
+  FlatButton,
+  TextField,
+  IconButton
 } = require('material-ui');
 
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
@@ -40,6 +42,7 @@ var FilterSidebar = React.createClass({
   },
 
   componentDidMount() {
+    BevyActions.search(router.search_query);
     BevyActions.filterBevies('Most Subscribers');
   },
 
@@ -74,10 +77,35 @@ var FilterSidebar = React.createClass({
     BevyActions.filterBevies(filter);
   },
 
+  onSearch() {
+    router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
+  },
+
   onFilterChange(ev, selectedIndex, menuItem) {
     ev.preventDefault();
     var filter = ev.target.textContent;
     this.handleFilter(filter);
+  },
+
+  onKeyUp(ev) {
+    ev.preventDefault();
+    if(ev.which == 13) {
+      // trigger search
+      BevyActions.search(this.refs.search.getValue());
+      router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
+    }
+  },
+
+  onChange(ev) {
+    ev.preventDefault();
+    this.setState({
+      searching: true
+    });
+    if(this.searchTimeout != undefined) {
+      clearTimeout(this.searchTimeout);
+      delete this.searchTimeout;
+    }
+    this.searchTimeout = setTimeout(this.onSearch, 500);
   },
 
   render() {
@@ -96,9 +124,24 @@ var FilterSidebar = React.createClass({
       {payload: '5', text: 'Least Subscribers'}
     ];
 
-    var searchTitle = (searchQuery == '' || _.isEmpty(searchQuery))
-    ? 'All Bevies'
-    : 'Searching for ' + "'" + searchQuery + "'";
+    var searchTitle = ( 
+      <div style={{display: 'flex', flexDirection: 'row', marginTop: -15}}>  
+        <IconButton
+          iconClassName='glyphicon glyphicon-search'
+          style={{ width: '20px', height: '20px', padding: '5px', marginTop: '15px', marginLeft: -10, marginRight: 10 }}
+          iconStyle={{ color: '#666', fontSize: '14px' }}
+          title='Search'
+        />      
+        <TextField
+          type='text'
+          style={{width: '130px'}}
+          ref='search'
+          onChange={ this.onChange }
+          onKeyUp={ this.onKeyUp }
+          defaultValue={ router.search_query || '' }
+        />
+      </div>
+    )
 
     var bevyContent = (
       <div className='actions'>

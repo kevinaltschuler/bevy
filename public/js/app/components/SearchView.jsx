@@ -48,7 +48,6 @@ var SearchView = React.createClass({
 
   componentDidMount() {
     BevyActions.loadMyBevies();
-    BevyActions.search(router.searchQuery);
     BevyStore.on(BEVY.SEARCHING, this.handleSearching);
     BevyStore.on(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
   },
@@ -83,8 +82,6 @@ var SearchView = React.createClass({
     var bevies = searchList;
 
     var publicBevyPanels = [];
-
-    
 
     for(var key in bevies) {
       var bevy = bevies[key];

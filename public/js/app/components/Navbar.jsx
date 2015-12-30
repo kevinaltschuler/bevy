@@ -84,35 +84,11 @@ var Navbar = React.createClass({
     BevyStore.off(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
   },
 
+
   handleSearchComplete() {
     this.setState({
-      searching: false
+      searching: false,
     });
-  },
-
-  onKeyUp(ev) {
-    ev.preventDefault();
-    if(ev.which == 13) {
-      // trigger search
-      router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
-    }
-  },
-
-  onChange(ev) {
-    ev.preventDefault();
-    this.setState({
-      searching: true
-    });
-    if(this.searchTimeout != undefined) {
-      clearTimeout(this.searchTimeout);
-      delete this.searchTimeout;
-    }
-    this.searchTimeout = setTimeout(this.onSearch, 500);
-  },
-
-  onSearch() {
-    if(router.current == 'search') // only auto navigate if we're already on the search page
-      router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
   },
 
   _renderBevyInfoBar() {

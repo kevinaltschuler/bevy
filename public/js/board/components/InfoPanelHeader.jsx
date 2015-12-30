@@ -58,7 +58,7 @@ var InfoPanelHeader = React.createClass({
   },
 
   stopEditing(ev) {
-    var bboard_id = this.props.board.id;
+    var board_id = this.props.board.id;
     var name = this.state.name;
     var description = this.state.description;
     var image = this.state.image;
@@ -92,6 +92,7 @@ var InfoPanelHeader = React.createClass({
   render() {
 
     var board = this.props.board;
+    var isAdmin = _.contains(board.admins, window.bootstrap.user._id);
     var boardImageURL = (_.isEmpty(this.state.image)) 
       ? '/img/default_group_img.png' 
       : this.state.image.path;
@@ -124,31 +125,28 @@ var InfoPanelHeader = React.createClass({
         <div className='profile-img' style={ boardImageStyle }/>
       </div>
     );
-    if(window.bootstrap.user) {
-      if(_.findWhere(board.admins, { _id: window.bootstrap.user._id}) != undefined) {
-        editButton = (
-          <OverlayTrigger placement='top' overlay={
-            <Tooltip>Edit Name/Description</Tooltip>
-          }>
-            <Button className='edit-btn' onClick={ this.startEditing }>
-              <span className='glyphicon glyphicon-pencil' />
-            </Button>
-          </OverlayTrigger>
-        );
-        sidebarPicture = (
-          <div className="sidebar-picture">
-            <Uploader
-              onUploadComplete={ this.onUploadComplete }
-              className="bevy-image-dropzone"
-              style={ boardImageStyle }
-              dropzoneOptions={ dropzoneOptions }
-              tooltip='Change Board Picture'
-            />
-          </div>
-        );
-      }
+    if(isAdmin) {
+      editButton = (
+        <OverlayTrigger placement='top' overlay={
+          <Tooltip>Edit Name/Description</Tooltip>
+        }>
+          <Button className='edit-btn' onClick={ this.startEditing }>
+            <span className='glyphicon glyphicon-pencil' />
+          </Button>
+        </OverlayTrigger>
+      );
+      sidebarPicture = (
+        <div className="sidebar-picture">
+          <Uploader
+            onUploadComplete={ this.onUploadComplete }
+            className="bevy-image-dropzone"
+            style={ boardImageStyle }
+            dropzoneOptions={ dropzoneOptions }
+            tooltip='Change Board Picture'
+          />
+        </div>
+      );
     }
-
     if (this.state.isEditing) {
       return (
         <div>

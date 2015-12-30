@@ -72,7 +72,6 @@ var PublicBevyPanel = React.createClass({
 
 
   _renderLock() {
-    console.log(this.props.bevy.name, this.props.bevy.settings.privacy);
     if(this.props.bevy.settings.privacy == 'Private') {
       return (
         <OverlayTrigger placement='top' overlay={

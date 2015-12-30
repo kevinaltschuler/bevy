@@ -18,8 +18,11 @@ var {
   IconButton
 } = require('material-ui');
 
+var Uploader = require('./../../shared/components/Uploader.jsx');
+
 var _ = require('underscore');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
+var BevyActions = require('./../BevyActions');
 
 var BevyInfoBar = React.createClass({
   propTypes: {
@@ -32,10 +35,17 @@ var BevyInfoBar = React.createClass({
     }
   },
 
+  onUploadComplete(file) {
+
+    var bevy_id = this.props.activeBevy.id;
+    var name = this.props.activeBevy.name;
+
+    BevyActions.update(bevy_id, name, file);
+  },
+
   render() {
     var bevy = this.props.activeBevy;
     if(_.isEmpty(bevy)) {
-        console.log('shit');
         return <div/>;
     }
     var publicPrivate = (bevy.settings.privacy == 'Private')
@@ -62,11 +72,38 @@ var BevyInfoBar = React.createClass({
       </OverlayTrigger>
     );
 
-    var settings = (
+    var settingsButton = (
       <IconButton onClick={() => this.setState({showSettingsModal: true})} style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
         <i className="material-icons">settings</i>
       </IconButton>
     );
+
+    var dropzoneOptions = {
+      maxFiles: 1,
+      acceptedFiles: 'image/*',
+      clickable: '.dropzone-panel-button',
+      dictDefaultMessage: ' ',
+      init: function() {
+        this.on("addedfile", function() {
+          if (this.files[1]!=null){
+            this.removeFile(this.files[0]);
+          }
+        });
+      }
+    };
+
+    var imageButton = (
+      <IconButton className='dropzone-panel-button' style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
+        <i className="material-icons">camera_alt</i>
+      </IconButton>
+    );
+
+    if(!_.findWhere(bevy.admins, {_id: window.bootstrap.user._id})) {
+      settingsButton = <div/>;
+      imageButton = <div/>;
+    }
+
+    console.log(bevy.admins);
 
     return (
       <div className='bevy-info-bar'>
@@ -80,12 +117,22 @@ var BevyInfoBar = React.createClass({
             {admins}
         </div>
         <div className='info-item'>
-            {settings}
+            {settingsButton}
+        </div>
+        <div className='info-item'>
+            {imageButton}
         </div>
         <BevySettingsModal
           show={this.state.showSettingsModal}
           onHide={() => this.setState({showSettingsModal: false})}
           activeBevy={bevy}
+        />
+        <Uploader
+          onUploadComplete={ this.onUploadComplete }
+          className="bevy-image-dropzone"
+          dropzoneOptions={ dropzoneOptions }
+          tooltip='Change Bevy Picture'
+          style={{display: 'none'}}
         />
       </div>
     );
