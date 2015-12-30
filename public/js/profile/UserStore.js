@@ -114,12 +114,20 @@ _.extend(UserStore, {
 
         var bevies = this.user.get('bevies');
         if(_.contains(bevies, bevy_id)) break; // already joined
-
         bevies.push(bevy_id);
         _.uniq(bevies); // ensure that theres no dupes
 
+        var boards = this.user.get('boards'); // get all boards from bevy
+        var bevyBoards = BevyStore.getBevy(bevy_id).boards;
+        for(var key in bevyBoards) {
+          var board = bevyBoards[key];
+          boards.push(board);
+        }
+        _.uniq(boards);
+
         this.user.save({
-          bevies: bevies
+          bevies: bevies,
+          boards: boards
         }, {
           patch: true,
           success: function(model, response, options) {

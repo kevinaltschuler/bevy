@@ -34,7 +34,6 @@ var {
 } = require('material-ui');
 
 var Uploader = require('./../../shared/components/Uploader.jsx');
-var CreateNewEventModal = require('./CreateNewEventModal.jsx');
 
 var PostActions = require('./../PostActions');
 
@@ -154,7 +153,7 @@ var NewPostPanel = React.createClass({
       clickable: '.attach-picture'
     };
 
-    if(this.props.activeBoard.type == 'announcement' && !_.contains(board.admins, window.bootstrap.user)) {
+    if(this.props.activeBoard.type == 'announcement' && !_.contains(board.admins, window.bootstrap.user._id)) {
       return <div/>;
     }
 
@@ -179,7 +178,6 @@ var NewPostPanel = React.createClass({
             multiLine={ true }
             value={ this.state.title }
             onChange={ this.handleChange }
-            disabled={ disabled }
             style={{ width: '100%' }}
           />
         </div>
@@ -199,7 +197,6 @@ var NewPostPanel = React.createClass({
                 iconClassName="glyphicon glyphicon-picture"
                 className='attach-picture'
                 onClick={ this.preventDefault }
-                disabled={ disabled }
                 backgroundColor={'white'}
                 disabledColor={'rgba(0,0,0,.2)'}
                 iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
@@ -230,7 +227,6 @@ var NewPostPanel = React.createClass({
           <RaisedButton
             label="post"
             onClick={this.submit}
-            disabled={ disabled }
           />
         </div>
       </Panel>

@@ -128,13 +128,6 @@ var BoardSettingsModal = React.createClass({
             />
           </div>
           <div className='bevy-setting'>
-            <Toggle
-              label="Only Admins Can Post"
-              defaultToggled={ settings.admin_only }
-              ref='admin_only'
-            />
-          </div>
-          <div className='bevy-setting'>
             <RaisedButton 
               label='Delete Bevy'
               backgroundColor='#d9534f'

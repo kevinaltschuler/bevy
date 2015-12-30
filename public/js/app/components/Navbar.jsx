@@ -259,7 +259,7 @@ var Navbar = React.createClass({
         >
         <div className="background-image" style={ backgroundStyle } />
         </div>
-        <div className='content'>
+        <div className='content' style={{height: 68}}>
           <div className="left">
             <Button
               className="bevy-logo-btn"
