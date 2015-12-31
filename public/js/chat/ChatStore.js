@@ -397,15 +397,14 @@ _.extend(ChatStore, {
           }.bind(this)
         });
         break;
+      case CHAT.FETCH_THREADS:
+        this.threads.fetch({
+          success: function(collection, response, option) {
+            this.trigger(CHAT.CHANGE_ALL);
+          }.bind(this)
+        })
+        break;
     }
-  },
-
-  fetchThreads() {
-    this.threads.fetch({
-      success: function(collection, response, option) {
-        this.trigger(CHAT.CHANGE_ALL);
-      }.bind(this)
-    })
   },
 
   openThread(thread_id) {

@@ -122,7 +122,7 @@ _.extend(BoardStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-            ChatStore.fetchThreads();
+            window.location.reload();
           }.bind(this)
         });
 

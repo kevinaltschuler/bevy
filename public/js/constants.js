@@ -171,5 +171,6 @@ exports.CHAT = {
 
   PANEL_TOGGLE: 'chat_panel_toggle:',
 
-  UPDATE_IMAGE: 'chat_update_image'
+  UPDATE_IMAGE: 'chat_update_image',
+  FETCH_THREADS: 'chat_fetch_threads'
 };
