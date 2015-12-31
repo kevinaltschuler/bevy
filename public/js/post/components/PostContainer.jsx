@@ -50,11 +50,7 @@ var PostContainer = React.createClass({
 
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
-<<<<<<< HEAD
-    BevyStore.on(BEVY.CHANGE_ALL, this.handleChangeAll);
-    BoardStore.on(BOARD.CHANGE_ALL, this.handleChangeAll);
-=======
->>>>>>> 15c6d458cf824fc0183fb61a5569257bb9f71c15
+
     // sometimes the bevy switch event completes before this is mounted
     if(router.current == 'board')
       BoardActions.switchBoard(this.props.activeBoard._id);
@@ -68,11 +64,7 @@ var PostContainer = React.createClass({
   },
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
-<<<<<<< HEAD
-    BevyStore.off(BEVY.CHANGE_ALL, this.handleChangeAll);
-    BoardStore.on(BOARD.CHANGE_ALL, this.handleChangeAll);
-=======
->>>>>>> 15c6d458cf824fc0183fb61a5569257bb9f71c15
+
   },
   componentWillUpdate() {
   },
@@ -91,14 +83,6 @@ var PostContainer = React.createClass({
   render() {
     var allPosts = this.state.allPosts || [];
     var posts = [];
-<<<<<<< HEAD
-=======
-
-    //var sortType = this.props.sortType;
-    //var activeTags = this.props.activeTags;
-    //var frontBevies = this.props.frontBevies;
-    //
->>>>>>> 15c6d458cf824fc0183fb61a5569257bb9f71c15
 
     if(this.state.loading) {
       return (
