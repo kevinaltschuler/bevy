@@ -21,7 +21,7 @@ var Board = require('./../models/Board');
 var notifications = require('./notifications');
 
 var userPopFields = '_id displayName email image username '
- + 'google.displayName facebook.displayName';
+ + 'google facebook';
 
 // GET /posts/:postid/comments
 exports.getComments = function(req, res, next) {
@@ -57,7 +57,7 @@ exports.createComment = function(req, res, next) {
 		if(err) return next(err);
 		Comment.populate(comment, [{
         path: 'postId',
-        select: '_id author title board admins settings' 
+        select: '_id author title board admins settings'
       }, {
         path: 'author',
         select: userPopFields
