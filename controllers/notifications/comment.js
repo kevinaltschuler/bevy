@@ -52,7 +52,7 @@ var createNewCommentNotifications = function(comment) {
         if(err) return done('Board not found');
         // dont send reply notification to self
         // skip this part and pass empty array to next middleware
-        if(author._id == post.author) return done(null, notifications);
+        if(author._id == post.author) return done(null, notifications, board);
 
         notifications.push({
           _id: shortid.generate(),
@@ -60,7 +60,7 @@ var createNewCommentNotifications = function(comment) {
           event: 'post:reply',
           data: {
             author_name: author.displayName,
-            author_image: author.image_url,
+            author_image: author.image,
             post_title: post.title,
             board_name: board.name,
             board_id: board._id,
@@ -70,10 +70,10 @@ var createNewCommentNotifications = function(comment) {
             comment_body: comment.body
           }
         });
-        done(null, notifications);
+        done(null, notifications, board);
       });
     },
-    function(notifications, done) {
+    function(notifications, board, done) {
       Comment.findOne({ _id: comment.parentId }, function(err, $comment) {
         if(err) return done(err);
         // dont send reply notification to self
@@ -86,7 +86,7 @@ var createNewCommentNotifications = function(comment) {
         notifications.push({
           _id: shortid.generate(),
           user: $comment.author,
-          event: 'comment:reply', //TODO: change to comment:reply
+          event: 'comment:reply',
           data: {
             author_name: author.displayName,
             author_image: author.image_url,
@@ -118,7 +118,7 @@ var createNewCommentNotifications = function(comment) {
 
     Notification.create(notifications, function(err, $notifications) {
       if(err) {
-        console.error('new post notification create:', err);
+        console.error('new comment notification create:', err);
         return;
       }
     });

@@ -57,7 +57,7 @@ exports.createComment = function(req, res, next) {
 		if(err) return next(err);
 		Comment.populate(comment, [{
         path: 'postId',
-        select: '_id title board admins settings' 
+        select: '_id author title board admins settings' 
       }, {
         path: 'author',
         select: userPopFields
