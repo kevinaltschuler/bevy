@@ -55,7 +55,7 @@ var PostView = React.createClass({
     var joinedBoard = false;
     var joinedParent = false;
     var activeBoard = this.props.activeBoard;
-    var parent = BevyStore.getBevy(activeBoard.parent);
+    var parent = activeBoard.parent;
     
     if(_.isEmpty(activeBoard) || _.isEmpty(parent)) {
       return <div/>;
@@ -91,8 +91,6 @@ var PostView = React.createClass({
         </div>
       );
     }
-
-    console.log(activeBoard);
 
     if(!joinedBoard && activeBoard.settings.privacy == 'Private') {
       return (

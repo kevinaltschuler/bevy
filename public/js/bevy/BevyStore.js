@@ -376,15 +376,6 @@ _.extend(BevyStore, {
     }
     var board = this.bevyBoards.get(board_id);
     if(board == undefined) {
-      console.log('is here');
-      // couldnt find so fetch from server
-      var board = new Board;
-      board.url = constants.apiurl + '/boards/' + board_id;
-      board.fetch({
-        success: function(model, res, options){
-          console.log('success');
-        }.bind(this)
-      })
       return {};
     } else {
       // we found it so return
