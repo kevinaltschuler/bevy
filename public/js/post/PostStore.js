@@ -316,21 +316,18 @@ _.extend(PostStore, {
 
         newComment.save(null, {
           success: function(model, response, options) {
-            var id = model.id;
-            var comments = post.get('comments') || [];
+            var comments = post.get('allComments') || [];
             var comment = (comment_id)
               ? _.findWhere(comments, { _id: comment_id })
               : {};
-            //var allComments = post.get('allComments') || [];
             var new_comment = {
-              _id: id,
-              depth: (comment_id) ? comment.depth + 1 : undefined,
+              _id: model.get('_id'),
               postId: post_id,
               parentId: (comment_id) ? comment_id : undefined,
               author: author,
               body: body,
               comments: [],
-              created: data.created
+              created: model.get('created')
             };
             comments.push(new_comment);
             post.set('comments', comments);
@@ -339,7 +336,7 @@ _.extend(PostStore, {
             // increment comment count
             var commentCount = post.get('commentCount') || 0;
             post.set('commentCount', ++commentCount);
-            
+
             this.trigger(POST.CHANGE_ONE + post_id);
           }.bind(this)
         });
@@ -414,20 +411,19 @@ _.extend(PostStore, {
     var post = this.posts.get(post_id);
     if(post == undefined) return;
 
-    var comments = post.get('comments');
+    var comments = post.get('allComments');
     var commentCount = post.get('commentCount');
+
+    // check to see if comment already exists
+    if(_.findWhere(comments, { _id: comment._id }) != undefined) {
+      // if so, then break out of this
+      return;
+    }
+
     comments.push(comment);
     commentCount++;
     post.set('comments', comments);
     post.set('commentCount', commentCount);
-    if(_.isEmpty(comment.parentId)) {
-      // direct reply to a post
-    } else {
-      // reply to a comment
-      //var $comment = _.findWhere(post.get('comments'), { _id: comment.parentId });
-      //if($comment == undefined) return;
-      //$comment.comments.push(comment);
-    }
     this.postsNestComment(post);
     //this.trigger(POST.CHANGE_ALL);
     this.trigger(POST.CHANGE_ONE + post_id);
