@@ -318,43 +318,28 @@ _.extend(PostStore, {
           success: function(model, response, options) {
             var id = model.id;
             var comments = post.get('comments') || [];
-            var allComments = post.get('allComments') || [];
+            var comment = (comment_id)
+              ? _.findWhere(comments, { _id: comment_id })
+              : {};
+            //var allComments = post.get('allComments') || [];
+            var new_comment = {
+              _id: id,
+              depth: (comment_id) ? comment.depth + 1 : undefined,
+              postId: post_id,
+              parentId: (comment_id) ? comment_id : undefined,
+              author: author,
+              body: body,
+              comments: [],
+              created: data.created
+            };
+            comments.push(new_comment);
+            post.set('comments', comments);
+            this.postsNestComment(post);
 
-            if(comment_id) {
-              // replied to a comment
-              var comment = _.findWhere(comments, { _id: comment_id });
-              var new_comment = {
-                _id: id,
-                depth: comment.depth + 1,
-                postId: post_id,
-                parentId: comment_id,
-                author: author,
-                body: body,
-                comments: [],
-                created: data.created
-              };
-
-              if(!comment.comments) comment.comments = [];
-              comment.comments.push(new_comment);
-              comments.push(new_comment);
-              allComments.push(new_comment);
-              this.postsNestComment(post);
-            } else {
-              // replied to a post
-              var new_comment = {
-                _id: id,
-                postId: post_id,
-                parentId: undefined,
-                author: author,
-                body: body,
-                created: response.created
-              };
-              comments.push(new_comment);
-              allComments.push(new_comment);
-            }
             // increment comment count
             var commentCount = post.get('commentCount') || 0;
             post.set('commentCount', ++commentCount);
+            
             this.trigger(POST.CHANGE_ONE + post_id);
           }.bind(this)
         });
