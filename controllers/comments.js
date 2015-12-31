@@ -11,9 +11,12 @@ var error = require('./../error');
 var _ = require('underscore');
 var async = require('async');
 var shortid = require('shortid');
+var mq = require('./../mq');
+var config = require('./../config');
 
 var Post = require('./../models/Post');
 var Comment = require('./../models/Comment');
+var Board = require('./../models/Board');
 
 var notifications = require('./notifications');
 
@@ -52,8 +55,14 @@ exports.createComment = function(req, res, next) {
 
 	Comment.create(update, function(err, comment) {
 		if(err) return next(err);
-		Comment.populate(comment, { path: 'postId author' }, function(err, pop_comment) {
-			notifications.make('comment:create', { comment: pop_comment });
+		Comment.populate(comment, [{
+        path: 'postId',
+        select: '_id author title board admins settings' 
+      }, {
+        path: 'author',
+        select: userPopFields
+      }], function(err, pop_comment) {
+      mq.pubSock.send([config.mq.events.NEW_COMMENT, JSON.stringify(pop_comment)]);
 		});
 		return res.json(comment);
 	});

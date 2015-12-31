@@ -27,6 +27,7 @@ module.exports = function(server) {
       subSock.subscribe('chat.' + user_id);
       subSock.subscribe('notification.' + user_id);
       subSock.subscribe('newpost.' + user_id);
+      subSock.subscribe('newcomment.' + user_id);
     });
 
     socket.on('disconnect', function() {

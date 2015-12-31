@@ -53,24 +53,13 @@ _.extend(PostStore, {
   // these are created from PostActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
-
       case APP.LOAD:
-
-        // wait for bevies
-        /*BevyStore.on(BEVY.LOADED, function() {
-          this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
-          //this.trigger(POST.CHANGE_ALL);
-        }.bind(this));*/
-
         break;
 
       case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
-
         this.posts.comparator = PostStore.sortByNew;
-
         this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
-        
         this.posts.fetch({
           success: function(collection, response, options) {
             this.posts.forEach(function(post) {
@@ -82,17 +71,12 @@ _.extend(PostStore, {
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
-
         break;
 
       case BOARD.SWITCH:
-
         var board_id = payload.board_id;
-
         this.posts.comparator = PostStore.sortByNew;
-
         this.posts.url = constants.apiurl + '/boards/' + board_id + '/posts';
-        
         this.posts.fetch({
           success: function(collection, response, options) {
             this.posts.forEach(function(post) {
@@ -104,7 +88,6 @@ _.extend(PostStore, {
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
-
         break;
 
       case POST.FETCH:
@@ -336,14 +319,15 @@ _.extend(PostStore, {
         newComment.save(null, {
           success: function(model, response, options) {
             var id = model.id;
+            var comments = post.get('comments') || [];
+            var allComments = post.get('allComments') || [];
 
             if(comment_id) {
               // replied to a comment
-              var comments = post.get('allComments');
               var comment = _.findWhere(comments, { _id: comment_id });
               var new_comment = {
                 _id: id,
-                depth: comment.depth+1,
+                depth: comment.depth + 1,
                 postId: post_id,
                 parentId: comment_id,
                 author: author,
@@ -355,12 +339,10 @@ _.extend(PostStore, {
               if(!comment.comments) comment.comments = [];
               comment.comments.push(new_comment);
               comments.push(new_comment);
-              //this.postsNestComment(post);
+              allComments.push(new_comment);
+              this.postsNestComment(post);
             } else {
               // replied to a post
-
-              var comments = post.get('comments') || [];
-              var allComments = post.get('allComments') || [];
               var new_comment = {
                 _id: id,
                 postId: post_id,
@@ -369,10 +351,9 @@ _.extend(PostStore, {
                 body: body,
                 created: response.created
               };
-              
               comments.push(new_comment);
               allComments.push(new_comment);
-            }            
+            }
             // increment comment count
             var commentCount = post.get('commentCount') || 0;
             post.set('commentCount', ++commentCount);
@@ -420,6 +401,55 @@ _.extend(PostStore, {
     }
   },
 
+  // add post - used for livereloading
+  addPost(post) {
+    var router = require('./../router');
+    var BevyStore = require('./../bevy/BevyStore');
+    // are we in the bevy view and does this post belong to that bevy?
+    if(router.current == 'bevy' && !_.isEmpty(BevyStore.getActiveBevy())) {
+      var activeBevy = BevyStore.getActiveBevy();
+      if(_.contains(activeBevy.boards, post.board._id)) {
+        this.posts.add(post);
+        this.trigger(POST.CHANGE_ALL);
+      } else {
+        // this post doesn't belong in the active bevy. get outta here
+        return;
+      }
+    }
+    // are we in the board view and does this post belong to that board?
+    else if(router.current == 'board' && post.board._id == router.board_id) {
+      this.posts.add(post);
+      this.trigger(POST.CHANGE_ALL);
+    }
+    // the post we received doesn't need to get livereloaded. return
+    else return;
+  },
+
+  // add comment - used for livereloading
+  addComment(comment) {
+    var post_id = comment.postId._id;
+    var post = this.posts.get(post_id);
+    if(post == undefined) return;
+
+    var comments = post.get('comments');
+    var commentCount = post.get('commentCount');
+    comments.push(comment);
+    commentCount++;
+    post.set('comments', comments);
+    post.set('commentCount', commentCount);
+    if(_.isEmpty(comment.parentId)) {
+      // direct reply to a post
+    } else {
+      // reply to a comment
+      //var $comment = _.findWhere(post.get('comments'), { _id: comment.parentId });
+      //if($comment == undefined) return;
+      //$comment.comments.push(comment);
+    }
+    this.postsNestComment(post);
+    //this.trigger(POST.CHANGE_ALL);
+    this.trigger(POST.CHANGE_ONE + post_id);
+  },
+
   setFrontBevies() {
     this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
   },
@@ -452,13 +482,13 @@ _.extend(PostStore, {
 
   sortByTop(post) {
     var score = post.countVotes();
-    if(post.get('pinned') && router.bevy_id != -1) score = 9000;
+    if(post.get('pinned')) score = 9000;
     return -score;
   },
 
   sortByNew(post) {
     var date = Date.parse(post.get('created'));
-    if(post.get('pinned') && router.bevy_id != -1) date = new Date('2035', '1', '1');
+    if(post.get('pinned')) date = new Date('2035', '1', '1');
     return -date;
   },
 
@@ -535,9 +565,3 @@ var dispatchToken = Dispatcher.register(PostStore.handleDispatch.bind(PostStore)
 PostStore.dispatchToken = dispatchToken;
 
 module.exports = PostStore;
-
-
-
-
-
-

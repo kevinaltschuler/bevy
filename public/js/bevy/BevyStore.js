@@ -76,7 +76,6 @@ _.extend(BevyStore, {
 
         this.myBevies.fetch({
           success: function(collection, response, options) {
-
               var active = this.myBevies.get(bevy_id_or_slug);
               this.active = active;
               this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/boards';
@@ -347,7 +346,12 @@ _.extend(BevyStore, {
   },
 
   getActive() {
-    return (!_.isEmpty(this.active)) ? this.active.toJSON() : {};
+    return (!_.isEmpty(this.active))
+      ? this.active.toJSON()
+      : {};
+  },
+  getActiveBevy() {
+    return this.getActive();
   },
 
   getBevy(bevy_id) {
