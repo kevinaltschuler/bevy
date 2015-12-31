@@ -32,7 +32,7 @@ var InfoPanel = React.createClass({
     return {
       joined: joined,
       showSettingsModal: false,
-      showAdminModal: false
+      showAdminModal: false,
     };
   },
 

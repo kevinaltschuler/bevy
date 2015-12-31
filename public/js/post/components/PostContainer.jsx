@@ -17,12 +17,17 @@ var Event = require('./Event.jsx');
 
 var router = require('./../../router');
 var BevyActions = require('./../../bevy/BevyActions');
+var BevyStore = require('./../../bevy/BevyStore');
 var BoardActions = require('./../../board/BoardActions');
+var BoardStore = require('./../../board/BoardStore');
 var PostStore = require('./../PostStore');
+var NotificationStore = require('./../../notification/NotificationStore');
 var PostActions = require('./../PostActions');
 var constants = require('./../../constants');
 var POST = constants.POST;
-
+var BEVY = constants.BEVY;
+var BOARD = constants.BOARD;
+var NOTIFICATION = constants.NOTIFICATION;
 var {
   CircularProgress
 } = require('material-ui');
@@ -56,6 +61,9 @@ var PostContainer = React.createClass({
 
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
+    BevyStore.on(BEVY.CHANGE_ALL, this.handleChangeAll);
+    BoardStore.on(BOARD.CHANGE_ALL, this.handleChangeAll);
+    NotificationStore.on(NOTIFICATION.CHANGE_ALL, this.handleChangeAll);
     // sometimes the bevy switch event completes before this is mounted
     if(router.current == 'board')
       BoardActions.switchBoard(this.props.activeBoard._id);
@@ -70,6 +78,9 @@ var PostContainer = React.createClass({
 
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
+    BevyStore.off(BEVY.CHANGE_ALL, this.handleChangeAll);
+    BoardStore.on(BOARD.CHANGE_ALL, this.handleChangeAll);
+    NotificationStore.on(NOTIFICATION.CHANGE_ALL, this.handleChangeAll);
   },
 
   componentWillUpdate() {
@@ -104,7 +115,6 @@ var PostContainer = React.createClass({
   },
 
   handleChangeAll() {
-    console.log('loaded');
     this.setState({
       allPosts: PostStore.getAll()
     });
@@ -122,6 +132,7 @@ var PostContainer = React.createClass({
     //var sortType = this.props.sortType;
     //var activeTags = this.props.activeTags;
     //var frontBevies = this.props.frontBevies;
+    //
 
     if(!this.state.postsLoaded) {
       return (

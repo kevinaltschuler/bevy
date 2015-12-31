@@ -183,7 +183,6 @@ exports.addBoard = function(req, res, next) {
     // save to database
     bevy.save(function(err, $bevy) {
       if(err) return next(err);
-      console.log('board add success');
       return res.json($bevy);
     });
   });

@@ -58,12 +58,12 @@ var BoardSettingsModal = React.createClass({
   save(ev) {
     //var anonymise_users = this.refs.anonymise_users.isToggled();
     var group_chat = this.refs.group_chat.isToggled();
-    var admin_only = this.refs.admin_only.isToggled();
+    //var admin_only = this.refs.admin_only.isToggled();
 
     BoardActions.update(this.props.board._id, null, null, null, {
       group_chat: group_chat,
-      admin_only: admin_only,
-      privacy: this.state.privacy,
+      //admin_only: admin_only,
+      //privacy: this.state.privacy,
     });
 
     this.props.onHide();

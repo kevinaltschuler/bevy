@@ -50,7 +50,6 @@ exports.createNotification = function(req, res, next) {
 
   switch(params.event) {
     case 'test':
-      //console.log(params);
       break;
 
     case 'bevy:requestjoin':

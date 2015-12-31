@@ -121,12 +121,11 @@ _.extend(BoardStore, {
           settings: settings
         }, {
           patch: true,
-          success: function() {
+          success: function(model, response, options) {
             ChatStore.fetchThreads();
-          }
+          }.bind(this)
         });
 
-        this.trigger(BOARD.CHANGE_ALL);
         break;
 
       case BOARD.DESTROY:

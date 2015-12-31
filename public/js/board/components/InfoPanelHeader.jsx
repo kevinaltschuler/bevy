@@ -37,6 +37,7 @@ var InfoPanelHeader = React.createClass({
       name: board.name || '',
       description: board.description || '',
       image: board.image || {},
+      imagePath: '',
       isEditing: false
     };
   },
@@ -48,6 +49,7 @@ var InfoPanelHeader = React.createClass({
       name: board.name,
       description: board.description,
       image: board.image,
+      imagePath: board.image.path || ''
     });
   },
 
@@ -71,8 +73,10 @@ var InfoPanelHeader = React.createClass({
   },
 
   onUploadComplete(file) {
+    console.log(file);
     this.setState({
-      image: file
+      image: file,
+      imagePath: constants.apiurl + '/files/' + file.filename
     });
 
     var board_id = this.props.board.id;
@@ -95,7 +99,8 @@ var InfoPanelHeader = React.createClass({
     var isAdmin = _.contains(board.admins, window.bootstrap.user._id);
     var boardImageURL = (_.isEmpty(this.state.image)) 
       ? '/img/default_group_img.png' 
-      : this.state.image.path;
+      : this.state.imagePath;
+    console.log(boardImageURL);
     var boardImageStyle = { backgroundImage: 'url(' + boardImageURL + ')' };
 
     var name = (_.isEmpty(board)) 

@@ -190,11 +190,12 @@ _.extend(BevyStore, {
           image: image,
           settings: settings
         }, {
-          patch: true
+          patch: true,
+          success: function(model, response, options) {
+            this.trigger(BEVY.CHANGE_ALL);
+          }.bind(this)
         });
 
-        this.trigger(BEVY.UPDATED_IMAGE);
-        this.trigger(POST.CHANGE_ALL);
         break;
 
       case BEVY.LEAVE:

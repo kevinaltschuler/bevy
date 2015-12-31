@@ -77,20 +77,6 @@ var Navbar = React.createClass({
     });
   },
 
-  componentDidMount() {
-    BevyStore.on(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
-  },
-  componentWillUnmount() {
-    BevyStore.off(BEVY.SEARCH_COMPLETE, this.handleSearchComplete);
-  },
-
-
-  handleSearchComplete() {
-    this.setState({
-      searching: false,
-    });
-  },
-
   _renderBevyInfoBar() {
     var content = (router.current == 'bevy')
     ? <BevyInfoBar
