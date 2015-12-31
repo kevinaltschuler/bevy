@@ -87,6 +87,7 @@ var Post = React.createClass({
     this.setState({
       post: PostStore.getPost(this.props.post._id)
     });
+    console.log('on post change', this.state.post);
   },
 
   onHandleToggle(ev) {
