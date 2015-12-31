@@ -91,14 +91,6 @@ var PostContainer = React.createClass({
   render() {
     var allPosts = this.state.allPosts || [];
     var posts = [];
-<<<<<<< HEAD
-=======
-
-    //var sortType = this.props.sortType;
-    //var activeTags = this.props.activeTags;
-    //var frontBevies = this.props.frontBevies;
-    //
->>>>>>> 15c6d458cf824fc0183fb61a5569257bb9f71c15
 
     if(this.state.loading) {
       return (
