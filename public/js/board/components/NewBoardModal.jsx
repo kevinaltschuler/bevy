@@ -91,6 +91,7 @@ var NewBoardModal = React.createClass({
     var description = this.refs.Description.getValue();
     var image = this.state.image;
     var parent = this.props.activeBevy._id;
+    var type = this.state.type;
 
     if(_.isEmpty(name)) {
       this.refs.Name.setErrorText('Please enter a name for your board');

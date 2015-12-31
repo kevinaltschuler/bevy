@@ -108,10 +108,10 @@ var InfoPanel = React.createClass({
         type = <span className='info-item'><i className="material-icons">question_answer</i>&nbsp;Discussion</span>;
         break;
       case 'event':
-        type = <span className='info-item'><i className="material-icons">flag</i>&nbsp;Announcements</span>;
+        type = <span className='info-item'><i className="material-icons">event</i>&nbsp;Event</span>;
         break;
       case 'announcement':
-        type = <span className='info-item'><i className="material-icons">event</i>&nbsp;Events</span>;
+        type = <span className='info-item'><i className="material-icons">flag</i>&nbsp;Annoucements</span>;
         break;
     }
     return type;

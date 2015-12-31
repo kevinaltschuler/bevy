@@ -129,6 +129,17 @@ _.extend(BoardStore, {
         this.trigger(BOARD.CHANGE_ALL);
         break;
 
+      case BOARD.DESTROY:
+        var board_id = payload.board_id;
+        var board = this.active;
+        board.destroy({
+          success: function(model, response) {
+            console.log(model);
+            router.navigate('/b/' + model.get('parent').slug, { trigger: true });
+          }
+        })
+        break;
+
     }
   },
 

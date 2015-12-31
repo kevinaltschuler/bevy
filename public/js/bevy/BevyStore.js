@@ -352,7 +352,7 @@ _.extend(BevyStore, {
   },
 
   getBevy(bevy_id) {
-    var bevy = this.myBevies.get(bevy_id) || this.publicBevies.get(bevy_id);
+    var bevy = this.myBevies.get(bevy_id) || this.publicBevies.get(bevy_id) || this.searchList.get(bevy_id);
     return (bevy)
     ? bevy.toJSON()
     : {};

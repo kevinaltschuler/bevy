@@ -16,6 +16,7 @@ var Bevy = require('./../models/Bevy');
 var User = require('./../models/User');
 var Thread = require('./../models/Thread');
 var Post = require('./../models/Post');
+var Message = require('./../models/Message');
 
 var userPopFields = '_id displayName email image username '
  + 'google.displayName facebook.displayName';
@@ -141,7 +142,7 @@ exports.getBoard = function(req, res, next) {
     return res.json(board);
   })
   .populate({
-    path: 'parents',
+    path: 'parent',
     select: bevyPopFields
   });
 };
@@ -210,6 +211,9 @@ exports.destroyBoard = function(req, res, next) {
     },
     // remove all messages in that thread
     function(thread, done) {
+      if(_.isEmpty(thread)) {
+        return done(null);
+      }
       Message.remove({ thread: thread._id }, function(err, messages) {
         if(err) return done(err);
         return done(null);
@@ -260,6 +264,7 @@ exports.destroyBoard = function(req, res, next) {
         if(err) return done(err);
         return done(null, board);
       })
+      .populate('parent')
     }
   ], function(err, board) {
     if(err) return next(err);

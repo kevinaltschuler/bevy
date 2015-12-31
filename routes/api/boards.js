@@ -59,7 +59,6 @@ module.exports = function(router) {
 
   router.delete('/boards/:boardid', [
       oauth2Controller.bearer,
-      permissionsController.isBoardMember,
       permissionsController.isBoardAdmin,
       permissionsController.errorHandler
     ],
