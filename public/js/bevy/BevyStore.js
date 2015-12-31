@@ -127,6 +127,7 @@ _.extend(BevyStore, {
         var image = payload.image;
         var slug = payload.slug;
         var user = window.bootstrap.user;
+        var privacy = payload.privacy;
 
         // sanitize slug before we continue;
         if(_.isEmpty(slug)) {
@@ -143,7 +144,7 @@ _.extend(BevyStore, {
           admins: [user._id],
           boards: [],
           settings: {
-            privacy: 'Private'
+            privacy: privacy
           }
         });
         bevy.url = constants.apiurl + '/bevies';

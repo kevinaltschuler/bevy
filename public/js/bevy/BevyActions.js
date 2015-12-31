@@ -29,7 +29,7 @@ var BevyActions = {
     });
   },
 
-  create(name, image, slug) {
+  create(name, image, slug, privacy) {
     if(_.isEmpty(name)) return;
     if(_.isEmpty(image)) {
       image = {
@@ -43,7 +43,8 @@ var BevyActions = {
       actionType: BEVY.CREATE,
       name: name,
       image: image,
-      slug: slug
+      slug: slug,
+      privacy: privacy
     });
   },
 
