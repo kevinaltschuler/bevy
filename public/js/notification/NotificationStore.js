@@ -20,6 +20,7 @@ var Notifications = require('./NotificationCollection');
 var Invites = require('./InviteCollection');
 
 var ChatStore = require('./../chat/ChatStore');
+var PostStore = require('./../post/PostStore');
 var PostActions = require('./../post/PostActions');
 
 // inherit event class first
@@ -59,19 +60,22 @@ _.extend(NotificationStore, {
 
       case NOTIFICATION.DISMISS:
         var id = payload.notification_id;
-
         var notification = this.notifications.get(id);
         notification.destroy();
-
         this.trigger(NOTIFICATION.CHANGE_ALL);
-
         break;
+
       case NOTIFICATION.READ:
         var id = payload.notification_id;
         var notification = this.notifications.get(id);
         notification.read = true;
         this.unread -= 1;
-        notification.save({read: true}, {patch: true});
+        notification.url = constants.apiurl + '/notifications/' + notification.get('_id');
+        notification.save({
+          read: true
+        }, {
+          patch: true
+        });
         this.trigger(NOTIFICATION.CHANGE_ALL);
         break;
     }
@@ -90,6 +94,7 @@ NotificationStore.notifications.on('add', function(notification) {
   switch(notification.get('event')) {
     case 'post:create':
     case 'post:reply':
+    case 'comment:reply':
     case 'post:commentedon':
       // reload posts to get the latest
       //PostActions.fetch(notification.get('data').bevy_id);
@@ -100,17 +105,19 @@ NotificationStore.notifications.on('add', function(notification) {
 if(!_.isEmpty(window.bootstrap.user)) {
   var io = require('socket.io-client');
   var socket = io(constants.siteurl);
+  var user_id = window.bootstrap.user._id;
   socket.on('connect', function() {
     console.log('client connected');
-    socket.emit('set_user_id', window.bootstrap.user._id);
+    socket.emit('set_user_id', user_id);
   });
-  socket.on('kitty cats', function(data) {
-    console.log(data);
-  });
-  socket.on('chat:' + window.bootstrap.user._id, function(message) {
+  //socket.on('kitty cats', function(data) {
+  //  console.log(data);
+  //});
+
+  socket.on('chat.' + user_id, function(message) {
     message = JSON.parse(message);
     console.log('got message', message);
-    if(message.author._id == window.bootstrap.user._id) return;
+    if(message.author._id == user_id) return;
 
     var audio = document.createElement("audio");
     audio.src = "/audio/notification.mp3";
@@ -118,10 +125,30 @@ if(!_.isEmpty(window.bootstrap.user)) {
 
     ChatStore.addMessage(message);
   });
-  socket.on('notification:' + window.bootstrap.user._id, function(notification) {
+  socket.on('newpost.' + user_id, function(post) {
+    if(_.isObject(post)) {
+    } else {
+      post = JSON.parse(post);
+    }
+    console.log('got new post', post._id);
+    PostStore.addPost(post);
+  });
+  socket.on('newcomment.' + user_id, function(comment) {
+    if(_.isObject(comment)) {
+    } else {
+      comment = JSON.parse(comment);
+    }
+    console.log('got new comment', comment._id);
+    PostStore.addComment(comment);
+  });
+  socket.on('notification.' + user_id, function(notification) {
+    if(_.isObject(notification)) {
+    } else {
+      notification = JSON.parse(notification);
+    }
     console.log('got notification', notification);
-    NotificationStore.notifications.add(notification);
-    NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
+    //NotificationStore.notifications.add(notification);
+    //NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
   });
 }
 
