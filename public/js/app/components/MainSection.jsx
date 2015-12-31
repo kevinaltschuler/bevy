@@ -79,8 +79,7 @@ var MainSection = React.createClass({
 
   getPostState: function() {
     return {
-      sortType: PostStore.getSort(),
-      frontBevies: PostStore.getFrontBevies()
+      sortType: PostStore.getSort()
     }
   },
 
@@ -97,7 +96,6 @@ var MainSection = React.createClass({
       activeBevy: active,
       publicBevies: publicBevies,
       boards: bevyBoards,
-      //activeTags: activeTags
     }
   },
 
@@ -160,7 +158,7 @@ var MainSection = React.createClass({
     if(!UserStore.getTokensLoaded() && router.current != 'home') {
       return <div/>;
     }
-        
+
     return (
       <div className='main-section-wrapper'>
         <Navbar

@@ -44,8 +44,6 @@ _.extend(PostStore, {
 
   posts: new PostCollection,
   sortType: 'new',
-  frontBevies: [],
-
   activeBevy: router.bevy_id,
   activeBoard: router.board_id,
 
@@ -450,10 +448,6 @@ _.extend(PostStore, {
     this.trigger(POST.CHANGE_ONE + post_id);
   },
 
-  setFrontBevies() {
-    this.frontBevies = _.pluck(BevyStore.getMyBevies(), '_id');
-  },
-
   // send all posts to the App.jsx in JSON form
   getAll() {
     return this.posts.toJSON();
@@ -466,10 +460,6 @@ _.extend(PostStore, {
    */
   getPost(id) {
     return this.posts.get(id).toJSON();
-  },
-
-  getFrontBevies() {
-    return this.frontBevies;
   },
 
   /**

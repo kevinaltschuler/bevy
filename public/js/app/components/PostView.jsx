@@ -34,7 +34,6 @@ var PostView = React.createClass({
     myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
-    allPosts: React.PropTypes.array,
     allBevies: React.PropTypes.array,
     activeBoard: React.PropTypes.object
   },
@@ -56,7 +55,7 @@ var PostView = React.createClass({
     var joinedParent = false;
     var activeBoard = this.props.activeBoard;
     var parent = activeBoard.parent;
-    
+
     if(_.isEmpty(activeBoard) || _.isEmpty(parent)) {
       return <div/>;
     }
@@ -65,16 +64,16 @@ var PostView = React.createClass({
       joinedParent = false;
     }
 
-    if(_.find(window.bootstrap.user.bevies, 
-      function(bevyId) { 
-      return bevyId == parent._id 
+    if(_.find(window.bootstrap.user.bevies,
+      function(bevyId) {
+      return bevyId == parent._id
     }.bind(this))) {
       joinedParent = true;
-    } 
+    }
 
-    if(_.find(window.bootstrap.user.boards, 
-      function(boardId) { 
-      return boardId == activeBoard._id 
+    if(_.find(window.bootstrap.user.boards,
+      function(boardId) {
+      return boardId == activeBoard._id
     }.bind(this))) {
       joinedBoard = true;
     }
@@ -115,16 +114,8 @@ var PostView = React.createClass({
           activeBoard={this.props.activeBoard}
           myBevies={ this.props.myBevies }
         />
-        {/*<PostSort 
-          activeBevy={ this.props.activeBevy}
-          sortType={ this.props.sortType }
-          disabled={ disabled }
-        />*/}
         <PostContainer
-          allPosts={ this.props.allPosts }
           activeBevy={ this.props.activeBevy }
-          sortType={ this.props.sortType }
-          activeTags={ this.props.activeTags }
           activeBoard={this.props.activeBoard}
         />
       </div>
@@ -138,11 +129,6 @@ var PostView = React.createClass({
         <div className='post-view-body'>
           { body }
         </div>
-        {/*<RightSidebar
-          activeBevy={ this.props.activeBevy }
-          disabled={ _.isEmpty(window.bootstrap.user) }
-          myBevies={ this.props.myBevies }
-        />*/}
       </div>
     );
     }

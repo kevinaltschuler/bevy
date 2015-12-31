@@ -34,7 +34,6 @@ var BevyView = React.createClass({
     myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
-    allPosts: React.PropTypes.array,
     allBevies: React.PropTypes.array
   },
 
@@ -61,17 +60,19 @@ var BevyView = React.createClass({
     var boards = this.props.boards;
     for(var key in boards) {
       var board = boards[key];
-      //console.log(board);
       boardList.push(
         <BoardPanel
+          key={'boardpanel:' + board._id}
           board={board}
           boards={bevy.boards}
-          key={'boardpanel:' + board._id}
         />
       );
     }
     boardList.push(
-      <div className='new-board-card' onClick={() => { this.setState({ showNewBoardModal: true }); }}>
+      <div
+        className='new-board-card'
+        onClick={() => { this.setState({ showNewBoardModal: true }); }}
+      >
         <div className='plus-icon'>
           <FontIcon
             className='material-icons'
@@ -86,7 +87,6 @@ var BevyView = React.createClass({
         <Ink style={{width: '100%', height: '100%', top: 0, left: 0}}/>
       </div>
     );
-
     return boardList;
   },
 
@@ -130,25 +130,21 @@ var BevyView = React.createClass({
             onHide={() => { this.setState({ showNewBoardModal: false }) }}
             activeBevy={ this.props.activeBevy }
           />
-
           <div className='left-sidebar'>
-              <div className='hide-scroll'>
-                <div className='board-list'>
-                  <div className='bevy-view-title'>Boards</div>
-                  { this._renderBoards() }
-                  <div style={{height: 10}}/>
-                  <Footer />
-                </div>
+            <div className='hide-scroll'>
+              <div className='board-list'>
+                <div className='bevy-view-title'>Boards</div>
+                { this._renderBoards() }
+                <div style={{height: 10}}/>
+                <Footer />
               </div>
+            </div>
           </div>
-
           <div className='post-view-body'>
             <div className='bevy-view-title'>Feed</div>
             <div>
               <PostContainer
-                allPosts={ this.props.allPosts }
                 activeBevy={ this.props.activeBevy }
-                sortType={ this.props.sortType }
               />
             </div>
           </div>
