@@ -84,7 +84,6 @@ var Post = React.createClass({
   },
 
   _onPostChange() {
-    console.log('it changed');
     this.setState({
       post: PostStore.getPost(this.props.post._id)
     });
@@ -129,8 +128,8 @@ var Post = React.createClass({
 
   removeImage(image) {
     var images = this.state.post.images;
-    images = _.reject(images, function($image) { 
-      return $image.filename == image.filename; 
+    images = _.reject(images, function($image) {
+      return $image.filename == image.filename;
     });
     var post = this.state.post;
     post.images = images;
@@ -165,12 +164,12 @@ var Post = React.createClass({
       if(key != 1) continue;
       var videoLink = videoLinks[key];
       videos.push(
-        <iframe 
+        <iframe
           key={ 'video:' + videoLink }
-          width="100%" 
-          height="360px" 
-          src={ "https://www.youtube.com/embed/" + videoLink } 
-          frameBorder="0" 
+          width="100%"
+          height="360px"
+          src={ "https://www.youtube.com/embed/" + videoLink }
+          frameBorder="0"
           allowFullScreen={ true }
         />
       );
@@ -191,7 +190,7 @@ var Post = React.createClass({
     var post = this.state.post;
     var bevy = post.bevy;
     var author = post.author;
-    
+
     var panelBodyText;
     if(this.state.isEditing) {
       panelBodyText = (
@@ -240,11 +239,11 @@ var Post = React.createClass({
           { expandButton }
           { this.state.videos }
         </div>
-        <PostImages 
-          post={ post } 
-          isEditing={this.state.isEditing} 
-          removeImage={this.removeImage} 
-          addImage={this.addImage} 
+        <PostImages
+          post={ post }
+          isEditing={this.state.isEditing}
+          removeImage={this.removeImage}
+          addImage={this.addImage}
         />
         <PostFooter post={ post } />
       </div>

@@ -147,8 +147,8 @@ if(!_.isEmpty(window.bootstrap.user)) {
       notification = JSON.parse(notification);
     }
     console.log('got notification', notification);
-    //NotificationStore.notifications.add(notification);
-    //NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
+    NotificationStore.notifications.add(notification);
+    NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
   });
 }
 
