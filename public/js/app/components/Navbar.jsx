@@ -200,7 +200,11 @@ var Navbar = React.createClass({
         }
         break;
       case 'board':
-        var parent = BevyStore.getBevy(this.props.activeBoard.parent);
+        if(_.isEmpty(this.props.activeBoard.parent)) {
+          return <div/>;
+        }
+
+        var parent = this.props.activeBoard.parent;
 
         if(parent.name == undefined || this.props.activeBoard.name == undefined)
           navbarTitle = '';

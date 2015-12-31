@@ -60,7 +60,6 @@ module.exports = function(router) {
   );
   router.patch('/bevies/:bevyid', [
       oauth2Controller.bearer,
-      permissionsController.isBevyMember,
       permissionsController.isBevyAdmin,
       permissionsController.errorHandler
     ],
@@ -69,7 +68,6 @@ module.exports = function(router) {
 
   router.delete('/bevies/:bevyid', [
       oauth2Controller.bearer,
-      permissionsController.isBevyMember,
       permissionsController.isBevyAdmin,
       permissionsController.errorHandler
     ],

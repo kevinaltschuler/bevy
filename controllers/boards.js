@@ -33,10 +33,6 @@ exports.getUserBoards = function(req, res, next) {
       if(err) return next(err);
       return res.json(boards);
     })
-    .populate({
-      path: 'parents',
-      select: bevyPopFields
-    });
   });
 };
 
@@ -144,7 +140,7 @@ exports.getBoard = function(req, res, next) {
   .populate({
     path: 'parent',
     select: bevyPopFields
-  });
+  })
 };
 
 // PUT /boards/:boardid
@@ -264,7 +260,6 @@ exports.destroyBoard = function(req, res, next) {
         if(err) return done(err);
         return done(null, board);
       })
-      .populate('parent')
     }
   ], function(err, board) {
     if(err) return next(err);

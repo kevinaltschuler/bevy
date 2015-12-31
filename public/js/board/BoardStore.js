@@ -22,6 +22,7 @@ var router = require('./../router');
 var Dispatcher = require('./../shared/dispatcher');
 
 var Board = require('./BoardModel');
+var Bevy = require('./../bevy/BevyModel');
 var Boards = require('./BoardCollection');
 
 var constants = require('./../constants');
@@ -75,19 +76,18 @@ _.extend(BoardStore, {
 
       case BOARD.LOADBOARDVIEW:
         var board_id = payload.board_id;
-        console.log('switching to: ', board_id);
         this.active.url = constants.apiurl + '/boards/' + board_id;
         this.active.fetch({
           success: function(model, response, options) {
             this.active = model;
             this.trigger(BOARD.CHANGE_ALL);
           }.bind(this)
-        })
-        break;
+        });
+
+        break;  
 
       case BOARD.SWITCH:
         var board_id = payload.board_id;
-        console.log('switching to: ', board_id);
         this.active.url = constants.apiurl + '/boards/' + board_id;
         this.active.fetch({
           success: function(model, response, options) {
@@ -134,9 +134,8 @@ _.extend(BoardStore, {
         var board = this.active;
         board.destroy({
           success: function(model, response) {
-            console.log(model);
-            router.navigate('/b/' + model.get('parent').slug, { trigger: true });
-          }
+            window.location.href = constants.siteurl + model.get('parent').url;
+          }.bind(this)
         })
         break;
 

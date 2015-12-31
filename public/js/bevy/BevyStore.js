@@ -127,6 +127,7 @@ _.extend(BevyStore, {
         var image = payload.image;
         var slug = payload.slug;
         var user = window.bootstrap.user;
+        var privacy = payload.privacy;
 
         // sanitize slug before we continue;
         if(_.isEmpty(slug)) {
@@ -143,7 +144,7 @@ _.extend(BevyStore, {
           admins: [user._id],
           boards: [],
           settings: {
-            privacy: 'Private'
+            privacy: privacy
           }
         });
         bevy.url = constants.apiurl + '/bevies';
@@ -157,14 +158,11 @@ _.extend(BevyStore, {
 
       case BEVY.DESTROY:
         var bevy_id = payload.bevy_id;
-        var bevy = this.myBevies.get(bevy_id);
+        var bevy = this.active;
+        bevy.url = constants.apiurl + '/bevies/' + bevy_id;
         bevy.destroy({
           success: function(model, response) {
-            // switch to the frontpage
-            router.navigate('/', { trigger: true });
-
-            this.myBevies.remove(bevy_id);
-            this.trigger(BEVY.CHANGE_ALL);
+            window.location.href = constants.siteurl;
           }.bind(this)
         });
 
@@ -376,15 +374,6 @@ _.extend(BevyStore, {
     }
     var board = this.bevyBoards.get(board_id);
     if(board == undefined) {
-      console.log('is here');
-      // couldnt find so fetch from server
-      var board = new Board;
-      board.url = constants.apiurl + '/boards/' + board_id;
-      board.fetch({
-        success: function(model, res, options){
-          console.log('success');
-        }.bind(this)
-      })
       return {};
     } else {
       // we found it so return

@@ -160,7 +160,7 @@ var MainSection = React.createClass({
     if(!UserStore.getTokensLoaded() && router.current != 'home') {
       return <div/>;
     }
-    
+        
     return (
       <div className='main-section-wrapper'>
         <Navbar

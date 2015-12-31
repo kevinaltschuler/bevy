@@ -18,7 +18,8 @@ var {
   FlatButton,
   RaisedButton,
   TextField,
-  Styles
+  Styles,
+  RadioButton
 } = require('material-ui');
 var ThemeManager = new Styles.ThemeManager();
 var Uploader = require('./../../shared/components/Uploader.jsx');
@@ -42,11 +43,12 @@ var CreateNewBevyModal = React.createClass({
       image: {},
       slug: '',
       slugVerified: true,
-      verifyingSlug: false
+      verifyingSlug: false,
+      privacy: 'Public'
     };
   },
 
-  getChildContext() {
+  getChildContext() { 
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     }
@@ -57,7 +59,17 @@ var CreateNewBevyModal = React.createClass({
       textField: {
         textColor: '#666',
         focusColor: '#666'
-      }
+      },
+      radioButton: {
+        borderColor:  '#666',
+        backgroundColor: '#fff',
+        checkedColor: '#222',
+        requiredColor: '#222',
+        disabledColor: 'rgba(0,0,0,.2)',
+        size: 24,
+        labelColor: '#222',
+        labelDisabledColor: 'rgba(0,0,0,.2)',
+      },
     });
   },
 
@@ -73,6 +85,7 @@ var CreateNewBevyModal = React.createClass({
     var name = this.refs.Name.getValue();
     var image = this.state.image;
     var slug = this.state.slug;
+    var privacy = this.state.privacy;
 
     if(_.isEmpty(name)) {
       this.refs.Name.setErrorText('Please enter a name for your bevy');
@@ -82,7 +95,7 @@ var CreateNewBevyModal = React.createClass({
       return;
     }
 
-    BevyActions.create(name, image, slug);
+    BevyActions.create(name, image, slug, privacy);
 
     // after, close the window
     this.hide();
@@ -235,6 +248,39 @@ var CreateNewBevyModal = React.createClass({
               />
               <div className='verify-status'>
                 { this._renderSlugVerifyStatus() }
+              </div>
+            </div>
+            <div className='type-buttons'>
+              <div className='section-title'>
+                Privacy
+              </div>
+              <div className='type' onClick={() => this.setState({privacy: 'Public' })}>
+                <div className='type-title'>
+                  <RadioButton
+                    label=""
+                    style={{width: 15, marginRight: -10}}
+                    checked={this.state.privacy == 'Public'}
+                  />
+                  <i className="material-icons">public</i> 
+                  Public
+                </div>
+                <div className='type-description'>
+                  Everyone can view, post, and join this Bevy
+                </div>
+              </div>
+              <div className='type' onClick={() => this.setState({privacy: 'Private' })}>
+                <div className='type-title'>
+                  <RadioButton
+                    label=""
+                    style={{width: 15, marginRight: -10}}
+                    checked={this.state.privacy == 'Private'}
+                  />
+                  <i className="material-icons">lock</i> 
+                  Private
+                </div>
+                <div className='type-description'>
+                  Nobody can view this Bevy without admin approval or invitation
+                </div>
               </div>
             </div>
           </div>
