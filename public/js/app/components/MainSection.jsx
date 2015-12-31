@@ -80,7 +80,6 @@ var MainSection = React.createClass({
   getPostState: function() {
     return {
       sortType: PostStore.getSort(),
-      frontBevies: PostStore.getFrontBevies()
     }
   },
 

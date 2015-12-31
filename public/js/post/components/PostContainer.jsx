@@ -36,7 +36,6 @@ var {
 var PostContainer = React.createClass({
 
   propTypes: {
-    allPosts: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     //sortType: React.PropTypes.string,
     //activeTags: React.PropTypes.array,
@@ -53,17 +52,8 @@ var PostContainer = React.createClass({
     };
   },
 
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      allPosts: this.props.allPosts
-    });
-  },
-
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
-    BevyStore.on(BEVY.CHANGE_ALL, this.handleChangeAll);
-    BoardStore.on(BOARD.CHANGE_ALL, this.handleChangeAll);
-    NotificationStore.on(NOTIFICATION.CHANGE_ALL, this.handleChangeAll);
     // sometimes the bevy switch event completes before this is mounted
     if(router.current == 'board')
       BoardActions.switchBoard(this.props.activeBoard._id);
@@ -78,9 +68,6 @@ var PostContainer = React.createClass({
 
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
-    BevyStore.off(BEVY.CHANGE_ALL, this.handleChangeAll);
-    BoardStore.on(BOARD.CHANGE_ALL, this.handleChangeAll);
-    NotificationStore.on(NOTIFICATION.CHANGE_ALL, this.handleChangeAll);
   },
 
   componentWillUpdate() {
@@ -129,6 +116,8 @@ var PostContainer = React.createClass({
     // load props into local vars
     var allPosts = this.state.allPosts || [];
     var posts = [];
+
+    console.log(allPosts);
     //var sortType = this.props.sortType;
     //var activeTags = this.props.activeTags;
     //var frontBevies = this.props.frontBevies;

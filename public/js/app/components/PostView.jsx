@@ -34,7 +34,6 @@ var PostView = React.createClass({
     myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
-    allPosts: React.PropTypes.array,
     allBevies: React.PropTypes.array,
     activeBoard: React.PropTypes.object
   },
@@ -121,7 +120,6 @@ var PostView = React.createClass({
           disabled={ disabled }
         />*/}
         <PostContainer
-          allPosts={ this.props.allPosts }
           activeBevy={ this.props.activeBevy }
           sortType={ this.props.sortType }
           activeTags={ this.props.activeTags }
