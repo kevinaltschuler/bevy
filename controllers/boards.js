@@ -135,7 +135,6 @@ exports.getBoard = function(req, res, next) {
   Board.findOne({ _id: board_id }, function(err, board) {
     if(err) return next(err);
     if(_.isEmpty(board)) return next('Board not found');
-    console.log(board);
     return res.json(board);
   })
   .populate({

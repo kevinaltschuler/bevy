@@ -79,8 +79,6 @@ var PostView = React.createClass({
       joinedBoard = true;
     }
 
-    console.log(joinedBoard, joinedParent);
-
     if(!joinedParent && parent.settings.privacy == 'Private') {
       return (
         <div className='main-section private-container'>

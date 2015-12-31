@@ -134,8 +134,7 @@ _.extend(BoardStore, {
         var board = this.active;
         board.destroy({
           success: function(model, response) {
-            console.log('/b/' + model.get('parent').url);
-            router.navigate('/b/' + model.get('parent').url, { trigger: true });
+            window.location.href = constants.siteurl + model.get('parent').url;
           }.bind(this)
         })
         break;
