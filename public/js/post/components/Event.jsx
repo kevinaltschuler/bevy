@@ -62,7 +62,7 @@ var Event = React.createClass({
     };
   },
 
-  componentWillRecieveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
 
   },
 
@@ -197,11 +197,11 @@ var Event = React.createClass({
 
     var $date = new Date(date)
     var dateString = ($date) ? $date.toDateString() : '';
-    var timeString = ($date) 
-      ? $date.toLocaleTimeString(navigator.language, { 
-        hour: '2-digit', 
+    var timeString = ($date)
+      ? $date.toLocaleTimeString(navigator.language, {
+        hour: '2-digit',
         minute:'2-digit'
-      }) 
+      })
       : '';
     var dateTime = ($date) ? $date.toLocaleString() : '';
     var dateTime = dateTime.replace(',', '');
@@ -212,8 +212,8 @@ var Event = React.createClass({
 
     var authorName = author.displayName;
 
-    var eventImage = (_.isEmpty(post.images[0])) 
-      ? '/img/default_group_img.png' 
+    var eventImage = (_.isEmpty(post.images[0]))
+      ? '/img/default_group_img.png'
       : constants.apiurl + post.images[0].path;
     var eventImageStyle = {
       backgroundImage: 'url(' + eventImage + ')',
@@ -221,7 +221,7 @@ var Event = React.createClass({
       backgroundPosition: 'center'
     };
 
-    var locationLink = (location) 
+    var locationLink = (location)
     ? 'https://www.google.com/maps/search/' + location.replace(/ /g, '+')
     : 'https://www.google.com/maps';
 
@@ -231,7 +231,7 @@ var Event = React.createClass({
 
     var voteButtonStyle = { marginRight: '10px', padding: '0px 10px', color: '#999' };
     var upvoted = _.find(post.votes, function(vote) {
-      return (vote.voter == window.bootstrap.user._id && vote.score > 0); 
+      return (vote.voter == window.bootstrap.user._id && vote.score > 0);
     });
     if(upvoted) {
       voteButtonStyle.color = '#000'
@@ -261,11 +261,11 @@ var Event = React.createClass({
                   <span className="all_day_event">false</span>
                   <span className="date_format">MM/DD/YYYY</span>
               </div>
-              <FlatButton 
-                className='detail-button' 
-                href={locationLink} 
-                linkButton={true} 
-                target="_blank" 
+              <FlatButton
+                className='detail-button'
+                href={locationLink}
+                linkButton={true}
+                target="_blank"
                 style={{ marginRight: '10px', padding: '5px 10px 5px 5px', lineHeight: '1.5', maxWidth: 'none', 'flexGrow': 1, wordBreak: 'break-all' }}
               >
                 <span className="glyphicon glyphicon-map-marker"/>

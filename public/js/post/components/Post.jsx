@@ -10,8 +10,6 @@
 'use strict';
 
 var React = require('react');
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
 var {
   TextField,
   RaisedButton
@@ -55,7 +53,7 @@ var Post = React.createClass({
     };
   },
 
-  componentWillRecieveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       post: nextProps.post,
       title: nextProps.post.title,

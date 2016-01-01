@@ -16,7 +16,6 @@ var Post = require('./Post.jsx');
 var Event = require('./Event.jsx');
 
 var _ = require('underscore');
-var CTG = React.addons.CSSTransitionGroup;
 var router = require('./../../router');
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -64,7 +63,6 @@ var PostContainer = React.createClass({
   },
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
-
   },
   componentWillUpdate() {
   },
@@ -76,6 +74,7 @@ var PostContainer = React.createClass({
 
   handleChangeAll() {
     this.setState({
+      postsLoaded: true,
       allPosts: PostStore.getAll()
     });
   },
@@ -84,7 +83,7 @@ var PostContainer = React.createClass({
     var allPosts = this.state.allPosts || [];
     var posts = [];
 
-    if(this.state.loading) {
+    if(this.state.loading || !this.state.postsLoaded) {
       return (
         <div className='post-container' style={{ height: 100 }}>
           <div className='loading-indeterminate'>

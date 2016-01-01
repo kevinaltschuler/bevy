@@ -17,7 +17,6 @@ if(constants.env == 'development')
   require("./../less/app.less"); // only hot load css in development mode
 
 var _ = require('underscore');
-var $ = require('jquery');
 var UserStore = require('./profile/UserStore');
 
 // load globals
@@ -100,37 +99,17 @@ window.fetch = function(input, init) {
     options.credentials = 'include';
   }
   return $fetch(url, options);
-}
-
-//console.log(window.bootstrap.user);
+};
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var router = require('./router');
 
 var mui = require('material-ui');
-var ThemeManager = new mui.Styles.ThemeManager();
-// chrome and maybe other browsers like to remember the scroll position on a page reload
-// when theres a specified post in the url we need to override this by delaying this action a bit
-// very jenk. will change later.
-/*document.onreadystatechange = function() {
-  if(document.readyState == 'complete') {
-    setTimeout(function() {
-      if(router.post_id) {
-        var post = document.getElementById('post:' + router.post_id);
-        if(post) {
-          post.scrollIntoView();
-          if($(document).scrollTop() != ($(document).height() - $(window).height()))
-            $(document).scrollTop($(document).scrollTop() - 68);
-        }
-      }
-    }, 50);
-  }
-};*/
-
+var ThemeManager = mui.Styles.ThemeManager();
 
 // load components
 var MainSection = require('./app/components/MainSection.jsx');
-
 var LoginPage = require('./auth/components/LoginPage.jsx');
 var RegisterPage = require('./auth/components/RegisterPage.jsx');
 var ForgotPage = require('./auth/components/ForgotPage.jsx');
@@ -139,7 +118,6 @@ var ResetPage = require('./auth/components/ResetPage.jsx');
 var injectTapEventPlugin = require("react-tap-event-plugin");
 // App bootstrap
 var App = React.createClass({
-
   childContextTypes: {
     muiTheme: React.PropTypes.object
   },
@@ -187,7 +165,7 @@ var App = React.createClass({
   },
 
   render() {
-    injectTapEventPlugin();
+    //injectTapEventPlugin();
     return (
       <div className='app-wrapper'>
         <InterfaceComponent />
@@ -232,4 +210,4 @@ var InterfaceComponent = React.createClass({
   }
 });
 
-React.render(<App />, document.body);
+ReactDOM.render(<App />, document.getElementById('app'));
