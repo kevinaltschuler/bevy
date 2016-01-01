@@ -119,12 +119,10 @@ exports.updateComment = function(req, res, next) {
 
 // DELETE /comments/:commentid/
 exports.destroyComment = function(req, res, next) {
-	var comment_id = req.params.id;
-	var promise = Comment.findOneAndRemove({ _id: comment_id }).exec();
-	promise.then(function(comment) {
-		if(!comment) return next('comment not found');
-		return res.json(comment);
-	}, function(err) {
-		return next(err);
-	});
+	var comment_id = req.params.commentid;
+	Comment.findOneAndRemove({ _id: comment_id }, function(err, comment) {
+    if(err) return next(err);
+    if(_.isEmpty(comment)) return next('Comment not found');
+    return res.json(comment);
+  });
 };
