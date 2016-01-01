@@ -73,7 +73,7 @@ var NotificationItem = React.createClass({
     var id = this.props.id;
     var itemStyle = (read)
     ? {}
-    : { 
+    : {
       position: 'relative',
       boxShadow: 'none',
       paddingLeft: '5px'
@@ -122,42 +122,40 @@ var NotificationItem = React.createClass({
         break;
 
       case 'post:create':
-
         var author_name = data.author_name;
-        var author_img = data.author_img;
-        var bevy_id = data.bevy_id;
-        var bevy_name = data.bevy_name;
+        var author_image = data.author_image;
+        var board_id = data.board_id;
+        var board_name = data.board_name;
         var post_title = data.post_title;
         var post_id = data.post_id;
         var post_created = data.post_created;
-        var imgStyle = (author_img == undefined)
-        ? {display: 'none'}
-        : {
-          backgroundImage: 'url(' + author_img + ')',
-        };
+        var imgStyle = (author_image == undefined)
+        ? { display: 'none' }
+        : { backgroundImage: 'url(' + author_image.path + ')' };
 
         var goToPost = function(ev) {
           ev.preventDefault();
-          NotificationActions.read(id);
-          router.navigate('/b/' + bevy_id + '/post/' + post_id, { trigger: true });
-
-          if(post_id) {
-            var post = document.getElementById('post:' + post_id);
-            if(post) {
-              post.scrollIntoView();
-              if($(document).scrollTop() != ($(document).height() - $(window).height()))
-                $(document).scrollTop($(document).scrollTop() - 68);
-            }
-          }
         }
 
         body = (
-          <Button href={ '/b/' + bevy_id + '/post/' + post_id } className="notification-body" onClick={ goToPost }>
-            <div className="sidebar-picture" style={imgStyle}/>
+          <Button
+            href={ '/b/' + bevy_id + '/post/' + post_id }
+            className="notification-body"
+            onClick={ goToPost }
+          >
+            <div className="sidebar-picture" style={ imgStyle }/>
             <div className=" notification-text-col">
-              <span><b>{ author_name }</b> posted to <b>{ bevy_name }</b> - { timeAgo(Date.parse(post_created)) }</span>
+              <span>
+                <b>{ author_name }</b>
+                &nbsp;posted to&nbsp;
+                <b>{ board_name }</b>
+                &nbsp;-&nbsp;
+                { timeAgo(Date.parse(post_created)) }
+              </span>
               <br />
-              <span><i>{ post_title }</i></span>
+              <span>
+                <i>{ post_title }</i>
+              </span>
             </div>
           </Button>
         );
@@ -165,17 +163,14 @@ var NotificationItem = React.createClass({
         break;
 
       case 'bevy:requestjoin':
-
         var user_id = data.user_id;
         var user_name = data.user_name;
         var user_image = data.user_image;
         var bevy_id = data.bevy_id;
         var bevy_name = data.bevy_name;
         var imgStyle = (user_image == undefined)
-        ? {display: 'none'}
-        : {
-          backgroundImage: 'url(' + user_image + ')',
-        };
+        ? { display: 'none' }
+        : { backgroundImage: 'url(' + user_image.path + ')' };
 
         body = (
           <div className='notification-body'>
@@ -208,49 +203,49 @@ var NotificationItem = React.createClass({
         break;
 
       case 'post:reply':
-
         var author_name = data.author_name;
         var author_image = data.author_image;
         var post_title = data.post_title;
-        var bevy_name = data.bevy_name;
-        var imgStyle = (author_img == undefined)
-        ? {display: 'none'}
-        : {
-          backgroundImage: 'url(' + author_img + ')',
-        };
+        var board_name = data.board_name;
+        var imgStyle = (author_image == undefined)
+        ? { display: 'none' }
+        : { backgroundImage: 'url(' + author_image.path + ')' };
 
         body = (
           <Button className='notification-body' >
-            <div className='sidebar-picture' style={imgStyle}/>
+            <div className='sidebar-picture' style={ imgStyle }/>
             <div className='notification-text-col'>
-              <b>{ author_name }</b> replied to your post <i>{ post_title }</i> in <b>{ bevy_name }</b>
+              <b>{ author_name }</b>
+              <span>&nbsp;replied to your post&nbsp;</span>
+              <i>{ post_title }</i>
+              <span>&nbsp;in&nbsp;</span>
+              <b>{ board_name }</b>
             </div>
           </Button>
         );
-
         break;
 
-      case 'post:commentedon':
-
+      case 'comment:reply':
         var author_name = data.author_name;
         var author_image = data.author_image;
-        var post_title = data.post_title;
-        var bevy_name = data.bevy_name;
-        var imgStyle = (author_img == undefined)
-        ? {display: 'none'}
-        : {
-          backgroundImage: 'url(' + author_img + ')',
-        };
+        var imgStyle = (author_image == undefined)
+        ? { display: 'none' }
+        : { backgroundImage: 'url(' + author_image.path + ')' };
+        var parent_comment_body = data.parent_comment_body;
+        var board_name = data.board_name;
 
         body = (
-          <Button className='notification-body'>
-            <div className='sidebar-picture' style={imgStyle}/>
+          <Button className='notification-body' >
+            <div className='sidebar-picture' style={ imgStyle }/>
             <div className='notification-text-col'>
-              <b>{ author_name }</b> commented on a post you commented on
+              <b>{ author_name }</b>
+              <span>&nbsp;replied to your comment&nbsp;</span>
+              <i>{ parent_comment_body }</i>
+              <span>&nbsp;in&nbsp;</span>
+              <b>{ board_name }</b>
             </div>
           </Button>
         );
-
         break;
 
       default:
@@ -263,7 +258,7 @@ var NotificationItem = React.createClass({
     return (
       <Panel className="notification-item" style={itemStyle}>
         { body }
-        
+
       </Panel>
     );
   }

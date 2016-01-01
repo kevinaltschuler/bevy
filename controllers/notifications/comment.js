@@ -69,7 +69,8 @@ var createNewCommentNotifications = function(comment) {
             comment_created: comment.created,
             comment_body: comment.body
           }
-        });
+        })
+        .lean();
         done(null, notifications, board);
       });
     },
@@ -95,12 +96,16 @@ var createNewCommentNotifications = function(comment) {
             board_id: board._id,
             comment_id: comment._id,
             comment_created: comment.created,
-            comment_body: comment.body
+            comment_body: comment.body,
+            parent_comment_id: $comment._id,
+            parent_comment_created: $comment.created,
+            parent_comment_body: $comment.body
           }
         });
 
         return done(null, notifications);
-      });
+      })
+      .lean();
     }
   ], function(err, notifications) {
     if(err) {
