@@ -70,6 +70,7 @@ var BevyView = React.createClass({
     }
     boardList.push(
       <div
+        key='new-board-card'
         className='new-board-card'
         onClick={() => { this.setState({ showNewBoardModal: true }); }}
       >
