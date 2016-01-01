@@ -207,6 +207,7 @@ var NotificationItem = React.createClass({
         var author_image = data.author_image;
         var post_title = data.post_title;
         var board_name = data.board_name;
+        var comment_created = data.comment_created;
         var imgStyle = (author_image == undefined)
         ? { display: 'none' }
         : { backgroundImage: 'url(' + author_image.path + ')' };
@@ -220,6 +221,10 @@ var NotificationItem = React.createClass({
               <i>{ post_title }</i>
               <span>&nbsp;in&nbsp;</span>
               <b>{ board_name }</b>
+              <span>
+                &nbsp;-&nbsp;
+                { timeAgo(Date.parse(comment_created)) }
+              </span>
             </div>
           </Button>
         );
@@ -233,6 +238,7 @@ var NotificationItem = React.createClass({
         : { backgroundImage: 'url(' + author_image.path + ')' };
         var parent_comment_body = data.parent_comment_body;
         var board_name = data.board_name;
+        var comment_created = data.comment_created;
 
         body = (
           <Button className='notification-body' >
@@ -243,6 +249,10 @@ var NotificationItem = React.createClass({
               <i>{ parent_comment_body }</i>
               <span>&nbsp;in&nbsp;</span>
               <b>{ board_name }</b>
+              <span>
+                &nbsp;-&nbsp;
+                { timeAgo(Date.parse(comment_created)) }
+              </span>
             </div>
           </Button>
         );
