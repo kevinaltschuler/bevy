@@ -16,9 +16,13 @@ var user = window.bootstrap.user;
 
 var NotificationCollection = Backbone.Collection.extend({
   model: NotificationModel,
-  comparator: '-created',
+  comparator: this.sortByNew,
   url() {
     return constants.apiurl + '/users/' + user._id + '/notifications/';
+  },
+  sortByNew(notification) {
+    var date = Date.parse(notification.get('created'));
+    return -date;
   }
 });
 
