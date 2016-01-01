@@ -13,7 +13,7 @@ var $ = require('jquery');
 var constants = require('./../../constants');
 var getSlug = require('speakingurl');
 
-var Ink = require('React-Ink')
+var Ink = require('react-ink')
 
 var {
   Panel,
@@ -53,7 +53,7 @@ var NewBoardModal = React.createClass({
     };
   },
 
-  getChildContext() { 
+  getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     }
@@ -128,8 +128,8 @@ var NewBoardModal = React.createClass({
         });
       }
     };
-    var boardImageURL = (_.isEmpty(this.state.image)) 
-      ? '/img/default_board_img.png' 
+    var boardImageURL = (_.isEmpty(this.state.image))
+      ? '/img/default_board_img.png'
       : constants.apiurl + '/files/' + this.state.image.filename;
     var boardImageStyle = {
       backgroundImage: 'url(' + boardImageURL + ')',
@@ -179,7 +179,7 @@ var NewBoardModal = React.createClass({
                   style={{width: 15, marginRight: -10}}
                   checked={this.state.type == 'discussion'}
                 />
-                <i className="material-icons">question_answer</i> 
+                <i className="material-icons">question_answer</i>
                 Discussion
               </div>
               <div className='type-description'>
@@ -193,7 +193,7 @@ var NewBoardModal = React.createClass({
                   style={{width: 15, marginRight: -10}}
                   checked={this.state.type == 'announcement'}
                 />
-                <i className="material-icons">flag</i> 
+                <i className="material-icons">flag</i>
                 Announcements
               </div>
               <div className='type-description'>
