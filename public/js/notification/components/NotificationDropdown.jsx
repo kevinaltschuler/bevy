@@ -8,6 +8,7 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var {
   Button,
   Popover,
@@ -35,7 +36,7 @@ var NotificationDropdown = React.createClass({
   },
 
   componentDidMount() {
-    this.container = React.findDOMNode(this.refs.Container);
+    this.container = ReactDOM.findDOMNode(this.refs.Container);
   },
 
   dismissAll(ev) {
@@ -67,7 +68,7 @@ var NotificationDropdown = React.createClass({
         </Button>
         <Overlay
           show={ this.props.show }
-          target={ (props) => React.findDOMNode(this.refs.NotificationButton) }
+          target={ (props) => ReactDOM.findDOMNode(this.refs.NotificationButton) }
           placement='bottom'
           container={ this.container }
         >

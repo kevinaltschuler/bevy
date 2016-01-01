@@ -1,11 +1,13 @@
 /**
  * ProfileDropdown.jsx
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var {
   Button,
   Overlay,
@@ -42,7 +44,7 @@ var ProfileDropdown = React.createClass({
   },
 
   componentDidMount() {
-    this.container = React.findDOMNode(this.refs.Container);
+    this.container = ReactDOM.findDOMNode(this.refs.Container);
     UserStore.on(USER.CHANGE_ALL, this.handleChangeAll);
   },
 
@@ -51,7 +53,7 @@ var ProfileDropdown = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
-    
+
   },
 
   handleChangeAll() {
@@ -87,7 +89,7 @@ var ProfileDropdown = React.createClass({
       accounts.push(
         <LinkedAccountItem
           key={ 'linkedaccount:' + account._id }
-          account={ account } 
+          account={ account }
         />
       );
     }
@@ -149,7 +151,7 @@ var ProfileDropdown = React.createClass({
             <FlatButton
               label="Logout"
               linkButton={ true }
-              href='/logout' 
+              href='/logout'
             />
           {/*</div>
           <AddAccountModal
@@ -176,16 +178,16 @@ var ProfileDropdown = React.createClass({
 
     return (
       <div ref='Container' style={{ position: 'relative' }}>
-        <Button 
-          ref='ProfileButton' 
-          className='profile-btn' 
-          onClick={ this.toggle } 
-          style={ buttonStyle } 
+        <Button
+          ref='ProfileButton'
+          className='profile-btn'
+          onClick={ this.toggle }
+          style={ buttonStyle }
           title='Profile'
         />
         <Overlay
           show={ this.props.show }
-          target={ (props) => React.findDOMNode(this.refs.ProfileButton) }
+          target={ (props) => ReactDOM.findDOMNode(this.refs.ProfileButton) }
           placement='bottom'
           container={ this.container }
         >

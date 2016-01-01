@@ -1,12 +1,14 @@
 /**
  * ChatDropdown.jsx
- *
+ * @author albert
  * @author KEVIN
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var {
   Button,
   Overlay
@@ -34,7 +36,7 @@ var ChatDropdown = React.createClass({
   },
 
   componentDidMount() {
-    this.container = React.findDOMNode(this.refs.Container);
+    this.container = ReactDOM.findDOMNode(this.refs.Container);
     ChatStore.on(CHAT.CHANGE_ALL, this.handleChangeAll);
   },
 
@@ -91,9 +93,9 @@ var ChatDropdown = React.createClass({
 
   _renderOverlay() {
     return (
-      <Overlay 
+      <Overlay
         show={ this.props.show }
-        target={ (props) => React.findDOMNode(this.refs.ChatButton) }
+        target={ (props) => ReactDOM.findDOMNode(this.refs.ChatButton) }
         placement='bottom'
         container={ this.container }
       >
@@ -103,8 +105,8 @@ var ChatDropdown = React.createClass({
           <div className='chat-dropdown'>
             <div className='header'>
               <span className='inbox-text'>Inbox</span>
-              <Button 
-                className='create-new-message-btn' 
+              <Button
+                className='create-new-message-btn'
                 onClick={ this.createMessage }
               >
                 Send a New Message
@@ -121,10 +123,10 @@ var ChatDropdown = React.createClass({
 
     return (
       <div ref='Container' style={{ position: 'relative' }}>
-        <Button 
-          ref='ChatButton' 
-          className="chat-dropdown-btn" 
-          onClick={ this.toggle } 
+        <Button
+          ref='ChatButton'
+          className="chat-dropdown-btn"
+          onClick={ this.toggle }
           title='Messages'
         >
           <div className='chat-img' />

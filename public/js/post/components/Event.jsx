@@ -3,12 +3,14 @@
  * React class for an individual event
  * Created en masse by PostContainer.jsx
  * @author albert
+ * @author kevin
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var Ink = require('react-ink');
+var ReactDOM = require('react-dom');
 var {
   FlatButton,
   FontIcon,
@@ -20,6 +22,7 @@ var {
   MenuItem,
   Button
 } = require('react-bootstrap');
+var Ink = require('react-ink');
 var PostHeader = require('./PostHeader.jsx');
 var PostFooter = require('./PostFooter.jsx');
 
@@ -43,9 +46,7 @@ function getPostState(id) {
   return PostStore.getPost(id);
 }
 
-// React class
 var Event = React.createClass({
-
   propTypes: {
     id: React.PropTypes.string.isRequired,
     post: React.PropTypes.object.isRequired
@@ -65,21 +66,17 @@ var Event = React.createClass({
   componentWillReceiveProps(nextProps) {
 
   },
-
   componentWillMount() {
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
   },
-
   componentDidMount() {
     addthisevent.refresh();
 
     this.hideExtraText();
   },
-
   componentDidUpdate() {
     addthisevent.refresh();
   },
-
   componentDidUnmount() {
     PostStore.off(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
   },
@@ -91,7 +88,7 @@ var Event = React.createClass({
   },
 
   hideExtraText() {
-    var desc = React.findDOMNode(this.refs.Description);
+    var desc = ReactDOM.findDOMNode(this.refs.Description);
     this.setState({
       descHeight: desc.offsetHeight
     });

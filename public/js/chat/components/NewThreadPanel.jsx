@@ -1,23 +1,23 @@
 /**
  * NewThreadPanel.jsx
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
+var ReactDOM = require('react-dom');
 var {
   Input,
   Button
 } = require('react-bootstrap');
-
 var UserSearchOverlay = require('./UserSearchOverlay.jsx');
 
+var _ = require('underscore');
 var ChatActions = require('./../ChatActions');
 
 var NewThreadPanel = React.createClass({
-
   getInitialState() {
     return {
       inputValue: '',
@@ -27,7 +27,7 @@ var NewThreadPanel = React.createClass({
   },
 
   componentDidMount() {
-    this.container = React.findDOMNode(this.refs.Container);
+    this.container = ReactDOM.findDOMNode(this.refs.Container);
   },
 
   close() {
@@ -74,7 +74,7 @@ var NewThreadPanel = React.createClass({
     users.push(user);
     this.setState({
       addedUsers: users,
-      inputValue: '' 
+      inputValue: ''
     });
     // reset the text field
     this.refs.AddUserInput.getInputDOMNode().value = '';
@@ -161,7 +161,7 @@ var NewThreadPanel = React.createClass({
         <div className='participants'>
           <span className='to-text'>To:</span>
           { this._renderAddedUsers() }
-          <Input 
+          <Input
             type='text'
             ref='AddUserInput'
             onKeyDown={ this.onAddUserKeyDown }
@@ -171,7 +171,7 @@ var NewThreadPanel = React.createClass({
         </div>
         <UserSearchOverlay
           container={ this.container }
-          target={() => React.findDOMNode(this.refs.AddUserInput)}
+          target={() => ReactDOM.findDOMNode(this.refs.AddUserInput)}
           query={ this.state.inputValue }
           addUser={ this.addUser }
           addedUsers={ this.state.addedUsers }

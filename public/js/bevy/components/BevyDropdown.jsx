@@ -1,28 +1,27 @@
 /**
  * BevyDropdown.jsx
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-var Ink = require('react-ink');
-
+var ReactDOM = require('react-dom');
 var {
   MenuItem,
   DropdownButton,
   Button,
   Overlay
 } = require('react-bootstrap');
-
+var Ink = require('react-ink');
 var BevyDropdownItem = require('./BevyDropdownItem.jsx');
 var CreateNewBevyModal = require('./CreateNewBevyModal.jsx');
 
+var _ = require('underscore');
 var user = window.bootstrap.user;
 
 var BevyDropdown = React.createClass({
-
   propTypes: {
     myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object
@@ -36,7 +35,7 @@ var BevyDropdown = React.createClass({
   },
 
   componentDidMount() {
-    this.container = React.findDOMNode(this.refs.Container);
+    this.container = ReactDOM.findDOMNode(this.refs.Container);
   },
 
   toggle() {
@@ -55,7 +54,15 @@ var BevyDropdown = React.createClass({
 
   _renderCreateNewBevyButton() {
     if(_.isEmpty(window.bootstrap.user)) return <div />;
-    return <a className='create-new-btn' href='#' onClick={ this.openCreateModal }>Create New Bevy</a>;
+    return (
+      <a
+        className='create-new-btn'
+        href='#'
+        onClick={ this.openCreateModal }
+      >
+        Create New Bevy
+      </a>
+    );
   },
 
   render() {
@@ -96,7 +103,7 @@ var BevyDropdown = React.createClass({
         </Button>
         <Overlay
           show={ this.state.show }
-          target={(props) => React.findDOMNode(this.refs.BevyButton) }
+          target={(props) => ReactDOM.findDOMNode(this.refs.BevyButton) }
           placement='bottom'
           container={ this.container }
         >
@@ -106,7 +113,7 @@ var BevyDropdown = React.createClass({
             <div ref='BevyList' className='bevy-dropdown' onWheel={(ev) => {
               ev.preventDefault();
               // manual scroll code so that this event doesnt bubble up to other containers
-              this.node = React.findDOMNode(this.refs.BevyList);
+              this.node = ReactDOM.findDOMNode(this.refs.BevyList);
               var scrollTop = this.node.scrollTop;
               if(ev.deltaY > 0) {
                 scrollTop += 50;
@@ -121,8 +128,8 @@ var BevyDropdown = React.createClass({
               <div className='bevy-dropdown-header'>
                 <a className='view-all-btn' href='/s/'>All Bevies</a>
                 { this._renderCreateNewBevyButton() }
-                <CreateNewBevyModal 
-                  show={ this.state.showNewBevyModal } 
+                <CreateNewBevyModal
+                  show={ this.state.showNewBevyModal }
                   onHide={() => { this.setState({ showNewBevyModal: false }) }}
                 />
               </div>
