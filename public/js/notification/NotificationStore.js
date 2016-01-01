@@ -47,8 +47,6 @@ _.extend(NotificationStore, {
             this.unread = this.notifications.filter(function(notification) {
               return notification.read == false;
             }).length;
-            this.notifications.comparator = this.sortByNew;
-            this.notifications.sort();
             this.trigger(NOTIFICATION.CHANGE_ALL);
           }.bind(this)
         });
@@ -89,11 +87,6 @@ _.extend(NotificationStore, {
 
   getUserInvites() {
     return this.invites.toJSON();
-  },
-
-  sortByNew(notification) {
-    var date = Date.parse(notification.get('created'));
-    return -date;
   }
 });
 
@@ -155,6 +148,7 @@ if(!_.isEmpty(window.bootstrap.user)) {
     }
     console.log('got notification', notification);
     NotificationStore.notifications.add(notification);
+    NotificationStore.notifications.sort();
     NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
   });
 }
