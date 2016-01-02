@@ -366,8 +366,12 @@ var ChatPanel = React.createClass({
       opacity: 0.6
     } : {};
 
-    if(board.image.path == '/img/default_board_img.png' || board.image.path == 'http://bevy.dev/img/default_board_img.png')
-      backgroundStyle = {};
+    if(!_.isEmpty(board)) {
+      if(board.image.path == '/img/default_board_img.png'
+      || board.image.path == 'http://bevy.dev/img/default_board_img.png') {
+        backgroundStyle = {};
+      }
+    }
 
     var body = (this.state.isOpen) ? (
       <div ref='ChatPanelBody' className='chat-panel-body'>
