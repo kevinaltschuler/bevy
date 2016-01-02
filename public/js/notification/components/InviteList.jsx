@@ -9,6 +9,8 @@
 var React = require('react');
 var InviteListItem = require('./InviteListItem.jsx');
 
+var _ = require('underscore');
+
 var InviteList = React.createClass({
   propTypes: {
     userInvites: React.PropTypes.array
@@ -28,9 +30,13 @@ var InviteList = React.createClass({
   },
 
   render() {
+    var title = (!_.isEmpty(this.props.userInvites))
+    ? <span>Pending Invites</span>
+    : <div/>;
+
     return (
       <div className='invite-list'>
-        <span>Pending Invites</span>
+        {title }
         { this._renderUserInvites() }
       </div>
     );
