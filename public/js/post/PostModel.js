@@ -83,6 +83,27 @@ var Post = Backbone.Model.extend({
     }.bind(this));
 
     return $comments;
+  },
+
+  removeComment(comment_id) {
+    var comments = this.get('allComments');
+    var comments_to_remove = this._removeComment(comment_id, comments);
+    comments_to_remove.push(comment_id);
+
+    comments = _.reject(comments, $comment => {
+      return _.contains(comments_to_remove, $comment._id);
+    });
+    this.set('comments', comments);
+    this.nestComments();
+  },
+
+  _removeComment(comment_id, list) {
+    var to_remove = _.where(list, { parentId: comment_id });
+    for(var key in to_remove) {
+      var $comment = to_remove[key];
+      _.union(to_remove, this._removeComment($comment._id, list));
+    }
+    return to_remove;
   }
 });
 

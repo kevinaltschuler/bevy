@@ -225,15 +225,12 @@ _.extend(PostStore, {
         // sort posts
         //this.posts.sort();
         this.trigger(POST.CHANGE_ONE + post.id);
-        //this.trigger(POST.CHANGE_ALL);
-
         break;
 
       case POST.SORT:
         var by = payload.by;
         var direction = payload.direction;
 
-        by = by.trim(); // trim whitespace - it sometimes makes it in there
         switch(by) {
           case 'new':
             default:
@@ -250,7 +247,6 @@ _.extend(PostStore, {
             break;*/
         }
         this.posts.sort();
-
         this.trigger(POST.CHANGE_ALL);
         break;
 
@@ -340,13 +336,7 @@ _.extend(PostStore, {
         var post = this.posts.get(post_id);
         if(post == undefined) return;
 
-        // remove comment and re-nest them
-        var comments = post.get('allComments');
-        comments = _.reject(comments, function(comment) {
-          return comment._id == comment_id;
-        });
-        post.set('comments', comments);
-        post.nestComments()
+        post.removeComment(comment_id);
 
         // trigger changes
         this.trigger(POST.CHANGE_ONE + post_id);
@@ -404,19 +394,13 @@ _.extend(PostStore, {
     return this.posts.toJSON();
   },
 
-  /**
-   * get post by id
-   * @param  {number} post id
-   * @return {[type]}
-   */
   getPost(id) {
-    return this.posts.get(id).toJSON();
+    var post = this.posts.get(id);
+    return (post == undefined)
+      ? null
+      : post.toJSON();
   },
 
-  /**
-   * get how the post list is currently sorted
-   * @return {[type]}
-   */
   getSort() {
     return this.sortType;
   },

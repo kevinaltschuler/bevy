@@ -123,12 +123,12 @@ exports.destroyComment = function(req, res, next) {
 	Comment.findOneAndRemove({ _id: comment_id }, function(err, comment) {
     if(err) return next(err);
     if(_.isEmpty(comment)) return next('Comment not found');
-    //_removeComment(comment);
+    _removeComment(comment);
     return res.json(comment);
   });
 };
 
-function _removeComment(comment) {
+var _removeComment = function(comment) {
   Comment.remove({ parentId: comment._id }, function(err, comments) {
     if(err) return;
     if(_.isEmpty(comments)) return;
