@@ -101,8 +101,7 @@ function buildLess() {
 			, cascade: true
 		}))
 		.pipe(sourcemaps.write())
-		.pipe(gulp.dest('public/css'))
-		.pipe(reload({ stream: true }));
+		.pipe(gulp.dest('public/css'));
 }
 
 
