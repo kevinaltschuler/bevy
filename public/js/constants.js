@@ -174,3 +174,10 @@ exports.CHAT = {
   UPDATE_IMAGE: 'chat_update_image',
   FETCH_THREADS: 'chat_fetch_threads'
 };
+
+exports.INVITE = {
+  INVITE_USER: 'invite_invite_user',
+  DESTROY: 'invite_destroy',
+  ACCEPT_REQUEST: 'invite_accept_request',
+  REJECT_INVITE: 'invite_reject_invite'
+};

@@ -10,6 +10,7 @@
 var _ = require('underscore');
 var Dispatcher = require('./../shared/dispatcher');
 var BEVY = require('./../constants').BEVY;
+var INVITE = require('./../constants').INVITE;
 var constants = require('./../constants');
 
 var BevyActions = {
@@ -100,13 +101,13 @@ var BevyActions = {
     });
   },
 
-  requestJoin(bevy, user) {
-    if(_.isEmpty(bevy)) return;
-    if(_.isEmpty(user)) return;
+  requestJoin(bevy_id, user_id) {
+    if(_.isEmpty(bevy_id)) return;
+    if(_.isEmpty(user_id)) return;
     Dispatcher.dispatch({
       actionType: BEVY.REQUEST_JOIN,
-      bevy: bevy,
-      user: user
+      bevy: bevy_id,
+      user: user_id
     });
   },
 
@@ -125,12 +126,32 @@ var BevyActions = {
   },
 
   search(query) {
-    console.log('seraching', query);
     Dispatcher.dispatch({
       actionType: BEVY.SEARCH,
       query: (query == undefined) ? null : query
     });
-  }
+  },
+
+  inviteUser(user) {
+    Dispatcher.dispatch({
+      actionType: INVITE.INVITE_USER,
+      user: (user == undefined) ? null : user
+    });
+  },
+
+  destroyInvite(invite_id) {
+    Dispatcher.dispatch({
+      actionType: INVITE.DESTROY,
+      invite_id: (invite_id == undefined) ? null : invite_id
+    });
+  },
+
+  acceptRequest(invite_id) {
+    Dispatcher.dispatch({
+      actionType: INVITE.ACCEPT_REQUEST,
+      invite_id: (invite_id == undefined) ? null : invite_id
+    });
+  },
 };
 
 module.exports = BevyActions;
