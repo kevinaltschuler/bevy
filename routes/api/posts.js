@@ -59,19 +59,19 @@ module.exports = function(router) {
 
   router.put('/posts/:postid', [
       oauth2Controller.bearer,
-      permissionsController.canModifyPost,
+      //permissionsController.canModifyPost,
       permissionsController.errorHandler
     ],
     postController.updatePost
   );
   router.patch('/posts/:postid', [
       oauth2Controller.bearer,
-      permissionsController.canModifyPost,
+      //permissionsController.canModifyPost,
       permissionsController.errorHandler
     ],
     postController.updatePost
   );
-  
+
   router.delete('/posts/:postid', [
       oauth2Controller.bearer,
       permissionsController.canModifyPost,
