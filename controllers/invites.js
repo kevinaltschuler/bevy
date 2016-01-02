@@ -16,6 +16,8 @@ var Board = require('./../models/Board');
 
 var bevyPopFields = '_id name admins settings image';
 var boardPopFields = '_id name admins settings image';
+var userPopFields = '_id displayName email image username '
+ + 'google facebook';
 
 // GET /bevies/:bevyid/invites
 exports.getBevyInvites = function(req, res, next) {
@@ -23,6 +25,10 @@ exports.getBevyInvites = function(req, res, next) {
   Invite.find({ $and: [{ type: 'bevy' }, { bevy: bevy_id }]}, function(err, invites) {
     if(err) return next(err);
     return res.json(invites);
+  })
+  .populate({
+    path: 'user',
+    select: userPopFields
   });
 };
 

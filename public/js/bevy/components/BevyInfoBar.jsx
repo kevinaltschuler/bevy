@@ -23,6 +23,7 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 var _ = require('underscore');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
 var BevyActions = require('./../BevyActions');
+var InviteUsersModal = require('./InviteUsersModal.jsx');
 
 var BevyInfoBar = React.createClass({
   propTypes: {
@@ -31,7 +32,8 @@ var BevyInfoBar = React.createClass({
 
   getInitialState() {
     return {
-      showSettingsModal: false
+      showSettingsModal: false,
+      showInviteModal: false
     }
   },
 
@@ -93,36 +95,55 @@ var BevyInfoBar = React.createClass({
     };
 
     var imageButton = (
-      <IconButton className='dropzone-panel-button' style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
-        <i className="material-icons">camera_alt</i>
-      </IconButton>
+      <OverlayTrigger placement='bottom' overlay={<Tooltip>Change Image</Tooltip>}>
+        <IconButton className='dropzone-panel-button' style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
+          <i className="material-icons">camera_alt</i>
+        </IconButton>
+      </OverlayTrigger>
+    );
+
+    var inviteButton = (
+      <OverlayTrigger placement='bottom' overlay={<Tooltip>Invite Users</Tooltip>}>
+        <IconButton onClick={() => this.setState({showInviteModal: true})} style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
+          <i className="material-icons">person_add</i>
+        </IconButton>
+      </OverlayTrigger>
     );
 
     if(!_.findWhere(bevy.admins, {_id: window.bootstrap.user._id})) {
       settingsButton = <div/>;
       imageButton = <div/>;
+      inviteButton = <div/>;
     }
 
     return (
       <div className='bevy-info-bar'>
         <div className='info-item'>
-            {publicPrivate}
+          {publicPrivate}
         </div>
         <div className='info-item'>
-            {subs}
+          {subs}
         </div>
         <div className='info-item'>
-            {admins}
+          {admins}
         </div>
         <div className='info-item'>
-            {settingsButton}
+          {imageButton}
         </div>
         <div className='info-item'>
-            {imageButton}
+          {inviteButton}
+        </div>
+        <div className='info-item'>
+          {settingsButton}
         </div>
         <BevySettingsModal
           show={this.state.showSettingsModal}
           onHide={() => this.setState({showSettingsModal: false})}
+          activeBevy={bevy}
+        />
+        <InviteUsersModal
+          show={this.state.showInviteModal}
+          onHide={() => this.setState({showInviteModal: false})}
           activeBevy={bevy}
         />
         <Uploader

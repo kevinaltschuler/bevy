@@ -23,7 +23,7 @@ var Post = require('./../models/Post');
 var Board = require('./../models/Board');
 
 var userPopFields = '_id displayName email image username '
- + 'google.displayName facebook.displayName';
+ + 'google facebook';
 
 // GET /users/:userid/bevies
 exports.getUserBevies = function(req, res, next) {
