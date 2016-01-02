@@ -350,7 +350,7 @@ _.extend(BevyStore, {
         break;
       case INVITE.ACCEPT_REQUEST:
         var invite_id = payload.invite_id;
-        fetch(constants.apiurl + '/invites/' + invite_id + '/accept')
+        fetch(constants.apiurl + '/invites/' + invite_id + '/accept');
         break;
     }
   },
