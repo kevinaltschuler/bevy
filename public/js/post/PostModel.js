@@ -49,7 +49,6 @@ var Post = Backbone.Model.extend({
   },
 
   nestComments() {
-    console.log('nesting comments...', this.get('_id'));
     var comments = this.get('comments');
     // create deep clone to avoid reference hell
     comments = _.map(comments, function(comment) {
