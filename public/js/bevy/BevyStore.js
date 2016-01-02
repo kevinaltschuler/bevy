@@ -49,7 +49,7 @@ var BevyStore = _.extend({}, Backbone.Events);
 _.extend(BevyStore, {
 
   myBevies: new Bevies,
-  active: {},
+  active: new Bevy,
   publicBevies: new Bevies,
   searchQuery: '',
   searchList: new Bevies,
@@ -79,27 +79,31 @@ _.extend(BevyStore, {
         var user = window.bootstrap.user;
         this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
 
+        this.active.url = constants.apiurl + '/bevies/' + bevy_id_or_slug;
+        this.active.fetch({
+          success: function(model, response, options) {
+            console.log(this.active)
+            this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/boards';
+            this.bevyInvites.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/invites';
+            async.series([
+              this.bevyBoards.fetch({
+                success: function(collection, response, options) {
+                  this.trigger(BEVY.LOADED);
+                  this.trigger(BEVY.CHANGE_ALL);
+                }.bind(this)
+              }),
+              this.bevyInvites.fetch({
+                success: function(collection, response, options) {
+                  this.trigger(BEVY.CHANGE_ALL);
+                }.bind(this)
+              })
+            ])
+          }.bind(this)
+        });
+
         this.myBevies.fetch({
           success: function(collection, response, options) {
-              var active = this.myBevies.get(bevy_id_or_slug);
-              this.active = active;
-              this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/boards';
-              this.bevyInvites.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/invites';
-
-              async.series([
-                this.bevyBoards.fetch({
-                  success: function(collection, response, options) {
-                    this.trigger(BEVY.LOADED);
-                    this.trigger(BEVY.CHANGE_ALL);
-                  }.bind(this)
-                }),
-                this.bevyInvites.fetch({
-                  success: function(collection, response, options) {
-                    this.trigger(BEVY.CHANGE_ALL);
-                  }.bind(this)
-                })
-              ])
-
+              this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });
 

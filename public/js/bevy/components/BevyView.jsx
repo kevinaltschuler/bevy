@@ -123,6 +123,8 @@ var BevyView = React.createClass({
       );
     }
 
+    console.log('got to here');
+
     return (
       <div className='nonsense'>
         <div className='main-section' style={{paddingTop: 115}}>
