@@ -199,7 +199,7 @@ _.extend(UserStore, {
           success: function(model, response, options) {
             ChatStore.fetchThreads();
             this.trigger(CHAT.CHANGE_ALL);
-            this.trigger(USER.CHANGE_ALL);           
+            this.trigger(USER.CHANGE_ALL);
           }.bind(this)
         });
         break;
@@ -218,20 +218,21 @@ _.extend(UserStore, {
       case USER.SEARCH:
         this.trigger(USER.SEARCHING);
         var query = payload.query;
-        if(query == '' || query == undefined) {
+        if(query == '' || query == undefined)
           break;
-        }
-        $.ajax({
-          url: constants.apiurl + '/users/search/' + query,
-          method: 'GET',
-          success: function(data) {
-            //console.log('search data', data);
-            this.userSearchQuery = query;
-            this.userSearchResults.reset(data);
-            if(!_.isEmpty(user))
-              this.userSearchResults.remove(user._id); // remove self from search results
-            this.trigger(USER.SEARCH_COMPLETE);
-          }.bind(this)
+
+        fetch(constants.apiurl + '/users/search/' + query, {
+          method: 'GET'
+        })
+        .then(res => res.json())
+        .then(res => {
+          this.userSearchQuery = query;
+          this.userSearchResults.reset(res);
+          if(!_.isEmpty(user)) {
+             // remove self from search results
+            this.userSearchResults.remove(user._id);
+          }
+          this.trigger(USER.SEARCH_COMPLETE);
         });
         break;
     }
