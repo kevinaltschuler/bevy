@@ -6,7 +6,6 @@
 
 'use strict';
 
-// imports
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');

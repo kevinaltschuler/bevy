@@ -155,14 +155,11 @@ _.extend(PostStore, {
 
       case POST.DESTROY:
         var post_id = payload.post_id;
-        var post = this.posts.get(post_id);
-
-        post.destroy({
-          success: function(model, response) {
-            this.trigger(POST.CHANGE_ALL);
-          }.bind(this)
-        });
-
+        var post = this.posts.remove(post_id);
+        if(post == undefined) break;
+        post.url = constants.apiurl + '/posts/' + post_id;
+        post.destroy();
+        this.trigger(POST.CHANGE_ALL);
         break;
 
       case POST.UPDATE:
@@ -326,10 +323,6 @@ _.extend(PostStore, {
             post.set('comments', comments);
             post.nestComments();
 
-            // increment comment count
-            var commentCount = post.get('commentCount') || 0;
-            post.set('commentCount', ++commentCount);
-
             this.trigger(POST.CHANGE_ONE + post_id);
           }.bind(this)
         });
@@ -354,10 +347,6 @@ _.extend(PostStore, {
         });
         post.set('comments', comments);
         post.nestComments()
-
-        // update comment count;
-        var commentCount = post.get('commentCount');
-        post.set('commentCount', --commentCount);
 
         // trigger changes
         this.trigger(POST.CHANGE_ONE + post_id);
@@ -396,7 +385,6 @@ _.extend(PostStore, {
     if(post == undefined) return;
 
     var comments = post.get('allComments');
-    var commentCount = post.get('commentCount');
 
     // check to see if comment already exists
     if(_.findWhere(comments, { _id: comment._id }) != undefined) {
@@ -407,9 +395,6 @@ _.extend(PostStore, {
     comments.push(comment);
     post.set('comments', comments);
     post.nestComments();
-
-    commentCount++;
-    post.set('commentCount', commentCount);
 
     this.trigger(POST.CHANGE_ONE + post_id);
   },
