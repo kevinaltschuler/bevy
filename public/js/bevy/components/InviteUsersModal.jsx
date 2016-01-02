@@ -151,7 +151,7 @@ var InviteUsersModal = React.createClass({
 
     for(var key in allInvites) {
       var invite = allInvites[key];
-      var inviteItem = <InviteItem invite={invite}/>;
+      var inviteItem = <InviteItem key={'inviteitem:' + key} invite={invite}/>;
       if(invite.requestType == 'invite') {
         pendingInvites.push(inviteItem);
       }
@@ -177,7 +177,7 @@ var InviteUsersModal = React.createClass({
 
     for(var key in allInvites) {
       var invite = allInvites[key];
-      var inviteItem = <InviteItem invite={invite}/>;
+      var inviteItem = <InviteItem key={'inviteitem: ' + key} invite={invite}/>;
       if(invite.requestType == 'request_join') {
         pendingRequests.push(inviteItem);
       }
