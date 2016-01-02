@@ -107,7 +107,7 @@ var Uploader = React.createClass({
         );
       } else {
         actionButtonContainer = (
-          <OverlayTrigger placement='top' overlay={ <Tooltip>{ this.props.tooltip }</Tooltip> }>
+          <OverlayTrigger placement='top' overlay={ <Tooltip id='uplaodertooltip'>{ this.props.tooltip }</Tooltip> }>
             <div className='dropzone-button-container'>
               { actionButton }
             </div>

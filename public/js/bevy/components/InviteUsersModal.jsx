@@ -235,7 +235,7 @@ var InviteUsersModal = React.createClass({
     var bevy = this.props.activeBevy;
 
     return (
-      <Modal className="bevy-settings-modal" show={ this.props.show } onHide={ this.props.onHide } >
+      <Modal className="bevy-invite-modal" show={ this.props.show } width='400px' onHide={ this.props.onHide } >
         <Modal.Header closeButton>
           <Modal.Title>
             Add users to <b>{this.props.activeBevy.name}</b>

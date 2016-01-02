@@ -52,24 +52,24 @@ var BevyInfoBar = React.createClass({
     }
     var publicPrivate = (bevy.settings.privacy == 'Private')
     ?  (
-        <OverlayTrigger placement='bottom' overlay={<Tooltip>Private</Tooltip>}>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip id='privatetooltip'>Private</Tooltip>}>
           <i className="material-icons">lock</i>
         </OverlayTrigger>
       )
     : (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip>Public</Tooltip>}>
+      <OverlayTrigger placement='bottom' overlay={<Tooltip id='publictooltip'>Public</Tooltip>}>
         <i className="material-icons">public</i>
       </OverlayTrigger>
     );
 
     var subs = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip>{bevy.subCount + " subscribers"}</Tooltip>}>
+      <OverlayTrigger placement='bottom' overlay={<Tooltip id='subtooltip'>{bevy.subCount + " subscribers"}</Tooltip>}>
         <i className="material-icons">people</i>
       </OverlayTrigger>
     );
 
     var admins = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip>{ bevy.admins.length }&nbsp;{ (bevy.admins.length == 1) ? 'admin' : 'admins' }</Tooltip>}>
+      <OverlayTrigger placement='bottom' overlay={<Tooltip id='adminstooltip'>{ bevy.admins.length }&nbsp;{ (bevy.admins.length == 1) ? 'admin' : 'admins' }</Tooltip>}>
       <i className="material-icons">person</i>
       </OverlayTrigger>
     );
@@ -95,7 +95,7 @@ var BevyInfoBar = React.createClass({
     };
 
     var imageButton = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip>Change Image</Tooltip>}>
+      <OverlayTrigger placement='bottom' overlay={<Tooltip id='imagetooltip'>Change Image</Tooltip>}>
         <IconButton className='dropzone-panel-button' style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
           <i className="material-icons">camera_alt</i>
         </IconButton>
@@ -103,7 +103,7 @@ var BevyInfoBar = React.createClass({
     );
 
     var inviteButton = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip>Invite Users</Tooltip>}>
+      <OverlayTrigger placement='bottom' overlay={<Tooltip id='invitetooltip'>Invite Users</Tooltip>}>
         <IconButton onClick={() => this.setState({showInviteModal: true})} style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
           <i className="material-icons">person_add</i>
         </IconButton>

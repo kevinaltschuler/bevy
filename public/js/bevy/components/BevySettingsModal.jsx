@@ -95,7 +95,7 @@ var BevySettingsModal = React.createClass({
           <div className='bevy-setting expire-setting'>
             Privacy
             <OverlayTrigger placement='right' overlay={ 
-              <Popover title='Bevy Privacy'>
+              <Popover id='settingspopover' title='Bevy Privacy'>
                 <p className='warning'>
                   Public bevies can be viewed and joined by anybody. <br /><br />
                   Private bevies are listed publicly but require an invite or permission to join and view content.

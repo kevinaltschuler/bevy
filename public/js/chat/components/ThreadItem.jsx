@@ -63,7 +63,7 @@ var ThreadItem = React.createClass({
 
     var hideTooltip = (this.props.sidebarOpen) ? {display: 'none'} : {};
     var tooltip = (this.props.showTooltip) ? (
-      <Tooltip style={hideTooltip}>{name}</Tooltip>
+      <Tooltip id='threadtooltip' style={hideTooltip}>{name}</Tooltip>
     ) : <div />;
 
     // monkey patch to hide threads that have just been removed from the collection

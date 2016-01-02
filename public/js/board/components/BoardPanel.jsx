@@ -101,24 +101,24 @@ var BoardPanel = React.createClass({
     var type = <div/>;
     switch(board.type) {
       case 'discussion':
-        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip>Discussion</Tooltip>}>
+        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip id='discusstooltip'>Discussion</Tooltip>}>
           <i className="material-icons">question_answer</i>
         </OverlayTrigger>);
         break;
       case 'event':
-        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip>Events</Tooltip>}>
+        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip id='eventtooltip'>Events</Tooltip>}>
           <i className="material-icons">event</i>
         </OverlayTrigger>);        
         break;
       case 'announcement':
-        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip>Announcements</Tooltip>}>
+        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip id='annoucetooltip'>Announcements</Tooltip>}>
           <i className="material-icons">flag</i>
         </OverlayTrigger>);        
         break;
     }
 
     var subs = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip>{board.subCount + " subscribers"}</Tooltip>}>
+      <OverlayTrigger placement='bottom' overlay={<Tooltip id='substooltip'>{board.subCount + " subscribers"}</Tooltip>}>
         <i className="material-icons">people</i>
       </OverlayTrigger>
     );
