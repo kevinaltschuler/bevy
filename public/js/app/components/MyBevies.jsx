@@ -29,6 +29,7 @@ var user = window.bootstrap.user;
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 var USER = constants.USER;
+var NOTIFICATION = constants.NOTIFICATION;
 var BevyStore = require('./../../bevy/BevyStore');
 var BevyActions = require('./../../bevy/BevyActions');
 var Ink = require('react-ink');
@@ -47,6 +48,11 @@ var MyBevies = React.createClass({
 
   componentDidMount() {
     BevyActions.loadMyBevies();
+    BevyStore.on(NOTIFICATION.CHANGE_ALL, BevyActions.loadMyBevies);
+  },
+
+  componentWillUnmount() {
+    BevyStore.off(NOTIFICATION.CHANGE_ALL, BevyActions.loadMyBevies);
   },
 
   render() {
