@@ -1,22 +1,18 @@
 /**
- * PostView.jsx
+ * BoardView.jsx
  *
  * @author albert
  * @author kevin
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
-var router = require('./../../router');
-
 var {
   RaisedButton,
   Snackbar
 } = require('material-ui');
-
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
@@ -24,12 +20,13 @@ var LeftSidebar = require('./LeftSidebar.jsx');
 var RightSidebar = require('./RightSidebar.jsx');
 var BoardSidebar = require('./../../board/components/BoardSidebar.jsx');
 
+var _ = require('underscore');
+var router = require('./../../router');
 var BevyStore = require('./../../bevy/BevyStore');
 var BevyActions = require('./../../bevy/BevyActions');
 var BoardActions = require('./../../board/BoardActions');
 
-var PostView = React.createClass({
-
+var BoardView = React.createClass({
   propTypes: {
     myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
@@ -126,7 +123,7 @@ var PostView = React.createClass({
         <BoardSidebar
           board={activeBoard}
         />
-        <div className='post-view-body'>
+        <div className='board-view-body'>
           { body }
         </div>
       </div>
@@ -134,4 +131,4 @@ var PostView = React.createClass({
     }
 });
 
-module.exports = PostView;
+module.exports = BoardView;

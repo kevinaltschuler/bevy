@@ -15,7 +15,7 @@ var MessageSchema = new Schema({
 		type: String,
 		unique: true,
 		required: true,
-		default: shortid.generate()
+		default: shortid.generate
 	},
 	thread: {
 		type: String,

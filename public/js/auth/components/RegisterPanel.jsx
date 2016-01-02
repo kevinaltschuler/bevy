@@ -78,17 +78,16 @@ var RegisterPanel = React.createClass({
   },
 
   verifyUsername() {
-    $.ajax({
-      url: constants.apiurl + '/users/' + this.refs.Username.getValue() + '/verify',
-      method: 'GET',
-      success: function(data) {
-        this.setState({
-          validUsername: !data.found
-        });
-      }.bind(this),
-      error: function(error) {
-        console.log(error.responseJSON);
-      }
+    fetch(constants.apiurl + '/users/' + this.refs.Username.getValue() + '/verify', {
+      method: 'GET'
+    })
+    .then(res => res.json())
+    .then(res => {
+      this.setState({
+        validUsername: !res.found
+      });
+    })
+    .catch(err => {
     });
   },
 

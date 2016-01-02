@@ -15,7 +15,7 @@ var ResetTokenSchema = new Schema({
 	_id: {
 		type: String,
 		unique: true,
-		default: shortid.generate()
+		default: shortid.generate
 	},
 	user: {
 	  	type: String,

@@ -89,18 +89,6 @@ var BevyActions = {
     });
   },
 
-  addUser(bevy_id, user_id, email) {
-    if(_.isEmpty(bevy_id)) return;
-    if(_.isEmpty(user_id)) return;
-
-    Dispatcher.dispatch({
-      actionType: BEVY.ADD_USER,
-      bevy_id: bevy_id,
-      user_id: user_id,
-      email: (email == undefined) ? '' : email
-    });
-  },
-
   requestJoin(bevy_id, user_id) {
     if(_.isEmpty(bevy_id)) return;
     if(_.isEmpty(user_id)) return;

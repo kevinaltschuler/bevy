@@ -48,7 +48,7 @@ var CreateNewBevyModal = React.createClass({
     };
   },
 
-  getChildContext() { 
+  getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     }
@@ -127,32 +127,28 @@ var CreateNewBevyModal = React.createClass({
   },
 
   verifySlug() {
-    // send the request
-    $.ajax({
-      url: constants.apiurl + '/bevies/' + this.state.slug + '/verify',
-      method: 'GET',
-      success: function(data) {
-        if(data.found) {
-          console.log('found');
-          this.setState({
-            slugVerified: false,
-            verifyingSlug: false
-          });
-        } else {
-          console.log('not found');
-          this.setState({
-            slugVerified: true,
-            verifyingSlug: false
-          });
-        }
-      }.bind(this),
-      error: function(error) {
-        console.log(error);
+    fetch(constants.apiurl + '/bevies/' + this.state.slug + '/verify', {
+      method: 'GET'
+    })
+    .then(res => res.json())
+    .then(res => {
+      if(res.found) {
         this.setState({
+          slugVerified: false,
           verifyingSlug: false
         });
-      }.bind(this)
+      } else {
+        this.setState({
+          slugVerified: true,
+          verifyingSlug: false
+        });
+      }
     })
+    .catch(err => {
+      this.setState({
+        verifyingSlug: false
+      });
+    });
   },
 
   _renderSlugVerifyStatus() {
@@ -261,7 +257,7 @@ var CreateNewBevyModal = React.createClass({
                     style={{width: 15, marginRight: -10}}
                     checked={this.state.privacy == 'Public'}
                   />
-                  <i className="material-icons">public</i> 
+                  <i className="material-icons">public</i>
                   Public
                 </div>
                 <div className='type-description'>
@@ -275,7 +271,7 @@ var CreateNewBevyModal = React.createClass({
                     style={{width: 15, marginRight: -10}}
                     checked={this.state.privacy == 'Private'}
                   />
-                  <i className="material-icons">lock</i> 
+                  <i className="material-icons">lock</i>
                   Private
                 </div>
                 <div className='type-description'>

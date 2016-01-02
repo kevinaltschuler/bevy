@@ -70,6 +70,7 @@ var BevyView = React.createClass({
     }
     boardList.push(
       <div
+        key='new-board-card'
         className='new-board-card'
         onClick={() => { this.setState({ showNewBoardModal: true }); }}
       >
@@ -140,7 +141,7 @@ var BevyView = React.createClass({
               </div>
             </div>
           </div>
-          <div className='post-view-body'>
+          <div className='board-view-body'>
             <div className='bevy-view-title'>Feed</div>
             <div>
               <PostContainer

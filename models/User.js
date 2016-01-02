@@ -19,7 +19,7 @@ var UserSchema = new Schema({
   _id: {
     type: String,
     unique: true,
-    default: shortid.generate()
+    default: shortid.generate
   },
   token: String,
   password: String,

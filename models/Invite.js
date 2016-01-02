@@ -18,7 +18,7 @@ var InviteSchema = new Schema({
     type: String,
     unique: true,
     required: true,
-    default: shortid.generate()
+    default: shortid.generate
   },
   user: {
     type: String,

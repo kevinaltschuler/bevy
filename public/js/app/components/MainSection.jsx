@@ -16,7 +16,7 @@ var router = require('./../../router');
 
 var Navbar = require('./Navbar.jsx');
 var HomeView = require('./../../homepage/components/HomeView.jsx');
-var PostView = require('./PostView.jsx');
+var BoardView = require('./BoardView.jsx');
 var BevyView = require('./../../bevy/components/BevyView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
@@ -186,7 +186,6 @@ var InterfaceComponent = React.createClass({
     router.off('route', this.callback);
   },
   render() {
-
     switch(router.current) {
       case 'home':
         return <HomeView {...this.props}  />
@@ -201,7 +200,7 @@ var InterfaceComponent = React.createClass({
         return <BevyView {...this.props} />
         break;
       case 'board':
-        return <PostView {...this.props} />
+        return <BoardView {...this.props} />
         break;
       default:
         return <FourOhFour {...this.props} />

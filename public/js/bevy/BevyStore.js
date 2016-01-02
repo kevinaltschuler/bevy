@@ -54,7 +54,7 @@ _.extend(BevyStore, {
   searchList: new Bevies,
   activeTags: [],
   bevyBoards: new Boards,
-  bevyInvites: new Invites, 
+  bevyInvites: new Invites,
 
   // handle calls from the dispatcher
   // these are created from BevyActions.js
@@ -220,21 +220,6 @@ _.extend(BevyStore, {
         this.trigger(BEVY.CHANGE_ALL);
         break;
 
-      case BEVY.ADD_USER:
-        var bevy_id = payload.bevy_id;
-        var user_id = payload.user_id;
-        var email = payload.email;
-
-        $.ajax({
-          method: 'PATCH',
-          url: constants.apiurl + '/users/' + user_id + '/addbevy/' + bevy_id,
-          success: function(res) {
-            this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
-        });
-
-        break;
-
       case BEVY.JOIN:
         // add bevy to mybevies collection
         var bevy_id = payload.bevy_id;
@@ -367,7 +352,7 @@ _.extend(BevyStore, {
         var invite_id = payload.invite_id;
         fetch(constants.apiurl + '/invites/' + invite_id + '/accept')
         break;
-    }  
+    }
   },
 
   addBoard(board) {

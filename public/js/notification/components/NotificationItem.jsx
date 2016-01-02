@@ -55,14 +55,6 @@ var NotificationItem = React.createClass({
 
   acceptJoin(ev) {
     ev.preventDefault();
-
-    var data = this.props.data;
-    var bevy_id = data.bevy_id;
-    var user_id = data.user_id;
-    var user_email = data.user_email;
-
-    NotificationActions.dismiss(this.props.id);
-    BevyActions.addUser(bevy_id, user_id, user_email);
   },
 
   render() {
