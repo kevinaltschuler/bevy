@@ -21,7 +21,6 @@ var FilterSidebar = require('./FilterSidebar.jsx');
 var Footer = require('./Footer.jsx');
 
 var _ = require('underscore');
-var CTG = React.addons.CSSTransitionGroup;
 var constants = require('./../../constants');
 var router = require('./../../router');
 var user = window.bootstrap.user;

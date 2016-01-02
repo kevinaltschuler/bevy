@@ -13,8 +13,6 @@ var React = require('react');
 var _ = require('underscore');
 var Ink = require('react-ink');
 
-var classNames = require('classnames');
-
 var constants = require('./../../constants');
 
 var {
@@ -222,8 +220,6 @@ var NewPostPanel = React.createClass({
               {...this.props}
             />*/}
           </div>
-          {/*<Badge className='tag-indicator' style={{backgroundColor: tagColor, position: 'absolute', marginLeft: '5px', marginTop: '13px'}}>{tagName}</Badge>*/}
-          {/* tagDropdown */}
           <RaisedButton
             label="post"
             onClick={this.submit}

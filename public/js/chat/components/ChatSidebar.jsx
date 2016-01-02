@@ -2,11 +2,14 @@
  * ChatDropdown.jsx
  *
  * @author KEVIN
+ * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var {
   Button,
   Accordion,
@@ -43,7 +46,7 @@ var ChatSidebar = React.createClass({
     userSearchQuery: React.PropTypes.string
   },
 
-  getChildContext() { 
+  getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     }
@@ -90,7 +93,7 @@ var ChatSidebar = React.createClass({
     UserStore.on(USER.SEARCH_COMPLETE, this.handleSearchResults);
     UserStore.on(USER.SEARCHING, this.handleSearching);
     window.addEventListener('resize', this.handleResize);
-    this.node = React.findDOMNode(this.refs.ConversationList);
+    this.node = ReactDOM.findDOMNode(this.refs.ConversationList);
   },
 
   componentWillUnmount() {
@@ -163,7 +166,7 @@ var ChatSidebar = React.createClass({
      this.closeSearchResults();
      return;
    }
-    else { 
+    else {
       this.openSearchResults();
       if(this.searchTimeout != undefined) {
         clearTimeout(this.searchTimeout);
@@ -306,7 +309,7 @@ var ChatSidebar = React.createClass({
     for(var key in userSearchResults) {
 
       var user = userSearchResults[key];
-      
+
       searchResults.push(
         <UserSearchItem
           key={ 'chatusersearch:' + user._id }
@@ -332,17 +335,17 @@ var ChatSidebar = React.createClass({
     : 'calc(100% - 69px)';
 
     return (
-      <div 
-        className='chat-sidebar' 
-        style={{ 
+      <div
+        className='chat-sidebar'
+        style={{
           width: constants.chatSidebarWidthOpen,
           right: this.state.sidebarWidth - constants.chatSidebarWidthOpen,
           height: chatHeight
         }}
-        onMouseOver={() => { 
+        onMouseOver={() => {
           this.onMouseOver();
         }}
-        onMouseOut={() => { 
+        onMouseOut={() => {
           if(window.innerWidth <= 1545)
             this.onMouseOut();
         }}
@@ -350,9 +353,9 @@ var ChatSidebar = React.createClass({
         <div className='conversation-list' ref='ConversationList'>
           { this._renderThreads() }
         </div>
-        <div 
+        <div
           className='search-results'
-          style={{ 
+          style={{
             width: constants.chatSidebarWidthOpen,
             height: this.state.searchHeight
           }}
@@ -369,7 +372,7 @@ var ChatSidebar = React.createClass({
         </div>
         <div className='chat-actions'>
           <Button className='glyphicon glyphicon-search' onClick={this.openSidebar}/>
-          <TextField 
+          <TextField
             type='text'
             className='search-input'
             ref='userSearch'

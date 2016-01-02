@@ -20,13 +20,16 @@ module.exports = {
 		loaders: [
 			{ test: /\.less$/, loader: "style!css!less?noIeCompat", exclude: /node_modules/ },
 			{ test: /\.(woff|woff2|ttf|eot|svg)/, loader: "url?prefix=font/&limit=5000" },
-			{ test: /\.jsx?$/, loaders: ['react-hot', 'jsx?harmony'], exclude: /node_modules/ }
+			{
+				test: /\.jsx?$/,
+				loaders: ['react-hot', 'babel?presets[]=react,presets[]=es2015'],
+				exclude: /node_modules/
+			}
 		]
 	},
 	resolve: {
 		alias: {
-			"react": __dirname + '/node_modules/react',
-			"react/addons": __dirname + '/node_modules/react/addons',
+			"react": __dirname + '/node_modules/react'
 		},
 		extensions: ['', '.js', '.jsx']
 	},

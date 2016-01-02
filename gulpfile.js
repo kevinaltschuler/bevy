@@ -7,7 +7,6 @@ var gutil = require('gulp-util');
 var sourcemaps = require('gulp-sourcemaps');
 var less = require('gulp-less');
 var autoprefixer = require('gulp-autoprefixer');
-var minifyCss = require('gulp-minify-css');
 
 var nodemon = require('gulp-nodemon');
 
@@ -112,7 +111,6 @@ function buildLess() {
 			  browser: ['last 2 versions']
 			, cascade: true
 		}))
-		.pipe(minifyCss({compatibility: 'ie8'}))
 		.pipe(sourcemaps.write())
 		.pipe(gulp.dest('public/css'))
 		.pipe(reload({ stream: true }));

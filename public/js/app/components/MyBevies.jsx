@@ -23,7 +23,6 @@ var constants = require('./../../constants');
 var UserStore = require('./../../profile/UserStore');
 
 var _ = require('underscore');
-var CTG = React.addons.CSSTransitionGroup;
 var constants = require('./../../constants');
 var router = require('./../../router');
 var user = window.bootstrap.user;
@@ -67,8 +66,8 @@ var MyBevies = React.createClass({
     myBevyPanels.push(
       <div className='new-bevy-card' onClick={() => { this.setState({ showNewBevyModal: true }); }} key={'new panel'}>
         <div className='plus-icon'>
-          <FontIcon 
-            className='material-icons' 
+          <FontIcon
+            className='material-icons'
             style={{color: 'rgba(0,0,0,.2)', fontSize: '40px'}}
           >
             add
@@ -89,8 +88,8 @@ var MyBevies = React.createClass({
 
     return (
       <div className='my-bevy-wrapper'>
-        <CreateNewBevyModal 
-          show={ this.state.showNewBevyModal } 
+        <CreateNewBevyModal
+          show={ this.state.showNewBevyModal }
           onHide={() => { this.setState({ showNewBevyModal: false }) }}
         />
         <div className='mid-section'>

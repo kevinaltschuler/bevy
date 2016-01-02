@@ -87,7 +87,7 @@ _.extend(NotificationStore, {
 
   getUserInvites() {
     return this.invites.toJSON();
-  },
+  }
 });
 
 NotificationStore.notifications.on('add', function(notification) {
@@ -148,6 +148,7 @@ if(!_.isEmpty(window.bootstrap.user)) {
     }
     console.log('got notification', notification);
     NotificationStore.notifications.add(notification);
+    NotificationStore.notifications.sort();
     NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
   });
 }

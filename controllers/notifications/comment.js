@@ -69,19 +69,20 @@ var createNewCommentNotifications = function(comment) {
             comment_created: comment.created,
             comment_body: comment.body
           }
-        });
+        })
+        .lean();
         done(null, notifications, board);
       });
     },
     function(notifications, board, done) {
       Comment.findOne({ _id: comment.parentId }, function(err, $comment) {
         if(err) return done(err);
-        // dont send reply notification to self
-        // skip this part and pass notifications to next middleware
-        if(author._id == post.author) return done(null, notifications);
         // parent comment not found
         // skip this part and pass notifications to next middleware
         if(_.isEmpty($comment)) return done(null, notifications);
+        // dont send reply notification to self
+        // skip this part and pass notifications to next middleware
+        if(author._id == $comment.author) return done(null, notifications);
 
         notifications.push({
           _id: shortid.generate(),
@@ -89,18 +90,21 @@ var createNewCommentNotifications = function(comment) {
           event: 'comment:reply',
           data: {
             author_name: author.displayName,
-            author_image: author.image_url,
+            author_image: author.image,
             post_title: post.title,
             board_name: board.name,
             board_id: board._id,
             comment_id: comment._id,
             comment_created: comment.created,
-            comment_body: comment.body
+            comment_body: comment.body,
+            parent_comment_id: $comment._id,
+            parent_comment_created: $comment.created,
+            parent_comment_body: $comment.body
           }
         });
-
         return done(null, notifications);
-      });
+      })
+      .lean();
     }
   ], function(err, notifications) {
     if(err) {

@@ -16,7 +16,6 @@ var Post = require('./Post.jsx');
 var Event = require('./Event.jsx');
 
 var _ = require('underscore');
-var CTG = React.addons.CSSTransitionGroup;
 var router = require('./../../router');
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -31,9 +30,7 @@ var POST = constants.POST;
 var BEVY = constants.BEVY;
 var BOARD = constants.BOARD;
 
-// React class
 var PostContainer = React.createClass({
-
   propTypes: {
     activeBevy: React.PropTypes.object,
     activeBoard: React.PropTypes.object
@@ -50,21 +47,15 @@ var PostContainer = React.createClass({
 
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
-
     // sometimes the bevy switch event completes before this is mounted
     if(router.current == 'board')
       BoardActions.switchBoard(this.props.activeBoard._id);
     if(router.current == 'bevy') {
       BevyActions.switchBevy(this.props.activeBevy._id);
     }
-    //PostActions.fetch(this.props.activeBevy._id);
-
-    var node = this.getDOMNode();
-    node.scrollTop = node.scrollHeight;
   },
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
-
   },
   componentWillUpdate() {
   },
@@ -76,6 +67,7 @@ var PostContainer = React.createClass({
 
   handleChangeAll() {
     this.setState({
+      postsLoaded: true,
       allPosts: PostStore.getAll()
     });
   },
@@ -84,7 +76,7 @@ var PostContainer = React.createClass({
     var allPosts = this.state.allPosts || [];
     var posts = [];
 
-    if(this.state.loading) {
+    if(this.state.loading || !this.state.postsLoaded) {
       return (
         <div className='post-container' style={{ height: 100 }}>
           <div className='loading-indeterminate'>

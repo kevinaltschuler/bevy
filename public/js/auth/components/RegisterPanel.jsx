@@ -25,7 +25,7 @@ var UserStore = require('./../../profile/UserStore');
 var UserActions = require('./../../profile/UserActions');
 var USER = constants.USER;
 
-var usernameRegex = /^[a-z0-9_-]{3,16}$/;
+var usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
 var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
 
 var RegisterPanel = React.createClass({

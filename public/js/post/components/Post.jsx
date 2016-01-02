@@ -5,13 +5,13 @@
  *
  * @author kevin
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
-
+var ReactDOM = require('react-dom');
 var {
   TextField,
   RaisedButton
@@ -36,9 +36,7 @@ var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 var maxTextHeight = 100;
 
-// React class
 var Post = React.createClass({
-
   propTypes: {
     post: React.PropTypes.object.isRequired
   },
@@ -55,7 +53,7 @@ var Post = React.createClass({
     };
   },
 
-  componentWillRecieveProps(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState({
       post: nextProps.post,
       title: nextProps.post.title,
@@ -148,7 +146,7 @@ var Post = React.createClass({
   },
 
   highlightLinks() {
-    var title = React.findDOMNode(this.refs.Title);
+    var title = ReactDOM.findDOMNode(this.refs.Title);
     var titleHTML = title.innerHTML;
     titleHTML = titleHTML.replace(urlRegex, function(url) {
       return '<a href="' + url + '" title="' + url + '">' + url + '</a>';
@@ -181,7 +179,7 @@ var Post = React.createClass({
   },
 
   hideExtraText() {
-    var title = React.findDOMNode(this.refs.Title);
+    var title = ReactDOM.findDOMNode(this.refs.Title);
     this.setState({
       height: title.offsetHeight
     });

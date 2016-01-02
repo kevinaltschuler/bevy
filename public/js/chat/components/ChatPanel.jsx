@@ -1,6 +1,14 @@
+/**
+ * ChatPanel.jsx
+ * @author albert
+ * @author kevin
+ * @flow
+ */
+
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var {
   Button,
   Input,
@@ -21,7 +29,6 @@ var EditParticipantsModal = require('./EditParticipantsModal.jsx');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var _ = require('underscore');
-var classNames = require('classnames');
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
 var ChatActions = require('./../ChatActions');
@@ -48,7 +55,7 @@ var ChatPanel = React.createClass({
     };
   },
 
-  getChildContext() { 
+  getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     }
@@ -67,7 +74,7 @@ var ChatPanel = React.createClass({
     ChatStore.on(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
     ChatStore.on(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
 
-    this.container = React.findDOMNode(this.refs.ChatPanelBody);
+    this.container = ReactDOM.findDOMNode(this.refs.ChatPanelBody);
   },
 
   componentWillUnmount() {
@@ -162,7 +169,7 @@ var ChatPanel = React.createClass({
     _.uniq(users); // remove duplicates
     this.setState({
       addedUsers: users,
-      inputValue: '' 
+      inputValue: ''
     });
     // reset the text field
     this.refs.AddUserInput.getInputDOMNode().value = '';
@@ -297,7 +304,7 @@ var ChatPanel = React.createClass({
             <div className='add-users'>
               <span className='to-text'>To:</span>
               { this._renderAddedUsers() }
-              <Input 
+              <Input
                 type='text'
                 ref='AddUserInput'
                 onKeyDown={ this.onAddUserKeyDown }
@@ -305,10 +312,10 @@ var ChatPanel = React.createClass({
                 groupClassName='participant-input'
               />
             </div>
-            <Button 
-              className='done-btn' 
+            <Button
+              className='done-btn'
               onClick={() => {
-                this.setState({ expanded: false }); 
+                this.setState({ expanded: false });
                 if(_.isEmpty(this.state.addedUsers)) return; // dont do anything if they havent added anybody yet
                 ChatActions.addUsers(this.props.thread._id, this.state.addedUsers);
               }}
@@ -327,8 +334,8 @@ var ChatPanel = React.createClass({
               defaultValue={ this.props.thread.name }
               groupClassName='edit-name-input'
             />
-            <Button 
-              className='done-btn' 
+            <Button
+              className='done-btn'
               onClick={() => {
                 this.setState({ expanded: false });
                 var new_name = this.refs.EditNameInput.getValue();
@@ -351,8 +358,8 @@ var ChatPanel = React.createClass({
     var name = ChatStore.getThreadName(thread._id);
     var image_url = ChatStore.getThreadImageURL(thread._id);
     // only show a background for bevy chats or group chats WITH custom images
-    var backgroundStyle = (!_.isEmpty(thread.board) 
-      || ( thread.type == 'group' 
+    var backgroundStyle = (!_.isEmpty(thread.board)
+      || ( thread.type == 'group'
       && !_.isEmpty(thread.image) ))
     ? {
       backgroundImage: 'url(' + image_url + ')',
@@ -369,7 +376,7 @@ var ChatPanel = React.createClass({
         </Panel>
         <UserSearchOverlay
           container={ this.container }
-          target={() => React.findDOMNode(this.refs.AddUserInput) }
+          target={() => ReactDOM.findDOMNode(this.refs.AddUserInput) }
           query={ this.state.inputValue }
           addUser={ this.addUser }
           addedUsers={ _.union(this.state.addedUsers, thread.users) }

@@ -13,7 +13,11 @@ module.exports = {
 	},
 	module: {
 		loaders: [
-			{ test: /\.jsx?$/, loaders: ['jsx?harmony'], exclude: /node_modules/ }
+			{
+				test: /\.jsx?$/,
+				loaders: ['babel?presets[]=react,presets[]=es2015'],
+				exclude: /node_modules/
+			},
 			//{ test: /.*\/public\/.*\.js$/, loaders: ['uglify-loader'], exclude: /node_modules/ }
 		]
 	},

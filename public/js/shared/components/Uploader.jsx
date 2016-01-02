@@ -9,6 +9,7 @@
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var Dropzone = require('dropzone');
 var {
   RaisedButton,
@@ -25,7 +26,6 @@ var POST = constants.POST;
 var PostStore = require('./../../post/PostStore');
 
 var Uploader = React.createClass({
-
   propTypes: {
     url: React.PropTypes.string,
     onUploadComplete: React.PropTypes.func,
@@ -44,7 +44,7 @@ var Uploader = React.createClass({
     // instantiate dropzone
     var options = this.props.dropzoneOptions;
     options.url = constants.apiurl + '/files';
-    this.dropzone = new Dropzone(this.getDOMNode(), options);
+    this.dropzone = new Dropzone(ReactDOM.findDOMNode(this), options);
 
     this.dropzone.on('success', function(file, response) {
       this.props.onUploadComplete(response);

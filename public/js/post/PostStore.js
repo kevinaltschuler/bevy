@@ -22,7 +22,6 @@ var router = require('./../router');
 
 var constants = require('./../constants');
 var POST = constants.POST;
-var ALIAS = constants.ALIAS;
 var BEVY = constants.BEVY;
 var APP = constants.APP;
 var COMMENT = constants.COMMENT;
@@ -316,21 +315,18 @@ _.extend(PostStore, {
 
         newComment.save(null, {
           success: function(model, response, options) {
-            var id = model.id;
-            var comments = post.get('comments') || [];
+            var comments = post.get('allComments') || [];
             var comment = (comment_id)
               ? _.findWhere(comments, { _id: comment_id })
               : {};
-            //var allComments = post.get('allComments') || [];
             var new_comment = {
-              _id: id,
-              depth: (comment_id) ? comment.depth + 1 : undefined,
+              _id: model.get('_id'),
               postId: post_id,
               parentId: (comment_id) ? comment_id : undefined,
               author: author,
               body: body,
               comments: [],
-              created: data.created
+              created: model.get('created')
             };
             comments.push(new_comment);
             post.set('comments', comments);
@@ -339,7 +335,7 @@ _.extend(PostStore, {
             // increment comment count
             var commentCount = post.get('commentCount') || 0;
             post.set('commentCount', ++commentCount);
-            
+
             this.trigger(POST.CHANGE_ONE + post_id);
           }.bind(this)
         });
@@ -350,36 +346,27 @@ _.extend(PostStore, {
         var post_id = payload.post_id;
         var comment_id = payload.comment_id;
 
-        $.ajax({
-          url: constants.apiurl + '/comments/' + comment_id,
-          method: 'DELETE',
-          success: function(data) {
-            this.trigger(POST.CHANGE_ALL);
-            this.trigger(POST.CHANGE_ONE + post_id);
-          }.bind(this)
+        fetch(constants.apiurl + '/comments/' + comment_id, {
+          method: 'DELETE'
         });
 
         var post = this.posts.get(post_id);
-        var comments = post.get('comments');
+        if(post == undefined) return;
 
-        if(_.findWhere(comments, { _id: comment_id })) {
-          // delete from post
-          comments = _.reject(comments, function(comment) {
-            return comment._id == comment_id;
-          });
-          post.set('comments', comments);
-        } else {
-          // delete from comment
-          this.removeComment(comments, comment_id);
-        }
+        // remove comment and re-nest them
+        var comments = post.get('allComments');
+        comments = _.reject(comments, function(comment) {
+          return comment._id == comment_id;
+        });
+        post.set('comments', comments);
+        this.postsNestComment(post);
 
+        // update comment count;
         var commentCount = post.get('commentCount');
         post.set('commentCount', --commentCount);
-        //this.postsNestComment(post);
 
-        this.trigger(POST.CHANGE_ALL);
+        // trigger changes
         this.trigger(POST.CHANGE_ONE + post_id);
-
         break;
     }
   },
@@ -414,20 +401,19 @@ _.extend(PostStore, {
     var post = this.posts.get(post_id);
     if(post == undefined) return;
 
-    var comments = post.get('comments');
+    var comments = post.get('allComments');
     var commentCount = post.get('commentCount');
+
+    // check to see if comment already exists
+    if(_.findWhere(comments, { _id: comment._id }) != undefined) {
+      // if so, then break out of this
+      return;
+    }
+
     comments.push(comment);
     commentCount++;
     post.set('comments', comments);
     post.set('commentCount', commentCount);
-    if(_.isEmpty(comment.parentId)) {
-      // direct reply to a post
-    } else {
-      // reply to a comment
-      //var $comment = _.findWhere(post.get('comments'), { _id: comment.parentId });
-      //if($comment == undefined) return;
-      //$comment.comments.push(comment);
-    }
     this.postsNestComment(post);
     //this.trigger(POST.CHANGE_ALL);
     this.trigger(POST.CHANGE_ONE + post_id);
@@ -473,30 +459,6 @@ _.extend(PostStore, {
       date = Date.parse(post.get('date'));
     }
     return -date;
-  },
-
-  /**
-   * recursively remove a comment
-   */
-  removeComment(comments, comment_id) {
-    // use every so we can break out if we need
-    return comments.every(function(comment, index) {
-      if(comment._id == comment_id) {
-        // it's a match. remove the comment and collapse
-        comments.splice(index, 1);
-        return false;
-      }
-      if(_.isEmpty(comment.comments)) {
-        // end of the line. collapse
-        return false;
-      }
-      else {
-        // there's more. keep going
-        return this.removeComment(comment.comments, comment_id);
-      }
-      // continue the every loop
-      return true;
-    }.bind(this));
   },
 
   postsNestComment(post) {
