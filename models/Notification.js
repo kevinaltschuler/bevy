@@ -30,6 +30,15 @@ var NotificationSchema = new Schema({
 	created: {
 		type: Date,
 		default: Date.now
+	},
+	expires: {
+		type: Date,
+		// expires in a week
+		default: function() { return Date.now() + (1000 * 60 * 60 * 24 * 7) },
+		index: {
+			// 5 seconds after the expiration date is reached - this is an arbitrary number
+			expireAfterSeconds: 5
+		}
 	}
 });
 

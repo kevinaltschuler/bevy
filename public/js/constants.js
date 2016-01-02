@@ -23,10 +23,13 @@ var slashes = '//';
 var api_subdomain = 'api';
 var api_version = '';
 
-//exports.siteurl = 'http://joinbevy.com';
-//exports.apiurl = 'http://api.joinbevy.com';
-exports.siteurl = 'http://bevy.dev';
-exports.apiurl = 'http://api.bevy.dev';
+if(window.bootstrap.env == 'production') {
+  exports.siteurl = 'http://joinbevy.com';
+  exports.apiurl = 'http://api.joinbevy.com';
+} else {
+  exports.siteurl = 'http://bevy.dev';
+  exports.apiurl = 'http://api.bevy.dev';
+}
 
 exports.client_id = 'web';
 exports.client_secret = 'THE-ROCK-WE-ALL-PUSH';
