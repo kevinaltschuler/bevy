@@ -141,7 +141,7 @@ var BevyView = React.createClass({
               </div>
             </div>
           </div>
-          <div className='post-view-body'>
+          <div className='board-view-body'>
             <div className='bevy-view-title'>Feed</div>
             <div>
               <PostContainer

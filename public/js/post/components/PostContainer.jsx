@@ -3,11 +3,12 @@
  * React Component that manages and wraps around
  * Post panels
  * @author albert
+ * @author kevin
+ * @flow
  */
 
 'use strict';
 
-// imports
 var React = require('react');
 var {
   CircularProgress
@@ -57,10 +58,6 @@ var PostContainer = React.createClass({
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
   },
-  componentWillUpdate() {
-  },
-  componentDidUpdate() {
-  },
 
   onScroll(ev) {
   },
@@ -85,7 +82,6 @@ var PostContainer = React.createClass({
         </div>
       );
     }
-
     // for each post
     for(var key in allPosts) {
       var post = allPosts[key];
@@ -111,7 +107,6 @@ var PostContainer = React.createClass({
           break;
       }
     }
-
     // if filtering got rid of all posts, display no posts
     if(posts.length == 0) {
       return (
@@ -121,7 +116,7 @@ var PostContainer = React.createClass({
       );
     }
 
-    posts.push(<div key='postcontainer:spacer' style={{height: '100px'}}/>)
+    posts.push(<div key='postcontainer:spacer' style={{height: '100px'}}/>);
 
     return (
       <div className='post-container' onScroll={ this.onScroll }>
@@ -131,5 +126,4 @@ var PostContainer = React.createClass({
   }
 });
 
-// pipe back to App.jsx
 module.exports = PostContainer;
