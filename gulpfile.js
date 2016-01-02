@@ -15,10 +15,6 @@ var WebpackDevServer = require('webpack-dev-server');
 var webpackConfig = require('./webpack.config.js');
 var webpackProductionConfig = require('./webpack.production.config.js');
 
-var browserSync = require('browser-sync').create();
-var reload = browserSync.reload;
-
-
 gulp.task('webpack:build', function(callback) {
   //Run webpack.
   webpack(webpackProductionConfig, function(err, stats) {
@@ -59,14 +55,7 @@ gulp.task('webpack-dev-server', function(callback) {
 
 
 gulp.task('watch', ['webpack-dev-server', 'serve:dev'], function() {
-	/*browserSync.init({
-		server: {
-			baseDir: './public',
-			proxy: 'bevy.dev'
-		},
-		tunnel: 'bevy',
-		open: false
-	});*/
+
 });
 gulp.task('watch:nohot', ['less:watch', 'webpack:watch', 'serve']);
 
