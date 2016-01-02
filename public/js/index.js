@@ -77,6 +77,7 @@ var $fetch = window.fetch;
 window.fetch = function(input, init) {
   var url = input;
   var options = init;
+  if(options == undefined) options = {};
   if(_.isEmpty(options.headers)) {
     options.headers = {
       'Accept': 'application/json'
