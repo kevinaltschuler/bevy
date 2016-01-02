@@ -35,6 +35,7 @@ var CHAT = constants.CHAT;
 var APP = constants.APP;
 var INVITE = constants.INVITE;
 var BOARD = constants.BOARD;
+var NOTIFICATION = constants.NOTIFICATION;
 var BevyActions = require('./BevyActions');
 var UserStore = require('./../profile/UserStore');
 var user = window.bootstrap.user;
@@ -351,6 +352,10 @@ _.extend(BevyStore, {
       case INVITE.ACCEPT_REQUEST:
         var invite_id = payload.invite_id;
         fetch(constants.apiurl + '/invites/' + invite_id + '/accept')
+        .then(function(data){
+          this.trigger(BEVY.CHANGE_ALL);
+          this.trigger(NOTIFICATION.CHANGE_ALL);
+        }.bind(this))
         break;
     }
   },

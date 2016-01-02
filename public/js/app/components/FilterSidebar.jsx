@@ -154,6 +154,7 @@ var FilterSidebar = React.createClass({
             menuItems={ filterItems }
             selectedIndex={ selectedIndex }
             onChange={ this.onFilterChange }
+            id='searchdropdown'
           />
         </div>
         <div className='action new'>

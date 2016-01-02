@@ -22,6 +22,7 @@ var InviteList = React.createClass({
       var userInvite = this.props.userInvites[key];
       inviteItems.push(
         <InviteListItem
+          key={'inviteitem:' + key}
           invite={ userInvite }
         />
       );
@@ -31,12 +32,12 @@ var InviteList = React.createClass({
 
   render() {
     var title = (!_.isEmpty(this.props.userInvites))
-    ? <span>Pending Invites</span>
+    ? <div className='section-title'>Pending Invites</div>
     : <div/>;
 
     return (
       <div className='invite-list'>
-        {title }
+        { title }
         { this._renderUserInvites() }
       </div>
     );

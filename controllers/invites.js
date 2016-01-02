@@ -13,6 +13,7 @@ var shortid = require('shortid');
 var Invite = require('./../models/Invite');
 var Bevy = require('./../models/Bevy');
 var Board = require('./../models/Board');
+var User = require('./../models/User');
 
 var bevyPopFields = '_id name admins settings image';
 var boardPopFields = '_id name admins settings image';
@@ -100,7 +101,7 @@ exports.createInvite = function(req, res, next) {
 // GET /invites/:inviteid/accept
 exports.acceptInvite = function(req, res, next) {
   var invite_id = req.params.inviteid;
-  Invite.findOne({ _id: invite_id }, function(err, invite) {
+  Invite.findOneAndRemove({ _id: invite_id }, function(err, invite) {
     if(err) return next(err);
     if(_.isEmpty(invite)) return next('Invite not found');
     switch(invite.type) {

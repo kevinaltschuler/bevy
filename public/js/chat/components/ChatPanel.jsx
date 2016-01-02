@@ -416,8 +416,8 @@ var ChatPanel = React.createClass({
               { name }
             </a>
             <div className='actions'>
-              { this._renderAddUsersButton() }
-              { this._renderChatOptions() }
+              {/* this._renderAddUsersButton() */}
+              {/* this._renderChatOptions() */}
               <OverlayTrigger placement='top' overlay={ <Tooltip>Close</Tooltip> }>
                 <Button className='close-btn' onClick={ this.closePanel }>
                   <span className="glyphicon glyphicon-remove" />

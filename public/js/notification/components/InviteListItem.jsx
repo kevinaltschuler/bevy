@@ -8,12 +8,21 @@
 
 var React = require('react');
 
+var {
+  RaisedButton
+} = require('material-ui');
+
 var _ = require('underscore');
 var constants = require('./../../constants');
+var BevyActions = require('./../../bevy/BevyActions');
 
 var InviteListItem = React.createClass({
   propTypes: {
     invite: React.PropTypes.object
+  },
+
+  acceptRequest() {
+    BevyActions.acceptRequest(this.props.invite._id);
   },
 
   _renderImage() {
@@ -29,15 +38,24 @@ var InviteListItem = React.createClass({
         image_url = constants.siteurl + '/img/logo_100.png';
         break;
     }
+
+    var iconStyle = {
+      backgroundImage: 'url(' + image_url + ')',
+      backgroundSize: 'auto 100%',
+      backgroundPosition: 'center',
+      padding: 0,
+      overflow: 'hidden',
+      boxShadow: 'none',
+      transition: 'all .2s ease-in-out',
+      width: 40,
+      height: 40,
+      marginRight: 10,
+      borderRadius: 20
+    };
+
     return (
-      <img
-        style={{
-          width: 40,
-          height: 40,
-          'border-radius': 20,
-          'margin-right': 10
-        }}
-        src={ image_url }
+      <div
+        style={iconStyle}
       />
     );
   },
@@ -81,7 +99,7 @@ var InviteListItem = React.createClass({
         return <div />
         break;
       case 'invite':
-        return <div />
+        return <RaisedButton onClick={this.acceptRequest} label='accept' />
         break;
       default:
         return <div />
@@ -93,11 +111,17 @@ var InviteListItem = React.createClass({
     return (
       <div style={{
         display: 'flex',
-        'flex-direction': 'row',
-        'align-items': 'center'
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingTop: 5,
+        paddingBottom: 5,
+        width: '100%'
       }}>
-        { this._renderImage() }
-        { this._renderBody() }
+        <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+          { this._renderImage() }
+          { this._renderBody() }
+        </div>
         { this._renderAction() }
       </div>
     );
