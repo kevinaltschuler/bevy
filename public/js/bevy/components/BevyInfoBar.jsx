@@ -51,33 +51,41 @@ var BevyInfoBar = React.createClass({
         return <div/>;
     }
     var publicPrivate = (bevy.settings.privacy == 'Private')
-    ?  (
-        <OverlayTrigger placement='bottom' overlay={<Tooltip id='privatetooltip'>Private</Tooltip>}>
-          <i className="material-icons">lock</i>
-        </OverlayTrigger>
+    ?  (<div className='info-item'>
+          <OverlayTrigger placement='bottom' overlay={<Tooltip id='privatetooltip'>Private</Tooltip>}>
+            <i className="material-icons">lock</i>
+          </OverlayTrigger>
+        </div>
       )
-    : (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip id='publictooltip'>Public</Tooltip>}>
-        <i className="material-icons">public</i>
-      </OverlayTrigger>
+    : (<div className='info-item'>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip id='publictooltip'>Public</Tooltip>}>
+          <i className="material-icons">public</i>
+        </OverlayTrigger>
+      </div>
     );
 
     var subs = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip id='subtooltip'>{bevy.subCount + " subscribers"}</Tooltip>}>
-        <i className="material-icons">people</i>
-      </OverlayTrigger>
+      <div className='info-item'>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip id='subtooltip'>{bevy.subCount + " subscribers"}</Tooltip>}>
+          <i className="material-icons">people</i>
+        </OverlayTrigger>
+      </div>
     );
 
     var admins = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip id='adminstooltip'>{ bevy.admins.length }&nbsp;{ (bevy.admins.length == 1) ? 'admin' : 'admins' }</Tooltip>}>
-      <i className="material-icons">person</i>
-      </OverlayTrigger>
+      <div className='info-item'>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip id='adminstooltip'>{ bevy.admins.length }&nbsp;{ (bevy.admins.length == 1) ? 'admin' : 'admins' }</Tooltip>}>
+          <i className="material-icons">person</i>
+        </OverlayTrigger>
+      </div>
     );
 
     var settingsButton = (
-      <IconButton onClick={() => this.setState({showSettingsModal: true})} style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
-        <i className="material-icons">settings</i>
-      </IconButton>
+      <div className='info-item'>
+        <IconButton onClick={() => this.setState({showSettingsModal: true})} style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
+          <i className="material-icons">settings</i>
+        </IconButton>
+      </div>
     );
 
     var dropzoneOptions = {
@@ -95,19 +103,23 @@ var BevyInfoBar = React.createClass({
     };
 
     var imageButton = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip id='imagetooltip'>Change Image</Tooltip>}>
-        <IconButton className='dropzone-panel-button' style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
-          <i className="material-icons">camera_alt</i>
-        </IconButton>
-      </OverlayTrigger>
+      <div className='info-item'>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip id='imagetooltip'>Change Image</Tooltip>}>
+          <IconButton className='dropzone-panel-button' style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
+            <i className="material-icons">camera_alt</i>
+          </IconButton>
+        </OverlayTrigger>
+      </div>
     );
 
     var inviteButton = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip id='invitetooltip'>Invite Users</Tooltip>}>
-        <IconButton onClick={() => this.setState({showInviteModal: true})} style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
-          <i className="material-icons">person_add</i>
-        </IconButton>
-      </OverlayTrigger>
+      <div className='info-item'>
+        <OverlayTrigger placement='bottom' overlay={<Tooltip id='invitetooltip'>Invite Users</Tooltip>}>
+          <IconButton onClick={() => this.setState({showInviteModal: true})} style={{height: 30, width: 24, padding: 0, marginTop: -2, textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'}}>
+            <i className="material-icons">person_add</i>
+          </IconButton>
+        </OverlayTrigger>
+      </div>
     );
 
     if(!_.findWhere(bevy.admins, {_id: window.bootstrap.user._id})) {
@@ -117,25 +129,13 @@ var BevyInfoBar = React.createClass({
     }
 
     return (
-      <div className='bevy-info-bar'>
-        <div className='info-item'>
-          {publicPrivate}
-        </div>
-        <div className='info-item'>
-          {subs}
-        </div>
-        <div className='info-item'>
-          {admins}
-        </div>
-        <div className='info-item'>
-          {imageButton}
-        </div>
-        <div className='info-item'>
-          {inviteButton}
-        </div>
-        <div className='info-item'>
-          {settingsButton}
-        </div>
+      <div className='bevy-info-bar'>   
+        {publicPrivate}
+        {subs}
+        {admins}
+        {imageButton}
+        {inviteButton}
+        {settingsButton}
         <BevySettingsModal
           show={this.state.showSettingsModal}
           onHide={() => this.setState({showSettingsModal: false})}

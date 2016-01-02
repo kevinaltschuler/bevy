@@ -78,6 +78,7 @@ var FilterSidebar = React.createClass({
   },
 
   onSearch() {
+    BevyActions.search(this.refs.search.getValue());
     router.navigate('/s/' + this.refs.search.getValue(), { trigger: true });
   },
 
@@ -149,9 +150,6 @@ var FilterSidebar = React.createClass({
           { searchTitle }
         </span>
         <div className='action sort'>
-          <div className='action-name'>
-            Filter
-          </div> 
           <DropDownMenu 
             menuItems={ filterItems }
             selectedIndex={ selectedIndex }
