@@ -2,31 +2,33 @@
  * ForgotPage.jsx
  *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
+var {
+  Input,
+  Panel
+} = require('react-bootstrap');
+var {
+  RaisedButton,
+  TextField
+} = require('material-ui');
+
 var $ = require('jquery');
 var _ = require('underscore');
 var constants = require('./../../constants');
 
-var rbs = require('react-bootstrap');
-var Input = rbs.Input;
-var Panel = rbs.Panel;
-
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
-var TextField = mui.TextField;
-
 // helper function to validate whether an email is valid
 function validateEmail(email) {
-    var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(email);
+  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  return re.test(email);
 }
 
 var ForgotPage = React.createClass({
-
   getInitialState() {
     return {
       emailBsStyle: '',
@@ -46,28 +48,23 @@ var ForgotPage = React.createClass({
       return;
     }
 
-    $.post(
-      constants.siteurl + '/forgot',
-      {
+    fetch(constants.siteurl + '/forgot', {
+      method: 'POST',
+      body: JSON.stringify({
         email: email
-      },
-      function(data) {
-        console.log(data);
-        // success
-
-        this.setState({
-          statusText: 'Email Sent!'
-        });
-      }.bind(this)
-    ).fail(function(jqXHR) {
-      // failure
-      var response = jqXHR.responseJSON;
-
+      })
+    })
+    .then(res => res.json())
+    .then(res => {
       this.setState({
-        statusText: response.message
+        statusText: 'Email Sent!'
       });
-
-    }.bind(this));
+    })
+    .catch(err => {
+      this.setState({
+        statusText: err
+      });
+    });
   },
 
   onChange() {
@@ -87,7 +84,6 @@ var ForgotPage = React.createClass({
   },
 
   render() {
-
     var statusText;
     if(!_.isEmpty(this.state.statusText)) {
       statusText = (
@@ -104,7 +100,7 @@ var ForgotPage = React.createClass({
         </div>
         <Panel className="forgot-panel">
         <div className='forgot-header'>
-          
+
         </div>
           { statusText }
           <form method='post' action='/forgot'>

@@ -381,7 +381,10 @@ _.extend(BevyStore, {
   },
 
   getBevy(bevy_id) {
-    var bevy = this.myBevies.get(bevy_id) || this.publicBevies.get(bevy_id) || this.searchList.get(bevy_id);
+    var bevy =
+      this.myBevies.get(bevy_id) ||
+      this.publicBevies.get(bevy_id) ||
+      this.searchList.get(bevy_id);
     return (bevy)
     ? bevy.toJSON()
     : {};
@@ -415,27 +418,19 @@ _.extend(BevyStore, {
   },
 
   getInvites() {
-    console.log(this.bevyInvites.toJSON());
     return this.bevyInvites.toJSON();
   },
-
-  /*
-  getActiveTags() {
-    return this.activeTags;
-  },*/
 
   sortByAbc(bevy) {
     var name = bevy.attributes.name.toLowerCase();
     var nameValue = name.charCodeAt(0);
     return nameValue;
   },
-
   sortByZyx(bevy) {
     var name = bevy.attributes.name.toLowerCase();
     var nameValue = name.charCodeAt(0);
     return -nameValue;
   },
-
   sortByTop(bevy) {
     var subs = bevy.attributes.subCount;
     return -subs;
@@ -452,7 +447,6 @@ _.extend(BevyStore, {
     var date = Date.parse(bevy.get('created'));
     return date;
   }
-
 });
 
 var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));

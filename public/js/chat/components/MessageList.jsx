@@ -1,18 +1,22 @@
+/**
+ * MessageList.jsx
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
+var ReactDOM = require('react-dom');
 var MessageItem = require('./MessageItem.jsx');
 
+var _ = require('underscore');
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
-
 var constants = require('./../../constants');
 var CHAT = constants.CHAT;
 
 var MessageList = React.createClass({
-
   propTypes: {
     thread: React.PropTypes.object,
     messages: React.PropTypes.array,
@@ -27,22 +31,20 @@ var MessageList = React.createClass({
 
   componentDidMount() {
     ChatStore.on(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
-    var node = this.getDOMNode();
+    var node = ReactDOM.findDOMNode(this);
     node.scrollTop = node.scrollHeight;
   },
 
   componentWillUpdate() {
-    var node = this.getDOMNode();
+    var node = ReactDOM.findDOMNode(this);
     this.shouldScrollBottom = ((node.scrollTop + node.offsetHeight) == node.scrollHeight);
   },
 
   componentDidUpdate() {
-    var node = this.getDOMNode();
-
+    var node = ReactDOM.findDOMNode(this);
     if(this.prevScrollHeight < node.scrollHeight) {
       node.scrollTop = node.scrollHeight - this.prevScrollHeight - 20;
     }
-
     if(this.shouldScrollBottom) {
       node.scrollTop = node.scrollHeight;
     }
@@ -59,7 +61,7 @@ var MessageList = React.createClass({
   },
 
   onScroll(ev) {
-    var node = this.getDOMNode();
+    var node = ReactDOM.findDOMNode(this);
     if(node.scrollTop <= 0) {
       // load more
       this.setState({
@@ -72,7 +74,6 @@ var MessageList = React.createClass({
   },
 
   render() {
-
     var allMessages = this.props.messages;
     var messages = [];
 

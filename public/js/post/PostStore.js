@@ -1,17 +1,11 @@
 /**
  * PostStore.js
- * where Backbone, Flux, and React all sit down to talk
- * --------
- * Backbone - creates post model and posts collection
- * Flux - registers the handleDispatch function and handles events
- * React - emits 'change' events to force update the container component
- * --------
  * @author albert
+ * @author kevin
+ * @flow
  */
 
 'use strict';
-
-// TODO: grab according to specified bevy
 
 // imports
 var Backbone = require('backbone');
@@ -60,7 +54,7 @@ _.extend(PostStore, {
         this.posts.fetch({
           success: function(collection, response, options) {
             this.posts.forEach(function(post) {
-              this.postsNestComment(post);
+              post.nestComments();
             }.bind(this));
 
             this.activeBevy = bevy_id;
@@ -77,7 +71,7 @@ _.extend(PostStore, {
         this.posts.fetch({
           success: function(collection, response, options) {
             this.posts.forEach(function(post) {
-              this.postsNestComment(post);
+              post.nestComments();
             }.bind(this));
 
             this.activeBoard = board_id;
@@ -94,7 +88,7 @@ _.extend(PostStore, {
         this.posts.fetch({
           success: function(collection, response, options) {
             this.posts.forEach(function(post) {
-              this.postsNestComment(post);
+              post.nestComments();
             }.bind(this));
 
             this.posts.sort();
@@ -330,7 +324,7 @@ _.extend(PostStore, {
             };
             comments.push(new_comment);
             post.set('comments', comments);
-            this.postsNestComment(post);
+            post.nestComments();
 
             // increment comment count
             var commentCount = post.get('commentCount') || 0;
@@ -359,7 +353,7 @@ _.extend(PostStore, {
           return comment._id == comment_id;
         });
         post.set('comments', comments);
-        this.postsNestComment(post);
+        post.nestComments()
 
         // update comment count;
         var commentCount = post.get('commentCount');
@@ -411,11 +405,12 @@ _.extend(PostStore, {
     }
 
     comments.push(comment);
-    commentCount++;
     post.set('comments', comments);
+    post.nestComments();
+
+    commentCount++;
     post.set('commentCount', commentCount);
-    this.postsNestComment(post);
-    //this.trigger(POST.CHANGE_ALL);
+
     this.trigger(POST.CHANGE_ONE + post_id);
   },
 
@@ -459,42 +454,6 @@ _.extend(PostStore, {
       date = Date.parse(post.get('date'));
     }
     return -date;
-  },
-
-  postsNestComment(post) {
-    var comments = post.get('comments');
-    // create deep clone to avoid reference hell
-    comments = _.map(comments, function(comment) {
-      return comment;
-    });
-
-    post.set('allComments', comments);
-    post.set('commentCount', comments.length);
-
-    // recurse through comments
-    post.set('comments', this.nestComments(comments));
-  },
-
-  nestComments(comments, parentId, depth) {
-    // increment depth (used for indenting later)
-    if(typeof depth === 'number') depth++;
-    else depth = 1;
-
-    if(comments.length < 0) return []; // return if it's the end of the line
-
-    var $comments = [];
-    comments.forEach(function(comment, index) {
-      // look for comments under this one
-      if(comment.parentId == parentId) {
-        comment.depth = depth;
-        // and keep going
-        comment.comments = this.nestComments(comments, comment._id, depth);
-        $comments.push(comment);
-        // TODO: splice the matched comment out of the list so we can go faster
-      }
-    }.bind(this));
-
-    return $comments;
   }
 });
 
