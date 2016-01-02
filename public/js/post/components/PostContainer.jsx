@@ -41,8 +41,7 @@ var PostContainer = React.createClass({
     return {
       allPosts: PostStore.getAll(),
       activePosts: [],
-      postsLoaded: false,
-      loading: false
+      postsLoaded: false
     };
   },
 
@@ -73,7 +72,7 @@ var PostContainer = React.createClass({
     var allPosts = this.state.allPosts || [];
     var posts = [];
 
-    if(this.state.loading || !this.state.postsLoaded) {
+    if(!this.state.postsLoaded) {
       return (
         <div className='post-container' style={{ height: 100 }}>
           <div className='loading-indeterminate'>
