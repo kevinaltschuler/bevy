@@ -16,7 +16,7 @@ var ImageSchema = require('./ImageSchema');
 var BevySchema = new Schema({
   _id: {
     type: String,
-    default: shortid.generate(),
+    default: shortid.generate,
     unique: true,
     required: true
   },

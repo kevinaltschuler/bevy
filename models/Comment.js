@@ -15,7 +15,7 @@ var CommentSchema = new Schema({
   _id: {
     type: String,
     unique: true,
-    default: shortid.generate()
+    default: shortid.generate
   },
   postId: { // post comment is under
     type: String,
