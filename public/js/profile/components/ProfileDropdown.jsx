@@ -152,6 +152,7 @@ var ProfileDropdown = React.createClass({
               label="Logout"
               linkButton={ true }
               href='/logout'
+              style={{marginRight: 10}}
             />
           {/*</div>
           <AddAccountModal
@@ -173,7 +174,8 @@ var ProfileDropdown = React.createClass({
     }
 
     var buttonStyle = {
-      backgroundImage: 'url(' + profileImage + ')'
+      backgroundImage: 'url(' + profileImage + ')',
+      marginRight: 0
     };
 
     return (

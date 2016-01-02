@@ -78,7 +78,6 @@ var NotificationDropdown = React.createClass({
             <div className='notification-dropdown'>
               <div className="title">
                 <span className='title-text'>Notifications</span>
-                <Button className='title-clear-all' onClick={ this.dismissAll }>Clear All</Button>
               </div>
               <NotificationList
                 allNotifications={ this.props.allNotifications }

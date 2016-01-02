@@ -16,6 +16,8 @@ var constants = require('./constants');
 if(constants.env == 'development')
   require("./../less/app.less"); // only hot load css in development mode
 
+var injectTapEventPlugin = require("react-tap-event-plugin");
+
 var _ = require('underscore');
 var UserStore = require('./profile/UserStore');
 
@@ -166,7 +168,7 @@ var App = React.createClass({
   },
 
   render() {
-    //injectTapEventPlugin();
+    injectTapEventPlugin();
     return (
       <div className='app-wrapper'>
         <InterfaceComponent />
