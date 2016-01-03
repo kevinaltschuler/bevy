@@ -34,9 +34,6 @@ var MyBevyPanel = React.createClass({
 
   getInitialState() {
     var bevy = this.props.bevy;
-
-    //console.log(bevy);
-
     return {
       name: bevy.name || '',
       description: bevy.description || '',
@@ -45,20 +42,37 @@ var MyBevyPanel = React.createClass({
   },
 
   _renderLock() {
-    if(this.props.bevy.settings.privacy == 'Public') return (
-      <OverlayTrigger placement='top' overlay={ 
-        <Tooltip>This Bevy Is Public</Tooltip> 
+    return (
+      <div className='privacy-info'>
+        <span className={ 'glyphicon ' + ((this.props.bevy.settings.privacy == 'Public')
+          ? 'glyphicon-globe'
+          : 'glyphicon-lock') }
+        />
+        <span className='privacy-desc'>
+          {(this.props.bevy.settings.privacy == 'Public')
+            ? 'Public'
+            : 'Private'}
+        </span>
+      </div>
+    );
+    /*if(this.props.bevy.settings.privacy == 'Public') return (
+      <OverlayTrigger placement='top' overlay={
+        <Tooltip id={ this.props.bevy.slug + ':privacy-tooltip' }>
+          This Bevy Is Public
+        </Tooltip>
       }>
         <span className='glyphicon glyphicon-globe' />
       </OverlayTrigger>
     );
     return (
-      <OverlayTrigger placement='top' overlay={ 
-        <Tooltip>This Bevy Is Private</Tooltip> 
+      <OverlayTrigger placement='top' overlay={
+        <Tooltip id={ this.props.bevy.slug + ':privacy-tooltip' }>
+          This Bevy Is Private
+        </Tooltip>
       }>
         <span className='glyphicon glyphicon-lock' />
       </OverlayTrigger>
-    );
+    );*/
   },
 
   render() {
@@ -100,8 +114,7 @@ var MyBevyPanel = React.createClass({
           <div className='panel-info-top'>
             <a
               className='title'
-              href={ this.props.bevy.url }
-            >
+              href={ this.props.bevy.url } >
               { name }
             </a>
             { this._renderLock() }
