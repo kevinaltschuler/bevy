@@ -55,28 +55,9 @@ var MyBevyPanel = React.createClass({
         </span>
       </div>
     );
-    /*if(this.props.bevy.settings.privacy == 'Public') return (
-      <OverlayTrigger placement='top' overlay={
-        <Tooltip id={ this.props.bevy.slug + ':privacy-tooltip' }>
-          This Bevy Is Public
-        </Tooltip>
-      }>
-        <span className='glyphicon glyphicon-globe' />
-      </OverlayTrigger>
-    );
-    return (
-      <OverlayTrigger placement='top' overlay={
-        <Tooltip id={ this.props.bevy.slug + ':privacy-tooltip' }>
-          This Bevy Is Private
-        </Tooltip>
-      }>
-        <span className='glyphicon glyphicon-lock' />
-      </OverlayTrigger>
-    );*/
   },
 
   render() {
-
     var bevy = this.props.bevy;
     var bevyImage = (_.isEmpty(this.state.image))
       ? '/img/default_group_img.png'
