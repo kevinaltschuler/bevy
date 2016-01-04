@@ -73,38 +73,6 @@ var InfoPanel = React.createClass({
     }
   },
 
-  _renderBottomActions() {
-    if(_.isEmpty(window.bootstrap.user)) return <div />;
-
-    var joinButton = (this.state.joined)
-    ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
-    : <RaisedButton label='join' onClick={ this.onRequestJoin } />
-
-    if(_.findWhere(this.props.board.admins, window.bootstrap.user._id ) != undefined) {
-      return (
-        <div className='sidebar-bottom'>
-          <FlatButton
-            label='Settings'
-            onClick={() => { this.setState({ showSettingsModal: true }); }}
-          />
-          <BoardSettingsModal
-            board={ this.props.board }
-            show={ this.state.showSettingsModal }
-            onHide={() => { this.setState({ showSettingsModal: false }); }}
-          />
-          { joinButton }
-        </div>
-      );
-    } else {
-      return (
-        <div className='sidebar-bottom'>
-          <div style={{ flex: 1 }} />
-          { joinButton }
-        </div>
-      );
-    }
-  },
-
   _renderType() {
     switch(this.props.board.type) {
       case 'discussion':
@@ -134,6 +102,38 @@ var InfoPanel = React.createClass({
       default:
         return <div />;
         break;
+    }
+  },
+
+  _renderBottomActions() {
+    if(_.isEmpty(window.bootstrap.user)) return <div />;
+
+    var joinButton = (this.state.joined)
+    ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
+    : <RaisedButton label='join' onClick={ this.onRequestJoin } />
+
+    if(this.state.isAdmin) {
+      return (
+        <div className='sidebar-bottom'>
+          <FlatButton
+            label='Settings'
+            onClick={() => { this.setState({ showSettingsModal: true }); }}
+          />
+          <BoardSettingsModal
+            board={ this.props.board }
+            show={ this.state.showSettingsModal }
+            onHide={() => { this.setState({ showSettingsModal: false }); }}
+          />
+          { joinButton }
+        </div>
+      );
+    } else {
+      return (
+        <div className='sidebar-bottom'>
+          <div style={{ flex: 1 }} />
+          { joinButton }
+        </div>
+      );
     }
   },
 
