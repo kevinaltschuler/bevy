@@ -49,7 +49,7 @@ _.extend(PostStore, {
 
       case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
-        this.posts.comparator = PostStore.sortByNew;
+        this.posts.comparator = this.sortByNew;
         this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
         this.posts.fetch({
           success: function(collection, response, options) {
@@ -66,7 +66,7 @@ _.extend(PostStore, {
 
       case BOARD.SWITCH:
         var board_id = payload.board_id;
-        this.posts.comparator = PostStore.sortByNew;
+        this.posts.comparator = this.sortByNew;
         this.posts.url = constants.apiurl + '/boards/' + board_id + '/posts';
         this.posts.fetch({
           success: function(collection, response, options) {
@@ -142,6 +142,7 @@ _.extend(PostStore, {
             newPost.set('event', event);
             newPost.set('commentCount', 0);
 
+            this.posts.comparator = this.sortByNew;
             this.posts.sort();
 
             this.trigger(POST.POSTED_POST);
