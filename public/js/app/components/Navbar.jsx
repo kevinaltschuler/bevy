@@ -4,14 +4,13 @@
  * The top navbar of the application
  * automatically added to every page, no matter
  * what the route is (see index.js)
- *
+
  * @author albert
  * @author kevin
  */
 
 'use strict';
 
-// imports
 var React = require('react');
 var Ink = require('react-ink');
 var {
@@ -25,13 +24,13 @@ var {
   TextField,
   Styles
 } = require('material-ui');
-
 var BevyDropdown = require('./../../bevy/components/BevyDropdown.jsx');
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
 var ChatDock = require('./../../chat/components/ChatDock.jsx');
 var ChatSidebar = require('./../../chat/components/ChatSidebar.jsx');
+var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
 var ThemeManager = new Styles.ThemeManager();
 
 var _ = require('underscore');
@@ -40,8 +39,6 @@ var user = window.bootstrap.user;
 var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
 var BEVY = constants.BEVY;
-
-var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
 
 var Navbar = React.createClass({
   propTypes: {
@@ -78,12 +75,13 @@ var Navbar = React.createClass({
   },
 
   _renderBevyInfoBar() {
-    var content = (router.current == 'bevy')
-    ? <BevyInfoBar
-        activeBevy={ this.props.activeBevy }
-      />
-    : <div/>
-    return content;
+    if(router.current == 'bevy') {
+      return (
+        <BevyInfoBar
+          activeBevy={ this.props.activeBevy }
+        />
+      );
+    } else return <div />;
   },
 
   _renderUserDropdowns() {
@@ -96,10 +94,13 @@ var Navbar = React.createClass({
     var unread = _.reject(this.props.allNotifications, function(notification){
       return notification.read
     });
-
     var counter = (unread.length + userInvites.length <= 0)
-    ? ''
-    : <Badge className='notification-counter'>{ unread.length + userInvites.length }</Badge>;
+      ? ''
+      : (
+        <Badge className='notification-counter'>
+          { unread.length + userInvites.length }
+        </Badge>
+      );
 
     var chatSidebar = <ChatSidebar />;
     var chatDock = <ChatDock />;
@@ -110,8 +111,8 @@ var Navbar = React.createClass({
 
     return (
       <div className='profile-buttons'>
-        {chatSidebar}
-        {chatDock}
+        { chatSidebar }
+        { chatDock }
         <ChatDropdown
           show={ this.state.activeTab == 'chat' }
           onToggle={() => {
@@ -150,10 +151,9 @@ var Navbar = React.createClass({
   },
 
   render() {
-
     var navbarHeight = (router.current == 'bevy')
-    ? '98px'
-    :'68px';
+      ? '98px'
+      : '68px';
 
     var navbarStyle;
     if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image))
@@ -161,7 +161,7 @@ var Navbar = React.createClass({
     if(router.current == 'home')
       navbarStyle = { boxShadow: 'none', height: navbarHeight};
 
-    var backgroundStyle = {backgroundColor: '#2cb673'};
+    var backgroundStyle = { backgroundColor: '#2cb673' };
 
     var navbarTitle = '';
     switch(router.current) {
@@ -193,17 +193,31 @@ var Navbar = React.createClass({
         }
 
         var parent = this.props.activeBoard.parent;
-
         if(parent.name == undefined || this.props.activeBoard.name == undefined)
           navbarTitle = '';
         else
           navbarTitle = (
             <div>
-              <a href={parent.url} style={{color: '#fff'}}>{parent.name}</a>
+              <a
+                href={ parent.url }
+                style={{
+                  color: '#fff'
+                }}>
+                { parent.name }
+              </a>
               &nbsp;
-              <span style={{fontSize: '.7em'}} className="glyphicon glyphicon-triangle-right"/>
+              <span
+                style={{fontSize: '.7em'}}
+                className="glyphicon glyphicon-triangle-right"
+              />
               &nbsp;
-              {this.props.activeBoard.name}
+              <a
+                href={ constants.siteurl + '/boards/' + router.board_id }
+                style={{
+                  color: '#fff'
+                }}>
+                { this.props.activeBoard.name }
+              </a>
             </div>
           );
 
@@ -256,9 +270,7 @@ var Navbar = React.createClass({
             <Button
               className="bevy-logo-btn"
               title='Frontpage'
-              href={ (!_.isEmpty(window.bootstrap.user))
-                ? '/'
-                : '/' }
+              href='/'
             >
               <div className='bevy-logo-img'/>
             </Button>
