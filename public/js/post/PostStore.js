@@ -180,10 +180,6 @@ _.extend(PostStore, {
           patch: true
         });
 
-        post.set('title', title);
-        post.set('images', images);
-        post.set('event', event);
-
         this.trigger(POST.CHANGE_ONE + post_id);
         break;
 

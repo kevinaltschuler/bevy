@@ -36,6 +36,7 @@ exports.getBoardPosts = function(req, res, next) {
     if(posts.length <= 0) return res.json(posts);
     var _posts = [];
     posts.forEach(function(post) {
+      post = JSON.parse(JSON.stringify(post));
       Comment.find({ postId: post._id }, function(err, comments) {
         if(err) return next(err);
         post.comments = comments;
@@ -72,9 +73,9 @@ exports.getBevyPosts = function(req, res, next) {
     Post.find({ board: { $in: bevy.boards }}, function(err, posts) {
       if(err) return next(err);
       if(posts.length <= 0) return res.json(posts);
-
       var _posts = [];
       posts.forEach(function(post) {
+        post = JSON.parse(JSON.stringify(post));
         Comment.find({ postId: post._id }, function(err, comments) {
           if(err) return next(err);
           post.comments = comments;
@@ -145,6 +146,7 @@ exports.getPost = function(req, res, next) {
   Post.findOne({ _id: post_id }, function(err, post) {
     if(err) return next(err);
     if(_.isEmpty(post)) return next('Post not found');
+    post = JSON.parse(JSON.stringify(post));
     Comment.find({ postId: post_id }, function(err, comments) {
       if(err) return next(err);
       post.comments = comments;
@@ -170,7 +172,7 @@ exports.updatePost = function(req, res, next) {
   var post_id = req.params.postid;
   var update = {};
   if(req.body['title'] != undefined)
-    update.body = req.body['title']
+    update.title = req.body['title']
   if(req.body['pinned'] != undefined)
     update.pinned = req.body['pinned'];
   if(req.body['event'] != undefined)
@@ -184,35 +186,32 @@ exports.updatePost = function(req, res, next) {
   if(req.body['edited'] != undefined)
     update.edited = req.body['edited'];
 
-  async.waterfall([
-    function(done) {
-      populateLinks(update, done);
-    },
-    function($update, done) {
-      Post.findOneAndUpdate({ _id: post_id }, $update, { new: true, upsert: true })
-      .populate({
-        path: 'board',
-        select: boardPopFields
-      })
-      .populate({
-        path: 'author',
-        select: authorPopFields
-      })
-      .exec(function(err, post) {
-        if(err) return next(err);
-        if(_.isEmpty(post)) return next('Post not found');
-        Comment.find({ postId: post_id }, function(err, comments) {
-          if(err) return next(err);
-          post.comments = comments;
-          return res.json(post);
-        })
-        .populate({
-          path: 'author',
-          select: authorPopFields
-        });
-      })
-    }
-  ]);
+  var promise = Post.findOneAndUpdate({ _id: post_id }, update, { new: true })
+  .populate({
+    path: 'board',
+    select: boardPopFields
+  })
+  .populate({
+    path: 'author',
+    select: authorPopFields
+  })
+  .exec();
+
+  promise.then(function(post) {
+    if(_.isEmpty(post)) return next('Post not found');
+    post = JSON.parse(JSON.stringify(post));
+    Comment.find({ postId: post_id }, function(err, comments) {
+      if(err) return next(err);
+      post.comments = comments;
+      return res.json(post);
+    })
+    .populate({
+      path: 'author',
+      select: authorPopFields
+    });
+  }, function(err) {
+    return next(err);
+  });
 }
 
 // DELETE /posts/:postid
@@ -242,6 +241,7 @@ exports.getUserPosts = function(req, res, next) {
     if(posts.length <= 0) return res.json(posts);
     var _posts = [];
     posts.forEach(function(post) {
+      post = JSON.parse(JSON.stringify(post));
       Comment.find({ postId: post._id }, function(err, comments) {
         if(err) return next(err);
         post.comments = comments;
