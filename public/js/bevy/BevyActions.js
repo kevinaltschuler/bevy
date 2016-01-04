@@ -49,12 +49,12 @@ var BevyActions = {
     });
   },
 
-  destroy(bevy_id) {
-    if(_.isEmpty(bevy_id)) return;
+  destroy(bevy) {
+    if(_.isEmpty(bevy)) return;
 
     Dispatcher.dispatch({
       actionType: BEVY.DESTROY,
-      bevy_id: bevy_id
+      bevy: bevy
     });
   },
 
@@ -70,22 +70,20 @@ var BevyActions = {
     });
   },
 
-  leave(bevy_id) {
-    if(_.isEmpty(bevy_id)) return;
+  leave(bevy) {
+    if(_.isEmpty(bevy)) return;
 
     Dispatcher.dispatch({
       actionType: BEVY.LEAVE,
-      bevy_id: bevy_id
+      bevy: bevy
     });
   },
 
-
-  join(bevy_id) {
-    if(_.isEmpty(bevy_id)) return;
-
+  join(bevy) {
+    if(_.isEmpty(bevy)) return;
     Dispatcher.dispatch({
       actionType: BEVY.JOIN,
-      bevy_id: bevy_id
+      bevy: bevy
     });
   },
 

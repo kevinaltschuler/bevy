@@ -110,24 +110,24 @@ _.extend(UserStore, {
         break;
 
       case BEVY.JOIN:
-        // add to users bevies array
-        var bevy_id = payload.bevy_id;
-
+        var bevy = payload.bevy;
         var bevies = this.user.get('bevies');
-        if(_.contains(bevies, bevy_id)) break; // already joined
-        bevies.push(bevy_id);
-        _.uniq(bevies); // ensure that theres no dupes
+        // if already joined, then get outta here
+        if(_.contains(bevies, bevy._id)) break;
 
-        var boards = this.user.get('boards'); // get all boards from bevy
-        var bevyBoards = BevyStore.getBevy(bevy_id);
-        console.log(bevyBoards);
-        /*for(var key in bevyBoards) {
-          var board = bevyBoards[key];
-          boards.push(board);
+        // add bevy
+        bevies.push(bevy._id);
+        _.uniq(bevies);
+
+        // add all of the bevy's boards
+        var boards = this.user.get('boards');
+        for(var key in bevy.boards) {
+          var board = bevy.boards[key];
+          // dont automatically join private boards
+          if(board.settings.privacy == 'Private') continue;
+          boards.push(board._id);
         }
         _.uniq(boards);
-
-        console.log(boards);*/
 
         this.user.save({
           bevies: bevies,
@@ -135,29 +135,34 @@ _.extend(UserStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-
           }.bind(this)
         });
         break;
       case BEVY.DESTROY:
       case BEVY.LEAVE:
-        // remove from users bevies array
-        var bevy_id = payload.bevy_id;
-
+        var bevy = payload.bevy;
+        
+        // remove from user's bevy array
         var bevies = this.user.get('bevies');
         bevies = _.reject(bevies, function($bevy_id) {
-          return $bevy_id == bevy_id;
+          return $bevy_id == bevy._id;
         });
-        _.uniq(bevies); // ensure that theres no dupes
+        _.uniq(bevies);
+
+        // remove all boards from that bevy from the user
+        var boards = this.user.get('boards');
+        boards = _.reject(boards, function($board_id) {
+          return _.contains(_.pluck(bevy.boards, '_id'), $board_id);
+        });
+        _.uniq(boards);
 
         this.user.save({
-          bevies: bevies
+          bevies: bevies,
+          boards: boards
         }, {
-          patch: true,
-          success: function(model, response, options) {
-
-          }.bind(this)
+          patch: true
         });
+        this.trigger(USER.CHANGE_ALL);
         break;
 
       case BOARD.JOIN:

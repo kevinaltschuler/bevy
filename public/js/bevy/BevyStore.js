@@ -80,27 +80,21 @@ _.extend(BevyStore, {
         this.active.fetch({
           success: function(model, response, options) {
             console.log(this.active)
-            this.bevyBoards.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/boards';
-            this.bevyInvites.url = constants.apiurl + '/bevies/' + this.active.attributes._id + '/invites';
-            async.series([
-              this.bevyBoards.fetch({
-                success: function(collection, response, options) {
-                  this.trigger(BEVY.LOADED);
-                  this.trigger(BEVY.CHANGE_ALL);
-                }.bind(this)
-              }),
-              this.bevyInvites.fetch({
-                success: function(collection, response, options) {
-                  this.trigger(BEVY.CHANGE_ALL);
-                }.bind(this)
-              })
-            ])
+            this.bevyBoards = new Bevies(this.active.get('boards'));
+
+            this.bevyInvites.url = constants.apiurl + '/bevies/'
+              + this.active.attributes._id + '/invites';
+            this.bevyInvites.fetch({
+              success: function(collection, response, options) {
+                this.trigger(BEVY.CHANGE_ALL);
+              }.bind(this)
+            });
           }.bind(this)
         });
 
         this.myBevies.fetch({
           success: function(collection, response, options) {
-              this.trigger(BEVY.CHANGE_ALL);
+            this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });
 
@@ -150,13 +144,13 @@ _.extend(BevyStore, {
         break;
 
       case BEVY.DESTROY:
-        var bevy_id = payload.bevy_id;
-        var bevy = this.active;
-        bevy.url = constants.apiurl + '/bevies/' + bevy_id;
-        bevy.destroy({
-          success: function(model, response) {
-            window.location.href = constants.siteurl;
-          }.bind(this)
+        var bevy = payload.bevy;
+        fetch(constants.apiurl + '/bevies/' + bevy._id, {
+          method: 'DELETE'
+        })
+        .then(res => res.json())
+        .then(res => {
+          window.location.href = constants.siteurl;
         });
         break;
 
@@ -186,39 +180,33 @@ _.extend(BevyStore, {
         break;
 
       case BEVY.LEAVE:
-        // remove bevy from mybevies collection
-        var bevy_id = payload.bevy_id;
-        var bevy = this.myBevies.get(bevy_id);
-        if(bevy == undefined) break;
-
+        var bevy = payload.bevy;
+        // if we haven't joined yet, break
+        if(this.myBevies.get(bevy._id) == undefined) break;
+        // remove from my bevies collection
         this.myBevies.remove(bevy_id);
+        // trigger UI changes
         this.trigger(BEVY.CHANGE_ALL);
         break;
 
       case BEVY.JOIN:
         // add bevy to mybevies collection
-        var bevy_id = payload.bevy_id;
-        if(this.myBevies.get(bevy_id) != undefined) break;
-
-        // fetch new bevy from server
-        var new_bevy = new Bevy;
-        new_bevy.url = constants.apiurl + '/bevies/' + bevy_id;
-        new_bevy.fetch({
-          success: function(model, response, options) {
-            // add to collection
-            this.myBevies.add(new_bevy);
-            this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
-        });
+        var bevy = payload.bevy;
+        // if its already in our collection, then break
+        if(this.myBevies.get(bevy._id) != undefined) break;
+        // add to collection
+        this.myBevies.add(bevy);
+        // trigger UI changes
+        this.trigger(BEVY.CHANGE_ALL);
         break;
 
       case BEVY.REQUEST_JOIN:
         var bevy_id = payload.bevy_id;
-        var user_id = payload.user_id;
-        if(this.myBevies.get(bevy._id) != undefined) break;
+        if(this.myBevies.get(bevy_id) != undefined) break;
 
         var invite = new Invite({
-          user: user_id,
+          user: window.bootstrap.user._id,
+          type: 'bevy',
           requestType: 'request_join',
           bevy: bevy_id
         });

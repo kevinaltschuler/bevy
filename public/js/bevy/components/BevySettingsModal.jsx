@@ -66,7 +66,7 @@ var BevySettingsModal = React.createClass({
     ev.preventDefault();
     if(!confirm('Are you sure? Deleting a bevy will also remove all content posted to that bevy, as well as chats within that bevy.')) return;
 
-    BevyActions.destroy(this.props.activeBevy._id);
+    BevyActions.destroy(this.props.activeBevy);
     this.props.onHide();
   },
 
@@ -94,13 +94,13 @@ var BevySettingsModal = React.createClass({
         <Modal.Body>
           <div className='bevy-setting expire-setting'>
             Privacy
-            <OverlayTrigger placement='right' overlay={ 
+            <OverlayTrigger placement='right' overlay={
               <Popover id='settingspopover' title='Bevy Privacy'>
                 <p className='warning'>
                   Public bevies can be viewed and joined by anybody. <br /><br />
                   Private bevies are listed publicly but require an invite or permission to join and view content.
                 </p>
-              </Popover> 
+              </Popover>
             }>
               <span className='glyphicon glyphicon-question-sign' />
             </OverlayTrigger>
@@ -112,7 +112,7 @@ var BevySettingsModal = React.createClass({
             />
           </div>
           <div className='bevy-setting'>
-            <RaisedButton 
+            <RaisedButton
               label='Delete Bevy'
               backgroundColor='#d9534f'
               labelColor='#fff'

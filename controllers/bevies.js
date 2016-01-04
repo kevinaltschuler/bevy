@@ -24,6 +24,7 @@ var Board = require('./../models/Board');
 
 var userPopFields = '_id displayName email image username '
  + 'google facebook';
+var boardPopFields = '_id name description parent image subCount type admins settings';
 
 // GET /users/:userid/bevies
 exports.getUserBevies = function(req, res, next) {
@@ -38,6 +39,10 @@ exports.getUserBevies = function(req, res, next) {
     .populate({
       path: 'admins',
       select: userPopFields
+    })
+    .populate({
+      path: 'boards',
+      select: boardPopFields
     });
   });
 };
@@ -51,6 +56,10 @@ exports.getPublicBevies = function(req, res, next) {
   .populate({
     path: 'admins',
     select: userPopFields
+  })
+  .populate({
+    path: 'boards',
+    select: boardPopFields
   })
   .limit(20);
 }
@@ -109,9 +118,14 @@ exports.getBevy = function(req, res, next) {
   Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
     if(err) return next(err);
     return res.json(bevy);
-  }).populate({
+  })
+  .populate({
     path: 'admins',
     select: userPopFields
+  })
+  .populate({
+    path: 'boards',
+    select: boardPopFields
   });
 }
 
@@ -158,6 +172,10 @@ exports.updateBevy = function(req, res, next) {
     .populate({
       path: 'admins',
       select: userPopFields
+    })
+    .populate({
+      path: 'boards',
+      select: boardPopFields
     })
     .exec();
   promise.then(function(bevy) {

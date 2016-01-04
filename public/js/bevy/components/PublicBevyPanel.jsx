@@ -34,12 +34,15 @@ var PublicBevyPanel = React.createClass({
 
   getInitialState() {
     var bevy = this.props.bevy;
-
     return {
       name: bevy.name || '',
       description: bevy.description || '',
-      image: bevy.image || {}
+      image: bevy.image || {},
+      joined: (_.findWhere(this.props.myBevies, { _id: bevy._id}) != undefined)
     };
+  },
+
+  componentWillReceiveProps(nextProps) {
   },
 
   onRequestJoin(ev) {
@@ -49,27 +52,20 @@ var PublicBevyPanel = React.createClass({
       this.refs.snackbar.show();
     }
     else {
-      BevyActions.join(
-        this.props.bevy._id,
-        window.bootstrap.user._id,
-        window.bootstrap.user.email
-      );
-      var joined = true;
+      BevyActions.join(this.props.bevy);
       this.setState({
-        joined: joined
+        joined: true
       });
     }
   },
 
   onRequestLeave(ev) {
     ev.preventDefault();
-    BevyActions.leave(this.props.bevy._id);
-    var joined = false;
+    BevyActions.leave(this.props.bevy);
     this.setState({
-      joined: joined
+      joined: false
     });
   },
-
 
   _renderLock() {
     if(this.props.bevy.settings.privacy == 'Private') {
@@ -92,9 +88,9 @@ var PublicBevyPanel = React.createClass({
   },
 
   render() {
-
     var bevy = this.props.bevy;
-    var joined = _.findWhere(this.props.myBevies, { _id: bevy._id}) != undefined;
+    //var joined = _.findWhere(this.props.myBevies, { _id: bevy._id}) != undefined;
+    var joined = this.state.joined;
     if(this.props.bevy.settings.privacy == 'Private') {
       //return <div/>;
     }
