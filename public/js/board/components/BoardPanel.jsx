@@ -109,9 +109,19 @@ var BoardPanel = React.createClass({
     return (
       <div className='info-item'>
         <OverlayTrigger placement='bottom' overlay={
-          <Tooltip id='substooltip'>{this.props.board.subCount + " subscribers"}</Tooltip>
+          <Tooltip id='substooltip'>
+            { this.props.board.subCount + ' ' +
+              ((this.props.board.subCount == 1)
+                ? 'subscriber'
+                : 'subscribers')}
+          </Tooltip>
         }>
-          <i className="material-icons">people</i>
+          <span className='info-item-body'>
+            <span className='sub-count'>
+              { this.props.board.subCount }
+            </span>
+            <i className="material-icons">people</i>
+          </span>
         </OverlayTrigger>
       </div>
     );
@@ -153,7 +163,9 @@ var BoardPanel = React.createClass({
     }
     return (
       <div className='info-item'>
-        { type }
+        <span className='info-item-body'>
+          { type }
+        </span>
       </div>
     );
   },

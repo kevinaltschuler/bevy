@@ -20,7 +20,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      margin-left: 15px;
+      margin-left: 10px;
       overflow: hidden;
       a.title {
         flex: 1;
@@ -48,7 +48,6 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    margin-bottom: -5px;
     overflow: hidden;
     .left {
       display: flex;
@@ -60,6 +59,18 @@
         flex-direction: row;
         align-items: center;
         margin-right: 10px;
+        color: #888;
+        span.info-item-body {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          span.sub-count {
+            margin-right: 4px;
+          }
+          i.material-icons {
+            font-size: 20px;
+          }
+        }
       }
     }
     .right {
