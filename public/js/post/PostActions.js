@@ -25,20 +25,11 @@ var PostActions = {
     });
   },
 
-
-  /**
-   * create a post
-   * @param  {string} title
-   * @param  {string} image_url
-   * @param  {string} author
-   * @param  {string} bevy
-   */
-  create(title, images, author, board, type, event) {
+  create(title, images, board, type, event) {
     dispatch(POST.CREATE, {
-      title: (title == undefined) ? 'untitled' : title,
-      images: (images == undefined) ? null : images,
-      author: (author == undefined) ? null : author, // grab the current, logged in user?
-      board: (board == undefined) ? null : board, // grab the current, active bevy
+      title: title,
+      images: (images == undefined) ? [] : images,
+      board: board, // grab the current, active bevy
       type: (type == undefined) ? 'default' : type,
       event: (event == undefined) ? null : event
     });

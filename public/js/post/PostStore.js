@@ -97,12 +97,10 @@ _.extend(PostStore, {
         });
         break;
 
-      case POST.CREATE: // create a post
-
-        // collect payload vars
+      case POST.CREATE:
         var title = payload.title;
         var images = payload.images;
-        var author = payload.author;
+        var author = window.bootstrap.user;
         var board = payload.board;
         var event = payload.event;
         var type = payload.type;

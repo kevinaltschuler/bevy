@@ -55,7 +55,6 @@ var hintTexts = [
   "What's gucci?",
   "Anything worth sharing?",
 ];
-var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 
 var user = window.bootstrap.user;
 
@@ -67,10 +66,22 @@ var NewPostPanel = React.createClass({
   },
 
   getInitialState() {
+    var disabled = false;
+    var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
+    // if this is an announcement board and the user is not an admin
+    if(this.props.activeBoard.type == 'announcement'
+      && _.findWhere(this.props.activeBoard.admins,
+        { _id: window.bootstrap.user._id }) == undefined) {
+      disabled = true;
+      hintText = 'Only admins can post in an announcement board';
+    }
+
     return {
       title: '',
       images: [],
-      showEventModal: false
+      showEventModal: false,
+      hintText: hintText,
+      disabled: disabled
     };
   },
 
@@ -110,10 +121,7 @@ var NewPostPanel = React.createClass({
     PostActions.create(
       this.state.title, // title
       this.state.images, // image_url
-      window.bootstrap.user, // author
-      this.props.activeBoard, // board
-      undefined,
-      undefined
+      this.props.activeBoard // board
     );
 
     // reset fields
@@ -124,8 +132,6 @@ var NewPostPanel = React.createClass({
     });
   },
 
-  // triggered every time a key is pressed
-  // updates the state
   handleChange() {
     this.setState({
       title: this.refs.title.getValue()
@@ -133,7 +139,6 @@ var NewPostPanel = React.createClass({
   },
 
   render() {
-
     var board = this.props.activeBoard;
 
     var dropzoneOptions = {
@@ -145,17 +150,13 @@ var NewPostPanel = React.createClass({
       clickable: '.attach-picture'
     };
 
-    if(this.props.activeBoard.type == 'announcement' && !_.contains(board.admins, window.bootstrap.user._id)) {
-      return <div/>;
-    }
-
     if(this.props.activeBoard.type == 'event') {
       return <div/>;
     }
 
-    var mediaTip = <Tooltip>Attach Pictures</Tooltip>;
+    var mediaTip = <Tooltip id='newpost-mediatip'>Attach Pictures</Tooltip>;
     //var eventTip = <Tooltip>create an event</Tooltip>;
-    if(_.isEmpty(window.bootstrap.user)) {
+    if(_.isEmpty(window.bootstrap.user) || this.state.disabled) {
       mediaTip = <div/>;
       //eventTip = <div/>;
     }
@@ -165,7 +166,8 @@ var NewPostPanel = React.createClass({
         <div className="new-post-title">
           <TextField
             className="title-field"
-            hintText={ hintText }
+            hintText={ this.state.hintText }
+            disabled={ this.state.disabled }
             ref='title'
             multiLine={ true }
             value={ this.state.title }
@@ -191,33 +193,18 @@ var NewPostPanel = React.createClass({
                 className='attach-picture'
                 onClick={ this.preventDefault }
                 backgroundColor={'white'}
+                disabled={ this.state.disabled }
                 disabledColor={ 'rgba(0,0,0,.2)' }
                 iconStyle={{ color: 'rgba(0,0,0,.6)', fontSize: '18px' }}
                 style={{ marginRight: '15px' }}
                 mini={ true }
               />
             </OverlayTrigger>
-            {/*<OverlayTrigger overlay={eventTip} placement='bottom'>
-              <FloatingActionButton
-                title="New Event"
-                iconClassName="glyphicon glyphicon-calendar"
-                onClick={() => { this.setState({ showEventModal: true }); }}
-                disabled={ disabled }
-                backgroundColor={'white'}
-                disabledColor={'rgba(0,0,0,.2)'}
-                iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
-                mini={true}
-              />
-            </OverlayTrigger>*/}
-            {/*<CreateNewEventModal
-              show={ this.state.showEventModal }
-              onHide={() => { this.setState({ showEventModal: false }); }}
-              {...this.props}
-            />*/}
           </div>
           <RaisedButton
             label="post"
-            onClick={this.submit}
+            onClick={ this.submit }
+            disabled={ this.state.disabled }
           />
         </div>
       </Panel>
