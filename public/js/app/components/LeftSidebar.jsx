@@ -22,15 +22,11 @@ var LeftSidebar = React.createClass({
   render() {
     return (
       <div className='left-sidebar'>
-        <div className='fixed'>
-          <div className='hide-scroll'>
-            <BevyPanel
-              activeBevy={ this.props.activeBevy }
-              myBevies={ this.props.myBevies }
-            />
-            <Footer />
-          </div>
-        </div>
+        <BevyPanel
+          activeBevy={ this.props.activeBevy }
+          myBevies={ this.props.myBevies }
+        />
+        <Footer />
       </div>
     );
   }

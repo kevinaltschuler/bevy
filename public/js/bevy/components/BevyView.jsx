@@ -123,33 +123,25 @@ var BevyView = React.createClass({
       );
     }
 
-    console.log('got to here');
-
     return (
-      <div className='nonsense'>
-        <div className='main-section' style={{paddingTop: 115}}>
-          <NewBoardModal
-            show={ this.state.showNewBoardModal }
-            onHide={() => { this.setState({ showNewBoardModal: false }) }}
-            activeBevy={ this.props.activeBevy }
-          />
-          <div className='left-sidebar'>
-            <div className='hide-scroll'>
-              <div className='board-list'>
-                <div className='bevy-view-title'>Boards</div>
-                { this._renderBoards() }
-                <div style={{height: 10}}/>
-                <Footer />
-              </div>
-            </div>
-          </div>
-          <div className='board-view-body'>
-            <div className='bevy-view-title'>Feed</div>
-            <div>
-              <PostContainer
-                activeBevy={ this.props.activeBevy }
-              />
-            </div>
+      <div className='main-section bevy-view'>
+        <NewBoardModal
+          show={ this.state.showNewBoardModal }
+          onHide={() => { this.setState({ showNewBoardModal: false }) }}
+          activeBevy={ this.props.activeBevy }
+        />
+        <div className='board-list'>
+          <div className='bevy-view-title'>Boards</div>
+          { this._renderBoards() }
+          <div style={{height: 10}}/>
+          <Footer />
+        </div>
+        <div className='bevy-view-body'>
+          <div className='bevy-view-title'>Feed</div>
+          <div>
+            <PostContainer
+              activeBevy={ this.props.activeBevy }
+            />
           </div>
         </div>
       </div>

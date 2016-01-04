@@ -5,14 +5,12 @@
  * the user to switch bevys
  *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
-// imports
 var React = require('react');
-var _ = require('underscore');
-var router = require('./../../router');
 
 var Navbar = require('./Navbar.jsx');
 var HomeView = require('./../../homepage/components/HomeView.jsx');
@@ -21,16 +19,15 @@ var BevyView = require('./../../bevy/components/BevyView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
 var MyBevies = require('./MyBevies.jsx');
-var Frontpage = require('./Frontpage.jsx');
 
+var _ = require('underscore');
+var router = require('./../../router');
 var BoardStore = require('./../../board/BoardStore');
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 var UserStore = require('./../../profile/UserStore');
-
 var AppActions = require('./../../app/AppActions');
-
 var constants = require('./../../constants');
 
 var POST = constants.POST;
@@ -47,15 +44,11 @@ var change_all_events = [
   BOARD.CHANGE_ALL
 ].join(' ');
 
-// create app
 var MainSection = React.createClass({
-
-  // called directly after mounting
   getInitialState: function() {
     return this.collectState();
   },
 
-  // mount event listeners
   componentDidMount: function() {
     AppActions.loadUser();
 
@@ -67,8 +60,6 @@ var MainSection = React.createClass({
 
     UserStore.on(USER.LOADED, AppActions.load());
   },
-
-  // unmount event listeners
   componentWillUnmount: function() {
     PostStore.off(change_all_events, this._onPostChange);
     BevyStore.off(change_all_events, this._onBevyChange);
@@ -84,7 +75,6 @@ var MainSection = React.createClass({
   },
 
   getBevyState: function() {
-
     var myBevies = BevyStore.getMyBevies();
     var active = BevyStore.getActive();
     var publicBevies = BevyStore.getPublicBevies();
@@ -166,7 +156,6 @@ var MainSection = React.createClass({
           allNotifications={ this.state.allNotifications }
           userInvites={ this.state.userInvites }
           myBevies={ this.state.myBevies }
-          linkedAccounts={ this.state.linkedAccounts }
           activeBoard={ this.state.activeBoard }
         />
         <InterfaceComponent {...this.state} />
@@ -201,6 +190,9 @@ var InterfaceComponent = React.createClass({
         break;
       case 'board':
         return <BoardView {...this.props} />
+        break;
+      case 'post':
+        return <PostView { ...this.props } />
         break;
       default:
         return <FourOhFour {...this.props} />

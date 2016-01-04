@@ -13,7 +13,6 @@ var Footer = require('./../../app/components/Footer.jsx');
 var _ = require('underscore');
 
 var BoardSidebar = React.createClass({
-
   propTypes: {
     board: React.PropTypes.object
   },
@@ -23,7 +22,6 @@ var BoardSidebar = React.createClass({
   },
 
   render() {
-    
     var board = this.props.board;
     if(_.isEmpty(board)) {
       return <div/>;
@@ -32,15 +30,11 @@ var BoardSidebar = React.createClass({
 
     return (
       <div className='left-sidebar'>
-        <div className='fixed'>
-          <div className='hide-scroll'>
-            <InfoPanel
-              board={ this.props.board }
-              myBevies={ this.props.myBevies }
-            />
-            <Footer />
-          </div>
-        </div>
+        <InfoPanel
+          board={ this.props.board }
+          myBevies={ this.props.myBevies }
+        />
+        <Footer />
       </div>
     );
   }

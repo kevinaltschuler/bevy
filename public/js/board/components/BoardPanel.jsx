@@ -38,13 +38,15 @@ var BoardPanel = React.createClass({
 
   getInitialState() {
     var board = this.props.board;
-
     return {
-      name: board.name || '',
-      description: board.description || '',
-      image: board.image || {},
       joined: (_.contains(window.bootstrap.user.boards, this.props.board._id))
     };
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      joined: (_.contains(window.bootstrap.user.boards, nextProps.board._id))
+    });
   },
 
   onRequestJoin(ev) {
@@ -52,7 +54,7 @@ var BoardPanel = React.createClass({
     if(this.props.board.settings.privacy == "Private") {
       BoardActions.requestJoin(this.props.bevy, window.bootstrap.user);
       this.refs.snackbar.show();
-    } 
+    }
     else {
       BoardActions.join(
         this.props.board._id
@@ -66,131 +68,167 @@ var BoardPanel = React.createClass({
 
   onRequestLeave(ev) {
     ev.preventDefault();
-    console.log('leave');
     BoardActions.leave(this.props.board._id);
     this.setState({
       joined: false
     });
   },
 
-  _renderBottomActions() {
-
-    var board = this.props.board;
-    var user = window.bootstrap.user;
-
-    var joinButton = (board.settings.privacy == 'Private')
-    ? (<div>
-        <Snackbar
-          message="Invitation Requested"
-          autoHideDuration={5000}
-          ref='snackbar'
+  _renderAvatar(boardImageURL) {
+    if(boardImageURL == 'http://bevy.dev/img/default_board_img.png'
+      || boardImageURL == '/img/default_board_img.png') {
+      return (
+        <Avatar
+          size={ 40 }
+          style={{
+            width: 40,
+            height: 40,
+            minWidth: 40
+          }}
+          icon={
+            <i className="material-icons">view_carousel</i>
+          }
         />
-        <FlatButton 
-          disabled={_.isEmpty(window.bootstrap.user)} 
-          label='request' 
-          onClick={ this.onRequestJoin } 
+      );
+    } else {
+      return (
+        <Avatar
+          size={ 40 }
+          style={{
+            width: 40,
+            height: 40,
+            minWidth: 40
+          }}
+          src={ boardImageURL }
         />
-      </div>)
-    : <FlatButton label='join' onClick={this.onRequestJoin}/>;
-    var leaveButton = <FlatButton label='leave' onClick={this.onRequestLeave}/>
-
-    var joinLeave = (this.state.joined)
-    ? leaveButton
-    : joinButton;
-
-    var type = <div/>;
-    switch(board.type) {
-      case 'discussion':
-        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip id='discusstooltip'>Discussion</Tooltip>}>
-          <i className="material-icons">question_answer</i>
-        </OverlayTrigger>);
-        break;
-      case 'event':
-        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip id='eventtooltip'>Events</Tooltip>}>
-          <i className="material-icons">event</i>
-        </OverlayTrigger>);        
-        break;
-      case 'announcement':
-        type = (<OverlayTrigger placement='bottom' overlay={<Tooltip id='annoucetooltip'>Announcements</Tooltip>}>
-          <i className="material-icons">flag</i>
-        </OverlayTrigger>);        
-        break;
+      );
     }
+  },
 
-    var subs = (
-      <OverlayTrigger placement='bottom' overlay={<Tooltip id='substooltip'>{board.subCount + " subscribers"}</Tooltip>}>
-        <i className="material-icons">people</i>
-      </OverlayTrigger>
-    );
-
-    return(
-      <div className='bottom'>
-        <div className='left'>
-          <div className='info-item'>
-            { subs }
-          </div>
-          <div className='info-item'>
-            { type }
-          </div>
-        </div>
-        <div className='right'>
-          {joinLeave}
-        </div>
+  _renderBoardSubs() {
+    return (
+      <div className='info-item'>
+        <OverlayTrigger placement='bottom' overlay={
+          <Tooltip id='substooltip'>{this.props.board.subCount + " subscribers"}</Tooltip>
+        }>
+          <i className="material-icons">people</i>
+        </OverlayTrigger>
       </div>
     );
   },
 
+  _renderBoardType() {
+    var type;
+    switch(this.props.board.type) {
+      case 'discussion':
+        type = (
+          <OverlayTrigger placement='bottom' overlay={
+            <Tooltip id='discusstooltip'>Discussion</Tooltip>
+          }>
+            <i className="material-icons">question_answer</i>
+          </OverlayTrigger>
+        );
+        break;
+      case 'event':
+        type = (
+          <OverlayTrigger placement='bottom' overlay={
+            <Tooltip id='eventtooltip'>Events</Tooltip>
+          }>
+            <i className="material-icons">event</i>
+            </OverlayTrigger>
+          );
+        break;
+      case 'announcement':
+        type = (
+          <OverlayTrigger placement='bottom' overlay={
+            <Tooltip id='annoucetooltip'>Announcements</Tooltip>
+          }>
+            <i className="material-icons">flag</i>
+          </OverlayTrigger>
+        );
+        break;
+      default:
+        type = <div />;
+        break;
+    }
+    return (
+      <div className='info-item'>
+        { type }
+      </div>
+    );
+  },
+
+  _renderJoinButton() {
+    if(this.props.board.settings.privacy == 'Private') {
+      return (
+        <div>
+          <Snackbar
+            message="Invitation Requested"
+            autoHideDuration={5000}
+            ref='snackbar'
+          />
+          <FlatButton
+            disabled={_.isEmpty(window.bootstrap.user)}
+            label='request'
+            onClick={ this.onRequestJoin }
+          />
+        </div>
+      );
+    } else {
+      return (
+        <FlatButton label='join' onClick={ this.onRequestJoin }/>
+      );
+    }
+  },
+
+  _renderLeaveButton() {
+    return (
+      <FlatButton label='leave' onClick={ this.onRequestLeave } />
+    )
+  },
+
   render() {
-
     var board = this.props.board;
-    //console.log(board);
-    var boardImage = (_.isEmpty(this.state.image)) 
-      ? '/img/default_board_img.png' 
-      : this.state.image.path;
-    var boardImageStyle = { backgroundImage: 'url(' + boardImage + ')' };
-
-    var name = (_.isEmpty(board)) 
-      ? '' 
-      : this.state.name;
-    var description = (_.isEmpty(board)) 
-      ? 'no description' 
-      : this.state.description;
-    if(_.isEmpty(description)) description = 'no description';
+    var boardImageURL = (_.isEmpty(this.props.board.image))
+      ? '/img/default_board_img.png'
+      : this.props.board.image.path;
+    var boardImageStyle = { backgroundImage: 'url(' + boardImageURL + ')' };
 
     var created = new Date(board.created).toLocaleDateString();
-
     var details = (
       <div className='left'>
         <span>Created on { created }</span>
       </div>
     );
 
-    if(boardImage == 'http://bevy.dev/img/default_board_img.png' || boardImage == '/img/default_board_img.png') {
-      var avatar = <Avatar size={40} style={{width: 40, height: 40, minWidth: 40}} icon={<i className="material-icons">view_carousel</i>}/>
-    } else {
-      var avatar = <Avatar size={40} style={{width: 40, height: 40, minWidth: 40}} src={boardImage} />;
-    }
-
     return (
-    <div>
-      <div className="panel public-board-panel">
+      <div className="panel board-panel">
         <div className='top'>
-          {avatar}
+          { this._renderAvatar(boardImageURL) }
           <div className='panel-info'>
-              <a 
-                className='title' 
-                href={ this.props.board.url }
-              >
-                { name }
-              </a>
-              <div className='description'>
-                { description }
-              </div>
+            <a
+              className='title'
+              href={ this.props.board.url } >
+              { this.props.board.name }
+            </a>
+            <div className='description'>
+              { this.props.board.description }
+            </div>
           </div>
         </div>
-        { this._renderBottomActions() }
+        <div className='bottom'>
+          <div className='left'>
+            { this._renderBoardSubs() }
+            { this._renderBoardType() }
+          </div>
+          <div className='right'>
+            { (this.state.joined)
+              ? this._renderLeaveButton()
+              : this._renderJoinButton()
+            }
+          </div>
+        </div>
       </div>
-    </div>
     );
   }
 });

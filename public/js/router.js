@@ -27,11 +27,12 @@ var Router = Backbone.Router.extend({
     'b/' : 'home',
     'b/:bevyid' : 'bevy',
     'b/:bevyid/' : 'bevy',
-    'b/:bevyid/post' : 'bevy',
-    'b/:bevyid/post/' : 'bevy',
-    'b/:bevyid/post/:postid' : 'bevy',
     'boards/:boardid' : 'board',
     'boards/:boardid/' : 'board',
+    'boards/:boardid/post/:postid': 'post',
+    'boards/:boardid/post/:postid/': 'post',
+    'boards/:boardid/post/:postid/comment/:commentid': 'post',
+    'boards/:boardid/post/:postid/comment/:commentid/': 'post',
     's/' : 'search',
     's' : 'search',
     's/:query' : 'search',
@@ -74,7 +75,7 @@ var Router = Backbone.Router.extend({
 
   bevy(bevy_slug, post_id) {
     if(!checkUser()) {
-      this.current = 'home;'
+      this.current = 'home';
       return;
     }
     this.current = 'bevy';
@@ -84,7 +85,7 @@ var Router = Backbone.Router.extend({
 
   board(board_id) {
     if(!checkUser()) {
-      this.current = 'home'
+      this.current = 'home';
       return;
     }
     this.current = 'board';
@@ -92,9 +93,20 @@ var Router = Backbone.Router.extend({
     //BoardActions.switchBoard(this.board_id);
   },
 
+  post(board_id, post_id, comment_id) {
+    if(!checkUser()) {
+      this.current = 'home';
+      return;
+    }
+    this.current = 'post';
+    this.board_id = board_id;
+    this.post_id = post_id;
+    this.comment_id = (comment_id == undefined) ? null : comment_id;
+  },
+
   bevies() {
     if(!checkUser()) {
-      this.current = 'home;'
+      this.current = 'home';
       return;
     }
     //this.navigate('s/?collection=bevies', { trigger: true });
@@ -103,7 +115,7 @@ var Router = Backbone.Router.extend({
 
   search(query) {
     if(!checkUser()) {
-      this.current = 'home;'
+      this.current = 'home';
       return;
     }
     this.current = 'search';
@@ -124,7 +136,7 @@ var Router = Backbone.Router.extend({
     console.log('page not found :(');
     this.current = '404';
     if(!checkUser()) {
-      this.current = 'home;'
+      this.current = 'home';
       return;
     }
   }
