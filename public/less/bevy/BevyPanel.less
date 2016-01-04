@@ -1,38 +1,13 @@
+/**
+ * BevyPanel.less
+ * @author albert
+ * @author kevin
+ */
+
 @import '../variables.less';
 
-.left-sidebar {
-  float: right;
-  display: inline-block;
-
-  .bevy-panel {
-    padding-bottom: 5px;
-  }
-
-  .dropdown-button {
-    .panel {
-      word-wrap: normal;
-      background-color: rgba(0,0,0,0);
-      border: 0px;
-      -webkit-box-shadow: none;
-      padding-bottom: 5px;
-      .panel-heading {
-        background-color: rgba(0,0,0,0);
-        .panel-title {
-          padding-top: 3px;
-          font-size: .8em;
-        }
-      }
-      .panel-collapse {
-        width: 110%;
-        border: none;
-        padding-left: 12px;
-        font-size: .9em;
-        .panel-body {
-          border: none;
-        }
-      }
-    }
-  }
+.bevy-panel {
+  padding-bottom: 5px;
   .sidebar-top {
     display: flex;
     flex-direction: column;
@@ -119,7 +94,7 @@
         padding: 3px 5px;
         color: #757d83;
         transition: .2s all ease-in-out;
-        margin-top: 4px;
+        margin-top: 2px;
         &:focus, &:active {
           box-shadow: none;
         }
@@ -161,114 +136,6 @@
       }
     }
   }
-
-  .sidebar-links {
-    color: @light-font;
-    font-size: .9em;
-    margin-bottom: 20px;
-    margin-top: 5px;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    span {
-      float: left;
-      padding: 0 5px;
-    }
-    button.sidebar-link {
-      float: left;
-      padding: 0 5px;
-      background-color: rgba(0,0,0,0);
-      color: @light-font;
-      font-size: inherit;
-      transition: all 0.15s linear;
-      border: none;
-      text-decoration: underline;
-      &:active, &.active, .btn.active, .btn:active, &:focus, &.focus {
-        outline: none;
-        color: black;
-        box-shadow: none;
-        background-color: rgba(0,0,0,0);
-      }
-      &:hover {
-        background-color: rgba(0,0,0,0);
-      }
-    }
-  }
-
-  .sidebar-action {
-    margin-top: 0px;
-    margin-left: 5px;
-    .sidebar-action-title {
-      margin-left: 10px;
-      color: black;
-      font-size: 1.1em;
-    }
-    .sidebar-action-deets {
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      padding: 0px 20px;
-    }
-    button.sidebar-action-link {
-      margin-left: 60px;
-      margin-top: 10px;
-      float: left;
-      padding: 0 5px;
-      background-color: rgba(0,0,0,0);
-      color: @light-font;
-      font-size: inherit;
-      transition: all 0.15s linear;
-      border: none;
-      text-decoration: underline;
-      &:active, &.active, .btn.active, .btn:active, &:focus, &.focus {
-        outline: none;
-        color: black;
-        box-shadow: none;
-        background-color: rgba(0,0,0,0);
-      }
-      &:hover {
-        background-color: rgba(0,0,0,0);
-      }
-    }
-    .sidebar-action-dropdown {
-      margin-left: 20px;
-      margin-top: 5px;
-    }
-    &.name-edit-action {
-      .bevy-image-dropzone {
-        border-radius: 50px;
-        overflow: hidden;
-        #image-icon;
-      }
-      .mui-text-field {
-        width: 50%;
-        margin-left: 15px;
-        vertical-align: top;
-        .mui-text-field-focus-underline {
-          border-color: rgba(0,0,0,.5);
-        }
-      }
-      .alias-img {
-        border-radius: 50px;
-        overflow: hidden;
-        display: inline-flex;
-        margin-top: 0px;
-        height: 30px;
-        min-width: 30px;
-        vertical-align: middle;
-        #image-icon;
-      }
-      .sidebar-posting-name {
-        margin-left: 10px;
-        color: @light-font;
-        vertical-align: baseline;
-      }
-      .edit-button {
-        color: @light-font;
-      }
-    }
-  }
-
   .bevy-info {
     display: flex;
     flex-direction: column;
@@ -310,7 +177,6 @@
       }
     }
   }
-
   .sidebar-bottom {
     display: flex;
     justify-content: space-between;
@@ -341,32 +207,3 @@
     }
   }
 }
-
-//dropdown buttons
-.btn-group > .btn-group:first-child:not(:last-child) > .btn:last-child,
-.btn-group > .btn-group:first-child:not(:last-child) > .dropdown-toggle,
-.btn-group > .btn-group:last-child:not(:first-child) > .btn:first-child{
-  background: rgba(0,0,0,0);
-  border: 0px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  color: @light-font;
-  font-size: inherit;
-  &.open {
-  }
-  &:active{
-    color: black;
-  }
-  &:focus {
-    text-decoration: underline;
-    color: black;
-  }
-  &:hover{
-    color: black;
-  }
-}
-//open dropdown menu
-.btn-group > .btn-group {
-  float: none;
-}
-

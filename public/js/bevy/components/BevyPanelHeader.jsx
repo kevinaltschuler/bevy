@@ -93,16 +93,16 @@ var BevyPanelHeader = React.createClass({
   render() {
 
     var bevy = this.props.activeBevy;
-    var bevyImageURL = (_.isEmpty(this.state.image)) 
-      ? '/img/default_group_img.png' 
+    var bevyImageURL = (_.isEmpty(this.state.image))
+      ? '/img/default_group_img.png'
       : this.state.image.path;
     var bevyImageStyle = { backgroundImage: 'url(' + bevyImageURL + ')' };
 
-    var name = (_.isEmpty(bevy)) 
-      ? 'not in a bevy' 
+    var name = (_.isEmpty(bevy))
+      ? 'not in a bevy'
       : this.state.name;
-    var description = (_.isEmpty(bevy)) 
-      ? 'no description' 
+    var description = (_.isEmpty(bevy))
+      ? 'no description'
       : this.state.description;
     if(_.isEmpty(description)) description = 'no description';
 
@@ -152,42 +152,40 @@ var BevyPanelHeader = React.createClass({
 
     if (this.state.isEditing) {
       return (
-        <div>
-          <div className="sidebar-top">
-            { sidebarPicture }
-            <div className="sidebar-title">
-              <TextField
-                type='text'
-                ref='name'
-                defaultValue={ name }
-                value={ name }
-                placeholder='Group Name'
-                onKeyUp={ this.onKeyUp }
-                onChange={ this.onChange }
-                style={{ marginLeft: '10px', width: '90%' }}
-              />
-              <TextField
-                type='text'
-                ref='description'
-                defaultValue={ description }
-                value={ description }
-                placeholder='Group Description'
-                onKeyUp={ this.onKeyUp }
-                onChange={ this.onChange }
-                multiLine= { true }
-                style={{ marginLeft: '10px', width: '90%' }}
-              />
-              <RaisedButton 
-                label="save" 
-                onClick={ this.stopEditing } 
-                style={{ 
-                  marginLeft: '10px', 
-                  width: '90%', 
-                  marginBottom: '10px', 
-                  marginTop: '5px'
-                }} 
-              />
-            </div>
+        <div className="sidebar-top">
+          { sidebarPicture }
+          <div className="sidebar-title">
+            <TextField
+              type='text'
+              ref='name'
+              defaultValue={ name }
+              value={ name }
+              placeholder='Group Name'
+              onKeyUp={ this.onKeyUp }
+              onChange={ this.onChange }
+              style={{ marginLeft: '10px', width: '90%' }}
+            />
+            <TextField
+              type='text'
+              ref='description'
+              defaultValue={ description }
+              value={ description }
+              placeholder='Group Description'
+              onKeyUp={ this.onKeyUp }
+              onChange={ this.onChange }
+              multiLine= { true }
+              style={{ marginLeft: '10px', width: '90%' }}
+            />
+            <RaisedButton
+              label="save"
+              onClick={ this.stopEditing }
+              style={{
+                marginLeft: '10px',
+                width: '90%',
+                marginBottom: '10px',
+                marginTop: '5px'
+              }}
+            />
           </div>
         </div>
       );
