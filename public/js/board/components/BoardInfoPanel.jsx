@@ -15,10 +15,10 @@ var {
 var BoardSettingsModal = require('./BoardSettingsModal.jsx');
 var BoardInfoPanelHeader = require('./BoardInfoPanelHeader.jsx');
 var AdminModal = require('./../../bevy/components/AdminModal.jsx');
-var BoardActions = require('./../BoardActions');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var BoardActions = require('./../BoardActions');
 
 var BoardInfoPanel = React.createClass({
   propTypes: {
@@ -28,7 +28,7 @@ var BoardInfoPanel = React.createClass({
   getInitialState() {
     return {
       joined: (_.contains(window.bootstrap.user.boards, this.props.board._id)),
-      isAdmin: _.findWhere(this.props.board.admins, 
+      isAdmin: _.findWhere(this.props.board.admins,
         { _id: window.bootstrap.user._id }) != undefined,
       showSettingsModal: false,
       showAdminModal: false

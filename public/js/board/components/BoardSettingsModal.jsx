@@ -2,6 +2,7 @@
  * BoardSettingsModal.jsx
  *
  * @author kevin
+ * @author albert
  */
 
 'use strict';
@@ -23,7 +24,6 @@ var _ = require('underscore');
 var BoardActions = require('./../BoardActions');
 
 var BoardSettingsModal = React.createClass({
-
   propTypes: {
     board: React.PropTypes.object,
     show: React.PropTypes.bool,
@@ -39,7 +39,6 @@ var BoardSettingsModal = React.createClass({
 
   onDropDownChange(ev, selectedIndex, menuItem) {
     ev.preventDefault();
-
     this.setState({
       posts_expire_in: menuItem.payload
     });
@@ -47,38 +46,30 @@ var BoardSettingsModal = React.createClass({
 
   onPrivacyChange(ev, selectedIndex, menuItem) {
     ev.preventDefault();
-
-    console.log(menuItem);
-
     this.setState({
       privacy: menuItem.text
     });
   },
 
   save(ev) {
-    //var anonymise_users = this.refs.anonymise_users.isToggled();
     var group_chat = this.refs.group_chat.isToggled();
-    //var admin_only = this.refs.admin_only.isToggled();
-
     BoardActions.update(this.props.board._id, null, null, null, {
-      group_chat: group_chat,
-      //admin_only: admin_only,
-      //privacy: this.state.privacy,
+      group_chat: group_chat
     });
-
     this.props.onHide();
   },
 
   destroyBoard(ev) {
     ev.preventDefault();
-    if(!confirm('Are you sure? Deleting a board will also remove all content posted to that bevy.')) return;
+    if(!confirm('Are you sure? Deleting a board will also remove all '
+    + 'content posted to that bevy.'))
+      return;
 
     BoardActions.destroy(this.props.board._id);
     this.props.onHide();
   },
 
   render() {
-
     var board = this.props.board;
     var settings = board.settings;
 
@@ -89,8 +80,6 @@ var BoardSettingsModal = React.createClass({
     var privacyIndex = (this.state.privacy == 'Private')
     ? 1
     : 0;
-
-    var posts_expire_in = this.state.posts_expire_in;
 
     return (
       <Modal className="bevy-settings-modal" show={ this.props.show } onHide={ this.props.onHide } >
@@ -103,13 +92,13 @@ var BoardSettingsModal = React.createClass({
         <Modal.Body>
           {/*<div className='bevy-setting expire-setting'>
             Privacy
-            <OverlayTrigger placement='right' overlay={ 
+            <OverlayTrigger placement='right' overlay={
               <Popover title='Bevy Privacy'>
                 <p className='warning'>
                   Public bevies can be viewed and joined by anybody. <br /><br />
                   Private bevies are listed publicly but require an invite or permission to join and view content.
                 </p>
-              </Popover> 
+              </Popover>
             }>
               <span className='glyphicon glyphicon-question-sign' />
             </OverlayTrigger>
@@ -128,8 +117,8 @@ var BoardSettingsModal = React.createClass({
             />
           </div>
           <div className='bevy-setting'>
-            <RaisedButton 
-              label='Delete Bevy'
+            <RaisedButton
+              label='Delete Board'
               backgroundColor='#d9534f'
               labelColor='#fff'
               style={{
