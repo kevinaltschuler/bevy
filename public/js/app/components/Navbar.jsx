@@ -24,7 +24,6 @@ var {
   TextField,
   Styles
 } = require('material-ui');
-var BevyDropdown = require('./../../bevy/components/BevyDropdown.jsx');
 var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
