@@ -20,7 +20,7 @@ var BoardActions = require('./../BoardActions');
 var _ = require('underscore');
 var constants = require('./../../constants');
 
-var InfoPanel = React.createClass({
+var BoardInfoPanel = React.createClass({
   propTypes: {
     board: React.PropTypes.object
   },
@@ -28,6 +28,8 @@ var InfoPanel = React.createClass({
   getInitialState() {
     return {
       joined: (_.contains(window.bootstrap.user.boards, this.props.board._id)),
+      isAdmin: _.findWhere(this.props.board.admins, 
+        { _id: window.bootstrap.user._id }) != undefined,
       showSettingsModal: false,
       showAdminModal: false
     };
@@ -35,7 +37,9 @@ var InfoPanel = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      joined: (_.contains(window.bootstrap.user.boards, nextProps.board._id))
+      joined: (_.contains(window.bootstrap.user.boards, nextProps.board._id)),
+      isAdmin: _.findWhere(nextProps.board.admins,
+        { _id: window.bootstrap.user._id }) != undefined
     });
   },
 
@@ -185,7 +189,7 @@ var InfoPanel = React.createClass({
           <AdminModal
             show={ this.state.showAdminModal }
             onHide={() => this.setState({ showAdminModal: false })}
-            activeBevy={ board }
+            activeBoard={ this.props.board }
           />
         </div>
         { this._renderBottomActions() }
@@ -194,4 +198,4 @@ var InfoPanel = React.createClass({
   }
 });
 
-module.exports = InfoPanel;
+module.exports = BoardInfoPanel;

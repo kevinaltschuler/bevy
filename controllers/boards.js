@@ -19,7 +19,7 @@ var Post = require('./../models/Post');
 var Message = require('./../models/Message');
 
 var userPopFields = '_id displayName email image username '
- + 'google.displayName facebook.displayName';
+ + 'google facebook';
 var bevyPopFields = '_id name slug image';
 
 // GET /users/:userid/boards
@@ -33,6 +33,10 @@ exports.getUserBoards = function(req, res, next) {
       if(err) return next(err);
       return res.json(boards);
     })
+    .populate({
+      path: 'admins',
+      select: userPopFields
+    });
   });
 };
 
@@ -49,6 +53,10 @@ exports.getBevyBoards = function(req, res, next) {
     Board.find({ parent: bevy._id }, function(err, boards) {
       if(err) return next(err);
       return res.json(boards);
+    })
+    .populate({
+      path: 'admins',
+      select: userPopFields
     });
   });
 
@@ -141,6 +149,10 @@ exports.getBoard = function(req, res, next) {
     path: 'parent',
     select: bevyPopFields
   })
+  .populate({
+    path: 'admins',
+    select: userPopFields
+  });
 };
 
 // PUT /boards/:boardid

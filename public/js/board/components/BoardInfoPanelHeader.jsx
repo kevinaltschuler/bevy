@@ -25,7 +25,7 @@ var constants = require('./../../constants');
 var BoardActions = require('./../BoardActions');
 var user = window.bootstrap.user;
 
-var InfoPanelHeader = React.createClass({
+var BoardInfoPanelHeader = React.createClass({
   propTypes: {
     board: React.PropTypes.object,
     hidden: React.PropTypes.bool
@@ -33,7 +33,8 @@ var InfoPanelHeader = React.createClass({
 
   getInitialState() {
     return {
-      isAdmin: _.contains(this.props.board.admins, window.bootstrap.user._id),
+      isAdmin: _.findWhere(this.props.board.admins, 
+        { _id: window.bootstrap.user._id }) != undefined,
       name: this.props.board.name || '',
       description: this.props.board.description || 'No Description',
       image: this.props.board.image || {},
@@ -44,7 +45,8 @@ var InfoPanelHeader = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      isAdmin: _.contains(nextProps.board.admins, window.bootstrap.user._id),
+      isAdmin: _.findWhere(nextProps.board.admins,
+        { _id: window.bootstrap.user._id }) != undefined,
       name: nextProps.board.name,
       description: nextProps.board.description,
       image: nextProps.board.image,
@@ -215,4 +217,4 @@ var InfoPanelHeader = React.createClass({
   }
 });
 
-module.exports = InfoPanelHeader;
+module.exports = BoardInfoPanelHeader;

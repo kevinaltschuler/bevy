@@ -17,7 +17,7 @@ var User = require('./../models/User');
 var Message = require('./../models/Message');
 
 var userPopFields = '_id displayName email image username '
- + 'google.displayName facebook.displayName';
+ + 'google facebook';
 var bevyPopFields = '_id name slug image admins settings';
 var boardPopFields = '_id name image admins settings parent description'
 
