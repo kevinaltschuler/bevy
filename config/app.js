@@ -33,6 +33,7 @@ if(current_env == 'development') {
 		// In staging and production, listen loopback. nginx listens on the network.
 		ip: '127.0.0.1',
 		hostname: 'http://bevy.dev',
+		apiHostname: 'http://api.bevy.dev',
 		domain: 'bevy.dev'
 	};
 } else {
@@ -41,6 +42,7 @@ if(current_env == 'development') {
 		// In staging and production, listen loopback. nginx listens on the network.
 		ip: '127.0.0.1',
 		hostname: 'http://joinbevy.com',
+		apiHostname: 'http://api.joinbevy.com',
 		domain: 'joinbevy.com'
 	};
 }

@@ -37,9 +37,7 @@ var ProfileDropdown = React.createClass({
 
   getInitialState() {
     return {
-      image: user.image,
-      showAddAccountModal: false,
-      linkedAccounts: []
+      image: user.image
     };
   },
 
@@ -47,66 +45,27 @@ var ProfileDropdown = React.createClass({
     this.container = ReactDOM.findDOMNode(this.refs.Container);
     UserStore.on(USER.CHANGE_ALL, this.handleChangeAll);
   },
-
   componentWillUnmount() {
     UserStore.off(USER.CHANGE_ALL, this.handleChangeAll);
   },
 
-  componentWillReceiveProps(nextProps) {
-
-  },
-
   handleChangeAll() {
-    this.setState({
-      //linkedAccounts: UserStore.getLinkedAccounts()
-    });
   },
 
   onUploadComplete(file) {
+    console.log(file);
     this.setState({
       image: file
     });
     UserActions.update(file);
   },
-
-  onChange(ev) {
-    this.setState({
-      name: this.refs.name.getValue(),
-    });
-  },
-
+  
   toggle(ev) {
     ev.preventDefault();
     this.props.onToggle();
   },
 
-  _renderLinkedAccounts() {
-    if(_.isEmpty(this.state.linkedAccounts)) return <div />;
-
-    var accounts = [];
-    for(var key in this.state.linkedAccounts) {
-      var account = this.state.linkedAccounts[key];
-      accounts.push(
-        <LinkedAccountItem
-          key={ 'linkedaccount:' + account._id }
-          account={ account }
-        />
-      );
-    }
-
-    return (
-      <div className='linked-accounts'>
-        { accounts }
-      </div>
-    );
-  },
-
   renderOverlay() {
-    var name = user.displayName;
-    var email = (_.isEmpty(user.google.name))
-    ? ''
-    : (<span className='profile-email'>{ user.email }</span>)
-
     var dropzoneOptions = {
       maxFiles: 1,
       acceptedFiles: 'image/*',
@@ -119,7 +78,7 @@ var ProfileDropdown = React.createClass({
       : this.state.image.path;
     var profileImageStyle = {
       backgroundImage: 'url(' + profileImage + ')',
-    }
+    };
 
     return (
       <div className='profile-dropdown-container'>
@@ -137,44 +96,32 @@ var ProfileDropdown = React.createClass({
               />
             </div>
             <div className="profile-details">
-              <span className='profile-name'>{ name }</span>
-              <span className='profile-email'>{ email }</span>
+              <span className='profile-name'>{ user.displayName }</span>
+              <span className='profile-email'>{ user.email }</span>
               <span className='profile-points'>{ user.points }&nbsp;Points</span>
             </div>
           </div>
-          {/* this._renderLinkedAccounts() }
-          <div className="profile-dropdown-buttons">
-            <FlatButton
-              label="Add Account"
-              onClick={() => this.setState({ showAddAccountModal: true })}
-            />*/}
-            <FlatButton
-              label="Logout"
-              linkButton={ true }
-              href='/logout'
-              style={{marginRight: 10}}
-            />
-          {/*</div>
-          <AddAccountModal
-            show={ this.state.showAddAccountModal }
-            onHide={() => this.setState({ showAddAccountModal: false })}
-            linkedAccounts={ this.state.linkedAccounts }
-          />*/}
+          <FlatButton
+            label="Logout"
+            linkButton={ true }
+            href='/logout'
+            style={{ marginRight: 10 }}
+          />
         </div>
       </div>
     );
   },
 
   render() {
-    var profileImage = (_.isEmpty(this.state.image))
+    var profileImageURL = (_.isEmpty(this.state.image))
       ? constants.defaultProfileImage
       : this.state.image.path;
     var profileImageStyle = {
-      backgroundImage: 'url(' + profileImage + ')',
+      backgroundImage: 'url(' + profileImageURL + ')',
     }
 
     var buttonStyle = {
-      backgroundImage: 'url(' + profileImage + ')',
+      backgroundImage: 'url(' + profileImageURL + ')',
       marginRight: 0
     };
 
@@ -199,4 +146,5 @@ var ProfileDropdown = React.createClass({
     );
   }
 });
+
 module.exports = ProfileDropdown;

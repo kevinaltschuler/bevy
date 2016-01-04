@@ -12,6 +12,7 @@ var shortid = require('shortid');
 var fs = require('fs');
 var gm = require('gm');
 var async = require('async');
+var config = require('./../config');
 
 //var gfs = require('./../gridfs')();
 var mongoose = require('mongoose');
@@ -80,6 +81,7 @@ exports.createFile = function(req, res, next) {
     // write gridfs-related metadata to output
     output_file._id = file._id;
     output_file.filename = file.filename;
+    output_file.path = config.app.server.apiHostname + '/files/' + file.filename;
     output_file.length = file.length;
     // send to client
     return res.status(200).json(output_file);

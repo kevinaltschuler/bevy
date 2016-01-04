@@ -206,13 +206,8 @@ _.extend(UserStore, {
 
       case USER.UPDATE:
         var image = payload.image;
-        this.user.save({
-          image: image
-        }, {
-          patch: true,
-          success: function(model, response, options) {
-          }.bind(this)
-        });
+        this.user.save({ image: image }, { patch: true });
+        this.trigger(USER.CHANGE_ALL);
         break;
 
       case USER.SEARCH:
