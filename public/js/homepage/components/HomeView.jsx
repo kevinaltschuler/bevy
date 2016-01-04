@@ -1,27 +1,25 @@
-/* 
-* HomeView.jsx
-* what you see when you first login
-* ye
-* made by keivn altschuler
-*/
+/**
+ * HomeView.jsx
+ * @author kevin
+ * @flow
+ */
 
 'use strict';
 
-// imports
 var React = require('react');
-var _ = require('underscore');
-var router = require('./../../router');
-
-var rbs = require('react-bootstrap');
-var Button = rbs.Button;
-
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
+var {
+  Button
+} = require('react-bootstrap');
+var {
+  RaisedButton
+} = require('material-ui');
 
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 
-var HomeView = React.createClass({
+var _ = require('underscore');
+var router = require('./../../router');
 
+var HomeView = React.createClass({
   getInitialState() {
     return {
       showNewBevyModal: false
@@ -29,7 +27,6 @@ var HomeView = React.createClass({
   },
 
   render() {
-
     return (
       <div className='landing-page'>
         <div className='landing-div div1'>
@@ -38,20 +35,23 @@ var HomeView = React.createClass({
             Bevy
           </div>
           <div className='sub-title-text'>
-            The Social Network For Your Community 
+            The Social Network For Your Community
           </div>
           <div className='actions'>
-            <RaisedButton 
-              linkButton={true} 
-              label='Register' href='/bevies' 
+            <RaisedButton
+              linkButton={ true }
+              label='Register' href='/bevies'
               onClick={(ev) => {
                 ev.preventDefault();
                 router.navigate('/register', { trigger: true });
               }}
             />
-            <RaisedButton  
-              linkButton={true} 
-              label='Login' href='/bevies' 
+            <RaisedButton
+              linkButton={ true }
+              label='Login' href='/bevies'
+              style={{
+                minWidth: 50
+              }}
               onClick={(ev) => {
                 ev.preventDefault();
                 router.navigate('/login', { trigger: true });
@@ -66,13 +66,13 @@ var HomeView = React.createClass({
         </div>
         <div className='landing-div div3'>
           <div className='features-title'>
-            The Feature Set Built For Your Community 
+            The Feature Set Built For Your Community
           </div>
           <div className='features'>
             <div className='feature'>
               <span className='glyphicon glyphicon-modal-window'/>
               <div className='title'>
-                Organize. 
+                Organize.
               </div>
               <div className='description'>
                 Bevy organizes your community into its smaller parts
@@ -110,7 +110,7 @@ var HomeView = React.createClass({
         <div className='landing-div div4'/>
         <div className="footer-home">
           <div className='footer-left'>
-            Bevy © 2015 
+            Bevy © 2015
           </div>
           <div className='footer-right'>
             <Button className="bevy-logo-btn" href='/'>
