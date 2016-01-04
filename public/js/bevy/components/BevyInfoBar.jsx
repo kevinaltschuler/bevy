@@ -20,6 +20,7 @@ var {
 var Uploader = require('./../../shared/components/Uploader.jsx');
 var InviteUsersModal = require('./InviteUsersModal.jsx');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
+var AdminModal = require('./AdminModal.jsx');
 
 var _ = require('underscore');
 var BevyActions = require('./../BevyActions');
@@ -130,6 +131,7 @@ var BevyInfoBar = React.createClass({
           <FlatButton
             label={ this.props.activeBevy.admins.length }
             labelPosition='after'
+            onClick={() => this.setState({ showAdminModal: true })}
             style={{
               minWidth: 0,
               display: 'flex',
@@ -260,8 +262,7 @@ var BevyInfoBar = React.createClass({
   },
 
   render() {
-    var bevy = this.props.activeBevy;
-    if(_.isEmpty(bevy)) return <div/>;
+    if(_.isEmpty(this.props.activeBevy)) return <div/>;
 
     return (
       <div className='bevy-info-bar'>
@@ -272,16 +273,20 @@ var BevyInfoBar = React.createClass({
         { this._renderInviteButton() }
         { this._renderSettingsButton() }
         <BevySettingsModal
-          show={this.state.showSettingsModal}
-          onHide={() => this.setState({showSettingsModal: false})}
-          activeBevy={bevy}
+          show={ this.state.showSettingsModal }
+          onHide={() => this.setState({ showSettingsModal: false })}
+          activeBevy={ this.props.activeBevy }
         />
         <InviteUsersModal
-          show={this.state.showInviteModal}
-          onHide={() => this.setState({showInviteModal: false})}
-          activeBevy={bevy}
+          show={ this.state.showInviteModal }
+          onHide={() => this.setState({ showInviteModal: false })}
+          activeBevy={ this.props.activeBevy }
         />
-
+        <AdminModal
+          show={ this.state.showAdminModal }
+          onHide={() => this.setState({ showAdminModal: false })}
+          activeBevy={ this.props.activeBevy }
+        />
       </div>
     );
   }
