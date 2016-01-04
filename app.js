@@ -1,7 +1,6 @@
 /**
  * app.js
  * entry point for the entire app
- *
  * @author albert
  */
 
