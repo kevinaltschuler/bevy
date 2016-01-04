@@ -84,7 +84,7 @@ _.extend(BoardStore, {
           }.bind(this)
         });
 
-        break;  
+        break;
 
       case BOARD.SWITCH:
         var board_id = payload.board_id;
@@ -122,7 +122,7 @@ _.extend(BoardStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-            window.location.reload();
+            //window.location.reload();
           }.bind(this)
         });
 

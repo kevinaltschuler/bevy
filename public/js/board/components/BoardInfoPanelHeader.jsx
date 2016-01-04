@@ -32,24 +32,23 @@ var InfoPanelHeader = React.createClass({
   },
 
   getInitialState() {
-    var board = this.props.board;
     return {
-      name: board.name || '',
-      description: board.description || '',
-      image: board.image || {},
+      isAdmin: _.contains(this.props.board.admins, window.bootstrap.user._id),
+      name: this.props.board.name || '',
+      description: this.props.board.description || 'No Description',
+      image: this.props.board.image || {},
       imagePath: '',
       isEditing: false
     };
   },
 
   componentWillReceiveProps(nextProps) {
-    var board = nextProps.board;
-
     this.setState({
-      name: board.name,
-      description: board.description,
-      image: board.image,
-      imagePath: board.image.path || ''
+      isAdmin: _.contains(nextProps.board.admins, window.bootstrap.user._id),
+      name: nextProps.board.name,
+      description: nextProps.board.description,
+      image: nextProps.board.image,
+      imagePath: nextProps.board.image.path || ''
     });
   },
 
@@ -92,22 +91,11 @@ var InfoPanelHeader = React.createClass({
     });
   },
 
-  render() {
-
-    var board = this.props.board;
-    var isAdmin = _.contains(board.admins, window.bootstrap.user._id);
+  _renderBoardImage() {
     var boardImageURL = (_.isEmpty(this.state.image))
       ? '/img/default_group_img.png'
       : this.state.imagePath;
     var boardImageStyle = { backgroundImage: 'url(' + boardImageURL + ')' };
-
-    var name = (_.isEmpty(board))
-      ? 'not in a board'
-      : this.state.name;
-    var description = (_.isEmpty(board))
-      ? 'no description'
-      : this.state.description;
-    if(_.isEmpty(description)) description = 'no description';
 
     var dropzoneOptions = {
       maxFiles: 1,
@@ -122,23 +110,9 @@ var InfoPanelHeader = React.createClass({
         });
       }
     };
-    var editButton = '';
-    var sidebarPicture = (
-      <div className="sidebar-picture">
-        <div className='profile-img' style={ boardImageStyle }/>
-      </div>
-    );
-    if(isAdmin) {
-      editButton = (
-        <OverlayTrigger placement='top' overlay={
-          <Tooltip>Edit Name/Description</Tooltip>
-        }>
-          <Button className='edit-btn' onClick={ this.startEditing }>
-            <span className='glyphicon glyphicon-pencil' />
-          </Button>
-        </OverlayTrigger>
-      );
-      sidebarPicture = (
+
+    if(this.state.isAdmin) {
+      return (
         <div className="sidebar-picture">
           <Uploader
             onUploadComplete={ this.onUploadComplete }
@@ -149,19 +123,41 @@ var InfoPanelHeader = React.createClass({
           />
         </div>
       );
+    } else {
+      return (
+        <div className="sidebar-picture">
+          <div className='profile-img' style={ boardImageStyle }/>
+        </div>
+      );
     }
+  },
+
+  _renderEditButton() {
+    if(!this.state.isAdmin) return <div />;
+    return (
+      <OverlayTrigger placement='top' overlay={
+        <Tooltip id='edit-board-tooltip'>Edit Name/Description</Tooltip>
+      }>
+        <Button className='edit-btn' onClick={ this.startEditing }>
+          <span className='glyphicon glyphicon-pencil' />
+        </Button>
+      </OverlayTrigger>
+    );
+  },
+
+  render() {
     if (this.state.isEditing) {
       return (
         <div>
           <div className="sidebar-top">
-            { sidebarPicture }
+            { this._renderBoardImage() }
             <div className="sidebar-title">
               <TextField
                 type='text'
                 ref='name'
-                defaultValue={ name }
-                value={ name }
-                placeholder='Group Name'
+                defaultValue={ this.state.name }
+                value={ this.state.name }
+                placeholder='Board Name'
                 onKeyUp={ this.onKeyUp }
                 onChange={ this.onChange }
                 style={{ marginLeft: '10px', width: '90%' }}
@@ -169,9 +165,9 @@ var InfoPanelHeader = React.createClass({
               <TextField
                 type='text'
                 ref='description'
-                defaultValue={ description }
-                value={ description }
-                placeholder='Group Description'
+                defaultValue={ this.state.description }
+                value={ this.state.description }
+                placeholder='Board Description'
                 onKeyUp={ this.onKeyUp }
                 onChange={ this.onChange }
                 multiLine= { true }
@@ -195,21 +191,21 @@ var InfoPanelHeader = React.createClass({
     else {
       return (
         <div className="sidebar-top">
-          { sidebarPicture }
+          { this._renderBoardImage() }
           <div className="sidebar-title">
             <div className='sidebar-title-name-container'>
               <span
                 className='sidebar-title-name'
                 onDoubleClick={ this.startEditing } >
-                { name }
+                { this.state.name }
               </span>
-              { editButton }
+              { this._renderEditButton() }
             </div>
             <div className='sidebar-title-description-container'>
               <span
                 className='sidebar-title-description'
                 onDoubleClick={ this.startEditing } >
-                { description }
+                { this.state.description }
               </span>
             </div>
           </div>
