@@ -163,26 +163,28 @@ _.extend(PostStore, {
 
       case POST.UPDATE:
         var post_id = payload.post_id;
-        var title = payload.postTitle;
-        var images = payload.images;
-
         var post = this.posts.get(post_id);
+        if(post == undefined) break;
 
-        post.set('title', title);
-        post.set('images', images);
+        var title = payload.title || post.get('title');
+        var images = payload.images || post.get('images');
+        var event = payload.event || post.get('event');
 
+        post.url = constants.apiurl + '/posts/' + post_id;
         post.save({
           title: title,
           images: images,
+          event: event,
           updated: Date.now()
         }, {
-          patch: true,
-          success: function($post, response, options) {
-            post.set('images', $post.get('images'));
-            this.trigger(POST.CHANGE_ALL);
-          }.bind(this)
+          patch: true
         });
 
+        post.set('title', title);
+        post.set('images', images);
+        post.set('event', event);
+
+        this.trigger(POST.CHANGE_ONE + post_id);
         break;
 
       case POST.VOTE:

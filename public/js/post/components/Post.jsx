@@ -76,7 +76,6 @@ var Post = React.createClass({
     this.setState({
       post: PostStore.getPost(this.props.post._id)
     });
-    console.log('on post change', this.state.post);
   },
 
   onHandleToggle(ev) {
@@ -101,9 +100,9 @@ var Post = React.createClass({
 
   stopEdit(ev) {
     ev.preventDefault();
-    var postTitle = this.state.title;
-    var postImages = this.state.post.images;
-    PostActions.update(this.props.post._id, postTitle, postImages);
+    var title = this.state.title;
+    var images = this.state.post.images;
+    PostActions.update(this.props.post._id, title, images);
     this.setState({
       isEditing: false
     });
