@@ -16,7 +16,6 @@ var constants = require('./../constants');
 
 var user = window.bootstrap.user;
 
-// backbone collection
 var BevyCollection = Backbone.Collection.extend({
   model: Bevy,
   get(id_or_slug) {
@@ -29,7 +28,33 @@ var BevyCollection = Backbone.Collection.extend({
   url() {
     return constants.apiurl + '/bevies';
   },
-  filter: 'Most Subscribers'
+  filter: 'Most Subscribers',
+  sortByAbc(bevy) {
+    var name = bevy.get('name').toLowerCase();
+    var nameValue = name.charCodeAt(0);
+    return nameValue;
+  },
+  sortByZyx(bevy) {
+    var name = bevy.get('name').toLowerCase();
+    var nameValue = name.charCodeAt(0);
+    return -nameValue;
+  },
+  sortByTop(bevy) {
+    var subs = bevy.get('subCount');
+    return -subs;
+  },
+  sortByBottom(bevy) {
+    var subs = bevy.get('subCount');
+    return subs;
+  },
+  sortByNew(bevy) {
+    var date = Date.parse(bevy.get('created'));
+    return -date;
+  },
+  sortByOld(bevy) {
+    var date = Date.parse(bevy.get('created'));
+    return date;
+  }
 });
 
 module.exports = BevyCollection;

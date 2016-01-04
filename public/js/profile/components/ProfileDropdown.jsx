@@ -53,13 +53,12 @@ var ProfileDropdown = React.createClass({
   },
 
   onUploadComplete(file) {
-    console.log(file);
     this.setState({
       image: file
     });
     UserActions.update(file);
   },
-  
+
   toggle(ev) {
     ev.preventDefault();
     this.props.onToggle();

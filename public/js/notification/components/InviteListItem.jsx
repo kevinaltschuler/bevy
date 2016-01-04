@@ -1,6 +1,7 @@
 /**
  * InviteListItem.jsx
  * @author albert
+ * @author kevin
  * @flow
  */
 

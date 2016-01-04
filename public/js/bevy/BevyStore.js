@@ -53,12 +53,9 @@ _.extend(BevyStore, {
   publicBevies: new Bevies,
   searchQuery: '',
   searchList: new Bevies,
-  activeTags: [],
   bevyBoards: new Boards,
   bevyInvites: new Invites,
 
-  // handle calls from the dispatcher
-  // these are created from BevyActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
 
@@ -109,7 +106,6 @@ _.extend(BevyStore, {
 
         break;
       case BOARD.LOADBOARDVIEW:
-        //Dispatcher.waitFor([ UserStore.dispatchToken ]);
         var user = window.bootstrap.user;
         this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
         this.myBevies.fetch({
@@ -118,25 +114,6 @@ _.extend(BevyStore, {
           }.bind(this)
         });
         break;
-      /*case APP.LOAD:
-        Dispatcher.waitFor([ UserStore.dispatchToken ]);
-        var user = window.bootstrap.user;
-        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
-        this.myBevies.fetch({
-          success: function(collection, response, options) {
-              this.trigger(BEVY.LOADED);
-              this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
-        });
-        this.publicBevies.url = constants.apiurl + '/bevies';
-        //load public bevies
-        this.publicBevies.fetch({
-          success: function(collection, response, options) {
-            this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
-        });
-
-        break;*/
 
       case BEVY.CREATE:
         var name = payload.name;
@@ -181,45 +158,38 @@ _.extend(BevyStore, {
             window.location.href = constants.siteurl;
           }.bind(this)
         });
-
         break;
 
       case BEVY.UPDATE:
         var bevy_id = payload.bevy_id;
-
         var bevy = this.myBevies.get(bevy_id);
+        if(bevy == undefined) return;
 
         var name = payload.name || bevy.get('name');
         var image = payload.image || bevy.get('image');
         var settings = payload.settings || bevy.get('settings');
 
-        bevy.set({
-          name: name,
-          image: image,
-          settings: settings
-        });
-
         bevy.url = constants.apiurl + '/bevies/' + bevy_id;
-
         bevy.save({
           name: name,
           image: image,
           settings: settings
         }, {
-          patch: true,
-          success: function(model, response, options) {
-            this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
+          patch: true
         });
-
+        bevy.set({
+          name: name,
+          image: image,
+          settings: settings
+        });
+        this.trigger(BEVY.CHANGE_ALL);
         break;
 
       case BEVY.LEAVE:
         // remove bevy from mybevies collection
         var bevy_id = payload.bevy_id;
-
         var bevy = this.myBevies.get(bevy_id);
-        if(bevy == undefined) break; // we havent joined yet
+        if(bevy == undefined) break;
 
         this.myBevies.remove(bevy_id);
         this.trigger(BEVY.CHANGE_ALL);
@@ -228,7 +198,7 @@ _.extend(BevyStore, {
       case BEVY.JOIN:
         // add bevy to mybevies collection
         var bevy_id = payload.bevy_id;
-        if(this.myBevies.get(bevy_id) != undefined) break; // already joined
+        if(this.myBevies.get(bevy_id) != undefined) break;
 
         // fetch new bevy from server
         var new_bevy = new Bevy;
@@ -240,66 +210,47 @@ _.extend(BevyStore, {
             this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });
-
         break;
 
       case BEVY.REQUEST_JOIN:
         var bevy_id = payload.bevy_id;
         var user_id = payload.user_id;
-
-        if(this.myBevies.get(bevy._id) != undefined) break; // already joined
+        if(this.myBevies.get(bevy._id) != undefined) break;
 
         var invite = new Invite({
           user: user_id,
           requestType: 'request_join',
           bevy: bevy_id
         });
-
         invite.url = constants.apiurl + '/invites';
-
         invite.save();
         break;
 
-      /*case BEVY.SWITCH:
-        var bevy_id = payload.bevy_id;
-
-        var bevy = this.getBevy(bevy_id);
-
-        console.log(bevy_id, bevy);
-
-        this.active = bevy;
-
-        this.trigger(BEVY.LOADED);
-        this.trigger(BEVY.CHANGE_ALL);
-        break;*/
-
       case BEVY.SORT:
         var filter = payload.filter;
-
         var collection = this.searchList;
         collection.filter = filter;
         switch(filter) {
           case 'Most Subscribers':
-            collection.comparator = this.sortByTop;
+            collection.comparator = collection.sortByTop;
             break;
           case 'Least Subscribers':
-            collection.comparator = this.sortByBottom;
+            collection.comparator = collection.sortByBottom;
             break;
           case 'Newest':
-            collection.comparator = this.sortByNew;
+            collection.comparator = collection.sortByNew;
             break;
           case 'Oldest':
-            collection.comparator = this.sortByOld;
+            collection.comparator = collection.sortByOld;
             break;
           case 'ABC':
-            collection.comparator = this.sortByAbc;
+            collection.comparator = collection.sortByAbc;
             break;
           case 'ZYX':
-            collection.comparator = this.sortByZyx;
+            collection.comparator = collection.sortByZyx;
             break;
         }
         collection.sort();
-
         this.trigger(BEVY.CHANGE_ALL);
         this.trigger(BEVY.SEARCH_COMPLETE);
         break;
@@ -319,10 +270,11 @@ _.extend(BevyStore, {
           reset: true,
           success: function(collection, response, options) {
             this.trigger(BEVY.SEARCH_COMPLETE);
-            this.searchList.comparator = this.sortByTop;
+            this.searchList.comparator = this.searchList.sortByTop;
           }.bind(this)
         });
         break;
+
       case INVITE.INVITE_USER:
         var user = payload.user;
         var user_id = user._id;
@@ -342,8 +294,8 @@ _.extend(BevyStore, {
           }.bind(this)
         });
         break;
+
       case INVITE.DESTROY:
-        console.log('got to here');
         var invite_id = payload.invite_id;
         var invite = this.bevyInvites.remove(invite_id);
         this.trigger(BEVY.CHANGE_ALL);
@@ -353,10 +305,14 @@ _.extend(BevyStore, {
         invite.destroy();
 
         break;
+
       case INVITE.ACCEPT_REQUEST:
         var invite_id = payload.invite_id;
         fetch(constants.apiurl + '/invites/' + invite_id + '/accept')
-        .then(function(data){
+        .then(function(data) {
+          // remove from collection if success
+          this.bevyInvites.remove(invite_id);
+          // trigger UI changes
           this.trigger(BEVY.CHANGE_ALL);
           this.trigger(NOTIFICATION.CHANGE_ALL);
         }.bind(this))
@@ -428,33 +384,6 @@ _.extend(BevyStore, {
 
   getInvites() {
     return this.bevyInvites.toJSON();
-  },
-
-  sortByAbc(bevy) {
-    var name = bevy.attributes.name.toLowerCase();
-    var nameValue = name.charCodeAt(0);
-    return nameValue;
-  },
-  sortByZyx(bevy) {
-    var name = bevy.attributes.name.toLowerCase();
-    var nameValue = name.charCodeAt(0);
-    return -nameValue;
-  },
-  sortByTop(bevy) {
-    var subs = bevy.attributes.subCount;
-    return -subs;
-  },
-  sortByBottom(bevy) {
-    var subs = bevy.attributes.subCount;
-    return subs;
-  },
-  sortByNew(bevy) {
-    var date = Date.parse(bevy.get('created'));
-    return -date;
-  },
-  sortByOld(bevy) {
-    var date = Date.parse(bevy.get('created'));
-    return date;
   }
 });
 
