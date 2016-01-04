@@ -1,8 +1,8 @@
 /**
  * InfoPanelHeader.jsx
- *
  * @author albert
  * @author kevin
+ * @flow
  */
 
 'use strict';
@@ -96,16 +96,16 @@ var InfoPanelHeader = React.createClass({
 
     var board = this.props.board;
     var isAdmin = _.contains(board.admins, window.bootstrap.user._id);
-    var boardImageURL = (_.isEmpty(this.state.image)) 
-      ? '/img/default_group_img.png' 
+    var boardImageURL = (_.isEmpty(this.state.image))
+      ? '/img/default_group_img.png'
       : this.state.imagePath;
     var boardImageStyle = { backgroundImage: 'url(' + boardImageURL + ')' };
 
-    var name = (_.isEmpty(board)) 
-      ? 'not in a board' 
+    var name = (_.isEmpty(board))
+      ? 'not in a board'
       : this.state.name;
-    var description = (_.isEmpty(board)) 
-      ? 'no description' 
+    var description = (_.isEmpty(board))
+      ? 'no description'
       : this.state.description;
     if(_.isEmpty(description)) description = 'no description';
 
@@ -177,15 +177,15 @@ var InfoPanelHeader = React.createClass({
                 multiLine= { true }
                 style={{ marginLeft: '10px', width: '90%' }}
               />
-              <RaisedButton 
-                label="save" 
-                onClick={ this.stopEditing } 
-                style={{ 
-                  marginLeft: '10px', 
-                  width: '90%', 
-                  marginBottom: '10px', 
+              <RaisedButton
+                label="save"
+                onClick={ this.stopEditing }
+                style={{
+                  marginLeft: '10px',
+                  width: '90%',
+                  marginBottom: '10px',
                   marginTop: '5px'
-                }} 
+                }}
               />
             </div>
           </div>

@@ -16,9 +16,8 @@ var {
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
-var LeftSidebar = require('./LeftSidebar.jsx');
-var RightSidebar = require('./RightSidebar.jsx');
-var BoardSidebar = require('./../../board/components/BoardSidebar.jsx');
+var BoardInfoPanel = require('./../../board/components/BoardInfoPanel.jsx');
+var Footer = require('./../../app/components/Footer.jsx')
 
 var _ = require('underscore');
 var router = require('./../../router');
@@ -120,9 +119,13 @@ var BoardView = React.createClass({
 
     return (
       <div className='main-section'>
-        <BoardSidebar
-          board={activeBoard}
-        />
+        <div className='board-view-sidebar'>
+          <BoardInfoPanel
+            board={ this.props.activeBoard }
+            myBevies={ this.props.myBevies }
+          />
+          <Footer />
+        </div>
         <div className='board-view-body'>
           { body }
         </div>

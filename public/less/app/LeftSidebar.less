@@ -1,3 +1,9 @@
+/**
+ * LeftSidebar.less
+ * @author albert
+ * @author kevin
+ */
+
 @import '../variables.less';
 
 .left-sidebar {
@@ -9,63 +15,10 @@
 	order: 1;
 	width: 105%;
 	max-width: 275px;
-	.hide-scroll {
-		visibility: visible;
-	}
-	.fixed {
-		position: fixed;
-		width: inherit;
-		max-width: 275px;
-		left: inherit;
-		top: 85px;
-		height: ~"calc(100% - 95px)";
-	}
 	.panel-header {
 		padding-left: 5px;
 		p {
 			color: @light-font;
-		}
-	}
-	.chat-tabs {
-		border: none;
-		li {
-			background-color: #f8f8f8;
-			width: 50%;
-			border: none;
-			border-radius: 0px;
-			text-align: center;
-			a {
-				.tab-title {
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					justify-content: center;
-				}
-				margin-right: 0px;
-				margin-left: 0px;
-				border-radius: 0px;
-				border: none;
-				color: @light-font;
-				&:focus, &:active, &:hover {
-					border: none;
-					outline: none;
-				}
-			}
-			&.active {
-
-			}
-			&:first-child {
-				border-radius: 5px 0px 0px 0px;
-				a {
-					border-radius: 5px 0px 0px 0px;
-				}
-			}
-			&:last-child {
-				border-radius: 0px 5px 0px 0px;
-				a {
-					border-radius: 0px 5px 0px 0px;
-				}
-			}
 		}
 	}
 }
@@ -73,26 +26,17 @@
 @media(max-width: 1200px) {
 	.left-sidebar {
 		max-width: 223px !important;
-		.fixed {
-			max-width: 223px !important;
-		}
 	}
 }
 
 @media(max-width: 991px) {
 	.left-sidebar {
 		max-width: 165px !important;
-		.fixed {
-			max-width: 165px !important;
-		}
 	}
 }
 
 @media(max-width: 770px) {
 	.left-sidebar {
 		max-width: 165px !important;
-		.fixed {
-			max-width: 165px !important;
-		}
 	}
 }

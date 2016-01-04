@@ -6,8 +6,9 @@
 
 @import '../variables.less';
 
-.bevy-panel {
+.board-info-panel {
   padding-bottom: 5px;
+  margin-bottom: 10px;
   .sidebar-top {
     display: flex;
     flex-direction: column;
@@ -136,18 +137,20 @@
       }
     }
   }
-  .bevy-info {
+  .board-info {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     justify-content: flex-start;
     padding: 0px 20px;
     margin-bottom: 10px;
-    span.member-count {
+    a.members-button {
       color: @light-font;
-      margin-right: 10px;
+      &:active {
+        color: #000;
+      }
     }
-    a.admin-count {
+    a.admin-button {
       color: @light-font;
       &:active {
         color: #000;
@@ -163,7 +166,7 @@
       flex-direction: row;
       height: 30px;
       align-items: center;
-      i {
+      i.material-icons {
         height: 30px;
         width: 30px;
       }
