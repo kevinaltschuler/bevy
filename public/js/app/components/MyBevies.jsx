@@ -15,7 +15,7 @@ var {
   FontIcon,
   CircularProgress
 } = require('material-ui');
-var MyBevyPanel = require('./../../bevy/components/MyBevyPanel.jsx');
+var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 var Footer = require('./Footer.jsx');
@@ -55,21 +55,23 @@ var MyBevies = React.createClass({
     BevyStore.off(NOTIFICATION.CHANGE_ALL, BevyActions.loadMyBevies);
   },
 
-  render() {
-    var myBevies = this.props.myBevies;
-
-    var bevies = myBevies;
-
-    var myBevyPanels = [];
-
-    for(var key in bevies) {
-      var bevy = bevies[key];
-      myBevyPanels.push(
-        <MyBevyPanel bevy={ bevy } key={ 'MyBevyPanel:' + bevy._id } />
+  _renderMyBevies() {
+    var bevyPanels = [];
+    for(var key in this.props.myBevies) {
+      var bevy = this.props.myBevies[key];
+      bevyPanels.push(
+        <BevyPanel
+          bevy={ bevy }
+          myBevies={ this.props.myBevies }
+          key={ 'MyBevyPanel:' + bevy._id }
+        />
       );
     };
+    return bevyPanels;
+  },
 
-    myBevyPanels.push(
+  _renderNewBevyButton() {
+    return (
       <div className='new-bevy-card' onClick={() => { this.setState({ showNewBevyModal: true }); }} key={'new panel'}>
         <div className='plus-icon'>
           <FontIcon
@@ -85,10 +87,13 @@ var MyBevies = React.createClass({
         <Ink style={{width: 275, height: 195, top: -3, left: -3}}/>
       </div>
     );
+  },
 
+  render() {
     var content = (
       <div className='panel-list'>
-        { myBevyPanels }
+        { this._renderMyBevies() }
+        { this._renderNewBevyButton() }
       </div>
     );
 
@@ -99,12 +104,6 @@ var MyBevies = React.createClass({
           onHide={() => { this.setState({ showNewBevyModal: false }) }}
         />
         <div className='mid-section'>
-          {/*<div className='left-filter-sidebar'>
-            <div className='filter-fixed'>
-              <FilterSidebar searchQuery={ this.state.searchQuery } />
-              <Footer />
-            </div>
-          </div>*/}
           <div className='my-bevy-list'>
             { content }
           </div>

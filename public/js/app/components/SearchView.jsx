@@ -2,6 +2,8 @@
  * SearchView.jsx
  *
  * @author kevin
+ * @author albert
+ * @flow
  */
 
 'use strict';
@@ -15,7 +17,7 @@ var {
   FontIcon,
   CircularProgress
 } = require('material-ui');
-var PublicBevyPanel = require('./../../bevy/components/PublicBevyPanel.jsx');
+var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 var Footer = require('./Footer.jsx');
@@ -30,9 +32,8 @@ var BevyStore = require('./../../bevy/BevyStore');
 var BevyActions = require('./../../bevy/BevyActions');
 
 var SearchView = React.createClass({
-
   propTypes: {
-    publicBevies: React.PropTypes.array.isRequired,
+    publicBevies: React.PropTypes.array,
     myBevies: React.PropTypes.array
   },
 
@@ -80,27 +81,35 @@ var SearchView = React.createClass({
 
     var bevies = searchList;
 
-    var publicBevyPanels = [];
-
+    var bevyPanels = [];
     for(var key in bevies) {
       var bevy = bevies[key];
-      publicBevyPanels.push(
-        <PublicBevyPanel bevy={ bevy } myBevies={ this.props.myBevies } key={ 'bevypanel:' + bevy._id } />
+      bevyPanels.push(
+        <BevyPanel
+          bevy={ bevy }
+          myBevies={ this.props.myBevies }
+          showActionButton={ true }
+          key={ 'bevypanel:' + bevy._id }
+        />
       );
     };
 
     var content = (
       <div className='panel-list'>
-        { publicBevyPanels }
+        { bevyPanels }
       </div>
     );
 
-    if(_.isEmpty(publicBevyPanels) && !_.isEmpty(this.state.searchQuery)) {
+    if(_.isEmpty(bevyPanels) && !_.isEmpty(this.state.searchQuery)) {
       content = <h2> no results :( </h2>
     }
 
     if(this.state.searching) {
-      content = <div className='loading-indeterminate'><CircularProgress mode="indeterminate" /></div>
+      content = (
+        <div className='loading-indeterminate'>
+          <CircularProgress mode="indeterminate" />
+        </div>
+      );
     }
 
     return (
