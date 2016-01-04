@@ -278,3 +278,13 @@ exports.destroyBoard = function(req, res, next) {
     return res.json(board);
   });
 };
+
+// GET /boards/:boardid/subscribers
+exports.getSubscribers = function(req, res, next) {
+  var board_id = req.params.boardid;
+  User.find({ boards: board_id }, function(err, users) {
+    if(err) return next(err);
+    return res.json(users);
+  })
+  .limit(20);
+};

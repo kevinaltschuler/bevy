@@ -64,4 +64,10 @@ module.exports = function(router) {
     ],
     boardController.destroyBoard
   );
+
+  router.get('/boards/:boardid/subscribers', [
+      oauth2Controller.bearer
+    ],
+    boardController.getSubscribers
+  );
 };

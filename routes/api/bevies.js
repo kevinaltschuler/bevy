@@ -75,4 +75,10 @@ module.exports = function(router) {
   );
 
   router.get('/bevies/:slug/verify', bevyController.verifySlug);
+
+  router.get('/bevies/:bevyid/subscribers', [
+      oauth2Controller.bearer
+    ],
+    bevyController.getSubscribers
+  );
 };

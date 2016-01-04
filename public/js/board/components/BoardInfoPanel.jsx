@@ -15,6 +15,7 @@ var {
 var BoardSettingsModal = require('./BoardSettingsModal.jsx');
 var BoardInfoPanelHeader = require('./BoardInfoPanelHeader.jsx');
 var AdminModal = require('./../../bevy/components/AdminModal.jsx');
+var SubscriberModal = require('./../../bevy/components/SubscriberModal.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -31,7 +32,8 @@ var BoardInfoPanel = React.createClass({
       isAdmin: _.findWhere(this.props.board.admins,
         { _id: window.bootstrap.user._id }) != undefined,
       showSettingsModal: false,
-      showAdminModal: false
+      showAdminModal: false,
+      showSubModal: false
     };
   },
 
@@ -156,6 +158,10 @@ var BoardInfoPanel = React.createClass({
               className='members-button'
               onClick={(ev) => {
                 ev.preventDefault();
+                if(board.subCount <= 0) return;
+                this.setState({
+                  showSubModal: true
+                });
               }}>
               { board.subCount }
               &nbsp;
@@ -189,6 +195,11 @@ var BoardInfoPanel = React.createClass({
           <AdminModal
             show={ this.state.showAdminModal }
             onHide={() => this.setState({ showAdminModal: false })}
+            activeBoard={ this.props.board }
+          />
+          <SubscriberModal
+            show={ this.state.showSubModal }
+            onHide={() => this.setState({ showSubModal: false })}
             activeBoard={ this.props.board }
           />
         </div>

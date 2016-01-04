@@ -1,5 +1,5 @@
 /**
- * AdminModal.jsx
+ * SubscriberModal.jsx
  * @author albert
  * @flow
  */
@@ -19,7 +19,7 @@ var _ = require('underscore');
 var constants = require('./../../constants');
 var ChatActions = require('./../../chat/ChatActions');
 
-var AdminModal = React.createClass({
+var SubscriberModal = React.createClass({
   propTypes: {
     show: React.PropTypes.bool,
     onHide: React.PropTypes.func,
@@ -36,7 +36,7 @@ var AdminModal = React.createClass({
 
   getInitialState() {
     return {
-      admins: [],
+      subs: [],
       groupName: '',
       loading: true
     };
@@ -46,16 +46,18 @@ var AdminModal = React.createClass({
     // this modal is being shown
     if(nextProps.show) {
       var url = (_.isEmpty(this.props.activeBoard))
-        ? constants.apiurl + '/bevies/' + this.props.activeBevy._id
-        : constants.apiurl + '/boards/' + this.props.activeBoard._id;
+        ? constants.apiurl + '/bevies/' + this.props.activeBevy._id + '/subscribers'
+        : constants.apiurl + '/boards/' + this.props.activeBoard._id + '/subscribers';
       fetch(url, {
         method: 'GET'
       })
       .then(res => res.json())
       .then(res => {
         this.setState({
-          admins: res.admins,
-          groupName: res.name,
+          subs: res,
+          groupName: (_.isEmpty(this.props.activeBoard))
+            ? this.props.activeBevy.name
+            : this.props.activeBoard.name,
           loading: false
         });
       })
@@ -68,56 +70,56 @@ var AdminModal = React.createClass({
     }
   },
 
+  hide() {
+    this.props.onHide();
+  },
+
   startPM(id) {
     if(!_.isEmpty(window.bootstrap.user))
       if(!(id == window.bootstrap.user._id))
         ChatActions.startPM(id);
   },
 
-  hide() {
-    this.props.onHide();
-  },
-
-  _renderAdmins() {
-    var admins = this.state.admins;
-    var adminItems = [];
-    for(var key in admins) {
-      var admin = admins[key];
-      var image_url = (_.isEmpty(admin.image))
+  _renderSubs() {
+    var subs = this.state.subs;
+    var subItems = [];
+    for(var key in subs) {
+      var sub = subs[key];
+      var image_url = (_.isEmpty(sub.image))
         ? constants.defaultProfileImage
-        : admin.image.path;
-      adminItems.push(
+        : sub.image.path;
+      subItems.push(
         <div
-          key={ 'adminitem:' + key }
-          className='admin-item'
-          onClick={() => this.startPM(admin._id)}
+          key={ 'subitem:' + key }
+          className='sub-item'
+          onClick={() => this.startPM(sub._id)}
         >
           <div className='img' style={{
             backgroundImage: 'url(' + image_url + ')'
           }} />
           <span className='name'>
-            { admin.displayName }
+            { sub.displayName }
           </span>
         </div>
       );
     }
-    return adminItems;
+    return subItems;
   },
 
   render() {
     return (
-      <Modal show={ this.props.show } onHide={ this.hide } className='admin-modal'>
+      <Modal show={ this.props.show } onHide={ this.hide } className='sub-modal'>
         <Modal.Header closeButton>
           <Modal.Title>
-            Administrators of "{ this.state.groupName }"
+            Subscribers of "{ this.state.groupName }"
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          { this._renderAdmins() }
+          { this._renderSubs() }
         </Modal.Body>
       </Modal>
     );
   }
 });
 
-module.exports = AdminModal;
+module.exports = SubscriberModal;

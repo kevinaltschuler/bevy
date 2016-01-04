@@ -115,7 +115,8 @@ exports.createBevy = function(req, res, next) {
 exports.getBevy = function(req, res, next) {
   var bevy_id_or_slug = req.params.bevyid;
 
-  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]}, function(err, bevy) {
+  Bevy.findOne({ $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]},
+    function(err, bevy) {
     if(err) return next(err);
     return res.json(bevy);
   })
@@ -306,4 +307,14 @@ exports.verifySlug = function(req, res, next) {
     if(_.isEmpty(bevy)) return res.json({ found: false }); // no bevy with that slug exists
     else return res.json({ found: true }); // matched a bevy. cant use that slug
   });
+};
+
+// GET /bevies/:bevyid/subscribers
+exports.getSubscribers = function(req, res, next) {
+  var bevy_id = req.params.bevyid;
+  User.find({ bevies: bevy_id }, function(err, users) {
+    if(err) return next(err);
+    return res.json(users);
+  })
+  .limit(20);
 };

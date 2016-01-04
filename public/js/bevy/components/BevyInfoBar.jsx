@@ -21,6 +21,7 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 var InviteUsersModal = require('./InviteUsersModal.jsx');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
 var AdminModal = require('./AdminModal.jsx');
+var SubscriberModal = require('./SubscriberModal.jsx');
 
 var _ = require('underscore');
 var BevyActions = require('./../BevyActions');
@@ -35,7 +36,8 @@ var BevyInfoBar = React.createClass({
       isAdmin: (_.findWhere(this.props.activeBevy.admins, { _id: window.bootstrap.user._id }) != undefined),
       showSettingsModal: false,
       showInviteModal: false,
-      showAdminModal: false
+      showAdminModal: false,
+      showSubModal: false
     }
   },
 
@@ -92,6 +94,7 @@ var BevyInfoBar = React.createClass({
           <FlatButton
             label={ this.props.activeBevy.subCount }
             labelPosition='after'
+            onClick={() => this.setState({ showSubModal: true })}
             style={{
               minWidth: 0,
               display: 'flex',
@@ -285,6 +288,11 @@ var BevyInfoBar = React.createClass({
         <AdminModal
           show={ this.state.showAdminModal }
           onHide={() => this.setState({ showAdminModal: false })}
+          activeBevy={ this.props.activeBevy }
+        />
+        <SubscriberModal
+          show={ this.state.showSubModal }
+          onHide={() => this.setState({ showSubModal: false })}
           activeBevy={ this.props.activeBevy }
         />
       </div>
