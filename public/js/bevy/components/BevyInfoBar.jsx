@@ -158,7 +158,7 @@ var BevyInfoBar = React.createClass({
           <Tooltip id='imagetooltip'>Change Bevy Image</Tooltip>
         }>
           <IconButton
-            className='dropzone-panel-button'
+            className='change-image-button'
             style={{
               display: 'flex',
               flexDirection: 'row',
@@ -183,6 +183,25 @@ var BevyInfoBar = React.createClass({
     if(!this.state.isAdmin) return <div />;
     return (
       <div className='info-item'>
+        <Uploader
+          onUploadComplete={ this.onUploadComplete }
+          className="bevy-image-dropzone"
+          dropzoneOptions={{
+            maxFiles: 1,
+            acceptedFiles: 'image/*',
+            clickable: '.change-image-button',
+            dictDefaultMessage: ' ',
+            init: function() {
+              this.on("addedfile", function() {
+                if(this.files[1]!=null) {
+                  this.removeFile(this.files[0]);
+                }
+              });
+            }
+          }}
+          tooltip='Change Bevy Picture'
+          style={{ display: 'none' }}
+        />
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='invitetooltip'>Invite Users</Tooltip>
         }>
@@ -230,25 +249,7 @@ var BevyInfoBar = React.createClass({
           onHide={() => this.setState({showInviteModal: false})}
           activeBevy={bevy}
         />
-        <Uploader
-          onUploadComplete={ this.onUploadComplete }
-          className="bevy-image-dropzone"
-          dropzoneOptions={{
-            maxFiles: 1,
-            acceptedFiles: 'image/*',
-            clickable: '.dropzone-panel-button',
-            dictDefaultMessage: ' ',
-            init: function() {
-              this.on("addedfile", function() {
-                if(this.files[1]!=null) {
-                  this.removeFile(this.files[0]);
-                }
-              });
-            }
-          }}
-          tooltip='Change Bevy Picture'
-          style={{ display: 'none' }}
-        />
+
       </div>
     );
   }
