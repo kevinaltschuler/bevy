@@ -14,7 +14,8 @@ var {
   Tooltip
 } = require('react-bootstrap');
 var {
-  IconButton
+  IconButton,
+  FlatButton
 } = require('material-ui');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 var InviteUsersModal = require('./InviteUsersModal.jsx');
@@ -87,12 +88,28 @@ var BevyInfoBar = React.createClass({
             ) }
           </Tooltip>
         }>
-          <span className='info-item-body'>
-            <span className='sub-count'>
-              { this.props.activeBevy.subCount }
-            </span>
+          <FlatButton
+            label={ this.props.activeBevy.subCount }
+            labelPosition='after'
+            style={{
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: 'rgba(0,0,0,0)',
+              color: '#FFF',
+              fontSize: '1em',
+              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)',
+              paddingLeft: 4,
+              paddingRight: 4
+            }}
+            labelStyle={{
+              padding: 0,
+              marginRight: 4
+            }}
+          >
             <i className="material-icons">people</i>
-          </span>
+          </FlatButton>
         </OverlayTrigger>
       </div>
     );
@@ -110,12 +127,27 @@ var BevyInfoBar = React.createClass({
               : 'admins' }
           </Tooltip>
         }>
-          <span className='info-item-body'>
-            <span className='admin-count'>
-              { this.props.activeBevy.admins.length }
-            </span>
+          <FlatButton
+            label={ this.props.activeBevy.admins.length }
+            labelPosition='after'
+            style={{
+              minWidth: 0,
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              backgroundColor: 'rgba(0,0,0,0)',
+              color: '#FFF',
+              fontSize: '1em',
+              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)',
+              paddingLeft: 4,
+              paddingRight: 4
+            }}
+            labelStyle={{
+              padding: 0
+            }}
+          >
             <i className="material-icons">person</i>
-          </span>
+          </FlatButton>
         </OverlayTrigger>
       </div>
     );
