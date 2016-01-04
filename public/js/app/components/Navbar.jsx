@@ -197,7 +197,10 @@ var Navbar = React.createClass({
           navbarTitle = '';
         else
           navbarTitle = (
-            <div>
+            <div style={{
+              overflow: 'hidden',
+              textOverflow: 'ellipsis'
+            }}>
               <a
                 href={ parent.url }
                 style={{
