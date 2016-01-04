@@ -43,6 +43,9 @@ var PublicBevyPanel = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    this.setState({
+      joined: (_.findWhere(nextProps.myBevies, { _id: nextProps.bevy._id}) != undefined)
+    });
   },
 
   onRequestJoin(ev) {

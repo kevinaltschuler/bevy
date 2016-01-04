@@ -184,7 +184,7 @@ _.extend(BevyStore, {
         // if we haven't joined yet, break
         if(this.myBevies.get(bevy._id) == undefined) break;
         // remove from my bevies collection
-        this.myBevies.remove(bevy_id);
+        this.myBevies.remove(bevy._id);
         // trigger UI changes
         this.trigger(BEVY.CHANGE_ALL);
         break;

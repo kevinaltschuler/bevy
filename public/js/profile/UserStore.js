@@ -133,15 +133,15 @@ _.extend(UserStore, {
           bevies: bevies,
           boards: boards
         }, {
-          patch: true,
-          success: function(model, response, options) {
-          }.bind(this)
+          patch: true
         });
+        this.trigger(USER.CHANGE_ALL);
+        this.trigger(BEVY.CHANGE_ALL);
         break;
       case BEVY.DESTROY:
       case BEVY.LEAVE:
         var bevy = payload.bevy;
-        
+
         // remove from user's bevy array
         var bevies = this.user.get('bevies');
         bevies = _.reject(bevies, function($bevy_id) {
@@ -163,6 +163,7 @@ _.extend(UserStore, {
           patch: true
         });
         this.trigger(USER.CHANGE_ALL);
+        this.trigger(BEVY.CHANGE_ALL);
         break;
 
       case BOARD.JOIN:
