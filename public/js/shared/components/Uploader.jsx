@@ -36,8 +36,13 @@ var Uploader = React.createClass({
     tooltip: React.PropTypes.string
   },
 
-  componentDidMount() {
+  getDefaultProps() {
+    return {
+      tooltip: 'Upload Picture'
+    };
+  },
 
+  componentDidMount() {
     // disable dropzone autodiscover
     Dropzone.autoDiscover = false;
 
@@ -58,7 +63,6 @@ var Uploader = React.createClass({
     PostStore.on(POST.POSTED_POST, this._onPosted);
     PostStore.on(POST.CANCELED_POST, this._onCanceled);
   },
-
   componentWillUnmount() {
     // remove files
     this.dropzone.removeAllFiles(true);
@@ -93,7 +97,8 @@ var Uploader = React.createClass({
 
     var actionButton = '';
     var actionButtonContainer = '';
-    if (this.props.className === 'bevy-image-dropzone' || this.props.className === 'profile-image-dropzone') {
+    if(this.props.className === 'bevy-image-dropzone'
+      || this.props.className === 'profile-image-dropzone') {
       actionButton = (
         <button className="btn btn-lg dropzone-panel-button" onClick={ this.preventDefault }>
           <span className='glyphicon glyphicon-pencil'/>
@@ -107,7 +112,9 @@ var Uploader = React.createClass({
         );
       } else {
         actionButtonContainer = (
-          <OverlayTrigger placement='top' overlay={ <Tooltip id='uplaodertooltip'>{ this.props.tooltip }</Tooltip> }>
+          <OverlayTrigger placement='top' overlay={
+            <Tooltip id='uplaodertooltip'>{ this.props.tooltip }</Tooltip>
+          }>
             <div className='dropzone-button-container'>
               { actionButton }
             </div>

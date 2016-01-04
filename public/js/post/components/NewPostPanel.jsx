@@ -4,17 +4,13 @@
  * The dialog for creating a post
  *
  * @author kevin
+ * @author albert
+ * @flow
  */
 
 'use strict';
 
-// imports
 var React = require('react');
-var _ = require('underscore');
-var Ink = require('react-ink');
-
-var constants = require('./../../constants');
-
 var {
   Panel,
   Badge,
@@ -30,9 +26,11 @@ var {
   FloatingActionButton,
   RaisedButton
 } = require('material-ui');
-
+var Ink = require('react-ink');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
+var _ = require('underscore');
+var constants = require('./../../constants');
 var PostActions = require('./../PostActions');
 
 var hintTexts = [
@@ -61,17 +59,13 @@ var hintText = hintTexts[Math.floor(Math.random() * hintTexts.length)];
 
 var user = window.bootstrap.user;
 
-// React class
 var NewPostPanel = React.createClass({
-
   propTypes: {
     activeBevy: React.PropTypes.object.isRequired,
     myBevies: React.PropTypes.array.isRequired,
     activeBoard: React.PropTypes.object.isRequired
   },
 
-  // start with an empty title
-  // TODO: when the dialog is expanded, add the default options here
   getInitialState() {
     return {
       title: '',
@@ -159,7 +153,7 @@ var NewPostPanel = React.createClass({
       return <div/>;
     }
 
-    var mediaTip = <Tooltip>attach pictures</Tooltip>;
+    var mediaTip = <Tooltip>Attach Pictures</Tooltip>;
     //var eventTip = <Tooltip>create an event</Tooltip>;
     if(_.isEmpty(window.bootstrap.user)) {
       mediaTip = <div/>;
@@ -185,21 +179,22 @@ var NewPostPanel = React.createClass({
           onRemovedFile={ this.onRemovedFile }
           dropzoneOptions={ dropzoneOptions }
           className="dropzone"
+          tooltip='Attach Image'
         />
 
         <div className="panel-bottom">
           <div className='paperclip action'>
-            <OverlayTrigger overlay={mediaTip} placement='bottom'>
+            <OverlayTrigger overlay={ mediaTip } placement='bottom'>
               <FloatingActionButton
                 title="Attach Media"
                 iconClassName="glyphicon glyphicon-picture"
                 className='attach-picture'
                 onClick={ this.preventDefault }
                 backgroundColor={'white'}
-                disabledColor={'rgba(0,0,0,.2)'}
-                iconStyle={{color: 'rgba(0,0,0,.6)', fontSize: '18px'}}
-                style={{marginRight: '15px'}}
-                mini={true}
+                disabledColor={ 'rgba(0,0,0,.2)' }
+                iconStyle={{ color: 'rgba(0,0,0,.6)', fontSize: '18px' }}
+                style={{ marginRight: '15px' }}
+                mini={ true }
               />
             </OverlayTrigger>
             {/*<OverlayTrigger overlay={eventTip} placement='bottom'>
