@@ -124,7 +124,10 @@ var ChatPanel = React.createClass({
     this.setState({
       isOpen: !this.state.isOpen
     });
-    document.getElementById('chat-panel:' + this.props.thread._id).style.height = (this.state.isOpen) ? '30px' : '320px';
+    document.getElementById('chat-panel:' + this.props.thread._id)
+      .style.height = (this.state.isOpen)
+        ? '30px'
+        : '320px';
   },
 
   closePanel(ev) {
@@ -151,7 +154,8 @@ var ChatPanel = React.createClass({
       // backspace
       // delete the most recently added user
       var addedUsers = this.state.addedUsers;
-      if(addedUsers.length < 1) return; // dont do anything if there's no users added yet
+      // dont do anything if there's no users added yet
+      if(addedUsers.length < 1) return;
       addedUsers.pop();
       this.setState({
         addedUsers: addedUsers
@@ -166,7 +170,8 @@ var ChatPanel = React.createClass({
       return $user;
     });
     users.push(user);
-    _.uniq(users); // remove duplicates
+     // remove duplicates
+    _.uniq(users);
     this.setState({
       addedUsers: users,
       inputValue: ''
@@ -202,9 +207,11 @@ var ChatPanel = React.createClass({
       var addedUser = this.state.addedUsers[key];
       itemArray.push(
         <div className='added-user' key={ 'newthreadpanel:addeduser:' + addedUser._id }>
-          <span className='display-name'>{ addedUser.displayName }</span>
+          <span className='display-name'>
+            { addedUser.displayName }
+          </span>
           <Button id={ addedUser._id } className='remove-btn' onClick={ this.removeUser }>
-            <span id={ addedUser._id } className='glyphicon glyphicon-remove'></span>
+            <span id={ addedUser._id } className='glyphicon glyphicon-remove' />
           </Button>
         </div>
       );
@@ -215,8 +222,13 @@ var ChatPanel = React.createClass({
   _renderAddUsersButton() {
     if(this.props.thread.type == 'board' || !this.state.isOpen) return <div />;
     return (
-      <OverlayTrigger placement='top' overlay={ <Tooltip>Add Users to Chat</Tooltip> }>
-        <Button className='close-btn' onClick={() => { this.setState({ expanded: true, accordionType: 'add-user' }) }}>
+      <OverlayTrigger placement='top' overlay={
+        <Tooltip id='add-user-tooltip'>Add Users to Chat</Tooltip>
+      }>
+        <Button
+          className='close-btn'
+          onClick={() => this.setState({ expanded: true, accordionType: 'add-user' }) }
+        >
           <span className="glyphicon glyphicon-user" />
         </Button>
       </OverlayTrigger>
@@ -247,10 +259,28 @@ var ChatPanel = React.createClass({
       case 'group':
         button = (
           <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
-            <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}>Add Users to Chat...</MenuItem>
-            <MenuItem eventKey='1' onSelect={() => this.setState({ showEditParticipantsModal: true })}>Edit Participants</MenuItem>
-            <MenuItem eventKey='2' onSelect={() => this.setState({ expanded: true, accordionType: 'edit-name' })}>Edit Conversation Name</MenuItem>
-            <MenuItem eventKey='3' className='chat-panel-dropzone-btn'>
+            <MenuItem
+              eventKey='0'
+              onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}
+            >
+              Add Users to Chat...
+            </MenuItem>
+            <MenuItem
+              eventKey='1'
+              onSelect={() => this.setState({ showEditParticipantsModal: true })}
+            >
+              Edit Participants
+            </MenuItem>
+            <MenuItem
+              eventKey='2'
+              onSelect={() => this.setState({ expanded: true, accordionType: 'edit-name' })}
+            >
+              Edit Conversation Name
+            </MenuItem>
+            <MenuItem
+              eventKey='3'
+              className='chat-panel-dropzone-btn'
+            >
               Edit Conversation Picture
               <Uploader
                 onUploadComplete={ this.onUploadComplete }
@@ -260,37 +290,62 @@ var ChatPanel = React.createClass({
               />
             </MenuItem>
             <MenuItem divider />
-            <MenuItem eventKey='4' onSelect={() => {
-              if(confirm('Are You Sure?')) {
-                ChatActions.removeUser(this.props.thread._id, window.bootstrap.user._id);
-              }
-            }}>Leave Conversation</MenuItem>
-            <MenuItem eventKey='5' onSelect={() => {
-              if(confirm('Are You Sure?')) {
-                ChatActions.deleteThread(this.props.thread._id);
-              }
-            }}>Delete Conversation</MenuItem>
-            {/*<MenuItem divider />
-            <MenuItem eventKey='6'>Create Bevy</MenuItem>*/}
+            <MenuItem
+              eventKey='4'
+              onSelect={() => {
+                if(confirm('Are You Sure?')) {
+                  ChatActions.removeUser(this.props.thread._id, window.bootstrap.user._id);
+                }
+              }}
+            >
+              Leave Conversation
+            </MenuItem>
+            <MenuItem
+              eventKey='5'
+              onSelect={() => {
+                if(confirm('Are You Sure?')) {
+                  ChatActions.deleteThread(this.props.thread._id);
+                }
+              }}
+            >
+              Delete Conversation
+            </MenuItem>
           </DropdownButton>
         );
         break;
       case 'pm':
         button = (
-          <DropdownButton className='settings-btn-group' buttonClassName='settings-btn' title={ <span className='glyphicon glyphicon-cog' /> } noCaret>
-            <MenuItem eventKey='0' onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}>Add Users to Chat...</MenuItem>
+          <DropdownButton
+            noCaret
+            className='settings-btn-group'
+            buttonClassName='settings-btn'
+            title={ <span className='glyphicon glyphicon-cog' /> }
+          >
+            <MenuItem
+              eventKey='0'
+              onSelect={() => this.setState({ expanded: true, accordionType: 'add-user' })}
+            >
+              Add Users to Chat...
+            </MenuItem>
             <MenuItem divider />
-            <MenuItem eventKey='1' onSelect={() => {
-              if(confirm('Are You Sure?')) {
-                ChatActions.deleteThread(this.props.thread._id);
-              }
-            }}>Delete Conversation</MenuItem>
+            <MenuItem
+              eventKey='1'
+              onSelect={() => {
+                if(confirm('Are You Sure?')) {
+                  ChatActions.deleteThread(this.props.thread._id);
+                }
+              }}
+            >
+              Delete Conversation
+            </MenuItem>
           </DropdownButton>
         );
         break;
     }
     return (
-      <OverlayTrigger placement='top' overlay={ <Tooltip>Options</Tooltip> }>
+      <OverlayTrigger placement='top' overlay={
+        <Tooltip id='chat-options-tooltip'>Options</Tooltip>
+      }>
         { button }
       </OverlayTrigger>
     );
@@ -316,7 +371,8 @@ var ChatPanel = React.createClass({
               className='done-btn'
               onClick={() => {
                 this.setState({ expanded: false });
-                if(_.isEmpty(this.state.addedUsers)) return; // dont do anything if they havent added anybody yet
+                // dont do anything if they havent added anybody yet
+                if(_.isEmpty(this.state.addedUsers)) return;
                 ChatActions.addUsers(this.props.thread._id, this.state.addedUsers);
               }}
             >
@@ -412,13 +468,22 @@ var ChatPanel = React.createClass({
             <div className='chat-panel-background-image' style={ backgroundStyle } />
           </div>
           <div className='chat-panel-head'>
-            <a href='#' className='bevy-name' title={ (this.state.isOpen) ? 'Minimize' : 'Maximize' } onClick={ this.handleToggle }>
+            <a
+              href='#'
+              className='bevy-name'
+              title={ (this.state.isOpen)
+                ? 'Minimize'
+                : 'Maximize' }
+              onClick={ this.handleToggle }
+            >
               { name }
             </a>
             <div className='actions'>
               {/* this._renderAddUsersButton() */}
               {/* this._renderChatOptions() */}
-              <OverlayTrigger placement='top' overlay={ <Tooltip>Close</Tooltip> }>
+              <OverlayTrigger placement='top' overlay={
+                <Tooltip id='close-tooltip'>Close</Tooltip>
+              }>
                 <Button className='close-btn' onClick={ this.closePanel }>
                   <span className="glyphicon glyphicon-remove" />
                 </Button>
