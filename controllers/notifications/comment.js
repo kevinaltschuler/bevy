@@ -92,6 +92,7 @@ var createNewCommentNotifications = function(comment) {
             author_name: author.displayName,
             author_image: author.image,
             post_title: post.title,
+            post_id: post._id,
             board_name: board.name,
             board_id: board._id,
             comment_id: comment._id,
