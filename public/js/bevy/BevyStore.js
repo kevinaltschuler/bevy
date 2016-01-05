@@ -79,7 +79,6 @@ _.extend(BevyStore, {
         this.active.url = constants.apiurl + '/bevies/' + bevy_id_or_slug;
         this.active.fetch({
           success: function(model, response, options) {
-            console.log(this.active)
             this.bevyBoards = new Bevies(this.active.get('boards'));
 
             this.bevyInvites.url = constants.apiurl + '/bevies/'
