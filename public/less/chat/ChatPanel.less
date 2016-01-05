@@ -64,28 +64,41 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        .settings-btn-group {
-          .settings-btn {
-            border-radius: 0px;
-            padding: 0;
-            background-color: transparent;
-            color: #fff;
+        .dropdown.btn-group {
+          .settings-btn-group {
+            float: none;
+            background-color: rgba(0,0,0,0);
             border: none;
-            height: 30px;
-            padding: 0px 7px;
+            color: #FFF;
+            padding: 0px 6px;
             &:hover, &.open {
               color: #ddd;
             }
             &:active, &:focus {
               box-shadow: none;
             }
-            span.glyphicon.glyphicon-cog {
-              line-height: inherit;
-            }
           }
-          .dropdown-menu {
-            border-radius: 2px;
+        }
+        .settings-btn {
+          border-radius: 0px;
+          padding: 0;
+          background-color: transparent;
+          color: #fff;
+          border: none;
+          height: 30px;
+          padding: 0px 7px;
+          &:hover, &.open {
+            color: #ddd;
           }
+          &:active, &:focus {
+            box-shadow: none;
+          }
+          span.glyphicon.glyphicon-cog {
+            line-height: inherit;
+          }
+        }
+        .dropdown-menu {
+          border-radius: 2px;
         }
         .close-btn {
           background-color: transparent;

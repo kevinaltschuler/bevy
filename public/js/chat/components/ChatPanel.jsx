@@ -253,8 +253,7 @@ var ChatPanel = React.createClass({
     };
     switch(this.props.thread.type) {
       case 'board':
-        button = (<div/>
-        );
+        button = <div/>;
         break;
       case 'group':
         button = (
@@ -479,8 +478,8 @@ var ChatPanel = React.createClass({
               { name }
             </a>
             <div className='actions'>
-              {/* this._renderAddUsersButton() */}
-              {/* this._renderChatOptions() */}
+              { this._renderAddUsersButton() }
+              { this._renderChatOptions() }
               <OverlayTrigger placement='top' overlay={
                 <Tooltip id='close-tooltip'>Close</Tooltip>
               }>
