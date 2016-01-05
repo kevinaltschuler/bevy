@@ -61,16 +61,16 @@ exports.POST = {
   CANCEL: 'post_cancel',
   UPDATE: 'post_update',
   PIN: 'post_pin',
-  UPDATE_FRONTBEVIES: 'post_update_frontbevies',
-
   FETCH: 'post_fetch',
+  FETCH_SINGLE: 'post_fetch_single',
+  LOAD: 'post_load',
 
   CHANGE_ALL: 'post_change_all',
   CHANGE_ONE: 'post_change_one:',
   POSTED_POST: 'post_posted_post',
   CANCELED_POST: 'post_canceled_post',
 
-  LOAD: 'post_load'
+
 };
 
 exports.COMMENT = {

@@ -19,14 +19,14 @@ var CommentPanel = require('./CommentPanel.jsx');
 var PostActions = require('./../PostActions');
 
 var PostFooter = React.createClass({
-
   propTypes: {
-    post: React.PropTypes.object
+    post: React.PropTypes.object,
+    showComments: React.PropTypes.bool
   },
 
   getInitialState() {
     return {
-      showComments: false
+      showComments: this.props.showComments
     };
   },
 
@@ -55,7 +55,7 @@ var PostFooter = React.createClass({
 
     var voteButtonStyle = { marginRight: '10px', padding: '0px 10px', color: '#999' };
     var upvoted = _.find(post.votes, function(vote) {
-      return (vote.voter == window.bootstrap.user._id && vote.score > 0); 
+      return (vote.voter == window.bootstrap.user._id && vote.score > 0);
     });
     if(upvoted) {
       voteButtonStyle.color = '#000'

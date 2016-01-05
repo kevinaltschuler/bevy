@@ -187,6 +187,7 @@ var Navbar = React.createClass({
         }
         break;
       case 'board':
+      case 'post':
         if(_.isEmpty(this.props.activeBoard.parent)) {
           return <div/>;
         }

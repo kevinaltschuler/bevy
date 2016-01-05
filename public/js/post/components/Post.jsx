@@ -24,7 +24,6 @@ var PostImages = require('./PostImages.jsx');
 var PostFooter = require('./PostFooter.jsx');
 
 var _ = require('underscore');
-var $ = require('jquery');
 var router = require('./../../router');
 var constants = require('./../../constants');
 var POST = constants.POST;
@@ -38,7 +37,14 @@ var maxTextHeight = 100;
 
 var Post = React.createClass({
   propTypes: {
-    post: React.PropTypes.object.isRequired
+    post: React.PropTypes.object.isRequired,
+    showComments: React.PropTypes.bool
+  },
+
+  getDefaultProps() {
+    return {
+      showComments: false
+    };
   },
 
   getInitialState() {
@@ -234,7 +240,10 @@ var Post = React.createClass({
           removeImage={this.removeImage}
           addImage={this.addImage}
         />
-        <PostFooter post={ post } />
+        <PostFooter
+          post={ post }
+          showComments={ this.props.showComments }
+        />
       </div>
     );
   }

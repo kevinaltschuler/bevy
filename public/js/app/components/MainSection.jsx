@@ -19,6 +19,7 @@ var BevyView = require('./../../bevy/components/BevyView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
 var MyBevies = require('./MyBevies.jsx');
+var PostView = require('./PostView.jsx');
 
 var _ = require('underscore');
 var router = require('./../../router');

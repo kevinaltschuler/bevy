@@ -47,6 +47,23 @@ _.extend(PostStore, {
       case APP.LOAD:
         break;
 
+      case POST.FETCH_SINGLE:
+        var post_id = payload.post_id;
+        fetch(constants.apiurl + '/posts/' + post_id, {
+          method: 'GET'
+        })
+        .then(res => res.json())
+        .then(res => {
+          this.posts.reset([res]);
+          this.posts.forEach(function(post) {
+            post.nestComments();
+          }.bind(this));
+          this.trigger(POST.CHANGE_ALL);
+        })
+        .catch(err => {
+        });
+        break;
+
       case BEVY.SWITCH:
         var bevy_id = payload.bevy_id;
         this.posts.comparator = this.sortByNew;

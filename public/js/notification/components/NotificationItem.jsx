@@ -20,7 +20,6 @@ var {
 var Ink = require('react-ink');
 
 var _ = require('underscore');
-var $ = require('jquery');
 var router = require('./../../router');
 var NotificationActions = require('./../NotificationActions');
 var BevyActions = require('./../../bevy/BevyActions');
@@ -38,6 +37,14 @@ var NotificationItem = React.createClass({
   dismiss(ev) {
     ev.preventDefault();
     NotificationActions.dismiss(this.props.id);
+  },
+
+  goToPost(ev) {
+    ev.preventDefault();
+    var board_id = this.props.data.board_id;
+    var post_id = this.props.data.post_id;
+
+    window.location.href = '/boards/' + board_id + '/posts/' + post_id;
   },
 
   render() {
@@ -67,15 +74,11 @@ var NotificationItem = React.createClass({
         ? { display: 'none' }
         : { backgroundImage: 'url(' + author_image.path + ')' };
 
-        var goToPost = function(ev) {
-          ev.preventDefault();
-        }
-
         body = (
           <Button
             href={ '/boards/' + board_id + '/post/' + post_id }
             className="notification-body"
-            onClick={ goToPost }
+            onClick={ this.goToPost }
           >
             <Ink />
             <div className="sidebar-picture" style={ imgStyle }/>

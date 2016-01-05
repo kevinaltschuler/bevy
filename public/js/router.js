@@ -29,10 +29,10 @@ var Router = Backbone.Router.extend({
     'b/:bevyid/' : 'bevy',
     'boards/:boardid' : 'board',
     'boards/:boardid/' : 'board',
-    'boards/:boardid/post/:postid': 'post',
-    'boards/:boardid/post/:postid/': 'post',
-    'boards/:boardid/post/:postid/comment/:commentid': 'post',
-    'boards/:boardid/post/:postid/comment/:commentid/': 'post',
+    'boards/:boardid/posts/:postid': 'post',
+    'boards/:boardid/posts/:postid/': 'post',
+    'boards/:boardid/posts/:postid/comment/:commentid': 'post',
+    'boards/:boardid/posts/:postid/comment/:commentid/': 'post',
     's/' : 'search',
     's' : 'search',
     's/:query' : 'search',
@@ -132,8 +132,8 @@ var Router = Backbone.Router.extend({
     this.navigate('/', { trigger: true });
   },
 
-  not_found: function(nuts) {
-    console.log('page not found :(');
+  not_found(nuts) {
+    console.log('page not found :(', nuts);
     this.current = '404';
     if(!checkUser()) {
       this.current = 'home';

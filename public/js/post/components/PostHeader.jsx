@@ -29,8 +29,16 @@ var PostHeader = React.createClass({
 
   getInitialState() {
     return {
-
+      isAdmin: _.contains(this.props.post.board.admins, window.bootstrap.user._id),
+      isAuthor: this.props.post.author._id == window.bootstrap.user._id
     };
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isAdmin: _.contains(nextProps.post.board.admins, window.bootstrap.user._id),
+      isAuthor: nextProps.post.author._id == window.bootstrap.user._id
+    });
   },
 
   startPM(ev) {
@@ -56,124 +64,130 @@ var PostHeader = React.createClass({
     this.refs.postdropdown.setState({open: false});
   },
 
-  render() {
+  copyPostURL() {
+    window.prompt("Copy to clipboard: Ctrl+C, Enter",
+      constants.siteurl + '/boards/' + this.props.post.board._id
+      + '/posts/' + this.props.post._id);
+  },
 
-    var post = this.props.post;
-
-    var profileImage = (_.isEmpty(post.author.image))
-      ? constants.defaultProfileImage
-      : post.author.image.path;
-
-    var ago = timeAgo(Date.parse(post.created));
-
-    var left = Date.parse(post.expires);
-    var expireText = (left == new Date('2035', '1', '1')) // dont display if it doesnt expire
-    ? (
-      <span>
-        <span className='middot'>•</span>
-        { 'expires ' + timeLeft(Date.parse(post.expires)) }
-      </span>
-    ) : '';
-
-    var deleteButton = '';
-    if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == post.author._id 
-        || _.contains(post.board.admins, window.bootstrap.user._id))
-        deleteButton = (
-          <MenuItem onClick={ this.destroy } >
-            Delete Post
-          </MenuItem>
-        );
-    }
-
-    var editButton = '';
-    if(window.bootstrap.user) {
-      if(window.bootstrap.user._id == post.author._id)
-        editButton = (
-          <MenuItem onClick={ this.edit } >
-            Edit Post
-          </MenuItem>
-        );
-    }
-
-    var pinButton = '';
-    var pinButtonText = (post.pinned) 
-      ? 'Unpin Post' 
-      : 'Pin Post';
-    if(window.bootstrap.user) {
-      if(_.contains(post.board.admins, window.bootstrap.user._id)) {
-        pinButton = (
-          <MenuItem onClick={ this.pin }>
-            { pinButtonText }
-          </MenuItem>
-        );
-      }
-    }
-
-    var pinnedBadge = (post.pinned)
-    ? <span className='badge pinned'>PINNED</span>
-    : '';
-
-    var hideDropdown = (_.isEmpty(deleteButton) 
-      && _.isEmpty(editButton) && _.isEmpty(pinButton))
-    ? {display: 'none'}
-    : {}
-
-    var authorButton = (_.isEmpty(window.bootstrap.user) 
-      || (post.author == window.bootstrap.user)) 
-      ? (
-        <div>
-          { post.author.displayName }
-        </div>
-      ) : (
+  _renderAuthorName() {
+    if(this.state.isAuthor) {
+      return (
+        <span>
+          { this.props.post.author.displayName }
+        </span>
+      );
+    } else {
+      return (
         <Button onClick={ this.startPM }>
-          { post.author.displayName }
+          { this.props.post.author.displayName }
         </Button>
       );
+    }
+  },
+
+  _renderPinnedBadge() {
+    if(this.props.post.pinned) {
+      return <span className='badge pinned'>PINNED</span>;
+    } else return <div />;
+  },
+
+  _renderDeleteButton() {
+    if(this.state.isAdmin || this.state.isAuthor) {
+      return (
+        <MenuItem onClick={ this.destroy } >
+          Delete Post
+        </MenuItem>
+      );
+    }
+  },
+
+  _renderEditButton() {
+    if(this.state.isAdmin || this.state.isAuthor) {
+      return (
+        <MenuItem onClick={ this.edit } >
+          Edit Post
+        </MenuItem>
+      );
+    }
+  },
+
+  _renderPinButton() {
+    var pinButtonText = (this.props.post.pinned)
+      ? 'Unpin Post'
+      : 'Pin Post';
+    if(this.state.isAdmin) {
+      return (
+        <MenuItem onClick={ this.pin }>
+          { pinButtonText }
+        </MenuItem>
+      );
+    }
+  },
+
+  render() {
+    var post = this.props.post;
+
+    var profileImageURL = (_.isEmpty(this.props.post.author.image))
+      ? constants.defaultProfileImage
+      : this.props.post.author.image.path;
 
     return (
       <div className='panel-header'>
-        <div 
-          className='profile-img' 
-          title={ post.author.displayName } 
-          style={{ backgroundImage: 'url(' + profileImage + ')' }} 
+        <div
+          className='profile-img'
+          title={ this.props.post.author.displayName }
+          style={{ backgroundImage: 'url(' + profileImageURL + ')' }}
         />
         <div className='post-details'>
           <div className='top'>
             <span className="details">
-              { authorButton }
+              { this._renderAuthorName() }
             </span>
             <span className="glyphicon glyphicon-triangle-right"/>
             <span className="details">
-              <a 
-                className='bevy-link' 
-                href={ post.board.url } 
+              <a
+                className='bevy-link'
+                href={ this.props.post.board.url }
               >
-                { post.board.name }
+                { this.props.post.board.name }
               </a>
             </span>
           </div>
           <div className="bottom">
             <span className="detail-time">
-              { ago }
+              { timeAgo(Date.parse(this.props.post.created)) }
             </span>
             <span className='detail-time'>
-              { expireText }
+              { (Date.parse(this.props.post.expires) == new Date('2035', '1', '1'))
+                ? (
+                  <span>
+                    <span className='middot'>•</span>
+                    { 'expires ' + timeLeft(Date.parse(this.props.post.expires)) }
+                  </span>
+                ) : <div />
+              }
             </span>
           </div>
         </div>
         <div className='badges'>
-          { pinnedBadge }
+          { this._renderPinnedBadge() }
           <DropdownButton
+            id='post-settings-dropdown'
             noCaret
             pullRight
             className="post-settings"
-            style={hideDropdown}
             ref='postdropdown'
-            title={<span className="glyphicon glyphicon-triangle-bottom btn"></span>}>
-            { deleteButton }
-            { editButton }
-            { pinButton }
+            title={
+              <span className="glyphicon glyphicon-triangle-bottom btn" />
+            }
+          >
+            { this._renderDeleteButton() }
+            { this._renderEditButton() }
+            { this._renderPinButton() }
+            <MenuItem onClick={ this.copyPostURL }>
+              Copy Post URL
+            </MenuItem>
           </DropdownButton>
         </div>
       </div>

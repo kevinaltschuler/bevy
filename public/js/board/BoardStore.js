@@ -28,7 +28,6 @@ var Boards = require('./BoardCollection');
 var constants = require('./../constants');
 var BEVY = constants.BEVY;
 var POST = constants.POST;
-var CONTACT = constants.CONTACT;
 var CHAT = constants.CHAT;
 var APP = constants.APP;
 var BOARD = constants.BOARD;
@@ -49,6 +48,16 @@ _.extend(BoardStore, {
   // these are created from BoardActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
+
+      case POST.FETCH_SINGLE:
+        fetch(constants.apiurl + '/boards/' + require('./../router').board_id)
+        .then(res => res.json())
+        .then(res => {
+          this.active = new Board(res);
+          this.trigger(BOARD.CHANGE_ALL);
+        });
+        break;
+
       case BOARD.CREATE:
         var name = payload.name;
         var description = payload.description;
