@@ -26,7 +26,6 @@ var UserSearchItem = require('./UserSearchItem.jsx');
 var router = require('./../../router');
 
 var _ = require('underscore');
-var $ = require('jquery');
 var user = window.bootstrap.user;
 var email = user.email;
 var constants = require('./../../constants');
@@ -64,7 +63,9 @@ var ChatSidebar = React.createClass({
   getInitialState() {
     return {
       allThreads: ChatStore.getAllThreads(),
-      sidebarWidth: (window.innerWidth >= 1545) ? constants.chatSidebarWidthOpen : constants.chatSidebarWidthClosed,
+      sidebarWidth: (window.innerWidth >= 1545)
+        ? constants.chatSidebarWidthOpen
+        : constants.chatSidebarWidthClosed,
       searchHeight: 0,
       isOverlayOpen: false,
       searching: false,
@@ -208,8 +209,10 @@ var ChatSidebar = React.createClass({
   },
 
   _renderThreads() {
-    var allThreads = _.map(this.state.allThreads, ($thread) => $thread); // create deep copy
-    allThreads = _.reject(allThreads, ($thread) => $thread._id == -1); // dont render the new message panel/thread
+    // create deep copy
+    var allThreads = _.map(this.state.allThreads, ($thread) => $thread);
+    // dont render the new message panel/thread
+    allThreads = _.reject(allThreads, ($thread) => $thread._id == -1);
     if(allThreads.length == 0) return <div>no conversations</div>;
 
     // collect and render all thread items - sorted by type
@@ -256,15 +259,21 @@ var ChatSidebar = React.createClass({
         />
       );
     };
-    var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? {opacity: 1} : {opacity: 0};
-    var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -40 }
-    var shiftBoardPanel = (this.state.sidebarWidth == constants.chatSidebarWidthOpen) ? { marginTop: 0 } : { marginTop: -30 }
+    var hideTitles = (this.state.sidebarWidth == constants.chatSidebarWidthOpen)
+      ? { opacity: 1 }
+      : { opacity: 0 };
+    var shiftPanels = (this.state.sidebarWidth == constants.chatSidebarWidthOpen)
+      ? { marginTop: 0 }
+      : { marginTop: -40 }
+    var shiftBoardPanel = (this.state.sidebarWidth == constants.chatSidebarWidthOpen)
+      ? { marginTop: 0 }
+      : { marginTop: -30 }
     var boardPanel = (boardThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftBoardPanel }>
         <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
           ev.preventDefault();
           this.setState({ boardPanelOpen: !this.state.boardPanelOpen });
-        }}>board conversations</a>
+        }}>Board Conversations</a>
         <Panel collapsible expanded={ this.state.boardPanelOpen }>
           { boardThreadItems }
         </Panel>
@@ -275,7 +284,7 @@ var ChatSidebar = React.createClass({
         <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
           ev.preventDefault();
           this.setState({ groupPanelOpen: !this.state.groupPanelOpen });
-        }}>group conversations</a>
+        }}>Group Conversations</a>
         <Panel collapsible expanded={ this.state.groupPanelOpen } >
           { groupThreadItems }
         </Panel>
@@ -286,7 +295,7 @@ var ChatSidebar = React.createClass({
         <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
           ev.preventDefault();
           this.setState({ pmPanelOpen: !this.state.pmPanelOpen });
-        }}>private conversations</a>
+        }}>Private Conversations</a>
         <Panel collapsible expanded={ this.state.pmPanelOpen }>
           { pmThreadItems }
         </Panel>
@@ -307,9 +316,7 @@ var ChatSidebar = React.createClass({
     var searchResults = [];
     var userSearchResults = this.state.searchUsers;
     for(var key in userSearchResults) {
-
       var user = userSearchResults[key];
-
       searchResults.push(
         <UserSearchItem
           key={ 'chatusersearch:' + user._id }
@@ -331,8 +338,8 @@ var ChatSidebar = React.createClass({
     }
 
     var chatHeight = (router.current == 'bevy')
-    ? 'calc(100% - 98px)'
-    : 'calc(100% - 69px)';
+      ? 'calc(100% - 98px)'
+      : 'calc(100% - 69px)';
 
     return (
       <div

@@ -2,13 +2,13 @@
  * ChatStore.js
  *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var Backbone = require('backbone');
 var _ = require('underscore');
-var $ = require('jquery');
 var Dispatcher = require('./../shared/dispatcher');
 var router = require('./../router');
 
@@ -39,15 +39,12 @@ _.extend(ChatStore, {
         this.threads.url = constants.apiurl + '/users/' + window.bootstrap.user._id + '/threads';
         this.threads.fetch({
           success: function(collection, response, options) {
-            this.threads.forEach(function(thread) {
-              thread.messages.fetch({
-                success: function(collection, response, options) {
-                  this.trigger(CHAT.CHANGE_ALL);
-                }.bind(this)
-              });
-            }.bind(this));
+            this.trigger(CHAT.CHANGE_ALL);
           }.bind(this)
         });
+        break;
+
+      case BOARD.JOIN:
         break;
 
       case BOARD.DESTROY:
@@ -86,15 +83,17 @@ _.extend(ChatStore, {
 
         // add self to user list
         added_users.push(window.bootstrap.user);
-
         // remove duplicate users
-        added_users = _.uniq(added_users);
+        _.uniq(added_users);
 
         // check to see if this thread already exists
+        // by seeing if there is already a chat with all these users
         var duplicate = this.threads.find(function($thread) {
-          return (_.difference(_.pluck(added_users, '_id'), _.pluck($thread.get('users'), '_id')).length <= 0)
-            && added_users.length == $thread.get('users').length;
+          return ((_.difference(_.pluck(added_users, '_id'),
+            _.pluck($thread.get('users'), '_id')).length <= 0)
+            && added_users.length == $thread.get('users').length);
         });
+
         // only dont create a new thread if this is a pm. allow for duplicate group chats
         if(duplicate != undefined && added_users.length <= 2) {
           // if we find a duplicate thread
@@ -104,6 +103,7 @@ _.extend(ChatStore, {
             author: window.bootstrap.user._id,
             body: message_body
           });
+          new_message.url = constants.apiurl + '/messages';
           new_message.save();
           // self populate message
           new_message.set('author', window.bootstrap.user);
@@ -143,15 +143,13 @@ _.extend(ChatStore, {
             });
             // set the urls
             thread.url = constants.apiurl + '/threads/' + thread.get('_id');
-            thread.messages.url = constants.apiurl + '/threads/' + thread.get('_id') + '/messages';
+            thread.messages.url = constants.apiurl + '/messages';
             new_message.save();
             // self populate message
             new_message.set('author', window.bootstrap.user);
-
             this.trigger(CHAT.CHANGE_ALL);
           }.bind(this)
         });
-
         break;
 
       case CHAT.ADD_USERS:
@@ -181,7 +179,7 @@ _.extend(ChatStore, {
               this.openThreads.push(thread.id);
               // set the urls
               thread.url = constants.apiurl + '/threads/' + thread.get('_id');
-              thread.messages.url = constants.apiurl + '/threads/' + thread.get('_id') + '/messages';
+              thread.messages.url = constants.apiurl + '/messages';
 
               this.trigger(CHAT.CHANGE_ALL);
             }.bind(this)
@@ -200,7 +198,7 @@ _.extend(ChatStore, {
           this.trigger(CHAT.CHANGE_ALL);
         }
         break;
-      
+
       case CHAT.REMOVE_USER:
         var thread_id = payload.thread_id;
         var user_id = payload.user_id;
@@ -208,7 +206,7 @@ _.extend(ChatStore, {
         var thread = this.threads.get(thread_id);
         if(thread == undefined) break;
 
-        // remove user 
+        // remove user
         var thread_users = _.reject(thread.get('users'), function($user) {
           return $user._id == user_id;
         });
@@ -217,10 +215,7 @@ _.extend(ChatStore, {
         thread.save({
           users: _.pluck(thread_users, '_id')
         }, {
-          patch: true,
-          success: function(model, response, options) {
-            
-          }.bind(this)
+          patch: true
         });
 
         // simulate population of users field
@@ -298,7 +293,7 @@ _.extend(ChatStore, {
               thread.set('_id', model.id);
               this.openThreads.push(thread.id);
               // set the messages url
-              thread.messages.url = constants.apiurl + '/threads/' + thread.get('_id') + '/messages';
+              thread.messages.url = constants.apiurl + '/messages';
               this.trigger(CHAT.CHANGE_ALL);
             }.bind(this)
           });
@@ -379,7 +374,7 @@ _.extend(ChatStore, {
           }.bind(this)
         });
         // reset url
-        thread.messages.url = constants.apiurl + '/threads/' + thread.id + '/messages';
+        thread.messages.url = constants.apiurl + '/messages';
 
         break;
       case CHAT.UPDATE_IMAGE:

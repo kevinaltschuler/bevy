@@ -1,3 +1,9 @@
+/**
+ * MessageItem.jsx
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 var React = require('react');
@@ -7,7 +13,6 @@ var constants = require('./../../constants');
 var user = window.bootstrap.user;
 
 var MessageItem = React.createClass({
-
   propTypes: {
     message: React.PropTypes.object,
     board: React.PropTypes.object
@@ -68,9 +73,9 @@ var MessageItem = React.createClass({
         <div className='arrow' style={ arrowStyle }/>
         <div className='message-body'>
           <div className='message-text-wrapper' style={ bodyStyle }>
-            <span 
-              title={ created } 
-              className='message-text' 
+            <span
+              title={ created }
+              className='message-text'
               style={ messageTextStyle }
             >
               { message.$body }

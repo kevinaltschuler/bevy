@@ -44,7 +44,7 @@ var ThreadItem = React.createClass({
   },
 
   getLatestMessage() {
-    var latestMessage = ChatStore.getLatestMessage(this.props.thread._id);
+    var latestMessage = this.props.thread.latest;
     if(!_.isEmpty(latestMessage)) {
       var messageAuthor = latestMessage.author.displayName;
       if(latestMessage.author._id == user._id) messageAuthor = 'Me';
@@ -73,7 +73,7 @@ var ThreadItem = React.createClass({
 
     return (
       <OverlayTrigger placement='left' overlay={tooltip}>
-        <a 
+        <a
           className='conversation-item'
           style={{ width: this.props.width }}
           href='#'

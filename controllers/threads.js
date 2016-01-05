@@ -40,7 +40,7 @@ exports.getUserThreads = function(req, res, next) {
 				async.each(threads, function(thread, callback) {
 					Message.find({ thread: thread._id }, function(err, latest) {
 			      if(err) return next(err);
-			      latest = JSON.parse(JSON.stringify(latest));
+			      thread = JSON.parse(JSON.stringify(thread));
 			      thread.latest = latest[0];
 			      $threads.push(thread);
 			      callback();
@@ -74,14 +74,14 @@ exports.getBoardThreads = function(req, res, next) {
 	var board_id = req.params.boardid;
 	Thread.findOne({ board: board_id }, function(err, thread) {
 		if(err) return next(err);
-	    Message.find({ thread: thread._id }, function(err, latest) {
-	      if(err) return next(err);
-	      thread.latest = latest;
-	      return res.json(thread);
-	    })
-	    .populate('created')
-	    .sort('-created')
-	    .limit(1)
+	  Message.find({ thread: thread._id }, function(err, latest) {
+	    if(err) return next(err);
+      thread = JSON.parse(JSON.stringify(thread));
+	    thread.latest = latest;
+	    return res.json(thread);
+	  })
+	  .sort('-created')
+	  .limit(1)
 		.populate({
 			path: 'author',
 			select: userPopFields
@@ -122,7 +122,18 @@ exports.getThread = function(req, res, next) {
 	var thread_id = req.params.threadid;
 	Thread.findOne({ _id: thread_id }, function(err, thread) {
 		if(err) return next(err);
-		return res.json(thread);
+    Message.find({ thread: thread._id }, function(err, latest) {
+      if(err) return next(err);
+      thread = JSON.parse(JSON.stringify(thread));
+      thread.latest = latest;
+      return res.json(thread);
+    })
+    .sort('-created')
+    .limit(1)
+    .populate({
+      path: 'author',
+      select: userPopFields
+    });
 	})
 	.populate({
 		path: 'board',

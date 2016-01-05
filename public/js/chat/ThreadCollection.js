@@ -16,7 +16,7 @@ var ThreadCollection = Backbone.Collection.extend({
   model: ThreadModel,
   comparator: 'type',
   url: function() {
-    return constants.apiurl + '/users/' + user._id + '/threads';
+    return constants.apiurl + '/threads';
   }
 });
 
