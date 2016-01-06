@@ -62,9 +62,9 @@ var BevyView = React.createClass({
       var board = boards[key];
       boardList.push(
         <BoardPanel
-          key={'boardpanel:' + board._id}
-          board={board}
-          boards={bevy.boards}
+          key={ 'boardpanel:' + board._id }
+          board={ board }
+          bevy={ bevy }
         />
       );
     }

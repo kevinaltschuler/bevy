@@ -34,20 +34,21 @@ var user = window.bootstrap.user;
 var BoardPanel = React.createClass({
   propTypes: {
     board: React.PropTypes.object,
-    boards: React.PropTypes.array.isRequired
+    bevy: React.PropTypes.object
   },
 
   getInitialState() {
-    var board = this.props.board;
     return {
       joined: (_.contains(window.bootstrap.user.boards, this.props.board._id)),
+      isBevyMember: (_.contains(window.bootstrap.user.bevies, this.props.bevy._id)),
       showSubModal: false
     };
   },
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      joined: (_.contains(window.bootstrap.user.boards, nextProps.board._id))
+      joined: (_.contains(window.bootstrap.user.boards, nextProps.board._id)),
+      isBevyMember: (_.contains(window.bootstrap.user.bevies, nextProps.bevy._id)),
     });
   },
 
@@ -208,6 +209,13 @@ var BoardPanel = React.createClass({
     )
   },
 
+  _renderJoinLeaveButton() {
+    if(!this.state.isBevyMember) return <div />;
+    return (this.state.joined)
+      ? this._renderLeaveButton()
+      : this._renderJoinButton();
+  },
+
   render() {
     var board = this.props.board;
     var boardImageURL = (_.isEmpty(this.props.board.image))
@@ -248,10 +256,7 @@ var BoardPanel = React.createClass({
             { this._renderBoardType() }
           </div>
           <div className='right'>
-            { (this.state.joined)
-              ? this._renderLeaveButton()
-              : this._renderJoinButton()
-            }
+            { this._renderJoinLeaveButton() }
           </div>
         </div>
       </div>
