@@ -23,7 +23,8 @@ var BoardActions = require('./../BoardActions');
 
 var BoardInfoPanel = React.createClass({
   propTypes: {
-    board: React.PropTypes.object
+    board: React.PropTypes.object,
+    myBevies: React.PropTypes.array
   },
 
   getInitialState() {
@@ -31,6 +32,7 @@ var BoardInfoPanel = React.createClass({
       joined: (_.contains(window.bootstrap.user.boards, this.props.board._id)),
       isAdmin: _.findWhere(this.props.board.admins,
         { _id: window.bootstrap.user._id }) != undefined,
+      isBevyMember: _.contains(window.bootstrap.user.bevies, this.props.board.parent._id),
       showSettingsModal: false,
       showAdminModal: false,
       showSubModal: false
@@ -41,7 +43,8 @@ var BoardInfoPanel = React.createClass({
     this.setState({
       joined: (_.contains(window.bootstrap.user.boards, nextProps.board._id)),
       isAdmin: _.findWhere(nextProps.board.admins,
-        { _id: window.bootstrap.user._id }) != undefined
+        { _id: window.bootstrap.user._id }) != undefined,
+      isBevyMember: _.contains(window.bootstrap.user.bevies, nextProps.board.parent._id),
     });
   },
 
@@ -117,6 +120,8 @@ var BoardInfoPanel = React.createClass({
     var joinButton = (this.state.joined)
     ? <FlatButton label='leave' onClick={ this.onRequestLeave } />
     : <RaisedButton label='join' onClick={ this.onRequestJoin } />
+
+    if(!this.state.isBevyMember) joinButton = <div />;
 
     if(this.state.isAdmin) {
       return (
