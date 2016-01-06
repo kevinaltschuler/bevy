@@ -47,30 +47,26 @@ var BoardView = React.createClass({
   },
 
   render() {
+    if(this.props.activeBoard._id == undefined) {
+      return <div/>;
+    }
+
     var joinedBoard = false;
     var joinedParent = false;
     var activeBoard = this.props.activeBoard;
-    var parent = activeBoard.parent;
-
-    if(_.isEmpty(activeBoard) || _.isEmpty(parent)) {
-      return <div/>;
-    }
+    var parent = this.props.activeBoard.parent;
 
     if(_.isEmpty(window.bootstrap.user)) {
       joinedParent = false;
     }
 
-    if(_.find(window.bootstrap.user.bevies,
-      function(bevyId) {
-      return bevyId == parent._id
-    }.bind(this))) {
+    if(_.find(window.bootstrap.user.bevies, function(bevyId) {
+      return bevyId == parent._id }.bind(this))) {
       joinedParent = true;
     }
 
-    if(_.find(window.bootstrap.user.boards,
-      function(boardId) {
-      return boardId == activeBoard._id
-    }.bind(this))) {
+    if(_.find(window.bootstrap.user.boards, function(boardId) {
+      return boardId == activeBoard._id }.bind(this))) {
       joinedBoard = true;
     }
 

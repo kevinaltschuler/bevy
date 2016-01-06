@@ -2,6 +2,7 @@
  * BoardStore.js
  * @author kevin
  * @author albert
+ * @flow
  */
 
 'use strict';

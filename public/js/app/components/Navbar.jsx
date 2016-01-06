@@ -41,7 +41,7 @@ var BEVY = constants.BEVY;
 
 var Navbar = React.createClass({
   propTypes: {
-    myBevies: React.PropTypes.array.isRequired,
+    myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     allNotifications: React.PropTypes.array,
     userInvites: React.PropTypes.array,
@@ -154,9 +154,7 @@ var Navbar = React.createClass({
       ? '98px'
       : '68px';
 
-    var navbarStyle;
-    if(!_.isEmpty(this.props.activeBevy) && !_.isEmpty(this.props.activeBevy.image))
-      navbarStyle = { backgroundColor: 'rgba(0,0,0,0)', height: navbarHeight};
+    var navbarStyle = { backgroundColor: 'rgba(0,0,0,0)', height: navbarHeight};
     if(router.current == 'home')
       navbarStyle = { boxShadow: 'none', height: navbarHeight};
 
@@ -232,17 +230,19 @@ var Navbar = React.createClass({
               ? ''
               : 'url(' + parent.image.path + ')'
           };
-          if(!_.isEmpty(parent)) {
-            if(!_.isEmpty(parent.image))
-              if(parent.image.path == "http://bevy.dev/img/default_group_img.png")
-                backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
-          }
+        if(!_.isEmpty(parent)) {
+          if(!_.isEmpty(parent.image))
+            if(parent.image.path == "http://bevy.dev/img/default_group_img.png")
+              backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
+        }
         break;
+
       case 'search':
         navbarTitle = ((_.isEmpty(router.search_query))
           ? 'public bevies'
           : 'search for ' + router.search_query);
         break;
+
       default:
         break;
     }
@@ -258,13 +258,17 @@ var Navbar = React.createClass({
           title='Search'
         />);
 
+    var navBarDefaultColor;
+    if(_.isEmpty(this.props.activeBevy) || _.isEmpty(this.props.activeBevy.image))
+      navBarDefaultColor = '#939393';
+    else
+      navBarDefaultColor = '#000'
+
     return (
-      <div id='navbar' className="navbar" style={navbarStyle}>
+      <div id='navbar' className="navbar" style={ navbarStyle }>
         <div
           className='background-wrapper'
-          style={ _.isEmpty(this.props.activeBevy.image)
-            ? { backgroundColor: '#939393', height: navbarHeight }
-            : { backgroundColor: '#000', height: navbarHeight }}
+          style={{ backgroundColor: navBarDefaultColor, height: navbarHeight }}
         >
         <div className="background-image" style={ backgroundStyle } />
         </div>
