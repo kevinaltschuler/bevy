@@ -22,6 +22,7 @@ var {
   Card,
   CardHeader
 } = require('material-ui');
+var SubscriberModal = require('./../../bevy/components/SubscriberModal.jsx');
 
 var _ = require('underscore');
 var router = require('./../../router');
@@ -39,7 +40,8 @@ var BoardPanel = React.createClass({
   getInitialState() {
     var board = this.props.board;
     return {
-      joined: (_.contains(window.bootstrap.user.boards, this.props.board._id))
+      joined: (_.contains(window.bootstrap.user.boards, this.props.board._id)),
+      showSubModal: false
     };
   },
 
@@ -116,12 +118,21 @@ var BoardPanel = React.createClass({
                 : 'subscribers')}
           </Tooltip>
         }>
-          <span className='info-item-body'>
+          <FlatButton
+            onClick={() => this.setState({ showSubModal: true })}
+            style={{
+              minWidth: 0,
+              lineHeight: 1.42,
+              height: 'auto',
+              padding: '4px 6px',
+              backgroundColor: 'transparent'
+            }}
+          >
             <span className='sub-count'>
               { this.props.board.subCount }
             </span>
             <i className="material-icons">people</i>
-          </span>
+          </FlatButton>
         </OverlayTrigger>
       </div>
     );
@@ -215,6 +226,11 @@ var BoardPanel = React.createClass({
 
     return (
       <div className="panel board-panel">
+        <SubscriberModal
+          show={ this.state.showSubModal }
+          onHide={() => this.setState({ showSubModal: false })}
+          activeBoard={ this.props.board }
+        />
         <div className='top'>
           { this._renderAvatar(boardImageURL) }
           <div className='panel-info'>
