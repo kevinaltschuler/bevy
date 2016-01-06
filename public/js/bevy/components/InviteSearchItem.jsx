@@ -34,7 +34,7 @@ var UserInviteItem = React.createClass({
   render() {
     var user = this.props.user;
 
-    var image_url = (_.isEmpty(user.image)) 
+    var image_url = (_.isEmpty(user.image))
       ? constants.defaultProfileImage
       : user.image.path;
     var name = user.displayName;
@@ -45,8 +45,9 @@ var UserInviteItem = React.createClass({
     };
 
     return (
-      <Button 
-        className='user-search-item' 
+      <Button
+        className='user-search-item'
+        title={ 'Invite ' + name }
         style={{
           width: '100%'
         }}
@@ -58,10 +59,10 @@ var UserInviteItem = React.createClass({
             { name }
           </span>
         </div>
-        <Ink style={{ 
-          color: '#aaa', 
-          height: 50, 
-          top: 'inherit', 
+        <Ink style={{
+          color: '#aaa',
+          height: 50,
+          top: 'inherit',
           marginTop: '-5px' }}
         />
       </Button>

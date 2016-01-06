@@ -93,14 +93,9 @@ var BoardPanel = React.createClass({
       );
     } else {
       return (
-        <Avatar
-          size={ 40 }
-          style={{
-            width: 40,
-            height: 40,
-            minWidth: 40
-          }}
-          src={ boardImageURL }
+        <div
+          className='board-image'
+          style={{ backgroundImage: 'url(' + boardImageURL + ')' }}
         />
       );
     }
@@ -242,6 +237,7 @@ var BoardPanel = React.createClass({
           <div className='panel-info'>
             <a
               className='title'
+              title={ this.props.board.name }
               href={ this.props.board.url } >
               { this.props.board.name }
             </a>

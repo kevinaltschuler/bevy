@@ -97,7 +97,7 @@ var ResetPage = React.createClass({
     return (
       <div className='forgot-container'>
         <div className='forgot-header'>
-          <a href='/'>
+          <a title='home' href='/'>
             <img src='/img/logo_100.png' height="60" width="60"/>
           </a>
         </div>
@@ -126,7 +126,7 @@ var ResetPage = React.createClass({
               onClick={ this.submit } />
           </form>
         </Panel>
-        <a href='/login'>Back to Login</a>
+        <a title='Login' href='/login'>Back to Login</a>
       </div>
     );
   }

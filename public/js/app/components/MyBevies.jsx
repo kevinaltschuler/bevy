@@ -1,7 +1,8 @@
 /**
  * MyBevies.jsx
- *
+ * @author albert
  * @author kevin
+ * @flow
  */
 
 'use strict';
@@ -19,23 +20,20 @@ var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 var Footer = require('./Footer.jsx');
-var constants = require('./../../constants');
-var UserStore = require('./../../user/UserStore');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
 var user = window.bootstrap.user;
-var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 var USER = constants.USER;
 var NOTIFICATION = constants.NOTIFICATION;
 var BevyStore = require('./../../bevy/BevyStore');
 var BevyActions = require('./../../bevy/BevyActions');
+var UserStore = require('./../../user/UserStore');
 var Ink = require('react-ink');
 
 var MyBevies = React.createClass({
-
   propTypes: {
     myBevies: React.PropTypes.array
   },
@@ -106,6 +104,7 @@ var MyBevies = React.createClass({
         <div className='mid-section'>
           <div className='my-bevy-list'>
             { content }
+            <Footer />
           </div>
         </div>
       </div>

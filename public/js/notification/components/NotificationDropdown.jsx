@@ -63,7 +63,12 @@ var NotificationDropdown = React.createClass({
   render() {
     return (
       <div ref='Container' style={{ position: 'relative' }}>
-        <Button ref='NotificationButton' className="notification-dropdown-btn" onClick={ this.toggle } title='Notifications'>
+        <Button
+          ref='NotificationButton'
+          className="notification-dropdown-btn"
+          onClick={ this.toggle }
+          title='Notifications'
+        >
           <div className='notification-img'/>
         </Button>
         <Overlay

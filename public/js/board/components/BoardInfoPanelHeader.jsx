@@ -33,7 +33,7 @@ var BoardInfoPanelHeader = React.createClass({
 
   getInitialState() {
     return {
-      isAdmin: _.findWhere(this.props.board.admins, 
+      isAdmin: _.findWhere(this.props.board.admins,
         { _id: window.bootstrap.user._id }) != undefined,
       name: this.props.board.name || '',
       description: this.props.board.description || 'No Description',
@@ -140,7 +140,11 @@ var BoardInfoPanelHeader = React.createClass({
       <OverlayTrigger placement='top' overlay={
         <Tooltip id='edit-board-tooltip'>Edit Name/Description</Tooltip>
       }>
-        <Button className='edit-btn' onClick={ this.startEditing }>
+        <Button
+          className='edit-btn'
+          title='Edit Board Info'
+          onClick={ this.startEditing }
+        >
           <span className='glyphicon glyphicon-pencil' />
         </Button>
       </OverlayTrigger>
@@ -196,17 +200,13 @@ var BoardInfoPanelHeader = React.createClass({
           { this._renderBoardImage() }
           <div className="sidebar-title">
             <div className='sidebar-title-name-container'>
-              <span
-                className='sidebar-title-name'
-                onDoubleClick={ this.startEditing } >
+              <span className='sidebar-title-name'>
                 { this.state.name }
               </span>
               { this._renderEditButton() }
             </div>
             <div className='sidebar-title-description-container'>
-              <span
-                className='sidebar-title-description'
-                onDoubleClick={ this.startEditing } >
+              <span className='sidebar-title-description'>
                 { this.state.description }
               </span>
             </div>

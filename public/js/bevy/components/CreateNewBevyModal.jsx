@@ -25,7 +25,6 @@ var ThemeManager = new Styles.ThemeManager();
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var _ = require('underscore');
-var $ = require('jquery');
 var constants = require('./../../constants');
 var getSlug = require('speakingurl');
 var BevyActions = require('./../BevyActions');
@@ -63,12 +62,12 @@ var CreateNewBevyModal = React.createClass({
       radioButton: {
         borderColor:  '#666',
         backgroundColor: '#fff',
-        checkedColor: '#222',
-        requiredColor: '#222',
-        disabledColor: 'rgba(0,0,0,.2)',
+        checkedColor: '#666',
+        requiredColor: '#666',
+        disabledColor: 'rgba(0,0,0,.7)',
         size: 24,
-        labelColor: '#222',
-        labelDisabledColor: 'rgba(0,0,0,.2)',
+        labelColor: '#666',
+        labelDisabledColor: 'rgba(0,0,0,.7)',
       },
     });
   },
@@ -206,6 +205,7 @@ var CreateNewBevyModal = React.createClass({
               className="bevy-image-dropzone"
               style={ bevyImageStyle }
               dropzoneOptions={ dropzoneOptions }
+              tooltip='Upload Bevy Picture'
             />
           </div>
           <div className='text-fields'>

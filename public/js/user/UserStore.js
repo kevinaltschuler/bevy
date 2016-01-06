@@ -218,8 +218,6 @@ _.extend(UserStore, {
       case USER.SEARCH:
         this.trigger(USER.SEARCHING);
         var query = payload.query;
-        if(query == '' || query == undefined)
-          break;
 
         fetch(constants.apiurl + '/users/search/' + query, {
           method: 'GET'
@@ -240,11 +238,13 @@ _.extend(UserStore, {
 
   addBoard(board) {
     this.user.boards.push(board.get('_id'));
+    window.bootstrap.user.boards.push(board.get('_id'));
     this.trigger(USER.CHANGE_ALL);
   },
 
   addBevy(bevy) {
     this.user.bevies.push(bevy.get('_id'));
+    window.bootstrap.user.bevies.push(bevy.get('_id'));
     this.trigger(USER.CHANGE_ALL);
   },
 

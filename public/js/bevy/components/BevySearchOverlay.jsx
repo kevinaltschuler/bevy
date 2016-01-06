@@ -147,6 +147,7 @@ var BevySearchOverlay = React.createClass({
       bevies.push(
         <Button
           key={ 'bevysearchoverlay:bevy:' + bevy._id }
+          title={'Select ' + bevy.name }
           id={ key }
           className={ 'user-item' + ((this.state.selected == key)
             ? ' active'

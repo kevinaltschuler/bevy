@@ -117,7 +117,12 @@ var ForgotPage = React.createClass({
               onClick={ this.submit } />
           </form>
         </Panel>
-        <a href='/login'>Back to Login</a>
+        <a
+          href='/login'
+          title='Login'
+        >
+          Back to Login
+        </a>
       </div>
     );
   }

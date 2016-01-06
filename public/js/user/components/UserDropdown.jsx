@@ -104,7 +104,7 @@ var UserDropdown = React.createClass({
             label="Logout"
             linkButton={ true }
             href='/logout'
-            style={{ marginRight: 10 }}
+            style={{ marginRight: 6 }}
           />
         </div>
       </div>

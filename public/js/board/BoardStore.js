@@ -67,6 +67,9 @@ _.extend(BoardStore, {
           success: function(model, response, options) {
             BevyStore.addBoard(board);
             UserStore.addBoard(board);
+            this.trigger(BEVY.CHANGE_ALL);
+            this.trigger(BOARD.CHANGE_ALL);
+            this.trigger(USER.CHANGE_ALL);
           }.bind(this)
         });
         break;

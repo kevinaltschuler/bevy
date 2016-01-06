@@ -1,14 +1,13 @@
 /**
  * PostImages.jsx
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
 var Ink = require('react-ink');
-
 var {
   Button
 } = require('react-bootstrap');
@@ -18,10 +17,10 @@ var {
 var ImageModal  = require('./ImageModal.jsx');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
+var _ = require('underscore');
 var constants = require('./../../constants');
 
 var PostImages = React.createClass({
-
   propTyes: {
     post: React.PropTypes.object,
     removeImage: React.PropTypes.func,
@@ -35,9 +34,9 @@ var PostImages = React.createClass({
     };
   },
 
-  showModal(ev) { 
+  showModal(ev) {
     ev.preventDefault();
-    this.setState({ 
+    this.setState({
       imageKey: ev.target.id,
       showImageModal: true
     });
@@ -72,8 +71,9 @@ var PostImages = React.createClass({
         imageButtons.push(
           <div className='panel-body-image' key={ 'postimage:' + post._id + ':' + key }>
             { more }
-            <Button 
-              className="image-thumbnail" 
+            <Button
+              className="image-thumbnail"
+              title='View Image'
               id={ key }
               style={{ backgroundImage: 'url(' + url + ')' }}
               onClick={ this.showModal }
@@ -84,15 +84,21 @@ var PostImages = React.createClass({
     } else {
       imageButtons = [];
       for(var key in images) {
-        var url = constants.apiurl + '/' + images[key].filename + '?w=150&h=150';
+        var url = images[key].path + '?w=150&h=150';
         imageButtons.push(
           <div className='panel-body-image' key={ 'postimage:' + post._id + ':' + url }>
-            <Button 
-              className="image-thumbnail" 
+            <Button
+              className="image-thumbnail"
+              title='View Image'
               id={ key }
               style={{ backgroundImage: 'url(' + url + ')' }}
             >
-              <span className='remove-btn' onClick={() => this.props.removeImage(images[key])}>
+              <div className='dark-overlay' />
+              <span
+                className='remove-btn'
+                title='Remove Image'
+                onClick={() => this.props.removeImage(images[key])}
+              >
                 <Ink/>
                 <i className="material-icons">close</i>
               </span>
@@ -121,9 +127,9 @@ var PostImages = React.createClass({
     return (
       <div className="post-images">
         { imageButtons }
-        <ImageModal 
-          allImages={ post.images } 
-          index={ this.state.imageKey } 
+        <ImageModal
+          allImages={ post.images }
+          index={ this.state.imageKey }
           show={ this.state.showImageModal }
           onHide={() => { this.setState({ showImageModal: false }); }}
         />

@@ -1,11 +1,13 @@
 /**
  * PostHeader.jsx
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
+var ReactDOM = require('react-dom');
 var {
   DropdownButton,
   Button,
@@ -32,6 +34,9 @@ var PostHeader = React.createClass({
       isAdmin: _.contains(this.props.post.board.admins, window.bootstrap.user._id),
       isAuthor: this.props.post.author._id == window.bootstrap.user._id
     };
+  },
+
+  componentDidMount() {
   },
 
   componentWillReceiveProps(nextProps) {
@@ -65,9 +70,10 @@ var PostHeader = React.createClass({
   },
 
   copyPostURL() {
-    window.prompt("Copy to clipboard: Ctrl+C, Enter",
-      constants.siteurl + '/boards/' + this.props.post.board._id
-      + '/posts/' + this.props.post._id);
+    var url = constants.siteurl + '/boards/' + this.props.post.board._id
+      + '/posts/' + this.props.post._id;
+    window.prompt('Copy: Ctrl-C + Enter', url);
+
   },
 
   _renderAuthorName() {
@@ -79,7 +85,10 @@ var PostHeader = React.createClass({
       );
     } else {
       return (
-        <Button onClick={ this.startPM }>
+        <Button
+          title={ 'Message ' + this.props.post.author.displayName }
+          onClick={ this.startPM }
+        >
           { this.props.post.author.displayName }
         </Button>
       );
@@ -148,6 +157,7 @@ var PostHeader = React.createClass({
             <span className="details">
               <a
                 className='bevy-link'
+                title={ this.props.post.board.name }
                 href={ this.props.post.board.url }
               >
                 { this.props.post.board.name }
@@ -185,7 +195,8 @@ var PostHeader = React.createClass({
             { this._renderDeleteButton() }
             { this._renderEditButton() }
             { this._renderPinButton() }
-            <MenuItem onClick={ this.copyPostURL }>
+            <MenuItem
+              onClick={ this.copyPostURL }>
               Copy Post URL
             </MenuItem>
           </DropdownButton>

@@ -58,7 +58,7 @@ var BevyActions = {
     });
   },
 
-  update(bevy_id, name, image, settings) {
+  update(bevy_id, name, image, slug, settings) {
     if(_.isEmpty(bevy_id)) return;
 
     Dispatcher.dispatch({
@@ -66,6 +66,7 @@ var BevyActions = {
       bevy_id: bevy_id,
       name: (name == undefined) ? null : name,
       image: (image == undefined) ? null : image,
+      slug: (slug == undefined) ? null : slug,
       settings: (settings == undefined) ? null : settings
     });
   },

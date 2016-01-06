@@ -120,7 +120,12 @@ var NewThreadPanel = React.createClass({
       itemArray.push(
         <div className='added-user' key={ 'newthreadpanel:addeduser:' + addedUser._id }>
           <span className='display-name'>{ addedUser.displayName }</span>
-          <Button id={ addedUser._id } className='remove-btn' onClick={ this.removeUser }>
+          <Button
+            id={ addedUser._id }
+            title={ 'Remove ' + addedUser.displayName }
+            className='remove-btn'
+            onClick={ this.removeUser }
+          >
             <span id={ addedUser._id } className='glyphicon glyphicon-remove'></span>
           </Button>
         </div>

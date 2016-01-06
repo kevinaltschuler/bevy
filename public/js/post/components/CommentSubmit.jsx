@@ -78,18 +78,18 @@ var CommentSubmit = React.createClass({
       ? constants.defaultProfileImage
       : user.image.path;
 
-    var submitButton = (_.isEmpty(this.state.body)) 
+    var submitButton = (_.isEmpty(this.state.body))
     ? (
       <FlatButton
         className='submit-button'
-        label='post'
+        label='comment'
         onClick={this.submit}
         disabled={true}
       />
     ) : (
       <RaisedButton
         className='submit-button'
-        label='post'
+        label='comment'
         onClick={this.submit}
       />
     );

@@ -210,7 +210,12 @@ var ChatPanel = React.createClass({
           <span className='display-name'>
             { addedUser.displayName }
           </span>
-          <Button id={ addedUser._id } className='remove-btn' onClick={ this.removeUser }>
+          <Button
+            id={ addedUser._id }
+            title={ 'Remove ' + addedUser.displayName }
+            className='remove-btn'
+            onClick={ this.removeUser }
+          >
             <span id={ addedUser._id } className='glyphicon glyphicon-remove' />
           </Button>
         </div>
@@ -227,6 +232,7 @@ var ChatPanel = React.createClass({
       }>
         <Button
           className='close-btn'
+          title='Add Users to Chat'
           onClick={() => this.setState({ expanded: true, accordionType: 'add-user' }) }
         >
           <span className="glyphicon glyphicon-user" />
@@ -369,6 +375,7 @@ var ChatPanel = React.createClass({
             </div>
             <Button
               className='done-btn'
+              title='Done'
               onClick={() => {
                 this.setState({ expanded: false });
                 // dont do anything if they havent added anybody yet
@@ -392,6 +399,7 @@ var ChatPanel = React.createClass({
             />
             <Button
               className='done-btn'
+              title='Done'
               onClick={() => {
                 this.setState({ expanded: false });
                 var new_name = this.refs.EditNameInput.getValue();
@@ -484,7 +492,11 @@ var ChatPanel = React.createClass({
               <OverlayTrigger placement='top' overlay={
                 <Tooltip id='close-tooltip'>Close</Tooltip>
               }>
-                <Button className='close-btn' onClick={ this.closePanel }>
+                <Button
+                  title='Close Chat Panel'
+                  className='close-btn'
+                  onClick={ this.closePanel }
+                >
                   <span className="glyphicon glyphicon-remove" />
                 </Button>
               </OverlayTrigger>

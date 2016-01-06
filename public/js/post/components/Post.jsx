@@ -222,8 +222,25 @@ var Post = React.createClass({
     }
 
     var expandButton = (this.state.expanded)
-      ? <a className='expand-btn' href='#' onClick={ this.toggleExpanded }>Show Less</a>
-      : <a className='expand-btn' href='#' onClick={ this.toggleExpanded }>Show More</a>;
+      ? (
+        <a
+          className='expand-btn'
+          title='Show Less'
+          href='#'
+          onClick={ this.toggleExpanded }
+        >
+          Show Less
+        </a>
+      ) : (
+        <a
+          className='expand-btn'
+          title='Show More'
+          href='#'
+          onClick={ this.toggleExpanded }
+        >
+          Show More
+        </a>
+      );
     if(this.state.height <= maxTextHeight) expandButton = '';
 
     return  (

@@ -50,6 +50,7 @@
     "react-dom": "^0.14.5",
     "react-ink": "^5.0.2",
     "react-tap-event-plugin": "^0.2.1",
+    "react-zeroclipboard": "^3.0.0",
     "serve-favicon": "^2.3.0",
     "serve-static": "^1.10.0",
     "shortid": "^2.2.4",

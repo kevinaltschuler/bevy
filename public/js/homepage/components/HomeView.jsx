@@ -113,7 +113,11 @@ var HomeView = React.createClass({
             Bevy © 2015
           </div>
           <div className='footer-right'>
-            <Button className="bevy-logo-btn" href='/'>
+            <Button
+              title='Home'
+              className="bevy-logo-btn"
+              href='/'
+            >
               <div className='bevy-logo-img' style={{backgroundImage: 'url(/img/logo_100_reversed.png)'}}/>
             </Button>
           </div>

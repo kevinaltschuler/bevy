@@ -21,7 +21,7 @@ var RegisterPage = React.createClass({
         </div>
         <RegisterPanel />
         <div className='back-link'>
-          <a href='/login'>Back to Login</a>
+          <a title='Login' href='/login'>Back to Login</a>
         </div>
         <br/>
       </div>

@@ -107,6 +107,7 @@ var ChatDropdown = React.createClass({
               <span className='inbox-text'>Inbox</span>
               <Button
                 className='create-new-message-btn'
+                title='Send a New Message'
                 onClick={ this.createMessage }
               >
                 Send a New Message
@@ -120,7 +121,6 @@ var ChatDropdown = React.createClass({
   },
 
   render() {
-
     return (
       <div ref='Container' style={{ position: 'relative' }}>
         <Button

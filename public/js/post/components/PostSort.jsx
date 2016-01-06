@@ -84,12 +84,14 @@ var PostSort = React.createClass({
       sorts.push(
         <Button
           type='button'
+          title={ 'Sort By ' + type }
           className={ className }
           key={ id }
           id={ id }
           style={activeStyle}
           onClick={ this.sort }
-        > { type }
+        >
+          { type }
         </Button>
       );
       sorts.push(dot);

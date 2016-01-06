@@ -96,8 +96,7 @@ exports.searchUsers = function(req, res, next) {
   var promise;
   if(_.isEmpty(query)) {
     promise = User.find()
-      .limit(10)
-      .exec();
+      .limit(10);
   } else {
     promise = User.find()
       .limit(10)
@@ -106,12 +105,14 @@ exports.searchUsers = function(req, res, next) {
         { username: { $regex: query, $options: 'i' } },
         { 'google.displayName': { $regex: query, $options: 'i' } },
         { 'facebook.displayName': { $regex: query, $options: 'i' } }
-      ])
-      .exec();
+      ]);
   }
+  promise.exec();
   promise.then(function(users) {
     return res.json(users);
-  }, function(err) { return next(err); });
+  }, function(err) {
+    return next(err);
+  });
 }
 
 // UPDATE

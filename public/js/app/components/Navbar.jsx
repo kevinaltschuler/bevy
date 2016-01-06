@@ -7,6 +7,7 @@
 
  * @author albert
  * @author kevin
+ * @flow
  */
 
 'use strict';
@@ -52,7 +53,7 @@ var Navbar = React.createClass({
     return {
       activeTab: null,
       searching: false,
-      opacity: 0.7 // the layer under the background image is black (rgba(0,0,0,1))
+      opacity: 0.6 // the layer under the background image is black (rgba(0,0,0,1))
                    // this is the opacity for the image over that layer
                    // so higher opacity means a brighter image, and lower means darker
     };
@@ -85,7 +86,15 @@ var Navbar = React.createClass({
 
   _renderUserDropdowns() {
     if(_.isEmpty(window.bootstrap.user)) {
-      return <a className="login-btn" href='/login'> Log In </a>;
+      return (
+        <a
+          className="login-btn"
+          title='Login'
+          href='/login'
+        >
+          Log In
+        </a>
+      );
     }
 
     var userInvites = this.props.userInvites || [];
@@ -201,6 +210,7 @@ var Navbar = React.createClass({
             }}>
               <a
                 href={ parent.url }
+                title={ parent.name }
                 style={{
                   color: '#fff'
                 }}>
@@ -214,6 +224,7 @@ var Navbar = React.createClass({
               &nbsp;
               <a
                 href={ constants.siteurl + '/boards/' + router.board_id }
+                title={ this.props.activeBoard.name }
                 style={{
                   color: '#fff'
                 }}>
@@ -239,8 +250,8 @@ var Navbar = React.createClass({
 
       case 'search':
         navbarTitle = ((_.isEmpty(router.search_query))
-          ? 'public bevies'
-          : 'search for ' + router.search_query);
+          ? 'Public Bevies'
+          : 'Search for "' + router.search_query + '"');
         break;
 
       default:
@@ -276,7 +287,7 @@ var Navbar = React.createClass({
           <div className="left">
             <Button
               className="bevy-logo-btn"
-              title='Frontpage'
+              title='Home'
               href='/'
             >
               <div className='bevy-logo-img'/>

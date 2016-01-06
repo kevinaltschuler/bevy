@@ -98,15 +98,17 @@
         text-align: center;
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
+        justify-content: flex-start;
         span.results-list-header {
           color: #aaa;
-          flex-grow: 2;
+        }
+        .loading-indeterminate {
+          margin: auto 0;
         }
         span.no-results {
           font-size: 1.5em;
           color: @light-font;
-          margin: 30px 0px;
+          margin: auto 0px;
         }
       }
     }
@@ -120,7 +122,7 @@
     box-shadow: @shadow2;
     padding-left: 10px;
 
-    .glyphicon-search {
+    .glyphicon {
       color: #666;
       margin-right: 10px;
       background-color: rgba(0,0,0,0);

@@ -121,9 +121,10 @@ var CommentItem = React.createClass({
     var deleteButton = '';
     if(window.bootstrap.user && author._id == window.bootstrap.user._id) {
       deleteButton = (
-        <a 
-          className='reply-link' 
-          href='#' 
+        <a
+          className='reply-link'
+          title='Delete Comment'
+          href='#'
           onClick={ this.destroy }
         >
           delete
@@ -140,8 +141,8 @@ var CommentItem = React.createClass({
               { authorName }
             </a>
             <div className="comment-collapse">
-              <span 
-                className="glyphicon glyphicon-plus btn collapse-btn" 
+              <span
+                className="glyphicon glyphicon-plus btn collapse-btn"
                 onClick={this.onCollapse}>
               </span>
             </div>
@@ -154,9 +155,10 @@ var CommentItem = React.createClass({
           <div className="comment-text">
             <div className="comment-title">
               <div className="comment-name">
-                <a 
-                  className="comment-name" 
-                  href="#" 
+                <a
+                  className="comment-name"
+                  href="#"
+                  title='Message Author'
                   onClick={ this.startPM }
                 >
                   { authorName }
@@ -166,15 +168,20 @@ var CommentItem = React.createClass({
                   { timeAgo(Date.parse(comment.created)) }
                   &nbsp;&nbsp;
                 </div>
-                <a className="reply-link" href="#" onClick={ this.onReply }>
+                <a
+                  title='Reply To Comment'
+                  className="reply-link"
+                  href="#"
+                  onClick={ this.onReply }
+                >
                   { replyText }
                 </a>
                 &nbsp;&nbsp;
                 { deleteButton }
               </div>
               <div className="comment-collapse">
-                <span 
-                  className="glyphicon glyphicon-minus btn collapse-btn" 
+                <span
+                  className="glyphicon glyphicon-minus btn collapse-btn"
                   onClick={this.onCollapse}>
                 </span>
               </div>

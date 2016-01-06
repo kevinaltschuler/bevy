@@ -148,12 +148,14 @@ _.extend(BevyStore, {
 
         var name = payload.name || bevy.get('name');
         var image = payload.image || bevy.get('image');
+        var slug = payload.slug || bevy.get('slug');
         var settings = payload.settings || bevy.get('settings');
 
         bevy.url = constants.apiurl + '/bevies/' + bevy_id;
         bevy.save({
           name: name,
           image: image,
+          slug: slug,
           settings: settings
         }, {
           patch: true
@@ -161,9 +163,11 @@ _.extend(BevyStore, {
         bevy.set({
           name: name,
           image: image,
+          slug: slug,
           settings: settings
         });
         this.trigger(BEVY.CHANGE_ALL);
+        this.trigger(BOARD.CHANGE_ALL);
         break;
 
       case BEVY.LEAVE:

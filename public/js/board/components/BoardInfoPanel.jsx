@@ -160,6 +160,7 @@ var BoardInfoPanel = React.createClass({
             <i className="material-icons">people</i>
             <a
               href='#'
+              title='View Board Members'
               className='members-button'
               onClick={(ev) => {
                 ev.preventDefault();
@@ -179,6 +180,7 @@ var BoardInfoPanel = React.createClass({
             <i className="material-icons">person</i>
             <a
               href='#'
+              title='View Board Admins'
               className='admin-button'
               onClick={(ev) => {
                 ev.preventDefault();

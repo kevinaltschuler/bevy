@@ -63,6 +63,7 @@ var PostView = React.createClass({
         <div className='post-view'>
           <a
             className='back-link'
+            title={ 'Back to ' + this.props.activeBoard.name }
             href={ '/boards/' + this.props.activeBoard._id }
           >
             <span className='glyphicon glyphicon-triangle-left' />
@@ -78,6 +79,7 @@ var PostView = React.createClass({
       <div className='post-view'>
         <a
           className='back-link'
+          title={ 'Back to ' + this.props.activeBoard.name }
           href={ '/boards/' + this.props.activeBoard._id }
         >
           <span className='glyphicon glyphicon-triangle-left' />

@@ -1,22 +1,13 @@
 /**
  * FilterSidebar.jsx
- * formerly money.jsx
- *
  * @author kevin
+ * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
-var router = require('./../../router');
-var BevyActions = require('./../../bevy/BevyActions');
-var BevyStore = require('./../../bevy/BevyStore');
-var constants = require('./../../constants');
-var BEVY = constants.BEVY;
-var Footer = require('./Footer.jsx');
-
 var {
   DropDownMenu,
   RaisedButton,
@@ -25,8 +16,15 @@ var {
   TextField,
   IconButton
 } = require('material-ui');
-
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
+var Footer = require('./Footer.jsx');
+
+var _ = require('underscore');
+var router = require('./../../router');
+var BevyActions = require('./../../bevy/BevyActions');
+var BevyStore = require('./../../bevy/BevyStore');
+var constants = require('./../../constants');
+var BEVY = constants.BEVY;
 
 var FilterSidebar = React.createClass({
   propTypes: {
@@ -45,7 +43,6 @@ var FilterSidebar = React.createClass({
     BevyActions.search(router.search_query);
     BevyActions.filterBevies('Most Subscribers');
   },
-
 
   handleFilter(filter) {
     var selectedIndex = 0;
@@ -117,66 +114,68 @@ var FilterSidebar = React.createClass({
     var allClass = (this.state.collection == 'all') ? 'active' : '';
 
     var filterItems = [
-      {payload: '0', text: 'ABC'},
-      {payload: '1', text: 'ZYX'},
-      {payload: '2', text: 'Newest'},
-      {payload: '3', text: 'Oldest'},
-      {payload: '4', text: 'Most Subscribers'},
-      {payload: '5', text: 'Least Subscribers'}
+      { payload: '0', text: 'ABC' },
+      { payload: '1', text: 'ZYX' },
+      { payload: '2', text: 'Newest' },
+      { payload: '3', text: 'Oldest' },
+      { payload: '4', text: 'Most Subscribers' },
+      { payload: '5', text: 'Least Subscribers' }
     ];
 
-    var searchTitle = ( 
-      <div style={{display: 'flex', flexDirection: 'row', marginTop: -15}}>  
-        <IconButton
-          iconClassName='glyphicon glyphicon-search'
-          style={{ width: '20px', height: '20px', padding: '5px', marginTop: '15px', marginLeft: -10, marginRight: 10 }}
-          iconStyle={{ color: '#666', fontSize: '14px' }}
-          title='Search'
-        />      
-        <TextField
-          type='text'
-          style={{width: '130px'}}
-          ref='search'
-          onChange={ this.onChange }
-          onKeyUp={ this.onKeyUp }
-          defaultValue={ router.search_query || '' }
-        />
-      </div>
-    )
-
-    var bevyContent = (
-      <div className='actions'>
-        <span className='search-title'>
-          { searchTitle }
-        </span>
-        <div className='action sort'>
-          <DropDownMenu 
-            menuItems={ filterItems }
-            selectedIndex={ selectedIndex }
-            onChange={ this.onFilterChange }
-            id='searchdropdown'
-          />
-        </div>
-        <div className='action new'>
-          <CreateNewBevyModal 
-            show={ this.state.showNewBevyModal } 
-            onHide={() => { this.setState({ showNewBevyModal: false }) }}
-          />
-          <FlatButton 
-            disabled={_.isEmpty(window.bootstrap.user)} 
-            label='new bevy'
-            onClick={() => { this.setState({ showNewBevyModal: true }); }}
-            style={{width: '100%', marginBottom: 10}}
-            labelStyle={{marginRight: -10}}
-          >
-            <i className='material-icons' style={{position: 'absolute', top: '5px', left: '30px', color: '#666'}}>add</i>
-          </FlatButton>
-        </div>
-      </div>
-    );
     return (
       <div className="filter-sidebar panel">
-        { bevyContent }
+        <div className='actions'>
+          <span className='search-title'>
+            <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
+              <IconButton
+                iconClassName='glyphicon glyphicon-search'
+                style={{
+                  width: 20,
+                  height: 20,
+                  padding: 2,
+                  marginRight: 10
+                }}
+                iconStyle={{ color: '#666', fontSize: '14px' }}
+                title='Search'
+              />
+              <TextField
+                type='text'
+                style={{width: '130px'}}
+                ref='search'
+                placeholder='Search'
+                onChange={ this.onChange }
+                onKeyUp={ this.onKeyUp }
+                defaultValue={ router.search_query || '' }
+              />
+            </div>
+          </span>
+          <div className='action sort'>
+            <span className='sort-title'>
+              Sort By:
+            </span>
+            <DropDownMenu
+              menuItems={ filterItems }
+              selectedIndex={ selectedIndex }
+              onChange={ this.onFilterChange }
+              id='searchdropdown'
+            />
+          </div>
+          <div className='action new'>
+            <CreateNewBevyModal
+              show={ this.state.showNewBevyModal }
+              onHide={() => { this.setState({ showNewBevyModal: false }) }}
+            />
+            <FlatButton
+              disabled={_.isEmpty(window.bootstrap.user)}
+              label='new bevy'
+              onClick={() => { this.setState({ showNewBevyModal: true }); }}
+              style={{ width: '100%', marginBottom: 10 }}
+              labelStyle={{marginRight: -10}}
+            >
+              <i className='material-icons' style={{position: 'absolute', top: '5px', left: '30px', color: '#666'}}>add</i>
+            </FlatButton>
+          </div>
+        </div>
       </div>
     );
   }

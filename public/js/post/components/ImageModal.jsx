@@ -65,7 +65,7 @@ var ImageModal = React.createClass({
     this.resizeImage();
   },
 
-  // resize the image so it can fit on screen, 
+  // resize the image so it can fit on screen,
   // or blow it up so it's easier to see
   resizeImage() {
     var image = this.props.allImages[this.index];
@@ -91,7 +91,7 @@ var ImageModal = React.createClass({
         // preserve the aspect ratio
         $height = height / (1 + ((width - $width) / $width));
       }
-    } 
+    }
     // if its a vertical image or if it still overflows
     if(image.orientation == 'portrait' || $height > constants.viewportHeight) {
       // if it overflows the viewport height
@@ -152,9 +152,11 @@ var ImageModal = React.createClass({
   _renderLeftButton() {
     if(this.props.allImages.length < 2) return <div />;
     return (
-      <Button 
-        className='image-left-btn' 
-        onClick={ this.onLeft } >
+      <Button
+        className='image-left-btn'
+        title='Previous Image'
+        onClick={ this.onLeft }
+      >
         <span className="glyphicon glyphicon-triangle-left" />
       </Button>
     );
@@ -163,9 +165,11 @@ var ImageModal = React.createClass({
   _renderRightButton() {
     if(this.props.allImages.length < 2) return <div />;
     return (
-      <Button 
-        className='image-right-btn' 
-        onClick={ this.onRight } >
+      <Button
+        className='image-right-btn'
+        title='Next Image'
+        onClick={ this.onRight }
+      >
         <span className="glyphicon glyphicon-triangle-right" />
       </Button>
     );
@@ -184,9 +188,9 @@ var ImageModal = React.createClass({
         show={ this.props.show }
         onHide={ this.props.onHide }>
         <Modal.Body>
-          <img 
-            id='image' 
-            src={ url } 
+          <img
+            id='image'
+            src={ url }
             style={{
               width: this.state.width,
               height: this.state.height
@@ -195,11 +199,11 @@ var ImageModal = React.createClass({
           { this._renderLeftButton() }
           { this._renderRightButton() }
           <span className='counter'>
-            { parseInt(this.state.index) + 1 
+            { parseInt(this.state.index) + 1
              + '/'
              + this.props.allImages.length }
           </span>
-        </Modal.Body>          
+        </Modal.Body>
       </Modal>
     );
   }

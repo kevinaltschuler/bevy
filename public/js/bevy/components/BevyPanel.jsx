@@ -132,6 +132,7 @@ var BevyPanel = React.createClass({
       <div className="panel bevy-panel">
         <a
           className="bevy-panel-top"
+          title={ this.props.bevy.name }
           href={ this.props.bevy.url }
           style={{ backgroundImage: 'url(' + bevyImageURL + ')' }}
         />
@@ -139,6 +140,7 @@ var BevyPanel = React.createClass({
           <div className='panel-info-top'>
             <a
               className='title'
+              title={ this.state.name }
               href={ this.props.bevy.url } >
               { this.state.name }
             </a>

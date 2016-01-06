@@ -77,6 +77,7 @@ var NotificationItem = React.createClass({
         body = (
           <Button
             href={ '/boards/' + board_id + '/post/' + post_id }
+            title='Go To Post'
             className="notification-body"
             onClick={ this.goToPost }
           >
@@ -110,7 +111,11 @@ var NotificationItem = React.createClass({
         : { backgroundImage: 'url(' + author_image.path + ')' };
 
         body = (
-          <Button className='notification-body' onClick={ this.goToPost }>
+          <Button
+            className='notification-body'
+            title='Go To Comment'
+            onClick={ this.goToPost }
+          >
             <Ink />
             <div className='sidebar-picture' style={ imgStyle }/>
             <div className='notification-text-col'>
@@ -139,7 +144,11 @@ var NotificationItem = React.createClass({
         var comment_created = data.comment_created;
 
         body = (
-          <Button className='notification-body' onClick={ this.goToPost }>
+          <Button
+            className='notification-body'
+            title='Go To Comment'
+            onClick={ this.goToPost }
+          >
             <Ink />
             <div className='sidebar-picture' style={ imgStyle }/>
             <div className='notification-text-col'>

@@ -31,6 +31,8 @@ var InviteList = React.createClass({
   },
 
   render() {
+    if(_.isEmpty(this.props.userInvites)) return <div />;
+
     var title = (!_.isEmpty(this.props.userInvites))
     ? <div className='section-title'>Pending Invites</div>
     : <div/>;

@@ -100,7 +100,11 @@ var Uploader = React.createClass({
     if(this.props.className === 'bevy-image-dropzone'
       || this.props.className === 'profile-image-dropzone') {
       actionButton = (
-        <button className="btn btn-lg dropzone-panel-button" onClick={ this.preventDefault }>
+        <button
+          className="btn btn-lg dropzone-panel-button"
+          title='Upload Image'
+          onClick={ this.preventDefault }
+        >
           <span className='glyphicon glyphicon-pencil'/>
         </button>
       );

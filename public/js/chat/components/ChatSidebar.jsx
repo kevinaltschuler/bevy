@@ -135,6 +135,8 @@ var ChatSidebar = React.createClass({
     this.setState({
       searchHeight: constants.chatSidebarSearchHeight
     });
+    this.UserSearchInput.focus();
+    this.searchUsers();
   },
 
   closeSearchResults() {
@@ -145,11 +147,12 @@ var ChatSidebar = React.createClass({
       query: '',
       searchUsers: []
     });
+    this.UserSearchInput.blur();
   },
 
   onChange(ev) {
     ev.preventDefault();
-    var query = this.refs.userSearch.getValue();
+    var query = this.UserSearchInput.getValue();
     if(_.isEmpty(query)) {
       this.setState({
         query: '',
@@ -190,6 +193,7 @@ var ChatSidebar = React.createClass({
 
   closeSidebar() {
     this.setState({ sidebarWidth: constants.chatSidebarWidthClosed });
+    this.closeSearchResults();
   },
 
   onMouseOver() {
@@ -270,10 +274,20 @@ var ChatSidebar = React.createClass({
       : { marginTop: -30 }
     var boardPanel = (boardThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftBoardPanel }>
-        <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
-          ev.preventDefault();
-          this.setState({ boardPanelOpen: !this.state.boardPanelOpen });
-        }}>Board Conversations</a>
+        <a
+          className='title'
+          title={(this.state.boardPanelOpen)
+            ? 'Hide Board Conversations'
+            : 'Show Board Conversations'}
+          href='#'
+          style={ hideTitles }
+          onClick={(ev) => {
+            ev.preventDefault();
+            this.setState({ boardPanelOpen: !this.state.boardPanelOpen });
+          }}
+        >
+          Board Conversations
+        </a>
         <Panel collapsible expanded={ this.state.boardPanelOpen }>
           { boardThreadItems }
         </Panel>
@@ -281,10 +295,20 @@ var ChatSidebar = React.createClass({
     ) : <div />;
     var groupPanel = (groupThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftPanels }>
-        <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
-          ev.preventDefault();
-          this.setState({ groupPanelOpen: !this.state.groupPanelOpen });
-        }}>Group Conversations</a>
+        <a
+          className='title'
+          title={(this.state.groupPanelOpen)
+            ? 'Hide Group Conversations'
+            : 'Show Group Conversations'}
+          href='#'
+          style={ hideTitles }
+          onClick={(ev) => {
+            ev.preventDefault();
+            this.setState({ groupPanelOpen: !this.state.groupPanelOpen });
+          }}
+        >
+          Group Conversations
+        </a>
         <Panel collapsible expanded={ this.state.groupPanelOpen } >
           { groupThreadItems }
         </Panel>
@@ -292,10 +316,20 @@ var ChatSidebar = React.createClass({
     ) : <div />;
     var pmPanel = (pmThreadItems.length > 0) ? (
       <div className='threads-title' style={ shiftPanels }>
-        <a className='title' href='#' style={ hideTitles } onClick={(ev) => {
-          ev.preventDefault();
-          this.setState({ pmPanelOpen: !this.state.pmPanelOpen });
-        }}>Private Conversations</a>
+        <a
+          className='title'
+          title={(this.state.pmPanelOpen)
+            ? 'Hide Private Conversations'
+            : 'Show Private Conversations'}
+          href='#'
+          style={ hideTitles }
+          onClick={(ev) => {
+            ev.preventDefault();
+            this.setState({ pmPanelOpen: !this.state.pmPanelOpen });
+          }}
+        >
+          Private Conversations
+        </a>
         <Panel collapsible expanded={ this.state.pmPanelOpen }>
           { pmThreadItems }
         </Panel>
@@ -308,6 +342,31 @@ var ChatSidebar = React.createClass({
         { pmPanel }
       </div>
     );
+  },
+
+  _renderSearchButton() {
+    if(this.state.searchHeight == constants.chatSidebarSearchHeight) {
+      // searching
+      return (
+        <Button
+          className='glyphicon glyphicon-remove'
+          title='Close Search'
+          onClick={ this.closeSearchResults }
+        />
+      )
+    } else {
+      // not searching
+      return (
+        <Button
+          className='glyphicon glyphicon-search'
+          title='Search For Users'
+          onClick={() => {
+            this.openSidebar();
+            this.openSearchResults();
+          }}
+        />
+      )
+    }
   },
 
   render() {
@@ -334,7 +393,11 @@ var ChatSidebar = React.createClass({
     }
 
     if(this.state.searching) {
-      searchResults = <div className='loading-indeterminate'><CircularProgress mode="indeterminate" /></div>
+      searchResults = (
+        <div className='loading-indeterminate'>
+          <CircularProgress mode="indeterminate" />
+        </div>
+      );
     }
 
     var chatHeight = (router.current == 'bevy')
@@ -378,13 +441,14 @@ var ChatSidebar = React.createClass({
           </div>
         </div>
         <div className='chat-actions'>
-          <Button className='glyphicon glyphicon-search' onClick={this.openSidebar}/>
+          { this._renderSearchButton() }
           <TextField
             type='text'
             className='search-input'
-            ref='userSearch'
+            ref={(ref) => { this.UserSearchInput = ref; }}
             value={ this.state.query }
             onChange={ this.onChange }
+            onFocus={ this.openSearchResults }
             hintText='Search Users'
           />
         </div>

@@ -33,7 +33,7 @@ var UserSearchItem = React.createClass({
   render() {
     var user = this.props.searchUser;
 
-    var image_url = (_.isEmpty(user.image)) 
+    var image_url = (_.isEmpty(user.image))
       ? constants.defaultProfileImage
       : user.image.path;
     var name = user.displayName;
@@ -44,8 +44,9 @@ var UserSearchItem = React.createClass({
     };
 
     return (
-      <Button 
-        className='user-search-item' 
+      <Button
+        className='user-search-item'
+        title={ 'Select ' + name }
         style={{
           width: constants.chatSidebarWidthOpen
         }}
@@ -57,10 +58,10 @@ var UserSearchItem = React.createClass({
             { name }
           </span>
         </div>
-        <Ink style={{ 
-          color: '#aaa', 
-          height: 50, 
-          top: 'inherit', 
+        <Ink style={{
+          color: '#aaa',
+          height: 50,
+          top: 'inherit',
           marginTop: '-5px' }}
         />
       </Button>

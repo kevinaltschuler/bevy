@@ -43,7 +43,11 @@ var UserItem = React.createClass({
       ? constants.defaultProfileImage
       : this.props.user.image.path;
     return (
-      <button className='user-item' onClick={ this.onClick }>
+      <button
+        className='user-item'
+        title={ this.props.user.displayName }
+        onClick={ this.onClick }
+      >
         <div className='img' style={{
           backgroundImage: 'url(' + image_url + ')'
         }} />

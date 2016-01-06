@@ -33,29 +33,33 @@ var LinkedAccountItem = React.createClass({
 
   render() {
     var account = this.props.account;
-    var image_url = (_.isEmpty(account.image)) 
-      ? constants.defaultProfileImage 
+    var image_url = (_.isEmpty(account.image))
+      ? constants.defaultProfileImage
       : account.image.path;
     return (
       <div className='linked-account'>
-        <a 
-          href='#' 
-          title={ 'Switch Account to ' + account.displayName } 
-          className='switch-btn' 
+        <a
+          href='#'
+          title={ 'Switch Account to ' + account.displayName }
+          className='switch-btn'
           onClick={ this.switchUser }
         >
-          <div 
-            className='image' 
+          <div
+            className='image'
             style={{ backgroundImage: 'url(' + image_url + ')' }}
           />
           <span className='display-name'>
             { account.displayName }
           </span>
         </a>
-        <OverlayTrigger placement='left' overlay={ 
-          <Tooltip>Unlink Account</Tooltip> 
+        <OverlayTrigger placement='left' overlay={
+          <Tooltip>Unlink Account</Tooltip>
         }>
-          <Button className='unlink-btn' onClick={ this.unlink }>
+          <Button
+            className='unlink-btn'
+            title='Unlink Account'
+            onClick={ this.unlink }
+          >
             <span className='glyphicon glyphicon-remove' />
           </Button>
         </OverlayTrigger>

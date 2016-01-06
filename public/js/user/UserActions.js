@@ -20,7 +20,7 @@ var UserActions = {
   search(query) {
     Dispatcher.dispatch({
       actionType: USER.SEARCH,
-      query: (query == undefined) ? null : query
+      query: query
     });
   },
   login(username, password) {

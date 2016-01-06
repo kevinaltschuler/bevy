@@ -144,6 +144,7 @@ var UserSearchOverlay = React.createClass({
       users.push(
         <Button
           key={ 'usersearchoverlay:user:' + user._id }
+          title={ 'Select ' + name }
           id={ key }
           className={ 'user-item' + ((this.state.selected == key)
             ? ' active'
