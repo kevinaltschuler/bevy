@@ -114,7 +114,17 @@ var BevyView = React.createClass({
 
     if(!joined) {
       return (
-        <div className='main-section private-container'>
+        <div className='private-container'>
+          <div className='back-button-container'>
+            <a
+              className='back-button'
+              title='Back to My Bevies'
+              href={ constants.siteurl }
+            >
+              <i className='material-icons'>arrow_back</i>
+              <span>Back to My Bevies</span>
+            </a>
+          </div>
           <div className='private panel'>
             <div className='private-img'/>
             <span className='private-text'>
@@ -123,6 +133,9 @@ var BevyView = React.createClass({
             <RaisedButton
               label='request to join'
               onClick={ this.onRequestJoin }
+              style={{
+                backgroundColor: '#2CB673'
+              }}
               labelStyle={{
                 color: '#FFF'
               }}

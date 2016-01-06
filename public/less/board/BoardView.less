@@ -15,10 +15,34 @@
 	}
 }
 
-.main-section.private-container{
+.private-container{
+	display: flex;
+	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	padding-top: 150px;
+	padding-top: 110px;
+	.back-button-container {
+		width: 400px;
+	}
+	a.back-button {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		align-self: flex-start;
+		i.material-icons {
+			font-size: 16px;
+			margin-right: 4px;
+		}
+		span {
+			font-size: 14px;
+		}
+		&:hover {
+			text-decoration: none;
+			span {
+				text-decoration: underline;
+			}
+		}
+	}
 	.private {
 		max-width: 400px;
 		height: auto;
@@ -31,6 +55,7 @@
 		color: @light-font;
 		line-height: 1;
   	padding: 20px;
+		margin-top: 10px;
 		.private-img {
 			background-image: url(/img/private.png);
     	background-repeat: no-repeat;
@@ -45,8 +70,8 @@
 			text-align: center;
 			margin-bottom: 15px;
 		}
-		button > div > span {
-			background-color: #2CB673
+		button {
+			background-color: #2CB673 !important;
 		}
 	}
 }
