@@ -1,16 +1,10 @@
 /**
  * BevyStore.js
- *
- * Backbone and React and Flux confluence
- * for bevies
- *
  * @author albert
- * go home, bert
  */
 
 'use strict';
 
-// imports
 var Backbone = require('backbone');
 var $ = require('jquery');
 var _ = require('underscore');
@@ -30,7 +24,6 @@ var Invite = require('./InviteModel');
 var constants = require('./../constants');
 var BEVY = constants.BEVY;
 var POST = constants.POST;
-var CONTACT = constants.CONTACT;
 var CHAT = constants.CHAT;
 var APP = constants.APP;
 var INVITE = constants.INVITE;
@@ -40,12 +33,7 @@ var BevyActions = require('./BevyActions');
 var UserStore = require('./../user/UserStore');
 var user = window.bootstrap.user;
 
-// inherit event class first
-// VERY IMPORTANT, as the PostContainer view binds functions
-// to this store's events
 var BevyStore = _.extend({}, Backbone.Events);
-
-// now add some custom functions
 _.extend(BevyStore, {
 
   myBevies: new Bevies,

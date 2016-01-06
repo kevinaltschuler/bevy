@@ -1,31 +1,23 @@
 /**
  * BoardStore.js
- *
- * Backbone and React and Flux confluence
- * for boards
- *
  * @author kevin
- * lets fucking go
+ * @author albert
  */
 
 'use strict';
 
-// imports
 var Backbone = require('backbone');
-var $ = require('jquery');
 var _ = require('underscore');
 var async = require('async');
 var getSlug = require('speakingurl');
-
-var router = require('./../router');
-
-var Dispatcher = require('./../shared/dispatcher');
 
 var Board = require('./BoardModel');
 var Bevy = require('./../bevy/BevyModel');
 var Boards = require('./BoardCollection');
 
+var Dispatcher = require('./../shared/dispatcher');
 var constants = require('./../constants');
+var router = require('./../router');
 var BEVY = constants.BEVY;
 var POST = constants.POST;
 var CHAT = constants.CHAT;
@@ -37,15 +29,10 @@ var UserStore = require('./../user/UserStore');
 var ChatStore = require('./../chat/ChatStore');
 var user = window.bootstrap.user;
 
-// inherit event class first
 var BoardStore = _.extend({}, Backbone.Events);
-
-// now add some custom functions
 _.extend(BoardStore, {
   active: new Board,
 
-  // handle calls from the dispatcher
-  // these are created from BoardActions.js
   handleDispatch(payload) {
     switch(payload.actionType) {
 

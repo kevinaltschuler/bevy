@@ -47,7 +47,7 @@ var BoardInfoPanel = React.createClass({
 
   onRequestJoin(ev) {
     ev.preventDefault();
-    BoardActions.join(this.props.board._id);
+    BoardActions.join(this.props.board);
     this.setState({
       joined: true
     });
@@ -55,7 +55,7 @@ var BoardInfoPanel = React.createClass({
 
   onRequestLeave(ev) {
     ev.preventDefault();
-    BoardActions.leave(this.props.board._id);
+    BoardActions.leave(this.props.board);
     this.setState({
       joined: false
     });

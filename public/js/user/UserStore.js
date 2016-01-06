@@ -167,14 +167,14 @@ _.extend(UserStore, {
         break;
 
       case BOARD.JOIN:
-        // add to users bevies array
-        var board_id = payload.board_id;
+        var board = payload.board;
 
         var boards = this.user.get('boards');
-        if(_.contains(boards, board_id)) break; // already joined
+        // if already joined, break
+        if(_.contains(boards, board._id)) break;
 
-        boards.push(board_id);
-        _.uniq(boards); // ensure that theres no dupes
+        boards.push(board._id);
+        _.uniq(boards);
 
         this.user.save({
           boards: boards
@@ -189,14 +189,13 @@ _.extend(UserStore, {
 
       case BOARD.DESTROY:
       case BOARD.LEAVE:
-        // remove from users bevies array
-        var board_id = payload.board_id;
+        var board = payload.board;
 
         var boards = this.user.get('boards');
         boards = _.reject(boards, function($board_id) {
-          return $board_id == board_id;
+          return $board_id == board._id;
         });
-        _.uniq(boards); // ensure that theres no dupes
+        _.uniq(boards);
 
         this.user.save({
           boards: boards

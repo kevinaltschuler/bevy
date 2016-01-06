@@ -58,9 +58,7 @@ var BoardPanel = React.createClass({
       this.refs.snackbar.show();
     }
     else {
-      BoardActions.join(
-        this.props.board._id
-      );
+      BoardActions.join(this.props.board);
       var joined = true;
       this.setState({
         joined: joined
@@ -70,7 +68,7 @@ var BoardPanel = React.createClass({
 
   onRequestLeave(ev) {
     ev.preventDefault();
-    BoardActions.leave(this.props.board._id);
+    BoardActions.leave(this.props.board);
     this.setState({
       joined: false
     });

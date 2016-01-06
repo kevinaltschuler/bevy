@@ -65,7 +65,7 @@ var BoardSettingsModal = React.createClass({
     + 'content posted to that bevy.'))
       return;
 
-    BoardActions.destroy(this.props.board._id);
+    BoardActions.destroy(this.props.board);
     this.props.onHide();
   },
 

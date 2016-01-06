@@ -46,12 +46,12 @@ var BoardActions = {
     });
   },
 
-  destroy(board_id) {
-    if(_.isEmpty(board_id)) return;
+  destroy(board) {
+    if(_.isEmpty(board)) return;
 
     Dispatcher.dispatch({
       actionType: BOARD.DESTROY,
-      board_id: board_id
+      board: board
     });
   },
 
@@ -68,21 +68,21 @@ var BoardActions = {
     });
   },
 
-  leave(board_id) {
-    if(_.isEmpty(board_id)) return;
+  leave(board) {
+    if(_.isEmpty(board)) return;
 
     Dispatcher.dispatch({
       actionType: BOARD.LEAVE,
-      board_id: board_id
+      board: board
     });
   },
 
-  join(board_id) {
-    if(_.isEmpty(board_id)) return;
+  join(board) {
+    if(_.isEmpty(board)) return;
 
     Dispatcher.dispatch({
       actionType: BOARD.JOIN,
-      board_id: board_id,
+      board: board,
     });
   },
 
