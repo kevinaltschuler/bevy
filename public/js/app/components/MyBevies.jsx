@@ -70,7 +70,12 @@ var MyBevies = React.createClass({
 
   _renderNewBevyButton() {
     return (
-      <div className='new-bevy-card' onClick={() => { this.setState({ showNewBevyModal: true }); }} key={'new panel'}>
+      <div
+        className='new-bevy-card'
+        title='Create New Bevy'
+        onClick={() => { this.setState({ showNewBevyModal: true }); }}
+        key='new panel'
+      >
         <div className='plus-icon'>
           <FontIcon
             className='material-icons'
@@ -87,9 +92,35 @@ var MyBevies = React.createClass({
     );
   },
 
+  _renderDiscoverButton() {
+    if(!_.isEmpty(this.props.myBevies)) return <div />;
+    return (
+      <div
+        className='new-bevy-card'
+        title='Find New Bevies'
+        onClick={() => { window.location.href = constants.siteurl + '/s/' }}
+        key='discover panel'
+      >
+        <div className='plus-icon'>
+          <FontIcon
+            className='material-icons'
+            style={{color: 'rgba(0,0,0,.2)', fontSize: '40px'}}
+          >
+            explore
+          </FontIcon>
+        </div>
+        <div className='new-bevy-text'>
+          Find New Bevies
+        </div>
+        <Ink style={{width: 275, height: 195, top: -3, left: -3}}/>
+      </div>
+    );
+  },
+
   render() {
     var content = (
       <div className='panel-list'>
+        { this._renderDiscoverButton() }
         { this._renderMyBevies() }
         { this._renderNewBevyButton() }
       </div>
