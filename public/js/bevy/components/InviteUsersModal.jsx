@@ -29,8 +29,8 @@ var _ = require('underscore');
 var BevyActions = require('./../BevyActions');
 var BevyStore = require('./../BevyStore');
 var InviteSearchItem = require('./InviteSearchItem.jsx');
-var UserActions = require('./../../profile/UserActions');
-var UserStore = require('./../../profile/UserStore');
+var UserActions = require('./../../user/UserActions');
+var UserStore = require('./../../user/UserStore');
 var InviteItem = require('./InviteItem.jsx');
 var constants = require('./../../constants');
 var USER = constants.USER;
@@ -85,7 +85,7 @@ var InviteUsersModal = React.createClass({
     });
   },
 
-  getChildContext() { 
+  getChildContext() {
     return {
       muiTheme: ThemeManager.getCurrentTheme()
     }
@@ -120,7 +120,7 @@ var InviteUsersModal = React.createClass({
       this.closeSearch();
      return;
    }
-    else { 
+    else {
       this.openSearch();
       if(this.searchTimeout != undefined) {
         clearTimeout(this.searchTimeout);
@@ -155,13 +155,13 @@ var InviteUsersModal = React.createClass({
       if(invite.requestType == 'invite') {
         pendingInvites.push(inviteItem);
       }
-    } 
+    }
 
     if(pendingInvites.length == 0) {
       pendingInvites = <div style={{alignSelf: 'center', color: '#aaa'}}>empty</div>
     }
 
-    return (          
+    return (
       <div className='section'>
         <div className='section-title'>
           Pending Invites
@@ -181,13 +181,13 @@ var InviteUsersModal = React.createClass({
       if(invite.requestType == 'request_join') {
         pendingRequests.push(inviteItem);
       }
-    } 
+    }
 
     if(pendingRequests.length == 0) {
       pendingRequests = <div style={{alignSelf: 'center', color: '#aaa'}}>empty</div>
     }
 
-    return (          
+    return (
       <div className='section'>
         <div className='section-title'>
           Pending Requests
@@ -204,7 +204,7 @@ var InviteUsersModal = React.createClass({
     for(var key in userSearchResults) {
 
       var user = userSearchResults[key];
-      
+
       searchResults.push(
         <InviteSearchItem
           key={ 'usersearch:' + user._id }
@@ -255,13 +255,13 @@ var InviteUsersModal = React.createClass({
         </Modal.Body>
 
         <Modal.Footer>
-          <div style={{display: 'flex', flexDirection: 'row', marginTop: -15}}>  
+          <div style={{display: 'flex', flexDirection: 'row', marginTop: -15}}>
             <IconButton
               iconClassName='glyphicon glyphicon-search'
               style={{ width: '20px', height: '20px', padding: '5px', marginTop: '15px', marginLeft: -10, marginRight: 10 }}
               iconStyle={{ color: '#666', fontSize: '14px' }}
               title='Search'
-            />      
+            />
             <TextField
               style={{width: '230px'}}
               type='text'

@@ -1,5 +1,5 @@
 /**
- * ProfileDropdown.jsx
+ * UserDropdown.jsx
  * @author albert
  * @flow
  */
@@ -29,7 +29,7 @@ var constants = require('./../../constants');
 var USER = constants.USER;
 var user = window.bootstrap.user;
 
-var ProfileDropdown = React.createClass({
+var UserDropdown = React.createClass({
   propTypes: {
     show: React.PropTypes.bool,
     onToggle: React.PropTypes.func
@@ -146,4 +146,4 @@ var ProfileDropdown = React.createClass({
   }
 });
 
-module.exports = ProfileDropdown;
+module.exports = UserDropdown;

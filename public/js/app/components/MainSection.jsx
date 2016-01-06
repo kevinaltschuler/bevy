@@ -27,7 +27,7 @@ var BoardStore = require('./../../board/BoardStore');
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
-var UserStore = require('./../../profile/UserStore');
+var UserStore = require('./../../user/UserStore');
 var AppActions = require('./../../app/AppActions');
 var constants = require('./../../constants');
 

@@ -21,7 +21,7 @@ var USER = constants.USER;
 
 var BevyStore = require('./../bevy/BevyStore');
 var BoardStore = require('./../board/BoardStore');
-var UserStore = require('./../profile/UserStore');
+var UserStore = require('./../user/UserStore');
 
 var ThreadCollection = require('./ThreadCollection');
 var Thread = require('./ThreadModel');

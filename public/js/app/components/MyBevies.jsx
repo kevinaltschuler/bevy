@@ -20,7 +20,7 @@ var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx
 var FilterSidebar = require('./FilterSidebar.jsx');
 var Footer = require('./Footer.jsx');
 var constants = require('./../../constants');
-var UserStore = require('./../../profile/UserStore');
+var UserStore = require('./../../user/UserStore');
 
 var _ = require('underscore');
 var constants = require('./../../constants');

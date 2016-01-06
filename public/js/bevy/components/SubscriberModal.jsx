@@ -14,6 +14,7 @@ var {
 var {
   FlatButton
 } = require('material-ui');
+var UserItem = require('./../../user/components/UserItem.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -85,22 +86,12 @@ var SubscriberModal = React.createClass({
     var subItems = [];
     for(var key in subs) {
       var sub = subs[key];
-      var image_url = (_.isEmpty(sub.image))
-        ? constants.defaultProfileImage
-        : sub.image.path;
       subItems.push(
-        <div
-          key={ 'subitem:' + key }
-          className='sub-item'
-          onClick={() => this.startPM(sub._id)}
-        >
-          <div className='img' style={{
-            backgroundImage: 'url(' + image_url + ')'
-          }} />
-          <span className='name'>
-            { sub.displayName }
-          </span>
-        </div>
+        <UserItem
+          key={ 'subitem:' + sub._id }
+          user={ sub }
+          linkAction='startPM'
+        />
       );
     }
     return subItems;

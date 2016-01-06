@@ -33,8 +33,8 @@ var USER = constants.USER;
 var CHAT = constants.CHAT;
 var ChatActions = require('./../ChatActions');
 var ChatStore = require('./../ChatStore');
-var UserActions = require('./../../profile/UserActions');
-var UserStore = require('./../../profile/UserStore');
+var UserActions = require('./../../user/UserActions');
+var UserStore = require('./../../user/UserStore');
 
 var ThemeManager = new Styles.ThemeManager();
 

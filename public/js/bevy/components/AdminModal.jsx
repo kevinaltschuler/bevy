@@ -14,6 +14,7 @@ var {
 var {
   FlatButton
 } = require('material-ui');
+var UserItem = require('./../../user/components/UserItem.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -68,12 +69,6 @@ var AdminModal = React.createClass({
     }
   },
 
-  startPM(id) {
-    if(!_.isEmpty(window.bootstrap.user))
-      if(!(id == window.bootstrap.user._id))
-        ChatActions.startPM(id);
-  },
-
   hide() {
     this.props.onHide();
   },
@@ -83,22 +78,12 @@ var AdminModal = React.createClass({
     var adminItems = [];
     for(var key in admins) {
       var admin = admins[key];
-      var image_url = (_.isEmpty(admin.image))
-        ? constants.defaultProfileImage
-        : admin.image.path;
       adminItems.push(
-        <div
-          key={ 'adminitem:' + key }
-          className='admin-item'
-          onClick={() => this.startPM(admin._id)}
-        >
-          <div className='img' style={{
-            backgroundImage: 'url(' + image_url + ')'
-          }} />
-          <span className='name'>
-            { admin.displayName }
-          </span>
-        </div>
+        <UserItem
+          key={ 'adminitem:' + admin._id }
+          user={ admin }
+          linkAction='startPM'
+        />
       );
     }
     return adminItems;

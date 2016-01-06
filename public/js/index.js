@@ -19,7 +19,7 @@ if(constants.env == 'development')
 var injectTapEventPlugin = require("react-tap-event-plugin");
 
 var _ = require('underscore');
-var UserStore = require('./profile/UserStore');
+var UserStore = require('./user/UserStore');
 
 // load globals
 var Backbone = require('backbone');

@@ -1,0 +1,38 @@
+/**
+ * UserItem.less
+ * @author albert
+ */
+
+@import './../variables.less';
+
+button.user-item {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: #FFF;
+  height: 40px;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+  .img {
+    #image-icon();
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 15px;
+    margin-right: 8px;
+  }
+  span.name {
+    color: @light-font;
+  }
+  &:hover {
+    span.name {
+      text-decoration: underline;
+    }
+  }
+  &:active {
+    span.name {
+      color: #000;
+      text-decoration: underline;
+    }
+  }
+};

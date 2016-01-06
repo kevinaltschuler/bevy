@@ -37,7 +37,7 @@ var INVITE = constants.INVITE;
 var BOARD = constants.BOARD;
 var NOTIFICATION = constants.NOTIFICATION;
 var BevyActions = require('./BevyActions');
-var UserStore = require('./../profile/UserStore');
+var UserStore = require('./../user/UserStore');
 var user = window.bootstrap.user;
 
 // inherit event class first

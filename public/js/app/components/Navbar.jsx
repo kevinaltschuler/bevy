@@ -24,7 +24,7 @@ var {
   TextField,
   Styles
 } = require('material-ui');
-var ProfileDropdown = require('./../../profile/components/ProfileDropdown.jsx');
+var UserDropdown = require('./../../user/components/UserDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
 var ChatDock = require('./../../chat/components/ChatDock.jsx');
@@ -135,7 +135,7 @@ var Navbar = React.createClass({
           }}
         />
         { counter }
-        <ProfileDropdown
+        <UserDropdown
           show={ this.state.activeTab == 'profile' }
           onToggle={() => {
             this.setState({

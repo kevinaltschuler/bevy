@@ -315,6 +315,7 @@ var ChatPanel = React.createClass({
       case 'pm':
         button = (
           <DropdownButton
+            id='options-settings-dropdown'
             noCaret
             className='settings-btn-group'
             buttonClassName='settings-btn'

@@ -1,56 +1,62 @@
 /**
  * ChatActions.js
- *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
-var dispatch = require('./../shared/helpers/dispatch');
-
+var Dispatcher = require('./../shared/dispatcher');
 var constants = require('./../constants');
-
 var CHAT = constants.CHAT;
 
 var ChatActions = {
-
   sendNewMessage() {
-    dispatch(CHAT.SEND_NEW_MESSAGE, {});
+    Dispatcher.dispatch({
+      actionType: CHAT.SEND_NEW_MESSAGE
+    });
   },
 
   cancelNewMessage() {
-    dispatch(CHAT.CANCEL_NEW_MESSAGE, {});
+    Dispatcher.dispatch({
+      actionType: CHAT.CANCEL_NEW_MESSAGE
+    });
   },
 
   createThreadAndMessage(addedUsers, message_body) {
-    dispatch(CHAT.CREATE_THREAD_AND_MESSAGE, {
+    Dispatcher.dispatch({
+      actionType: CHAT.CREATE_THREAD_AND_MESSAGE,
       addedUsers: addedUsers,
       message_body: message_body
     });
   },
 
   addUsers(thread_id, users) {
-    dispatch(CHAT.ADD_USERS, {
+    Dispatcher.dispatch({
+      actionType: CHAT.ADD_USERS,
       thread_id: thread_id,
       users: users
     });
   },
 
   removeUser(thread_id, user_id) {
-    dispatch(CHAT.REMOVE_USER, {
+    Dispatcher.dispatch({
+      actionType: CHAT.REMOVE_USER,
       thread_id: thread_id,
       user_id: user_id
     });
   },
 
   deleteThread(thread_id) {
-    dispatch(CHAT.DELETE_THREAD, {
+    Dispatcher.dispatch({
+      actionType: CHAT.DELETE_THREAD,
       thread_id: thread_id
     });
   },
 
   editThread(thread_id, name, image) {
-    dispatch(CHAT.EDIT_THREAD, {
+    Dispatcher.dispatch({
+      actionType: CHAT.EDIT_THREAD,
       thread_id: thread_id,
       name: (name == undefined) ? null : name,
       image: (image == undefined) ? null : image
@@ -58,31 +64,36 @@ var ChatActions = {
   },
 
   startPM(user_id) {
-    dispatch(CHAT.START_PM, {
+    Dispatcher.dispatch({
+      actionType: CHAT.START_PM,
       user_id: user_id
     });
   },
 
   startBevyChat(bevy_id) {
-    dispatch(CHAT.START_BEVY_CHAT, {
+    Dispatcher.dispatch({
+      actionType: CHAT.START_BEVY_CHAT,
       bevy_id: bevy_id
     });
   },
 
   openThread(thread_id, user_id) {
-    dispatch(CHAT.THREAD_OPEN, {
-      thread_id: (thread_id == undefined) ? null : thread_id
+    Dispatcher.dispatch({
+      actionType: CHAT.THREAD_OPEN,
+      thread_id: thread_id
     });
   },
 
   closePanel(thread_id) {
-    dispatch(CHAT.PANEL_CLOSE, {
+    Dispatcher.dispatch({
+      actionType: CHAT.PANEL_CLOSE,
       thread_id: thread_id
     });
   },
 
   createMessage(thread_id, author, body) {
-    dispatch(CHAT.MESSAGE_CREATE, {
+    Dispatcher.dispatch({
+      actionType: CHAT.MESSAGE_CREATE,
       thread_id: thread_id,
       author: author,
       body: body
@@ -90,15 +101,17 @@ var ChatActions = {
   },
 
   loadMore(thread_id) {
-    dispatch(CHAT.MESSAGE_FETCH_MORE, {
+    Dispatcher.dispatch({
+      actionType: CHAT.MESSAGE_FETCH_MORE,
       thread_id: thread_id
     });
   },
 
   updateImage(thread_id, image) {
-    dispatch(CHAT.UPDATE_IMAGE, {
+    Dispatcher.dispatch({
+      actionType: CHAT.UPDATE_IMAGE,
       thread_id: thread_id,
-      image: (image == undefined) ? null : image
+      image: image
     });
   }
 };

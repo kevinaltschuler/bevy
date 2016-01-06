@@ -23,8 +23,8 @@ var $ = require('jquery');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
-var UserActions = require('./../../profile/UserActions');
-var UserStore = require('./../../profile/UserStore');
+var UserActions = require('./../../user/UserActions');
+var UserStore = require('./../../user/UserStore');
 var USER = constants.USER;
 
 var LoginPanel = React.createClass({

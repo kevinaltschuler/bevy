@@ -25,7 +25,7 @@ var BevyInfoBar = require('./BevyInfoBar.jsx');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
-var UserStore = require('./../../profile/UserStore');
+var UserStore = require('./../../user/UserStore');
 var BevyActions = require('./../../bevy/BevyActions');
 var USER = constants.USER;
 

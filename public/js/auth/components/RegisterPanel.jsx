@@ -21,8 +21,8 @@ var {
 var $ = require('jquery');
 var _ = require('underscore');
 var constants = require('./../../constants');
-var UserStore = require('./../../profile/UserStore');
-var UserActions = require('./../../profile/UserActions');
+var UserStore = require('./../../user/UserStore');
+var UserActions = require('./../../user/UserActions');
 var USER = constants.USER;
 
 var usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;

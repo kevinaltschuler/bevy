@@ -12,8 +12,8 @@ var {
   Overlay
 } = require('react-bootstrap');
 
-var UserActions = require('./../../profile/UserActions');
-var UserStore = require('./../../profile/UserStore');
+var UserActions = require('./../../user/UserActions');
+var UserStore = require('./../../user/UserStore');
 var constants = require('./../../constants');
 var USER = constants.USER;
 
@@ -131,8 +131,8 @@ var UserSearchOverlay = React.createClass({
     for(var key in this.state.users) {
       var user = this.state.users[key];
 
-      var image_url = (_.isEmpty(user.image)) 
-        ? '/img/user-profile-icon.png' 
+      var image_url = (_.isEmpty(user.image))
+        ? '/img/user-profile-icon.png'
         : user.image.path;
       var name = user.displayName;
       var imageStyle = {
@@ -142,11 +142,11 @@ var UserSearchOverlay = React.createClass({
       };
 
       users.push(
-        <Button  
-          key={ 'usersearchoverlay:user:' + user._id } 
-          id={ key } 
-          className={ 'user-item' + ((this.state.selected == key) 
-            ? ' active' 
+        <Button
+          key={ 'usersearchoverlay:user:' + user._id }
+          id={ key }
+          className={ 'user-item' + ((this.state.selected == key)
+            ? ' active'
             : '') }
           onClick={ this.addUser }
           onMouseOver={ this.onItemMouseOver }
