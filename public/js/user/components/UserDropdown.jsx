@@ -26,6 +26,7 @@ var _ = require('underscore');
 var UserActions = require('./../UserActions');
 var UserStore = require('./../UserStore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var USER = constants.USER;
 var user = window.bootstrap.user;
 
@@ -74,7 +75,7 @@ var UserDropdown = React.createClass({
 
     var profileImage = (_.isEmpty(this.state.image))
       ? constants.defaultProfileImage
-      : this.state.image.path;
+      : resizeImage(this.state.image, 64, 64).url;
     var profileImageStyle = {
       backgroundImage: 'url(' + profileImage + ')',
     };

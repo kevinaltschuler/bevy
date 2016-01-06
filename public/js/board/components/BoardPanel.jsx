@@ -27,6 +27,7 @@ var SubscriberModal = require('./../../bevy/components/SubscriberModal.jsx');
 var _ = require('underscore');
 var router = require('./../../router');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var BoardActions = require('./../BoardActions');
 var BoardStore = require('./../BoardStore');
 var user = window.bootstrap.user;
@@ -215,7 +216,7 @@ var BoardPanel = React.createClass({
     var board = this.props.board;
     var boardImageURL = (_.isEmpty(this.props.board.image))
       ? '/img/default_board_img.png'
-      : this.props.board.image.path;
+      : resizeImage(this.props.board.image, 64, 64).url;
     var boardImageStyle = { backgroundImage: 'url(' + boardImageURL + ')' };
 
     var created = new Date(board.created).toLocaleDateString();

@@ -8,13 +8,13 @@
 'use strict';
 
 var React = require('react');
-
 var {
   RaisedButton
 } = require('material-ui');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var BevyActions = require('./../../bevy/BevyActions');
 
 var InviteListItem = React.createClass({
@@ -30,10 +30,10 @@ var InviteListItem = React.createClass({
     var image_url;
     switch(this.props.invite.type) {
       case 'bevy':
-        image_url = this.props.invite.bevy.image.path;
+        image_url = resizeImage(this.props.invite.bevy.image, 64, 64).url;
         break;
       case 'board':
-        image_url = this.props.invite.board.image.path;
+        image_url = resizeImage(this.props.invite.board.image, 64, 64).url;
         break;
       default:
         image_url = constants.siteurl + '/img/logo_100.png';

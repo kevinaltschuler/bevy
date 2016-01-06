@@ -35,6 +35,7 @@ var ThemeManager = new Styles.ThemeManager();
 
 var _ = require('underscore');
 var router = require('./../../router');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var user = window.bootstrap.user;
 var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
@@ -185,7 +186,7 @@ var Navbar = React.createClass({
             opacity: this.state.opacity,
             backgroundImage: (_.isEmpty(this.props.activeBevy.image))
               ? ''
-              : 'url(' + this.props.activeBevy.image.path + ')',
+              : 'url(' + resizeImage(this.props.activeBevy.image, window.innerWidth, 100).url + ')',
           };
         if(!_.isEmpty(this.props.activeBevy)) {
           if(!_.isEmpty(this.props.activeBevy.image))
@@ -239,7 +240,7 @@ var Navbar = React.createClass({
             opacity: this.state.opacity,
             backgroundImage: (_.isEmpty(parent.image))
               ? ''
-              : 'url(' + parent.image.path + ')'
+              : 'url(' + resizeImage(parent.image, window.innerWidth, 100).url  + ')'
           };
         if(!_.isEmpty(parent)) {
           if(!_.isEmpty(parent.image))
@@ -283,7 +284,7 @@ var Navbar = React.createClass({
         >
         <div className="background-image" style={ backgroundStyle } />
         </div>
-        <div className='content' style={{height: 68}}>
+        <div className='content' style={{ height: 68 }}>
           <div className="left">
             <Button
               className="bevy-logo-btn"

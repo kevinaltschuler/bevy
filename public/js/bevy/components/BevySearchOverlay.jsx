@@ -129,7 +129,6 @@ var BevySearchOverlay = React.createClass({
   },
 
   render() {
-
     var bevies = [];
     for(var key in this.state.bevies) {
       var bevy = this.state.bevies[key];

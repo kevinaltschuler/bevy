@@ -13,6 +13,7 @@ var {
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var ChatActions = require('./../ChatActions');
 
 var UserSearchItem = React.createClass({
@@ -35,7 +36,7 @@ var UserSearchItem = React.createClass({
 
     var image_url = (_.isEmpty(user.image))
       ? constants.defaultProfileImage
-      : user.image.path;
+      : resizeImage(user.image, 64, 64).url;
     var name = user.displayName;
     var imageStyle = {
       backgroundImage: 'url(' + image_url + ')',

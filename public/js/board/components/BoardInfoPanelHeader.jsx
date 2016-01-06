@@ -22,6 +22,7 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var BoardActions = require('./../BoardActions');
 var user = window.bootstrap.user;
 
@@ -38,7 +39,6 @@ var BoardInfoPanelHeader = React.createClass({
       name: this.props.board.name || '',
       description: this.props.board.description || 'No Description',
       image: this.props.board.image || {},
-      imagePath: '',
       isEditing: false
     };
   },
@@ -49,8 +49,7 @@ var BoardInfoPanelHeader = React.createClass({
         { _id: window.bootstrap.user._id }) != undefined,
       name: nextProps.board.name,
       description: nextProps.board.description,
-      image: nextProps.board.image,
-      imagePath: nextProps.board.image.path || ''
+      image: nextProps.board.image
     });
   },
 
@@ -75,8 +74,7 @@ var BoardInfoPanelHeader = React.createClass({
 
   onUploadComplete(file) {
     this.setState({
-      image: file,
-      imagePath: constants.apiurl + '/files/' + file.filename
+      image: file
     });
 
     var board_id = this.props.board.id;
@@ -96,7 +94,7 @@ var BoardInfoPanelHeader = React.createClass({
   _renderBoardImage() {
     var boardImageURL = (_.isEmpty(this.state.image))
       ? '/img/default_group_img.png'
-      : this.state.imagePath;
+      : resizeImage(this.state.image, 250, 100).url
     var boardImageStyle = { backgroundImage: 'url(' + boardImageURL + ')' };
 
     var dropzoneOptions = {

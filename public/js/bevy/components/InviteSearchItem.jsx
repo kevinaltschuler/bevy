@@ -1,6 +1,7 @@
 /**
  * UserInviteItem.jsx
  * @author kevin
+ * @flow
  */
 
 'use strict';
@@ -13,6 +14,7 @@ var {
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var BevyActions = require('./../BevyActions');
 
 var UserInviteItem = React.createClass({
@@ -36,7 +38,7 @@ var UserInviteItem = React.createClass({
 
     var image_url = (_.isEmpty(user.image))
       ? constants.defaultProfileImage
-      : user.image.path;
+      : resizeImage(user.image, 40, 40).url;
     var name = user.displayName;
     var imageStyle = {
       backgroundImage: 'url(' + image_url + ')',

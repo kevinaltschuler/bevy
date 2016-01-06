@@ -1,6 +1,7 @@
 /**
  * ThreadImage.jsx
  * @author albert
+ * @flow
  */
 
 'use strict';
@@ -9,6 +10,7 @@ var React = require('react');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var ChatStore = require('./../ChatStore');
 
 var ThreadImage = React.createClass({
@@ -60,7 +62,7 @@ var ThreadImage = React.createClass({
           var user = threadUsers[key];
           var image_url = (_.isEmpty(user.image))
             ? constants.defaultProfileImage
-            : user.image.path
+            : resizeImage(user.image, 64, 64).url
           var iconStyle = {
             backgroundImage: 'url(' + image_url + ')',
             backgroundSize: 'auto 100%',
@@ -142,7 +144,7 @@ var ThreadImage = React.createClass({
             <div key={ 'threadimage:user:' + user._id } style={ iconStyle }/>
           );
         }
-        
+
         return (
           <div style={{
             position: 'relative',

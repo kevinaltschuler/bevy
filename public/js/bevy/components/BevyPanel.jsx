@@ -22,6 +22,7 @@ var {
 var _ = require('underscore');
 var router = require('./../../router');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var BevyActions = require('./../BevyActions');
 var user = window.bootstrap.user;
 
@@ -126,7 +127,7 @@ var BevyPanel = React.createClass({
   render() {
     var bevyImageURL = (_.isEmpty(this.state.image))
       ? '/img/default_group_img.png'
-      : this.state.image.path;
+      : resizeImage(this.state.image, 400, 200).url;
 
     return (
       <div className="panel bevy-panel">

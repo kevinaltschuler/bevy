@@ -1,20 +1,22 @@
 /**
  * UserSearchOverlay.jsx
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
 var {
   Button,
   Overlay
 } = require('react-bootstrap');
 
+var _ = require('underscore');
 var UserActions = require('./../../user/UserActions');
 var UserStore = require('./../../user/UserStore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var USER = constants.USER;
 
 var UserSearchOverlay = React.createClass({
@@ -130,10 +132,9 @@ var UserSearchOverlay = React.createClass({
     var users = [];
     for(var key in this.state.users) {
       var user = this.state.users[key];
-
       var image_url = (_.isEmpty(user.image))
         ? '/img/user-profile-icon.png'
-        : user.image.path;
+        : resizeImage(user.image, 64, 64).url;
       var name = user.displayName;
       var imageStyle = {
         backgroundImage: 'url(' + image_url + ')',

@@ -10,6 +10,7 @@ var React = require('react');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var user = window.bootstrap.user;
 
 var MessageItem = React.createClass({
@@ -46,7 +47,7 @@ var MessageItem = React.createClass({
 
     var authorImage = (_.isEmpty(author.image))
       ? constants.defaultProfileImage
-      : author.image.path;
+      : resizeImage(author.image, 64, 64).url;
     var authorName = author.displayName;
 
     var createDate = new Date(message.created);

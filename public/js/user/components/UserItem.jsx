@@ -10,6 +10,7 @@ var React = require('react');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var ChatActions = require('./../../chat/ChatActions');
 
 var UserItem = React.createClass({
@@ -41,7 +42,7 @@ var UserItem = React.createClass({
   render() {
     var image_url = (_.isEmpty(this.props.user.image))
       ? constants.defaultProfileImage
-      : this.props.user.image.path;
+      : resizeImage(this.props.user.image, 64, 64).url;
     return (
       <button
         className='user-item'

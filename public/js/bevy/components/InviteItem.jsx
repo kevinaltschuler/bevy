@@ -14,6 +14,7 @@ var {
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var BevyActions = require('./../BevyActions');
 
 var InviteItem = React.createClass({
@@ -37,14 +38,16 @@ var InviteItem = React.createClass({
 			return <div/>;
 		}
 		var user = invite.user;
-		var image = user.image || {path: constants.defaultProfileImage};
+		var image = user.image || { foreign: true, path: constants.defaultProfileImage };
 		var actionButton = (invite.requestType == 'request_join')
 		? <RaisedButton onClick={this.acceptRequest} label='accept'/>
 		: <FlatButton onClick={this.cancelInvite} label='cancel'/>
 		return (
 			<div className='invite-item'>
 				<div>
-					<Avatar size={40} src={image.path} />
+					<div className='user-img' style={{
+						backgroundImage: 'url(' + resizeImage(image, 40, 40).url + ')'
+					}}/>
 					{user.displayName}
 				</div>
 				{actionButton}

@@ -18,6 +18,7 @@ var {
 var _ = require('underscore');
 var router = require('./../../router');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var timeAgo = require('./../../shared/helpers/timeAgo');
 var timeLeft = require('./../../shared/helpers/timeLeft');
 var ChatActions = require('./../../chat/ChatActions');
@@ -139,7 +140,7 @@ var PostHeader = React.createClass({
 
     var profileImageURL = (_.isEmpty(this.props.post.author.image))
       ? constants.defaultProfileImage
-      : this.props.post.author.image.path;
+      : resizeImage(this.props.post.author.image, 64, 64).url;
 
     return (
       <div className='panel-header'>

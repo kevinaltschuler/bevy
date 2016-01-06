@@ -1,6 +1,6 @@
 /**
  * ThreadModel.js
- * 
+ *
  * @author albert
  */
 
@@ -8,9 +8,9 @@
 
 var Backbone = require('backbone');
 var _ = require('underscore');
-
 var Messages = require('./MessageCollection');
 var constants = require('./../constants');
+var resizeImage = require('./../shared/helpers/resizeImage');
 var BevyStore = require('./../bevy/BevyStore');
 var BoardStore = require('./../board/BoardStore');
 
@@ -24,8 +24,8 @@ var ThreadModel = Backbone.Model.extend({
 
   },
 
-  // get the name of the thread. 
-  // will do this based on the type of the thread, 
+  // get the name of the thread.
+  // will do this based on the type of the thread,
   // or will use a hard-set name of the thread if it exists
   getName() {
     if(!_.isEmpty(this.get('name'))) return this.get('name');
@@ -65,12 +65,12 @@ var ThreadModel = Backbone.Model.extend({
   // or will default to the hard-set one if it exists
   getImageURL() {
     var default_img = '/img/logo_100.png';
-    if(!_.isEmpty(this.get('image'))) 
-      return this.get('image').path;
+    if(!_.isEmpty(this.get('image')))
+      return resizeImage(this.get('image'), 64, 64).url;
     switch(this.get('type')) {
       case 'board':
         if(!this.get('board')) return default_img;
-        return this.get('board').image.path;
+        return resizeImage(this.get('board').image, 64, 64).url;
         break;
       case 'group':
         // TODO: @kevin do some magic here
@@ -80,9 +80,9 @@ var ThreadModel = Backbone.Model.extend({
         var otherUser = _.find(this.get('users'), function($user) {
           return $user._id != window.bootstrap.user._id;
         });
-        if(otherUser == undefined || _.isEmpty(otherUser.image)) 
+        if(otherUser == undefined || _.isEmpty(otherUser.image))
           return constants.defaultProfileImage;
-        return otherUser.image.path;
+        return resizeImage(otherUser.image, 64, 64).url;
         break;
     }
     // something went wrong
