@@ -106,8 +106,9 @@ exports.getFile = function(req, res, next) {
     return next(err);
   });
 
+  var file_type = fileid.match(/\.(.*)/g)[0].substr(1);
 
-  if(width && height) {
+  if(width && height && file_type != 'gif') {
     // resize
     gm(readstream)
       .resize(width, height, '^')
