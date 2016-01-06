@@ -28,9 +28,7 @@ module.exports = function(router) {
   );
 
   router.get('/bevies/:bevyid', [
-      oauth2Controller.bearer,
-      permissionsController.hasPrivateBevyAccess,
-      permissionsController.errorHandler
+      oauth2Controller.bearer
     ],
     bevyController.getBevy
   );

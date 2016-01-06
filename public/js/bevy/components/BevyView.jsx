@@ -117,8 +117,22 @@ var BevyView = React.createClass({
         <div className='main-section private-container'>
           <div className='private panel'>
             <div className='private-img'/>
-            you must be invited by an <br/>admin to view this community<br/><br/>
+            <span className='private-text'>
+              You must be invited by an&nbsp;admin to view this community
+            </span>
+            <RaisedButton
+              label='request to join'
+              onClick={ this.onRequestJoin }
+              labelStyle={{
+                color: '#FFF'
+              }}
+            />
           </div>
+          <Snackbar
+            message="Invitation Requested"
+            autoHideDuration={ 5000 }
+            ref='snackbar'
+          />
         </div>
       );
     }
