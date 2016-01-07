@@ -34,7 +34,7 @@ a.conversation-item {
     margin: 0px 10px;
     border-radius: 50px;
     box-shadow: none;
-    transition: all .1s ease-in-out; 
+    transition: all .1s ease-in-out;
   }
 
   .details {
@@ -43,15 +43,19 @@ a.conversation-item {
     flex-direction: column;
     align-items: flex-start;
     span.name {
+      width: 100%;
       white-space: nowrap;
-      overflow-x: hidden;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     span.latest-message {
+      width: 100%;
       color: #aaa;
-      overflow-x: hidden;
+      overflow: hidden;
       text-align: left;
       word-break: break-all;
       white-space: nowrap;
+      text-overflow: ellipsis;
     }
   }
 }
