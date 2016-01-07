@@ -6,6 +6,7 @@
 
 'use strict';
 
+var _ = require('underscore');
 var oauth2orize = require('oauth2orize');
 var passport = require('passport');
 var crypto = require('crypto');
@@ -125,6 +126,58 @@ var loginSocial = function(req, res, next) {
   });
 };
 
+var loginGoogleMobile = function(req, res, next) {
+  var client = {
+    client_id: config.auth.clients.web,
+    secret: config.auth.keys.oauth_clients.web
+  };
+  var google_id = req.body['google_id'];
+  var email = req.body['email'];
+  var picture = req.body['picture'];
+  var name = req.body['name'];
+
+  if(google_id == undefined) return next('No Google ID defined');
+  if(email == undefined) return next('No email defined');
+
+  User.findOne({ $or: [{'google.id': google_id }, { email: email }]}, function(err, user) {
+    if(err) return next(err);
+    if(_.isEmpty(user)) {
+      // user not found. lets create one
+      User.create({
+        google: {
+          provider: 'google',
+          id: google_id,
+          displayName: name,
+          photos: [{ value: picture }],
+          emails: [{ value: email }]
+        }
+      }, function(err, user) {
+        if(err) return next(err);
+        generateTokens(user, client, function(err, accessToken, refreshToken, data) {
+          if(err) return next(err);
+          return res.json({
+            user: user,
+            access_token: accessToken,
+            refresh_token: refreshToken,
+            expires_in: data['expires_in']
+          });
+        });
+      });
+    } else {
+      // user found
+      generateTokens(user, client, function(err, accessToken, refreshToken, data) {
+        if(err) return next(err);
+        return res.json({
+          user: user,
+          access_token: accessToken,
+          refresh_token: refreshToken,
+          expires_in: data['expires_in']
+        });
+      });
+    }
+  });
+};
+
 // token endpoint
 //
 // `token` middleware handles client requests to exchange authorization grants
@@ -146,6 +199,10 @@ exports.loginUsername = [
 
 exports.loginSocial = [
   loginSocial
+];
+
+exports.loginGoogleMobile = [
+  loginGoogleMobile
 ];
 
 // bearer endpoint

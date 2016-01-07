@@ -168,4 +168,35 @@ UserSchema.index({
   'facebook.displayName': 'text'
 });
 
+UserSchema.pre('save', function(next) {
+  // get a default image
+  if(_.isEmpty(this.image)) {
+    if(!_.isEmpty(this.google.photos)) {
+      this.image = {
+        filename: this.google.photos[0].value,
+        foreign: true
+      };
+    } else if (!_.isEmpty(this.facebook.photos)) {
+      this.image = {
+        filename: this.facebook.photos[0].value,
+        foreign: true
+      };
+    } else {
+      this.image = {
+        filename: 'http://joinbevy.com/img/user-profile-icon.png',
+        foreign: true
+      };
+    }
+  }
+
+  // get an email from google or facebook if none exist
+  if(_.isEmpty(this.email)) {
+    if(!_.isEmpty(this.google.emails)) {
+      this.email = this.google.emails[0].value;
+    } else if (!_.isEmpty(this.facebook.emails)) {
+      this.email = this.facebook.emails[0].value;
+    }
+  }
+});
+
 module.exports = mongoose.model('User', UserSchema);

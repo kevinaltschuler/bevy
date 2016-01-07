@@ -153,39 +153,18 @@ passport.use(new GoogleStrategy({
     User.findOne({ $or: [ id_query, email_query ] }, function (err, user) {
       if(err) return done(err);
       if(user) {
-        // user found
-        if(_.isEmpty(user.google.emails)) {
-          // google profile has not yet been set
-          user.google = profile;
-          if(profile.photos) {
-            user.image = {
-              filename: (profile.photos) ? profile.photos[0].value : undefined,
-              foreign: true
-            };
-          }
-          user.save(function(err) {
-            if(err) return done(err);
-            return done(null, user);
-          });
-        } else return done(null, user);
+        return done(null, user);
       } else {
         // user not found. let's create an account
         User.create({
           _id: shortid.generate(),
-          image: {
-            filename: (profile.photos) ? profile.photos[0].value : undefined,
-            foreign: true
-          },
-          email: emails[0], // use the first email as default.
-                            // let the user change this later
-          google: profile,  // load the entire profile object into the 'google' object
-          bevies: [],
-          boards: []
+           // load the entire profile object into the 'google' object
+          google: profile,
         }, function(err, new_user) {
           if(err) return done(err);
-
           return done(null, new_user);
         });
       }
     });
-  }));
+  }
+));

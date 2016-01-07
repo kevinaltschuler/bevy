@@ -44,6 +44,8 @@ module.exports = function(app) {
     oauth2Controller.loginSocial
   );
 
+  app.post('/login/google', oauth2Controller.loginGoogleMobile);
+
   app.get('/logout', function(req, res, next) {
     // weren't logged in in the first place
     //if(!req.user) res.redirect('/login');
