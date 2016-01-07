@@ -178,6 +178,11 @@ _.extend(BevyStore, {
         this.myBevies.remove(bevy._id);
         // trigger UI changes
         this.trigger(BEVY.CHANGE_ALL);
+        var router = require('./../router');
+        // if we're viewing that bevy right now, then go back to my bevies
+        if(router.current == 'bevy') {
+          window.location.href = constants.siteurl;
+        }
         break;
 
       case BEVY.JOIN:

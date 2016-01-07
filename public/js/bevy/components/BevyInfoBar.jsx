@@ -55,6 +55,12 @@ var BevyInfoBar = React.createClass({
     BevyActions.update(bevy_id, name, file);
   },
 
+  leaveBevy() {
+    if(window.confirm('Are you sure?')) {
+      BevyActions.leave(this.props.activeBevy);
+    }
+  },
+
   _renderPublicPrivate() {
     if(this.props.activeBevy.settings.privacy == 'Public') {
       return (
@@ -96,6 +102,7 @@ var BevyInfoBar = React.createClass({
           <FlatButton
             label={ this.props.activeBevy.subCount }
             labelPosition='after'
+            title='View Bevy Subscribers'
             onClick={() => this.setState({ showSubModal: true })}
             style={{
               minWidth: 0,
@@ -136,6 +143,7 @@ var BevyInfoBar = React.createClass({
           <FlatButton
             label={ this.props.activeBevy.admins.length }
             labelPosition='after'
+            title='View Bevy Admins'
             onClick={() => this.setState({ showAdminModal: true })}
             style={{
               minWidth: 0,
@@ -169,6 +177,7 @@ var BevyInfoBar = React.createClass({
         }>
           <IconButton
             onClick={() => this.setState({ showSettingsModal: true })}
+            title='Change Bevy Settings'
             style={{
               display: 'flex',
               flexDirection: 'row',
@@ -193,11 +202,31 @@ var BevyInfoBar = React.createClass({
     if(!this.state.isAdmin) return <div />;
     return (
       <div className='info-item'>
+        <Uploader
+          onUploadComplete={ this.onUploadComplete }
+          className="bevy-image-dropzone"
+          dropzoneOptions={{
+            maxFiles: 1,
+            acceptedFiles: 'image/*',
+            clickable: '.change-image-button',
+            dictDefaultMessage: ' ',
+            init: function() {
+              this.on("addedfile", function() {
+                if(this.files[1]!=null) {
+                  this.removeFile(this.files[0]);
+                }
+              });
+            }
+          }}
+          tooltip='Change Bevy Picture'
+          style={{ display: 'none' }}
+        />
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='imagetooltip'>Change Bevy Image</Tooltip>
         }>
           <IconButton
             className='change-image-button'
+            title='Change Bevy Image'
             style={{
               display: 'flex',
               flexDirection: 'row',
@@ -233,30 +262,12 @@ var BevyInfoBar = React.createClass({
     return (
       <div className='info-item'>
         { this._renderInviteCounter() }
-        <Uploader
-          onUploadComplete={ this.onUploadComplete }
-          className="bevy-image-dropzone"
-          dropzoneOptions={{
-            maxFiles: 1,
-            acceptedFiles: 'image/*',
-            clickable: '.change-image-button',
-            dictDefaultMessage: ' ',
-            init: function() {
-              this.on("addedfile", function() {
-                if(this.files[1]!=null) {
-                  this.removeFile(this.files[0]);
-                }
-              });
-            }
-          }}
-          tooltip='Change Bevy Picture'
-          style={{ display: 'none' }}
-        />
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='invitetooltip'>Invite Users</Tooltip>
         }>
           <IconButton
             onClick={() => this.setState({ showInviteModal: true })}
+            title='Invite Users'
             style={{
               display: 'flex',
               flexDirection: 'row',
@@ -277,6 +288,36 @@ var BevyInfoBar = React.createClass({
     );
   },
 
+  _renderLeaveButton() {
+    if(this.state.isAdmin) return <div />;
+    return (
+      <div className='info-item'>
+        <OverlayTrigger placement='bottom' overlay={
+          <Tooltip id='invitetooltip'>Leave Bevy</Tooltip>
+        }>
+          <IconButton
+            onClick={ this.leaveBevy }
+            title='Leave Bevy'
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignItems: 'center',
+              height: 24,
+              width: 24,
+              padding: 0,
+              marginTop: 0,
+              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'
+            }}
+          >
+            <span className='info-item-body'>
+              <i className="material-icons">exit_to_app</i>
+            </span>
+          </IconButton>
+        </OverlayTrigger>
+      </div>
+    );
+  },
+
   render() {
     if(_.isEmpty(this.props.activeBevy)) return <div/>;
 
@@ -288,6 +329,7 @@ var BevyInfoBar = React.createClass({
         { this._renderImageButton() }
         { this._renderInviteButton() }
         { this._renderSettingsButton() }
+        { this._renderLeaveButton() }
         <BevySettingsModal
           show={ this.state.showSettingsModal }
           onHide={() => this.setState({ showSettingsModal: false })}

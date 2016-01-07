@@ -73,7 +73,6 @@ var BevyActions = {
 
   leave(bevy) {
     if(_.isEmpty(bevy)) return;
-
     Dispatcher.dispatch({
       actionType: BEVY.LEAVE,
       bevy: bevy
