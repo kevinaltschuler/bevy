@@ -72,6 +72,10 @@ exports.createInvite = function(req, res, next) {
   if(req.body['bevy'] != undefined) update.bevy = req.body['bevy'];
   if(req.body['board'] != undefined) update.board = req.body['board'];
 
+  if(update.bevy == undefined && update.board == undefined) {
+    return next('Invite not linked to a bevy or a board');
+  }
+
   async.waterfall([
     // check for existing invite
     function(done) {

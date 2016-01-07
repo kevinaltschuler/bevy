@@ -13,8 +13,6 @@ var constants = require('./../constants');
 
 // backbone model
 var InviteModel = Backbone.Model.extend({
-  defaults: {
-  },
   idAttribute: '_id'
 });
 

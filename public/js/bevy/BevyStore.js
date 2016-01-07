@@ -193,16 +193,17 @@ _.extend(BevyStore, {
 
       case BEVY.REQUEST_JOIN:
         var bevy_id = payload.bevy_id;
+        // if already joined, break
         if(this.myBevies.get(bevy_id) != undefined) break;
 
-        var invite = new Invite({
+        var invite = new Invite();
+        invite.url = constants.apiurl + '/invites';
+        invite.save({
           user: window.bootstrap.user._id,
           type: 'bevy',
           requestType: 'request_join',
           bevy: bevy_id
         });
-        invite.url = constants.apiurl + '/invites';
-        invite.save();
         break;
 
       case BEVY.SORT:
@@ -288,13 +289,9 @@ _.extend(BevyStore, {
       case INVITE.ACCEPT_REQUEST:
         var invite_id = payload.invite_id;
         fetch(constants.apiurl + '/invites/' + invite_id + '/accept')
-        .then(function(data) {
-          // remove from collection if success
-          this.bevyInvites.remove(invite_id);
-          // trigger UI changes
-          this.trigger(BEVY.CHANGE_ALL);
-          this.trigger(NOTIFICATION.CHANGE_ALL);
-        }.bind(this))
+        .then(res => {
+          window.location.reload();
+        })
         break;
     }
   },

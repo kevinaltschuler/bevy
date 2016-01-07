@@ -56,7 +56,7 @@ var InviteListItem = React.createClass({
 
     return (
       <div
-        style={iconStyle}
+        style={ iconStyle }
       />
     );
   },
@@ -100,7 +100,13 @@ var InviteListItem = React.createClass({
         return <div />
         break;
       case 'invite':
-        return <RaisedButton onClick={this.acceptRequest} label='accept' />
+        return (
+          <RaisedButton
+            onClick={ this.acceptRequest }
+            label='accept'
+            title='Accept Invite'
+          />
+        );
         break;
       default:
         return <div />

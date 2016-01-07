@@ -11,7 +11,8 @@ var React = require('react');
 var {
   Button,
   OverlayTrigger,
-  Tooltip
+  Tooltip,
+  Badge
 } = require('react-bootstrap');
 var {
   IconButton,
@@ -24,7 +25,8 @@ var AdminModal = require('./AdminModal.jsx');
 var SubscriberModal = require('./SubscriberModal.jsx');
 
 var _ = require('underscore');
-var BevyActions = require('./../BevyActions');
+var BevyActions = require('./../../bevy/BevyActions');
+var BevyStore = require('./../../bevy/BevyStore');
 
 var BevyInfoBar = React.createClass({
   propTypes: {
@@ -216,10 +218,21 @@ var BevyInfoBar = React.createClass({
     );
   },
 
+  _renderInviteCounter() {
+    var invites = BevyStore.getInvites();
+    if(invites.length <= 0) return <div />;
+    return (
+      <Badge className='invite-counter'>
+        { invites.length }
+      </Badge>
+    );
+  },
+
   _renderInviteButton() {
     if(!this.state.isAdmin) return <div />;
     return (
       <div className='info-item'>
+        { this._renderInviteCounter() }
         <Uploader
           onUploadComplete={ this.onUploadComplete }
           className="bevy-image-dropzone"

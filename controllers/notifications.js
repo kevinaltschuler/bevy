@@ -127,13 +127,15 @@ exports.updateNotification = function(req, res, next) {
   if(req.body['read'] != undefined)
     update.read = req.body['read'];
   var query = { _id: notification_id };
-  var promise = Notification.findOneAndUpdate(query, update, {new: true})
+  var promise = Notification.findOneAndUpdate(query, update, { new: true })
     .exec();
   promise.then(function(notification) {
-    if(!notification) next('notification not found');
+    if(_.isEmpty(notification)) return next('Notification not found');
     return notification;
+  }, function(err) {
+    return next(err);
   });
-}
+};
 
 function pushNotifications(notifications) {
   Notification.create(notifications, function(err, $notifications) {

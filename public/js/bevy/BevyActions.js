@@ -88,13 +88,13 @@ var BevyActions = {
     });
   },
 
-  requestJoin(bevy_id, user_id) {
+  requestJoin(bevy_id, user) {
     if(_.isEmpty(bevy_id)) return;
-    if(_.isEmpty(user_id)) return;
+    if(_.isEmpty(user)) return;
     Dispatcher.dispatch({
       actionType: BEVY.REQUEST_JOIN,
-      bevy: bevy_id,
-      user: user_id
+      bevy_id: bevy_id,
+      user: user
     });
   },
 

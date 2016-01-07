@@ -51,7 +51,7 @@ var UserInviteItem = React.createClass({
         className='user-search-item'
         title={ 'Invite ' + name }
         style={{
-          width: '100%'
+          width: '95%'
         }}
         onClick={ this.sendInvite }
       >

@@ -53,7 +53,10 @@ var NotificationDropdown = React.createClass({
     this.props.onToggle();
     for(var key in this.props.allNotifications) {
       var notification = this.props.allNotifications[key];
-      NotificationActions.read(notification._id);
+      console.log(notification.read);
+      if(!notification.read) {
+        NotificationActions.read(notification._id);
+      }
     }
   },
 

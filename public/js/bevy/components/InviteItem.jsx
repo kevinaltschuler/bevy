@@ -32,6 +32,23 @@ var InviteItem = React.createClass({
 		BevyActions.acceptRequest(invite._id);
 	},
 
+	_renderActionButton() {
+		return (this.props.invite.requestType == 'request_join')
+		? (
+			<RaisedButton
+				onClick={ this.acceptRequest }
+				label='accept'
+				title='Accept Invite'
+			/>
+		) : (
+			<FlatButton
+				onClick={ this.cancelInvite }
+				label='cancel'
+				title='Cancel Invite'
+			/>
+		);
+	},
+
 	render() {
 		var invite = this.props.invite;
 		if(_.isEmpty(invite)) {
@@ -39,18 +56,14 @@ var InviteItem = React.createClass({
 		}
 		var user = invite.user;
 		var image = user.image || { foreign: true, path: constants.defaultProfileImage };
-		var actionButton = (invite.requestType == 'request_join')
-		? <RaisedButton onClick={this.acceptRequest} label='accept'/>
-		: <FlatButton onClick={this.cancelInvite} label='cancel'/>
+
 		return (
 			<div className='invite-item'>
-				<div>
-					<div className='user-img' style={{
-						backgroundImage: 'url(' + resizeImage(image, 40, 40).url + ')'
-					}}/>
-					{user.displayName}
-				</div>
-				{actionButton}
+				<div className='user-img' style={{
+					backgroundImage: 'url(' + resizeImage(image, 64, 64).url + ')'
+				}}/>
+				<span className='name'>{ user.displayName }</span>
+				{ this._renderActionButton() }
 			</div>
 		);
 	}

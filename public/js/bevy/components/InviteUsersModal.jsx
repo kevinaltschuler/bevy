@@ -37,7 +37,6 @@ var USER = constants.USER;
 var BEVY = constants.BEVY;
 
 var InviteUsersModal = React.createClass({
-
   propTypes: {
     activeBevy: React.PropTypes.object,
     show: React.PropTypes.bool,
