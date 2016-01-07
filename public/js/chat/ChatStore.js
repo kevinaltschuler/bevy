@@ -476,7 +476,7 @@ _.extend(ChatStore, {
   addMessage(message) {
     var thread = this.threads.get(message.thread);
     if(thread == undefined) {
-      // fetch new threads - it was probably just created
+      // fetch new threads - it couldve just been created
       this.threads.fetch({
         reset: true,
         success: function(threads, response, options) {
@@ -520,41 +520,17 @@ _.extend(ChatStore, {
 
       // open the panel if it isn't already
       if(this.openThreads.indexOf(message.thread) == -1) {
-        this.openThreads.push(message.thread);
-        this.trigger(CHAT.CHANGE_ALL);
+        this.openThread(message.thread._id);
       }
 
-      if(thread.messages.length <= 0) {
-        thread.messages.fetch({
-          reset: true,
-          success: function(collection, response, options) {
-            thread.messages.sort();
-            this.trigger(CHAT.MESSAGE_FETCH + message.thread);
-          }.bind(this)
-        });
-      }
+      // toggle the panel
+      this.trigger(CHAT.PANEL_TOGGLE + message.thread);
 
       thread.messages.add(message);
       this.trigger(CHAT.MESSAGE_FETCH + message.thread);
-      // toggle the panel
-      this.trigger(CHAT.PANEL_TOGGLE + message.thread);
     }
   }
 });
-
-// fetch threads
-ChatStore.threads.reset(window.bootstrap.threads);
-ChatStore.threads.forEach(function(thread) {
-  // fetch messages
-  // TODO: only get one
-  thread.messages.fetch({
-    reset: true,
-    success: function(collection, response, options) {
-      thread.messages.sort();
-      this.trigger(CHAT.CHANGE_ALL);
-    }.bind(this)
-  });
-}.bind(ChatStore));
 
 Dispatcher.register(ChatStore.handleDispatch.bind(ChatStore));
 

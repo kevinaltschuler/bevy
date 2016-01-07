@@ -100,6 +100,7 @@ if(!_.isEmpty(window.bootstrap.user)) {
   //});
 
   socket.on('chat.' + user_id, function(message) {
+    var ChatStore = require('./../chat/ChatStore');
     message = JSON.parse(message);
     console.log('got message', message);
     if(message.author._id == user_id) return;
