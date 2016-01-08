@@ -209,7 +209,7 @@ var ChatSidebar = React.createClass({
       clearTimeout(this.openDelay);
       delete this.openDelay;
     }
-    //this.closeDelay = setTimeout(this.closeSidebar, 500);
+    this.closeDelay = setTimeout(this.closeSidebar, 500);
   },
 
   _renderThreads() {
