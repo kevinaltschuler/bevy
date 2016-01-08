@@ -162,8 +162,10 @@ _.extend(PostStore, {
             this.posts.comparator = this.sortByNew;
             this.posts.sort();
 
-            this.trigger(POST.POSTED_POST);
-            this.trigger(POST.CHANGE_ALL);
+            setTimeout(() => {
+              this.trigger(POST.POSTED_POST);
+              this.trigger(POST.CHANGE_ALL);
+            }, 1000);
           }.bind(this)
         });
 
