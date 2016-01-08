@@ -197,6 +197,8 @@ UserSchema.pre('save', function(next) {
       this.email = this.facebook.emails[0].value;
     }
   }
+
+  next();
 });
 
 module.exports = mongoose.model('User', UserSchema);
