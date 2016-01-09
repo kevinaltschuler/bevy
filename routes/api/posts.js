@@ -13,8 +13,8 @@ var permissionsController = require('./../../controllers/permissions');
 module.exports = function(router) {
   router.get('/boards/:boardid/posts', [
       oauth2Controller.bearer,
-      permissionsController.hasPrivateBoardAccess,
-      permissionsController.errorHandler
+      //permissionsController.hasPrivateBoardAccess,
+      //permissionsController.errorHandler
     ],
     postController.getBoardPosts
   );
@@ -43,7 +43,7 @@ module.exports = function(router) {
 
   router.post('/posts', [
       oauth2Controller.bearer,
-      permissionsController.hasPrivateBoardAccess,
+      //permissionsController.hasPrivateBoardAccess,
       permissionsController.errorHandler
     ],
     postController.createPost
@@ -51,7 +51,7 @@ module.exports = function(router) {
 
   router.get('/posts/:postid', [
       oauth2Controller.bearer,
-      permissionsController.canViewPost,
+      //permissionsController.canViewPost,
       permissionsController.errorHandler
     ],
     postController.getPost
@@ -74,7 +74,7 @@ module.exports = function(router) {
 
   router.delete('/posts/:postid', [
       oauth2Controller.bearer,
-      permissionsController.canModifyPost,
+      //permissionsController.canModifyPost,
       permissionsController.errorHandler
     ],
     postController.destroyPost

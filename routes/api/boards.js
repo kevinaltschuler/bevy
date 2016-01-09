@@ -36,7 +36,7 @@ module.exports = function(router) {
 
   router.get('/boards/:boardid', [
       oauth2Controller.bearer,
-      permissionsController.hasPrivateBoardAccess,
+      //permissionsController.hasPrivateBoardAccess,
       permissionsController.errorHandler
     ],
     boardController.getBoard

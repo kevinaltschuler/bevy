@@ -120,7 +120,7 @@ exports.createBoard = function(req, res, next) {
       });
     },
     // add board to admin's collection of boards
-    function(board, done) {
+    /*function(board, done) {
       User.findOne({ _id: update.admins[0] }, function(err, user) {
         if(err) return done(err);
         if(_.isEmpty(user)) return done('Board admin user not found');
@@ -129,6 +129,20 @@ exports.createBoard = function(req, res, next) {
           if(err) return done(err);
           done(null, board);
         })
+      });
+    },*/
+    // add board to all members of that bevy
+    // TODO remove later when we implement board joining/leaving again
+    function(board, done) {
+      User.find({ bevies: board.parent }, function(err, users) {
+        if(err) return done(err);
+        users.forEach(function(user) {
+          user.boards.push(board._id);
+          user.save(function(err) {
+            if(err) return done(err);
+          })
+        });
+        done(null, board);
       });
     }
   ], function(err, board) {

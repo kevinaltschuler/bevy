@@ -249,11 +249,11 @@ var BoardPanel = React.createClass({
         </div>
         <div className='bottom'>
           <div className='left'>
-            { this._renderBoardSubs() }
+            {/* this._renderBoardSubs() */}
             { this._renderBoardType() }
           </div>
           <div className='right'>
-            { this._renderJoinLeaveButton() }
+            {/* this._renderJoinLeaveButton() */}
           </div>
         </div>
       </div>

@@ -156,7 +156,7 @@ var BoardInfoPanel = React.createClass({
       <div className="board-info-panel panel">
         <BoardInfoPanelHeader {...this.props}/>
         <div className='board-info'>
-          <div className='info-item'>
+          {/*<div className='info-item'>
             <i className="material-icons">people</i>
             <a
               href='#'
@@ -175,7 +175,7 @@ var BoardInfoPanel = React.createClass({
                 ? 'subscriber'
                 : 'subscribers' }
             </a>
-          </div>
+          </div>*/}
           <div className='info-item' >
             <i className="material-icons">person</i>
             <a

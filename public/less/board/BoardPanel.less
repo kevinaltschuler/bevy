@@ -8,6 +8,7 @@
 
 .board-panel {
   width: 100%;
+  max-width: 250px;
   padding: 0px;
   display: flex;
   flex-direction: column;
@@ -32,9 +33,10 @@
       overflow: hidden;
       a.title {
         flex: 1;
-        display: flex;
+        display: inline-block;
         white-space: nowrap;
         overflow-x: hidden;
+        text-overflow: ellipsis;
         color: rgba(0, 0, 0, 0.87);
         font-size: 15px;
         width: 100%;
@@ -101,6 +103,7 @@
 
 .new-board-card {
   width: 100%;
+  max-width: 250px;
   padding: 0px;
   height: 100px;
   display: flex;
