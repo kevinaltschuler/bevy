@@ -1,3 +1,9 @@
+/**
+ * error.js
+ * @author albert
+ * @flow
+ */
+
 'use strict';
 
 var fs = require('fs');
@@ -15,6 +21,7 @@ exports.log_errors = function(err, req, res, next) {
 
 exports.error_handler = function(err, req, res, next) {
 	console.error('error', err.toString());
+	console.error('error', err);
 	if(!res.headersSent) {
 		res.status(500).json(err);
 	}
