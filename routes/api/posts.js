@@ -29,7 +29,7 @@ module.exports = function(router) {
 
   router.get('/users/:userid/posts', [
       oauth2Controller.bearer,
-      permissionsController.isSameUser,
+      //permissionsController.isSameUser,
       permissionsController.errorHandler
     ],
     postController.getUserPosts
