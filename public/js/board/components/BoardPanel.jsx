@@ -156,7 +156,7 @@ var BoardPanel = React.createClass({
         type = (
           <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
             <i style={{marginRight: 10}} className="material-icons">flag</i>
-            Flag
+            Announcements
           </div>
         );
         break;
