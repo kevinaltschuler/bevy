@@ -52,11 +52,16 @@ var HomeView = React.createClass({
       backgroundImage: "url('./../../../img/boardscreen.png')",
       marginLeft: "-580px",
       marginTop: "50px",
-      backgroundSize: "auto 100%"
+      backgroundSize: "auto 100%",
+      backgroundPosition: '30% 50%'
     }
     : {
-      display: 'none',
       backgroundImage: "url('./../../../img/boardscreen.png')",
+      marginLeft: "-580px",
+      marginTop: "50px",
+      backgroundSize: "auto 100%",
+      backgroundPosition: '30% 50%',
+      opacity: 0
     }
 
     var chatScreenStyle = (this.state.selected == 1)
@@ -68,8 +73,12 @@ var HomeView = React.createClass({
       backgroundPosition: '100% 50%'
     }
     : {
-      display: 'none',
       backgroundImage: "url('./../../../img/chatscreen.png')",
+      marginLeft: "-300px",
+      marginTop: "50px",
+      backgroundSize: "auto 100%",
+      backgroundPosition: '100% 50%',
+      opacity: 0
     }
 
     var feedScreenStyle = (this.state.selected == 2)
@@ -80,8 +89,11 @@ var HomeView = React.createClass({
       backgroundSize: "auto 100%"
     }
     : {
-      display: 'none',
       backgroundImage: "url('./../../../img/postscreen.png')",
+      marginLeft: "-450px",
+      marginTop: "30px",
+      backgroundSize: "auto 100%",
+      opacity: 0
     }
 
     return (
