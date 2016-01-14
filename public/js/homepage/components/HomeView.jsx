@@ -50,31 +50,39 @@ var HomeView = React.createClass({
     var boardScreenStyle = (this.state.selected == 0)
     ? {
       backgroundImage: "url('./../../../img/boardscreen.png')",
-      marginLeft: "-540px",
-      marginTop: "70px",
+      marginLeft: "-580px",
+      marginTop: "50px",
       backgroundSize: "auto 100%"
     }
     : {
       display: 'none',
+      backgroundImage: "url('./../../../img/boardscreen.png')",
     }
 
     var chatScreenStyle = (this.state.selected == 1)
     ? {
       backgroundImage: "url('./../../../img/chatscreen.png')",
-      marginLeft: "-140px",
+      marginLeft: "-300px",
       marginTop: "50px",
-      backgroundSize: "auto 100%"
+      backgroundSize: "auto 100%",
+      backgroundPosition: '100% 50%'
     }
-    : {display: 'none'}
+    : {
+      display: 'none',
+      backgroundImage: "url('./../../../img/chatscreen.png')",
+    }
 
     var feedScreenStyle = (this.state.selected == 2)
     ? {
       backgroundImage: "url('./../../../img/postscreen.png')",
-      marginLeft: "-400px",
-      marginTop: "70px",
+      marginLeft: "-450px",
+      marginTop: "30px",
       backgroundSize: "auto 100%"
     }
-    : {display: 'none'}
+    : {
+      display: 'none',
+      backgroundImage: "url('./../../../img/postscreen.png')",
+    }
 
     return (
       <div className='landing-page'>
@@ -134,6 +142,9 @@ var HomeView = React.createClass({
           </div>
           <div className='bracket'>}</div>
           <img style={{width: 100, height: 100}} src='./../../../img/logo_200.png'/>
+          <div style={{fontWeight: 'bold', fontSize: 40, marginTop: 10}}>
+            Bevy
+          </div>
         </div>
         <div className='landing-div div3'>
           <div className='features-title'>
@@ -151,7 +162,7 @@ var HomeView = React.createClass({
                 }}
                 index={0}
                 selected={this.state.selected}
-                description='Organize your team into boards. Make a bevy for committees, social groups, announcements, and event feeds.'
+                description='Organize your team into boards. Make a board for committees, social groups, announcements, or event feeds.'
               />
               <Feature
                 title='Feed'
@@ -163,7 +174,7 @@ var HomeView = React.createClass({
                 }}
                 index={2}
                 selected={this.state.selected}
-                description='All recent activity in your community is easily viewed straight from your frontpage'
+                description="All recent activity is easily viewed straight from your community's frontpage"
               />
               <Feature
                 title='Chat'
@@ -178,7 +189,7 @@ var HomeView = React.createClass({
                 description="Each board has a group chat for all it's members, we also support group and private chat"
               />
             </div>
-            <img style={{width: 600, height: 393}} className='simplemock' src='./../../../img/simplemock.png'>
+            <img style={{width: 600, height: 352}} className='simplemock' src='./../../../img/simplemock.png'>
               <div style={boardScreenStyle} className='screenshot'/>
               <div style={chatScreenStyle} className='screenshot'/>
               <div style={feedScreenStyle} className='screenshot'/>
