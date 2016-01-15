@@ -190,7 +190,7 @@ var Navbar = React.createClass({
           };
         if(!_.isEmpty(this.props.activeBevy)) {
           if(!_.isEmpty(this.props.activeBevy.image))
-            if(this.props.activeBevy.image.path == "http://bevy.dev/img/default_group_img.png")
+            if(this.props.activeBevy.image.path == constants.siteurl + "/img/default_group_img.png")
               backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
         }
         break;

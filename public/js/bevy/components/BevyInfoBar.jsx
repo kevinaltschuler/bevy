@@ -290,6 +290,11 @@ var BevyInfoBar = React.createClass({
 
   _renderLeaveButton() {
     if(this.state.isAdmin) return <div />;
+
+    if(this.props.activeBevy)
+      if(this.props.activeBevy.settings.privacy == 'Private')
+        return <div/>;
+
     return (
       <div className='info-item'>
         <OverlayTrigger placement='bottom' overlay={
