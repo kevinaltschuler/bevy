@@ -138,29 +138,26 @@ var BoardPanel = React.createClass({
     switch(this.props.board.type) {
       case 'discussion':
         type = (
-          <OverlayTrigger placement='bottom' overlay={
-            <Tooltip id='discusstooltip'>Discussion</Tooltip>
-          }>
-            <i className="material-icons">question_answer</i>
-          </OverlayTrigger>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+            <i style={{marginRight: 10}} className="material-icons">question_answer</i>
+            Discussion
+          </div>
         );
         break;
       case 'event':
         type = (
-          <OverlayTrigger placement='bottom' overlay={
-            <Tooltip id='eventtooltip'>Events</Tooltip>
-          }>
-            <i className="material-icons">event</i>
-            </OverlayTrigger>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+            <i style={{marginRight: 10}} className="material-icons">event</i>
+            Events
+          </div>
           );
         break;
       case 'announcement':
         type = (
-          <OverlayTrigger placement='bottom' overlay={
-            <Tooltip id='annoucetooltip'>Announcements</Tooltip>
-          }>
-            <i className="material-icons">flag</i>
-          </OverlayTrigger>
+          <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}}>
+            <i style={{marginRight: 10}} className="material-icons">flag</i>
+            Announcements
+          </div>
         );
         break;
       default:
