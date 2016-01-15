@@ -485,14 +485,12 @@ _.extend(ChatStore, {
 
           if(thread == undefined) {
             // now it doesn't exist
-            console.log('thread is undefined')
             return;
           } else {
             // fetch messages
             thread.messages.fetch({
               reset: true,
               success: function(collection, response, options) {
-                console.log('success', collection);
                 thread.messages.sort();
                 this.trigger(CHAT.MESSAGE_FETCH + message.thread);
               }.bind(this)
@@ -500,11 +498,9 @@ _.extend(ChatStore, {
 
             // push to open threads if it isn't already
             if(this.openThreads.indexOf(message.thread._id) == -1) {
-              console.log('opening panel');
               this.openThreads.push(message.thread);
             }
 
-            console.log('adding message')
             // add the message
             thread.messages.add(message);
 
@@ -518,17 +514,14 @@ _.extend(ChatStore, {
 
       return;
     } else {
-      console.log('thread is defined');
       // dont get the message you just added
       // TODO: do this on the server?
       if(message.author._id == window.bootstrap.user._id) {
-        console.log('dont get the message you just added');
         return;
       }
 
       // open the panel if it isn't already
       if(this.openThreads.indexOf(message.thread) == -1) {
-        console.log('opening panel');
         this.openThread(message.thread._id);
       }
 
@@ -538,7 +531,9 @@ _.extend(ChatStore, {
       console.log('triggered');
 
       thread.messages.add(message);
+      console.log('added');
       this.trigger(CHAT.MESSAGE_FETCH + message.thread);
+      console.log('got to here');
     }
   }
 });
