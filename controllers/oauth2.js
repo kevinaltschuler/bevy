@@ -12,6 +12,7 @@ var passport = require('passport');
 var crypto = require('crypto');
 var config = require('./../config');
 var error = require('./../error');
+var shortid = require('shortid');
 
 var User = require('./../models/User');
 var AccessToken = require('./../models/AccessToken');
@@ -128,22 +129,27 @@ var loginSocial = function(req, res, next) {
 
 var loginGoogleMobile = function(req, res, next) {
   var client = {
-    client_id: config.auth.clients.web,
-    secret: config.auth.keys.oauth_clients.web
+    client_id: config.auth.clients.ios,
+    secret: config.auth.keys.oauth_clients.ios
   };
   var google_id = req.body['google_id'];
   var email = req.body['email'];
   var picture = req.body['picture'];
   var name = req.body['name'];
 
+  console.log('google sign in from mobile', google_id, email, picture, name);
+
   if(google_id == undefined) return next('No Google ID defined');
   if(email == undefined) return next('No email defined');
 
   User.findOne({ $or: [{'google.id': google_id }, { email: email }]}, function(err, user) {
     if(err) return next(err);
-    if(_.isEmpty(user)) {
+    console.log('user fetched', user);
+    if(!user || _.isEmpty(user)) {
       // user not found. lets create one
+      console.log('creating user');
       User.create({
+        _id: shortid.generate(),
         google: {
           provider: 'google',
           id: google_id,
@@ -151,12 +157,16 @@ var loginGoogleMobile = function(req, res, next) {
           photos: [{ value: picture }],
           emails: [{ value: email }]
         }
-      }, function(err, user) {
+      }, function(err, $user) {
+        console.log('error', err);
         if(err) return next(err);
-        generateTokens(user, client, function(err, accessToken, refreshToken, data) {
+        console.log('created user', $user);
+        generateTokens($user, client, function(err, accessToken, refreshToken, data) {
+          console.log('token error', err);
           if(err) return next(err);
+          console.log('tokens', accessToken, refreshToken);
           return res.json({
-            user: user,
+            user: $user,
             access_token: accessToken,
             refresh_token: refreshToken,
             expires_in: data['expires_in']
