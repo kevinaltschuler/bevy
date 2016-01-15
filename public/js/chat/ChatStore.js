@@ -518,6 +518,7 @@ _.extend(ChatStore, {
 
       return;
     } else {
+      console.log('thread is defined');
       // dont get the message you just added
       // TODO: do this on the server?
       if(message.author._id == window.bootstrap.user._id) {
@@ -533,6 +534,8 @@ _.extend(ChatStore, {
 
       // toggle the panel
       this.trigger(CHAT.PANEL_TOGGLE + message.thread);
+
+      console.log('triggered');
 
       thread.messages.add(message);
       this.trigger(CHAT.MESSAGE_FETCH + message.thread);
