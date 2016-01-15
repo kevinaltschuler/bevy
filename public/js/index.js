@@ -76,6 +76,10 @@ Backbone.sync = function(method, model, options) {
 };
 
 var $fetch = window.fetch;
+if($fetch == undefined) {
+  require('./shared/polyfills/fetch.js');
+  $fetch = self.fetch;
+}
 window.fetch = function(input, init) {
   var url = input;
   var options = init;
