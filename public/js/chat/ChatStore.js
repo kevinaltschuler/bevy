@@ -528,12 +528,8 @@ _.extend(ChatStore, {
       // toggle the panel
       this.trigger(CHAT.PANEL_TOGGLE + message.thread);
 
-      console.log('triggered');
-
       thread.messages.add(message);
-      console.log('added');
-      this.trigger(CHAT.MESSAGE_FETCH + message.thread);
-      console.log('got to here');
+      this.trigger(CHAT.MESSAGE_FETCH + message.thread._id);
     }
   }
 });

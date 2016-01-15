@@ -71,6 +71,7 @@ var ChatPanel = React.createClass({
   },
 
   componentDidMount() {
+    console.log(CHAT.MESSAGE_FETCH + this.props.thread._id);
     ChatStore.on(CHAT.MESSAGE_FETCH + this.props.thread._id, this._onMessageFetch);
     ChatStore.on(CHAT.PANEL_TOGGLE + this.props.thread._id, this._onPanelToggle);
 
