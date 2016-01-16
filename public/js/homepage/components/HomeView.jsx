@@ -49,51 +49,29 @@ var HomeView = React.createClass({
 
     var boardScreenStyle = (this.state.selected == 0)
     ? {
-      backgroundImage: "url('./../../../img/boardscreen.png')",
-      marginLeft: "-580px",
-      marginTop: "50px",
-      backgroundSize: "auto 100%",
-      backgroundPosition: '30% 50%'
+      backgroundImage: "url('./../../../img/boardscreen.png')"
     }
     : {
-      backgroundImage: "url('./../../../img/boardscreen.png')",
-      marginLeft: "-580px",
-      marginTop: "50px",
-      backgroundSize: "auto 100%",
-      backgroundPosition: '30% 50%',
-      opacity: 0
+      opacity: 0,
+      backgroundImage: "url('./../../../img/boardscreen.png')"
     }
 
     var chatScreenStyle = (this.state.selected == 1)
     ? {
-      backgroundImage: "url('./../../../img/chatscreen.png')",
-      marginLeft: "-300px",
-      marginTop: "50px",
-      backgroundSize: "auto 100%",
-      backgroundPosition: '100% 50%'
+      backgroundImage: "url('./../../../img/chatscreen.png')"
     }
     : {
-      backgroundImage: "url('./../../../img/chatscreen.png')",
-      marginLeft: "-300px",
-      marginTop: "50px",
-      backgroundSize: "auto 100%",
-      backgroundPosition: '100% 50%',
-      opacity: 0
+      opacity: 0,
+      backgroundImage: "url('./../../../img/chatscreen.png')"
     }
 
     var feedScreenStyle = (this.state.selected == 2)
     ? {
-      backgroundImage: "url('./../../../img/postscreen.png')",
-      marginLeft: "-450px",
-      marginTop: "30px",
-      backgroundSize: "auto 100%"
+      backgroundImage: "url('./../../../img/postscreen.png')"
     }
     : {
-      backgroundImage: "url('./../../../img/postscreen.png')",
-      marginLeft: "-450px",
-      marginTop: "30px",
-      backgroundSize: "auto 100%",
-      opacity: 0
+      opacity: 0,
+      backgroundImage: "url('./../../../img/postscreen.png')"
     }
 
     return (
@@ -202,9 +180,9 @@ var HomeView = React.createClass({
               />
             </div>
             <img style={{width: 600, height: 352}} className='simplemock' src='./../../../img/simplemock.png'>
-              <div style={boardScreenStyle} className='screenshot'/>
-              <div style={chatScreenStyle} className='screenshot'/>
-              <div style={feedScreenStyle} className='screenshot'/>
+              <div style={boardScreenStyle} className='screenshot screenshot1'/>
+              <div style={chatScreenStyle} className='screenshot screenshot2'/>
+              <div style={feedScreenStyle} className='screenshot screenshot3'/>
             </img>
           </div>
         </div>
