@@ -516,7 +516,9 @@ _.extend(ChatStore, {
     } else {
       // dont get the message you just added
       // TODO: do this on the server?
-      if(message.author._id == window.bootstrap.user._id) return;
+      if(message.author._id == window.bootstrap.user._id) {
+        return;
+      }
 
       // open the panel if it isn't already
       if(this.openThreads.indexOf(message.thread) == -1) {
@@ -527,7 +529,7 @@ _.extend(ChatStore, {
       this.trigger(CHAT.PANEL_TOGGLE + message.thread);
 
       thread.messages.add(message);
-      this.trigger(CHAT.MESSAGE_FETCH + message.thread);
+      this.trigger(CHAT.MESSAGE_FETCH + message.thread._id);
     }
   }
 });
