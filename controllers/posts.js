@@ -116,28 +116,21 @@ exports.createPost = function(req, res, next) {
   if(_.isEmpty(update.author)) return next('no author');
   if(_.isEmpty(update.type)) return next('no type');
 
-  async.waterfall([
-    function(done) {
-      populateLinks(update, done);
-    },
-    function($update, done) {
-      Post.create($update, function(err, post) {
-        if(err) return next(err);
-        // populate board
-        Post.populate(post, [
-          { path: 'author',
-            select: authorPopFields },
-          { path: 'board',
-            select: boardPopFields }
-        ], function(err, pop_post) {
-          if(err) return next(err);
-          // create notification
-          mq.pubSock.send([config.mq.events.NEW_POST, JSON.stringify(pop_post)]);
-          return res.json(pop_post);
-        });
-      });
-    }
-  ]);
+  Post.create(update, function(err, post) {
+    if(err) return next(err);
+    // populate board
+    Post.populate(post, [
+      { path: 'author',
+        select: authorPopFields },
+      { path: 'board',
+        select: boardPopFields }
+    ], function(err, pop_post) {
+      if(err) return next(err);
+      // create notification
+      mq.pubSock.send([config.mq.events.NEW_POST, JSON.stringify(pop_post)]);
+      return res.json(pop_post);
+    });
+  });
 }
 
 // GET /posts/:postid
