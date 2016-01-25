@@ -38,7 +38,7 @@ module.exports = function(app) {
 
     mailgun.messages().send({
       from: name + ' <contact@joinbevy.com>',
-      to: 'blahoink@gmail.com',
+      to: 'contact@joinbevy.com',
       subject: 'Feedback',
       text: body
     }, function(error, body) {
