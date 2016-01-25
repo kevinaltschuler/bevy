@@ -26,7 +26,7 @@ var Board = require('./../models/Board');
 
 var authorPopFields = '_id displayName email image username '
  + 'google facebook';
-var boardPopFields = '_id name image settings';
+var boardPopFields = '_id name image settings parent';
 
 // GET /boards/:boardid/posts
 exports.getBoardPosts = function(req, res, next) {
