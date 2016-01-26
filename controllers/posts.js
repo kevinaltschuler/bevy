@@ -259,7 +259,41 @@ exports.getUserPosts = function(req, res, next) {
 
 // GET /posts/search/:query
 exports.searchPosts = function(req, res, next) {
-  return res.json([]);
+  var query = req.params.query;
+  var board_id = (req.query['board_id'] == undefined) ? null : req.query['board_id'];
+  var bevy_id = (req.query['bevy_id'] == undefined) ? null : req.query['bevy_id'];
+  // if theres no query, return nothing
+  if(_.isEmpty(query)) return res.json([]);
+
+  var promise;
+  promise = Post.find()
+    .limit(10)
+    .or([
+      { title: { $regex: query, $options: 'i' }},
+      { 'event.description': { $regex: query, $options: 'i' }}
+    ]);
+
+  if(bevy_id) {
+    Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+      if(err) return next(err);
+      if(!bevy) return next('Bevy not found');
+      promise.where({ board: { $in: bevy.boards }});
+      if(board_id) {
+        promise.where({ board: board_id });
+      }
+      promise.exec();
+    }).select('_id boards').lean();
+  } else {
+    if(board_id) {
+      promise.where({ board: board_id });
+    }
+    promise.exec();
+  }
+  promise.then(function(posts) {
+    return res.json(posts);
+  }, function(err) {
+    return next(err);
+  });
 }
 
 function populateLinks(post, done) {
