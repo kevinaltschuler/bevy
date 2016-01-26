@@ -93,6 +93,7 @@ exports.getUser = function(req, res, next) {
 //GET /users/search/:query
 exports.searchUsers = function(req, res, next) {
 	var query = req.params.query;
+  var exclude_users = (req.query['exclude'] == undefined) ? null : req.query['exclude'];
   var promise;
   if(_.isEmpty(query)) {
     promise = User.find()
@@ -106,6 +107,9 @@ exports.searchUsers = function(req, res, next) {
         { 'google.displayName': { $regex: query, $options: 'i' } },
         { 'facebook.displayName': { $regex: query, $options: 'i' } }
       ]);
+  }
+  if(exclude_users) {
+    promise.where({ _id: { $not: { $in: exclude_users }}});
   }
   promise.exec();
   promise.then(function(users) {
