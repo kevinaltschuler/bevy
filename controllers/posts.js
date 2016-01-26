@@ -28,6 +28,38 @@ var authorPopFields = '_id displayName email image username '
  + 'google facebook';
 var boardPopFields = '_id name image settings parent';
 
+// GET /users/:userid/posts
+exports.getUserPosts = function(req, res, next) {
+  var user_id = req.params.userid;
+
+  Post.find({ author: user_id }, function(err, posts) {
+    if(err) return next(err);
+    if(posts.length <= 0) return res.json(posts);
+    var _posts = [];
+    posts.forEach(function(post) {
+      post = JSON.parse(JSON.stringify(post));
+      Comment.find({ postId: post._id }, function(err, comments) {
+        if(err) return next(err);
+        post.comments = comments;
+        _posts.push(post);
+        if(_posts.length == posts.length) return res.json(_posts);
+      })
+      .populate({
+        path: 'author',
+        select: authorPopFields
+      });
+    });
+  })
+  .populate({
+    path: 'board',
+    select: boardPopFields
+  })
+  .populate({
+    path: 'author',
+    select: authorPopFields
+  });
+}
+
 // GET /boards/:boardid/posts
 exports.getBoardPosts = function(req, res, next) {
   var board_id = req.params.boardid;
@@ -225,41 +257,12 @@ exports.destroyPost = function(req, res, next) {
   });
 }
 
-// GET /users/:userid/posts
-exports.getUserPosts = function(req, res, next) {
-  var user_id = req.params.userid;
-
-  Post.find({ author: user_id }, function(err, posts) {
-    if(err) return next(err);
-    if(posts.length <= 0) return res.json(posts);
-    var _posts = [];
-    posts.forEach(function(post) {
-      post = JSON.parse(JSON.stringify(post));
-      Comment.find({ postId: post._id }, function(err, comments) {
-        if(err) return next(err);
-        post.comments = comments;
-        _posts.push(post);
-        if(_posts.length == posts.length) return res.json(_posts);
-      })
-      .populate({
-        path: 'author',
-        select: authorPopFields
-      });
-    });
-  })
-  .populate({
-    path: 'board',
-    select: boardPopFields
-  })
-  .populate({
-    path: 'author',
-    select: authorPopFields
-  });
-}
-
 // GET /posts/search/:query
 exports.searchPosts = function(req, res, next) {
   var query = req.params.query;
+  // if logged in search through all of the users's bevy's posts
+  if(req.user) return searchUserPosts(req, res, next);
+
   var board_id = (req.query['board_id'] == undefined) ? null : req.query['board_id'];
   var bevy_id = (req.query['bevy_id'] == undefined) ? null : req.query['bevy_id'];
   // if theres no query, return nothing
@@ -294,7 +297,49 @@ exports.searchPosts = function(req, res, next) {
   }, function(err) {
     return next(err);
   });
-}
+};
+
+function searchUserPosts(req, res, next) {
+  var bevy_ids = req.user.bevies;
+  var query = req.params.query;
+
+  var board_id = (req.query['board_id'] == undefined) ? null : req.query['board_id'];
+  var bevy_id = (req.query['bevy_id'] == undefined) ? null : req.query['bevy_id'];
+
+  Bevy.find({ _id: bevy_ids }, function(err, bevies) {
+    if(err) return next(err);
+
+    var board_ids;
+    if(bevy_id) {
+      var bevy = _.findWhere(bevies, { _id: bevy_id });
+      if(bevy == undefined) return next('Bevy not found');
+      board_ids = bevy.boards;
+    } else {
+      board_ids = _.flatten(_.pluck(bevies, 'boards'));
+    }
+
+    var promise = Post.find()
+      .where({ board: { $in: board_ids }})
+      .limit(10);
+
+    if(!_.isEmpty(query)) {
+      promise.or([
+        { title: { $regex: query, $options: 'i' }},
+        { 'event.description': { $regex: query, $options: 'i' }}
+      ]);
+    }
+    if(board_id) {
+      promise.where({ board: board_id });
+    }
+    promise.exec();
+
+    promise.then(function(posts) {
+      return res.json(posts);
+    }, function(err) {
+      return next(err);
+    });
+  }).select('_id boards').lean();
+};
 
 function populateLinks(post, done) {
   var title = post.title;
