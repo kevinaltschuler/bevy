@@ -64,7 +64,7 @@ var sendChatNotifications = function(data) {
   //for all users in a thread
   for(var i in to_users) {
     var user = to_users[i];
-    if(user._id == author) return;
+    if(user._id == author._id) return;
     // send a notification to all devices
     for(var j in user.devices) {
       var device = user.devices[j];
