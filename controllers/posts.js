@@ -274,7 +274,15 @@ exports.searchPosts = function(req, res, next) {
     .or([
       { title: { $regex: query, $options: 'i' }},
       { 'event.description': { $regex: query, $options: 'i' }}
-    ]);
+    ])
+    .populate({
+      path: 'board',
+      select: boardPopFields
+    })
+    .populate({
+      path: 'author',
+      select: authorPopFields
+    });
 
   if(bevy_id) {
     Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
@@ -320,7 +328,15 @@ function searchUserPosts(req, res, next) {
 
     var promise = Post.find()
       .where({ board: { $in: board_ids }})
-      .limit(10);
+      .limit(10)
+      .populate({
+        path: 'board',
+        select: boardPopFields
+      })
+      .populate({
+        path: 'author',
+        select: authorPopFields
+      });
 
     if(!_.isEmpty(query)) {
       promise.or([
