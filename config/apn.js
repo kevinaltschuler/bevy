@@ -6,10 +6,32 @@
 
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
+
+var prodCert = fs.readFileSync(
+  path.resolve(__dirname, '..', 'noteprod', 'cert.pem'),
+  'utf-8'
+);
+var prodKey = fs.readFileSync(
+  path.resolve(__dirname, '..', 'noteprod', 'key.pem'),
+  'utf-8'
+);
+var devCert = fs.readFileSync(
+  path.resolve(__dirname, '..', 'notedev', 'cert.pem'),
+  'utf-8'
+);
+var devKey = fs.readFileSync(
+  path.resolve(__dirname, '..', 'notedev', 'key.pem'),
+  'utf-8'
+);
+
 module.exports = {
   ios: {
-    cert: './../noteprod/cert.pem',
-    key: './../noteprod/key.pem',
+    prodCert: prodCert,
+    prodKey: prodKey,
+    devCert: devCert,
+    devKey: devKey,
     production: true,
     // Expires 1 hour from now
     expires_in: (Math.floor(Date.now() / 1000) + 3600),

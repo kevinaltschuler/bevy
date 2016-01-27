@@ -26,7 +26,39 @@ var Board = require('./../models/Board');
 
 var authorPopFields = '_id displayName email image username '
  + 'google facebook';
-var boardPopFields = '_id name image settings';
+var boardPopFields = '_id name image settings parent';
+
+// GET /users/:userid/posts
+exports.getUserPosts = function(req, res, next) {
+  var user_id = req.params.userid;
+
+  Post.find({ author: user_id }, function(err, posts) {
+    if(err) return next(err);
+    if(posts.length <= 0) return res.json(posts);
+    var _posts = [];
+    posts.forEach(function(post) {
+      post = JSON.parse(JSON.stringify(post));
+      Comment.find({ postId: post._id }, function(err, comments) {
+        if(err) return next(err);
+        post.comments = comments;
+        _posts.push(post);
+        if(_posts.length == posts.length) return res.json(_posts);
+      })
+      .populate({
+        path: 'author',
+        select: authorPopFields
+      });
+    });
+  })
+  .populate({
+    path: 'board',
+    select: boardPopFields
+  })
+  .populate({
+    path: 'author',
+    select: authorPopFields
+  });
+}
 
 // GET /boards/:boardid/posts
 exports.getBoardPosts = function(req, res, next) {
@@ -116,28 +148,21 @@ exports.createPost = function(req, res, next) {
   if(_.isEmpty(update.author)) return next('no author');
   if(_.isEmpty(update.type)) return next('no type');
 
-  async.waterfall([
-    function(done) {
-      populateLinks(update, done);
-    },
-    function($update, done) {
-      Post.create($update, function(err, post) {
-        if(err) return next(err);
-        // populate board
-        Post.populate(post, [
-          { path: 'author',
-            select: authorPopFields },
-          { path: 'board',
-            select: boardPopFields }
-        ], function(err, pop_post) {
-          if(err) return next(err);
-          // create notification
-          mq.pubSock.send([config.mq.events.NEW_POST, JSON.stringify(pop_post)]);
-          return res.json(pop_post);
-        });
-      });
-    }
-  ]);
+  Post.create(update, function(err, post) {
+    if(err) return next(err);
+    // populate board
+    Post.populate(post, [
+      { path: 'author',
+        select: authorPopFields },
+      { path: 'board',
+        select: boardPopFields }
+    ], function(err, pop_post) {
+      if(err) return next(err);
+      // create notification
+      mq.pubSock.send([config.mq.events.NEW_POST, JSON.stringify(pop_post)]);
+      return res.json(pop_post);
+    });
+  });
 }
 
 // GET /posts/:postid
@@ -232,42 +257,112 @@ exports.destroyPost = function(req, res, next) {
   });
 }
 
-// GET /users/:userid/posts
-exports.getUserPosts = function(req, res, next) {
-  var user_id = req.params.userid;
+// GET /posts/search/:query
+exports.searchPosts = function(req, res, next) {
+  var query = req.params.query;
+  // if logged in search through all of the users's bevy's posts
+  //if(req.user) return searchUserPosts(req, res, next);
 
-  Post.find({ author: user_id }, function(err, posts) {
+  var board_id = (req.query['board_id'] == undefined) ? null : req.query['board_id'];
+  var bevy_id = (req.query['bevy_id'] == undefined) ? null : req.query['bevy_id'];
+
+  var promise;
+  promise = Post.find()
+    .limit(10)
+    .populate({
+      path: 'board',
+      select: boardPopFields
+    })
+    .populate({
+      path: 'author',
+      select: authorPopFields
+    });
+
+  if(!_.isEmpty(query)) {
+    promise.where({ $or: [
+      { title: { $regex: query, $options: 'i' }},
+      { 'event.description': { $regex: query, $options: 'i' }}
+    ]});
+  }
+
+  if(bevy_id) {
+    Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+      if(err) return next(err);
+      if(!bevy) return next('Bevy not found');
+      if(board_id) {
+        promise.where({ board: board_id });
+      } else {
+        promise.where({ board: { $in: bevy.boards }});
+      }
+      promise.exec();
+      promise.then(function(posts) {
+        return res.json(posts);
+      }, function(err) {
+        return next(err);
+      });
+    }).select('_id boards').lean();
+  } else {
+    if(board_id) {
+      promise.where({ board: board_id });
+    }
+    promise.exec();
+    promise.then(function(posts) {
+      return res.json(posts);
+    }, function(err) {
+      return next(err);
+    });
+  }
+};
+
+function searchUserPosts(req, res, next) {
+  var bevy_ids = req.user.bevies;
+  var query = req.params.query;
+
+  var board_id = (req.query['board_id'] == undefined) ? null : req.query['board_id'];
+  var bevy_id = (req.query['bevy_id'] == undefined) ? null : req.query['bevy_id'];
+
+  Bevy.find({ _id: bevy_ids }, function(err, bevies) {
     if(err) return next(err);
-    if(posts.length <= 0) return res.json(posts);
-    var _posts = [];
-    posts.forEach(function(post) {
-      post = JSON.parse(JSON.stringify(post));
-      Comment.find({ postId: post._id }, function(err, comments) {
-        if(err) return next(err);
-        post.comments = comments;
-        _posts.push(post);
-        if(_posts.length == posts.length) return res.json(_posts);
+
+    var board_ids;
+    if(bevy_id) {
+      var bevy = _.findWhere(bevies, { _id: bevy_id });
+      if(bevy == undefined) return next('Bevy not found');
+      board_ids = bevy.boards;
+    } else {
+      board_ids = _.flatten(_.pluck(bevies, 'boards'));
+    }
+
+    var promise = Post.find()
+      .where({ board: { $in: board_ids }})
+      .limit(10)
+      .populate({
+        path: 'board',
+        select: boardPopFields
       })
       .populate({
         path: 'author',
         select: authorPopFields
       });
-    });
-  })
-  .populate({
-    path: 'board',
-    select: boardPopFields
-  })
-  .populate({
-    path: 'author',
-    select: authorPopFields
-  });
-}
 
-// GET /posts/search/:query
-exports.searchPosts = function(req, res, next) {
-  return res.json([]);
-}
+    if(!_.isEmpty(query)) {
+      promise.or([
+        { title: { $regex: query, $options: 'i' }},
+        { 'event.description': { $regex: query, $options: 'i' }}
+      ]);
+    }
+    if(board_id) {
+      promise.where({ board: board_id });
+    }
+    promise.exec();
+
+    promise.then(function(posts) {
+      return res.json(posts);
+    }, function(err) {
+      return next(err);
+    });
+  }).select('_id boards').lean();
+};
 
 function populateLinks(post, done) {
   var title = post.title;

@@ -18,8 +18,8 @@ var gcm = require('node-gcm');
 var gcm_sender = new gcm.Sender('AIzaSyAwwjrZ_RkwmCFx5Gs8ENKQvVABgZ22W4g');
 
 var apnConnection = new apn.Connection({
-	cert: config.apn.ios.cert,
-	key: config.apn.ios.key,
+	cert: config.apn.ios.prodCert,
+	key: config.apn.ios.prodKey,
 	production: config.apn.ios.production
 });
 

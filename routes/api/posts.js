@@ -11,6 +11,17 @@ var oauth2Controller = require('./../../controllers/oauth2');
 var permissionsController = require('./../../controllers/permissions');
 
 module.exports = function(router) {
+  router.get('/posts/search', [
+      oauth2Controller.bearer
+    ],
+    postController.searchPosts
+  );
+  router.get('/posts/search/:query', [
+      oauth2Controller.bearer
+    ],
+    postController.searchPosts
+  );
+
   router.get('/boards/:boardid/posts', [
       oauth2Controller.bearer,
       //permissionsController.hasPrivateBoardAccess,
@@ -33,12 +44,6 @@ module.exports = function(router) {
       permissionsController.errorHandler
     ],
     postController.getUserPosts
-  );
-
-  router.get('/posts/search/:query', [
-      oauth2Controller.bearer
-    ],
-    postController.searchPosts
   );
 
   router.post('/posts', [

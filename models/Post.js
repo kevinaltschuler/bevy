@@ -72,6 +72,11 @@ var PostSchema = new Schema({
 	}
 });
 
+PostSchema.index({
+  title: 'text',
+	'event.description': 'text'
+});
+
 PostSchema.set('toObject', {
 	getters: true,
 	virtuals: true
