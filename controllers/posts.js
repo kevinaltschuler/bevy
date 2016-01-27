@@ -261,20 +261,14 @@ exports.destroyPost = function(req, res, next) {
 exports.searchPosts = function(req, res, next) {
   var query = req.params.query;
   // if logged in search through all of the users's bevy's posts
-  if(req.user) return searchUserPosts(req, res, next);
+  //if(req.user) return searchUserPosts(req, res, next);
 
   var board_id = (req.query['board_id'] == undefined) ? null : req.query['board_id'];
   var bevy_id = (req.query['bevy_id'] == undefined) ? null : req.query['bevy_id'];
-  // if theres no query, return nothing
-  if(_.isEmpty(query)) return res.json([]);
 
   var promise;
   promise = Post.find()
     .limit(10)
-    .or([
-      { title: { $regex: query, $options: 'i' }},
-      { 'event.description': { $regex: query, $options: 'i' }}
-    ])
     .populate({
       path: 'board',
       select: boardPopFields
@@ -284,27 +278,40 @@ exports.searchPosts = function(req, res, next) {
       select: authorPopFields
     });
 
+  if(!_.isEmpty(query)) {
+    promise.where({ $or: [
+      { title: { $regex: query, $options: 'i' }},
+      { 'event.description': { $regex: query, $options: 'i' }}
+    ]});
+  }
+
   if(bevy_id) {
     Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
       if(err) return next(err);
       if(!bevy) return next('Bevy not found');
-      promise.where({ board: { $in: bevy.boards }});
       if(board_id) {
         promise.where({ board: board_id });
+      } else {
+        promise.where({ board: { $in: bevy.boards }});
       }
       promise.exec();
+      promise.then(function(posts) {
+        return res.json(posts);
+      }, function(err) {
+        return next(err);
+      });
     }).select('_id boards').lean();
   } else {
     if(board_id) {
       promise.where({ board: board_id });
     }
     promise.exec();
+    promise.then(function(posts) {
+      return res.json(posts);
+    }, function(err) {
+      return next(err);
+    });
   }
-  promise.then(function(posts) {
-    return res.json(posts);
-  }, function(err) {
-    return next(err);
-  });
 };
 
 function searchUserPosts(req, res, next) {
