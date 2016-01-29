@@ -17,9 +17,9 @@ var User = require('./../models/User');
 var Message = require('./../models/Message');
 
 var userPopFields = '_id displayName email image username '
- + 'google facebook';
-var bevyPopFields = '_id name slug image admins settings';
-var boardPopFields = '_id name image admins settings parent description'
+ + 'google facebook created';
+var bevyPopFields = '_id name slug image admins settings created';
+var boardPopFields = '_id name image admins settings parent description created'
 
 // GET /users/:userid/threads
 exports.getUserThreads = function(req, res, next) {

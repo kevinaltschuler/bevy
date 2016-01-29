@@ -25,8 +25,8 @@ var Comment = require('./../models/Comment');
 var Board = require('./../models/Board');
 
 var authorPopFields = '_id displayName email image username '
- + 'google facebook';
-var boardPopFields = '_id name image settings parent';
+ + 'google facebook created';
+var boardPopFields = '_id name image settings parent created';
 
 // GET /users/:userid/posts
 exports.getUserPosts = function(req, res, next) {

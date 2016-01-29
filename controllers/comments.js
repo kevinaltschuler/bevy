@@ -21,7 +21,7 @@ var Board = require('./../models/Board');
 var notifications = require('./notifications');
 
 var userPopFields = '_id displayName email image username '
- + 'google facebook';
+ + 'google facebook created';
 
 // GET /posts/:postid/comments
 exports.getComments = function(req, res, next) {

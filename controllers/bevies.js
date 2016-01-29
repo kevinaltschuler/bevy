@@ -23,8 +23,8 @@ var Post = require('./../models/Post');
 var Board = require('./../models/Board');
 
 var userPopFields = '_id displayName email image username '
- + 'google facebook';
-var boardPopFields = '_id name description parent image subCount type admins settings';
+ + 'google facebook created';
+var boardPopFields = '_id name description parent image subCount type admins settings created';
 
 // GET /users/:userid/bevies
 exports.getUserBevies = function(req, res, next) {

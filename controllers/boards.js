@@ -19,8 +19,8 @@ var Post = require('./../models/Post');
 var Message = require('./../models/Message');
 
 var userPopFields = '_id displayName email image username '
- + 'google facebook';
-var bevyPopFields = '_id name slug image settings admins';
+ + 'google facebook created';
+var bevyPopFields = '_id name slug image settings admins created';
 
 // GET /users/:userid/boards
 exports.getUserBoards = function(req, res, next) {
