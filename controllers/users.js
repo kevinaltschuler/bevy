@@ -21,7 +21,6 @@ var User = require('./../models/User');
 var Bevy = require('./../models/Bevy');
 var Post = require('./../models/User');
 var Notification = require('./../models/Notification');
-
 // INDEX
 // GET /users
 exports.getUsers = function(req, res, next) {
