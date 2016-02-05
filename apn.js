@@ -35,9 +35,7 @@ subSock.on('message', function(event, data) {
   event = event.toString();
   data = JSON.parse(data.toString());
 
-	if(event == 'chat_message') {
-		sendChatNotifications(data);
-	} else if (event.substring(0, 12) == 'notification') {
+	if (event.substring(0, 12) == 'notification') {
 		switch(data.event) {
 			case 'post:create':
 				sendNewPostNotifications(data);
@@ -52,72 +50,6 @@ subSock.on('message', function(event, data) {
 	}
 
 });
-
-var sendChatNotifications = function(data) {
-  var message = data.message;
-  var to_users = data.to_users;
-  var thread = message.thread;
-  var author = message.author;
-
-  var android_devices = [];
-
-  //for all users in a thread
-  for(var i in to_users) {
-    var user = to_users[i];
-    if(user._id == author._id) return;
-    // send a notification to all devices
-    for(var j in user.devices) {
-      var device = user.devices[j];
-      if(thread.name != undefined) {
-        var body = message.author.displayName + ' to ' + thread.name + ": " + message.body;
-      } else {
-        var body = message.author.displayName + ": " + message.body;
-      }
-
-      if(device.platform == 'ios') {
-        var iosDevice = new apn.Device(device.token);
-        var note = new apn.Notification();
-
-        note.expiry = config.apn.ios.expires_in;
-        note.badge = config.apn.ios.badge;
-        note.sound = config.apn.ios.sound;
-        note.alert = body;
-        note.payload = {'messageFrom': author.displayName, 'thread': thread};
-        apnConnection.pushNotification(note, iosDevice);
-      } else if (device.platform == 'android') {
-        android_devices.push(device.token);
-      }
-    }
-  }
-
-  // if theres valid android devices to send to
-  if(!_.isEmpty(android_devices)) {
-    var $message = new gcm.Message({
-      collapse_key: config.apn.android.collapse_key,
-      priority: 'high',
-      content_available: true,
-      delay_while_idle: false,
-      time_to_live: config.apn.android.time_to_live,
-      data: {
-        from_user: message.author._id,
-        thread_id: message.thread._id,
-        event: 'chat_message'
-      },
-      notification: {
-        title: 'New Message',
-        icon: config.apn.android.icon,
-        body: body,
-        tag: 'chat_message',
-        click_action: config.apn.android.click_action
-      }
-    });
-    gcm_sender.send($message, { registrationTokens: android_devices },
-      function(err, result) {
-      if(err) console.error(err);
-      else console.log(result);
-    });
-  }
-};
 
 var sendNewPostNotifications = function(data) {
 	var user_id = data.user;

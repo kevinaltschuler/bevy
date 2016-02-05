@@ -23,7 +23,7 @@ connection.on('error', console.error.bind(
 	, 'connection error:'
 ));
 connection.once('open', function() {
-	console.info('connected to database');
+	console.log('connected to database');
 
 	Client.remove({}, function(err) {
 		var web_client = new Client({

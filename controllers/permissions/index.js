@@ -15,8 +15,6 @@ var bevyPermissions = require('./bevy');
 var boardPermissions = require('./board');
 var commentPermissions = require('./comment');
 var postPermissions = require('./post');
-var threadPermissions = require('./thread');
-var messagePermissions = require('./message');
 var notificationPermissions = require('./notification');
 
 // any error passed by permissions middleware will go through this
@@ -51,8 +49,6 @@ exports.canViewComment = commentPermissions.canViewComment;
 
 exports.canViewPost = postPermissions.canViewPost;
 exports.canModifyPost = postPermissions.canModifyPost;
-
-exports.isThreadMember = threadPermissions.isThreadMember;
 
 exports.isUserNotification = notificationPermissions.isUserNotification;
 

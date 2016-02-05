@@ -17,8 +17,6 @@ var getSlug = require('speakingurl');
 
 var User = require('./../models/User');
 var Bevy = require('./../models/Bevy');
-var Thread = require('./../models/Thread');
-var Message = require('./../models/Message');
 var Post = require('./../models/Post');
 var Board = require('./../models/Board');
 

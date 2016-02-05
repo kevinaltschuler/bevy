@@ -29,29 +29,33 @@ exports.getUsers = function(req, res, next) {
     if(err) return next(err);
     return res.json(users);
   }).limit(15);
-}
+};
 
 // CREATE
 // POST /users
 exports.createUser = function(req, res, next) {
-  //TODO: check for dupes
-  //TODO: verify email
+  // check for required fields
+  if(_.isEmpty(req.body['username']))
+    return next('Missing Identifier - Username');
+  else if(_.isEmpty(req.body['password']))
+    return next('Missing Verification - Password');
+  else if (_.isEmpty(req.body['bevy']))
+    return next('User not associated with a bevy');
+
   var update = {
     _id: shortid.generate(),
     username: req.body['username'],
-    password: req.body['password']
+    password: req.body['password'],
+    bevy: req.body['bevy'],
+    created: Date.now()
   }
   if(req.body['email'] != undefined)
     update.email = req.body['email'];
-
-  // check for required fields
-  if(_.isEmpty(update.username))
-    return next(error.gen('Missing Identifier - Username', req));
-  else if(_.isEmpty(update.password))
-    return next(error.gen('Missing Verification - Password', req));
+  if(req.body['phone'] != undefined)
+    update.phone = req.body['phone'];
 
   // hash password if it exists
-  if(update.password) update.password = bcrypt.hashSync(update.password, 8);
+  update.password = bcrypt.hashSync(update.password, 8);
 
   User.create(update, function(err, user) {
     if(err) return next(err);
@@ -103,9 +107,7 @@ exports.searchUsers = function(req, res, next) {
       .limit(10)
       .or([
         { email: { $regex: query, $options: 'i' } },
-        { username: { $regex: query, $options: 'i' } },
-        { 'google.displayName': { $regex: query, $options: 'i' } },
-        { 'facebook.displayName': { $regex: query, $options: 'i' } }
+        { username: { $regex: query, $options: 'i' } }
       ]);
   }
   if(exclude_users) {
@@ -177,15 +179,6 @@ exports.destroyUser = function(req, res, next) {
     res.json(user);
   }, function(err) { next(err); });
 }
-
-// GET /users/google/:googleid
-exports.getUserFromGoogle = function(req, res, next) {
-  var google_id = req.params.googleid;
-  User.findOne({ 'google.id': google_id }, function(err, user) {
-    if(err) return next(err);
-    return res.json(user);
-  });
-};
 
 // GET /users/:username/verify
 exports.verifyUsername = function(req, res, next) {

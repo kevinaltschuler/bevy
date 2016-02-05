@@ -67,7 +67,7 @@ app.use(favicon('./public/img/favicon.ico'));
 
 // logger
 var access_log_stream = fs.createWriteStream(__dirname + '/log/access.log', {flags: 'a'});
-app.use(logger('dev', {stream: access_log_stream}));
+app.use(logger('dev', { stream: access_log_stream }));
 
 // form parsing
 app.use(bodyParser.json());

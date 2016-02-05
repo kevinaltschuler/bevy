@@ -15,7 +15,6 @@ module.exports = function(router) {
 	router.get('/users/search/', userController.searchUsers);
 	router.get('/users/search/:query', userController.searchUsers);
 
-	router.get('/users/google/:googleid', userController.getUserFromGoogle);
 	router.get('/users', userController.getUsers);
 	router.post('/users', userController.createUser);
 	router.get('/users/:id', userController.getUser);

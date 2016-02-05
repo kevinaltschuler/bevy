@@ -108,86 +108,6 @@ var loginUsername = function(req, res, next) {
   });
 };
 
-var loginSocial = function(req, res, next) {
-  var user = req.user;
-  var client = {
-    client_id: config.auth.clients.web,
-    secret: config.auth.keys.oauth_clients.web
-  };
-  generateTokens(user, client, function(err, accessToken, refreshToken, data) {
-    if(err) return next(err);
-    return res.render('app', {
-      env: process.env.NODE_ENV,
-      hostname: req.hostname,
-      user: user,
-      access_token: accessToken,
-      refresh_token: refreshToken,
-      expires_in: data['expires_in']
-    });
-  });
-};
-
-var loginGoogleMobile = function(req, res, next) {
-  var client = {
-    client_id: config.auth.clients.ios,
-    secret: config.auth.keys.oauth_clients.ios
-  };
-  var google_id = req.body['google_id'];
-  var email = req.body['email'];
-  var picture = req.body['picture'];
-  var name = req.body['name'];
-
-  console.log('google sign in from mobile', google_id, email, picture, name);
-
-  if(google_id == undefined) return next('No Google ID defined');
-  if(email == undefined) return next('No email defined');
-
-  User.findOne({ $or: [{'google.id': google_id }, { email: email }]}, function(err, user) {
-    if(err) return next(err);
-    console.log('user fetched', user);
-    if(!user || _.isEmpty(user)) {
-      // user not found. lets create one
-      console.log('creating user');
-      User.create({
-        _id: shortid.generate(),
-        google: {
-          provider: 'google',
-          id: google_id,
-          displayName: name,
-          photos: [{ value: picture }],
-          emails: [{ value: email }]
-        }
-      }, function(err, $user) {
-        console.log('error', err);
-        if(err) return next(err);
-        console.log('created user', $user);
-        generateTokens($user, client, function(err, accessToken, refreshToken, data) {
-          console.log('token error', err);
-          if(err) return next(err);
-          console.log('tokens', accessToken, refreshToken);
-          return res.json({
-            user: $user,
-            access_token: accessToken,
-            refresh_token: refreshToken,
-            expires_in: data['expires_in']
-          });
-        });
-      });
-    } else {
-      // user found
-      generateTokens(user, client, function(err, accessToken, refreshToken, data) {
-        if(err) return next(err);
-        return res.json({
-          user: user,
-          access_token: accessToken,
-          refresh_token: refreshToken,
-          expires_in: data['expires_in']
-        });
-      });
-    }
-  });
-};
-
 // token endpoint
 //
 // `token` middleware handles client requests to exchange authorization grants
@@ -205,14 +125,6 @@ exports.loginUsername = [
   passport.authenticate(['client-password'], { session: false }),
   loginUsername,
   error.error_handler
-];
-
-exports.loginSocial = [
-  loginSocial
-];
-
-exports.loginGoogleMobile = [
-  loginGoogleMobile
 ];
 
 // bearer endpoint

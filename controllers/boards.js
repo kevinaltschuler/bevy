@@ -14,9 +14,7 @@ var async = require('async');
 var Board = require('./../models/Board');
 var Bevy = require('./../models/Bevy');
 var User = require('./../models/User');
-var Thread = require('./../models/Thread');
 var Post = require('./../models/Post');
-var Message = require('./../models/Message');
 
 var userPopFields = '_id displayName email image username '
  + 'google facebook created';
@@ -100,13 +98,6 @@ exports.createBoard = function(req, res, next) {
         done(null, board);
       });
     },
-    // then create its associated chat thread
-    function(board, done) {
-      Thread.create({ _id: shortid.generate(), board: board._id }, function(err, thread) {
-        if(err) return done(err);
-        return done(null, board);
-      });
-    },
     // add board to parent bevy's collection of boards
     function(board, done) {
       Bevy.findOne({ _id: update.parent }, function(err, bevy) {
@@ -119,18 +110,6 @@ exports.createBoard = function(req, res, next) {
         });
       });
     },
-    // add board to admin's collection of boards
-    /*function(board, done) {
-      User.findOne({ _id: update.admins[0] }, function(err, user) {
-        if(err) return done(err);
-        if(_.isEmpty(user)) return done('Board admin user not found');
-        user.boards.push(board._id);
-        user.save(function(err) {
-          if(err) return done(err);
-          done(null, board);
-        })
-      });
-    },*/
     // add board to all members of that bevy
     // TODO remove later when we implement board joining/leaving again
     function(board, done) {
@@ -194,16 +173,6 @@ exports.updateBoard = function(req, res, next) {
 
   if(req.body['settings']) {
     update.settings = req.body['settings'];
-    if(update.settings.group_chat) {
-      // group chat was enabled, create thread
-      // use update func so we dont create one if it already exists
-      Thread.update({ board: board_id }, { board: board_id }, { upsert: true }, function(err, thread) {
-      });
-    } else {
-      // group chat was disabled, destroy thread
-      Thread.findOneAndRemove({ board: board_id }, function(err, thread) {
-      });
-    }
   }
 
   var promise = Board.findOneAndUpdate({ _id: board_id }, update, { new: true })
@@ -224,23 +193,6 @@ exports.updateBoard = function(req, res, next) {
 exports.destroyBoard = function(req, res, next) {
   var board_id = req.params.boardid;
   async.waterfall([
-    // delete the thread for this board
-    function(done) {
-      Thread.findOneAndRemove({ board: board_id }, function(err, thread) {
-        if(err) return done(err);
-        return done(null, thread);
-      });
-    },
-    // remove all messages in that thread
-    function(thread, done) {
-      if(_.isEmpty(thread)) {
-        return done(null);
-      }
-      Message.remove({ thread: thread._id }, function(err, messages) {
-        if(err) return done(err);
-        return done(null);
-      });
-    },
     // first remove board from all bevies with that board in their collection
     function(done) {
       Bevy.find({ boards: board_id }, function(err, bevies) {
