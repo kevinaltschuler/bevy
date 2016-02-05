@@ -19,7 +19,7 @@
 	.sub-title-text {
 		font-size: 1.5em;
 		max-width: 300px;
-		text-align: center;	
+		text-align: center;
 	}
 	.div1 {
 		display: flex;
@@ -47,8 +47,29 @@
 			flex-direction: row;
 			width: 250px;
 			justify-content: space-between;
+			align-items: center;
 			.mui-raised-button-label {
 				color: @bevy-green;
+			}
+			.domain-input-group {
+				margin-bottom: 0px;
+				max-width: 200px;
+				input.form-control {
+					box-shadow: none;
+					border: none;
+					&:focus, &:active {
+						box-shadow: none;
+						border: none;
+					}
+				}
+			}
+			span.domain-suffix {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				margin-left: 8px;
+				color: #FFF;
+				font-size: 1.15em;
 			}
 		}
 	}
@@ -178,6 +199,7 @@
 		}
 	}
 	.div4 {
+		flex: 1;
 		height: 80px;
 		background-color: rgba(0,0,0,.8);
 		.sub-title-text {
@@ -217,7 +239,7 @@
 			.features {
 				flex-direction: row !important;
 				margin-right: 0px !important;
-				margin-bottom: 50px !important; 
+				margin-bottom: 50px !important;
 				.feature {
 					width: 200px !important;
 					.top {

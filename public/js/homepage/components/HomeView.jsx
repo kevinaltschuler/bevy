@@ -8,23 +8,32 @@
 
 var React = require('react');
 var {
-  Button
+  Button,
+  Input
 } = require('react-bootstrap');
 var {
-  RaisedButton
+  RaisedButton,
+  Styles,
+  TextField
 } = require('material-ui');
+var ThemeManager = new Styles.ThemeManager();
 
 var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var Feature = require('./Feature.jsx');
 
 var _ = require('underscore');
 var router = require('./../../router');
+var constants = require('./../../constants');
 
 var $ = require('jquery');
 var TYPED = require('./typed.js').TYPED;
 
 
 var HomeView = React.createClass({
+  childContextTypes: {
+    muiTheme: React.PropTypes.object
+  },
+
   getInitialState() {
     return {
       showNewBevyModal: false,
@@ -32,15 +41,40 @@ var HomeView = React.createClass({
     };
   },
 
+  getChildContext() {
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    }
+  },
+
+  componentWillMount() {
+    ThemeManager.setComponentThemes({
+      textField: {
+        textColor: '#FFF',
+        focusColor: '#FFF'
+      }
+    });
+  },
+
   componentDidMount() {
     TYPED($);
     $(function(){
         $(".typedSpan").typed({
-            strings: ["Fraternity.", "Sorority.", "Non Profit.", "Club.", "Business.", "Community."],
+            strings: [
+              "Fraternity.",
+              "Sorority.",
+              "Non-Profit.",
+              "Club.",
+              "Sports Team.",
+              "Business.",
+              "Classroom.",
+              "Community."
+            ],
             typeSpeed: 50,
             startDelay: 1000,
             backDelay: 800,
-            backSpeed: 5
+            backSpeed: 5,
+            loop: true
         });
     })
   },
@@ -85,25 +119,24 @@ var HomeView = React.createClass({
             The Social Network For Your &nbsp; &nbsp;&nbsp;<span className="typedSpan"></span>
           </div>
           <div className='actions'>
-            <RaisedButton
-              linkButton={ true }
-              label='Register' href='/bevies'
-              onClick={(ev) => {
-                ev.preventDefault();
-                router.navigate('/register', { trigger: true });
+            <Input
+              ref='DomainInput'
+              type='text'
+              value={ this.state.domainName }
+              placeholder='Your Group Name'
+              hasFeedback
+              groupClassName='domain-input-group'
+              labelClassName='domain-input-label'
+              onChange={() => {
+                this.setState({
+                  domainName: this.refs.DomainInput.getValue()
+                })
               }}
             />
-            <RaisedButton
-              linkButton={ true }
-              label='Login' href='/bevies'
-              style={{
-                minWidth: 50
-              }}
-              onClick={(ev) => {
-                ev.preventDefault();
-                router.navigate('/login', { trigger: true });
-              }}
-            />
+            <span className='domain-suffix'>
+              <span className='dot'>.</span>
+              <span className='hostname'>{ window.location.hostname }</span>
+            </span>
           </div>
         </div>
         <div className='landing-div div2'>
@@ -142,8 +175,8 @@ var HomeView = React.createClass({
           </div>
           <div className='feature-section'>
             <div className='features'>
-              <Feature 
-                title='Boards' 
+              <Feature
+                title='Boards'
                 icon={<i className='material-icons'>view_carousel</i>}
                 onClick={() => {
                   this.setState({
