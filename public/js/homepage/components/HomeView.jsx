@@ -87,15 +87,19 @@ var HomeView = React.createClass({
           <div className='actions'>
             <RaisedButton
               linkButton={ true }
-              label='Register' href='/bevies'
+              label='Create a new Bevy'
+              href='/newbevy'
               onClick={(ev) => {
                 ev.preventDefault();
-                router.navigate('/register', { trigger: true });
+                router.navigate('/newbevy', { trigger: true });
+              }}
+              style={{
+                marginBottom: 20
               }}
             />
             <RaisedButton
               linkButton={ true }
-              label='Login' href='/bevies'
+              label='Login'
               style={{
                 minWidth: 50
               }}

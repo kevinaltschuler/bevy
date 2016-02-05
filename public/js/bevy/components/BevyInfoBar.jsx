@@ -328,11 +328,11 @@ var BevyInfoBar = React.createClass({
 
     return (
       <div className='bevy-info-bar'>
-        { this._renderPublicPrivate() }
+        {/* this._renderPublicPrivate() */}
         { this._renderSubs() }
         { this._renderAdmins() }
         { this._renderImageButton() }
-        { this._renderInviteButton() }
+        {/* this._renderInviteButton() */}
         { this._renderSettingsButton() }
         { this._renderLeaveButton() }
         <BevySettingsModal
