@@ -90,9 +90,9 @@ var NotificationDropdown = React.createClass({
               <NotificationList
                 allNotifications={ this.props.allNotifications }
               />
-              <InviteList
+              {/*<InviteList
                 userInvites={ this.props.userInvites }
-              />
+              />*/}
             </div>
           </div>
         </Overlay>

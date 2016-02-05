@@ -121,6 +121,7 @@ var LoginPage = require('./auth/components/LoginPage.jsx');
 var RegisterPage = require('./auth/components/RegisterPage.jsx');
 var ForgotPage = require('./auth/components/ForgotPage.jsx');
 var ResetPage = require('./auth/components/ResetPage.jsx');
+var CreateBevyPage = require('./bevy/components/CreateBevyPage.jsx');
 
 var injectTapEventPlugin = require("react-tap-event-plugin");
 // App bootstrap
@@ -209,6 +210,9 @@ var InterfaceComponent = React.createClass({
         break;
       case 'reset':
         return <ResetPage />
+        break;
+      case 'newBevy':
+        return <CreateBevyPage {...this.props} />
         break;
       default:
         return <MainSection />

@@ -20,6 +20,7 @@ var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
 var MyBevies = require('./MyBevies.jsx');
 var PostView = require('./PostView.jsx');
+var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
 
 var _ = require('underscore');
 var router = require('./../../router');
@@ -176,12 +177,10 @@ var InterfaceComponent = React.createClass({
     router.off('route', this.callback);
   },
   render() {
+    console.log(router.current);
     switch(router.current) {
       case 'home':
         return <HomeView {...this.props}  />
-        break;
-      case 'myBevies':
-        return <MyBevies {...this.props } />
         break;
       case 'search':
         return <SearchView {...this.props} />

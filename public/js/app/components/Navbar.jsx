@@ -111,16 +111,16 @@ var Navbar = React.createClass({
         </Badge>
       );
 
-    var chatSidebar = <ChatSidebar />;
+    /*var chatSidebar = <ChatSidebar />;
     var chatDock = <ChatDock />;
     if(_.isEmpty(window.bootstrap.user)) {
       chatSidebar = '';
       chatDock = '';
-    }
+    }*/
 
     return (
       <div className='profile-buttons'>
-        { chatSidebar }
+        {/*{ chatSidebar }
         { chatDock }
         <ChatDropdown
           show={ this.state.activeTab == 'chat' }
@@ -131,7 +131,7 @@ var Navbar = React.createClass({
                 : 'chat'
             });
           }}
-        />
+        />*/}
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
           userInvites={ this.props.userInvites }

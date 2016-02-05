@@ -22,6 +22,8 @@ var Router = Backbone.Router.extend({
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
     'home' : 'home',
+    'newbevy' : 'newBevy',
+    'newbevy/' : 'newBevy',
     'bevies': 'bevies',
     'b' : 'home',
     'b/' : 'home',
@@ -42,19 +44,11 @@ var Router = Backbone.Router.extend({
   },
 
   home() {
-    if(!checkUser()) {
-      this.current = 'home';
-      return;
-    }
-    this.current = 'myBevies';
+    this.current = 'home';
   },
 
-  myBevies() {
-    if(!checkUser()) {
-      this.current = 'home';
-      return;
-    }
-    this.current = 'myBevies';
+  newBevy() {
+    this.current = 'newBevy';
   },
 
   login() {
