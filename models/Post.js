@@ -20,15 +20,23 @@ var PostSchema = new Schema({
 		unique: true,
 		default: shortid.generate
 	},
+	bevy: {
+		type: String,
+		ref: 'Bevy'
+	},
 	board: {
 		type: String,
-		ref: 'Board'
+		ref: 'Board',
+		required: true
 	},
 	author: {
 		type: String,
-		ref: 'User'
+		ref: 'User',
+		required: true
 	},
-	title: String,
+	title: {
+		type: String
+	},
 	images: [ ImageSchema ],
 	comments: [{}],
 	votes: [Schema({
@@ -55,7 +63,8 @@ var PostSchema = new Schema({
 	type: {
 		type: String,
 		enum: post_types,
-		default: 'default'
+		default: 'default',
+		required: true
 	},
 	event: EventSchema,
 	edited: {
@@ -64,7 +73,8 @@ var PostSchema = new Schema({
 	},
 	created: {
 		type: Date,
-		default: Date.now
+		default: Date.now,
+		required: true
 	},
 	updated: {
 		type: Date,
