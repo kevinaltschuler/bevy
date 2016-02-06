@@ -96,6 +96,7 @@ require('./config/passport');
 app.use(passport.initialize());
 app.use(passport.session());
 
+
 // disable csurf until we need it
 //app.use(csrf());
 //app.use(function(req, res, next) {
@@ -113,12 +114,14 @@ app.set('views', './views');
 var api_router = express.Router();
 
 //api_router.use(middleware.cors);
-require('./routes/api')(api_router);
+//require('./routes/api')(api_router);
 api_router.get('/', function(req, res, next) {
-  res.json('api home');
+  res.send(req.subdomains.toString());
 });
-app.use(subdomain('api', api_router));
-app.use('/api', api_router);
+//app.use(subdomain('api', api_router));
+//app.use('/api', api_router);
+//app.use(subdomain('*', api_router));
+
 
 // static directories
 app.use(serveStatic(__dirname + '/public')); // app-specific assets

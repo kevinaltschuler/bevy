@@ -12,7 +12,9 @@ var template = require('./../public/html/email/template.jsx')('nuts', 'kevin');
 var async = require('async');
 var mongoose = require('mongoose');
 var _ = require('underscore');
+
 var viewController = require('./../controllers/views');
+var emailController = require('./../controllers/email');
 
 module.exports = function(app) {
   app.get('/usertest', function(req, res, next) {
@@ -20,15 +22,17 @@ module.exports = function(app) {
   });
 
   //test email
-  var emailHTML = template;
+  //var emailHTML = template;
+
   app.get('/emailtest', function(req, res, next) {
-    mailgun.messages().send({
-      from: 'Bevy Team <contact@joinbevy.com>',
-      to: 'kevin@joinbevy.com',
-      subject: 'Test Subject',
-      html: emailHTML
-    }, function(error, body) {
-      res.json(body);
+
+    emailController.sendEmail('blahoink@gmail.com', 'welcome', {
+      user_email: 'blahoink@gmail.com',
+      bevy_name: 'some new bevy',
+      pass_link: 'http://joinbevy.com/reset/23094hoiu23h4982304'
+    }, function(err, results) {
+      if(err) return next(err);
+      return res.json(results);
     });
   });
 

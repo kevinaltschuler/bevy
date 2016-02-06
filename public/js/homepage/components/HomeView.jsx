@@ -119,7 +119,6 @@ var HomeView = React.createClass({
             The Social Network For Your &nbsp; &nbsp;&nbsp;<span className="typedSpan"></span>
           </div>
           <div className='actions'>
-<<<<<<< HEAD
             <Input
               ref='DomainInput'
               type='text'

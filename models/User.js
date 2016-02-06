@@ -22,21 +22,25 @@ var UserSchema = new Schema({
     required: true,
     default: shortid.generate
   },
+  email: {
+    type: String,
+    required: true,
+    unique: true
+  },
   password: {
     type: String,
     required: true
   },
   username: {
     type: String,
-    required: true,
-    unique: true
-  },
-  email: {
-    type: String
+    required: true
   },
   phone: {
     type: String,
     unique: true
+  },
+  title: {
+    type: String
   },
   image: ImageSchema,
   points: {
