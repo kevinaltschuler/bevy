@@ -21,10 +21,13 @@ var BevySchema = new Schema({
     required: true
   },
   name: {
-    type: String
+    type: String,
+    required: true
   },
   slug: {
-    type: String
+    type: String,
+    required: true,
+    unique: true
   },
   image: ImageSchema,
   settings: {
@@ -47,7 +50,8 @@ var BevySchema = new Schema({
   }],
   created: {
     type: Date,
-    default: Date.now
+    default: Date.now,
+    required: true
   },
   updated: {
     type: Date,

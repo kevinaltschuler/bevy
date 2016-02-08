@@ -11,14 +11,6 @@ var oauth2Controller = require('./../../controllers/oauth2');
 var permissionsController = require('./../../controllers/permissions');
 
 module.exports = function(router) {
-  router.get('/users/:userid/bevies', [
-      //oauth2Controller.bearer,
-      //permissionsController.isSameUser,
-      //permissionsController.errorHandler
-    ],
-    bevyController.getUserBevies
-  );
-
   router.get('/bevies', bevyController.getPublicBevies);
 
   router.post('/bevies', [

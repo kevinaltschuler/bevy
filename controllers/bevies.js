@@ -14,36 +14,20 @@ var _ = require('underscore');
 var shortid = require('shortid');
 var async = require('async');
 var getSlug = require('speakingurl');
+var bcrypt = require('bcryptjs');
+var config = require('./../config');
 
 var User = require('./../models/User');
 var Bevy = require('./../models/Bevy');
 var Post = require('./../models/Post');
 var Board = require('./../models/Board');
+var ResetToken = require('./../models/ResetToken');
+var InviteToken = require('./../models/InviteToken');
 
-var userPopFields = '_id displayName email image username '
- + 'google facebook created';
+var emailController = require('./email');
+
+var userPopFields = '_id displayName email image username created';
 var boardPopFields = '_id name description parent image subCount type admins settings created';
-
-// GET /users/:userid/bevies
-exports.getUserBevies = function(req, res, next) {
-  var user_id = req.params.userid;
-  User.findOne({ _id: user_id }, function(err, user) {
-    if(err) return next(err);
-    if(_.isEmpty(user)) return ('User not found');
-    Bevy.find({ _id: { $in: user.bevies } }, function(err, bevies) {
-      if(err) return next(err);
-      return res.json(bevies);
-    })
-    .populate({
-      path: 'admins',
-      select: userPopFields
-    })
-    .populate({
-      path: 'boards',
-      select: boardPopFields
-    });
-  });
-};
 
 //GET /bevies
 exports.getPublicBevies = function(req, res, next) {
@@ -62,52 +46,212 @@ exports.getPublicBevies = function(req, res, next) {
   .limit(20);
 }
 
-// POST /bevies
-exports.createBevy = function(req, res, next) {
-  var update = {};
-  update._id = shortid.generate();
-  if(req.body['name'] != undefined)
-    update.name = req.body['name'];
-  if(req.body['image'] != undefined)
-    update.image = req.body['image'];
-  if(req.body['admins'] != undefined)
-    update.admins = req.body['admins'];
-  if(req.body['settings'] != undefined)
-    update.settings = req.body['settings'];
+/**
+ * POST /bevies
+ * ------------
+ * REALLY BIG FUNCTION
+ * sets up an entire new bevy, admin user, and boards
+ *
+ */
+var createBevy = function(req, res, next) {
+  // first we need to collect the params needed to create the super-admin for the bevy
+  var admin_email = req.body['admin_email'];
+  var admin_username = req.body['admin_username'];
+  if(_.isEmpty(admin_email)) return next('Bevy admin email not defined');
+  if(_.isEmpty(admin_username)) return next('Bevy admin username not defined');
 
-  if(!update.name) throw error.gen('bevy name not specified', req);
+  // then collect the required params for the bevy
+  var bevy_name = req.body['bevy_name'];
+  var bevy_slug = req.body['bevy_slug'];
+  var bevy_image = req.body['bevy_image'];
 
-  if(req.body['slug'] != undefined)
-    update.slug = req.body['slug'];
-  else
-    update.slug = getSlug(update.name);
+  if(_.isEmpty(bevy_name)) return next('Bevy name not specified');
+  if(_.isEmpty(bevy_slug)) return next('Bevy slug not specified');
+  if(_.isEmpty(bevy_image)) {
+    // if the image is empty, then generate a default one
+    bevy_image = {
+      filename: config.app.server.hostname + '/img/logo_100.png',
+      foreign: true
+    };
+  }
 
-  update.subCount = 1;
+  // get the array of user emails to invite to the new bevy
+  var invite_emails = req.body['invite_emails'];
+  // this is allowed to be empty
+  if(_.isEmpty(invite_emails)) invite_emails = [];
 
+  // oh boy time to do a bunch of risky async stuff
+  // better use waterfall so if anything messes up it won't get worse
   async.waterfall([
-    // first create the bevy
+    // create the admin user first
     function(done) {
-      Bevy.create(update, function(err, bevy) {
+      var new_user = {
+        _id: shortid.generate(),
+        email: admin_email,
+        // create temporary username. this will be changed
+        // later in the creation flow
+        username: admin_username,
+        // create and hash a random password so the user can't be logged into
+        // without first clicking on the pass reset link
+        password: bcrypt.hashSync(shortid.generate(), 8),
+        // create a temp bevy ref so the database won't freak out
+        // we'll fill this in later in this async waterfall
+        bevy: 'barf',
+        created: Date.now()
+      };
+      User.create(new_user, function(err, user) {
         if(err) return done(err);
-        return done(null, bevy);
+        // user successfully created, lets move on
+        return done(null, user);
       });
     },
-    // then add bevy to first admin's bevy collection
-    function(bevy, done) {
-      User.findOne({ _id: update.admins[0] }, function(err, user) {
+    // now lets create the new bevy
+    function(user, done) {
+      var new_bevy = {
+        _id: shortid.generate(),
+        name: bevy_name,
+        slug: bevy_slug,
+        image: bevy_image,
+        // make the admin of the bevy the user
+        // that we just created
+        admins: [ user._id ],
+        subCount: 1,
+        created: Date.now()
+      };
+      Bevy.create(new_bevy, function(err, bevy) {
         if(err) return done(err);
-        user.bevies.push(bevy._id);
-        user.save(function(err) {
-          if(err) return done(err);
-          return done(null, bevy);
+        // bevy successfully created, move on
+        return done(null, user, bevy);
+      });
+    },
+    // link the newly created user with the newly created bevy
+    function(user, bevy, done) {
+      user.bevy = bevy._id;
+      // and flush to db
+      user.save(function(err) {
+        if(err) return done(err);
+        return done(null, user, bevy);
+      });
+    },
+    // lets create some boards for this new bevy
+    function(user, bevy, done) {
+      // default announcement board
+      var announcement_board = {
+        _id: shortid.generate(),
+        name: 'Announcements',
+        description: 'An announcements board. Only admins can post here, \
+                      and every bevy member gets a notification when a post is made here.',
+        image: {
+          filename: config.app.server.hostname + '/img/default_board_img.png',
+          foreign: true
+        },
+        parent: bevy._id,
+        type: 'announcement',
+        admins: [ user._id ],
+        subCount: 1,
+        created: Date.now()
+      };
+      // default discussion board
+      var discussion_board = {
+        _id: shortid.generate(),
+        name: 'Discussion',
+        description: 'An discussion board. Notifications are sent less often and everyone \
+                      can post and comment here',
+        image: {
+          filename: config.app.server.hostname + '/img/default_board_img.png',
+          foreign: true
+        },
+        parent: bevy._id,
+        type: 'discussion',
+        admins: [ user._id ],
+        subCount: 1,
+        created: Date.now()
+      };
+      // flush to db
+      Board.create([ announcement_board, discussion_board ], function(err, boards) {
+        if(err) return done(err);
+        // boards created successfully, move on
+        return done(null, user, bevy, boards);
+      });
+    },
+    // link the newly created boards to the new bevy
+    function(user, bevy, boards, done) {
+      bevy.boards = [ boards[0]._id, boards[1]._id ];
+      // and flush to db
+      bevy.save(function(err) {
+        if(err) return done(err);
+        // bevy saved successfully, move on
+        return done(null, user, bevy);
+      });
+    },
+    // TODO: create a post and some comments for each board? maybe????
+    // create a reset token for so the new admin can change his/her password
+    function(user, bevy, done) {
+      var token = {
+        _id: shortid.generate(),
+        user: user._id,
+        token: shortid.generate(),
+        created: Date.now()
+      };
+      ResetToken.create(token, function(err, resetToken) {
+        if(err) return done(err);
+        // token saved successfully, move on
+        return done(null, user, bevy, resetToken);
+      });
+    },
+    // send the welcome email to the new admin
+    function(user, bevy, resetToken, done) {
+      emailController.sendEmail(user.email, 'welcome', {
+        user_email: user.email,
+        bevy_name: bevy.name,
+        bevy_slug: bevy.slug,
+        pass_link: config.app.server.hostname + '/reset/' + resetToken.token
+      }, function(err, result) {
+        if(err) return next(err);
+        // email queued successfully, move on
+        return done(null, user, bevy);
+      });
+    },
+    // create invite tokens for all invited users
+    function(user, bevy, done) {
+      if(_.isEmpty(invite_emails)) return done(null, user, bevy);
+      // loop thru all invited users
+      async.each(invite_emails, function(invite_email, callback) {
+        // define new token object
+        var new_token = {
+          _id: shortid.generate(),
+          token: shortid.generate(),
+          email: invite_email,
+          created: Date.now()
+        };
+        // flush to db
+        InviteToken.create(new_token, function(err, invite_token) {
+          if(err) return callback(err);
+          // then send invite emails to all invited users
+          emailController.sendEmail(invite_email, 'invite', {
+            user_email: invite_email,
+            bevy_name: bevy.name,
+            bevy_slug: bevy.slug,
+            invite_link: 'http://' + bevy.slug + '.joinbevy.com/invite/' + invite_token.token,
+            inviter_email: user.email,
+            inviter_name: user.username
+          }, function(err, results) {
+            if(err) return callback(err);
+            return callback(null);
+          });
         });
+      }, function(err) {
+        if(err) return done(err);
+        return done(null, user, bevy);
       });
     }
-  ], function(err, bevy) {
+  ], function(err, result) {
     if(err) return next(err);
-    return res.json(bevy);
+    // success!
+    return res.json(result);
   });
-}
+};
+exports.createBevy = createBevy;
 
 // GET /bevies/:bevyid
 exports.getBevy = function(req, res, next) {

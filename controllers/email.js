@@ -38,7 +38,7 @@ var sendEmail = function(recipient, type, locals, done) {
       if(_.isEmpty(locals.user_email)
         || _.isEmpty(locals.bevy_name)
         || _.isEmpty(locals.pass_link)) {
-        return done('Missing required vars for the welcome template');
+        return done('Missing required vars for the welcome email template');
       }
       renderWelcomeEmail(locals, function(err, results) {
         if(err) return done(err);
@@ -54,8 +54,27 @@ var sendEmail = function(recipient, type, locals, done) {
       });
       break;
     case 'invite':
-
-
+      if(_.isEmpty(locals.user_email)
+        || _.isEmpty(locals.bevy_name)
+        || _.isEmpty(locals.bevy_slug)
+        || _.isEmpty(locals.invite_link)
+        || _.isEmpty(locals.inviter_email)
+        || _.isEmpty(locals.inviter_name)) {
+        return done('Missing required vars for the invite email template')
+      }
+      renderInviteEmail(locals, function(err, results) {
+        if(err) return done(err);
+        mailgun.messages().send({
+          from: FROM_EMAIL,
+          to: recipient,
+          subject: locals.inviter_name + ' invited you to join ' + locals.bevy_name + ' on Bevy',
+          body: results.body,
+          html: results.html
+        }, function(err, body) {
+          if(err) return done(err);
+          return done(null, body);
+        });
+      });
       break;
     case 'reset-password':
       break;
@@ -75,6 +94,24 @@ var renderWelcomeEmail = function(locals, done) {
     pass_link: locals.pass_link
   }, function(err, results) {
     if(err) return done(err);
+    return done(null, {
+      html: results.html,
+      text: results.text
+    });
+  });
+};
+
+var renderInviteEmail = function(locals, done) {
+  var templateDir = path.join(__dirname, '..', 'views', 'email', 'invite-email');
+  var template = new EmailTemplate(templateDir);
+  template.render({
+    user_email: locals.user_email,
+    bevy_name: locals.bevy_name,
+    bevy_slug: locals.bevy_slug,
+    invite_link: locals.invite_link,
+    inviter_name: locals.inviter_name,
+    inviter_email: locals.inviter_email
+  }, function(err, results) {
     return done(null, {
       html: results.html,
       text: results.text

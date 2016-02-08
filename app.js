@@ -113,13 +113,10 @@ app.set('views', './views');
 // TODO: multi level api (v1, v2, etc)
 var api_router = express.Router();
 
-//api_router.use(middleware.cors);
-//require('./routes/api')(api_router);
-api_router.get('/', function(req, res, next) {
-  res.send(req.subdomains.toString());
-});
+api_router.use(middleware.cors);
+require('./routes/api')(api_router);
 //app.use(subdomain('api', api_router));
-//app.use('/api', api_router);
+app.use('/api', api_router);
 //app.use(subdomain('*', api_router));
 
 

@@ -16,10 +16,8 @@ module.exports = function(router) {
 	router.get('/users/search/:query', userController.searchUsers);
 
 	router.get('/users', userController.getUsers);
-	router.post('/users', userController.createUser);
+	//router.post('/users', userController.createUser);
 	router.get('/users/:id', userController.getUser);
-
-
 
 	router.put('/users/:id', userController.updateUser);
 	router.patch('/users/:id', userController.updateUser);

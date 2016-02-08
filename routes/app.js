@@ -8,7 +8,6 @@
 
 var passport = require('passport');
 var mailgun = require('./../config').mailgun();
-var template = require('./../public/html/email/template.jsx')('nuts', 'kevin');
 var async = require('async');
 var mongoose = require('mongoose');
 var _ = require('underscore');
@@ -26,14 +25,26 @@ module.exports = function(app) {
 
   app.get('/emailtest', function(req, res, next) {
 
-    emailController.sendEmail('blahoink@gmail.com', 'welcome', {
+    emailController.sendEmail('blahoink@gmail.com', 'invite', {
+      user_email: 'blahoink@gmail.com',
+      bevy_name: 'Some Bevy',
+      bevy_slug: 'somebevy',
+      invite_link: 'http://joinbevy.com/reset/23094hoiu23h4982304',
+      inviter_email: 'joeschmoe@gmail.com',
+      inviter_name: 'joe schmoe'
+    }, function(err, results) {
+      if(err) return next(err);
+      return res.json(results);
+    });
+
+    /*emailController.sendEmail('blahoink@gmail.com', 'welcome', {
       user_email: 'blahoink@gmail.com',
       bevy_name: 'some new bevy',
       pass_link: 'http://joinbevy.com/reset/23094hoiu23h4982304'
     }, function(err, results) {
       if(err) return next(err);
       return res.json(results);
-    });
+    });*/
   });
 
   app.post('/feedback', function(req, res, next) {

@@ -14,18 +14,26 @@ var shortid = require('shortid');
 var ResetTokenSchema = new Schema({
 	_id: {
 		type: String,
+		required: true,
 		unique: true,
 		default: shortid.generate
 	},
 	user: {
-	  	type: String,
-	  	ref: 'User'
+  	type: String,
+  	ref: 'User',
+		required: true
 	},
-	token: String,
-	previousPass: String,
+	token: {
+		type: String,
+		required: true
+	},
+	previousPass: {
+		type: String
+	},
 	created: {
 		type: Date,
 		default: Date.now,
+		required: true,
 		expires: 3600
 	}
 });

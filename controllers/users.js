@@ -58,21 +58,7 @@ exports.createUser = function(req, res, next) {
 
   User.create(update, function(err, user) {
     if(err) return next(err);
-
-    // send a welcome email
-    if(!_.isEmpty(user.email)) {
-      mailgun.messages().send({
-          from: 'Bevy Team <contact@joinbevy.com>'
-        , to: user.email
-        , subject: 'Welcome to Bevy!'
-        , text: 'Thanks for signing up for bevy! A prettier template is coming soon.'
-      });
-    }
-
-    // push existing notifications
-    //Notification.update({ email: user.email }, { user: user._id }, { multi: true }, function(err, raw) {
-    //});
-
+    // TODO: send a welcome email
     return res.json(user);
   });
 }
