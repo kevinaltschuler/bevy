@@ -77,8 +77,8 @@ var ResetPage = React.createClass({
     })
     .then(res => {
       console.log(res);
-      // redirect to home?
-      //window.location.href = constants.siteurl + '/login';
+      // redirect to login page
+      window.location.href = constants.siteurl + '/login';
     });
   },
 

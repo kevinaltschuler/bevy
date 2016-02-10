@@ -21,6 +21,7 @@ var ResetToken = require('./../models/ResetToken');
 
 var oauth2Controller = require('./../controllers/oauth2');
 var emailController = require('./../controllers/email');
+var viewController = require('./../controllers/views');
 
 module.exports = function(app) {
 
@@ -88,40 +89,54 @@ module.exports = function(app) {
     var password = req.body['password'];
     if(!password) return next(error.gen('Password not supplied'));
 
-    // update user with new password
-    var query = { _id: req.resetTokenUser };
-    var update = {
-      password: bcrypt.hashSync(password, 8),
-      updated: Date.now()
-    };
-    User.findOneAndUpdate(query, update, function(err, user) {
-      if(err) return next(err);
-      if(!user) return next('User not found');
+    async.waterfall([
+      // find the user whose password is being changed
+      function(done) {
+        User.findOne({ _id: req.resetTokenUser }, function(err, user) {
+          if(err) return done(err);
+          if(_.isEmpty(user)) return done('User not found');
 
+          return done(null, user);
+        })
+        .populate({
+          path: 'bevy',
+          select: '_id name slug'
+        });
+      },
+      // change fields and flush user to db
+      function(user, done) {
+        user.password = bcrypt.hashSync(password, 8);
+        user.updated = Date.now();
+        user.save(function(err) {
+          if(err) return done(err);
+          return done(null, user);
+        });
+      },
       // send confirmation email
-      // this isn't crucial. it won't stop the request if it fails
-      emailController.sendEmail(user.email, 'reset-pass-confirmation', {
-        user_email: user.email,
-        user_username: user.username
-      }, function(err, results) {
-        if(err) console.log(err);
-        return;
-      });
-
-      // success
-
-      // redirect to user's bevy home page
-      // return res.redirect('http://' + user.bevy.slug + '.' + config.app.server.domain);
-
-      return res.json({
-        message: 'success!'
-      });
-    })
-    .populate({
-      path: 'bevy',
-      select: '_id name slug'
+      function(user, done) {
+        emailController.sendEmail(user.email, 'reset-pass-confirmation', {
+          user_email: user.email,
+          user_username: user.username
+        }, function(err, results) {
+          // dont break out if this fails. its ok
+          if(err) console.log(err);
+          return done(null, user);
+        });
+      },
+      // delete reset token
+      function(user, done) {
+        ResetToken.findOneAndRemove({ token: req.params.token }, function(err, token) {
+          if(err) return done(err);
+          return done(null, user);
+        });
+      }
+    ], function(err, result) {
+      if(err) return next(err);
+      return res.json(result);
     });
-  });
+});
+
+  app.get('/reset/:token', checkToken, viewController.renderApp);
 }
 
 function checkToken(req, res, next) {
