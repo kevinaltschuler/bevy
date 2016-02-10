@@ -15,7 +15,8 @@ var {
 } = require('react-bootstrap');
 var {
   RaisedButton,
-  TextField
+  TextField,
+  FlatButton
 } = require('material-ui');
 
 var $ = require('jquery');
@@ -95,15 +96,23 @@ var RegisterInputs = React.createClass({
         validUsername: !res.found,
         verifying: false
       });
+      if(res.found) {
+        this.refs.Username.setErrorText('User Already Exists');
+      }
     })
     .catch(err => {
+      console.log(JSON.parse(err));
+      this.setState({
+        verifying: false
+      });
+      this.refs.Username.setErrorText('Server Error');
     });
   },
 
   validateUsername() {
     var username = this.refs.Username.getValue();
     if(_.isEmpty(username)) {
-      this.refs.Username.setErrorText('Please enter a username');
+      this.refs.Username.setErrorText('server error');
       return false;
     }
     if(username.length < 3) {
@@ -188,14 +197,8 @@ var RegisterInputs = React.createClass({
   render() {
     return (
       <div className="register-panel" style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
-        <img 
-          className="profile-img" 
-          src={ constants.defaultProfileImage } 
-          alt="Avatar"
-          style={{borderRadius: 50,width: 100, height: 100, marginBottom: 20}}
-        />
-        <div className='register-fields'>
-          <div className='username-field' style={{display: 'flex', alignItems: 'center', flexDirection: 'row'}}>
+        <div className='register-fields' style={{display: 'flex', alignItems: 'center', flexDirection: 'column', width: '100%'}}>
+          <div className='username-field' style={{display: 'flex', alignItems: 'center', flexDirection: 'row', width: '100%'}}>
             <div 
               className='verify-status'
               style={{width: (this.state.username) ? 50 : 0, transition: '.2s all ease-in-out'}}
@@ -207,6 +210,7 @@ var RegisterInputs = React.createClass({
               type='text'
               hintText='username (3-16 characters)'
               style={{width: '100%'}}
+              fullWidth={true}
               onChange={ this.onUsernameChange }
               underlineFocusStyle={{ borderBottom: 'solid 1px' + this.state.usernameColor }}
             />
@@ -222,15 +226,22 @@ var RegisterInputs = React.createClass({
             ref='Email'
             type='text'
             hintText='email (optional)'
+            fullWidth={true}
             style={{marginBottom: '10px', width: '100%'}}
             onChange={ this.onEmailChange }
           />
-          <RaisedButton
-            onClick={ this.props._onNext }
-            label="Next"
-            style={{ marginLeft: '10px' }}
-            disabled={ !this.state.validUsername || !this.state.password }
-          />
+          <div>
+            <FlatButton
+              onClick={ this.props._onBack }
+              label='Back'
+            />
+            <RaisedButton
+              onClick={ this.props._onNext }
+              label="Next"
+              style={{ marginLeft: '10px' }}
+              disabled={ !this.state.validUsername || !this.state.password }
+            />
+          </div>
         </div>
       </div>
     );

@@ -162,6 +162,12 @@ var CreateBevyPage = React.createClass({
     })
   },
 
+  _onBack() {
+    this.setState({
+      slide: this.state.slide - 1
+    })
+  },
+
   _renderSlugVerifyStatus() {
     if(_.isEmpty(this.state.slug)) return <div />;
     if(this.state.verifyingSlug) {
@@ -192,7 +198,9 @@ var CreateBevyPage = React.createClass({
             height: 10,
             borderRadius: 5,
             backgroundColor: (this.state.slide == i) ? '#aaa' : 'rgba(0,0,0,.1)',
-            margin: 10
+            margin: 10,
+            justifyContent: 'center',
+            alignSelf: 'center'
           }}
         />
       )
@@ -337,12 +345,14 @@ var CreateBevyPage = React.createClass({
               />
             </div>
             <div className="panel-bottom">
-              <RaisedButton
-                onClick={ this._onNext }
-                label="Next"
-                style={{ marginLeft: '10px' }}
-                disabled={ !this.state.name || !this.state.image }
-              />
+              <div>
+                <RaisedButton
+                  onClick={ this._onNext }
+                  label="Next"
+                  style={{ marginLeft: '10px' }}
+                  disabled={ !this.state.name || !this.state.image }
+                />
+              </div>
               { this._renderDots() }
             </div>
           </div>
@@ -356,7 +366,7 @@ var CreateBevyPage = React.createClass({
                 Choose your account details
               </div>
             </div>
-            <RegisterInputs _onNext={this._onNext} />
+            <RegisterInputs _onBack={this._onBack} _onNext={this._onNext} />
             { this._renderDots() }
           </div>
         )
@@ -371,12 +381,18 @@ var CreateBevyPage = React.createClass({
             </div>
             { this._renderInviteOthers() }
             <div className="panel-bottom">
-              <RaisedButton
-                onClick={ this._onNext }
-                label="Create Your Bevy"
-                style={{ marginLeft: '10px' }}
-                disabled={ !this.state.slugVerified }
-              />
+              <div>
+                <FlatButton
+                  onClick={ this._onBack }
+                  label='Back'
+                />
+                <RaisedButton
+                  onClick={ this._onNext }
+                  label="Create Your Bevy"
+                  style={{ marginLeft: '10px' }}
+                  disabled={ !this.state.slugVerified }
+                />
+              </div>
               { this._renderDots() }
             </div>
           </div>
@@ -422,6 +438,12 @@ var CreateBevyPage = React.createClass({
               title='Login'
               href='/login'
             >
+              <Ink 
+                style={{
+                  position: 'absolute',
+
+                }}
+              />
               Log In
             </a>
           </div>
