@@ -61,8 +61,6 @@
 	    	line-height: 50px;
 		}
 		.invites {
-			max-height: 400px;
-			overflow-y: scroll;
 			flex: 1;
 			.new-invite-button {
 				width: 100%;
@@ -84,6 +82,8 @@
 		.bevy-info {
 			display: flex;
 			flex-direction: column;
+			overflow-y: scroll;
+    		padding: 10px;
 			.slug {
 				display: flex;
 				flex-direction: row;
@@ -217,6 +217,7 @@
 				border-style: solid;
 				color: white;
 				font-size: 16px;
+				position: relative;
 				&:hover {
 					text-decoration: none;
 				}
@@ -225,7 +226,7 @@
 		.image-container {
 			width: 800px;
             height: 550px;
-		    margin-right: -200px;
+		    margin-left: 200px;
             margin-bottom: -100px;
             position: relative;
             display: flex;
