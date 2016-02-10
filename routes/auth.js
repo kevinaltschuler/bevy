@@ -144,6 +144,7 @@ module.exports = function(app) {
 });
 
   app.get('/reset/:token', checkToken, viewController.renderApp);
+  app.get('/invite/:token', checkInvite, viewController.renderApp);
 }
 
 function checkToken(req, res, next) {
@@ -158,4 +159,17 @@ function checkToken(req, res, next) {
     req.resetTokenUser = resetToken.user;
     return next();
   });
-}
+};
+
+function checkInvite(req, res, next) {
+  var token = req.params.token;
+  InviteToken.findOne({ token: token }, function(err, inviteToken) {
+    if(err) return next(err);
+    if(!inviteToken) {
+      console.log('token not found');
+      return res.redirect('/');
+    }
+    req.inviteTokenUser = inviteToken.user;
+    return next();
+  });
+};

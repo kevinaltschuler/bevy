@@ -195,7 +195,7 @@ var InterfaceComponent = React.createClass({
         return <PostView { ...this.props } />
         break;
       default:
-        return <FourOhFour {...this.props} />
+        return <div>SOMETHING WENT REALLY REALLY WRONG</div>
         break;
     }
   }

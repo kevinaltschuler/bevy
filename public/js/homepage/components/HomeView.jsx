@@ -135,8 +135,8 @@ var HomeView = React.createClass({
             />*/}
             <RaisedButton
               label='Start a Community'
-              linkButton={true}
-              href='/newbevy'
+              linkButton={ true }
+              href='/create'
             />
           </div>
         </div>

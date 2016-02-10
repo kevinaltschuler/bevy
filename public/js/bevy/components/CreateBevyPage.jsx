@@ -45,6 +45,7 @@ var CreateBevyPage = React.createClass({
       slug: '',
       slugVerified: true,
       verifyingSlug: false,
+      verifyError: '',
       privacy: 'Public',
       slide: 0,
       slides: 3,
@@ -115,8 +116,20 @@ var CreateBevyPage = React.createClass({
   },
 
   onSlugChange() {
+    var slug = this.refs.Slug.getValue();
+    if(_.isEmpty(slug)) {
+      this.setState({
+        slug: '',
+        verifyingSlug: false,
+        slugVerified: false,
+        verifyError: '',
+      });
+      return;
+    }
     this.setState({
-      verifyingSlug: true
+      slugVerified: true,
+      verifyingSlug: true,
+      slug: slug
     });
     // delay the request until the user stops typing
     // to reduce lag and such
@@ -124,7 +137,7 @@ var CreateBevyPage = React.createClass({
       clearTimeout(this.slugTimeoutID);
       delete this.slugTimeoutID;
     }
-    this.slugTimeoutID = setTimeout(this.verifySlug, 500);
+    this.slugTimeoutID = setTimeout(this.verifySlug, 250);
   },
 
   verifySlug() {
@@ -133,21 +146,33 @@ var CreateBevyPage = React.createClass({
     })
     .then(res => res.json())
     .then(res => {
+      if(!_.isObject(res)) {
+        this.setState({
+          slugVerified: false,
+          verifyingSlug: false,
+          verifyError: res
+        });
+        return;
+      }
       if(res.found) {
         this.setState({
           slugVerified: false,
-          verifyingSlug: false
+          verifyingSlug: false,
+          verifyError: ''
         });
       } else {
         this.setState({
           slugVerified: true,
-          verifyingSlug: false
+          verifyingSlug: false,
+          verifyError: ''
         });
       }
     })
     .catch(err => {
       this.setState({
-        verifyingSlug: false
+        slugVerified: false,
+        verifyingSlug: false,
+        verifyError: err
       });
     });
   },
@@ -186,7 +211,7 @@ var CreateBevyPage = React.createClass({
 
     for(var i = 0; i < this.state.slides; i++) {
       dots.push(
-        <div 
+        <div
           style={{
             width: 10,
             height: 10,
@@ -221,7 +246,7 @@ var CreateBevyPage = React.createClass({
       )
     }
     inviteInputs.push(
-      <div 
+      <div
         className='new-invite-button'
         onClick={() => {
           var invites = this.state.invites;
@@ -232,13 +257,13 @@ var CreateBevyPage = React.createClass({
         }}
       >
         <i className="material-icons">add</i>
-        <Ink 
+        <Ink
           style={{
             position: 'absolute',
             width: '100%',
             height: '100%',
             borderRadius: 2
-          }} 
+          }}
         />
       </div>
     );
@@ -275,8 +300,6 @@ var CreateBevyPage = React.createClass({
 
     var content = <div/>;
 
-    console.log(this.state.slide);
-
     switch(this.state.slide) {
       case 0:
         content = (
@@ -297,7 +320,7 @@ var CreateBevyPage = React.createClass({
               type='text'
               ref='Name'
               fullWidth={true}
-              placeholder='Group Name'
+              floatingLabelText='Group Name'
               onChange={() => {
                 this.setState({
                   name: this.refs.Name.getValue(),
@@ -307,7 +330,7 @@ var CreateBevyPage = React.createClass({
               }}
             />
             <div className='slug'>
-              <div 
+              <div
                 className='verify-status'
                 style={{width: (this.state.slug) ? 60 : 0}}
               >
@@ -316,20 +339,18 @@ var CreateBevyPage = React.createClass({
               <TextField
                 type='text'
                 ref='Slug'
-                fullWidth={true}
+                fullWidth={ true }
                 floatingLabelText={(this.state.slug) ? this.state.slug + '.joinbevy.com' : "Your Bevy's URL"}
-                errorText={ (this.state.slugVerified) ? '' : 'URL taken' }
+                errorText={ (_.isEmpty(this.state.verifyError))
+                  ? (_.isEmpty(this.state.slug))
+                    ? ''
+                    : (this.state.slugVerified) ? '' : 'URL taken'
+                  : this.state.verifyError
+                }
                 value={ this.state.slug }
-                onChange={() => {
-                  this.setState({
-                    slug: this.refs.Slug.getValue()
-                  });
-                  this.onSlugChange();
-                }}
+                onChange={ this.onSlugChange }
                 onBlur={() => {
-                  this.setState({
-                    slug: getSlug(this.refs.Slug.getValue())
-                  });
+                  this.setState({ slug: getSlug(this.refs.Slug.getValue()) });
                 }}
                 style={{
                   flex: 1
@@ -349,7 +370,7 @@ var CreateBevyPage = React.createClass({
         )
         break;
       case 1:
-        content = ( 
+        content = (
           <div className='bevy-info'>
             <div className='text-fields'>
               <div className='title'>
@@ -362,7 +383,7 @@ var CreateBevyPage = React.createClass({
         )
         break;
       case 2:
-        content = ( 
+        content = (
           <div className='bevy-info'>
             <div className='text-fields'>
               <div className='title'>
@@ -403,7 +424,7 @@ var CreateBevyPage = React.createClass({
     return (
       <div className="create-bevy-panel">
         <div className='left'>
-          <a 
+          <a
             href='/home'
             className='header'
           >
@@ -427,7 +448,7 @@ var CreateBevyPage = React.createClass({
           </div>
           <div className='image-container'>
             <div className='group-title'>
-              {this.state.name || 'Bevy'}
+              {this.state.name || 'Your Bevy Name'}
             </div>
             <div style={{
               backgroundColor: 'rgba(0,0,0,.1)',
@@ -439,7 +460,7 @@ var CreateBevyPage = React.createClass({
             }}>
               <div style={bevyImageStyle}/>
             </div>
-            <img 
+            <img
               src='./../img/bevysimple.png'
               style={{
                 width: 800,

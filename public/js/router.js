@@ -20,9 +20,10 @@ var Router = Backbone.Router.extend({
     'login' : 'login',
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
+    'invite/:token' : 'invite',
     'home' : 'home',
-    'newbevy' : 'newBevy',
-    'newbevy/' : 'newBevy',
+    'create' : 'newBevy',
+    'create/' : 'newBevy',
     'bevies': 'bevies',
     'b' : 'home',
     'b/' : 'home',
@@ -39,7 +40,7 @@ var Router = Backbone.Router.extend({
     's/:query' : 'search',
     'auth/google/callback': 'googleCallback',
     'auth/facebook/callback': 'facebookCallback',
-    '*nuts' : 'not_found'
+    '*nuts' : 'notFound'
   },
 
   home() {
@@ -48,6 +49,10 @@ var Router = Backbone.Router.extend({
 
   newBevy() {
     this.current = 'newBevy';
+  },
+
+  invite() {
+    this.current = 'invite';
   },
 
   login() {
@@ -122,13 +127,10 @@ var Router = Backbone.Router.extend({
     this.navigate('/', { trigger: true });
   },
 
-  not_found(nuts) {
+  notFound(nuts) {
     console.log('page not found :(', nuts);
+    this.notFoundURL = nuts;
     this.current = '404';
-    if(!checkUser()) {
-      this.current = 'home';
-      return;
-    }
   }
 });
 

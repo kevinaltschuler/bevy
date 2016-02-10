@@ -25,10 +25,10 @@ var api_version = '';
 
 if(window.bootstrap.env == 'production') {
   exports.siteurl = 'http://joinbevy.com';
-  exports.apiurl = 'http://api.joinbevy.com';
+  exports.apiurl = 'http://joinbevy.com/api';
 } else {
   exports.siteurl = 'http://bevy.dev';
-  exports.apiurl = 'http://api.bevy.dev';
+  exports.apiurl = 'http://bevy.dev/api';
 }
 
 exports.client_id = 'web';

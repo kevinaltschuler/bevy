@@ -447,11 +447,13 @@ var verifySlug = function(slug) {
 
   var i = 0;
   var char = '';
-  while(i <= slug.length) {
+  while(i < slug.length) {
+
     if(!_.contains(allowed_chars, slug.charAt(i))) {
       // character is not in the allowed list
       return false;
     }
+    i++;
   }
 
   return true;
@@ -461,7 +463,11 @@ exports.verifySlug = verifySlug;
 // GET /bevies/:slug/verify
 var checkIfSlugAvailable = function(req, res, next) {
   var slug = req.params.slug;
-  if(!verifySlug(slug)) return next('Unable to check slug availability. Slug in incorrect format');
+  if(!verifySlug(slug)) {
+    return next('URL in incorrect format. Only lowercase letters and hypens are allowed');
+  }
+  if(slug.charAt(0) == '-') return next('URL cannot begin with a hyphen');
+  if(slug.charAt(slug.length - 1) == '-') return next('URL cannot end with a hyphen');
 
   Bevy.findOne({ slug: slug }, function(err, bevy) {
     if(err) return next(err);

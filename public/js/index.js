@@ -115,13 +115,6 @@ var router = require('./router');
 var mui = require('material-ui');
 var ThemeManager = mui.Styles.ThemeManager();
 
-// load components
-var MainSection = require('./app/components/MainSection.jsx');
-var LoginPage = require('./auth/components/LoginPage.jsx');
-var ForgotPage = require('./auth/components/ForgotPage.jsx');
-var ResetPage = require('./auth/components/ResetPage.jsx');
-var CreateBevyPage = require('./bevy/components/CreateBevyPage.jsx');
-
 var injectTapEventPlugin = require("react-tap-event-plugin");
 // App bootstrap
 var App = React.createClass({
@@ -181,6 +174,14 @@ var App = React.createClass({
   }
 });
 
+// load components
+var MainSection = require('./app/components/MainSection.jsx');
+var LoginPage = require('./auth/components/LoginPage.jsx');
+var ForgotPage = require('./auth/components/ForgotPage.jsx');
+var ResetPage = require('./auth/components/ResetPage.jsx');
+var CreateBevyPage = require('./bevy/components/CreateBevyPage.jsx');
+var InvitePage = require('./invite/components/InvitePage.jsx');
+var FourOhFour = require('./app/components/FourOhFour.jsx');
 
 var InterfaceComponent = React.createClass({
   componentWillMount() {
@@ -209,6 +210,12 @@ var InterfaceComponent = React.createClass({
         break;
       case 'newBevy':
         return <CreateBevyPage />
+        break;
+      case 'invite':
+        return <InvitePage />
+        break;
+      case '404':
+        return <FourOhFour />
         break;
       default:
         return <MainSection />

@@ -28,6 +28,7 @@ var session = require('express-session');
 var MongoStore = require('connect-mongo')(session);
 var csrf = require('csurf');
 var passport = require('passport');
+var error = require('./error');
 
 var serveStatic = require('serve-static');
 
@@ -115,7 +116,9 @@ var api_router = express.Router();
 
 api_router.use(middleware.cors);
 require('./routes/api')(api_router);
-//app.use(subdomain('api', api_router));
+api_router.use(error.log_errors);
+api_router.use(error.error_handler);
+app.use(subdomain('api', api_router));
 app.use('/api', api_router);
 //app.use(subdomain('*', api_router));
 
@@ -127,7 +130,6 @@ app.use(serveStatic(__dirname + '/public')); // app-specific assets
 var routes = require('./routes')(app);
 
 // error handling
-var error = require('./error');
 app.use(error.log_errors);
 app.use(error.error_handler);
 
