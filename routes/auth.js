@@ -39,49 +39,56 @@ module.exports = function(app) {
   app.post('/forgot', function(req, res, next) {
     // collect email
     var email = req.body['email'];
-    if(!email) { next(error.gen('Email not supplied')); }
+    if(!email) return next('Email not supplied');
 
     async.waterfall([
+      // find user with that email
       function(done) {
-        // find user with that email
-        var query = { email: email };
-        User.findOne(query, function(err, user) {
-          if(err) { return next(err); }
-          if(!user) { return next(error.gen('User not found')); }
+        User.findOne({ email: email }, function(err, user) {
+          if(err) return done(err);
+          if(!user) return done('User/Email pair not found');
 
           done(null, user);
         });
       },
+      // check for preexisting reset token
       function(user, done) {
-        // create token string
+        ResetToken.findOne({ user: user._id }, function(err, resetToken) {
+          if(err) return done(err);
+          if(_.isEmpty(resetToken)) return done(null, user);
+          else return done('Password change already requested');
+        });
+      },
+      // create token string
+      function(user, done) {
         crypto.randomBytes(20, function(err, buf) {
           var token = buf.toString('hex');
           done(err, token, user);
         });
       },
+      // create a new reset token
       function(token, user, done) {
-        // create reset token
         ResetToken.create({
-            user: user
-          , token: token
+          user: user._id,
+          token: token
         }, function(err, resetToken) {
           done(err, resetToken, user);
         });
       },
+      // send the reset password email
       function(resetToken, user, done) {
-        // send email
-        mailgun.messages().send({
-          from: 'Bevy Team <contact@joinbevy.com>',
-          to: email,
-          subject: 'Reset Password',
-          text: 'Heres your link: ' + config.app.server.hostname + '/reset/' + resetToken.token
-        }, function(err, body) {
-          if(err) return next(err);
-          //console.log(body);
-          return res.json(body);
+        emailController.sendEmail(user.email, 'reset-pass', {
+          user_email: user.email,
+          reset_link: config.app.server.hostname + '/reset/' + resetToken.token
+        }, function(err, results) {
+          if(err) return done(err);
+          else return done(null, results);
         });
       }
-    ]);
+    ], function(err, results) {
+      if(err) return next(err);
+      else return res.json(results);
+    });
   });
 
   app.post('/reset/:token', checkToken, function(req, res, next) {
@@ -141,15 +148,14 @@ module.exports = function(app) {
 
 function checkToken(req, res, next) {
   var token = req.params.token;
-  var query = { token: token };
-  ResetToken.findOne(query, function(err, token) {
+  ResetToken.findOne({ token: token }, function(err, resetToken) {
     if(err) return next(err);
-    if(!token) {
+    if(!resetToken) {
       // token not found
       console.log('token not found');
       return res.redirect('/login');
     }
-    req.resetTokenUser = token.user;
+    req.resetTokenUser = resetToken.user;
     return next();
   });
 }

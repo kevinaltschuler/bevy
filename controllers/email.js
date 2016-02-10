@@ -46,6 +46,7 @@ var sendEmail = function(recipient, type, locals, done) {
           from: FROM_EMAIL,
           to: recipient,
           subject: 'Welcome To Bevy',
+          body: results.text,
           html: results.html
         }, function(err, body) {
           if(err) return done(err);
@@ -68,7 +69,7 @@ var sendEmail = function(recipient, type, locals, done) {
           from: FROM_EMAIL,
           to: recipient,
           subject: locals.inviter_name + ' invited you to join ' + locals.bevy_name + ' on Bevy',
-          body: results.body,
+          body: results.text,
           html: results.html
         }, function(err, body) {
           if(err) return done(err);
@@ -76,6 +77,24 @@ var sendEmail = function(recipient, type, locals, done) {
         });
       });
       break;
+    case 'reset-pass':
+      if(_.isEmpty(locals.reset_link)) return done('Missing required vars for the reset passsword email template');
+      locals.user_email = recipient;
+      renderResetPasswordEmail(locals, function(err, results) {
+        if(err) return done(err);
+        mailgun.messages().send({
+          from: FROM_EMAIL,
+          to: recipient,
+          subject: 'Reset Password',
+          body: results.text,
+          html: results.html
+        }, function(err, body) {
+          if(err) return done(err);
+          return done(null, body);
+        })
+      });
+      break;
+
     case 'reset-pass-confirmation':
       if(_.isEmpty(locals.user_email)
         || _.isEmpty(locals.user_username)) {
@@ -138,6 +157,20 @@ var renderInviteEmail = function(locals, done) {
   });
 };
 
+var renderResetPasswordEmail = function(locals, done) {
+  var templateDir = path.join(__dirname, '..', 'views', 'email', 'reset-pass');
+  var template = new EmailTemplate(templateDir);
+  template.render({
+    user_email: locals.user_email,
+    reset_link: locals.reset_link
+  }, function(err, results) {
+    return done(null, {
+      html: results.html,
+      text: results.text
+    })
+  });
+};
+
 var renderResetConfirmationEmail = function(locals, done) {
   var templateDir = path.join(__dirname, '..', 'views', 'email', 'reset-pass-confirmation');
   var template = new EmailTemplate(templateDir);
@@ -154,3 +187,6 @@ var renderResetConfirmationEmail = function(locals, done) {
 
 exports.sendEmail = sendEmail;
 exports.renderWelcomeEmail = renderWelcomeEmail;
+exports.renderInviteEmail = renderInviteEmail;
+exports.renderResetPasswordEmail = renderResetPasswordEmail;
+exports.renderResetConfirmationEmail = renderResetConfirmationEmail;

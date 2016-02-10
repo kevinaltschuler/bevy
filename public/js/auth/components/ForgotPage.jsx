@@ -55,14 +55,14 @@ var ForgotPage = React.createClass({
     })
     .then(res => res.json())
     .then(res => {
-      this.setState({
-        statusText: 'Email Sent!'
-      });
+      if(!_.isObject(res)) {
+        this.setState({ statusText: res });
+        return;
+      }
+      this.setState({ statusText: 'Email Sent!' });
     })
     .catch(err => {
-      this.setState({
-        statusText: err
-      });
+      this.setState({ statusText: err });
     });
   },
 
@@ -116,7 +116,7 @@ var ForgotPage = React.createClass({
             />
             <RaisedButton
               className='forgot-submit'
-              label='submit'
+              label='request'
               style={{ width: '100%' }}
               onClick={ this.submit }
               backgroundColor='#2cb673'
