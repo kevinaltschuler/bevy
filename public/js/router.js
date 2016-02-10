@@ -18,7 +18,6 @@ var Router = Backbone.Router.extend({
   routes: {
     '' : 'home',
     'login' : 'login',
-    'register' : 'register',
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
     'home' : 'home',
@@ -55,16 +54,13 @@ var Router = Backbone.Router.extend({
     this.current = 'login';
   },
 
-  register() {
-    this.current = 'register';
-  },
-
   forgot() {
     this.current = 'forgot';
   },
 
   reset(token) {
     this.current = 'reset';
+    this.reset_token = token;
   },
 
   bevy(bevy_slug, post_id) {

@@ -25,13 +25,9 @@ module.exports = function(app) {
 
   app.get('/emailtest', function(req, res, next) {
 
-    emailController.sendEmail('blahoink@gmail.com', 'invite', {
+    emailController.sendEmail('blahoink@gmail.com', 'reset-pass-confirmation', {
       user_email: 'blahoink@gmail.com',
-      bevy_name: 'Some Bevy',
-      bevy_slug: 'somebevy',
-      invite_link: 'http://joinbevy.com/reset/23094hoiu23h4982304',
-      inviter_email: 'joeschmoe@gmail.com',
-      inviter_name: 'joe schmoe'
+      user_username: 'blahoink'
     }, function(err, results) {
       if(err) return next(err);
       return res.json(results);

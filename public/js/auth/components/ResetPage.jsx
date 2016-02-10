@@ -7,16 +7,17 @@
 'use strict';
 
 var React = require('react');
-var $ = require('jquery');
+var {
+  Input,
+  Panel
+} = require('react-bootstrap');
+var {
+  RaisedButton,
+  TextField
+} = require('material-ui');
+
 var _ = require('underscore');
 var constants = require('./../../constants');
-
-var rbs = require('react-bootstrap');
-var Input = rbs.Input;
-var Panel=rbs.Panel;
-
-var mui = require('material-ui');
-var RaisedButton = mui.RaisedButton;
 
 var ResetPage = React.createClass({
 
@@ -29,7 +30,6 @@ var ResetPage = React.createClass({
   },
 
   onChange() {
-
     var pass = this.refs.pass.getValue();
     var confirmPass = this.refs.pass.getValue();
 
@@ -67,64 +67,69 @@ var ResetPage = React.createClass({
       return;
     }
 
-    $.post(
-      constants.siteurl + '/reset/' + this.getParams().token,
-      {
+    var router = require('./../../router');
+    var reset_token = router.reset_token;
+    fetch(constants.siteurl + '/reset/' + reset_token, {
+      method: 'POST',
+      body: JSON.stringify({
         password: pass
-      },
-      function(data) {
-        // success
-        window.location.href = constants.siteurl + '/login';
-      }
-    ).fail(function(jqXHR) {
-      // failure
-      var response = jqXHR.responseJSON;
-    }.bind(this));
+      })
+    })
+    .then(res => {
+      console.log(res);
+      // redirect to home?
+      //window.location.href = constants.siteurl + '/login';
+    });
   },
 
   render() {
-
-    var status;
+    var status = <div />;
     if(!_.isEmpty(this.state.statusText)) {
       status = (
-        <div>
+        <div className='error'>
           <span>{ this.state.statusText }</span>
         </div>
       );
     }
 
-
     return (
-      <div className='forgot-container'>
-        <div className='forgot-header'>
-          <a title='home' href='/'>
-            <img src='/img/logo_100.png' height="60" width="60"/>
+      <div className='reset-container'>
+        <div className='title-header'>
+          <a title='Home' href={ constants.siteurl }>
+            <img src='/img/logo_200.png' height="60" width="60"/>
           </a>
+          <h1>Bevy</h1>
         </div>
-        <Panel className="forgot-panel">
-          <h1>Reset Password</h1>
+        <div className='reset-header'>
+          <h2>Reset Password</h2>
+        </div>
+
+        <Panel className="reset-panel">
           { status }
-          <form method='post' action='/reset'>
-            <Input
-              type='password'
-              name='pass'
-              ref='pass'
-              hasFeedback
-              bsStyle={ this.state.passBsStyle }
-              placeholder='New Password'
-              onChange={ this.onChange } />
-            <Input
-              type='password'
-              name='confirmPass'
-              ref='confirmPass'
-              hasFeedback
-              bsStyle={ this.state.confirmPassBsStyle }
-              placeholder='Confirm Password'
-              onChange={ this.onChange } />
-            <RaisedButton
-              label='Submit'
-              onClick={ this.submit } />
-          </form>
+          <TextField
+            type='password'
+            name='pass'
+            ref='pass'
+            placeholder='New Password'
+            style={{ width: '100%', margin: '0px 0px' }}
+            onChange={ this.onChange }
+          />
+          <TextField
+            type='password'
+            name='confirmPass'
+            ref='confirmPass'
+            placeholder='Confirm Password'
+            style={{ width: '100%', marginBottom: 10 }}
+            onChange={ this.onChange }
+          />
+          <RaisedButton
+            className='reset-submit'
+            label='Submit'
+            backgroundColor='#2cb673'
+            labelColor='white'
+            fullWidth={ true }
+            onClick={ this.submit }
+          />
         </Panel>
         <a title='Login' href='/login'>Back to Login</a>
       </div>

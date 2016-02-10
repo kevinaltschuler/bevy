@@ -76,6 +76,25 @@ var sendEmail = function(recipient, type, locals, done) {
         });
       });
       break;
+    case 'reset-pass-confirmation':
+      if(_.isEmpty(locals.user_email)
+        || _.isEmpty(locals.user_username)) {
+        return done('Missing required vars for the reset password confirmation email template');
+      }
+      renderResetConfirmationEmail(locals, function(err, results) {
+        if(err) return done(err);
+        mailgun.messages().send({
+          from: FROM_EMAIL,
+          to: recipient,
+          subject: 'Bevy Password Changed',
+          body: results.body,
+          html: results.html
+        }, function(err, body) {
+          if(err) return done(err);
+          return done(null, body);
+        });
+      });
+      break;
     case 'reset-password':
       break;
     default:
@@ -116,6 +135,20 @@ var renderInviteEmail = function(locals, done) {
       html: results.html,
       text: results.text
     });
+  });
+};
+
+var renderResetConfirmationEmail = function(locals, done) {
+  var templateDir = path.join(__dirname, '..', 'views', 'email', 'reset-pass-confirmation');
+  var template = new EmailTemplate(templateDir);
+  template.render({
+    user_email: locals.user_email,
+    user_username: locals.user_username
+  }, function(err, results) {
+    return done(null, {
+      html: results.html,
+      text: results.text
+    })
   });
 };
 

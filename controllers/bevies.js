@@ -439,10 +439,29 @@ exports.destroyBevy = function(req, res, next) {
   });
 };
 
+var verifySlug = function(slug) {
+  if(_.isEmpty(slug)) return false;
+
+  var allowed_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+    'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '-'];
+
+  var i = 0;
+  var char = '';
+  while(i <= slug.length) {
+    if(!_.contains(allowed_chars, slug.charAt(i))) {
+      // character is not in the allowed list
+      return false;
+    }
+  }
+
+  return true;
+};
+exports.verifySlug = verifySlug;
 
 // GET /bevies/:slug/verify
-exports.verifySlug = function(req, res, next) {
+var checkIfSlugAvailable = function(req, res, next) {
   var slug = req.params.slug;
+  if(!verifySlug(slug)) return next('Unable to check slug availability. Slug in incorrect format');
 
   Bevy.findOne({ slug: slug }, function(err, bevy) {
     if(err) return next(err);
@@ -450,6 +469,8 @@ exports.verifySlug = function(req, res, next) {
     else return res.json({ found: true }); // matched a bevy. cant use that slug
   });
 };
+exports.checkIfSlugAvailable = checkIfSlugAvailable;
+
 
 // GET /bevies/:bevyid/subscribers
 exports.getSubscribers = function(req, res, next) {

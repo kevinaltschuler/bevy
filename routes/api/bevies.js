@@ -64,7 +64,7 @@ module.exports = function(router) {
     bevyController.destroyBevy
   );
 
-  router.get('/bevies/:slug/verify', bevyController.verifySlug);
+  router.get('/bevies/:slug/verify', bevyController.checkIfSlugAvailable);
 
   router.get('/bevies/:bevyid/subscribers', [
       //oauth2Controller.bearer

@@ -1,11 +1,11 @@
 @import '../variables.less';
 
-.login-container {
+.reset-container {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	padding-top: 20px;
-	.login-header {
+	.title-header {
 		display: flex;
 		flex-direction: row;
 		align-items: center;
@@ -22,7 +22,16 @@
 			margin-bottom: 0px;
 		}
 	}
-	.login-title {
+	.reset-header {
+		margin-top: 10px;
+		a{
+			display: inline-block;
+			margin: 20px auto 30px;
+			img{
+				float: none;
+				display: block;
+			}
+		}
 		h2 {
 			margin: 20px auto 30px;
 			display: block;
@@ -34,23 +43,16 @@
 			text-align: center;
 		}
 	}
-
-	.login-panel {
+	.reset-panel {
+		text-align: left;
 		width: 350px;
-		padding-top: 40px;
-		padding-right: 40px;
-		padding-left: 40px;
-		padding-bottom: 30px;
+		padding-top: 0px;
+		padding-right: 20px;
+		padding-left: 20px;
+		padding-bottom: 10px;
 		margin-left: auto;
 		margin-right: auto;
-		img{
-			width: 96px;
-			height: 96px;
-			margin: 0 auto 35px;
-			display: block;
-			border-radius: 50%;
-		}
-		.login-error{
+		.error {
 			background-color: @bevy-danger;
 			padding: 5px 10px;
 			border-radius: 5px;
@@ -61,21 +63,11 @@
 				font-weight: bold;
 			}
 		}
-		.form-group {
-			margin: 10px;
-			.form-control {
-				background-color: white;
-				color: black;
-			}
-		}
-		.register-button {
-			display: block;
-			width: 90%;
-			margin: 0px auto;
-			margin-top: 10px;
-			text-align: center;
-		}
-		.login-submit.mui-raised-button {
+    input {
+      border: none;
+      box-shadow: none;
+    }
+		.reset-submit.mui-raised-button {
 			display: block;
 			background-color: @bevy-green;
 			color: white;
@@ -94,18 +86,9 @@
 				}
 			}
 		}
-
 	}
-	.back-link{
-		text-align: center;
-		a {
-			font-size: 1em;
-		}
-	}
-}
-
-.register {
-	p{
-		text-align: center;
+	a {
+		margin-left: auto;
+		margin-right: auto;
 	}
 }

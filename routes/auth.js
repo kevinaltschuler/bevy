@@ -20,6 +20,7 @@ var User = require('./../models/User');
 var ResetToken = require('./../models/ResetToken');
 
 var oauth2Controller = require('./../controllers/oauth2');
+var emailController = require('./../controllers/email');
 
 module.exports = function(app) {
 
@@ -89,18 +90,38 @@ module.exports = function(app) {
 
     // update user with new password
     var query = { _id: req.resetTokenUser };
-    var update = { password: bcrypt.hashSync(password, 8) }
+    var update = {
+      password: bcrypt.hashSync(password, 8),
+      updated: Date.now()
+    };
     User.findOneAndUpdate(query, update, function(err, user) {
       if(err) return next(err);
+      if(!user) return next('User not found');
 
-      // TODO: log user in automatically?
-      //res.redirect('/login');
-      res.json({
+      // send confirmation email
+      // this isn't crucial. it won't stop the request if it fails
+      emailController.sendEmail(user.email, 'reset-pass-confirmation', {
+        user_email: user.email,
+        user_username: user.username
+      }, function(err, results) {
+        if(err) console.log(err);
+        return;
+      });
+
+      // success
+
+      // redirect to user's bevy home page
+      // return res.redirect('http://' + user.bevy.slug + '.' + config.app.server.domain);
+
+      return res.json({
         message: 'success!'
       });
+    })
+    .populate({
+      path: 'bevy',
+      select: '_id name slug'
     });
   });
-
 }
 
 function checkToken(req, res, next) {
@@ -110,6 +131,7 @@ function checkToken(req, res, next) {
     if(err) return next(err);
     if(!token) {
       // token not found
+      console.log('token not found');
       return res.redirect('/login');
     }
     req.resetTokenUser = token.user;

@@ -118,7 +118,6 @@ var ThemeManager = mui.Styles.ThemeManager();
 // load components
 var MainSection = require('./app/components/MainSection.jsx');
 var LoginPage = require('./auth/components/LoginPage.jsx');
-var RegisterPage = require('./auth/components/RegisterPage.jsx');
 var ForgotPage = require('./auth/components/ForgotPage.jsx');
 var ResetPage = require('./auth/components/ResetPage.jsx');
 var CreateBevyPage = require('./bevy/components/CreateBevyPage.jsx');
@@ -201,9 +200,6 @@ var InterfaceComponent = React.createClass({
         break;
       case 'login':
         return <LoginPage />
-        break;
-      case 'register':
-        return <RegisterPage />
         break;
       case 'forgot':
         return <ForgotPage />

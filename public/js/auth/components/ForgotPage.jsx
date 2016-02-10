@@ -18,7 +18,6 @@ var {
   TextField
 } = require('material-ui');
 
-var $ = require('jquery');
 var _ = require('underscore');
 var constants = require('./../../constants');
 
@@ -95,13 +94,16 @@ var ForgotPage = React.createClass({
 
     return (
       <div className='forgot-container'>
+        <div className='login-header'>
+          <a title='Home' href={ constants.siteurl }>
+            <img src='/img/logo_200.png' height="60" width="60"/>
+          </a>
+          <h1>Bevy</h1>
+        </div>
         <div className='forgot-header'>
-          <h1>Forgot Password?</h1>
+          <h2>Forgot Password?</h2>
         </div>
         <Panel className="forgot-panel">
-        <div className='forgot-header'>
-
-        </div>
           { statusText }
           <form method='post' action='/forgot'>
             <TextField
@@ -109,12 +111,18 @@ var ForgotPage = React.createClass({
               name='email'
               ref='email'
               placeholder='Email'
-              style={{width: '100%', margin: '10px 0px'}}
-              onChange={ this.onChange }/>
+              style={{ width: '100%', margin: '10px 0px' }}
+              onChange={ this.onChange }
+            />
             <RaisedButton
+              className='forgot-submit'
               label='submit'
-              style={{width: '100%'}}
-              onClick={ this.submit } />
+              style={{ width: '100%' }}
+              onClick={ this.submit }
+              backgroundColor='#2cb673'
+              labelColor='white'
+              fullWidth={ true }
+            />
           </form>
         </Panel>
         <a
