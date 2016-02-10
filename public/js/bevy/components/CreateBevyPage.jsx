@@ -19,10 +19,14 @@ var {
   RaisedButton,
   TextField,
   Styles,
-  RadioButton
+  RadioButton,
+  IconButton
 } = require('material-ui');
 var ThemeManager = new Styles.ThemeManager();
 var Uploader = require('./../../shared/components/Uploader.jsx');
+var Ink = require('react-ink');
+
+var RegisterInputs = require('./../../auth/components/RegisterInputs.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -42,7 +46,9 @@ var CreateBevyPage = React.createClass({
       slugVerified: true,
       verifyingSlug: false,
       privacy: 'Public',
-      slide: 0
+      slide: 0,
+      slides: 3,
+      invites: ['', '']
     };
   },
 
@@ -146,6 +152,10 @@ var CreateBevyPage = React.createClass({
     });
   },
 
+  setUserDetails(details) {
+    this.setState(details);
+  },
+
   _onNext() {
     this.setState({
       slide: this.state.slide + 1
@@ -169,6 +179,72 @@ var CreateBevyPage = React.createClass({
       // not good
       return <span className='glyphicon glyphicon-remove' />
     }
+  },
+
+  _renderDots() {
+    var dots =[];
+
+    for(var i = 0; i < this.state.slides; i++) {
+      dots.push(
+        <div 
+          style={{
+            width: 10,
+            height: 10,
+            borderRadius: 5,
+            backgroundColor: (this.state.slide == i) ? '#aaa' : 'rgba(0,0,0,.1)',
+            margin: 10
+          }}
+        />
+      )
+    }
+
+    return (
+      <div style={{display: 'flex', flexDirection: 'row', marginTop: 10}}>
+        {dots}
+      </div>
+    );
+  },
+
+  _renderInviteOthers() {
+    var inviteInputs = [];
+    for(var key in this.state.invites) {
+      inviteInputs.push(
+        <TextField
+          ref={'Invite:' + key}
+          type='text'
+          fullWidth={true}
+          style={{
+            flex: 1
+          }}
+          hintText='johndoe@example.com'
+        />
+      )
+    }
+    inviteInputs.push(
+      <div 
+        className='new-invite-button'
+        onClick={() => {
+          var invites = this.state.invites;
+          invites.push('');
+          this.setState({
+            invites: invites
+          })
+        }}
+      >
+        <i className="material-icons">add</i>
+        <Ink 
+          style={{
+            position: 'absolute',
+            width: '100%',
+            height: '100%',
+            borderRadius: 2
+          }} 
+        />
+      </div>
+    );
+    return <div className='invites'>
+        {inviteInputs}
+      </div>;
   },
 
   _renderContent() {
@@ -206,7 +282,7 @@ var CreateBevyPage = React.createClass({
         content = (
           <div className='bevy-info'>
             <div className='title'>
-              Customize your bevy's Picture & choose a name
+              Customize your Bevy's Picture, Name & URL
             </div>
             <div className="new-bevy-picture">
               <Uploader
@@ -224,11 +300,51 @@ var CreateBevyPage = React.createClass({
               placeholder='Group Name'
               onChange={() => {
                 this.setState({
+                  name: this.refs.Name.getValue(),
                   slug: getSlug(this.refs.Name.getValue())
                 });
                 this.onSlugChange();
               }}
             />
+            <div className='slug'>
+              <div 
+                className='verify-status'
+                style={{width: (this.state.slug) ? 60 : 0}}
+              >
+                { this._renderSlugVerifyStatus() }
+              </div>
+              <TextField
+                type='text'
+                ref='Slug'
+                fullWidth={true}
+                floatingLabelText={(this.state.slug) ? this.state.slug + '.joinbevy.com' : "Your Bevy's URL"}
+                errorText={ (this.state.slugVerified) ? '' : 'URL taken' }
+                value={ this.state.slug }
+                onChange={() => {
+                  this.setState({
+                    slug: this.refs.Slug.getValue()
+                  });
+                  this.onSlugChange();
+                }}
+                onBlur={() => {
+                  this.setState({
+                    slug: getSlug(this.refs.Slug.getValue())
+                  });
+                }}
+                style={{
+                  flex: 1
+                }}
+              />
+            </div>
+            <div className="panel-bottom">
+              <RaisedButton
+                onClick={ this._onNext }
+                label="Next"
+                style={{ marginLeft: '10px' }}
+                disabled={ !this.state.name || !this.state.image }
+              />
+              { this._renderDots() }
+            </div>
           </div>
         )
         break;
@@ -237,34 +353,31 @@ var CreateBevyPage = React.createClass({
           <div className='bevy-info'>
             <div className='text-fields'>
               <div className='title'>
-                Web Presence
+                Choose your account details
               </div>
-              <div className='slug'>
-                <TextField
-                  type='text'
-                  ref='Slug'
-                  floatingLabelText='Bevy URL'
-                  errorText={ (this.state.slugVerified) ? '' : 'URL taken' }
-                  value={ constants.siteurl + '/b/' + this.state.slug }
-                  onChange={() => {
-                    this.setState({
-                      slug: this.refs.Slug.getValue().slice((constants.siteurl.length + 3))
-                    });
-                    this.onSlugChange();
-                  }}
-                  onBlur={() => {
-                    this.setState({
-                      slug: getSlug(this.refs.Slug.getValue().slice((constants.siteurl.length + 3)))
-                    });
-                  }}
-                  style={{
-                    flex: 1
-                  }}
-                />
-                <div className='verify-status'>
-                  { this._renderSlugVerifyStatus() }
-                </div>
+            </div>
+            <RegisterInputs _onNext={this._onNext} />
+            { this._renderDots() }
+          </div>
+        )
+        break;
+      case 2:
+        content = ( 
+          <div className='bevy-info'>
+            <div className='text-fields'>
+              <div className='title'>
+                Invite Others to your Bevy!
               </div>
+            </div>
+            { this._renderInviteOthers() }
+            <div className="panel-bottom">
+              <RaisedButton
+                onClick={ this._onNext }
+                label="Create Your Bevy"
+                style={{ marginLeft: '10px' }}
+                disabled={ !this.state.slugVerified }
+              />
+              { this._renderDots() }
             </div>
           </div>
         )
@@ -275,26 +388,67 @@ var CreateBevyPage = React.createClass({
 
   render() {
 
+    var bevyImageURL = (_.isEmpty(this.state.image))
+      ? constants.siteurl + '/img/default_group_img.png'
+      : (this.state.image.foreign)
+        ? this.state.image.filename
+        : constants.apiurl + '/files/' + this.state.image.filename;
+    var bevyImageStyle = {
+      backgroundImage: 'url(' + bevyImageURL + ')',
+      backgroundSize: '100% auto',
+      width: '100%',
+      height: 67,
+    };
+
     return (
       <div className="create-bevy-panel">
         <div className='left'>
-          <div className='header'>
+          <a 
+            href='/home'
+            className='header'
+          >
             <img style={{width: 40, height: 40}} src='./../../../img/logo_200.png'/>
             <div className='header-text'>
               Bevy
             </div>
-          </div>
+          </a>
           { this._renderContent() }
-          <div className="panel-bottom">
-            <RaisedButton
-              onClick={ this._onNext }
-              label="Next"
-              style={{ marginLeft: '10px' }}
-              disabled={ !this.state.slugVerified }
-            />
-          </div>
         </div>
         <div className='right'>
+          <div className='right-header'>
+            Already part of an existing bevy?
+            <a
+              className="login-btn"
+              title='Login'
+              href='/login'
+            >
+              Log In
+            </a>
+          </div>
+          <div className='image-container'>
+            <div className='group-title'>
+              {this.state.name || 'Bevy'}
+            </div>
+            <div style={{
+              backgroundColor: 'rgba(0,0,0,.1)',
+              position: 'absolute',
+              zIndex: 0,
+              top: 25,
+              height: 67,
+              width: '100%'
+            }}>
+              <div style={bevyImageStyle}/>
+            </div>
+            <img 
+              src='./../img/bevysimple.png'
+              style={{
+                width: 800,
+                height: 469,
+                position: 'absolute',
+                borderRadius: 10
+              }}
+            />
+          </div>
         </div>
       </div>
     );
