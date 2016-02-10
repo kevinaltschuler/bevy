@@ -37,7 +37,7 @@ var HomeView = React.createClass({
   getInitialState() {
     return {
       showNewBevyModal: false,
-      selected: 0
+      selected: 0,
     };
   },
 
@@ -119,27 +119,28 @@ var HomeView = React.createClass({
             The Social Network For Your &nbsp; &nbsp;&nbsp;<span className="typedSpan"></span>
           </div>
           <div className='actions'>
-            <Input
-              ref='DomainInput'
+            {/*<Input
+              ref='EmailInput'
               type='text'
-              value={ this.state.domainName }
-              placeholder='Your Group Name'
+              value={ this.state.emailAddress }
+              placeholder='Your Email Address'
               hasFeedback
               groupClassName='domain-input-group'
               labelClassName='domain-input-label'
               onChange={() => {
                 this.setState({
-                  domainName: this.refs.DomainInput.getValue()
+                  emailAddress: this.refs.EmailInput.getValue()
                 })
               }}
+            />*/}
+            <RaisedButton
+              label='Start a Community'
+              linkButton={true}
+              href='/newbevy'
             />
-            <span className='domain-suffix'>
-              <span className='dot'>.</span>
-              <span className='hostname'>{ window.location.hostname }</span>
-            </span>
           </div>
         </div>
-        <div className='landing-div div2'>
+        {/*<div className='landing-div div2'>
           <div className='sub-title-text'>
             Unify Communication
           </div>
@@ -168,10 +169,10 @@ var HomeView = React.createClass({
           <div style={{fontWeight: 'bold', fontSize: 40, marginTop: 10}}>
             Bevy
           </div>
-        </div>
+        </div>*/}
         <div className='landing-div div3'>
           <div className='features-title'>
-            This is How
+            Unify Communication
           </div>
           <div className='feature-section'>
             <div className='features'>

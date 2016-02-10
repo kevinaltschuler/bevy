@@ -208,7 +208,7 @@ var InterfaceComponent = React.createClass({
         return <ResetPage />
         break;
       case 'newBevy':
-        return <CreateBevyPage {...this.props} />
+        return <CreateBevyPage />
         break;
       default:
         return <MainSection />
