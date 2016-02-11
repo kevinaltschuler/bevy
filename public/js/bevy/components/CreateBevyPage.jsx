@@ -133,6 +133,7 @@ var CreateBevyPage = React.createClass({
     })
     .then(res => res.json())
     .then(res => {
+      console.log('got to here', res);
       if(res.found) {
         this.setState({
           slugVerified: false,
@@ -146,6 +147,7 @@ var CreateBevyPage = React.createClass({
       }
     })
     .catch(err => {
+      console.log('got to here');
       this.setState({
         verifyingSlug: false
       });
@@ -278,7 +280,8 @@ var CreateBevyPage = React.createClass({
     var bevyImageStyle = {
       backgroundImage: 'url(' + bevyImageURL + ')',
       backgroundSize: '100% auto',
-      borderRadius: 5
+      borderRadius: 5,
+      marginTop: -10
     };
 
     var content = <div/>;
@@ -290,7 +293,7 @@ var CreateBevyPage = React.createClass({
         content = (
           <div className='bevy-info'>
             <div className='title'>
-              Customize your Bevy's Picture, Name & URL
+              Customize your Bevy's details
             </div>
             <div className="new-bevy-picture">
               <Uploader
@@ -340,12 +343,14 @@ var CreateBevyPage = React.createClass({
                   });
                 }}
                 style={{
-                  flex: 1
+                  flex: 1,
+                  marginTop: 20,
+                  marginBottom: 30
                 }}
               />
             </div>
             <div className="panel-bottom">
-              <div>
+              <div style={{marginBottom: 10}}>
                 <RaisedButton
                   onClick={ this._onNext }
                   label="Next"
