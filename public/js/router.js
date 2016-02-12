@@ -1,7 +1,16 @@
+/**
+ * router.js
+ *
+ * handles all routes for the react app
+ *
+ * @author albert
+ */
+
 'use strict';
 
 var Backbone = require('backbone');
 var _ = require('underscore');
+var constants = require('./constants');
 
 var BevyActions = require('./bevy/BevyActions');
 var BoardActions = require('./board/BoardActions');
@@ -21,14 +30,8 @@ var Router = Backbone.Router.extend({
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
     'invite/:token' : 'invite',
-    'home' : 'home',
     'create' : 'newBevy',
     'create/' : 'newBevy',
-    'bevies': 'bevies',
-    'b' : 'home',
-    'b/' : 'home',
-    'b/:bevyid' : 'bevy',
-    'b/:bevyid/' : 'bevy',
     'boards/:boardid' : 'board',
     'boards/:boardid/' : 'board',
     'boards/:boardid/posts/:postid': 'post',
@@ -38,13 +41,31 @@ var Router = Backbone.Router.extend({
     's/' : 'search',
     's' : 'search',
     's/:query' : 'search',
-    'auth/google/callback': 'googleCallback',
-    'auth/facebook/callback': 'facebookCallback',
     '*nuts' : 'notFound'
   },
 
   home() {
-    this.current = 'home';
+    console.log(this.checkUser(), window.bootstrap);
+    var hostname_chunks = window.location.hostname.split('.');
+    if(hostname_chunks.length == 2) {
+      // we don't have a subdomain
+      this.current = 'home';
+      return;
+    } else if (hostname_chunks.length == 3) {
+      // we're in a bevy subdomain, probably
+      //if(!checkUser()) {
+        // slow navigate to home
+        //window.location.href = constants.siteurl;
+        //return;
+      //}
+      this.bevy_slug = hostname_chunks[0];
+      this.current = 'bevy';
+      return;
+    } else if (hostname_chunks.length > 3) {
+      // invalid subdomain structure
+      this.notFound();
+      return;
+    }
   },
 
   newBevy() {
@@ -66,16 +87,6 @@ var Router = Backbone.Router.extend({
   reset(token) {
     this.current = 'reset';
     this.reset_token = token;
-  },
-
-  bevy(bevy_slug, post_id) {
-    if(!checkUser()) {
-      this.current = 'home';
-      return;
-    }
-    this.current = 'bevy';
-    this.bevy_slug = bevy_slug;
-    //BevyActions.switchBevy(this.bevy_slug);
   },
 
   board(board_id) {
@@ -100,7 +111,7 @@ var Router = Backbone.Router.extend({
   },
 
   bevies() {
-    if(!checkUser()) {
+    if(!this.checkUser()) {
       this.current = 'home';
       return;
     }
@@ -109,7 +120,7 @@ var Router = Backbone.Router.extend({
   },
 
   search(query) {
-    if(!checkUser()) {
+    if(!this.checkUser()) {
       this.current = 'home';
       return;
     }
@@ -120,27 +131,19 @@ var Router = Backbone.Router.extend({
     }
   },
 
-  googleCallback() {
-    this.navigate('/', { trigger: true });
-  },
-  facebookCallback() {
-    this.navigate('/', { trigger: true });
-  },
-
   notFound(nuts) {
     console.log('page not found :(', nuts);
-    this.notFoundURL = nuts;
+    this.notFoundURL = nuts || '';
     this.current = '404';
+  },
+
+  checkUser() {
+    if(_.isEmpty(window.bootstrap.user)) {
+      return false
+    }
+    return true
   }
 });
-
-function checkUser() {
-  //console.log(window.bootstrap);
-  if(_.isEmpty(window.bootstrap.user)) {
-    return false
-  }
-  return true
-}
 
 var router = new Router();
 module.exports = router;
