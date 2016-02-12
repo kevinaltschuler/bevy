@@ -97,37 +97,30 @@ _.extend(BevyStore, {
         break;
 
       case BEVY.CREATE:
-        var name = payload.name;
-        var image = payload.image;
-        var slug = payload.slug;
-        var user = window.bootstrap.user;
-        var privacy = payload.privacy;
+        //bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails
+        var bevyName = payload.bevyName;
+        var bevyImage = payload.bevyImage;
+        var bevySlug = payload.bevySlug;
+        var adminEmail = payload.adminEmail;
+        var adminName = payload.adminName;
+        var adminPass = payload.adminPass;
+        var inviteEmails = payload.inviteEmails;
 
-        // sanitize slug before we continue;
-        if(_.isEmpty(slug)) {
-          slug = getSlug(name);
-        } else {
-          // double check to make sure its url friendly
-          slug = getSlug(slug);
-        }
+        fetch(constants.apiurl + '/bevies', {
+          method: 'POST',
+          headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            name: 'Hubot',
+            login: 'hubot',
+          })
+        })
+        .then(res => {
+          console.log(res);
+        })
 
-        var bevy = this.myBevies.add({
-          name: name,
-          image: image,
-          slug: slug,
-          admins: [user._id],
-          boards: [],
-          settings: {
-            privacy: privacy
-          }
-        });
-        bevy.url = constants.apiurl + '/bevies';
-        bevy.save(null, {
-          success: function(model, response, options) {
-            this.trigger(BEVY.CHANGE_ALL);
-            UserStore.addBevy(bevy);
-          }.bind(this)
-        });
         break;
 
       case BEVY.DESTROY:
