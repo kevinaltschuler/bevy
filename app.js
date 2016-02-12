@@ -76,16 +76,18 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(multer());
 app.use(methodOverride());
 
-// cookies
-app.use(cookieParser(process.env.COOKIE_SECRET));
-
 // sessions
+app.use(cookieParser('sacklapbur'));
 app.use(session({
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
   secret: 'burlapsack',
   cookie: {
     secret: true,
-    expires: false
+    expires: false,
+    domain: config.app.server.domain,
+    path: '/',
+    secure: false,
+    httpOnly: false
   },
   resave: false,
   saveUninitialized: false

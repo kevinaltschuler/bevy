@@ -90,10 +90,10 @@ var Navbar = React.createClass({
       return (
         <a
           className="login-btn"
-          title='Login'
+          title='Sign In'
           href='/login'
         >
-          Log In
+          Sign In
         </a>
       );
     }

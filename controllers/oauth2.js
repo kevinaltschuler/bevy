@@ -81,7 +81,7 @@ server.exchange(oauth2orize.exchange.refreshToken(
 var loginUsername = function(req, res, next) {
   var username = req.body['username'];
   var password = req.body['password'];
-  User.findOne({ username: username }, function(err, user) {
+  User.findOne({ $or: [{ username: username }, { email: username }] }, function(err, user) {
     if(err) return next(err);
     if(!user) return next('User not found');
     // make sure password matches
