@@ -34,6 +34,8 @@ var getSlug = require('speakingurl');
 var BevyActions = require('./../BevyActions');
 var user = window.bootstrap.user;
 
+var fakeUsers = constants.fakeUsers;
+
 var CreateBevyPage = React.createClass({
   propTypes: {
   },
@@ -49,7 +51,10 @@ var CreateBevyPage = React.createClass({
       privacy: 'Public',
       slide: 0,
       slides: 3,
-      invites: ['', '']
+      invites: ['', ''],
+      username: '',
+      password: '',
+      email: ''
     };
   },
 
@@ -103,6 +108,14 @@ var CreateBevyPage = React.createClass({
     BevyActions.create(name, image, slug, privacy);
   },
 
+  registerFinish(username, password, email) {
+    this.setState({
+      username: username,
+      password: password,
+      email: email
+    });
+  },
+
   hide() {
     this.setState({
       name: '',
@@ -115,8 +128,7 @@ var CreateBevyPage = React.createClass({
     this.props.onHide();
   },
 
-  onSlugChange() {
-    var slug = this.refs.Slug.getValue();
+  onSlugChange(slug) {
     if(_.isEmpty(slug)) {
       this.setState({
         slug: '',
@@ -233,7 +245,7 @@ var CreateBevyPage = React.createClass({
     }
 
     return (
-      <div style={{display: 'flex', flexDirection: 'row', marginTop: 10}}>
+      <div style={{display: 'flex', flexDirection: 'row', marginTop: 10, justifyContent: 'center'}}>
         {dots}
       </div>
     );
@@ -250,7 +262,7 @@ var CreateBevyPage = React.createClass({
           style={{
             flex: 1
           }}
-          hintText='johndoe@example.com'
+          hintText={fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email}
         />
       )
     }
@@ -331,12 +343,15 @@ var CreateBevyPage = React.createClass({
               ref='Name'
               fullWidth={true}
               floatingLabelText='Group Name'
+              value={this.state.name}
               onChange={() => {
+                var name = this.refs.Name.getValue();
+                if(name.length > 40) 
+                  name = name.subString(0,40);
                 this.setState({
-                  name: this.refs.Name.getValue(),
-                  slug: getSlug(this.refs.Name.getValue())
+                  name: name
                 });
-                this.onSlugChange();
+                this.onSlugChange(getSlug(this.refs.Name.getValue()));
               }}
             />
             <div className='slug'>
@@ -358,14 +373,23 @@ var CreateBevyPage = React.createClass({
                   : this.state.verifyError
                 }
                 value={ this.state.slug }
-                onChange={ this.onSlugChange }
+                onChange={() => { 
+                  var slug = getSlug(this.refs.Slug.getValue());
+                  if(slug.length > 40) 
+                    slug = slug.subString(0,40);
+                  this.onSlugChange(slug);
+                }}
                 onBlur={() => {
                   this.setState({ slug: getSlug(this.refs.Slug.getValue()) });
                 }}
                 style={{
                   flex: 1,
-                  marginTop: 20,
-                  marginBottom: 30
+                  marginTop: 0,
+                  marginBottom: 0,
+                  paddingTop: 0
+                }}
+                floatingLabelStyle={{
+                  lineHeight: '14px'
                 }}
               />
             </div>
@@ -391,7 +415,14 @@ var CreateBevyPage = React.createClass({
                 Choose your account details
               </div>
             </div>
-            <RegisterInputs _onBack={this._onBack} _onNext={this._onNext} />
+            <RegisterInputs 
+              _onBack={this._onBack} 
+              _onNext={this._onNext} 
+              registerFinish={this.registerFinish} 
+              username={this.state.username}
+              password={this.state.password}
+              email={this.state.email}
+            />
             { this._renderDots() }
           </div>
         )
@@ -399,21 +430,19 @@ var CreateBevyPage = React.createClass({
       case 2:
         content = (
           <div className='bevy-info'>
-            <div className='text-fields'>
-              <div className='title'>
-                Invite Others to your Bevy!
-              </div>
+            <div className='title'>
+              Invite Others to your Bevy!
             </div>
             { this._renderInviteOthers() }
-            <div className="panel-bottom">
-              <div>
+            <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: 20, minHeight: 100}}>
+              <div style={{display: 'flex', flexDirection: 'row'}}>
                 <FlatButton
                   onClick={ this._onBack }
                   label='Back'
                 />
                 <RaisedButton
                   onClick={ this._onNext }
-                  label="Create Your Bevy"
+                  label="Create Bevy"
                   style={{ marginLeft: '10px' }}
                   disabled={ !this.state.slugVerified }
                 />
@@ -476,14 +505,7 @@ var CreateBevyPage = React.createClass({
             <div className='group-title'>
               {this.state.name || 'Your Bevy Name'}
             </div>
-            <div style={{
-              backgroundColor: 'rgba(0,0,0,.1)',
-              position: 'absolute',
-              zIndex: 0,
-              top: 25,
-              height: 67,
-              width: '100%'
-            }}>
+            <div className='bevy-image'>
               <div style={bevyImageStyle}/>
             </div>
             <img

@@ -33,7 +33,11 @@ var RegisterInputs = React.createClass({
   getInitialState() {
     return {
       usernameColor: '#e0e0e0',
-      validUsername: false
+      validUsername: false,
+      validEmail: false,
+      username: this.props.username,
+      password: this.props.password,
+      email: this.props.email
     };
   },
 
@@ -42,12 +46,22 @@ var RegisterInputs = React.createClass({
     UserStore.on(USER.REGISTER_ERROR, this.onError);
     UserStore.on(USER.REGISTER_SUCCESS, this.onRegisterSuccess);
     UserStore.on(USER.LOGIN_SUCCESS, this.onLoginSuccess);
+    if(this.props.username && this.props.password && this.props.email)
+      this.setState({
+        validUsername: true,
+        validEmail: true,
+        password: this.props.password
+      });
   },
   componentWillUnmount() {
     UserStore.off(USER.LOGIN_ERROR, this.onError);
     UserStore.off(USER.REGISTER_ERROR, this.onError);
     UserStore.off(USER.REGISTER_SUCCESS, this.onRegisterSuccess);
     UserStore.off(USER.LOGIN_SUCCESS, this.onLoginSuccess);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    
   },
 
   onError(error) {
@@ -84,6 +98,7 @@ var RegisterInputs = React.createClass({
 
   onEmailChange(ev) {
     ev.preventDefault();
+    this.emailTimeout = setTimeout(this.validateEmail, 500);
   },
 
   verifyUsername() {
@@ -152,9 +167,15 @@ var RegisterInputs = React.createClass({
     }
     if(!emailRegex.test(email)) {
       this.refs.Email.setErrorText('Invalid email');
+      this.setState({
+        validEmail: false
+      })
       return false;
     }
     this.refs.Email.setErrorText('');
+    this.setState({
+      validEmail: true
+    })
     return true;
   },
 
@@ -210,6 +231,7 @@ var RegisterInputs = React.createClass({
               type='text'
               hintText='username (3-16 characters)'
               style={{width: '100%'}}
+              defaultValue={this.props.username}
               fullWidth={true}
               onChange={ this.onUsernameChange }
               underlineFocusStyle={{ borderBottom: 'solid 1px' + this.state.usernameColor }}
@@ -220,26 +242,38 @@ var RegisterInputs = React.createClass({
             type='password'
             hintText='password'
             style={{width: '100%'}}
+            defaultValue={this.props.password}
             onChange={ this.onPasswordChange }
           />
           <TextField
             ref='Email'
             type='text'
-            hintText='email (optional)'
+            hintText='email'
+            defaultValue={this.props.email}
             fullWidth={true}
             style={{marginBottom: '10px', width: '100%'}}
             onChange={ this.onEmailChange }
           />
-          <div>
+          <div style={{
+            display: 'flex',
+            flexDirection: 'row'
+          }}>
             <FlatButton
               onClick={ this.props._onBack }
               label='Back'
             />
             <RaisedButton
-              onClick={ this.props._onNext }
+              onClick={() => {
+                this.props.registerFinish(
+                  this.refs.Username.getValue(), 
+                  this.refs.Password.getValue(), 
+                  this.refs.Email.getValue()
+                );
+                this.props._onNext();
+              }}
               label="Next"
               style={{ marginLeft: '10px' }}
-              disabled={ !this.state.validUsername || !this.state.password }
+              disabled={ !this.state.validUsername || !this.state.password || !this.state.validEmail}
             />
           </div>
         </div>
