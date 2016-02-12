@@ -96,7 +96,7 @@ var ResetPage = React.createClass({
       <div className='reset-container'>
         <div className='title-header'>
           <a title='Home' href={ constants.siteurl }>
-            <img src='/img/logo_200.png' height="60" width="60"/>
+            <img src='/img/logo_200_solid.png' height="60" width="60"/>
           </a>
           <h1>Bevy</h1>
         </div>

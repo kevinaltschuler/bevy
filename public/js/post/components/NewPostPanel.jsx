@@ -61,7 +61,6 @@ var user = window.bootstrap.user;
 var NewPostPanel = React.createClass({
   propTypes: {
     activeBevy: React.PropTypes.object.isRequired,
-    myBevies: React.PropTypes.array.isRequired,
     activeBoard: React.PropTypes.object.isRequired
   },
 

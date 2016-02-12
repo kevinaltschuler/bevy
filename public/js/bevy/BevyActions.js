@@ -1,6 +1,8 @@
 /**
  * BevyActions.js
+ *
  * Action dispatcher for bevies
+ *
  * @author albert
  * @flow
  */
@@ -14,13 +16,6 @@ var INVITE = require('./../constants').INVITE;
 var constants = require('./../constants');
 
 var BevyActions = {
-
-  loadMyBevies() {
-    Dispatcher.dispatch({
-      actionType: BEVY.LOADMYBEVIES,
-    });
-  },
-
   loadBevyView(bevy_id) {
     if(_.isEmpty(bevy_id)) return;
 

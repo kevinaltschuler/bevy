@@ -53,25 +53,13 @@ exports.defaultProfileImage = '//ssl.gstatic.com/accounts/ui/avatar_2x.png';
 exports.fakeUsers = [
   {email: 'spaceman.spiff@gross.club', name: 'spiff'},
   {email: 'luke@tatoo.ine', name: 'luke'},
-  {email: 'yunglean@sad.boys', name: 'jonatan'},
-  {email: 'makswell@rice.guy', name: 'max'},
-  {email: 'snakeskinjim@leathertube.sock', name: 'jim'},
-  {email: 'dreamboatbarry@wild.ride', name: 'barry'},
-  {email: 'blackbart@hiddencard.trick', name: 'bart'},
-  {email: 'swiftboy@fast.wow', name: 'swiftboy'},
-  {email: 'jaffacakecarl@creepy.cabin', name: 'carl'},
-  {email: 'pastasteven@brittlepants.com', name: 'steven'},
-  {email: 'jumpman@upto.something', name: 'drake'},
-  {email: 'scout@maycomb.al', name: 'scout'},
+  {email: 'scout.finch@maycomb.al', name: 'scout'},
   {email: 'peter@neverland.net', name: 'pete'},
-  {email: 'huck@mississippi.ri', name: 'huckleberry'},
-  {email: 'bilbo@shire.net', name: 'bilbo'},
-  {email: 'piggy@stranded.club', name: 'piggy'},
-  {email: 'charles@wonka.co', name: 'charlie.bucket'},
-  {email: 'katniss@district12.gov', name: 'everdeen'},
+  {email: 'huck.finn@mississippi.ri', name: 'huckleberry'},
+  {email: 'bilbo.baggins@shire.net', name: 'bilbo'},
+  {email: 'charlie.bucket@wonka.co', name: 'charlie.bucket'},
+  {email: 'katniss.everdeen@district12.gov', name: 'everdeen'},
   {email: 'madvillain@doom.mf', name: 'dandumille'},
-  {email: 'anonymous@mystery.club', name: 'mr.fantastik' },
-  {email: 'yungbones@villain.smash', name: 'yungbonesvillain'},
 ];
 
 exports.APP = {
@@ -106,7 +94,6 @@ exports.COMMENT = {
 }
 
 exports.BEVY = {
-  LOADMYBEVIES: 'bevy_load_my_bevies',
   LOADBEVYVIEW: 'bevy_load_bevy_view',
   CREATE: 'bevy_create',
   DESTROY: 'bevy_destroy',

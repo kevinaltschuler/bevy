@@ -70,7 +70,7 @@ var createBevy = function(req, res, next) {
   if(_.isEmpty(bevy_image)) {
     // if the image is empty, then generate a default one
     bevy_image = {
-      filename: config.app.server.hostname + '/img/logo_100.png',
+      filename: config.app.server.hostname + '/img/default_group_img.png',
       foreign: true
     };
   }

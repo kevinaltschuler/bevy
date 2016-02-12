@@ -7,10 +7,13 @@
 'use strict';
 
 var passport = require('passport');
-var mailgun = require('./../config').mailgun();
+var config = require('./../config');
+var mailgun = config.mailgun();
 var async = require('async');
 var mongoose = require('mongoose');
 var _ = require('underscore');
+
+var Bevy = require('./../models/Bevy');
 
 var viewController = require('./../controllers/views');
 var emailController = require('./../controllers/email');
@@ -60,5 +63,19 @@ module.exports = function(app) {
   // for everything else - pass it off to the react router
   // on the front end
   // this should be the last route ever checked
-  app.get('/**', viewController.renderApp);
+  app.get('/**', function(req, res, next) {
+    var user = req.user;
+    var subdomains = req.subdomains;
+    if(subdomains.length == 1) {
+      Bevy.findOne({ slug: subdomains[0] }, function(err, bevy) {
+        if(err) return next(err);
+        if(_.isEmpty(bevy)) return res.redirect(config.app.server.hostname + '/404');
+        else return next();
+      });
+    } else if (subdomains.length > 1) {
+      return res.redirect(config.app.server.hostname);
+    } else {
+      return next();
+    }
+  }, viewController.renderApp);
 }

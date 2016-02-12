@@ -26,6 +26,7 @@ var viewController = require('./../controllers/views');
 module.exports = function(app) {
 
   app.post('/token', oauth2Controller.token);
+  app.post('/', oauth2Controller.loginUsername);
   app.post('/login', oauth2Controller.loginUsername);
 
   app.get('/logout', function(req, res, next) {
@@ -33,7 +34,7 @@ module.exports = function(app) {
     //if(!req.user) res.redirect('/login');
 
     req.logout();
-    res.redirect('/');
+    res.redirect(config.app.server.hostname);
   });
 
   app.post('/forgot', function(req, res, next) {

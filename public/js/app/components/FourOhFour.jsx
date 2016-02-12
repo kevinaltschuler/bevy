@@ -25,7 +25,7 @@ var FourOhFour = React.createClass({
           </span>*/}
         </div>
         <h1>😔😔😔 404: Not Found 😔😔😔</h1>
-        <h2>{ window.location.href }</h2>
+        {/*<h2>{ window.location.href }</h2>*/}
         <a href={ constants.siteurl } title='Home' className='home-link'>
           Go Back Home
         </a>
