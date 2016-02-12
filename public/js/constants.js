@@ -24,9 +24,11 @@ var api_subdomain = 'api';
 var api_version = '';
 
 if(window.bootstrap.env == 'production') {
+  exports.domain = 'joinbevy.com';
   exports.siteurl = 'http://joinbevy.com';
   exports.apiurl = 'http://joinbevy.com/api';
 } else {
+  exports.domain = 'bevy.dev';
   exports.siteurl = 'http://bevy.dev';
   exports.apiurl = 'http://bevy.dev/api';
 }
