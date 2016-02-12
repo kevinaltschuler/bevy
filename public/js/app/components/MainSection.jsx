@@ -18,7 +18,6 @@ var BoardView = require('./BoardView.jsx');
 var BevyView = require('./../../bevy/components/BevyView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
-var MyBevies = require('./MyBevies.jsx');
 var PostView = require('./PostView.jsx');
 var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
 
@@ -77,18 +76,13 @@ var MainSection = React.createClass({
   },
 
   getBevyState: function() {
-    var myBevies = BevyStore.getMyBevies();
     var active = BevyStore.getActive();
-    var publicBevies = BevyStore.getPublicBevies();
     var bevyBoards = BevyStore.getBevyBoards();
 
     return {
-      // later, load this from session/cookies
-      myBevies: myBevies,
       activeBevy: active,
-      publicBevies: publicBevies,
       boards: bevyBoards,
-    }
+    };
   },
 
   getNotificationState: function() {
@@ -148,7 +142,8 @@ var MainSection = React.createClass({
   render: function() {
 
     if(!UserStore.getTokensLoaded() && router.current != 'home') {
-      return <div/>;
+      console.log('tokens not loaded');
+      //return <div/>;
     }
 
     return (
@@ -157,7 +152,6 @@ var MainSection = React.createClass({
           activeBevy={ this.state.activeBevy }
           allNotifications={ this.state.allNotifications }
           userInvites={ this.state.userInvites }
-          myBevies={ this.state.myBevies }
           activeBoard={ this.state.activeBoard }
         />
         <InterfaceComponent {...this.state} />

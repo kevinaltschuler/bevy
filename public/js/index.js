@@ -181,6 +181,7 @@ var ForgotPage = require('./auth/components/ForgotPage.jsx');
 var ResetPage = require('./auth/components/ResetPage.jsx');
 var CreateBevyPage = require('./bevy/components/CreateBevyPage.jsx');
 var InvitePage = require('./invite/components/InvitePage.jsx');
+var SlugPage = require('./auth/components/SlugPage.jsx');
 var FourOhFour = require('./app/components/FourOhFour.jsx');
 
 var InterfaceComponent = React.createClass({
@@ -213,6 +214,9 @@ var InterfaceComponent = React.createClass({
         break;
       case 'invite':
         return <InvitePage />
+        break;
+      case 'loginSlug':
+        return <SlugPage />
         break;
       case '404':
         return <FourOhFour />

@@ -18,8 +18,8 @@ var {
   FlatButton,
   TextField
 } = require('material-ui');
+var Ink = require('react-ink');
 
-var $ = require('jquery');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
@@ -27,11 +27,18 @@ var UserActions = require('./../../user/UserActions');
 var UserStore = require('./../../user/UserStore');
 var USER = constants.USER;
 
+
+
 var LoginPanel = React.createClass({
+  propTypes: {
+    bevySlug: React.PropTypes.string.isRequired
+  },
+
   getInitialState() {
     return {
       errorText: '',
-      showError: false
+      showError: false,
+      verifying: false
     };
   },
 
@@ -52,6 +59,7 @@ var LoginPanel = React.createClass({
   onLoginSuccess() {
     window.location.href = '/';
   },
+
   onLoginError(err) {
     this.setState({
       showError: true,
@@ -102,39 +110,56 @@ var LoginPanel = React.createClass({
     );
   },
 
+  renderLoadingOrArrow() {
+    return <div />;
+  },
+
   render() {
+    var fakeEmails = _.pluck(constants.fakeUsers, 'email');
     return (
       <Panel className="login-panel">
-        <img
-          className="profile-img"
-          src="/img/user-profile-icon.png"
-          alt="Avatar"
-        />
+        <h2 className='bevy-title'>
+          Sign in to <span className='bold'>{ this.props.bevySlug }.{ constants.domain }</span>
+        </h2>
+        <span className='prompt'>
+          Please enter your <span className='bold'>email address</span> and <span className='bold'>password</span>.
+        </span>
         { this._renderError() }
-        <form method='post' action='/login'>
+        <div className='inputs'>
+          <span className='input-label'>Email Address</span>
           <TextField
             ref='username'
             type='text'
-            hintText='Username/Email'
+            hintText={ 'e.g., ' + fakeEmails[Math.floor(Math.random() * fakeEmails.length)] }
             style={{width: '100%'}}
           />
+          <span className='input-label'>Password</span>
           <TextField
             ref='password'
             type='password'
-            hintText='Password'
+            hintText='e.g., •••••••••'
             style={{marginBottom: '10px', width: '100%'}}
             onKeyUp={ this.onPasswordKeyUp }
           />
-          <RaisedButton
-            className='login-submit'
-            label='Sign In'
-            style={{marginBottom: '10px'}}
+          <button
+            className='submit-btn'
             onClick={ this.submit }
-            backgroundColor='#2cb673'
-            labelColor='white'
-            fullWidth={true}
-          />
-        </form>
+            style={{
+              cursor: (this.state.verifying)
+                ? 'default'
+                : 'pointer',
+              backgroundColor: (this.state.verifying)
+                ? '#888'
+                : '#2CB673'
+            }}
+          >
+            <Ink />
+            <span className='submit-button-text'>
+              Sign In
+            </span>
+            { this.renderLoadingOrArrow() }
+          </button>
+        </div>
       </Panel>
     );
   }

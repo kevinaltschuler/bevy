@@ -250,7 +250,7 @@ _.extend(UserStore, {
 
   login(username, password) {
     this.trigger(USER.LOGGING_IN);
-    fetch(constants.siteurl + '/login', {
+    fetch(window.location.href, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

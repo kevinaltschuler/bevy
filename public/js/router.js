@@ -26,7 +26,10 @@ var BoardStore = require('./board/BoardStore');
 var Router = Backbone.Router.extend({
   routes: {
     '' : 'home',
-    'login' : 'login',
+    'login' : 'loginSlug',
+    'forgot/team' : 'forgotTeam',
+    'forgot/team/' : 'forgotTeam',
+    'forgot/' : 'forgot',
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
     'invite/:token' : 'invite',
@@ -49,16 +52,26 @@ var Router = Backbone.Router.extend({
     var hostname_chunks = window.location.hostname.split('.');
     if(hostname_chunks.length == 2) {
       // we don't have a subdomain
-      this.current = 'home';
-      return;
+      if(this.checkUser()) {
+        // user is logged in
+        // go to their bevy's page
+        //var user = window.bootstrap.user;
+        //window.location.href = 'http://' + user.bevy.slug + '.' + constants.domain;
+        //return;
+        this.current = 'home';
+        return;
+      } else {
+        this.current = 'home';
+        return;
+      }
     } else if (hostname_chunks.length == 3) {
       // we're in a bevy subdomain, probably
-      //if(!checkUser()) {
-        // slow navigate to home
-        //window.location.href = constants.siteurl;
-        //return;
-      //}
       this.bevy_slug = hostname_chunks[0];
+      if(!this.checkUser()) {
+        // go to login page
+        this.current = 'login';
+        return;
+      }
       this.current = 'bevy';
       return;
     } else if (hostname_chunks.length > 3) {
@@ -80,6 +93,10 @@ var Router = Backbone.Router.extend({
     this.current = 'login';
   },
 
+  loginSlug() {
+    this.current = 'loginSlug';
+  },
+
   forgot() {
     this.current = 'forgot';
   },
@@ -90,7 +107,7 @@ var Router = Backbone.Router.extend({
   },
 
   board(board_id) {
-    if(!checkUser()) {
+    if(!this.checkUser()) {
       this.current = 'home';
       return;
     }
@@ -100,7 +117,7 @@ var Router = Backbone.Router.extend({
   },
 
   post(board_id, post_id, comment_id) {
-    if(!checkUser()) {
+    if(!this.checkUser()) {
       this.current = 'home';
       return;
     }

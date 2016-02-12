@@ -41,59 +41,32 @@ _.extend(BevyStore, {
   publicBevies: new Bevies,
   searchQuery: '',
   searchList: new Bevies,
-  bevyBoards: new Boards,
+  boards: new Boards,
   bevyInvites: new Invites,
 
   handleDispatch(payload) {
     switch(payload.actionType) {
 
-      case BEVY.LOADMYBEVIES:
-        var user = window.bootstrap.user;
-        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
-
-        this.myBevies.fetch({
-          success: function(collection, response, options) {
-            this.trigger(BEVY.LOADED);
-            this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
-        });
+      case APP.LOAD:
+        this.active = new Bevy(window.bootstrap.user.bevy);
+        this.trigger(BEVY.CHANGE_ALL);
         break;
 
       case BEVY.LOADBEVYVIEW:
-        var bevy_id_or_slug = payload.bevy_id;
-        var user = window.bootstrap.user;
-        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
+        var router = require('./../router');
+        var bevy_slug = router.bevy_slug;
 
-        this.active.url = constants.apiurl + '/bevies/' + bevy_id_or_slug;
-        this.active.fetch({
-          success: function(model, response, options) {
-            this.bevyBoards = new Bevies(this.active.get('boards'));
-
-            this.bevyInvites.url = constants.apiurl + '/bevies/'
-              + this.active.attributes._id + '/invites';
-            this.bevyInvites.fetch({
-              success: function(collection, response, options) {
-                this.trigger(BEVY.CHANGE_ALL);
-              }.bind(this)
-            });
-          }.bind(this)
-        });
-
-        this.myBevies.fetch({
+        this.boards.url = constants.apiurl + '/bevies/' + bevy_slug + '/boards';
+        this.boards.fetch({
           success: function(collection, response, options) {
             this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });
 
         break;
+
       case BOARD.LOADBOARDVIEW:
-        var user = window.bootstrap.user;
-        this.myBevies.url = constants.apiurl + '/users/' + user._id + '/bevies';
-        this.myBevies.fetch({
-          success: function(collection, response, options) {
-            this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
-        });
+
         break;
 
       case BEVY.CREATE:
@@ -295,19 +268,9 @@ _.extend(BevyStore, {
   },
 
   addBoard(board) {
-    this.bevyBoards.add(board);
+    this.boards.add(board);
     this.trigger(BOARD.CHANGE_ALL);
     this.trigger(BEVY.CHANGE_ALL);
-  },
-
-  getMyBevies() {
-    return this.myBevies.toJSON();
-  },
-
-  getPublicBevies() {
-    return (this.publicBevies.models.length <= 0)
-    ? []
-    : this.publicBevies.toJSON();
   },
 
   getActive() {
@@ -330,7 +293,7 @@ _.extend(BevyStore, {
   },
 
   getBevyBoards() {
-    return this.bevyBoards.toJSON() || [];
+    return this.boards.toJSON() || [];
   },
 
   getSearchList() {
@@ -345,7 +308,7 @@ _.extend(BevyStore, {
     if(_.isEmpty(board_id)) {
       return {};
     }
-    var board = this.bevyBoards.get(board_id);
+    var board = this.boards.get(board_id);
     if(board == undefined) {
       return {};
     } else {

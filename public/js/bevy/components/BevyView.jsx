@@ -98,48 +98,7 @@ var BevyView = React.createClass({
     if(_.isEmpty(window.bootstrap.user) || this.props.activeBevy.name == null) {
       return <div/>;
     }
-
-    if(!_.isEmpty(activeBevy)) {
-      if(activeBevy.settings.privacy == 'Private') {
-        if(_.find(window.bootstrap.user.bevies,
-          function(bevyId) {
-          return bevyId == this.props.activeBevy._id
-        }.bind(this))) {
-          joined = true;
-        }
-      } else {
-        joined = true;
-      }
-    }
-
-    if(!joined) {
-      return (
-        <div className='private-container'>
-          <div className='private panel'>
-            <div className='private-img'/>
-            <span className='private-text'>
-              You must be invited by an&nbsp;admin to view this community
-            </span>
-            <RaisedButton
-              label='request to join'
-              onClick={ this.onRequestJoin }
-              style={{
-                backgroundColor: '#2CB673'
-              }}
-              labelStyle={{
-                color: '#FFF'
-              }}
-            />
-          </div>
-          <Snackbar
-            message="Invitation Requested"
-            autoHideDuration={ 5000 }
-            ref='snackbar'
-          />
-        </div>
-      );
-    }
-
+    
     return (
       <div className='main-section bevy-view'>
         <NewBoardModal

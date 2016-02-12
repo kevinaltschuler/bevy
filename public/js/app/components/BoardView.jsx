@@ -27,10 +27,7 @@ var BoardActions = require('./../../board/BoardActions');
 
 var BoardView = React.createClass({
   propTypes: {
-    myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
-    allThreads: React.PropTypes.array,
-    allBevies: React.PropTypes.array,
     activeBoard: React.PropTypes.object
   },
 
@@ -51,37 +48,10 @@ var BoardView = React.createClass({
       return <div/>;
     }
 
-    var joinedBoard = false;
-    var joinedParent = false;
     var activeBoard = this.props.activeBoard;
     var parent = this.props.activeBoard.parent;
 
-    if(_.isEmpty(window.bootstrap.user)) {
-      joinedParent = false;
-    }
-
-    if(_.find(window.bootstrap.user.bevies, function(bevyId) {
-      return bevyId == parent._id }.bind(this))) {
-      joinedParent = true;
-    }
-
-    if(_.find(window.bootstrap.user.boards, function(boardId) {
-      return boardId == activeBoard._id }.bind(this))) {
-      joinedBoard = true;
-    }
-
-    if(!joinedParent && parent.settings.privacy == 'Private') {
-      return (
-        <div className='main-section private-container'>
-          <div className='private panel'>
-            <div className='private-img'/>
-            This commmunity is private
-          </div>
-        </div>
-      );
-    }
-
-    if(!joinedBoard && activeBoard.settings.privacy == 'Private') {
+    /*if(activeBoard.settings.privacy == 'Private') {
       return (
       <div className='main-section private-container'>
         <div className='private panel'>
@@ -97,21 +67,7 @@ var BoardView = React.createClass({
         </div>
       </div>
       );
-    }
-
-    var body = (
-      <div>
-        <NewPostPanel
-          activeBevy={ this.props.activeBevy }
-          activeBoard={this.props.activeBoard}
-          myBevies={ this.props.myBevies }
-        />
-        <PostContainer
-          activeBevy={ this.props.activeBevy }
-          activeBoard={this.props.activeBoard}
-        />
-      </div>
-    );
+    }*/
 
     return (
       <div className='main-section'>
@@ -123,7 +79,15 @@ var BoardView = React.createClass({
           <Footer />
         </div>
         <div className='board-view-body'>
-          { body }
+          <NewPostPanel
+            activeBevy={ this.props.activeBevy }
+            activeBoard={this.props.activeBoard}
+            myBevies={ this.props.myBevies }
+          />
+          <PostContainer
+            activeBevy={ this.props.activeBevy }
+            activeBoard={this.props.activeBoard}
+          />
         </div>
       </div>
     );

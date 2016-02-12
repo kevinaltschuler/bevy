@@ -134,15 +134,3 @@ exports.bearer = [
     passport.authenticate(['bearer'], { session: false })(req, res, next);
   }
 ];
-
-passport.serializeUser(function(user, done) {
-  if(user)
-    done(null, user._id);
-});
-
-passport.deserializeUser(function(user_id, done) {
-  User.findOne({ _id: user_id }, function(err, user) {
-    if(err) done(err, null);
-    else done(null, user);
-  });
-});

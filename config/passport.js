@@ -78,3 +78,19 @@ passport.use('bearer', new BearerStrategy(
     });
   }
 ));
+
+passport.serializeUser(function(user, done) {
+  if(user)
+    done(null, user._id);
+});
+
+passport.deserializeUser(function(user_id, done) {
+  User.findOne({ _id: user_id }, function(err, user) {
+    if(err) done(err, null);
+    else done(null, user);
+  })
+  .populate({
+    path: 'bevy',
+    select: '_id name slug image boards admins subCount created settings'
+  });
+});

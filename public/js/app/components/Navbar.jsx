@@ -43,7 +43,6 @@ var BEVY = constants.BEVY;
 
 var Navbar = React.createClass({
   propTypes: {
-    myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     allNotifications: React.PropTypes.array,
     userInvites: React.PropTypes.array,
@@ -191,7 +190,7 @@ var Navbar = React.createClass({
         if(!_.isEmpty(this.props.activeBevy)) {
           if(!_.isEmpty(this.props.activeBevy.image))
             if(this.props.activeBevy.image.path == constants.siteurl + "/img/default_group_img.png")
-              backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
+              backgroundStyle = {backgroundColor: '#2CB673'}
         }
         break;
       case 'board':
