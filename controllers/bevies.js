@@ -217,6 +217,9 @@ var createBevy = function(req, res, next) {
       if(_.isEmpty(invite_emails)) return done(null, user, bevy);
       // loop thru all invited users
       async.each(invite_emails, function(invite_email, callback) {
+        // if the array has some empty emails, then just skip them
+        if(_.isEmpty(invite_email)) return callback(null);
+
         // define new token object
         var new_token = {
           _id: shortid.generate(),
