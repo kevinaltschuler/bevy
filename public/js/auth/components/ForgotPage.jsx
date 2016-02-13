@@ -126,8 +126,8 @@ var ForgotPage = React.createClass({
           </form>
         </Panel>
         <a
-          href='/login'
-          title='Login'
+          href='/signin'
+          title='Sign In'
         >
           Back to Login
         </a>

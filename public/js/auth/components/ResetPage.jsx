@@ -78,7 +78,7 @@ var ResetPage = React.createClass({
     .then(res => {
       console.log(res);
       // redirect to login page
-      window.location.href = constants.siteurl + '/login';
+      window.location.href = constants.siteurl + '/signin';
     });
   },
 
@@ -131,7 +131,7 @@ var ResetPage = React.createClass({
             onClick={ this.submit }
           />
         </Panel>
-        <a title='Login' href='/login'>Back to Login</a>
+        <a title='Sign In' href='/signin'>Back to Login</a>
       </div>
     );
   }

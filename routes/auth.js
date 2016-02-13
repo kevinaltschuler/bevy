@@ -17,6 +17,7 @@ var mailgun = require('./../config').mailgun();
 
 var mongoose = require('mongoose');
 var User = require('./../models/User');
+var Bevy = require('./../models/Bevy');
 var ResetToken = require('./../models/ResetToken');
 
 var oauth2Controller = require('./../controllers/oauth2');
@@ -142,11 +143,34 @@ module.exports = function(app) {
       if(err) return next(err);
       return res.json(result);
     });
-});
+  });
 
   app.get('/reset/:token', checkToken, viewController.renderApp);
   app.get('/invite/:token', checkInvite, viewController.renderApp);
-}
+
+  app.post('/forgot/group', function(req, res, next) {
+    var email = req.body['email'];
+    if(email == undefined || _.isEmpty(email)) return next('Email undefined');
+    User.findOne({ email: email }, function(err, user) {
+      if(err) return next(err);
+      if(!user) return next('Email not found');
+      Bevy.findOne({ _id: user.bevy }, function(err, bevy) {
+        if(err) return next(err);
+        if(!bevy) return next("User's bevy not found");
+        emailController.sendEmail(user.email, 'find-group', {
+          user_email: user.email,
+          bevy_name: bevy.name,
+          bevy_slug: bevy.slug,
+          bevy_image: bevy.image,
+          domain: config.app.server.domain
+        }, function(err, results) {
+          if(err) return next(err);
+          return res.json(results);
+        });
+      });
+    });
+  });
+};
 
 function checkToken(req, res, next) {
   var token = req.params.token;
@@ -155,7 +179,7 @@ function checkToken(req, res, next) {
     if(!resetToken) {
       // token not found
       console.log('token not found');
-      return res.redirect('/login');
+      return res.redirect('/signin');
     }
     req.resetTokenUser = resetToken.user;
     return next();

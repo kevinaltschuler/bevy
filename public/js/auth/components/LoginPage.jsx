@@ -49,7 +49,7 @@ var LoginPage = React.createClass({
         <div className='back-link'>
           <a
             title='Sign into a different group'
-            href={ constants.siteurl + '/login'}
+            href={ constants.siteurl + '/signin'}
           >
             Sign into a different group
           </a>

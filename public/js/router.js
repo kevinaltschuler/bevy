@@ -26,9 +26,10 @@ var BoardStore = require('./board/BoardStore');
 var Router = Backbone.Router.extend({
   routes: {
     '' : 'home',
-    'login' : 'loginSlug',
-    'forgot/team' : 'forgotTeam',
-    'forgot/team/' : 'forgotTeam',
+    'signin' : 'loginSlug',
+    'signin/' : 'loginSlug',
+    'forgot/group' : 'forgotGroup',
+    'forgot/group/' : 'forgotGroup',
     'forgot/' : 'forgot',
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
@@ -48,7 +49,6 @@ var Router = Backbone.Router.extend({
   },
 
   home() {
-    console.log(this.checkUser(), window.bootstrap);
     var hostname_chunks = window.location.hostname.split('.');
     if(hostname_chunks.length == 2) {
       // we don't have a subdomain
@@ -99,6 +99,10 @@ var Router = Backbone.Router.extend({
 
   forgot() {
     this.current = 'forgot';
+  },
+
+  forgotGroup() {
+    this.current = 'forgotGroup';
   },
 
   reset(token) {
