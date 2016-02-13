@@ -27,7 +27,7 @@ var UserActions = require('./../../user/UserActions');
 var USER = constants.USER;
 
 var usernameRegex = /^[a-zA-Z0-9_-]{3,16}$/;
-var emailRegex = /[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/;
+var emailRegex = /[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?/;
 
 var RegisterInputs = React.createClass({
   getInitialState() {
@@ -238,14 +238,6 @@ var RegisterInputs = React.createClass({
             />
           </div>
           <TextField
-            ref='Password'
-            type='password'
-            hintText='password'
-            style={{width: '100%'}}
-            defaultValue={this.props.password}
-            onChange={ this.onPasswordChange }
-          />
-          <TextField
             ref='Email'
             type='text'
             hintText='email'
@@ -266,14 +258,13 @@ var RegisterInputs = React.createClass({
               onClick={() => {
                 this.props.registerFinish(
                   this.refs.Username.getValue(), 
-                  this.refs.Password.getValue(), 
                   this.refs.Email.getValue()
                 );
                 this.props._onNext();
               }}
               label="Next"
               style={{ marginLeft: '10px' }}
-              disabled={ !this.state.validUsername || !this.state.password || !this.state.validEmail}
+              disabled={ !this.state.validUsername || !this.state.validEmail}
             />
           </div>
         </div>

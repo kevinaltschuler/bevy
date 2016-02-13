@@ -30,8 +30,10 @@ var RegisterInputs = require('./../../auth/components/RegisterInputs.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var BEVY = constants.BEVY;
 var getSlug = require('speakingurl');
 var BevyActions = require('./../BevyActions');
+var BevyStore = require('./../BevyStore');
 var user = window.bootstrap.user;
 
 var fakeUsers = constants.fakeUsers;
@@ -51,10 +53,11 @@ var CreateBevyPage = React.createClass({
       privacy: 'Public',
       slide: 0,
       slides: 3,
-      invites: ['', ''],
+      inviteRefs: ['Invite1', 'Invite2'],
       username: '',
       password: '',
-      email: ''
+      email: '',
+      error: ''
     };
   },
 
@@ -81,6 +84,27 @@ var CreateBevyPage = React.createClass({
         labelDisabledColor: 'rgba(0,0,0,.7)',
       },
     });
+
+    BevyStore.on(BEVY.CREATE_SUCCESS, this.onCreateSuccess);
+    BevyStore.on(BEVY.CREATE_ERR, this.onCreateErr);
+  },
+
+  componentWillUnmount() {
+    BevyStore.off(BEVY.CREATE_SUCCESS, this.onCreateSuccess);
+    BevyStore.off(BEVY.CREATE_ERR, this.onCreateErr); 
+  },
+
+  onCreateErr(err) {
+    this.setState({
+      slide: 4,
+      error: err
+    });
+  },
+
+  onCreateSuccess(res) {
+    this.setState({
+      slide: 3
+    });
   },
 
   onUploadComplete(file) {
@@ -92,26 +116,26 @@ var CreateBevyPage = React.createClass({
   create(ev) {
     ev.preventDefault();
 
-    var name = this.refs.Name.getValue();
-    var image = this.state.image;
-    var slug = this.state.slug;
-    var privacy = this.state.privacy;
-
-    if(_.isEmpty(name)) {
-      this.refs.Name.setErrorText('Please enter a name for your bevy');
-      return;
+    var bevyName = this.state.name;
+    var bevyImage = this.state.image;
+    var bevySlug = this.state.slug;
+    var adminEmail = this.state.email;
+    var adminName = this.state.username;
+    var inviteEmails = [];
+    for(var key in this.state.inviteRefs) {
+      var ref = this.state.inviteRefs[key];
+      var textInput = this.refs[ref];
+      inviteEmails.push(textInput.getValue());
     }
-    if(!this.state.slugVerified) {
-      return;
-    }
 
-    BevyActions.create(name, image, slug, privacy);
+    // create bevy, account and invite users
+    //create(bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails) 
+    BevyActions.create(bevyName, bevyImage, bevySlug, adminEmail, adminName, inviteEmails);
   },
 
-  registerFinish(username, password, email) {
+  registerFinish(username, email) {
     this.setState({
       username: username,
-      password: password,
       email: email
     });
   },
@@ -139,7 +163,6 @@ var CreateBevyPage = React.createClass({
       return;
     }
     this.setState({
-      slugVerified: true,
       verifyingSlug: true,
       slug: slug
     });
@@ -253,16 +276,16 @@ var CreateBevyPage = React.createClass({
 
   _renderInviteOthers() {
     var inviteInputs = [];
-    for(var key in this.state.invites) {
+    for(var i = 0; i < this.state.inviteRefs.length; i++) {
       inviteInputs.push(
         <TextField
-          ref={'Invite:' + key}
+          ref={this.state.inviteRefs[i]}
           type='text'
           fullWidth={true}
           style={{
             flex: 1
           }}
-          hintText={fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email}
+          hintText={'ex. ' + fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email}
         />
       )
     }
@@ -270,10 +293,10 @@ var CreateBevyPage = React.createClass({
       <div
         className='new-invite-button'
         onClick={() => {
-          var invites = this.state.invites;
-          invites.push('');
+          var inviteRefs = this.state.inviteRefs;
+          inviteRefs.push('Invite' + (inviteRefs.length + 1));
           this.setState({
-            invites: invites
+            inviteRefs: inviteRefs
           })
         }}
       >
@@ -399,7 +422,7 @@ var CreateBevyPage = React.createClass({
                   onClick={ this._onNext }
                   label="Next"
                   style={{ marginLeft: '10px' }}
-                  disabled={ !this.state.name || !this.state.image }
+                  disabled={ !this.state.name || !this.state.image || !this.state.slugVerified }
                 />
               </div>
               { this._renderDots() }
@@ -441,16 +464,33 @@ var CreateBevyPage = React.createClass({
                   label='Back'
                 />
                 <RaisedButton
-                  onClick={ this._onNext }
+                  onClick={ this.create }
                   label="Create Bevy"
                   style={{ marginLeft: '10px' }}
-                  disabled={ !this.state.slugVerified }
                 />
               </div>
               { this._renderDots() }
             </div>
           </div>
         )
+        break;
+      case 3:
+        content = (
+          <div className='bevy-info'>
+            <div className='title'>
+              Check Your Email To Finish Creating Your Bevy!
+            </div>
+          </div>
+        );
+        break;
+      case 4:
+        content = (
+          <div className='bevy-info'>
+            <div className='title'>
+              {this.state.error}
+            </div>
+          </div>
+        );
         break;
     }
     return content;
@@ -492,12 +532,7 @@ var CreateBevyPage = React.createClass({
               title='Login'
               href='/login'
             >
-              <Ink
-                style={{
-                  position: 'absolute',
-
-                }}
-              />
+              <Ink style={{position: 'absolute'}}/>
               Log In
             </a>
           </div>

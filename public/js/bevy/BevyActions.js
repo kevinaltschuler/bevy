@@ -25,22 +25,28 @@ var BevyActions = {
     });
   },
 
-  create(name, image, slug, privacy) {
-    if(_.isEmpty(name)) return;
-    if(_.isEmpty(image)) {
-      image = {
+  create(bevyName, bevyImage, bevySlug, adminEmail, adminName, inviteEmails) {
+    if(_.isEmpty(bevyName)) return;
+    if(_.isEmpty(bevyImage)) {
+      bevyImage = {
         filename: constants.siteurl + '/img/default_group_img.png',
         foreign: true
       };
     }
-    if(_.isEmpty(slug)) return;
+    if(_.isEmpty(bevySlug)) return;
+    if(_.isEmpty(adminEmail)) return;
+    if(_.isEmpty(adminName)) return;
+    if(_.isEmpty(inviteEmails)) 
+      inviteEmails = [''];
 
     Dispatcher.dispatch({
       actionType: BEVY.CREATE,
-      name: name,
-      image: image,
-      slug: slug,
-      privacy: privacy
+      bevyName: bevyName,
+      bevyImage: bevyImage,
+      bevySlug: bevySlug,
+      adminEmail: adminEmail,
+      adminName: adminName,
+      inviteEmails: inviteEmails
     });
   },
 

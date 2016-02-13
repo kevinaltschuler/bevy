@@ -58,7 +58,7 @@ exports.fakeUsers = [
   {email: 'huck.finn@mississippi.ri', name: 'huckleberry'},
   {email: 'bilbo.baggins@shire.net', name: 'bilbo'},
   {email: 'charlie.bucket@wonka.co', name: 'charlie.bucket'},
-  {email: 'katniss.everdeen@district12.gov', name: 'everdeen'},
+  {email: 'katniss.ev@district12.gov', name: 'everdeen'},
   {email: 'madvillain@doom.mf', name: 'dandumille'},
 ];
 
@@ -96,6 +96,8 @@ exports.COMMENT = {
 exports.BEVY = {
   LOADBEVYVIEW: 'bevy_load_bevy_view',
   CREATE: 'bevy_create',
+  CREATE_SUCCESS: 'bevy_create_success',
+  CREATE_ERR: 'bevy_create_err',
   DESTROY: 'bevy_destroy',
   UPDATE: 'bevy_update',
   JOIN: 'bevy_join',

@@ -245,7 +245,7 @@ var createBevy = function(req, res, next) {
         });
       }, function(err) {
         if(err) return done(err);
-        return done(null, user, bevy);
+        return done(null, user);
       });
     }
   ], function(err, result) {
