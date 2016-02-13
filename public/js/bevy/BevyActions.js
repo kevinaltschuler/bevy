@@ -25,7 +25,7 @@ var BevyActions = {
     });
   },
 
-  create(bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails) {
+  create(bevyName, bevyImage, bevySlug, adminEmail, adminName, inviteEmails) {
     if(_.isEmpty(bevyName)) return;
     if(_.isEmpty(bevyImage)) {
       bevyImage = {
@@ -36,11 +36,8 @@ var BevyActions = {
     if(_.isEmpty(bevySlug)) return;
     if(_.isEmpty(adminEmail)) return;
     if(_.isEmpty(adminName)) return;
-    if(_.isEmpty(adminPass)) return;
     if(_.isEmpty(inviteEmails)) 
       inviteEmails = [''];
-
-    console.log(bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails);
 
     Dispatcher.dispatch({
       actionType: BEVY.CREATE,
@@ -49,7 +46,6 @@ var BevyActions = {
       bevySlug: bevySlug,
       adminEmail: adminEmail,
       adminName: adminName,
-      adminPass: adminPass,
       inviteEmails: inviteEmails
     });
   },

@@ -30,8 +30,10 @@ var RegisterInputs = require('./../../auth/components/RegisterInputs.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var BEVY = constants.BEVY;
 var getSlug = require('speakingurl');
 var BevyActions = require('./../BevyActions');
+var BevyStore = require('./../BevyStore');
 var user = window.bootstrap.user;
 
 var fakeUsers = constants.fakeUsers;
@@ -54,7 +56,8 @@ var CreateBevyPage = React.createClass({
       inviteRefs: ['Invite1', 'Invite2'],
       username: '',
       password: '',
-      email: ''
+      email: '',
+      error: ''
     };
   },
 
@@ -81,6 +84,27 @@ var CreateBevyPage = React.createClass({
         labelDisabledColor: 'rgba(0,0,0,.7)',
       },
     });
+
+    BevyStore.on(BEVY.CREATE_SUCCESS, this.onCreateSuccess);
+    BevyStore.on(BEVY.CREATE_ERR, this.onCreateErr);
+  },
+
+  componentWillUnmount() {
+    BevyStore.off(BEVY.CREATE_SUCCESS, this.onCreateSuccess);
+    BevyStore.off(BEVY.CREATE_ERR, this.onCreateErr); 
+  },
+
+  onCreateErr(err) {
+    this.setState({
+      slide: 4,
+      error: err
+    });
+  },
+
+  onCreateSuccess(res) {
+    this.setState({
+      slide: 3
+    });
   },
 
   onUploadComplete(file) {
@@ -97,7 +121,6 @@ var CreateBevyPage = React.createClass({
     var bevySlug = this.state.slug;
     var adminEmail = this.state.email;
     var adminName = this.state.username;
-    var adminPass = this.state.password;
     var inviteEmails = [];
     for(var key in this.state.inviteRefs) {
       var ref = this.state.inviteRefs[key];
@@ -107,13 +130,12 @@ var CreateBevyPage = React.createClass({
 
     // create bevy, account and invite users
     //create(bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails) 
-    BevyActions.create(bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails);
+    BevyActions.create(bevyName, bevyImage, bevySlug, adminEmail, adminName, inviteEmails);
   },
 
-  registerFinish(username, password, email) {
+  registerFinish(username, email) {
     this.setState({
       username: username,
-      password: password,
       email: email
     });
   },
@@ -141,7 +163,6 @@ var CreateBevyPage = React.createClass({
       return;
     }
     this.setState({
-      slugVerified: false,
       verifyingSlug: true,
       slug: slug
     });
@@ -264,7 +285,7 @@ var CreateBevyPage = React.createClass({
           style={{
             flex: 1
           }}
-          hintText={fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email}
+          hintText={'ex. ' + fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email}
         />
       )
     }
@@ -446,13 +467,30 @@ var CreateBevyPage = React.createClass({
                   onClick={ this.create }
                   label="Create Bevy"
                   style={{ marginLeft: '10px' }}
-                  disabled={ !this.state.slugVerified }
                 />
               </div>
               { this._renderDots() }
             </div>
           </div>
         )
+        break;
+      case 3:
+        content = (
+          <div className='bevy-info'>
+            <div className='title'>
+              Check Your Email To Finish Creating Your Bevy!
+            </div>
+          </div>
+        );
+        break;
+      case 4:
+        content = (
+          <div className='bevy-info'>
+            <div className='title'>
+              {this.state.error}
+            </div>
+          </div>
+        );
         break;
     }
     return content;

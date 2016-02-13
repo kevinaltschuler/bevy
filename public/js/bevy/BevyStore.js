@@ -70,13 +70,12 @@ _.extend(BevyStore, {
         break;
 
       case BEVY.CREATE:
-        //bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails
+        //bevyName, bevyImage, bevySlug, adminEmail, adminName, inviteEmails
         var bevyName = payload.bevyName;
         var bevyImage = payload.bevyImage;
         var bevySlug = payload.bevySlug;
         var adminEmail = payload.adminEmail;
         var adminName = payload.adminName;
-        var adminPass = payload.adminPass;
         var inviteEmails = payload.inviteEmails;
 
         fetch(constants.apiurl + '/bevies', {
@@ -86,12 +85,22 @@ _.extend(BevyStore, {
             'Content-Type': 'application/json'
           },
           body: JSON.stringify({
-            name: 'Hubot',
-            login: 'hubot',
+            bevy_name: bevyName,
+            bevy_image: bevyImage,
+            bevy_slug: bevySlug,
+            admin_email: adminEmail,
+            admin_username: adminName,
+            invite_emails: inviteEmails
           })
         })
+        .then(res => res.json())
         .then(res => {
-          console.log(res);
+          console.log('BEVY CREATE SUCCESS')
+          this.trigger(BEVY.CREATE_SUCCESS, res);
+        })
+        .catch(err => {
+          console.log('bevy create error', JSON.parse(err))
+          this.trigger(BEVY.CREATE_ERR, JSON.parse(err));
         })
 
         break;
