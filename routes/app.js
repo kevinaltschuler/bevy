@@ -23,6 +23,7 @@ module.exports = function(app) {
     res.json(req.user);
   });
 
+
   //test email
   //var emailHTML = template;
 
