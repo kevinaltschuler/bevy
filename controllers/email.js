@@ -106,7 +106,7 @@ var sendEmail = function(recipient, type, locals, done) {
           from: FROM_EMAIL,
           to: recipient,
           subject: 'Bevy Password Changed',
-          body: results.body,
+          body: results.text,
           html: results.html
         }, function(err, body) {
           if(err) return done(err);
@@ -114,7 +114,28 @@ var sendEmail = function(recipient, type, locals, done) {
         });
       });
       break;
-    case 'reset-password':
+    case 'find-group':
+      if(_.isEmpty(locals.user_email)
+      || _.isEmpty(locals.bevy_name)
+      || _.isEmpty(locals.bevy_slug)
+      || _.isEmpty(locals.bevy_image)
+      || _.isEmpty(locals.domain)) {
+        return done('Missing required vars for the find group email template');
+      }
+
+      renderFindGroupEmail(locals, function(err, results) {
+        if(err) return done(err);
+        mailgun.messages().send({
+          from: FROM_EMAIL,
+          to: recipient,
+          subject: 'Your Bevy Group',
+          body: results.text,
+          html: results.html
+        }, function(err, body) {
+          if(err) return done(err);
+          return done(null, body);
+        });
+      });
       break;
     default:
       // invalid template type
@@ -181,8 +202,25 @@ var renderResetConfirmationEmail = function(locals, done) {
     return done(null, {
       html: results.html,
       text: results.text
-    })
+    });
   });
+};
+
+var renderFindGroupEmail = function(locals, done) {
+  var templateDir = path.join(__dirname, '..', 'views', 'email', 'find-group');
+  var template = new EmailTemplate(templateDir);
+  template.render({
+    user_email: locals.user_email,
+    bevy_name: locals.bevy_name,
+    bevy_slug: locals.bevy_slug,
+    bevy_image: locals.bevy_image,
+    domain: locals.domain
+  }, function(err, results) {
+    return done(null, {
+      html: results.html,
+      text: results.text
+    });
+  })
 };
 
 exports.sendEmail = sendEmail;
@@ -190,3 +228,4 @@ exports.renderWelcomeEmail = renderWelcomeEmail;
 exports.renderInviteEmail = renderInviteEmail;
 exports.renderResetPasswordEmail = renderResetPasswordEmail;
 exports.renderResetConfirmationEmail = renderResetConfirmationEmail;
+exports.renderFindGroupEmail = renderFindGroupEmail;

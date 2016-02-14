@@ -171,7 +171,7 @@ var SlugPage = React.createClass({
           </span>
           <a
             title='Find your group'
-            href="/forgot/team"
+            href="/forgot/group"
           >
             Find your group
           </a>

@@ -183,6 +183,7 @@ var CreateBevyPage = require('./bevy/components/CreateBevyPage.jsx');
 var InvitePage = require('./invite/components/InvitePage.jsx');
 var SlugPage = require('./auth/components/SlugPage.jsx');
 var FourOhFour = require('./app/components/FourOhFour.jsx');
+var ForgotGroupPage = require('./auth/components/ForgotGroupPage.jsx');
 
 var InterfaceComponent = React.createClass({
   componentWillMount() {
@@ -198,31 +199,34 @@ var InterfaceComponent = React.createClass({
   render() {
     switch(router.current) {
       case 'home':
-        return <MainSection />
+        return <MainSection />;
         break;
       case 'login':
-        return <LoginPage />
+        return <LoginPage />;
         break;
       case 'forgot':
-        return <ForgotPage />
+        return <ForgotPage />;
+        break;
+      case 'forgotGroup':
+        return <ForgotGroupPage />;
         break;
       case 'reset':
-        return <ResetPage />
+        return <ResetPage />;
         break;
       case 'newBevy':
-        return <CreateBevyPage />
+        return <CreateBevyPage />;
         break;
       case 'invite':
-        return <InvitePage />
+        return <InvitePage />;
         break;
       case 'loginSlug':
-        return <SlugPage />
+        return <SlugPage />;
         break;
       case '404':
-        return <FourOhFour />
+        return <FourOhFour />;
         break;
       default:
-        return <MainSection />
+        return <MainSection />;
         break;
     }
   }

@@ -90,7 +90,7 @@ var Navbar = React.createClass({
         <a
           className="login-btn"
           title='Sign In'
-          href='/login'
+          href='/signin'
         >
           Sign In
         </a>
