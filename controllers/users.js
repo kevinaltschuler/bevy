@@ -167,9 +167,12 @@ exports.destroyUser = function(req, res, next) {
 
 // GET /users/:username/verify
 exports.verifyUsername = function(req, res, next) {
-  var username = req.params.username;
+  var username = req.body['username'];
+  var bevy_id = req.body['bevy_id'];
+  if(username == undefined) return next('Username not defined');
+  if(bevy_id == undefined) return next('Bevy ID not defined');
 
-  User.findOne({ username: username }, function(err, user) {
+  User.findOne({ $and: [{ bevy: bevy_id }, { username: username }]}, function(err, user) {
     if(err) return next(err);
     if(!user) return res.json({ found: false });
     else return res.json({ found: true });

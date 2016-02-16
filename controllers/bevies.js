@@ -225,6 +225,7 @@ var createBevy = function(req, res, next) {
           _id: shortid.generate(),
           token: shortid.generate(),
           email: invite_email,
+          bevy: bevy._id,
           created: Date.now()
         };
         // flush to db

@@ -26,7 +26,7 @@ module.exports = function(router) {
 	router.delete('/users/:id', userController.destroyUser);
 
 	// VERIFY USERNAME
-	router.get('/users/:username/verify', userController.verifyUsername);
+	router.post('/verify/username', userController.verifyUsername);
 
 	// DEVICES
 	router.get('/users/:id/devices', userController.getDevices);
