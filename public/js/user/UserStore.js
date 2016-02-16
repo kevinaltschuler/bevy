@@ -245,8 +245,26 @@ _.extend(UserStore, {
   },
 
   login(username, password) {
+    // trigger logging in for responsive ui
     this.trigger(USER.LOGGING_IN);
-    fetch(window.location.href, {
+
+    // need to make sure that we're making the fetch request to the same subdomain
+    // (or lack of one if we aren't in one) because fetch doesn't allow
+    // credentials to be sent over domains
+
+    // set the default login url to the site url
+    var login_url = 'http://' + constants.domain;
+
+    // see if theres a subdomain being used - mostly likely there is one being used
+    // if the user is logging in from the invite page
+    var hostname_chunks = window.location.hostname.split('.');
+    if(hostname_chunks.length == 3) {
+      // if so, then log into the subdomain instead of the regular siteurl
+      login_url = 'http://' + hostname_chunks[0] + '.' + constants.domain;
+    }
+
+    // send the request
+    fetch(login_url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

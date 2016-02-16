@@ -86,6 +86,7 @@ var Router = Backbone.Router.extend({
 
   invite(token) {
     this.inviteToken = token;
+
     this.current = 'invite';
   },
 
