@@ -1,6 +1,9 @@
 /**
  * ResetToken.js
+ *
  * used for resetting a forgotten password
+ * or when a user creates a new bevy
+ *
  * @author albert
  * @flow
  */

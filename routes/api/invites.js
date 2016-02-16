@@ -11,4 +11,5 @@ var inviteController = require('./../../controllers/invites');
 
 module.exports = function(router) {
   router.get('/invites/:inviteid', inviteController.getInvite);
+  router.post('/invites/:inviteid/accept', inviteController.acceptInvite);
 };

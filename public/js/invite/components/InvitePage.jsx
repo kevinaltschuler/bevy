@@ -23,6 +23,12 @@ var Ink = require('react-ink');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var async = require('async');
+
+var UserActions = require('./../../user/UserActions');
+var UserStore = require('./../../user/UserStore');
+
+var USER = constants.USER;
 
 var InvitePage = React.createClass({
   getInitialState() {
@@ -41,11 +47,13 @@ var InvitePage = React.createClass({
   componentDidMount() {
     var router = require('./../../router');
     var inviteToken = router.inviteToken;
+    // load the invite from the server
     fetch(constants.apiurl + '/invites/' + inviteToken, {
       method: 'GET'
     })
     .then(res => res.json())
     .then(res => {
+      // lag it a little bit to be smooth
       setTimeout(() => {
         this.setState({
           loadingInitial: false,
@@ -57,35 +65,65 @@ var InvitePage = React.createClass({
     .catch(err => {
       console.error(err.toString());
     });
+
+    UserStore.on(USER.LOGIN_SUCCESS, this.onLoginSuccess);
+    UserStore.on(USER.LOGIN_ERROR, this.onLoginError);
+  },
+
+  componentWillUnmount() {
+    UserStore.off(USER.LOGIN_SUCCESS, this.onLoginSuccess);
+    UserStore.off(USER.LOGIN_ERROR, this.onLoginError);
+  },
+
+  onLoginSuccess() {
+    // redirect to the bevy they just joined
+    window.location.href = 'http://' + this.state.bevy.slug + '.' + constants.domain;
+  },
+  onLoginError(error) {
+    this.setState({
+      loading: false,
+      usernameError: error
+    });
   },
 
   onUsernameChange() {
+    // update the username state value
     var username = this.refs.username.getValue();
     this.setState({ username: username });
+    // clear the username error if they erased the username
     if(_.isEmpty(username)) {
       this.setState({ usernameError: '' });
     }
   },
   onPasswordChange() {
+    // update the password state value
     var password = this.refs.password.getValue();
     this.setState({ password: password });
+    // clear the password error if they erased the password
     if(_.isEmpty(password)) {
       this.setState({ passwordError: '' });
     }
   },
 
   submit() {
+    // break out immediately if already loading
+    if(this.state.loading) return;
+
+    // load state vars
     var username = this.state.username;
     var password = this.state.password;
 
+    // map of allowed username characters
     var allowed_chars = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
       'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '-', '1', '2', '3',
       '4', '5', '6', '7', '8', '9', '0'];
 
+    // break out if username is empty
     if(_.isEmpty(username)) {
       this.setState({ usernameError: 'Please enter a username' });
       return;
     }
+    // loop thru username characters and break out if a character isn't in the allowed chars map
     var i = 0;
     var char = '';
     while(i < username.length) {
@@ -95,6 +133,7 @@ var InvitePage = React.createClass({
       }
       i++;
     }
+    // check username length
     if(username.length > 16) {
       this.setState({ usernameError: 'Username must be less than 16 characters' });
       return;
@@ -102,40 +141,71 @@ var InvitePage = React.createClass({
       this.setState({ usernameError: 'Username must be more than 3 characters' });
       return;
     }
+    // if everything's ok, then clear the error
     this.setState({ usernameError: '' });
 
+    // break out if password is empty
     if(_.isEmpty(password)) {
       this.setState({ passwordError: 'Please enter a password' });
       return;
     }
+    // and clear the error if everythings ok
     this.setState({ passwordError: '' });
 
+    // flip loading flag
     this.setState({ loading: true });
-    // first check if the username isn't taken yet
-    fetch(constants.apiurl + '/verify/username', {
-      method: 'POST',
-      body: JSON.stringify({
-        username: this.state.username,
-        bevy_id: this.state.bevy._id
-      })
-    })
-    .then(res => res.json())
-    .then(res => {
-      if(!_.isObject(res)) {
-        return;
+
+    var invite = this.state.invite;
+
+    async.waterfall([
+      // first check if the username isn't taken yet
+      function(done) {
+        fetch(constants.apiurl + '/verify/username', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: username,
+            bevy_id: invite.bevy._id
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          if(!_.isObject(res)) return done(res);
+          if(res.found) return done('Username already taken');
+          // username not found, move on to accept the invite
+          return done(null);
+        })
+        .catch(err => done(err.toString()));
+      },
+      // accept the invite
+      function(done) {
+        fetch(constants.apiurl + '/invites/' + invite.token + '/accept', {
+          method: 'POST',
+          body: JSON.stringify({
+            username: username,
+            password: password
+          })
+        })
+        .then(res => res.json())
+        .then(res => {
+          if(!_.isObject(res)) return done(res);
+          return done(null);
+        })
+        .catch(err => done(err.toString()));
+      },
+      // log in the user
+      function(done) {
+        UserActions.logIn(invite.email, password);
+        return done(null);
       }
-      if(res.found) {
+    ], function(err, result) {
+      if(err) {
         this.setState({
-          usernameError: 'Username already taken',
+          usernameError: err,
           loading: false
         });
-        return;
       }
-
-    })
-    .catch(err => {
-
-    });
+      return;
+    }.bind(this));
   },
 
   renderLoadingOrArrow() {
@@ -171,6 +241,7 @@ var InvitePage = React.createClass({
         </div>
       );
     }
+
     return (
       <div className='invite-body'>
         <div className='sidebar'>
@@ -186,7 +257,7 @@ var InvitePage = React.createClass({
               ref='username'
               type='text'
               name='username'
-              placeholder={ 'e.g., ' + 'asdflkasfd'}
+              placeholder={ 'e.g., ' + this.state.invite.email.split('@')[0]}
               errorText={ this.state.usernameError }
               value={ this.state.username }
               onChange={ this.onUsernameChange }
