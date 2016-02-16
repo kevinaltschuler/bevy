@@ -33,8 +33,7 @@ var ResetTokenSchema = new Schema({
 	created: {
 		type: Date,
 		default: Date.now,
-		required: true,
-		expires: 60 * 60 * 24 * 7 // expires in a week
+		required: true
 	}
 });
 
