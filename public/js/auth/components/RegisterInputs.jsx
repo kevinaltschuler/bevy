@@ -37,7 +37,8 @@ var RegisterInputs = React.createClass({
       validEmail: false,
       username: this.props.username,
       password: this.props.password,
-      email: this.props.email
+      email: this.props.email,
+      errorText: ''
     };
   },
 
@@ -76,17 +77,15 @@ var RegisterInputs = React.createClass({
 
   onUsernameChange(ev) {
     ev.preventDefault();
-
     this.setState({
       username: this.refs.Username.getValue(),
-      verifying: true
-    })
-
+    });
+    
     if(this.usernameTimeout != undefined) {
       clearTimeout(this.usernameTimeout);
       delete this.usernameTimeout;
     }
-    this.usernameTimeout = setTimeout(this.verifyUsername, 500);
+    this.usernameTimeout = setTimeout(this.validateUsername, 500);
   },
 
   onPasswordChange(ev) {
@@ -101,53 +100,41 @@ var RegisterInputs = React.createClass({
     this.emailTimeout = setTimeout(this.validateEmail, 500);
   },
 
-  verifyUsername() {
-    fetch(constants.apiurl + '/users/' + this.refs.Username.getValue() + '/verify', {
-      method: 'GET'
-    })
-    .then(res => res.json())
-    .then(res => {
-      this.setState({
-        validUsername: !res.found,
-        verifying: false
-      });
-      if(res.found) {
-        this.refs.Username.setErrorText('User Already Exists');
-      }
-    })
-    .catch(err => {
-      console.log(JSON.parse(err));
-      this.setState({
-        verifying: false
-      });
-      this.refs.Username.setErrorText('Server Error');
-    });
-  },
-
   validateUsername() {
     var username = this.refs.Username.getValue();
     if(_.isEmpty(username)) {
-      this.refs.Username.setErrorText('server error');
-      return false;
+      this.setState({
+        validUsername: false,
+        errorText: 'username must be something'
+      });
+      return;
     }
     if(username.length < 3) {
-      this.refs.Username.setErrorText('Username too short - needs to be longer than 3 characters');
-      return false;
+      this.setState({
+        validUsername: false,
+        errorText: 'Username too short - needs to be longer than 3 characters'
+      });
+      return;
     }
     if(username.length > 16) {
-      this.refs.Username.setErrorText('Username too long - needs to be shorter than 16 characters');
-      return false;
+      this.setState({
+        validUsername: false,
+        errorText: 'Username too long - needs to be shorter than 16 characters'
+      });
+      return;
     }
     if(!usernameRegex.test(username)) {
-      this.refs.Username.setErrorText('Only characters a-z, numbers, underscores, and dashes are allowed');
-      return false;
+      this.setState({
+        validUsername: false,
+        errorText: 'Only characters a-z, numbers, underscores, and dashes are allowed'
+      });
+      return;
     }
-    if(!this.state.validUsername) {
-      this.refs.Username.setErrorText('Username already in use');
-      return false;
-    }
-    this.refs.Username.setErrorText('');
-    return true;
+    this.setState({
+      validUsername: true,
+      errorText: ''
+    });
+    return;
   },
 
   validatePassword() {
@@ -220,12 +207,6 @@ var RegisterInputs = React.createClass({
       <div className="register-panel" style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
         <div className='register-fields' style={{display: 'flex', alignItems: 'center', flexDirection: 'column', width: '100%'}}>
           <div className='username-field' style={{display: 'flex', alignItems: 'center', flexDirection: 'row', width: '100%'}}>
-            <div 
-              className='verify-status'
-              style={{width: (this.state.username) ? 50 : 0, transition: '.2s all ease-in-out'}}
-            >
-              { this._renderUsernameVerified() }
-            </div>
             <TextField
               ref='Username'
               type='text'
@@ -233,7 +214,8 @@ var RegisterInputs = React.createClass({
               style={{width: '100%'}}
               defaultValue={this.props.username}
               fullWidth={true}
-              onChange={ this.onUsernameChange }
+              onChange={this.onUsernameChange}
+              errorText={this.state.errorText}
               underlineFocusStyle={{ borderBottom: 'solid 1px' + this.state.usernameColor }}
             />
           </div>
