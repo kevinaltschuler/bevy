@@ -236,7 +236,7 @@ var createBevy = function(req, res, next) {
             user_email: invite_email,
             bevy_name: bevy.name,
             bevy_slug: bevy.slug,
-            invite_link: 'http://' + bevy.slug + '.joinbevy.com/invite/' + invite_token.token,
+            invite_link: 'http://' + bevy.slug + '.' + config.app.server.domain + '/invite/' + invite_token.token,
             inviter_email: user.email,
             inviter_name: user.username
           }, function(err, results) {

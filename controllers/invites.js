@@ -18,6 +18,72 @@ var User = require('./../models/User');
 var Bevy = require('./../models/Bevy');
 var InviteToken = require('./../models/InviteToken');
 
+var emailController = require('./../controllers/email');
+
+// POST /invites/
+var createInvite = function(req, res, next) {
+  var emails = req.body['emails'];
+  var bevy_id = req.body['bevy_id'];
+  var inviter_name = req.body['inviter_name'];
+  var inviter_email = req.body['inviter_email'];
+
+  if(emails == undefined) return next('Emails to invite not defined');
+  if(bevy_id == undefined) return next('Bevy to invite to not defined');
+  if(inviter_name == undefined) return next('Inviter name not defined');
+  if(inviter_email == undefined) return next('Inviter email not defined');
+
+  async.waterfall([
+    // find the bevy that they're inviting to first
+    function(done) {
+      Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
+        if(err) return done(err);
+        if(!bevy) return done('Bevy not found');
+        return done(null, bevy);
+      })
+      .lean();
+    },
+    // create invite tokens
+    function(bevy, done) {
+      async.each(emails, function(email, callback) {
+        // if the emails array has some empty emails, then continue. dont crash
+        if(_.isEmpty(email)) return callback(null);
+
+        // define new token object
+        var new_token = {
+          _id: shortid.generate(),
+          token: shortid.generate(),
+          email: email,
+          bevy: bevy._id,
+          created: Date.now()
+        };
+        // flush to db
+        InviteToken.create(new_token, function(err, inviteToken) {
+          if(err) return callback(err);
+          // then send invite emails to all invited users
+          emailController.sendEmail(email, 'invite', {
+            user_email: email,
+            bevy_name: bevy.name,
+            bevy_slug: bevy.slug,
+            invite_link: 'http://' + bevy.slug + '.' + config.app.server.domain + '/invite/' + inviteToken.token,
+            inviter_email: inviter_email,
+            inviter_name: inviter_name
+          }, function(err, results) {
+            if(err) return callback(err);
+            return callback(null);
+          });
+        });
+      }, function(err) {
+        if(err) return done(err);
+        return done(null, bevy);
+      });
+    }
+  ], function(err, result) {
+    if(err) return next(err);
+    return res.json(result);
+  });
+};
+exports.createInvite = createInvite;
+
 // GET /invites/:inviteid/
 var getInvite = function(req, res, next) {
   var invite_id_or_token = req.params.inviteid;

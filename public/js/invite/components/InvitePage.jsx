@@ -194,7 +194,7 @@ var InvitePage = React.createClass({
       },
       // log in the user
       function(done) {
-        UserActions.logIn(invite.email, password);
+        UserActions.login(invite.email, password);
         return done(null);
       }
     ], function(err, result) {
