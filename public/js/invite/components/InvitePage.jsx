@@ -244,7 +244,6 @@ var InvitePage = React.createClass({
 
     return (
       <div className='invite-body'>
-        <div className='sidebar'>
           <h1 className='title'>
             Join <span className='bold'>{ this.state.bevy.name }</span>
           </h1>
@@ -297,13 +296,6 @@ var InvitePage = React.createClass({
               { this.renderLoadingOrArrow() }
             </button>
           </div>
-        </div>
-        <div className='big-image'>
-          <img
-            className='promo-image'
-            src={ constants.siteurl + '/img/simplemock.png' }
-          />
-        </div>
       </div>
     );
   },
@@ -311,11 +303,11 @@ var InvitePage = React.createClass({
   render() {
     return (
       <div className='invite-page'>
-        <div className='fake-navbar'>
+        <div className='header'>
           <a title='Home' href='/'>
             <img
               className='bevy-logo'
-              src={ constants.siteurl + '/img/logo_100_reversed.png' }
+              src={ constants.siteurl + '/img/logo_200_solid.png' }
             />
           </a>
           <a title='Home' href='/' className='bevy-title-btn'>
@@ -323,6 +315,9 @@ var InvitePage = React.createClass({
           </a>
         </div>
         { this.renderBody() }
+        <a className='back-link' href='/'>
+          back to Login
+        </a>
       </div>
     );
   }
