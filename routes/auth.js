@@ -189,6 +189,7 @@ function checkToken(req, res, next) {
 
 function checkInvite(req, res, next) {
   var token = req.params.token;
+  console.log('checkInvite', token);
   InviteToken.findOne({ token: token }, function(err, inviteToken) {
     if(err) return next(err);
     if(!inviteToken) {
