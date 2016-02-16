@@ -86,15 +86,15 @@ var CreateBevyPage = React.createClass({
     });
 
     BevyStore.on(BEVY.CREATE_SUCCESS, this.onCreateSuccess);
-    BevyStore.on(BEVY.CREATE_ERR, this.onCreateErr);
+    BevyStore.on(BEVY.CREATE_ERR, this.onCreateError);
   },
 
   componentWillUnmount() {
     BevyStore.off(BEVY.CREATE_SUCCESS, this.onCreateSuccess);
-    BevyStore.off(BEVY.CREATE_ERR, this.onCreateErr);
+    BevyStore.off(BEVY.CREATE_ERR, this.onCreateError);
   },
 
-  onCreateErr(err) {
+  onCreateError(err) {
     this.setState({
       slide: 4,
       error: err
@@ -102,15 +102,11 @@ var CreateBevyPage = React.createClass({
   },
 
   onCreateSuccess(res) {
-    this.setState({
-      slide: 3
-    });
+    this.setState({ slide: 3 });
   },
 
   onUploadComplete(file) {
-    this.setState({
-      image: file,
-    });
+    this.setState({ image: file });
   },
 
   create(ev) {
@@ -249,27 +245,21 @@ var CreateBevyPage = React.createClass({
   },
 
   _renderDots() {
-    var dots =[];
-
+    var dots = [];
     for(var i = 0; i < this.state.slides; i++) {
       dots.push(
         <div
+          key={ 'dot:' + i }
+          className='dot'
           style={{
-            width: 10,
-            height: 10,
-            borderRadius: 5,
             backgroundColor: (this.state.slide == i) ? '#aaa' : 'rgba(0,0,0,.1)',
-            margin: 10,
-            justifyContent: 'center',
-            alignSelf: 'center'
           }}
         />
       )
     }
-
     return (
-      <div style={{display: 'flex', flexDirection: 'row', marginTop: 10, justifyContent: 'center'}}>
-        {dots}
+      <div className='dotsContainer'>
+        { dots }
       </div>
     );
   },
@@ -279,13 +269,12 @@ var CreateBevyPage = React.createClass({
     for(var i = 0; i < this.state.inviteRefs.length; i++) {
       inviteInputs.push(
         <TextField
-          ref={this.state.inviteRefs[i]}
+          key={ 'invite:' + i }
+          ref={ this.state.inviteRefs[i] }
           type='text'
-          fullWidth={true}
-          style={{
-            flex: 1
-          }}
-          hintText={'ex. ' + fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email}
+          fullWidth={ true }
+          style={{ flex: 1 }}
+          hintText={ 'e.g., ' + fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email }
         />
       )
     }
@@ -311,9 +300,12 @@ var CreateBevyPage = React.createClass({
         />
       </div>
     );
-    return <div className='invites'>
-        {inviteInputs}
-      </div>;
+
+    return (
+      <div className='invites'>
+        { inviteInputs }
+      </div>
+    );
   },
 
   _renderContent() {
@@ -364,9 +356,9 @@ var CreateBevyPage = React.createClass({
             <TextField
               type='text'
               ref='Name'
-              fullWidth={true}
+              fullWidth={ true }
               floatingLabelText='Group Name'
-              value={this.state.name}
+              value={ this.state.name }
               onChange={() => {
                 var name = this.refs.Name.getValue();
                 if(name.length > 40)
@@ -380,7 +372,7 @@ var CreateBevyPage = React.createClass({
             <div className='slug'>
               <div
                 className='verify-status'
-                style={{width: (this.state.slug) ? 60 : 0}}
+                style={{ width: (this.state.slug) ? 60 : 0 }}
               >
                 { this._renderSlugVerifyStatus() }
               </div>
@@ -388,7 +380,10 @@ var CreateBevyPage = React.createClass({
                 type='text'
                 ref='Slug'
                 fullWidth={ true }
-                floatingLabelText={(this.state.slug) ? this.state.slug + '.joinbevy.com' : "Your Bevy's URL"}
+                floatingLabelText={(this.state.slug)
+                  ? this.state.slug + '.joinbevy.com'
+                  : "Your Bevy's URL"
+                }
                 errorText={ (_.isEmpty(this.state.verifyError))
                   ? (_.isEmpty(this.state.slug))
                     ? ''
@@ -417,14 +412,12 @@ var CreateBevyPage = React.createClass({
               />
             </div>
             <div className="panel-bottom">
-              <div style={{marginBottom: 10}}>
-                <RaisedButton
-                  onClick={ this._onNext }
-                  label="Next"
-                  style={{ marginLeft: '10px' }}
-                  disabled={ !this.state.name || !this.state.image || !this.state.slugVerified }
-                />
-              </div>
+              <RaisedButton
+                onClick={ this._onNext }
+                label="Next"
+                style={{ marginLeft: '10px' }}
+                disabled={ !this.state.name || !this.state.image || !this.state.slugVerified }
+              />
               { this._renderDots() }
             </div>
           </div>
@@ -439,12 +432,12 @@ var CreateBevyPage = React.createClass({
               </div>
             </div>
             <RegisterInputs
-              _onBack={this._onBack}
-              _onNext={this._onNext}
-              registerFinish={this.registerFinish}
-              username={this.state.username}
-              password={this.state.password}
-              email={this.state.email}
+              _onBack={ this._onBack }
+              _onNext={ this._onNext }
+              registerFinish={ this.registerFinish }
+              username={ this.state.username }
+              password={ this.state.password }
+              email={ this.state.email }
             />
             { this._renderDots() }
           </div>
@@ -487,7 +480,7 @@ var CreateBevyPage = React.createClass({
         content = (
           <div className='bevy-info'>
             <div className='title'>
-              {this.state.error}
+              { this.state.error }
             </div>
           </div>
         );
@@ -511,7 +504,7 @@ var CreateBevyPage = React.createClass({
     };
 
     return (
-      <div className="create-bevy-panel">
+      <div className="create-bevy-page">
         <div className='left'>
           <a
             href='/'
@@ -528,11 +521,11 @@ var CreateBevyPage = React.createClass({
           <div className='right-header'>
             Already part of an existing bevy?
             <a
-              className="login-btn"
+              className='login-btn'
               title='Login'
-              href='/login'
+              href='/signin'
             >
-              <Ink style={{position: 'absolute'}}/>
+              <Ink />
               Log In
             </a>
           </div>
@@ -541,16 +534,11 @@ var CreateBevyPage = React.createClass({
               {this.state.name || 'Your Bevy Name'}
             </div>
             <div className='bevy-image'>
-              <div style={bevyImageStyle}/>
+              <div style={ bevyImageStyle }/>
             </div>
             <img
               src='./../img/bevysimple.png'
-              style={{
-                width: 800,
-                height: 469,
-                position: 'absolute',
-                borderRadius: 10
-              }}
+              className='bevy-simple'
             />
           </div>
         </div>
