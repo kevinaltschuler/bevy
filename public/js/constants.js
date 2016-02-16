@@ -164,34 +164,6 @@ exports.NOTIFICATION = {
   CHANGE_ALL: 'notification_change_all'
 };
 
-exports.CHAT = {
-  SEND_NEW_MESSAGE: 'chat_send_new_message',
-  CANCEL_NEW_MESSAGE: 'chat_cancel_new_message',
-  CREATE_THREAD_AND_MESSAGE: 'chat_create_thread_and_message',
-
-  ADD_USERS: 'chat_add_user',
-  REMOVE_USER: 'chat_remove_user',
-
-  DELETE_THREAD: 'chat_delete_thread',
-  EDIT_THREAD: 'chat_edit_thread',
-
-  START_PM: 'chat_start_pm',
-  START_BEVY_CHAT: 'chat_start_bevy_chat',
-  THREAD_OPEN: 'chat_thread_open',
-  PANEL_CLOSE: 'chat_panel_close',
-  MESSAGE_CREATE: 'chat_message_create',
-
-  MESSAGE_FETCH: 'chat_message_fetch:',
-  MESSAGE_FETCH_MORE: 'chat_message_fetch_more',
-
-  CHANGE_ALL: 'chat_change_all',
-
-  PANEL_TOGGLE: 'chat_panel_toggle:',
-
-  UPDATE_IMAGE: 'chat_update_image',
-  FETCH_THREADS: 'chat_fetch_threads'
-};
-
 exports.INVITE = {
   INVITE_USER: 'invite_invite_user',
   DESTROY: 'invite_destroy',

@@ -18,7 +18,6 @@ var {
   CircularProgress
 } = require('material-ui');
 var BevyPanel = require('./../../bevy/components/BevyPanel.jsx');
-var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var FilterSidebar = require('./FilterSidebar.jsx');
 var Footer = require('./Footer.jsx');
 

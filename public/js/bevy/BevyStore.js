@@ -24,7 +24,6 @@ var Invite = require('./InviteModel');
 var constants = require('./../constants');
 var BEVY = constants.BEVY;
 var POST = constants.POST;
-var CHAT = constants.CHAT;
 var APP = constants.APP;
 var INVITE = constants.INVITE;
 var BOARD = constants.BOARD;

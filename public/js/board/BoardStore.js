@@ -21,13 +21,11 @@ var constants = require('./../constants');
 var router = require('./../router');
 var BEVY = constants.BEVY;
 var POST = constants.POST;
-var CHAT = constants.CHAT;
 var APP = constants.APP;
 var BOARD = constants.BOARD;
 var BoardActions = require('./BoardActions');
 var BevyStore = require('./../bevy/BevyStore');
 var UserStore = require('./../user/UserStore');
-var ChatStore = require('./../chat/ChatStore');
 var user = window.bootstrap.user;
 
 var BoardStore = _.extend({}, Backbone.Events);

@@ -22,7 +22,6 @@ var BOARD = constants.BOARD;
 
 var Users = require('./UserCollection');
 var User = require('./UserModel');
-var ChatStore = require('./../chat/ChatStore');
 var BevyStore = require('./../bevy/BevyStore');
 var user = window.bootstrap.user;
 
@@ -181,7 +180,6 @@ _.extend(UserStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-            ChatStore.fetchThreads();
             this.trigger(USER.CHANGE_ALL);
           }.bind(this)
         });
@@ -202,8 +200,6 @@ _.extend(UserStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-            ChatStore.fetchThreads();
-            this.trigger(CHAT.CHANGE_ALL);
             this.trigger(USER.CHANGE_ALL);
           }.bind(this)
         });

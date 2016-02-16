@@ -18,7 +18,6 @@ var {
 } = require('material-ui');
 var ThemeManager = new Styles.ThemeManager();
 
-var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var Feature = require('./Feature.jsx');
 
 var _ = require('underscore');
@@ -59,23 +58,23 @@ var HomeView = React.createClass({
   componentDidMount() {
     TYPED($);
     $(function(){
-        $(".typedSpan").typed({
-            strings: [
-              "Fraternity.",
-              "Sorority.",
-              "Non-Profit.",
-              "Club.",
-              "Sports Team.",
-              "Business.",
-              "Classroom.",
-              "Community."
-            ],
-            typeSpeed: 50,
-            startDelay: 1000,
-            backDelay: 800,
-            backSpeed: 5,
-            loop: true
-        });
+      $(".typedSpan").typed({
+          strings: [
+            "Fraternity.",
+            "Sorority.",
+            "Non-Profit.",
+            "Club.",
+            "Sports Team.",
+            "Business.",
+            "Classroom.",
+            "Community."
+          ],
+          typeSpeed: 50,
+          startDelay: 1000,
+          backDelay: 800,
+          backSpeed: 5,
+          loop: true
+      });
     })
   },
 
@@ -119,20 +118,6 @@ var HomeView = React.createClass({
             The Social Network For Your &nbsp; &nbsp;&nbsp;<span className="typedSpan"></span>
           </div>
           <div className='actions'>
-            {/*<Input
-              ref='EmailInput'
-              type='text'
-              value={ this.state.emailAddress }
-              placeholder='Your Email Address'
-              hasFeedback
-              groupClassName='domain-input-group'
-              labelClassName='domain-input-label'
-              onChange={() => {
-                this.setState({
-                  emailAddress: this.refs.EmailInput.getValue()
-                })
-              }}
-            />*/}
             <RaisedButton
               label='Start a Community'
               linkButton={ true }

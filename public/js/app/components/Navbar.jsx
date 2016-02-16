@@ -27,9 +27,6 @@ var {
 } = require('material-ui');
 var UserDropdown = require('./../../user/components/UserDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
-var ChatDropdown = require('./../../chat/components/ChatDropdown.jsx');
-var ChatDock = require('./../../chat/components/ChatDock.jsx');
-var ChatSidebar = require('./../../chat/components/ChatSidebar.jsx');
 var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
 var ThemeManager = new Styles.ThemeManager();
 
@@ -119,18 +116,6 @@ var Navbar = React.createClass({
 
     return (
       <div className='profile-buttons'>
-        {/*{ chatSidebar }
-        { chatDock }
-        <ChatDropdown
-          show={ this.state.activeTab == 'chat' }
-          onToggle={() => {
-            this.setState({
-              activeTab: (this.state.activeTab == 'chat')
-                ? null
-                : 'chat'
-            });
-          }}
-        />*/}
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
           userInvites={ this.props.userInvites }

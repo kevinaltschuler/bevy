@@ -18,7 +18,6 @@ var UserItem = require('./../../user/components/UserItem.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
-var ChatActions = require('./../../chat/ChatActions');
 
 var AdminModal = React.createClass({
   propTypes: {

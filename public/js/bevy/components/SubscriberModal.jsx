@@ -18,7 +18,6 @@ var UserItem = require('./../../user/components/UserItem.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
-var ChatActions = require('./../../chat/ChatActions');
 
 var SubscriberModal = React.createClass({
   propTypes: {
@@ -76,9 +75,6 @@ var SubscriberModal = React.createClass({
   },
 
   startPM(id) {
-    if(!_.isEmpty(window.bootstrap.user))
-      if(!(id == window.bootstrap.user._id))
-        ChatActions.startPM(id);
   },
 
   _renderSubs() {

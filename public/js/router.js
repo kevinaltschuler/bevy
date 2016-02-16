@@ -20,7 +20,6 @@ var PostStore = require('./post/PostStore');
 var BevyStore = require('./bevy/BevyStore');
 var NotificationStore = require('./notification/NotificationStore');
 var UserStore = require('./user/UserStore');
-var ChatStore = require('./chat/ChatStore');
 var BoardStore = require('./board/BoardStore');
 
 var Router = Backbone.Router.extend({

@@ -14,7 +14,6 @@ var _ = require('underscore');
 var constants = require('./../../constants');
 var timeAgo = require('./../../shared/helpers/timeAgo');
 var CommentActions = require('./../CommentActions');
-var ChatActions = require('./../../chat/ChatActions');
 var user = window.bootstrap.user;
 
 var CommentList = React.createClass({
@@ -71,7 +70,6 @@ var CommentItem = React.createClass({
 
   startPM(ev) {
     ev.preventDefault();
-    ChatActions.startPM(this.props.comment.author._id);
   },
 
   destroy(ev) {

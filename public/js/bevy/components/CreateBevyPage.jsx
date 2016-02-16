@@ -272,8 +272,7 @@ var CreateBevyPage = React.createClass({
           key={ 'invite:' + i }
           ref={ this.state.inviteRefs[i] }
           type='text'
-          fullWidth={ true }
-          style={{ flex: 1 }}
+          style={{ width: '60%' }}
           hintText={ 'e.g., ' + fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email }
         />
       )

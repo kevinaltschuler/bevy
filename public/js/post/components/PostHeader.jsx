@@ -21,7 +21,6 @@ var constants = require('./../../constants');
 var resizeImage = require('./../../shared/helpers/resizeImage');
 var timeAgo = require('./../../shared/helpers/timeAgo');
 var timeLeft = require('./../../shared/helpers/timeLeft');
-var ChatActions = require('./../../chat/ChatActions');
 var PostActions = require('./../PostActions');
 
 var PostHeader = React.createClass({
@@ -49,7 +48,6 @@ var PostHeader = React.createClass({
 
   startPM(ev) {
     ev.preventDefault();
-    ChatActions.startPM(this.props.post.author._id);
   },
 
   pin(ev) {

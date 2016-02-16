@@ -19,7 +19,6 @@ var APP = require('./../constants').APP;
 var Notifications = require('./NotificationCollection');
 var Invites = require('./InviteCollection');
 
-var ChatStore = require('./../chat/ChatStore');
 var PostStore = require('./../post/PostStore');
 var PostActions = require('./../post/PostActions');
 
@@ -100,16 +99,7 @@ if(!_.isEmpty(window.bootstrap.user)) {
   //});
 
   socket.on('chat.' + user_id, function(message) {
-    var ChatStore = require('./../chat/ChatStore');
-    message = JSON.parse(message);
-    //console.log('got message', message);
-    if(message.author._id == user_id) return;
 
-    var audio = document.createElement("audio");
-    audio.src = "/audio/notification.mp3";
-    audio.play();
-
-    ChatStore.addMessage(message);
   });
   socket.on('newpost.' + user_id, function(post) {
     if(_.isObject(post)) {

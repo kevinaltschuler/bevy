@@ -34,8 +34,9 @@ var BevyInfoBar = React.createClass({
   },
 
   getInitialState() {
+
     return {
-      isAdmin: (_.findWhere(this.props.activeBevy.admins, { _id: window.bootstrap.user._id }) != undefined),
+      isAdmin: (_.contains(this.props.activeBevy.admins, window.bootstrap.user._id)),
       showSettingsModal: false,
       showInviteModal: false,
       showAdminModal: false,
@@ -45,7 +46,7 @@ var BevyInfoBar = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      isAdmin: (_.findWhere(nextProps.activeBevy.admins, { _id: window.bootstrap.user._id }) != undefined),
+      isAdmin: (_.contains(nextProps.activeBevy.admins, window.bootstrap.user._id)),
     });
   },
 
@@ -323,6 +324,8 @@ var BevyInfoBar = React.createClass({
     );
   },
 
+
+
   render() {
     if(_.isEmpty(this.props.activeBevy)) return <div/>;
 
@@ -332,7 +335,7 @@ var BevyInfoBar = React.createClass({
         { this._renderSubs() }
         { this._renderAdmins() }
         { this._renderImageButton() }
-        {/* this._renderInviteButton() */}
+        { this._renderInviteButton() }
         { this._renderSettingsButton() }
         { this._renderLeaveButton() }
         <BevySettingsModal

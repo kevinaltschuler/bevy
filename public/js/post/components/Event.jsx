@@ -37,7 +37,6 @@ var user = window.bootstrap.user;
 var email = user.email;
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
-var ChatActions = require('./../../chat/ChatActions');
 var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 var maxTextHeight = 100;

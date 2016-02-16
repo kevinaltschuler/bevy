@@ -16,7 +16,6 @@ var {
   TextField,
   IconButton
 } = require('material-ui');
-var CreateNewBevyModal = require('./../../bevy/components/CreateNewBevyModal.jsx');
 var Footer = require('./Footer.jsx');
 
 var _ = require('underscore');
@@ -161,10 +160,6 @@ var FilterSidebar = React.createClass({
             />
           </div>
           <div className='action new'>
-            <CreateNewBevyModal
-              show={ this.state.showNewBevyModal }
-              onHide={() => { this.setState({ showNewBevyModal: false }) }}
-            />
             <FlatButton
               disabled={_.isEmpty(window.bootstrap.user)}
               label='new bevy'

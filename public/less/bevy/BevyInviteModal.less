@@ -10,115 +10,135 @@
     width: 400px;
     .modal-content {
       .modal-header {
+        display: flex;
+        flex-direction: row-reverse;
+        align-items: center;
         padding: 0px;
-        .modal-title {
-          overflow-x: hidden;
-          text-overflow: ellipsis;
+        h4.modal-title {
+          flex-grow: 1;
         }
-        .close {
-          padding-left: 0px;
+        button.close {
+          margin-top: 0px;
+          padding: 5px;
         }
       }
+
       .modal-body {
-        padding: 0px;
         display: flex;
         flex-direction: column;
-        .bevy-setting {
-          margin-top: 20px;
-        }
-        .expire-setting {
-          font-size: 14px;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          .mui-drop-down-menu {
-            vertical-align: middle;
-            font-weight: 100;
-            margin-left: 33px;
-            z-index: 10;
-          }
-        }
-        .section {
-          width: 100%;
+        margin-top: 15px;
+        padding: 0px;
+        .pending-invites {
           display: flex;
           flex-direction: column;
-          padding-bottom: 10px;
-          .section-title {
-            color: rgba(0, 0, 0, 0.54);
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 48px;
-            padding-left: 16px;
+          margin-bottom: 10px;
+          span.title {
+            font-size: 1.15em;
+            margin-bottom: 10px;
           }
           .invite-item {
+            height: 40px;
             display: flex;
             flex-direction: row;
-            width: 100%;
             align-items: center;
-            justify-content: space-between;
-            height: 56px;
-            color: rgba(0, 0, 0, 0.870588);
-            font-size: 16px;
-            line-height: 16px;
-            padding-left: 15px;
-            padding-right: 15px;
-            transition: .2s all ease-in-out;
-            &:hover {
-              background-color: rgba(0,0,0,.04);
-            }
-            .user-img {
-              margin-right: 10px;
-              min-width: 40px;
-              min-height: 40px;
-              max-width: 40px;
-              max-height: 40px;
-              border-radius: 20px;
+            .profile-image {
               #image-icon();
+              width: 32px;
+              height: 32px;
+              border-radius: 16px;
+              background-image: url('/img/user-profile-icon.png');
+              margin-right: 15px;
             }
-            span.name {
-              text-align: left;
+            .details {
+              display: flex;
               flex-grow: 1;
-              margin-left: 10px;
+              flex-direction: column;
+              align-items: flex-start;
+              span.email {
+
+              }
+              span.time-ago {
+                font-style: italic;
+                font-size: 0.85em;
+              }
             }
           }
         }
-        .search-section {
-          width: 100%;
-          overflow-y: scroll;
-          transition: all .2s ease-in-out;
-          border-top: 1px solid #eee;
-          margin-top: 20px;
-          .section-title {
-            color: rgba(0, 0, 0, 0.54);
-            font-size: 14px;
-            font-weight: 500;
-            line-height: 48px;
-            padding-left: 16px;
-            text-align: left;
+        span.invite-others-title {
+          font-size: 1.15em;
+        }
+        span.invite-others-hint {
+          span.bold {
+            font-weight: bold;
           }
-          .absolute-child {
-            position: absolute;
-            top: inherit;
-            left: inherit;
-            align-items: flex-start;
-            justify-content: flex-start;
+        }
+        .invite-fields {
+          padding-right: 25%;
+        }
+        .buttons {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          justify-content: space-between;
+          margin-top: 6px;
+          button.invite-more-button {
+            //width: 40%;
             display: flex;
-            flex-direction: column;
-            width: 100%;
-            overflow: hidden;
+            position: relative;
+            flex-direction: row;
+            align-items: center;
+            height: 40px;
+            background-color: #FFF;
+            border: none;
+            //box-shadow: @shadow1;
+            box-shadow: none;
+            transition: 0.25s all ease-in-out;
+            padding-right: 10px;
+            &:hover {
+              background-color: #EEE;
+            }
+            i.material-icons {
+              margin-right: 5px;
+            }
+            span.invite-more-button-text {
+
+            }
           }
+          .submit-button {
+            //width: 40%;
+            display: flex;
+            position: relative;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            height: 40px;
+            background-color: #FFF;
+            border: none;
+            //box-shadow: @shadow1;
+            box-shadow: none;
+            transition: 0.25s all ease-in-out;
+            padding-left: 10px;
+            &:hover {
+              background-color: #EEE;
+            }
+            i.material-icons {
+              margin-left: 5px;
+            }
+            span.invite-more-button-text {
+
+            }
+            .progress-container {
+              width: 30px;
+              height: 30px;
+            }
+          }
+
         }
       }
 
       .modal-footer {
         border: none;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 15px 0;
-        padding-bottom: 0px;
+        padding: 0px;
       }
     }
   }

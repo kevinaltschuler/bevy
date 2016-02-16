@@ -64,11 +64,13 @@ var createInvite = function(req, res, next) {
             user_email: email,
             bevy_name: bevy.name,
             bevy_slug: bevy.slug,
-            invite_link: 'http://' + bevy.slug + '.' + config.app.server.domain + '/invite/' + inviteToken.token,
+            invite_link: 'http://' + bevy.slug + '.' + config.app.server.domain
+              + '/invite/' + inviteToken.token,
             inviter_email: inviter_email,
             inviter_name: inviter_name
           }, function(err, results) {
-            if(err) return callback(err);
+            // dont crash here - this isn't too crucial
+            if(err) console.error(err);
             return callback(null);
           });
         });
@@ -96,6 +98,16 @@ var getInvite = function(req, res, next) {
   .populate('bevy');
 };
 exports.getInvite = getInvite;
+
+// GET /bevies/:bevyid/invites
+var getBevyInvites = function(req, res, next) {
+  var bevy_id = req.params.bevyid;
+  InviteToken.find({ bevy: bevy_id }, function(err, inviteTokens) {
+    if(err) return next(err);
+    return res.json(inviteTokens);
+  });
+};
+exports.getBevyInvites = getBevyInvites;
 
 // POST /invites/:inviteid:/accept
 var acceptInvite = function(req, res, next) {

@@ -11,7 +11,6 @@ var React = require('react');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var resizeImage = require('./../../shared/helpers/resizeImage');
-var ChatActions = require('./../../chat/ChatActions');
 
 var UserItem = React.createClass({
   propTypes: {
@@ -29,9 +28,6 @@ var UserItem = React.createClass({
     ev.preventDefault();
     switch(this.props.linkAction) {
       case 'startPM':
-        // dont start a pm with yerself
-        if(this.props.user._id == window.bootstrap.user._id) return;
-        ChatActions.startPM(this.props.user._id);
         break;
       case 'none':
       default:
