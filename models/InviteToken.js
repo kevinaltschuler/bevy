@@ -29,6 +29,11 @@ var InviteTokenSchema = new Schema({
     type: String,
     required: true
   },
+  bevy: {
+    type: String,
+    ref: 'Bevy',
+    required: true
+  },
   created: {
     type: Date,
     required: true,
