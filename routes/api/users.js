@@ -27,6 +27,8 @@ module.exports = function(router) {
 
 	// VERIFY USERNAME
 	router.post('/verify/username', userController.verifyUsername);
+	// VERIFY EMAIL
+	router.post('/verify/email', userController.verifyEmail);
 
 	// DEVICES
 	router.get('/users/:id/devices', userController.getDevices);

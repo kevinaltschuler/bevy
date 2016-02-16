@@ -165,10 +165,11 @@ exports.destroyUser = function(req, res, next) {
   }, function(err) { next(err); });
 }
 
-// GET /users/:username/verify
-exports.verifyUsername = function(req, res, next) {
+// POST /verify/username
+var verifyUsername = function(req, res, next) {
   var username = req.body['username'];
   var bevy_id = req.body['bevy_id'];
+
   if(username == undefined) return next('Username not defined');
   if(bevy_id == undefined) return next('Bevy ID not defined');
 
@@ -178,6 +179,19 @@ exports.verifyUsername = function(req, res, next) {
     else return res.json({ found: true });
   });
 };
+exports.verifyUsername = verifyUsername;
+
+// POST /verify/email
+var verifyEmail = function(req, res, next) {
+  var email = req.body['email'];
+  if(email == undefined) return next('Email not defined');
+  User.findOne({ email: email }, function(err, user) {
+    if(err) return next(err);
+    if(!user) return res.json({ found: false });
+    else return res.json({ found: true });
+  });
+};
+exports.verifyEmail = verifyEmail;
 
 // GET /users/:id/devices
 exports.getDevices = function(req, res, next) {
