@@ -1,6 +1,14 @@
+/**
+ * CreateBevyPage.less
+ *
+ * @author albert
+ * @author kevin
+ * @flow
+ */
+
 @import '../variables.less';
 
-.create-bevy-panel {
+.create-bevy-page {
 	display: flex;
 	flex-direction: row;
 	height: 100vh;
@@ -54,11 +62,11 @@
 
 		.title {
 			color: #555;
-	    	font-size: 42px;
-	    	font-weight: 200;
-	    	margin-bottom: 40px;
-	    	margin-top: 20px;
-	    	line-height: 50px;
+    	font-size: 42px;
+    	font-weight: 200;
+    	margin-bottom: 40px;
+    	margin-top: 20px;
+    	line-height: 50px;
 		}
 		.invites {
 			flex: 1;
@@ -87,8 +95,8 @@
     		padding-top: 0px;
     		margin-top: -10px;
     		padding-right: 60px;
-    		::-webkit-scrollbar { 
-    			display: none; 
+    		::-webkit-scrollbar {
+    			display: none;
 			}
 			.slug {
 				display: flex;
@@ -183,14 +191,18 @@
 			display: flex;
 			align-items: center;
 			flex-direction: column;
-			.mui-raised-button {
-				.mui-paper-container {
-					.mui-raised-button-container {
-						background-color: white;
-						.mui-raised-button-label {
-							color: black;
-						}
-					}
+			.dots-container {
+				display: flex;
+				flex-direction: row;
+				margin-top: 10px;
+				justify-content: center;
+				.dot {
+          width: 10px;
+          height: 10px;
+          borderRadius: 5px;
+          margin: 10px;
+          justify-content: center;
+          align-self: center;
 				}
 			}
 		}
@@ -233,37 +245,41 @@
 		}
 		.image-container {
 			width: 800px;
-            height: 550px;
-		    margin-left: 200px;
-            margin-bottom: -100px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: flex-start;
-            overflow: hidden;
-            text-align: center;
-            padding-top: 30px;
-            flex: 1;
-            .bevy-image {
-            	background-color: rgba(0,0,0,.1);
-                position: absolute;
-                z-index: 0;
-                top: 25px;
-                height: 67px;
-                width: 100%;
-            }
-            .group-title {
-            	z-index: 2;
-            	margin-bottom: -55px;
-            	color: #fff;
-            	font-weight: 600;
-            	font-size: 20px;
-            	margin-left: -15px;
-            }
-            img {
-            	box-shadow: 0px 10px 0px 0px rgba(0,0,0,0.15);
-            }
+      height: 550px;
+		  margin-left: 200px;
+      margin-bottom: -100px;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      overflow: hidden;
+      text-align: center;
+      padding-top: 30px;
+      flex: 1;
+      .bevy-image {
+      	background-color: rgba(0,0,0,.1);
+        position: absolute;
+        z-index: 0;
+        top: 25px;
+        height: 67px;
+        width: 100%;
+      }
+      .group-title {
+      	z-index: 2;
+      	margin-bottom: -55px;
+      	color: #fff;
+      	font-weight: 600;
+      	font-size: 20px;
+      	margin-left: -15px;
+      }
+      img.bevy-simple {
+      	box-shadow: 0px 10px 0px 0px rgba(0,0,0,0.15);
+				width: 800px;
+				height: 469px;
+				position: absolute;
+				borderRadius: 10px;
+      }
 		}
 	}
 }
@@ -273,23 +289,22 @@
 		.right {
 			.image-container {
 				width: 600px;
-	            .bevy-image {
-	            	top: 20px;
-	            }
-	            .group-title {
-	            	z-index: 2;
-	            	margin-bottom: -42px;
-	            	color: #fff;
-	            	font-weight: 600;
-	            	font-size: 16px;
-	            	margin-left: -15px;
-	            }
-	            img {
-	            	width: 600px !important;
-	            	height: auto !important;
-	            }
+        .bevy-image {
+        	top: 20px;
+        }
+        .group-title {
+        	z-index: 2;
+        	margin-bottom: -42px;
+        	color: #fff;
+        	font-weight: 600;
+        	font-size: 16px;
+        	margin-left: -15px;
+        }
+        img {
+        	width: 600px !important;
+        	height: auto !important;
+        }
 			}
 		}
 	}
 }
-
