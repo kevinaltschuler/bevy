@@ -85,7 +85,8 @@ var Router = Backbone.Router.extend({
     this.current = 'newBevy';
   },
 
-  invite() {
+  invite(token) {
+    this.inviteToken = token;
     this.current = 'invite';
   },
 

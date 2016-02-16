@@ -19,6 +19,7 @@ var mongoose = require('mongoose');
 var User = require('./../models/User');
 var Bevy = require('./../models/Bevy');
 var ResetToken = require('./../models/ResetToken');
+var InviteToken = require('./../models/InviteToken');
 
 var oauth2Controller = require('./../controllers/oauth2');
 var emailController = require('./../controllers/email');

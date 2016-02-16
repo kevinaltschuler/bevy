@@ -91,7 +91,7 @@ var CreateBevyPage = React.createClass({
 
   componentWillUnmount() {
     BevyStore.off(BEVY.CREATE_SUCCESS, this.onCreateSuccess);
-    BevyStore.off(BEVY.CREATE_ERR, this.onCreateErr); 
+    BevyStore.off(BEVY.CREATE_ERR, this.onCreateErr);
   },
 
   onCreateErr(err) {
@@ -129,7 +129,7 @@ var CreateBevyPage = React.createClass({
     }
 
     // create bevy, account and invite users
-    //create(bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails) 
+    //create(bevyName, bevyImage, bevySlug, adminEmail, adminName, adminPass, inviteEmails)
     BevyActions.create(bevyName, bevyImage, bevySlug, adminEmail, adminName, inviteEmails);
   },
 
@@ -369,7 +369,7 @@ var CreateBevyPage = React.createClass({
               value={this.state.name}
               onChange={() => {
                 var name = this.refs.Name.getValue();
-                if(name.length > 40) 
+                if(name.length > 40)
                   name = name.subString(0,40);
                 this.setState({
                   name: name
@@ -396,9 +396,9 @@ var CreateBevyPage = React.createClass({
                   : this.state.verifyError
                 }
                 value={ this.state.slug }
-                onChange={() => { 
+                onChange={() => {
                   var slug = getSlug(this.refs.Slug.getValue());
-                  if(slug.length > 40) 
+                  if(slug.length > 40)
                     slug = slug.subString(0,40);
                   this.onSlugChange(slug);
                 }}
@@ -438,10 +438,10 @@ var CreateBevyPage = React.createClass({
                 Choose your account details
               </div>
             </div>
-            <RegisterInputs 
-              _onBack={this._onBack} 
-              _onNext={this._onNext} 
-              registerFinish={this.registerFinish} 
+            <RegisterInputs
+              _onBack={this._onBack}
+              _onNext={this._onNext}
+              registerFinish={this.registerFinish}
               username={this.state.username}
               password={this.state.password}
               email={this.state.email}
@@ -514,7 +514,7 @@ var CreateBevyPage = React.createClass({
       <div className="create-bevy-panel">
         <div className='left'>
           <a
-            href='/home'
+            href='/'
             className='header'
           >
             <img style={{width: 40, height: 40}} src='./../../../img/logo_200.png'/>
