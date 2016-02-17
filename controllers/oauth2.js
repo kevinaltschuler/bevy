@@ -81,11 +81,11 @@ server.exchange(oauth2orize.exchange.refreshToken(
 var loginUsername = function(req, res, next) {
   var username = req.body['username'];
   var password = req.body['password'];
-  User.findOne({ $or: [{ username: username }, { email: username }] }, function(err, user) {
+  User.findOne({ email: username }, function(err, user) {
     if(err) return next(err);
-    if(!user) return next('User not found');
+    if(!user) return next('User with that email address not found');
     // make sure password matches
-    if(!user.verifyPassword(password)) return next('Invalid credentials');
+    if(!user.verifyPassword(password)) return next('Email and password combination do not match');
 
     // generate new access and refresh tokens
     generateTokens(user, req['user'], function(err, accessToken, refreshToken, data) {

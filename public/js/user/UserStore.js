@@ -281,6 +281,12 @@ _.extend(UserStore, {
     })
     .then(res => res.json())
     .then(res => {
+      if(!_.isObject(res)) {
+        console.log('login error', res.toString());
+        // trigger error and pass along error message
+        this.trigger(USER.LOGIN_ERROR, res.toString());
+        return;
+      }
       console.log('login success', res.user._id);
       // set the access and refresh tokens
       this.setTokens(
