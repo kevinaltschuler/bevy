@@ -36,7 +36,7 @@
     "morgan": "^1.6.1",
     "multer": "^0.1.7",
     "node-gcm": "^0.13.0",
-    "node-schedule": "^0.6.0",
+    "node-schedule": "^1.0.0",
     "oauth2orize": "^1.2.0",
     "open-graph": "^0.1.5",
     "passport": "^0.3.2",
