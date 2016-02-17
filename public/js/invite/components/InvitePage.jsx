@@ -316,7 +316,7 @@ var InvitePage = React.createClass({
         </div>
         { this.renderBody() }
         <a className='back-link' href='/'>
-          back to Login
+          Back to login
         </a>
       </div>
     );
