@@ -110,13 +110,6 @@ var BoardSettingsModal = React.createClass({
             />
           </div>*/}
           <div className='bevy-setting'>
-            <Toggle
-              label="Show Group Chat"
-              defaultToggled={ settings.group_chat }
-              ref='group_chat'
-            />
-          </div>
-          <div className='bevy-setting'>
             <RaisedButton
               label='Delete Board'
               backgroundColor='#d9534f'

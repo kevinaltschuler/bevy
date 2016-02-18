@@ -59,11 +59,6 @@ var BevySchema = new Schema({
   }
 });
 
-BevySchema.virtual('url').get(function() {
-  if(_.isEmpty(this.slug)) return ('/b/' + this._id + '/');
-  return ('/b/' + this.slug + '/');
-});
-
 BevySchema.set('toObject', {
   getters: true,
   virtuals: true

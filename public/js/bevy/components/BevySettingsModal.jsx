@@ -234,70 +234,8 @@ var BevySettingsModal = React.createClass({
               tooltip='Change Bevy Picture'
             />
           </div>
-          <div className='text-fields'>
-            <div className='name'>
-              <TextField
-                type='text'
-                ref={(ref) => { this.NameInput = ref; }}
-                placeholder='Group Name'
-                value={ this.state.name }
-                onChange={() => {
-                  this.setState({
-                    name: this.NameInput.getValue(),
-                    slug: getSlug(this.NameInput.getValue())
-                  });
-                  this.onSlugChange();
-                }}
-              />
-            </div>
-            <div className='slug'>
-              <TextField
-                type='text'
-                ref={(ref) => { this.SlugInput = ref; }}
-                floatingLabelText='Bevy URL'
-                errorText={ (this.state.slugVerified) ? '' : 'URL taken' }
-                value={ constants.siteurl + '/b/' + this.state.slug }
-                onChange={() => {
-                  this.setState({
-                    slug: this.SlugInput.getValue().slice((constants.siteurl.length + 3))
-                  });
-                  this.onSlugChange();
-                }}
-                onBlur={() => {
-                  this.setState({
-                    slug: getSlug(this.SlugInput.getValue().slice((constants.siteurl.length + 3)))
-                  });
-                }}
-                style={{
-                  flex: 1
-                }}
-              />
-              <div className='verify-status'>
-                { this._renderSlugVerifyStatus() }
-              </div>
-            </div>
-          </div>
-          <div className='bevy-setting expire-setting'>
-            Privacy
-            <OverlayTrigger placement='right' overlay={
-              <Popover id='settingspopover' title='Bevy Privacy'>
-                <p className='warning'>
-                  Public bevies can be viewed and joined by anybody.
-                  <br /><br />
-                  Private bevies are listed publicly but require an invite or
-                  permission to join and view content.
-                </p>
-              </Popover>
-            }>
-              <span className='glyphicon glyphicon-question-sign' />
-            </OverlayTrigger>
-            <DropDownMenu
-              ref='privacy'
-              menuItems={ privacyMenuItems }
-              onChange={ this.onPrivacyChange }
-              selectedIndex={ privacyIndex }
-            />
-          </div>
+
+
           <div className='bevy-setting'>
             <RaisedButton
               label='Delete Bevy'
