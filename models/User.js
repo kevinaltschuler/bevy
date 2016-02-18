@@ -35,10 +35,15 @@ var UserSchema = new Schema({
     type: String,
     required: true
   },
-  fullName: {
-    type: String
+  name: {
+    firstName: {
+      type: String
+    },
+    lastName: {
+      type: String
+    }
   },
-  phone: {
+  phoneNumber: {
     type: String
   },
   title: {
@@ -85,6 +90,25 @@ UserSchema.virtual('displayName').get(function() {
     return this.email;
   } else {
     return "[deleted]";
+  }
+});
+
+UserSchema.virtual('fullName').get(function() {
+  // if no name fields are filled out, then return the username
+  if(_.isEmpty(this.name.firstName) && _.isEmpty(this.name.lastName)) {
+    return this.username;
+
+  // if only the last name is filled out, return that
+  } else if (_.isEmpty(this.name.firstName)) {
+    return this.name.lastName;
+
+  // if only the first name is filled out, return that
+  } else if (_.isEmpty(this.name.lastName)) {
+    return this.name.firstName;
+
+  // otherwise, both name fields are filled out. return both
+  } else {
+    return this.name.firstName + ' ' + this.name.lastName;
   }
 });
 

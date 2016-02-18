@@ -11,15 +11,7 @@
 'use strict';
 
 var React = require('react');
-
 var Navbar = require('./Navbar.jsx');
-var HomeView = require('./../../homepage/components/HomeView.jsx');
-var BoardView = require('./BoardView.jsx');
-var BevyView = require('./../../bevy/components/BevyView.jsx');
-var FourOhFour = require('./FourOhFour.jsx');
-var SearchView = require('./SearchView.jsx');
-var PostView = require('./PostView.jsx');
-var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
 
 var _ = require('underscore');
 var router = require('./../../router');
@@ -160,6 +152,15 @@ var MainSection = React.createClass({
   }
 });
 
+var HomeView = require('./../../homepage/components/HomeView.jsx');
+var BoardView = require('./BoardView.jsx');
+var BevyView = require('./../../bevy/components/BevyView.jsx');
+var FourOhFour = require('./FourOhFour.jsx');
+var SearchView = require('./SearchView.jsx');
+var PostView = require('./PostView.jsx');
+var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
+var ProfileView = require('./../../user/components/ProfileView.jsx')
+
 var InterfaceComponent = React.createClass({
   callback() {
     this.forceUpdate();
@@ -171,22 +172,27 @@ var InterfaceComponent = React.createClass({
     router.off('route', this.callback);
   },
   render() {
-    console.log(router.current);
     switch(router.current) {
       case 'home':
-        return <HomeView {...this.props}  />
+        return <HomeView {...this.props}  />;
         break;
       case 'search':
-        return <SearchView {...this.props} />
+        return <SearchView {...this.props} />;
         break;
       case 'bevy':
-        return <BevyView {...this.props} />
+        return <BevyView {...this.props} />;
         break;
       case 'board':
-        return <BoardView {...this.props} />
+        return <BoardView {...this.props} />;
         break;
       case 'post':
-        return <PostView { ...this.props } />
+        return <PostView { ...this.props } />;
+        break;
+      case 'view-profile':
+        return <ProfileView editing={ false } { ...this.props } />;
+        break;
+      case 'edit-profile':
+        return <ProfileView editing={ true } { ...this.props } />;
         break;
       default:
         return <div>SOMETHING WENT REALLY REALLY WRONG</div>

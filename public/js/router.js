@@ -44,6 +44,16 @@ var Router = Backbone.Router.extend({
     's/' : 'search',
     's' : 'search',
     's/:query' : 'search',
+
+    // routes that are only available when inside a bevy subdomain
+    'profile' : 'redirectToProfile',
+    'profile/' : 'redirectToProfile',
+    'profile/:username/edit' : 'editProfile',
+    'profile/:username/edit/' : 'editProfile',
+    'profile/:username' : 'viewProfile',
+    'profile/:username/' : 'viewProfile',
+
+    // catch everything else and 404
     '*nuts' : 'notFound'
   },
 
@@ -149,8 +159,26 @@ var Router = Backbone.Router.extend({
     this.current = 'search';
     this.search_query = query;
     if(query == undefined) {
-      this.search.query = '';
+      this.search_query = '';
     }
+  },
+
+  redirectToProfile() {
+    if(!this.checkUser()) return this.home();
+    if(!this.checkSubdomain()) return this.notFound();
+    this.navigate('/profile/' + window.bootstrap.user.username, { trigger: true });
+  },
+  viewProfile(username) {
+    if(!this.checkUser()) return this.home();
+    if(!this.checkSubdomain()) return this.notFound();
+    this.profile_username = username;
+    this.current = 'view-profile';
+  },
+  editProfile(username) {
+    if(!this.checkUser()) return this.home();
+    if(!this.checkSubdomain()) return this.notFound();
+    this.profile_username = username;
+    this.current = 'edit-profile';
   },
 
   notFound(nuts) {
@@ -162,8 +190,19 @@ var Router = Backbone.Router.extend({
   checkUser() {
     if(_.isEmpty(window.bootstrap.user)) {
       return false
-    }
-    return true
+    } else return true
+  },
+
+  checkSubdomain() {
+    var hostname_chunks = window.location.hostname.split('.');
+    if(hostname_chunks.length == 3) {
+      this.bevy_slug = hostname_chunks[0];
+      return true;
+    } else return false;
+  },
+
+  get(key) {
+    return this[key];
   }
 });
 

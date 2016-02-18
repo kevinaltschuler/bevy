@@ -206,8 +206,22 @@ _.extend(UserStore, {
         break;
 
       case USER.UPDATE:
-        var image = payload.image;
-        this.user.save({ image: image }, { patch: true });
+        let firstName = payload.firstName;
+        let lastName = payload.lastName;
+        let title = payload.title;
+        let phoneNumber = payload.phoneNumber;
+        let image = payload.image;
+
+        this.user.url = constants.apiurl + '/users/' + window.bootstrap.user._id;
+        this.user.save({
+          name: { firstName: firstName, lastName: lastName },
+          title: title,
+          phoneNumber: phoneNumber,
+          image: image
+        }, {
+          patch: true
+        });
+
         this.trigger(USER.CHANGE_ALL);
         break;
 

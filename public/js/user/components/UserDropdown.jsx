@@ -18,8 +18,6 @@ var {
   FlatButton,
   TextField
 } = require('material-ui');
-var AddAccountModal = require('./AddAccountModal.jsx');
-var LinkedAccountItem = require('./LinkedAccountItem.jsx');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var _ = require('underscore');
@@ -53,29 +51,15 @@ var UserDropdown = React.createClass({
   handleChangeAll() {
   },
 
-  onUploadComplete(file) {
-    this.setState({
-      image: file
-    });
-    UserActions.update(file);
-  },
-
   toggle(ev) {
     ev.preventDefault();
     this.props.onToggle();
   },
 
   renderOverlay() {
-    var dropzoneOptions = {
-      maxFiles: 1,
-      acceptedFiles: 'image/*',
-      clickable: '.dropzone-panel-button',
-      dictDefaultMessage: ' ',
-    };
-
     var profileImage = (_.isEmpty(this.state.image))
       ? constants.defaultProfileImage
-      : resizeImage(this.state.image, 64, 64).url;
+      : resizeImage(this.state.image, 128, 128).url;
     var profileImageStyle = {
       backgroundImage: 'url(' + profileImage + ')',
     };
@@ -86,14 +70,7 @@ var UserDropdown = React.createClass({
         <div className='arrow' />
         <div className='profile-dropdown'>
           <div className="profile-top">
-            <div className="profile-picture overlay">
-              <Uploader
-                onUploadComplete={ this.onUploadComplete }
-                className="profile-image-dropzone"
-                style={ profileImageStyle }
-                dropzoneOptions={ dropzoneOptions }
-                tooltip='Change Profile Picture'
-              />
+            <div className="profile-picture" style={ profileImageStyle }>
             </div>
             <div className="profile-details">
               <span className='profile-name'>{ user.displayName }</span>
