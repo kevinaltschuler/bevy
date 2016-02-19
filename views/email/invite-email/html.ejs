@@ -1,31 +1,34 @@
 <body>
-  <table>
+  <table cellspacing="50">
     <tbody>
       <tr>
-        <td align="center" style="vertical-align:middle;">
+        <td align="left" style="vertical-align:left;">
           <a title="Bevy" href="http://joinbevy.com">
-            <img width="50" height="50" src='http://joinbevy.com/img/logo_200.png'></img>
+            <img width="60" height="60" src='http://joinbevy.com/img/logo_200.png'></img>
           </a>
-          <span style="font-size:3em;color:#2CB673">
-            Bevy
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+          <span style="font-size:2.5em;color:#666666;font-weight:bold;">
+            You've been Invited.
           </span>
         </td>
       </tr>
       <tr>
-        <td align="center" style="vertical-align:middle;">
-          <span style="font-size:2em;color=#666666;">
-            You're invited to join&nbsp;
+        <td align="left" style="vertical-align:left;">
+          <span style='font-size:1.2em;color:#aaa;'>
+            You're welcome to join
             <span style="font-weight:bold"><%= bevy_name %></span>
-            &nbsp;on Bevy!
+            on Bevy!
           </span>
-          <br />
-          <span style="">
-            Bevy is a communication app for frats, sororities, teams, clubs, and any other group that needs to organize.
-          </span>
-          <br />
-          <span style="">
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <span style='font-size:1.2em;color:#aaa;'>
             <%= inviter_name %> (
-            <a href="mailto:<%= inviter_email %>" target="_blank" title="<%= inviter_email %>" style="">
+            <a style='font-size:1.2em;color:#aaa;' href="mailto:<%= inviter_email %>" target="_blank" title="<%= inviter_email %>" style="">
               <%= inviter_email %>
             </a>
             ) sent you this invitation.
@@ -33,40 +36,66 @@
         </td>
       </tr>
       <tr>
-        <td align="center" style="">
-          <a href="<%= invite_link %>" target="_blank" style="padding-top:8px;padding-bottom:8px;color:#FFF;background-color:#2CB673;padding-left:16px;padding-right:16px;margin-top:10px;margin-bottom:10px">
+        <td align="left" style="">
+          <a href="<%= invite_link %>" target="_blank" style="padding-top:8px;padding-bottom:8px;color:#FFF;background-color:#2CB673;padding-left:16px;padding-right:16px;margin-top:10px;margin-bottom:10px;text-decoration: none;">
             Join Bevy
           </a>
         </td>
       </tr>
       <tr>
-        <td align="center">
-          <span style="color=#888888;">
-            You may copy/paste this link into your browser
+        <td align="left">
+          <span style='font-size:1.2em;color:#aaa;'>
+            Your team's Bevy domain is:
           </span>
+          <a style='font-size:1.2em;color:#aaa;' title="<%= bevy_name %>" href="http://<%= bevy_slug %>.joinbevy.com" target="_blank" style="">
+            <%= bevy_slug %>.joinbevy.com
+          </a>
           <br />
-          <a title="Join Bevy" href="<%= invite_link %>" target="_blank" style="">
-            <%= invite_link %>
+          <span style='font-size:1.2em;color:#aaa;'>
+            Your sign-in email is:
+          </span>
+          <a style='font-size:1.2em;color:#aaa;' title="<%= user_email %>" href="mailto:<%= user_email %>" target="_blank" style="">
+            <%= user_email %>
           </a>
         </td>
       </tr>
       <tr>
-        <td align="center">
-          <span style="">
-            Your team's Bevy domain is:
+        <td align="left" style="vertical-align:left;">
+          <span style="color:#aaa;font-size:1.2em;">
+            Thanks,
           </span>
-          <br />
-          <a title="<%= bevy_name %>" href="http://<%= bevy_slug %>.joinbevy.com" target="_blank" style="">
-            <%= bevy_slug %>.joinbevy.com
-          </a>
-          <br />
-          <span style="">
-            Your sign-in email is:
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+          <span style='color:#aaa;font-size:1.2em;'>
+            Bevy
           </span>
-          <br />
-          <a title="<%= user_email %>" href="mailto:<%= user_email %>" target="_blank" style="">
-            <%= user_email %>
-          </a>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+            <span style="color:#666">
+              Follow Bevy on 
+              <a href="https://www.facebook.com/joinbevy" style="color:#666">
+                Facebook
+              </a>
+            </span>
+            <br/>
+            <span style="color:#666">
+              Download Bevy on iOS (March 2016)
+            </span>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+            <a href='http://joinbevy.com' style="color:rgba(44,182,115,.6)">
+              joinbevy.com
+            </a>
         </td>
       </tr>
     </tbody>

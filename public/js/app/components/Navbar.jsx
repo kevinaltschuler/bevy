@@ -276,7 +276,6 @@ var Navbar = React.createClass({
             >
               <div className='bevy-logo-img'/>
             </Button>
-            { searchButton}
           </div>
 
           <div className="center">

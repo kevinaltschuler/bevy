@@ -1,47 +1,89 @@
 <body>
-  <table>
+  <table cellspacing="50">
     <tbody>
       <tr>
-        <td align="center" style="vertical-align:middle;">
+        <td align="left" style="vertical-align:left;">
           <a title="Bevy" href="http://joinbevy.com">
-            <img width="50" height="50" src='http://joinbevy.com/img/logo_200.png'></img>
+            <img width="60" height="60" src='http://joinbevy.com/img/logo_200.png'></img>
           </a>
-          <span style="font-size:3em;color:#2CB673">
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+          <span style="font-size:2.5em;color:#666666;font-weight:bold;">
+            We Found Your Community.
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+          <span style='font-size:1.2em;color:#aaa;'>We searched for Bevy groups you're a part of, using <%= user_email %>, and we found one.</span>
+          <br />
+          <span style='font-size:1.2em;color:#aaa;'>You can sign in to the following group:</span>
+          <span style='font-size:1.2em;color:#aaa;' ><%= bevy_name %></span> - <a style='font-size:1.2em;color:#aaa;' title="<%= bevy_name %>" href="http://<%= bevy_slug %>.<%= domain %>">http://<%= bevy_slug %>.<%= domain %></a>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+          <span style="color:#aaa;font-size:1.2em;">
+            Thanks,
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+          <span style='color:#aaa;font-size:1.2em;'>
             Bevy
           </span>
         </td>
       </tr>
       <tr>
-        <td align="center" style="vertical-align:middle;">
-          <span>We searched for Bevy groups you're a part of, using <%= user_email %>, and we found one.</span>
-          <br />
-          <br />
-          <span>You can sign in to the following group:</span>
-          <br />
-          <span><%= bevy_name %></span> - <a title="<%= bevy_name %>" href="http://<%= bevy_slug %>.<%= domain %>">http://<%= bevy_slug %>.<%= domain %></a>
+        <td align="left" style="vertical-align:left;">
         </td>
       </tr>
       <tr>
-        <td align="center" style="">
-          <span>Forgot your password for this account?</span>
-          <br />
-          <a title="Forgot Password" href="http://<%= domain %>/forgot">We can send you a password reset email</a>
-          <br />
-          <br />
-          <span>Is your group not listed here?</span>
-          <br />
-          <a title="Forgot Group" href="http://<%= domain %>/forgot/group<">Try a different email</a>
-          <span>or,</span>
-          <a title="Create a new group" href="http://<%= domain %>/create">create a new Bevy group</a>
-          <br />
-          <br />
-          <span>Still need something?</span>
-          <a title="Email Us" href="mailto:contact@joinbevy.com">Email Us</a>
-          <br />
-          <br />
-          <span>Thanks,</span>
-          <br />
-          <span>Team Bevy</span>
+        <td align="left" style="vertical-align:left;">
+            <span style="color:#666">
+              Follow Bevy on 
+              <a href="https://www.facebook.com/joinbevy" style="color:#666">
+                Facebook
+              </a>
+            </span>
+            <br/>
+            <span style="color:#666">
+              Download Bevy on iOS (March 2016)
+            </span>
+            <br/>
+            <br/>
+            <span style="color:#666">
+              Forgot your password for this account?
+            </span>
+            <br />
+            <a style="color:#666" title="Forgot Password" href="http://<%= domain %>/forgot">
+              We can send you a password reset email
+            </a>
+            <br />
+            <br />
+            <span style="color:#666">
+              Is your group not listed here?
+            </span>
+            <br />
+            <a style="color:#666" title="Forgot Group" href="http://<%= domain %>/forgot/group<">
+              Try a different email
+            </a>
+            <span style="color:#666" >or,</span>
+            <a style="color:#666" title="Create a new group" href="http://<%= domain %>/create">create a new Bevy group</a>
+            <br />
+            <br />
+            <span style="color:#666" >Still need something?</span>
+            <a style="color:#666" title="Email Us" href="mailto:contact@joinbevy.com">Email Us</a>
+        </td>
+      </tr>
+      <tr>
+        <td align="left" style="vertical-align:left;">
+            <a href='http://joinbevy.com' style="color:rgba(44,182,115,.6)">
+              joinbevy.com
+            </a>
         </td>
       </tr>
     </tbody>

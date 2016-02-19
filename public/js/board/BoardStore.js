@@ -63,11 +63,7 @@ _.extend(BoardStore, {
         board.url = constants.apiurl + '/boards';
         board.save(null, {
           success: function(model, response, options) {
-            BevyStore.addBoard(board);
-            UserStore.addBoard(board);
-            this.trigger(BEVY.CHANGE_ALL);
-            this.trigger(BOARD.CHANGE_ALL);
-            this.trigger(USER.CHANGE_ALL);
+            window.location.reload();
           }.bind(this)
         });
         break;
@@ -131,7 +127,7 @@ _.extend(BoardStore, {
         var board = this.active;
         board.destroy({
           success: function(model, response) {
-            window.location.href = constants.siteurl + model.get('parent').url;
+            window.location.href = '/';
           }.bind(this)
         })
         break;
