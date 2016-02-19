@@ -55,6 +55,12 @@
 
       .profile-picture{
         margin-right: 15px;
+        width: 75px;
+        height: 75px;
+        border-radius: 50px;
+        margin-left: 15px;
+        margin-top: 10px;
+        #image-icon();
       }
       .profile-details {
         flex: 1;
@@ -71,12 +77,12 @@
           margin-left: 0px;
           margin-top: -10px;
         }
-        span.profile-email {
+        span.profile-username {
           font-size: .9em;
           color: #4c4c4c;
           margin-top: -5px;
         }
-        span.profile-points {
+        span.profile-email {
           font-size: 0.8em;
           color: #4c4c4c;
           display: flex;
@@ -84,121 +90,12 @@
           justify-content: flex-start;
         }
       }
-      .profile-settings {
-        float: right;
-        .btn {
-          padding-top: 15px;
-          background-color: rgba(0,0,0,0);
-          color: @light-font;
-          font-size: 1.1em;
-          transition: all 0.15s linear;
-          border: none;
-          &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-            outline: none;
-            box-shadow: none;
-            background-color: rgba(0,0,0,0);
-          }
-          &:active, &.active, .btn.active, .btn:active {
-            color: black;
-          }
-        }
-      }
     }
 
-    .profile-links {
-      color: @light-font;
-      font-size: .9em;
-      margin-top: 15px;
-      span {
-        float: right;
-        padding: 0 5px;
-      }
-      button.profile-link {
-        float: right;
-        padding: 0 5px;
-        background-color: rgba(0,0,0,0);
-        color: @light-font;
-        font-size: inherit;
-        transition: all 0.15s linear;
-        border: none;
-        text-decoration: underline;
-        &:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-          outline: none;
-          box-shadow: none;
-          background-color: rgba(0,0,0,0);
-        }
-        &:active, &.active, .btn.active, .btn:active {
-          color: black;
-          text-decoration: underline;
-        }
-      }
-    }
-
-    .linked-accounts {
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-      .linked-account {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        border-radius: 0px;
-        .switch-btn {
-          flex: 1;
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          width: 100%;
-          background-color: transparent;
-          border: none;
-          padding: 5px 5px;
-          &:hover {
-            background-color: rgba(0,0,0,0.05);
-            text-decoration: none;
-          }
-          &:active, &:focus {
-            box-shadow: none;
-          }
-          &:active {
-            background-color: rgba(0,0,0,0.1);
-          }
-          .image {
-            #image-icon();
-            min-width: 30px;
-            min-height: 30px;
-            border-radius: 15px;
-            margin-right: 10px;
-          }
-          .display-name {
-            color: #000;
-            flex: 1;
-            text-align: left;
-          }
-        }
-        .unlink-btn {
-          background-color: transparent;
-          border: none;
-          padding: 10px 15px;
-          border-radius: 0px;
-          &:hover {
-            background-color: rgba(0,0,0,0.05);
-          }
-          &:active, &:focus {
-            box-shadow: none;
-          }
-          &:active {
-            background-color: rgba(0,0,0,0.1);
-          }
-        }
-      }
-    }
-
-    .profile-dropdown-buttons {
+    .buttons {
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
+      justify-content: flex-end;
       width: 100%;
       padding: 0px 6px;
       padding-top: 5px;

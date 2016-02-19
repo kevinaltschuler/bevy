@@ -11,15 +11,11 @@
 'use strict';
 
 var React = require('react');
-
 var Navbar = require('./Navbar.jsx');
-var HomeView = require('./../../homepage/components/HomeView.jsx');
-var BoardView = require('./BoardView.jsx');
-var BevyView = require('./../../bevy/components/BevyView.jsx');
-var FourOhFour = require('./FourOhFour.jsx');
-var SearchView = require('./SearchView.jsx');
-var PostView = require('./PostView.jsx');
-var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
+
+var {
+  LeftNav
+} = require('material-ui');
 
 var _ = require('underscore');
 var router = require('./../../router');
@@ -46,11 +42,11 @@ var change_all_events = [
 ].join(' ');
 
 var MainSection = React.createClass({
-  getInitialState: function() {
+  getInitialState() {
     return this.collectState();
   },
 
-  componentDidMount: function() {
+  componentDidMount() {
     AppActions.loadUser();
 
     PostStore.on(change_all_events, this._onPostChange);
@@ -61,7 +57,7 @@ var MainSection = React.createClass({
 
     UserStore.on(USER.LOADED, AppActions.load());
   },
-  componentWillUnmount: function() {
+  componentWillUnmount() {
     PostStore.off(change_all_events, this._onPostChange);
     BevyStore.off(change_all_events, this._onBevyChange);
     NotificationStore.off(change_all_events, this._onNotificationChange);
@@ -69,13 +65,13 @@ var MainSection = React.createClass({
     BoardStore.off(change_all_events, this._onBoardChange);
   },
 
-  getPostState: function() {
+  getPostState() {
     return {
       sortType: PostStore.getSort()
     }
   },
 
-  getBevyState: function() {
+  getBevyState() {
     var active = BevyStore.getActive();
     var bevyBoards = BevyStore.getBevyBoards();
 
@@ -85,29 +81,31 @@ var MainSection = React.createClass({
     };
   },
 
-  getNotificationState: function() {
+  getNotificationState() {
     return {
       allNotifications: NotificationStore.getAll(),
       userInvites: NotificationStore.getUserInvites()
     };
   },
 
-  getUserState: function() {
+  getUserState() {
     return {
       user: UserStore.getUser(),
       loggedIn: UserStore.getLoggedIn()
     };
   },
 
-  getBoardState: function() {
+  getBoardState() {
     return {
       //boards: BoardStore.getBoards(),
       activeBoard: BoardStore.getActive()
     };
   },
 
-  collectState: function() {
-    var state = {};
+  collectState() {
+    var state = {
+      leftNavOpen: false
+    };
     _.extend(state,
       this.getPostState(),
       this.getBevyState(),
@@ -119,32 +117,48 @@ var MainSection = React.createClass({
   },
 
   // event listener callbacks
-  _onPostChange: function() {
+  _onPostChange() {
     this.setState(_.extend(this.state, this.getPostState()));
   },
-  _onBevyChange: function() {
+  _onBevyChange() {
     this.setState(_.extend(this.state, this.getBevyState()));
   },
-  _onNotificationChange: function() {
+  _onNotificationChange() {
     this.setState(_.extend(this.state, this.getNotificationState()));
   },
-  _onUserChange: function() {
+  _onUserChange() {
     this.setState(_.extend(this.state, this.getUserState()));
   },
-  _onBoardChange: function() {
+  _onBoardChange() {
     this.setState(_.extend(this.state, this.getBoardState()));
   },
 
-  componentWillReceiveProps: function(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.setState(this.collectState());
   },
 
-  render: function() {
+  openLeftNav() {
+    this.setState({ leftNavOpen: true });
+  },
+  closeLeftNav() {
+    this.setState({ leftNavOpen: false });
+  },
+  toggleLeftNav() {
+    this.setState({ leftNavOpen: !this.state.leftNavOpen });
+  },
+
+  render() {
 
     if(!UserStore.getTokensLoaded() && router.current != 'home') {
       console.log('tokens not loaded');
       //return <div/>;
     }
+
+    let leftNavActions = {
+      open: this.openLeftNav,
+      close: this.closeLeftNav,
+      toggle: this.toggleLeftNav
+    };
 
     return (
       <div className='main-section-wrapper'>
@@ -153,12 +167,36 @@ var MainSection = React.createClass({
           allNotifications={ this.state.allNotifications }
           userInvites={ this.state.userInvites }
           activeBoard={ this.state.activeBoard }
+          leftNavActions={ leftNavActions }
         />
-        <InterfaceComponent {...this.state} />
+        <LeftNav
+          width={ 300 }
+          openRight={ true }
+          open={ this.state.leftNavOpen }
+          docked={ false }
+          onRequestChange={open => this.setState({ leftNavOpen: open })}
+        >
+
+          <span>adsf</span>
+        </LeftNav>
+        <InterfaceComponent
+          leftNavActions={ leftNavActions }
+          {...this.state}
+        />
       </div>
     );
   }
 });
+
+var HomeView = require('./../../homepage/components/HomeView.jsx');
+var BoardView = require('./BoardView.jsx');
+var BevyView = require('./../../bevy/components/BevyView.jsx');
+var FourOhFour = require('./FourOhFour.jsx');
+var SearchView = require('./SearchView.jsx');
+var PostView = require('./PostView.jsx');
+var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
+var ProfileView = require('./../../user/components/ProfileView.jsx');
+var DirectoryView = require('./../../user/components/DirectoryView.jsx');
 
 var InterfaceComponent = React.createClass({
   callback() {
@@ -171,22 +209,30 @@ var InterfaceComponent = React.createClass({
     router.off('route', this.callback);
   },
   render() {
-    console.log(router.current);
     switch(router.current) {
       case 'home':
-        return <HomeView {...this.props}  />
+        return <HomeView {...this.props}  />;
         break;
       case 'search':
-        return <SearchView {...this.props} />
+        return <SearchView {...this.props} />;
         break;
       case 'bevy':
-        return <BevyView {...this.props} />
+        return <BevyView {...this.props} />;
         break;
       case 'board':
-        return <BoardView {...this.props} />
+        return <BoardView {...this.props} />;
         break;
       case 'post':
-        return <PostView { ...this.props } />
+        return <PostView { ...this.props } />;
+        break;
+      case 'view-profile':
+        return <ProfileView editing={ false } { ...this.props } />;
+        break;
+      case 'edit-profile':
+        return <ProfileView editing={ true } { ...this.props } />;
+        break;
+      case 'directory':
+        return <DirectoryView { ...this.props } />;
         break;
       default:
         return <div>SOMETHING WENT REALLY REALLY WRONG</div>

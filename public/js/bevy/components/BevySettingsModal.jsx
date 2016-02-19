@@ -17,10 +17,8 @@ var {
   RaisedButton,
   Toggle,
   DropDownMenu,
-  TextField,
-  Styles
+  TextField
 } = require('material-ui');
-var ThemeManager = new Styles.ThemeManager();
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var _ = require('underscore');
@@ -35,16 +33,6 @@ var BevySettingsModal = React.createClass({
     onHide: React.PropTypes.func
   },
 
-  childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
-
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    }
-  },
-
   getInitialState() {
     return {
       name: this.props.activeBevy.name,
@@ -55,15 +43,6 @@ var BevySettingsModal = React.createClass({
       posts_expire_in: this.props.activeBevy.settings.posts_expire_in,
       privacy: this.props.activeBevy.settings.privacy
     };
-  },
-
-  componentWillMount() {
-    ThemeManager.setComponentThemes({
-      textField: {
-        textColor: '#666',
-        focusColor: '#666'
-      }
-    });
   },
 
   onDropDownChange(ev, selectedIndex, menuItem) {

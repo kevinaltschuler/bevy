@@ -485,9 +485,12 @@ exports.checkIfSlugAvailable = checkIfSlugAvailable;
 // GET /bevies/:bevyid/subscribers
 exports.getSubscribers = function(req, res, next) {
   var bevy_id = req.params.bevyid;
-  User.find({ bevies: bevy_id }, function(err, users) {
+  var skip_users = (req.query['skip'] == undefined) ? 0 : req.query['skip'];
+  User.find({ bevy: bevy_id }, function(err, users) {
     if(err) return next(err);
     return res.json(users);
   })
-  .limit(20);
+  .limit(20)
+  .sort('-created')
+  .skip(skip_users);
 };

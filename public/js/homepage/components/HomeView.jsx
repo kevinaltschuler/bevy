@@ -13,10 +13,8 @@ var {
 } = require('react-bootstrap');
 var {
   RaisedButton,
-  Styles,
   TextField
 } = require('material-ui');
-var ThemeManager = new Styles.ThemeManager();
 
 var Feature = require('./Feature.jsx');
 
@@ -29,30 +27,11 @@ var TYPED = require('./typed.js').TYPED;
 
 
 var HomeView = React.createClass({
-  childContextTypes: {
-    muiTheme: React.PropTypes.object
-  },
-
   getInitialState() {
     return {
       showNewBevyModal: false,
       selected: 0,
     };
-  },
-
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    }
-  },
-
-  componentWillMount() {
-    ThemeManager.setComponentThemes({
-      textField: {
-        textColor: '#FFF',
-        focusColor: '#FFF'
-      }
-    });
   },
 
   componentDidMount() {

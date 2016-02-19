@@ -16,7 +16,8 @@ var {
 var {
   RaisedButton,
   FlatButton,
-  TextField
+  TextField,
+  CircularProgress
 } = require('material-ui');
 var Ink = require('react-ink');
 
@@ -27,8 +28,6 @@ var UserActions = require('./../../user/UserActions');
 var UserStore = require('./../../user/UserStore');
 var USER = constants.USER;
 
-
-
 var LoginPanel = React.createClass({
   propTypes: {
     bevySlug: React.PropTypes.string.isRequired
@@ -36,9 +35,9 @@ var LoginPanel = React.createClass({
 
   getInitialState() {
     return {
-      errorText: '',
-      showError: false,
-      verifying: false
+      emailError: '',
+      passwordError: '',
+      loading: false
     };
   },
 
@@ -54,7 +53,7 @@ var LoginPanel = React.createClass({
   },
 
   onLoggingIn() {
-
+    this.setState({ loading: true });
   },
   onLoginSuccess() {
     window.location.href = '/';
@@ -62,56 +61,72 @@ var LoginPanel = React.createClass({
 
   onLoginError(err) {
     this.setState({
-      showError: true,
-      errorText: err
+      loading: false,
+      passwordError: err.toString()
     });
+    // focus the password field for ease
+    this.refs.password.focus();
   },
 
   submit(e) {
     // prevent default form submission
     e.preventDefault();
+    // if the request is already pending, then get out of here
+    if(this.state.loading) return;
 
-    var username = this.refs.username.getValue();
+    // load username and password from the TextFields
+    var email = this.refs.email.getValue();
     var password = this.refs.password.getValue();
 
-    if(_.isEmpty(username)) {
-      this.setState({
-        errorText: 'Please enter your username',
-        showError: true
-      });
+    // break out if the username is empty
+    if(_.isEmpty(email)) {
+      this.setState({ emailError: 'Please enter your email address' });
       return;
     }
-    // dont need to check for valid email address - if they
-    // used the register form it should be valid anyways
+    // check the validity of the email by just checking if there are characters
+    // before and after an @ symbol. super simple no regex
+    if(email.split('@').length != 2) {
+      this.setState({ emailError: 'Please enter a valid email address' });
+      return;
+    }
+    // clear the username error if we got here
+    this.setState({ emailError: '' });
+    // break out if password is empty
     if(_.isEmpty(password)) {
-      this.setState({
-        errorText: 'Please enter your password',
-        showError: true
-      });
+      this.setState({ passwordError: 'Please enter your password' });
       return;
     }
+    // clear the password error if we got here
+    this.setState({ passwordError: '' });
 
-    UserActions.login(username, password);
+    UserActions.login(email, password);
   },
 
   onPasswordKeyUp(ev) {
     ev.preventDefault();
+    // if the user presses enter, while editing the password TextField,
+    // then start the login process
     if(ev.which == 13) {
       this.submit(ev);
     }
   },
 
-  _renderError() {
-    if(!this.state.showError) return <div />;
-    return(
-      <div className='login-error'>
-        <span>{ this.state.errorText }</span>
-      </div>
-    );
-  },
-
   renderLoadingOrArrow() {
-    return <div />;
+    if(this.state.loading) {
+      return (
+        <div className='progress-container'>
+          <CircularProgress
+            mode='indeterminate'
+            color='#FFF'
+            size={ 0.4 }
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div />
+      );
+    }
   },
 
   render() {
@@ -124,31 +139,32 @@ var LoginPanel = React.createClass({
         <span className='prompt'>
           Please enter your <span className='bold'>email address</span> and <span className='bold'>password</span>.
         </span>
-        { this._renderError() }
         <div className='inputs'>
           <span className='input-label'>Email Address</span>
           <TextField
-            ref='username'
+            ref='email'
             type='text'
             hintText={ 'e.g., ' + fakeEmails[Math.floor(Math.random() * fakeEmails.length)] }
-            style={{width: '100%'}}
+            errorText={ this.state.emailError }
+            style={{ width: '100%', marginBotton: '10px' }}
           />
           <span className='input-label'>Password</span>
           <TextField
             ref='password'
             type='password'
             hintText='e.g., •••••••••'
-            style={{marginBottom: '10px', width: '100%'}}
+            style={{ marginBottom: '10px', width: '100%' }}
+            errorText={ this.state.passwordError }
             onKeyUp={ this.onPasswordKeyUp }
           />
           <button
             className='submit-btn'
             onClick={ this.submit }
             style={{
-              cursor: (this.state.verifying)
+              cursor: (this.state.loading)
                 ? 'default'
                 : 'pointer',
-              backgroundColor: (this.state.verifying)
+              backgroundColor: (this.state.loading)
                 ? '#888'
                 : '#2CB673'
             }}

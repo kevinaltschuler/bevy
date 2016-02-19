@@ -147,7 +147,20 @@ module.exports = function(app) {
   });
 
   app.get('/reset/:token', checkToken, viewController.renderApp);
-  app.get('/invite/:token', checkInvite, viewController.renderApp);
+  app.get('/invite/:token',
+    checkInvite,
+    function(req, res, next) {
+      // if the user is logged in,
+      // then don't show this page. redirect to the homepage
+      if(req.user != undefined) {
+        return res.redirect(config.app.server.hostname);
+      } else {
+        // if they aren't, then let them proceed
+        return next();
+      }
+    },
+    viewController.renderApp
+  );
 
   app.post('/forgot/group', function(req, res, next) {
     var email = req.body['email'];

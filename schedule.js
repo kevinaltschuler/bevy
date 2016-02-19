@@ -16,6 +16,8 @@ var Post = require('./models/Post');
 var Comment = require('./models/Comment');
 var Board = require('./models/Board');
 
+console.log('scheduler loaded')
+
 var bevySubCountJob = schedule.scheduleJob('* * * * *', function() {
   var limit = 20; // do 20 bevies at once
   var i = 0;
@@ -29,10 +31,10 @@ var bevySubCountJob = schedule.scheduleJob('* * * * *', function() {
           async.each(bevies,
             function(bevy, $callback) {
               //console.log('counting subscribers of', bevy._id);
-              User.count({ bevies: bevy._id }, function(err, subCount) {
+              User.count({ bevy: bevy._id }, function(err, subCount) {
                 Bevy.update({ _id: bevy._id }, { subCount: subCount }, function(err, $bevy) {
                   //console.log(bevy._id, 'has', subCount, 'subscribers');
-                  $callback();
+                  $callback(null);
                 });
               });
             },

@@ -35,7 +35,15 @@ var UserSchema = new Schema({
     type: String,
     required: true
   },
-  phone: {
+  name: {
+    firstName: {
+      type: String
+    },
+    lastName: {
+      type: String
+    }
+  },
+  phoneNumber: {
     type: String
   },
   title: {
@@ -85,6 +93,25 @@ UserSchema.virtual('displayName').get(function() {
   }
 });
 
+UserSchema.virtual('fullName').get(function() {
+  // if no name fields are filled out, then return the username
+  if(_.isEmpty(this.name.firstName) && _.isEmpty(this.name.lastName)) {
+    return '';
+
+  // if only the last name is filled out, return that
+  } else if (_.isEmpty(this.name.firstName)) {
+    return this.name.lastName;
+
+  // if only the first name is filled out, return that
+  } else if (_.isEmpty(this.name.lastName)) {
+    return this.name.firstName;
+
+  // otherwise, both name fields are filled out. return both
+  } else {
+    return this.name.firstName + ' ' + this.name.lastName;
+  }
+});
+
 UserSchema.methods.verifyPassword = function(password) {
   return bcrypt.compareSync(password, this.password);
 };
@@ -105,7 +132,9 @@ UserSchema.set('toJSON', {
 
 UserSchema.index({
   email: 'text',
-  username: 'text'
+  username: 'text',
+  'name.firstName': 'text',
+  'name.lastName': 'text'
 });
 
 UserSchema.pre('save', function(next) {

@@ -66,23 +66,28 @@ exports.createUser = function(req, res, next) {
 // SHOW
 // GET /users/:id/
 exports.getUser = function(req, res, next) {
-  var id = req.params.id;
-  var query = { _id: id };
-  var promise = User.findOne(query)
-    .exec();
-  promise.then(function(user) {
-    if(!user) throw error.gen('user not found', req);
-    return user;
-  }).then(function(user) {
-    res.json(user);
-  }, function(err) { next(err); });
+  var user_id_or_username = req.params.userid;
+  var bevy_id = req.query['bevy_id'];
+  // if a bevy var is requested with this user, then search for the user
+  // via their username and their bevy
+  // otherwise just search for the user from their ID
+  var query = (bevy_id == undefined)
+    ? { _id: user_id_or_username }
+    : { $and: [{ username: user_id_or_username }, { bevy: bevy_id }]};
+
+  User.findOne(query, function(err, user) {
+    if(err) return next(err);
+    if(!user) return next('User not found');
+    return res.json(user);
+  });
 }
 
 //SEARCH
 //GET /users/search/:query
 exports.searchUsers = function(req, res, next) {
 	var query = req.params.query;
-  var exclude_users = (req.query['exclude'] == undefined) ? null : req.query['exclude'];
+  var exclude_users = req.query['exclude'];
+  var bevy_id = req.query['bevy_id'];
   var promise;
   if(_.isEmpty(query)) {
     promise = User.find()
@@ -95,8 +100,11 @@ exports.searchUsers = function(req, res, next) {
         { username: { $regex: query, $options: 'i' } }
       ]);
   }
-  if(exclude_users) {
+  if(exclude_users != undefined) {
     promise.where({ _id: { $not: { $in: exclude_users }}});
+  }
+  if(bevy_id != undefined) {
+    promise.where({ bevy: bevy_id });
   }
   promise.exec();
   promise.then(function(users) {
@@ -113,12 +121,18 @@ exports.updateUser = function(req, res, next) {
 
   var update = {};
   update.updated = new Date();
-  if(req.body['bevies'] != undefined)
+  if(req.body['bevy'] != undefined)
     update.bevies = req.body['bevies'];
   if(req.body['image'] != undefined)
     update.image = req.body['image'];
   if(req.body['boards'] != undefined)
     update.boards = req.body['boards'];
+  if(req.body['name'] != undefined)
+    update.name = req.body['name'];
+  if(req.body['title'] != undefined)
+    update.title = req.body['title'];
+  if(req.body['phoneNumber'] != undefined)
+    update.phoneNumber = req.body['phoneNumber'];
 
   var promise = User.findOneAndUpdate({ _id: id }, update, { new: true });
   promise.then(function(user) {

@@ -11,18 +11,40 @@ var constants = require('./../constants');
 var USER = constants.USER;
 
 var UserActions = {
-  update(image) {
+
+  /**
+   * update user information
+   *
+   * @param firstName {string} - the first name of the user
+   * @param lastName {string} - the last name of the user
+   * @param title {string} - the title of the user
+   * @param phoneNumber {string} - the phone number of the user
+   * @param image {objeft} - the image object of the user
+   */
+  update(firstName, lastName, title, phoneNumber, image) {
     Dispatcher.dispatch({
       actionType: USER.UPDATE,
-      image: (image == undefined) ? null : image
+      firstName: firstName,
+      lastName: lastName,
+      title: title,
+      phoneNumber: phoneNumber,
+      image: image
     });
   },
-  search(query) {
+
+  /**
+   * search for users within a bevy
+   * @param query {string} - the search query
+   * @param bevy_id {string} - the id of the bevy to search within
+   */
+  search(query, bevy_id) {
     Dispatcher.dispatch({
       actionType: USER.SEARCH,
-      query: query
+      query: query,
+      bevy_id: bevy_id
     });
   },
+  
   login(username, password) {
     Dispatcher.dispatch({
       actionType: USER.LOGIN,

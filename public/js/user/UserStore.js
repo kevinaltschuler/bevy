@@ -206,16 +206,38 @@ _.extend(UserStore, {
         break;
 
       case USER.UPDATE:
-        var image = payload.image;
-        this.user.save({ image: image }, { patch: true });
+        let firstName = payload.firstName;
+        let lastName = payload.lastName;
+        let title = payload.title;
+        let phoneNumber = payload.phoneNumber;
+        let image = payload.image;
+
+        this.user.url = constants.apiurl + '/users/' + window.bootstrap.user._id;
+        this.user.save({
+          name: { firstName: firstName, lastName: lastName },
+          title: title,
+          phoneNumber: phoneNumber,
+          image: image
+        }, {
+          patch: true
+        });
+
         this.trigger(USER.CHANGE_ALL);
         break;
 
       case USER.SEARCH:
         this.trigger(USER.SEARCHING);
-        var query = payload.query;
 
-        fetch(constants.apiurl + '/users/search/' + query, {
+        let query = payload.query;
+        let bevy_id = payload.bevy_id;
+
+        query = encodeURIComponent(query);
+
+        let url = (_.isEmpty(query))
+          ? constants.apiurl + '/users/search' + '?bevy_id=' + bevy_id
+          : constants.apiurl + '/users/search/' + query + '?bevy_id=' + bevy_id
+
+        fetch(url, {
           method: 'GET'
         })
         .then(res => res.json())
@@ -245,8 +267,26 @@ _.extend(UserStore, {
   },
 
   login(username, password) {
+    // trigger logging in for responsive ui
     this.trigger(USER.LOGGING_IN);
-    fetch(window.location.href, {
+
+    // need to make sure that we're making the fetch request to the same subdomain
+    // (or lack of one if we aren't in one) because fetch doesn't allow
+    // credentials to be sent over domains
+
+    // set the default login url to the site url
+    var login_url = 'http://' + constants.domain;
+
+    // see if theres a subdomain being used - mostly likely there is one being used
+    // if the user is logging in from the invite page
+    var hostname_chunks = window.location.hostname.split('.');
+    if(hostname_chunks.length == 3) {
+      // if so, then log into the subdomain instead of the regular siteurl
+      login_url = 'http://' + hostname_chunks[0] + '.' + constants.domain;
+    }
+
+    // send the request
+    fetch(login_url, {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -263,6 +303,12 @@ _.extend(UserStore, {
     })
     .then(res => res.json())
     .then(res => {
+      if(!_.isObject(res)) {
+        console.log('login error', res.toString());
+        // trigger error and pass along error message
+        this.trigger(USER.LOGIN_ERROR, res.toString());
+        return;
+      }
       console.log('login success', res.user._id);
       // set the access and refresh tokens
       this.setTokens(
