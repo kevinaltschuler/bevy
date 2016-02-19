@@ -20,10 +20,8 @@ var {
   FlatButton,
   RaisedButton,
   TextField,
-  Styles,
   RadioButton
 } = require('material-ui');
-var ThemeManager = new Styles.ThemeManager();
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var _ = require('underscore');
@@ -45,31 +43,6 @@ var NewBoardModal = React.createClass({
       image: {},
       type: 'discussion'
     };
-  },
-
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    }
-  },
-
-  componentWillMount() {
-    ThemeManager.setComponentThemes({
-      textField: {
-        textColor: '#888',
-        focusColor: '#888'
-      },
-      radioButton: {
-        borderColor:  '#666',
-        backgroundColor: '#fff',
-        checkedColor: '#666',
-        requiredColor: '#666',
-        disabledColor: 'rgba(0,0,0,.7)',
-        size: 24,
-        labelColor: '#666',
-        labelDisabledColor: 'rgba(0,0,0,.7)',
-      },
-    });
   },
 
   onUploadComplete(file) {
@@ -213,9 +186,5 @@ var NewBoardModal = React.createClass({
     );
   }
 });
-
-NewBoardModal.childContextTypes = {
-  muiTheme: React.PropTypes.object
-};
 
 module.exports = NewBoardModal;

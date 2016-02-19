@@ -31,7 +31,9 @@ var user = window.bootstrap.user;
 var UserDropdown = React.createClass({
   propTypes: {
     show: React.PropTypes.bool,
-    onToggle: React.PropTypes.func
+    onToggle: React.PropTypes.func,
+    activeBevy: React.PropTypes.object,
+    leftNavActions: React.PropTypes.object
   },
 
   getInitialState() {
@@ -53,40 +55,7 @@ var UserDropdown = React.createClass({
 
   toggle(ev) {
     ev.preventDefault();
-    this.props.onToggle();
-  },
-
-  renderOverlay() {
-    var profileImage = (_.isEmpty(this.state.image))
-      ? constants.defaultProfileImage
-      : resizeImage(this.state.image, 128, 128).url;
-    var profileImageStyle = {
-      backgroundImage: 'url(' + profileImage + ')',
-    };
-
-    return (
-      <div className='profile-dropdown-container'>
-        <div className='backdrop' onClick={ this.toggle }></div>
-        <div className='arrow' />
-        <div className='profile-dropdown'>
-          <div className="profile-top">
-            <div className="profile-picture" style={ profileImageStyle }>
-            </div>
-            <div className="profile-details">
-              <span className='profile-name'>{ user.displayName }</span>
-              <span className='profile-email'>{ user.email }</span>
-              <span className='profile-points'>{ user.points }&nbsp;Points</span>
-            </div>
-          </div>
-          <FlatButton
-            label="Logout"
-            linkButton={ true }
-            href='/logout'
-            style={{ marginRight: 6 }}
-          />
-        </div>
-      </div>
-    );
+    this.props.leftNavActions.toggle();
   },
 
   render() {
@@ -111,14 +80,6 @@ var UserDropdown = React.createClass({
           style={ buttonStyle }
           title='Profile'
         />
-        <Overlay
-          show={ this.props.show }
-          target={ (props) => ReactDOM.findDOMNode(this.refs.ProfileButton) }
-          placement='bottom'
-          container={ this.container }
-        >
-          { this.renderOverlay() }
-        </Overlay>
       </div>
     );
   }

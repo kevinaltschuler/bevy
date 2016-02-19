@@ -227,9 +227,17 @@ _.extend(UserStore, {
 
       case USER.SEARCH:
         this.trigger(USER.SEARCHING);
-        var query = payload.query;
 
-        fetch(constants.apiurl + '/users/search/' + query, {
+        let query = payload.query;
+        let bevy_id = payload.bevy_id;
+
+        query = encodeURIComponent(query);
+
+        let url = (_.isEmpty(query))
+          ? constants.apiurl + '/users/search' + '?bevy_id=' + bevy_id
+          : constants.apiurl + '/users/search/' + query + '?bevy_id=' + bevy_id
+
+        fetch(url, {
           method: 'GET'
         })
         .then(res => res.json())

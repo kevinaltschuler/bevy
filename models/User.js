@@ -96,7 +96,7 @@ UserSchema.virtual('displayName').get(function() {
 UserSchema.virtual('fullName').get(function() {
   // if no name fields are filled out, then return the username
   if(_.isEmpty(this.name.firstName) && _.isEmpty(this.name.lastName)) {
-    return this.username;
+    return '';
 
   // if only the last name is filled out, return that
   } else if (_.isEmpty(this.name.firstName)) {
@@ -132,7 +132,9 @@ UserSchema.set('toJSON', {
 
 UserSchema.index({
   email: 'text',
-  username: 'text'
+  username: 'text',
+  'name.firstName': 'text',
+  'name.lastName': 'text'
 });
 
 UserSchema.pre('save', function(next) {

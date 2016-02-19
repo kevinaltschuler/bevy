@@ -11,6 +11,7 @@ var constants = require('./../constants');
 var USER = constants.USER;
 
 var UserActions = {
+
   /**
    * update user information
    *
@@ -30,12 +31,20 @@ var UserActions = {
       image: image
     });
   },
-  search(query) {
+
+  /**
+   * search for users within a bevy
+   * @param query {string} - the search query
+   * @param bevy_id {string} - the id of the bevy to search within
+   */
+  search(query, bevy_id) {
     Dispatcher.dispatch({
       actionType: USER.SEARCH,
-      query: query
+      query: query,
+      bevy_id: bevy_id
     });
   },
+  
   login(username, password) {
     Dispatcher.dispatch({
       actionType: USER.LOGIN,

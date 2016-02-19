@@ -22,20 +22,20 @@ var {
 } = require('react-bootstrap');
 var {
   IconButton,
-  TextField,
-  Styles
+  TextField
 } = require('material-ui');
 var UserDropdown = require('./../../user/components/UserDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
-var ThemeManager = new Styles.ThemeManager();
 
 var _ = require('underscore');
 var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
 var user = window.bootstrap.user;
-var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
+
+var BevyStore = require('./../../bevy/BevyStore');
+
 var BEVY = constants.BEVY;
 
 var Navbar = React.createClass({
@@ -43,7 +43,8 @@ var Navbar = React.createClass({
     activeBevy: React.PropTypes.object,
     allNotifications: React.PropTypes.array,
     userInvites: React.PropTypes.array,
-    activeBoard: React.PropTypes.object
+    activeBoard: React.PropTypes.object,
+    leftNavActions: React.PropTypes.object
   },
 
   getInitialState() {
@@ -54,21 +55,6 @@ var Navbar = React.createClass({
                    // this is the opacity for the image over that layer
                    // so higher opacity means a brighter image, and lower means darker
     };
-  },
-
-  getChildContext() {
-    return {
-      muiTheme: ThemeManager.getCurrentTheme()
-    }
-  },
-
-  componentWillMount() {
-    ThemeManager.setComponentThemes({
-      textField: {
-        textColor: 'white',
-        focusColor: 'white'
-      }
-    });
   },
 
   _renderBevyInfoBar() {
@@ -139,7 +125,9 @@ var Navbar = React.createClass({
         />
         { counter }
         <UserDropdown
+          activeBevy={ this.props.activeBevy }
           show={ this.state.activeTab == 'profile' }
+          leftNavActions={ this.props.leftNavActions }
           onToggle={() => {
             this.setState({
               activeTab: (this.state.activeTab == 'profile')
@@ -155,8 +143,8 @@ var Navbar = React.createClass({
   render() {
     var navbarHeight = '68px';
 
-    if(router.current == 'home')
-      navbarStyle = { boxShadow: 'none', height: navbarHeight};
+    //if(router.current == 'home')
+    //  navbarStyle = { boxShadow: 'none', height: navbarHeight};
 
     var backgroundStyle = { backgroundColor: '#2cb673' };
 
@@ -168,6 +156,7 @@ var Navbar = React.createClass({
       case 'bevy':
       case 'view-profile':
       case 'edit-profile':
+      case 'directory':
         navbarHeight = '98px';
         navbarTitle = this.props.activeBevy.name;
         backgroundStyle = (_.isEmpty(this.props.activeBevy))
@@ -189,6 +178,7 @@ var Navbar = React.createClass({
         if(_.isEmpty(this.props.activeBoard.parent)) {
           return <div/>;
         }
+        navbarHeight = '98px';
 
         var parent = this.props.activeBoard.parent;
         if(parent.name == undefined || this.props.activeBoard.name == undefined)
@@ -304,9 +294,5 @@ var Navbar = React.createClass({
     );
   }
 });
-
-Navbar.childContextTypes = {
-  muiTheme: React.PropTypes.object
-};
 
 module.exports = Navbar;

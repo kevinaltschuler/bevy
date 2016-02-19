@@ -34,7 +34,6 @@ var BevyInfoBar = React.createClass({
   },
 
   getInitialState() {
-
     return {
       isAdmin: (_.contains(this.props.activeBevy.admins, window.bootstrap.user._id)),
       showSettingsModal: false,
@@ -95,8 +94,8 @@ var BevyInfoBar = React.createClass({
           <Tooltip id='subtooltip'>
             { this.props.activeBevy.subCount + ' ' + (
               (this.props.activeBevy.subCount == 1)
-                ? 'subscriber'
-                : 'subscribers'
+                ? 'member'
+                : 'members'
             ) }
           </Tooltip>
         }>

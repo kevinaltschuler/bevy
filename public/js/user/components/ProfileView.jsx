@@ -146,6 +146,7 @@ var ProfileView = React.createClass({
     UserActions.update(firstName, lastName, title, phoneNumber, image);
     // apply optimistic update
     this.setState({ user: user });
+    window.bootstrap.user = user;
 
     // stop editing
     this.stopEditing();
@@ -346,6 +347,13 @@ var ProfileView = React.createClass({
         { this.renderLoading() }
         { this.renderHeader() }
         { this.renderPanel() }
+        <a
+          className='back-link'
+          title={ 'Go back to ' + this.props.activeBevy.name }
+          href={ 'http://' + this.props.activeBevy.slug + '.' + constants.domain }
+        >
+          Back to { this.props.activeBevy.name }
+        </a>
       </div>
     );
   }

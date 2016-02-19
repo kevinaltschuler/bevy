@@ -70,7 +70,7 @@ var BoardView = React.createClass({
     }*/
 
     return (
-      <div className='main-section'>
+      <div className='board-view'>
         <div className='board-view-sidebar'>
           <BoardInfoPanel
             board={ this.props.activeBoard }

@@ -25,6 +25,8 @@ var BoardStore = require('./board/BoardStore');
 var Router = Backbone.Router.extend({
   routes: {
     '' : 'home',
+
+    // auth routes
     'signin' : 'loginSlug',
     'signin/' : 'loginSlug',
     'forgot/group' : 'forgotGroup',
@@ -33,8 +35,10 @@ var Router = Backbone.Router.extend({
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
     'invite/:token' : 'invite',
+
     'create' : 'newBevy',
     'create/' : 'newBevy',
+
     'boards/:boardid' : 'board',
     'boards/:boardid/' : 'board',
     'boards/:boardid/posts/:postid': 'post',
@@ -45,13 +49,20 @@ var Router = Backbone.Router.extend({
     's' : 'search',
     's/:query' : 'search',
 
+    // ==================
     // routes that are only available when inside a bevy subdomain
+    // ==================
+
+    // profile routes
     'profile' : 'redirectToProfile',
     'profile/' : 'redirectToProfile',
     'profile/:username/edit' : 'editProfile',
     'profile/:username/edit/' : 'editProfile',
     'profile/:username' : 'viewProfile',
     'profile/:username/' : 'viewProfile',
+
+    'directory' : 'directory',
+    'directory/' : 'directory',
 
     // catch everything else and 404
     '*nuts' : 'notFound'
@@ -179,6 +190,10 @@ var Router = Backbone.Router.extend({
     if(!this.checkSubdomain()) return this.notFound();
     this.profile_username = username;
     this.current = 'edit-profile';
+  },
+
+  directory() {
+    this.current = 'directory';
   },
 
   notFound(nuts) {

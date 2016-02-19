@@ -1,7 +1,11 @@
 /**
  * InviteUsersModal.jsx
  *
+ * modal to invite users to a bevy
+ *
  * @author kevin
+ * @author albert
+ * @flow
  */
 
 'use strict';
@@ -20,8 +24,6 @@ var {
 } = require('material-ui');
 var Ink = require('react-ink');
 
-var ThemeManager = new Styles.ThemeManager();
-
 var _ = require('underscore');
 var BevyActions = require('./../BevyActions');
 var BevyStore = require('./../BevyStore');
@@ -38,10 +40,6 @@ var InviteUsersModal = React.createClass({
     activeBevy: React.PropTypes.object,
     show: React.PropTypes.bool,
     onHide: React.PropTypes.func
-  },
-
-  getChildContext() {
-    return { muiTheme: ThemeManager.getCurrentTheme() };
   },
 
   getInitialState() {
@@ -79,16 +77,6 @@ var InviteUsersModal = React.createClass({
     .catch(err => {
     });
   },
-
-  componentWillMount() {
-    ThemeManager.setComponentThemes({
-      textField: {
-        textColor: '#666',
-        focusColor: '#666'
-      },
-    });
-  },
-
   componentWillUnmount() {
   },
 
@@ -355,9 +343,5 @@ var PendingInviteItem = React.createClass({
     );
   }
 });
-
-InviteUsersModal.childContextTypes = {
-  muiTheme: React.PropTypes.object
-};
 
 module.exports = InviteUsersModal;
