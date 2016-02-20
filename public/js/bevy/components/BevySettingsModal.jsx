@@ -17,7 +17,8 @@ var {
   RaisedButton,
   Toggle,
   DropDownMenu,
-  TextField
+  TextField,
+  MenuItem
 } = require('material-ui');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 
@@ -37,9 +38,6 @@ var BevySettingsModal = React.createClass({
     return {
       name: this.props.activeBevy.name,
       image: this.props.activeBevy.image,
-      slug: this.props.activeBevy.slug,
-      slugVerified: true,
-      verifyingSlug: false,
       posts_expire_in: this.props.activeBevy.settings.posts_expire_in,
       privacy: this.props.activeBevy.settings.privacy
     };
@@ -52,10 +50,11 @@ var BevySettingsModal = React.createClass({
     });
   },
 
-  onPrivacyChange(ev, selectedIndex, menuItem) {
+  onPrivacyChange(ev, selectedIndex) {
+    var privacy = (selectedIndex == 1) ? 'Private' : 'Public';
     ev.preventDefault();
     this.setState({
-      privacy: menuItem.text
+      privacy: privacy,
     });
   },
 
@@ -74,11 +73,11 @@ var BevySettingsModal = React.createClass({
   },
 
   save(ev) {
+
     BevyActions.update(
       this.props.activeBevy._id,
       this.state.name,
       this.state.image,
-      this.state.slug,
       { privacy: this.state.privacy }
     );
     this.props.onHide();
@@ -162,10 +161,6 @@ var BevySettingsModal = React.createClass({
     var bevy = this.props.activeBevy;
     var settings = bevy.settings;
 
-    var privacyMenuItems = [
-      { payload: '0', text: 'Public', defaultIndex: 0 },
-      { payload: '1', text: 'Private', defaultIndex: 1 }
-    ];
     var privacyIndex = (this.state.privacy == 'Private') ? 1 : 0;
 
     var dropzoneOptions = {
@@ -204,6 +199,23 @@ var BevySettingsModal = React.createClass({
         </Modal.Header>
 
         <Modal.Body>
+
+          <div className='text-fields'>
+            <div className='name'>
+              <TextField
+                type='text'
+                ref={(ref) => { this.NameInput = ref; }}
+                placeholder='Group Name'
+                value={ this.state.name }
+                onChange={() => {
+                  this.setState({
+                    name: this.NameInput.getValue(),
+                  });
+                }}
+               />
+            </div>
+          </div>
+
           <div className="new-bevy-picture">
             <Uploader
               onUploadComplete={ this.onUploadComplete }
@@ -214,6 +226,28 @@ var BevySettingsModal = React.createClass({
             />
           </div>
 
+          <div className='bevy-setting expire-setting'>
+              Privacy
+              <OverlayTrigger placement='right' overlay={
+                <Popover id='settingspopover' title='Bevy Privacy'>
+                  <p className='warning'>
+                  Public bevies can be viewed and joined by anybody. <br /><br />
+                   Private bevies are listed publicly but require an invite or permission to join and view content.
+                   Public bevies can be viewed and joined by anybody.
+                  </p>
+                </Popover>
+              }>
+               <span className='glyphicon glyphicon-question-sign' />
+             </OverlayTrigger>
+             <DropDownMenu
+               ref='privacy'
+               onChange={ this.onPrivacyChange }
+               value={ privacyIndex }
+             >
+              <MenuItem value={0} primaryText='Public'/>
+              <MenuItem value={1} primaryText='Private'/>
+             </DropDownMenu>
+           </div>
 
           <div className='bevy-setting'>
             <RaisedButton
