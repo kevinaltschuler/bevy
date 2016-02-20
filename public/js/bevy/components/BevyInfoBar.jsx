@@ -75,6 +75,7 @@ var BevyInfoBar = React.createClass({
         </div>
       );
     } else {
+      return ( 
       <div className='info-item'>
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='privatetooltip'>Private</Tooltip>
@@ -84,6 +85,7 @@ var BevyInfoBar = React.createClass({
           </span>
         </OverlayTrigger>
       </div>
+      )
     }
   },
 
@@ -101,7 +103,7 @@ var BevyInfoBar = React.createClass({
         }>
           <FlatButton
             label={ this.props.activeBevy.subCount }
-            labelPosition='after'
+            labelPosition='before'
             title='View Bevy Subscribers'
             onClick={() => this.setState({ showSubModal: true })}
             style={{
@@ -142,7 +144,7 @@ var BevyInfoBar = React.createClass({
         }>
           <FlatButton
             label={ this.props.activeBevy.admins.length }
-            labelPosition='after'
+            labelPosition='before'
             title='View Bevy Admins'
             onClick={() => this.setState({ showAdminModal: true })}
             style={{
@@ -330,10 +332,10 @@ var BevyInfoBar = React.createClass({
 
     return (
       <div className='bevy-info-bar'>
-        {/* this._renderPublicPrivate() */}
+        { this._renderPublicPrivate() }
         { this._renderSubs() }
         { this._renderAdmins() }
-        { this._renderImageButton() }
+        {/* this._renderImageButton() */}
         { this._renderInviteButton() }
         { this._renderSettingsButton() }
         { this._renderLeaveButton() }

@@ -22,7 +22,8 @@ var {
 } = require('react-bootstrap');
 var {
   IconButton,
-  TextField
+  TextField,
+  Styles
 } = require('material-ui');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
@@ -31,10 +32,8 @@ var _ = require('underscore');
 var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
 var user = window.bootstrap.user;
-var constants = require('./../../constants');
-
 var BevyStore = require('./../../bevy/BevyStore');
-
+var constants = require('./../../constants');
 var BEVY = constants.BEVY;
 
 var Navbar = React.createClass({
@@ -42,8 +41,7 @@ var Navbar = React.createClass({
     activeBevy: React.PropTypes.object,
     allNotifications: React.PropTypes.array,
     userInvites: React.PropTypes.array,
-    activeBoard: React.PropTypes.object,
-    leftNavActions: React.PropTypes.object
+    activeBoard: React.PropTypes.object
   },
 
   getInitialState() {
@@ -61,22 +59,13 @@ var Navbar = React.createClass({
   },
 
   _renderBevyInfoBar() {
-    switch(router.current) {
-      case 'bevy':
-      case 'view-profile':
-      case 'edit-profile':
-      case 'board':
-      case 'post':
-        return (
-          <BevyInfoBar
-            activeBevy={ this.props.activeBevy }
-          />
-        );
-        break;
-      default:
-        return <div />;
-        break;
-    }
+    if(router.current == 'bevy') {
+      return (
+        <BevyInfoBar
+          activeBevy={ this.props.activeBevy }
+        />
+      );
+    } else return <div />;
   },
 
   _renderUserDropdowns() {
@@ -145,10 +134,13 @@ var Navbar = React.createClass({
   },
 
   render() {
-    var navbarHeight = '68px';
+    var navbarHeight = (router.current == 'bevy')
+      ? '98px'
+      : '68px';
 
-    //if(router.current == 'home')
-    //  navbarStyle = { boxShadow: 'none', height: navbarHeight};
+    var navbarStyle = { backgroundColor: 'rgba(0,0,0,0)', height: navbarHeight};
+    if(router.current == 'home')
+      navbarStyle = { boxShadow: 'none', height: navbarHeight};
 
     var backgroundStyle = { backgroundColor: '#2cb673' };
 
@@ -157,11 +149,10 @@ var Navbar = React.createClass({
       case 'home':
         navbarTitle = '';
         break;
+      case 'myBevies':
+        navbarTitle = 'My Bevies';
+        break;
       case 'bevy':
-      case 'view-profile':
-      case 'edit-profile':
-      case 'directory':
-        navbarHeight = '98px';
         navbarTitle = this.props.activeBevy.name;
         backgroundStyle = (_.isEmpty(this.props.activeBevy))
           ? { filter: 'unset' }
@@ -174,7 +165,7 @@ var Navbar = React.createClass({
         if(!_.isEmpty(this.props.activeBevy)) {
           if(!_.isEmpty(this.props.activeBevy.image))
             if(this.props.activeBevy.image.path == constants.siteurl + "/img/default_group_img.png")
-              backgroundStyle = { backgroundColor: '#2CB673' }
+              backgroundStyle = {backgroundColor: '#2CB673'}
         }
         break;
       case 'board':
@@ -182,7 +173,6 @@ var Navbar = React.createClass({
         if(_.isEmpty(this.props.activeBoard.parent)) {
           return <div/>;
         }
-        navbarHeight = '98px';
 
         var parent = this.props.activeBoard.parent;
         if(parent.name == undefined || this.props.activeBoard.name == undefined)
@@ -261,10 +251,7 @@ var Navbar = React.createClass({
       navBarDefaultColor = '#000'
 
     return (
-      <div id='navbar' className="navbar" style={{
-        backgroundColor: 'rgba(0,0,0,0)',
-        height: navbarHeight
-      }}>
+      <div id='navbar' className="navbar" style={ navbarStyle }>
         <div
           className='background-wrapper'
           style={{ backgroundColor: navBarDefaultColor, height: navbarHeight }}
@@ -297,5 +284,9 @@ var Navbar = React.createClass({
     );
   }
 });
+
+Navbar.childContextTypes = {
+  muiTheme: React.PropTypes.object
+};
 
 module.exports = Navbar;

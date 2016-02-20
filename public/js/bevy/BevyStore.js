@@ -35,11 +35,7 @@ var user = window.bootstrap.user;
 var BevyStore = _.extend({}, Backbone.Events);
 _.extend(BevyStore, {
 
-  myBevies: new Bevies,
   active: new Bevy,
-  publicBevies: new Bevies,
-  searchQuery: '',
-  searchList: new Bevies,
   boards: new Boards,
   bevyInvites: new Invites,
 
@@ -117,19 +113,19 @@ _.extend(BevyStore, {
 
       case BEVY.UPDATE:
         var bevy_id = payload.bevy_id;
-        var bevy = this.myBevies.get(bevy_id);
-        if(bevy == undefined) return;
+        var bevy = this.active;
+        if(_.isEmpty(this.active)) {
+          return;
+        }
 
         var name = payload.name || bevy.get('name');
         var image = payload.image || bevy.get('image');
-        var slug = payload.slug || bevy.get('slug');
         var settings = payload.settings || bevy.get('settings');
 
         bevy.url = constants.apiurl + '/bevies/' + bevy_id;
         bevy.save({
           name: name,
           image: image,
-          slug: slug,
           settings: settings
         }, {
           patch: true
@@ -137,7 +133,6 @@ _.extend(BevyStore, {
         bevy.set({
           name: name,
           image: image,
-          slug: slug,
           settings: settings
         });
         this.trigger(BEVY.CHANGE_ALL);

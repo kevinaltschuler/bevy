@@ -309,10 +309,6 @@ exports.updateBevy = function(req, res, next) {
   if(req.body['settings'] != undefined)
     update.settings = req.body['settings'];
 
-  if(req.body['slug'] != undefined)
-    update.slug = req.body['slug'];
-  else
-    update.slug = getSlug(update.name);
 
   var query = { $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]};
   var promise = Bevy.findOneAndUpdate(query, update, { new: true })
