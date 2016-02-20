@@ -24,7 +24,6 @@ var {
   IconButton,
   TextField
 } = require('material-ui');
-var UserDropdown = require('./../../user/components/UserDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
 
@@ -55,6 +54,10 @@ var Navbar = React.createClass({
                    // this is the opacity for the image over that layer
                    // so higher opacity means a brighter image, and lower means darker
     };
+  },
+
+  toggleLeftNav() {
+    this.props.leftNavActions.toggle();
   },
 
   _renderBevyInfoBar() {
@@ -111,6 +114,9 @@ var Navbar = React.createClass({
 
     return (
       <div className='profile-buttons'>
+        <span className='username'>
+          { window.bootstrap.user.username }
+        </span>
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
           userInvites={ this.props.userInvites }
@@ -124,18 +130,16 @@ var Navbar = React.createClass({
           }}
         />
         { counter }
-        <UserDropdown
-          activeBevy={ this.props.activeBevy }
-          show={ this.state.activeTab == 'profile' }
-          leftNavActions={ this.props.leftNavActions }
-          onToggle={() => {
-            this.setState({
-              activeTab: (this.state.activeTab == 'profile')
-                ? null
-                : 'profile'
-            });
+        <Button
+          className='profile-btn'
+          onClick={ this.toggleLeftNav }
+          style={{
+            backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')',
+            marginRight: 0
           }}
-        />
+          title='Profile'
+        >
+        </Button>
       </div>
     );
   },

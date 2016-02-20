@@ -8,6 +8,12 @@ var _ = require('underscore');
 var constants = require('./../../constants');
 
 module.exports = function(image, w_limit, h_limit) {
+  if(image == undefined) return {
+    width: null,
+    height: null,
+    url: constants.siteurl + '/img/logo_100.png'
+  };
+  
   if(image.foreign || _.isEmpty(image.geometry)) {
     return {
       width: null,

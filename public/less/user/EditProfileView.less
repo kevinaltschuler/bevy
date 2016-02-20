@@ -1,25 +1,17 @@
 /**
- * ProfileView.less
+ * EditProfileView.less
  *
  * @author albert
  */
 
 @import './../variables.less';
 
-.profile-view {
+.edit-profile-view {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-top: 115px;
-  .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    h1.loading-title {
-
-    }
-  }
   .edit-header {
     display: flex;
     flex-direction: column;
@@ -32,15 +24,8 @@
       font-weight: normal;
     }
   }
-  .edit-panel, .view-panel {
-    width: 500px;
-    .panel-body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-  }
   .edit-panel {
+    width: 500px;
     .panel-body {
       display: flex;
       flex-direction: row;
@@ -105,53 +90,6 @@
             left: -35px;
             padding-top: 35px;
           }
-        }
-      }
-    }
-  }
-  .view-panel {
-    .panel-body {
-
-    }
-    .profile-picture {
-      #image-icon();
-      width: 80%;
-      height: 160px;
-      margin: 0 auto;
-    }
-    span.name {
-      font-size: 1.5em;
-      font-weight: bold;
-      margin-top: 15px;
-    }
-    .actions {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-around;
-      margin-top: 10px;
-      & > div {
-        margin-left: 10px;
-        margin-right: 10px;
-      }
-    }
-    .details {
-      width: 80%;
-      border-top: 1px solid #EEE;
-      margin-top: 20px;
-      padding-top: 10px;
-      .detail-item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        span.detail-key {
-          width: 40%;
-          color: #888;
-        }
-        span.detail-value {
-          width: 60%;
-        }
-        a.email-link {
-          width: 60%;
         }
       }
     }
