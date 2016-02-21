@@ -17,11 +17,15 @@ var {
   FlatButton,
   RaisedButton,
   Toggle,
-  DropDownMenu
+  DropDownMenu,
+  TextField,
+  MenuItem
 } = require('material-ui');
 
 var _ = require('underscore');
 var BoardActions = require('./../BoardActions');
+var Uploader = require('./../../shared/components/Uploader.jsx');
+var constants = require('./../../constants');
 
 var BoardSettingsModal = React.createClass({
   propTypes: {
@@ -33,7 +37,10 @@ var BoardSettingsModal = React.createClass({
   getInitialState() {
     return {
       posts_expire_in: this.props.board.settings.posts_expire_in,
-      privacy: this.props.board.settings.privacy
+      privacy: this.props.board.settings.privacy,
+      name: this.props.board.name,
+      description: this.props.board.description,
+      image: this.props.board.image
     };
   },
 
@@ -45,17 +52,28 @@ var BoardSettingsModal = React.createClass({
   },
 
   onPrivacyChange(ev, selectedIndex, menuItem) {
+    var privacy = (selectedIndex == 1) ? 'Private' : 'Public';
     ev.preventDefault();
     this.setState({
-      privacy: menuItem.text
+      privacy: privacy,
+    });
+  },
+
+  onUploadComplete(file) {
+    this.setState({
+      image: file,
     });
   },
 
   save(ev) {
-    var group_chat = this.refs.group_chat.isToggled();
-    BoardActions.update(this.props.board._id, null, null, null, {
-      group_chat: group_chat
-    });
+    BoardActions.update(
+      this.props.board._id, 
+      this.state.name, 
+      this.state.description, 
+      this.state.image, 
+      {
+      }
+    );
     this.props.onHide();
   },
 
@@ -77,9 +95,30 @@ var BoardSettingsModal = React.createClass({
       { payload: '0', text: 'Public', defaultIndex: 0 },
       { payload: '1', text: 'Private', defaultIndex: 1 }
     ];
-    var privacyIndex = (this.state.privacy == 'Private')
-    ? 1
-    : 0;
+    var privacyIndex = (this.state.privacy == 'Private') ? 1 : 0;
+
+    var dropzoneOptions = {
+      maxFiles: 1,
+      acceptedFiles: 'image/*',
+      clickable: '.dropzone-panel-button',
+      dictDefaultMessage: ' ',
+      init: function() {
+        this.on("addedfile", function() {
+          if (this.files[1]!=null){
+            this.removeFile(this.files[0]);
+          }
+        });
+      }
+    };
+    var boardImageURL = (_.isEmpty(this.state.image))
+      ? constants.siteurl + '/img/default_group_img.png'
+      : (this.state.image.foreign)
+        ? this.state.image.filename
+        : constants.apiurl + '/files/' + this.state.image.filename;
+    var boardImageStyle = {
+      backgroundImage: 'url(' + boardImageURL + ')',
+      backgroundSize: '100% auto'
+    };
 
     return (
       <Modal className="bevy-settings-modal" show={ this.props.show } onHide={ this.props.onHide } >
@@ -90,10 +129,61 @@ var BoardSettingsModal = React.createClass({
         </Modal.Header>
 
         <Modal.Body>
-          {/*<div className='bevy-setting expire-setting'>
+
+          <div className='text-fields'>
+            <div className='name'>
+              <div style={{display: 'flex', flexDirection: 'column'}}>
+                Name
+                <TextField
+                  type='text'
+                  ref={(ref) => { this.NameInput = ref; }}
+                  placeholder='Group Name'
+                  value={ this.state.name }
+                  underlineFocusStyle={{borderColor: '#666'}}
+                  onChange={() => {
+                    this.setState({
+                      name: this.NameInput.getValue(),
+                    });
+                  }}
+                 />
+              </div>
+
+              <br/>
+
+              <div style={{display: 'flex', flexDirection: 'column'}}>
+                Description
+                <TextField
+                  type='text'
+                  ref={(ref) => { this.DescriptionInput = ref; }}
+                  placeholder='Board Description'
+                  value={ this.state.description }
+                  underlineFocusStyle={{borderColor: '#666'}}
+                  onChange={() => {
+                    this.setState({
+                      description: this.DescriptionInput.getValue(),
+                    });
+                  }}
+                 />
+              </div>
+
+              <br/>
+            </div>
+          </div>
+
+          <div className="new-bevy-picture">
+            <Uploader
+              onUploadComplete={ this.onUploadComplete }
+              className="bevy-image-dropzone"
+              style={ boardImageStyle }
+              dropzoneOptions={ dropzoneOptions }
+              tooltip='Change Board Picture'
+            />
+          </div>
+
+          <div className='bevy-setting expire-setting'>
             Privacy
             <OverlayTrigger placement='right' overlay={
-              <Popover title='Bevy Privacy'>
+              <Popover id='board-settings-popover' title='Bevy Privacy'>
                 <p className='warning'>
                   Public bevies can be viewed and joined by anybody. <br /><br />
                   Private bevies are listed publicly but require an invite or permission to join and view content.
@@ -104,11 +194,13 @@ var BoardSettingsModal = React.createClass({
             </OverlayTrigger>
             <DropDownMenu
               ref='privacy'
-              menuItems={ privacyMenuItems }
               onChange={ this.onPrivacyChange }
-              selectedIndex={ privacyIndex }
-            />
-          </div>*/}
+              value={ privacyIndex }
+            >
+              <MenuItem value={0} primaryText='Public'/>
+              <MenuItem value={1} primaryText='Private'/>
+            </DropDownMenu>
+          </div>
           <div className='bevy-setting'>
             <RaisedButton
               label='Delete Board'

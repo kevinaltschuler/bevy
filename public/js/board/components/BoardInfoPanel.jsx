@@ -30,7 +30,8 @@ var BoardInfoPanel = React.createClass({
     return {
       joined: (_.contains(window.bootstrap.user.boards, this.props.board._id)),
       isAdmin: _.findWhere(this.props.board.admins,
-        { _id: window.bootstrap.user._id }) != undefined,
+        { _id: window.bootstrap.user._id }) != undefined 
+        || _.contains(this.props.board.admins, window.bootstrap.user._id),
       isBevyMember: _.contains(window.bootstrap.user.bevies, this.props.board.parent._id),
       showSettingsModal: false,
       showAdminModal: false
@@ -40,8 +41,9 @@ var BoardInfoPanel = React.createClass({
   componentWillReceiveProps(nextProps) {
     this.setState({
       joined: (_.contains(window.bootstrap.user.boards, nextProps.board._id)),
-      isAdmin: _.findWhere(nextProps.board.admins,
-        { _id: window.bootstrap.user._id }) != undefined,
+      isAdmin: _.findWhere(this.props.board.admins,
+        { _id: window.bootstrap.user._id }) != undefined 
+        || _.contains(this.props.board.admins, window.bootstrap.user._id),
       isBevyMember: _.contains(window.bootstrap.user.bevies, nextProps.board.parent._id),
     });
   },
@@ -161,6 +163,10 @@ var BoardInfoPanel = React.createClass({
   render() {
     var board = this.props.board;
     if(_.isEmpty(board)) return <div/>;
+
+    console.log(_.findWhere(this.props.board.admins,
+        { _id: window.bootstrap.user._id }) != undefined 
+        || _.contains(this.props.board.admins, window.bootstrap.user._id));
 
     return (
       <div className="board-info-panel panel">

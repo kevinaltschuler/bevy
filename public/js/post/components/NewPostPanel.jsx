@@ -172,6 +172,7 @@ var NewPostPanel = React.createClass({
             value={ this.state.title }
             onChange={ this.handleChange }
             style={{ width: '100%' }}
+            underlineFocusStyle={{borderColor: '#666'}}
           />
         </div>
 

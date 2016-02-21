@@ -248,6 +248,7 @@ var CreateBevyPage = React.createClass({
           ref={ this.state.inviteRefs[i] }
           type='text'
           style={{ width: '100%' }}
+          underlineFocusStyle={{borderColor: '#666'}}
           hintText={ 'e.g., ' + fakeUsers[Math.floor(Math.random()*fakeUsers.length)].email }
         />
       )
@@ -333,6 +334,7 @@ var CreateBevyPage = React.createClass({
               fullWidth={ true }
               floatingLabelText='Group Name'
               value={ this.state.name }
+              underlineFocusStyle={{borderColor: '#666'}}
               onChange={() => {
                 var name = this.refs.Name.getValue();
                 if(name.length > 40)
@@ -380,6 +382,7 @@ var CreateBevyPage = React.createClass({
                   marginBottom: 0,
                   paddingTop: 0
                 }}
+                underlineFocusStyle={{borderColor: '#666'}}
                 floatingLabelStyle={{
                   lineHeight: '14px'
                 }}

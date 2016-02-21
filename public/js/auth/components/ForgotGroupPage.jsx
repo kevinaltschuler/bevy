@@ -117,6 +117,7 @@ var ForgotGroupPage = React.createClass({
             name='email'
             placeholder={ fakeEmails[Math.floor(Math.random() * fakeEmails.length)] }
             errorText={ this.state.emailError }
+            underlineFocusStyle={{borderColor: '#666'}}
             onChange={ this.onEmailChange }
             style={{ width: '100%' }}
           />

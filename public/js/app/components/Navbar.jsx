@@ -177,11 +177,11 @@ var Navbar = React.createClass({
               textOverflow: 'ellipsis'
             }}>
               <a
-                href={ parent.url }
+                href={ 'http://' + parent.slug + '.' + constants.domain }
                 title={ parent.name }
                 style={{
                   color: '#fff'
-                }}>
+              }}>
                 { parent.name }
               </a>
               &nbsp;
@@ -191,7 +191,7 @@ var Navbar = React.createClass({
               />
               &nbsp;
               <a
-                href={ constants.siteurl + '/boards/' + router.board_id }
+                href={ 'http://' + parent.slug + '.' + constants.domain + '/boards/' + router.board_id }
                 title={ this.props.activeBoard.name }
                 style={{
                   color: '#fff'

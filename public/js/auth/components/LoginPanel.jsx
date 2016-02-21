@@ -146,6 +146,7 @@ var LoginPanel = React.createClass({
             type='text'
             hintText={ 'e.g., ' + fakeEmails[Math.floor(Math.random() * fakeEmails.length)] }
             errorText={ this.state.emailError }
+            underlineFocusStyle={{borderColor: '#666'}}
             style={{ width: '100%', marginBotton: '10px' }}
           />
           <span className='input-label'>Password</span>
@@ -154,6 +155,7 @@ var LoginPanel = React.createClass({
             type='password'
             hintText='e.g., •••••••••'
             style={{ marginBottom: '10px', width: '100%' }}
+            underlineFocusStyle={{borderColor: '#666'}}
             errorText={ this.state.passwordError }
             onKeyUp={ this.onPasswordKeyUp }
           />

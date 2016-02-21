@@ -105,7 +105,7 @@ _.extend(BoardStore, {
           name: name,
           description: description,
           image: image,
-          settings: settings
+          settings: settings,
         });
 
         board.save({
@@ -116,7 +116,8 @@ _.extend(BoardStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-            //window.location.reload();
+            this.active.parent = parent;
+            this.trigger(BOARD.CHANGE_ALL);
           }.bind(this)
         });
 
@@ -140,6 +141,10 @@ _.extend(BoardStore, {
   },*/
 
   getActive() {
+    var BevyStore = require('./../bevy/BevyStore');
+    this.active.set({
+      parent: BevyStore.getActive()
+    })
     var active = (this.active)
     ? this.active.toJSON()
     : {};
