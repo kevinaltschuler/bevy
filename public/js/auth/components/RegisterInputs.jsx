@@ -214,6 +214,7 @@ var RegisterInputs = React.createClass({
               style={{width: '100%'}}
               defaultValue={this.props.username}
               fullWidth={true}
+              underlineFocusStyle={{borderColor: '#666'}}
               onChange={this.onUsernameChange}
               errorText={this.state.errorText}
               underlineFocusStyle={{ borderBottom: 'solid 1px' + this.state.usernameColor }}
@@ -225,6 +226,7 @@ var RegisterInputs = React.createClass({
             hintText='email'
             defaultValue={this.props.email}
             fullWidth={true}
+            underlineFocusStyle={{borderColor: '#666'}}
             style={{marginBottom: '10px', width: '100%'}}
             onChange={ this.onEmailChange }
           />

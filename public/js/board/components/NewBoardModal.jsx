@@ -128,12 +128,14 @@ var NewBoardModal = React.createClass({
                   name: this.refs.Name.getValue()
                 });
               }}
+              underlineFocusStyle={{borderColor: '#666'}}
             />
             <TextField
               type='text'
               ref='Description'
               placeholder='Board Description'
               multiLine={true}
+              underlineFocusStyle={{borderColor: '#666'}}
             />
           </div>
           <div className='type-buttons'>
@@ -146,6 +148,7 @@ var NewBoardModal = React.createClass({
                   label=""
                   style={{width: 15, marginRight: -10}}
                   checked={this.state.type == 'discussion'}
+                  iconStyle={{fill: '#666'}}
                 />
                 <i className="material-icons">question_answer</i>
                 Discussion
@@ -160,6 +163,7 @@ var NewBoardModal = React.createClass({
                   label=""
                   style={{width: 15, marginRight: -10}}
                   checked={this.state.type == 'announcement'}
+                  iconStyle={{fill: '#666'}}
                 />
                 <i className="material-icons">flag</i>
                 Announcements

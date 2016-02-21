@@ -227,6 +227,7 @@ var InviteUsersModal = React.createClass({
           style={{ flex: 1 }}
           errorText={ this.state.inviteFieldErrors[key] }
           hintText={ 'e.g., ' + fakeEmails[Math.floor(Math.random() * fakeEmails.length)] }
+          underlineFocusStyle={{borderColor: '#666'}}
         />
       );
     }

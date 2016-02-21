@@ -207,6 +207,7 @@ var BevySettingsModal = React.createClass({
                 ref={(ref) => { this.NameInput = ref; }}
                 placeholder='Group Name'
                 value={ this.state.name }
+                underlineFocusStyle={{borderColor: '#666'}}
                 onChange={() => {
                   this.setState({
                     name: this.NameInput.getValue(),

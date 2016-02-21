@@ -112,6 +112,7 @@ var ForgotPage = React.createClass({
               ref='email'
               placeholder='Email'
               style={{ width: '100%', margin: '10px 0px' }}
+              underlineFocusStyle={{borderColor: '#666'}}              
               onChange={ this.onChange }
             />
             <RaisedButton

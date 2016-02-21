@@ -137,6 +137,7 @@ var SlugPage = React.createClass({
               fullWidth={ true }
               onChange={ this.onSlugChange }
               value={ this.state.slug }
+              underlineFocusStyle={{borderColor: '#666'}}
               errorText={ this.state.error }
               hintStyle={{
                 right: 0

@@ -108,6 +108,7 @@ var CommentSubmit = React.createClass({
             value={ this.state.body }
             onKeyPress={ this.onKeyPress }
             onChange={ this.onChange }
+            underlineFocusStyle={{borderColor: '#666'}}
           />
           { submitButton }
         </div>
