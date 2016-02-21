@@ -69,9 +69,9 @@ var BoardInfoPanel = React.createClass({
   },
 
   openAdminDirectory() {
-    AppActions.openSidebar('directory', {
-      initialDirectoryTab: 'admin'
-    });
+    //AppActions.openSidebar('directory', {
+    //  initialDirectoryTab: 'admin'
+    //});
   },
 
   _renderPublicPrivate() {

@@ -84,8 +84,6 @@ exports.POST = {
   CHANGE_ONE: 'post_change_one:',
   POSTED_POST: 'post_posted_post',
   CANCELED_POST: 'post_canceled_post',
-
-
 };
 
 exports.COMMENT = {
@@ -137,9 +135,7 @@ exports.USER = {
   LOGIN: 'user_login',
   REGISTER: 'user_register',
   REFRESH_TOKEN: 'user_refresh_token',
-  VERIFY_USERNAME: 'user_verify_username',
   LOADED: 'user_loaded',
-  ADDBEVY: 'user_add_bevy',
 
   // events
   LOGGING_IN: 'user_logging_in',
@@ -151,9 +147,6 @@ exports.USER = {
   REFRESHING_TOKEN: 'user_refreshing_token',
   REFRESH_TOKEN_SUCCESS: 'user_refresh_token_success',
   REFRESH_TOKEN_ERROR: 'user_refresh_token_error',
-  VERIFYING_USERNAME: 'user_verifying_username',
-  VERIFY_USERNAME_SUCCESS: 'user_verify_username_success',
-  VERIFY_USERNAME_ERROR: 'user_verify_username_error',
   SEARCHING: 'user_searching',
   SEARCH_COMPLETE: 'user_search_complete'
 };

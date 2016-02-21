@@ -73,7 +73,7 @@ var UserSidebar = React.createClass({
             <div
               className='picture'
               style={{
-                backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
+                backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 256, 256).url + ')'
               }}
             />
           </div>
