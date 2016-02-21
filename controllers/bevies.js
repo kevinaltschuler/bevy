@@ -20,6 +20,7 @@ var config = require('./../config');
 var User = require('./../models/User');
 var Bevy = require('./../models/Bevy');
 var Post = require('./../models/Post');
+var Comment = require('./../models/Comment');
 var Board = require('./../models/Board');
 var ResetToken = require('./../models/ResetToken');
 var InviteToken = require('./../models/InviteToken');
@@ -181,10 +182,58 @@ var createBevy = function(req, res, next) {
       bevy.save(function(err) {
         if(err) return done(err);
         // bevy saved successfully, move on
-        return done(null, user, bevy);
+        return done(null, user, bevy, boards);
       });
     },
-    // TODO: create a post and some comments for each board? maybe????
+    // create some posts for both boards
+    function(user, bevy, boards, done) {
+      var announcement_post = {
+        _id: shortid.generate(),
+        author: user._id,
+        bevy: bevy._id,
+        board: boards[0]._id,
+        title: 'Welcome to Bevy! We made this announcement post for you. \
+          All members will be notified of posts like these, and \
+          only admins can post them',
+        created: Date.now()
+      };
+      var discussion_post = {
+        _id: shortid.generate(),
+        author: user._id,
+        bevy: bevy._id,
+        board: boards[1]._id,
+        title: 'This is a discussion post. All members are allowed to \
+          post these. Pictures can also be attached to posts.',
+        images: [{
+          path: config.app.server.hostname + '/img/samplecover.jpg',
+          foreign: true
+        }],
+        created: Date.now()
+      };
+      var comment = {
+        _id: shortid.generate(),
+        author: user._id,
+        postId: discussion_post._id,
+        parentId: null,
+        body: 'All posts can be commented on',
+        created: Date.now()
+      };
+      var nested_comment = {
+        _id: shortid.generate(),
+        author: user._id,
+        postId: discussion_post._id,
+        parentId: comment._id,
+        body: 'And all comments can be commented on',
+        created: Date.now()
+      };
+      Post.create([announcement_post, discussion_post], function(err, posts) {
+        if(err) return done(err);
+        Comment.create([comment, nested_comment], function(err, comments) {
+          if(err) return done(err);
+          else return done(null, user, bevy);
+        });
+      });
+    },
     // create a reset token for so the new admin can change his/her password
     function(user, bevy, done) {
       var token = {
