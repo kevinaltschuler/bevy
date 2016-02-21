@@ -40,39 +40,47 @@
 			max-width: 300px;
 			text-align: center;
 			color: white;
+			margin-bottom: 50px;
 		}
 		.actions {
-			padding: 30px;
+			padding: 10px;
 			border-radius: 5px;
-			margin-top: 50px;
+			margin-top: 20px;
 			display: flex;
 			flex-direction: row;
 			justify-content: space-between;
 			align-items: center;
-			.mui-raised-button-label {
-				color: @bevy-green;
+		}
+		.bevy-link-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			span.text {
+				color: #FFF;
+				margin-bottom: 10px;
 			}
-			.domain-input-group {
-				margin-bottom: 0px;
-				max-width: 200px;
-				input.form-control {
-					box-shadow: none;
-					border: none;
-					&:focus, &:active {
-						box-shadow: none;
-						border: none;
-					}
-				}
-				margin-right: 10px;
-			}
-			span.domain-suffix {
+			a.bevy-link {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				margin-left: 8px;
-				color: #FFF;
+				color: #EEE;
+				transition: 0.25s all ease-in-out;
 				font-size: 1.15em;
-				margin-right: 20px;
+				&:hover, &:focus, &:active {
+					color: #FFF;
+					text-decoration: none;
+					span {
+						text-decoration: underline;
+					}
+					i.material-icons {
+						text-decoration: none !important;
+					}
+				}
+				i.material-icons {
+					font-size: 1.25em;
+					margin-left: 5px;
+					text-decoration: none !important;
+				}
 			}
 		}
 	}

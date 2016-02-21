@@ -25,7 +25,6 @@ var constants = require('./../../constants');
 var $ = require('jquery');
 var TYPED = require('./typed.js').TYPED;
 
-
 var HomeView = React.createClass({
   getInitialState() {
     return {
@@ -57,35 +56,29 @@ var HomeView = React.createClass({
     })
   },
 
+  // if the user is logged in, present a nifty and handy link to
+  // go straight to their bevy
+  renderBevyLink() {
+    // dont render anything if they're not logged in
+    if(_.isEmpty(window.bootstrap.user)) return <div />;
+    return (
+      <div className='bevy-link-container'>
+        <span className='text'>
+          You're already logged in!
+        </span>
+        <a
+          className='bevy-link'
+          title={ 'Go to ' + window.bootstrap.user.bevy.name }
+          href={ 'http://' + window.bootstrap.user.bevy.slug + '.' + constants.domain }
+        >
+          <span>{ 'Go to ' + window.bootstrap.user.bevy.name }</span>
+          <i className='material-icons'>arrow_forward</i>
+        </a>
+      </div>
+    );
+  },
+
   render() {
-
-    var boardScreenStyle = (this.state.selected == 0)
-    ? {
-      backgroundImage: "url('./../../../img/boardscreen.png')"
-    }
-    : {
-      opacity: 0,
-      backgroundImage: "url('./../../../img/boardscreen.png')"
-    }
-
-    var chatScreenStyle = (this.state.selected == 1)
-    ? {
-      backgroundImage: "url('./../../../img/chatscreen.png')"
-    }
-    : {
-      opacity: 0,
-      backgroundImage: "url('./../../../img/chatscreen.png')"
-    }
-
-    var feedScreenStyle = (this.state.selected == 2)
-    ? {
-      backgroundImage: "url('./../../../img/postscreen.png')"
-    }
-    : {
-      opacity: 0,
-      backgroundImage: "url('./../../../img/postscreen.png')"
-    }
-
     return (
       <div className='landing-page'>
         <div className='landing-div div1'>
@@ -94,12 +87,15 @@ var HomeView = React.createClass({
             Bevy
           </div>
           <div className='sub-title-text'>
-            The Social Network For Your &nbsp; &nbsp;&nbsp;<span className="typedSpan"></span>
+            The Social Network For Your &nbsp; &nbsp;&nbsp;
+            <span className="typedSpan"></span>
           </div>
+          { this.renderBevyLink() }
           <div className='actions'>
             <RaisedButton
               label='Start a Community'
               linkButton={ true }
+              title='Start a Community'
               href='/create'
             />
           </div>
@@ -143,44 +139,65 @@ var HomeView = React.createClass({
               <Feature
                 title='Boards'
                 icon={<i className='material-icons'>view_carousel</i>}
-                onClick={() => {
-                  this.setState({
-                    selected: 0
-                  })
-                }}
-                index={0}
-                selected={this.state.selected}
-                description='Organize your team into boards. Make a board for committees, social groups, announcements, or event feeds.'
+                onClick={() => this.setState({ selected: 0 })}
+                index={ 0 }
+                selected={ this.state.selected }
+                description={'Organize your team into boards. Make a board \
+                  for committees, social groups, announcements, or event feeds.'}
               />
               <Feature
                 title='Feed'
                 icon={<i className='material-icons'>view_day</i>}
-                onClick={() => {
-                  this.setState({
-                    selected: 2
-                  })
-                }}
-                index={2}
-                selected={this.state.selected}
-                description="All recent activity is easily viewed straight from your community's frontpage"
+                onClick={() => this.setState({ selected: 2 })}
+                index={ 2 }
+                selected={ this.state.selected }
+                description={"All recent activity is easily viewed straight \
+                  from your community's frontpage"}
               />
               <Feature
                 title='Chat'
                 icon={<i className='material-icons'>chat_bubble</i>}
-                onClick={() => {
-                  this.setState({
-                    selected: 1
-                  })
-                }}
-                index={1}
-                selected={this.state.selected}
-                description="Each board has a group chat for all it's members, we also support group and private chat"
+                onClick={() => this.setState({ selected: 1 })}
+                index={ 1 }
+                selected={ this.state.selected }
+                description={"Each board has a group chat for all it's members, \
+                  we also support group and private chat"}
               />
             </div>
-            <img style={{width: 600, height: 352}} className='simplemock' src='./../../../img/simplemock.png'>
-              <div style={boardScreenStyle} className='screenshot screenshot1'/>
-              <div style={chatScreenStyle} className='screenshot screenshot2'/>
-              <div style={feedScreenStyle} className='screenshot screenshot3'/>
+            <img
+              className='simplemock'
+              style={{width: 600, height: 352}}
+              src='./../../../img/simplemock.png'
+            >
+              <div
+                className='screenshot screenshot1'
+                style={(this.state.selected == 0)
+                  ? { backgroundImage: "url('./../../../img/boardscreen.png')" }
+                  : {
+                    opacity: 0,
+                    backgroundImage: "url('./../../../img/boardscreen.png')" }
+                }
+              />
+              <div
+                className='screenshot screenshot2'
+                style={(this.state.selected == 1)
+                  ? { backgroundImage: "url('./../../../img/chatscreen.png')" }
+                  : {
+                    opacity: 0,
+                    backgroundImage: "url('./../../../img/chatscreen.png')"
+                  }
+                }
+              />
+              <div
+                className='screenshot screenshot3'
+                style={(this.state.selected == 2)
+                  ? { backgroundImage: "url('./../../../img/postscreen.png')" }
+                  : {
+                    opacity: 0,
+                    backgroundImage: "url('./../../../img/postscreen.png')"
+                  }
+                }
+              />
             </img>
           </div>
         </div>
