@@ -31,10 +31,9 @@ var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
 var _ = require('underscore');
 var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
-var user = window.bootstrap.user;
-var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
-var BEVY = constants.BEVY;
+
+var AppActions = require('./../../app/AppActions');
 
 var Navbar = React.createClass({
   propTypes: {
@@ -55,7 +54,8 @@ var Navbar = React.createClass({
   },
 
   toggleLeftNav() {
-    this.props.leftNavActions.toggle();
+    //this.props.leftNavActions.toggle();
+    AppActions.openSidebar('home');
   },
 
   _renderBevyInfoBar() {
@@ -86,20 +86,13 @@ var Navbar = React.createClass({
     var unread = _.reject(this.props.allNotifications, function(notification){
       return notification.read
     });
-    var counter = (unread.length + userInvites.length <= 0)
+    var counter = (unread.length <= 0)
       ? ''
       : (
         <Badge className='notification-counter'>
-          { unread.length + userInvites.length }
+          { unread.length }
         </Badge>
       );
-
-    /*var chatSidebar = <ChatSidebar />;
-    var chatDock = <ChatDock />;
-    if(_.isEmpty(window.bootstrap.user)) {
-      chatSidebar = '';
-      chatDock = '';
-    }*/
 
     return (
       <div className='profile-buttons'>
@@ -126,7 +119,7 @@ var Navbar = React.createClass({
             backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')',
             marginRight: 0
           }}
-          title='Profile'
+          title='Account'
         >
         </Button>
       </div>

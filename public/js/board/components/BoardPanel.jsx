@@ -22,7 +22,6 @@ var {
   Card,
   CardHeader
 } = require('material-ui');
-var SubscriberModal = require('./../../bevy/components/SubscriberModal.jsx');
 
 var _ = require('underscore');
 var router = require('./../../router');
@@ -31,6 +30,8 @@ var resizeImage = require('./../../shared/helpers/resizeImage');
 var BoardActions = require('./../BoardActions');
 var BoardStore = require('./../BoardStore');
 var user = window.bootstrap.user;
+
+var AppActions = require('./../../app/AppActions');
 
 var BoardPanel = React.createClass({
   propTypes: {
@@ -41,8 +42,7 @@ var BoardPanel = React.createClass({
   getInitialState() {
     return {
       joined: (_.contains(window.bootstrap.user.boards, this.props.board._id)),
-      isBevyMember: (_.contains(window.bootstrap.user.bevies, this.props.bevy._id)),
-      showSubModal: false
+      isBevyMember: (_.contains(window.bootstrap.user.bevies, this.props.bevy._id))
     };
   },
 
@@ -73,6 +73,12 @@ var BoardPanel = React.createClass({
     BoardActions.leave(this.props.board);
     this.setState({
       joined: false
+    });
+  },
+
+  openDirectory() {
+    AppActions.openSidebar('directory', {
+      initialDirectoryTab: 'member'
     });
   },
 
@@ -114,7 +120,7 @@ var BoardPanel = React.createClass({
           </Tooltip>
         }>
           <FlatButton
-            onClick={() => this.setState({ showSubModal: true })}
+            onClick={ this.openDirectory }
             style={{
               minWidth: 0,
               lineHeight: 1.42,
@@ -225,11 +231,6 @@ var BoardPanel = React.createClass({
 
     return (
       <div className="panel board-panel">
-        <SubscriberModal
-          show={ this.state.showSubModal }
-          onHide={() => this.setState({ showSubModal: false })}
-          activeBoard={ this.props.board }
-        />
         <div className='top'>
           { this._renderAvatar(boardImageURL) }
           <div className='panel-info'>

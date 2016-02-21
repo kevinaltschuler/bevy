@@ -7,9 +7,7 @@
 
 'use strict';
 
-// imports
 var Backbone = require('backbone');
-var $ = require('jquery');
 var _ = require('underscore');
 
 var Dispatcher = require('./../shared/dispatcher');
@@ -230,12 +228,22 @@ _.extend(UserStore, {
 
         let query = payload.query;
         let bevy_id = payload.bevy_id;
+        let role = payload.role;
 
         query = encodeURIComponent(query);
 
         let url = (_.isEmpty(query))
-          ? constants.apiurl + '/users/search' + '?bevy_id=' + bevy_id
-          : constants.apiurl + '/users/search/' + query + '?bevy_id=' + bevy_id
+          ? constants.apiurl + '/users/search' + '?bevy_id=' + bevy_id + '&role=' + role
+          : constants.apiurl + '/users/search/' + query + '?bevy_id=' + bevy_id + '&role=' + role;
+
+        // if we're searching through admins, go through a totally different route
+        if(role == 'admin') {
+          let activeBevy = BevyStore.getActive();
+          let admin_ids = activeBevy.admins;
+          for(var key in admin_ids) {
+            url += '&admin_ids[' + key + ']=' + admin_ids[key];
+          }
+        }
 
         fetch(url, {
           method: 'GET'
@@ -244,10 +252,6 @@ _.extend(UserStore, {
         .then(res => {
           this.userSearchQuery = query;
           this.userSearchResults.reset(res);
-          if(!_.isEmpty(user)) {
-             // remove self from search results
-            this.userSearchResults.remove(user._id);
-          }
           this.trigger(USER.SEARCH_COMPLETE);
         });
         break;

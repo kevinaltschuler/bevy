@@ -176,7 +176,8 @@ var MainSection = React.createClass({
           docked={ false }
           onRequestChange={open => this.setState({ leftNavOpen: open })}
           style={{
-            backgroundColor: '#EEE'
+            backgroundColor: '#EEE',
+            overflowY: 'hidden'
           }}
         >
           <Sidebar

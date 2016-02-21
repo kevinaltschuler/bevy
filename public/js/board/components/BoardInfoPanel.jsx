@@ -14,12 +14,11 @@ var {
 } = require('material-ui');
 var BoardSettingsModal = require('./BoardSettingsModal.jsx');
 var BoardInfoPanelHeader = require('./BoardInfoPanelHeader.jsx');
-var AdminModal = require('./../../bevy/components/AdminModal.jsx');
-var SubscriberModal = require('./../../bevy/components/SubscriberModal.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
 var BoardActions = require('./../BoardActions');
+var AppActions = require('./../../app/AppActions');
 
 var BoardInfoPanel = React.createClass({
   propTypes: {
@@ -34,8 +33,7 @@ var BoardInfoPanel = React.createClass({
         { _id: window.bootstrap.user._id }) != undefined,
       isBevyMember: _.contains(window.bootstrap.user.bevies, this.props.board.parent._id),
       showSettingsModal: false,
-      showAdminModal: false,
-      showSubModal: false
+      showAdminModal: false
     };
   },
 
@@ -61,6 +59,18 @@ var BoardInfoPanel = React.createClass({
     BoardActions.leave(this.props.board);
     this.setState({
       joined: false
+    });
+  },
+
+  openMemberDirectory() {
+    AppActions.openSidebar('directory', {
+      initialDirectoryTab: 'member'
+    });
+  },
+
+  openAdminDirectory() {
+    AppActions.openSidebar('directory', {
+      initialDirectoryTab: 'admin'
     });
   },
 
@@ -165,9 +175,7 @@ var BoardInfoPanel = React.createClass({
               onClick={(ev) => {
                 ev.preventDefault();
                 if(board.subCount <= 0) return;
-                this.setState({
-                  showSubModal: true
-                });
+                this.openMemberDirectory();
               }}>
               { board.subCount }
               &nbsp;
@@ -185,9 +193,7 @@ var BoardInfoPanel = React.createClass({
               onClick={(ev) => {
                 ev.preventDefault();
                 if(board.admins.length <= 0) return;
-                this.setState({
-                  showAdminModal: true
-                });
+                this.openAdminDirectory();
               }}
             >
               { board.admins.length }
@@ -199,16 +205,6 @@ var BoardInfoPanel = React.createClass({
           </div>
           {/* this._renderPublicPrivate() */}
           { this._renderType() }
-          <AdminModal
-            show={ this.state.showAdminModal }
-            onHide={() => this.setState({ showAdminModal: false })}
-            activeBoard={ this.props.board }
-          />
-          <SubscriberModal
-            show={ this.state.showSubModal }
-            onHide={() => this.setState({ showSubModal: false })}
-            activeBoard={ this.props.board }
-          />
         </div>
         { this._renderBottomActions() }
       </div>

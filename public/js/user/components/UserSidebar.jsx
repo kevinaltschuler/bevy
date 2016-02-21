@@ -15,6 +15,9 @@ var {
   RaisedButton,
   CircularProgress
 } = require('material-ui');
+var {
+  Button
+} = require('react-bootstrap');
 var Ink = require('react-ink');
 
 var _ = require('underscore');
@@ -25,16 +28,25 @@ var resizeImage = require('./../../shared/helpers/resizeImage');
 var UserSidebar = React.createClass({
   propTypes: {
     activeBevy: React.PropTypes.object,
-    leftNavActions: React.PropTypes.object
+    leftNavActions: React.PropTypes.object,
+    sidebarActions: React.PropTypes.object
+  },
+
+  closeSidebar() {
+    this.props.leftNavActions.close();
   },
 
   viewDirectory() {
-
+    this.props.sidebarActions.switchPage('directory');
   },
 
   editProfile() {
     this.props.leftNavActions.close();
     router.navigate('/profile/edit', { trigger: true });
+  },
+
+  viewProfile() {
+    this.props.sidebarActions.switchPage('profile', window.bootstrap.user);
   },
 
   signOut() {
@@ -47,6 +59,16 @@ var UserSidebar = React.createClass({
       <div className='user-sidebar'>
         <div className='profile'>
           <div className='green-rect' />
+          <button
+            className='close-button-container'
+            title='Close Sidebar'
+            onClick={ this.closeSidebar }
+          >
+            <div className='close-button'>
+              <Ink />
+              <i className='material-icons'>close</i>
+            </div>
+          </button>
           <div className='picture-container'>
             <div
               className='picture'

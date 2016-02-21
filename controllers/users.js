@@ -24,7 +24,7 @@ var Notification = require('./../models/Notification');
 // INDEX
 // GET /users
 exports.getUsers = function(req, res, next) {
-  User.find(function(err, users) {
+  User.find({}, function(err, users) {
     if(err) return next(err);
     return res.json(users);
   }).limit(15);
@@ -88,6 +88,8 @@ exports.searchUsers = function(req, res, next) {
 	var query = req.params.query;
   var exclude_users = req.query['exclude'];
   var bevy_id = req.query['bevy_id'];
+  var role = req.query['role'];
+
   var promise;
   if(_.isEmpty(query)) {
     promise = User.find()
@@ -105,6 +107,22 @@ exports.searchUsers = function(req, res, next) {
   }
   if(bevy_id != undefined) {
     promise.where({ bevy: bevy_id });
+  }
+  if(role != undefined) {
+    // if we're searching through admins
+    if(role == 'admin') {
+      // expect the client to send us the list of admin ids to search through
+      // we can fix this later but the client should have this list regardless
+      var admin_ids = req.query['admin_ids'];
+      // break out if admin ids not supplied
+      if(admin_ids == undefined)
+        return next('No admin IDs specified');
+      // return empty array if id array is specified but is empty
+      else if (admin_ids.length <= 0)
+        return res.json([]);
+
+      promise.where({ _id: { $in: admin_ids }});
+    }
   }
   promise.exec();
   promise.then(function(users) {

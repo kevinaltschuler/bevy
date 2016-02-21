@@ -19,6 +19,7 @@ var {
   CircularProgress,
   RaisedButton
 } = require('material-ui');
+var Ink = require('react-ink');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -32,19 +33,21 @@ var USER = constants.USER;
 
 let DirectoryView = React.createClass({
   propTypes: {
-    activeBevy: React.PropTypes.object
+    activeBevy: React.PropTypes.object,
+    leftNavActions: React.PropTypes.object,
+    sidebarActions: React.PropTypes.object,
+    initialDirectoryTab: React.PropTypes.string
   },
 
   getInitialState() {
-    if(!_.isEmpty(this.props.activeBevy)) {
-      this.search();
-    }
     return {
       loadingInitial: (_.isEmpty(this.props.activeBevy)),
       query: '',
       searching: false,
       searchUsers: [],
-      searchError: ''
+      searchError: '',
+      activeTab: (this.props.initialDirectoryTab == undefined)
+        ? 'member' : this.props.initialDirectoryTab
     };
   },
 
@@ -53,9 +56,16 @@ let DirectoryView = React.createClass({
       this.setState({ loadingInitial: false });
       this.search();
     }
+    if(nextProps.initialDirectoryTab != undefined) {
+      this.switchTab(nextProps.initialDirectoryTab);
+    }
   },
 
   componentDidMount() {
+    if(!_.isEmpty(this.props.activeBevy)) {
+      this.search();
+    }
+
     UserStore.on(USER.SEARCHING, this.onSearching);
     UserStore.on(USER.SEARCH_COMPLETE, this.onSearchComplete);
   },
@@ -84,13 +94,49 @@ let DirectoryView = React.createClass({
     this.searchTimeout = setTimeout(this.search, 500);
   },
 
+  onUserClick(user) {
+    this.props.sidebarActions.switchPage('profile', user);
+  },
+
+  close() {
+    this.props.leftNavActions.close();
+  },
+
+  clearQuery() {
+    this.setState({ query: '' });
+    this.search();
+  },
+
   search() {
-    let query = this.state.query;
-    UserActions.search(query, this.props.activeBevy._id);
+    UserActions.search(
+      this.state.query, // search query
+      this.props.activeBevy._id, // bevy _id
+      this.state.activeTab // user role
+    );
+  },
+
+  switchTab(tab) {
+    this.setState({ activeTab: tab });
+    // account for asynchronous state
+    setTimeout(this.search, 100);
   },
 
   renderLoading() {
 
+  },
+
+  renderSearchLoading() {
+    if(this.state.searching) {
+      return (
+        <div className='loading-container'>
+          <CircularProgress
+            mode='indeterminate'
+            color='#AAA'
+            size={ 0.35 }
+          />
+        </div>
+      );
+    } else return <div />;
   },
 
   renderUsers() {
@@ -101,7 +147,26 @@ let DirectoryView = React.createClass({
         <DirectoryItem
           key={ 'directoryitem:' + key }
           user={ user }
+          onClick={ this.onUserClick }
         />
+      );
+    }
+
+    if(userItems.length <= 0 && this.state.query.length > 0) {
+      userItems = (
+        <div className='not-found-container'>
+          <span className='not-found-text'>
+            { 'No group members matched the term "' + this.state.query + '"' }
+          </span>
+          <button
+            className='clear-query-button'
+            title='Clear search query'
+            onClick={ this.clearQuery }
+          >
+            <Ink />
+            <span>Clear Search</span>
+          </button>
+        </div>
       );
     }
 
@@ -115,19 +180,67 @@ let DirectoryView = React.createClass({
   render() {
     return (
       <div className='directory-view'>
-        <h1 className='title'>Group Directory</h1>
-        <Panel className='directory-panel'>
+        <div className='top-bar'>
+          <span className='title'>Group Directory</span>
+          <button
+            className='close-button'
+            title='Close Group Directory'
+            onClick={ this.close }
+          >
+            <Ink />
+            <i className='material-icons'>close</i>
+          </button>
+        </div>
+        <div className='search-container'>
           <Input
             ref='search'
-            type='text'
             value={ this.state.query }
+            type='text'
             onChange={ this.onSearchChange }
+            placeholder='Search group directory'
             addonBefore={
               <i className='material-icons'>search</i>
             }
           />
-          { this.renderUsers() }
-        </Panel>
+          { this.renderSearchLoading() }
+        </div>
+        <div className='search-tabs'>
+          <button
+            className='tab'
+            title='Search group members'
+            onClick={() => { this.switchTab('member') }}
+          >
+            <Ink />
+            <span className='text'>
+              Members ({ this.props.activeBevy.subCount })
+            </span>
+            <div
+              className='bottom-bar'
+              style={{
+                visibility: (this.state.activeTab == 'member')
+                  ? 'visible' : 'hidden'
+              }}
+            />
+          </button>
+          <button
+            className='tab'
+            title='Search group admins'
+            onClick={() => { this.switchTab('admin') }}
+          >
+            <Ink />
+            <span className='text'>
+              Admins ({ this.props.activeBevy.admins.length })
+            </span>
+            <div
+              className='bottom-bar'
+              style={{
+                visibility: (this.state.activeTab == 'admin')
+                  ? 'visible' : 'hidden'
+              }}
+            />
+          </button>
+        </div>
+        { this.renderUsers() }
       </div>
     )
   }
@@ -135,13 +248,18 @@ let DirectoryView = React.createClass({
 
 let DirectoryItem = React.createClass({
   propTypes: {
-    user: React.PropTypes.object
+    user: React.PropTypes.object,
+    onClick: React.PropTypes.func
   },
 
   getInitialState() {
     return {
 
     };
+  },
+
+  onClick() {
+    this.props.onClick(this.props.user);
   },
 
   renderBigName() {
@@ -166,21 +284,22 @@ let DirectoryItem = React.createClass({
       : resizeImage(this.props.user.image, 128, 128).url;
 
     return (
-      <div className='directory-item'>
+      <button
+        className='directory-item'
+        title={ 'View ' + this.props.user.username + "'s Profile" }
+        onClick={ this.onClick }
+      >
+        <Ink />
         <div
           className='image'
           style={{ backgroundImage: 'url(' + profileImageURL + ')' }}
         />
         <div className='details'>
-
-          <span className='email'>
-            { this.renderBigName() }
-            { this.renderSmallName() }
-            { this.props.user.email }
-            { this.renderTitle() }
-          </span>
+          { this.renderBigName() }
+          { this.renderSmallName() }
+          { this.renderTitle() }
         </div>
-      </div>
+      </button>
     );
   }
 });
