@@ -450,6 +450,13 @@ var CreateBevyPage = React.createClass({
             <div className='title'>
               Check Your Email To Finish Creating Your Bevy!
             </div>
+            <a
+              href='/'
+              title='Go back home'
+              className='back-link'
+            >
+              Go back home
+            </a>
           </div>
         );
         break;
