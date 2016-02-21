@@ -205,7 +205,7 @@ var createBevy = function(req, res, next) {
         title: 'This is a discussion post. All members are allowed to \
           post these. Pictures can also be attached to posts.',
         images: [{
-          path: config.app.server.hostname + '/img/samplecover.jpg',
+          filename: config.app.server.hostname + '/img/samplecover.jpg',
           foreign: true
         }],
         created: Date.now()
