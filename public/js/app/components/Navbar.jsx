@@ -97,7 +97,7 @@ var Navbar = React.createClass({
     return (
       <div className='profile-buttons'>
         <span className='username'>
-          { window.bootstrap.user.username }
+          { window.bootstrap.user.displayName }
         </span>
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
@@ -262,11 +262,13 @@ var Navbar = React.createClass({
             </Button>
           </div>
 
-          <div className="center">
-            <span className='title'>
-              { navbarTitle }
-            </span>
-            { this._renderBevyInfoBar() }
+          <div className='center-container'>
+            <div className="center">
+              <span className='title'>
+                { navbarTitle }
+              </span>
+              { this._renderBevyInfoBar() }
+            </div>
           </div>
 
           <div className="right">

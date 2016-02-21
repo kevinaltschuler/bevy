@@ -78,6 +78,12 @@
       }
     }
 
+    .center-container {
+      z-index: 3;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+    }
     .center {
       display: flex;
       height: 100%;
@@ -92,6 +98,9 @@
       background-color: rgba(0,0,0,0);
       border: none;
       z-index: 2;
+      top: -13px;
+      left: -50%;
+      position: relative;
       span.title {
         //max-width: 250px;
         overflow-x: hidden;
@@ -107,7 +116,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: flex-end;
-
+      width: 50%;
       .login-btn {
         color: #fff;
         font-size: 1.2em;
