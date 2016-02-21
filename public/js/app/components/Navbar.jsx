@@ -262,13 +262,11 @@ var Navbar = React.createClass({
             </Button>
           </div>
 
-          <div className='center-container'>
-            <div className="center">
-              <span className='title'>
-                { navbarTitle }
-              </span>
-              { this._renderBevyInfoBar() }
-            </div>
+          <div className="center">
+            <span className='title'>
+              { navbarTitle }
+            </span>
+            { this._renderBevyInfoBar() }
           </div>
 
           <div className="right">
