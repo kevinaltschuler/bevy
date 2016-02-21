@@ -12,7 +12,7 @@
 
 var React = require('react');
 var Navbar = require('./Navbar.jsx');
-
+var Sidebar = require('./Sidebar.jsx');
 var {
   LeftNav
 } = require('material-ui');
@@ -175,9 +175,15 @@ var MainSection = React.createClass({
           open={ this.state.leftNavOpen }
           docked={ false }
           onRequestChange={open => this.setState({ leftNavOpen: open })}
+          style={{
+            backgroundColor: '#EEE',
+            overflowY: 'hidden'
+          }}
         >
-
-          <span>adsf</span>
+          <Sidebar
+            activeBevy={ this.state.activeBevy }
+            leftNavActions={ leftNavActions }
+          />
         </LeftNav>
         <InterfaceComponent
           leftNavActions={ leftNavActions }
@@ -195,7 +201,7 @@ var FourOhFour = require('./FourOhFour.jsx');
 var SearchView = require('./SearchView.jsx');
 var PostView = require('./PostView.jsx');
 var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
-var ProfileView = require('./../../user/components/ProfileView.jsx');
+var EditProfileView = require('./../../user/components/EditProfileView.jsx');
 var DirectoryView = require('./../../user/components/DirectoryView.jsx');
 
 var InterfaceComponent = React.createClass({
@@ -225,11 +231,8 @@ var InterfaceComponent = React.createClass({
       case 'post':
         return <PostView { ...this.props } />;
         break;
-      case 'view-profile':
-        return <ProfileView editing={ false } { ...this.props } />;
-        break;
       case 'edit-profile':
-        return <ProfileView editing={ true } { ...this.props } />;
+        return <EditProfileView { ...this.props } />;
         break;
       case 'directory':
         return <DirectoryView { ...this.props } />;

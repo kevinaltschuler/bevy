@@ -1,3 +1,9 @@
+/**
+ * Navbar.less
+ * @author albert
+ * @author kevin
+ */
+
 @import '../variables.less';
 
 .navbar {
@@ -70,50 +76,6 @@
           }
         }
       }
-      .my-bevies-btn {
-        position: relative;
-        &:active {
-          box-shadow: none;
-        }
-      }
-      .all-bevies-btn {
-        color: white;
-        background-color: rgba(0,0,0,0);
-        text-shadow: none;
-        box-shadow: none;
-        border: none;
-        position: relative;
-        &:hover {
-          background-color: rgba(255,255,255,.1);
-        }
-        &:active {
-          background-color: rgba(255,255,255,.3);
-        }
-      }
-      .btn-group {
-        &:hover .dropdown-menu {
-        }
-        color: white;
-      }
-      .bevies-dropdown {
-        background-color: rgba(0,0,0,0);
-          color: white;
-          border: none;
-        .dropdown-toggle {
-          background-color: rgba(0,0,0,0);
-          border: none;
-          outline: 0;
-          box-shadow: none;
-          color: white;
-          text-shadow: 0 0 5px rgba(0,0,0,.5);
-          &:active {
-            box-shadow: none;
-          }
-        }
-      }
-      .dropdown-menu {
-        text-shadow: none;
-      }
     }
 
     .center {
@@ -145,6 +107,7 @@
       flex-direction: row;
       align-items: center;
       justify-content: flex-end;
+
       .login-btn {
         color: #fff;
         font-size: 1.2em;
@@ -152,47 +115,18 @@
         text-shadow: none;
         box-shadow: none;
       }
-      //SEARCH
-      .search-input.mui-text-field {
-        width: 80%;
-        background-color: rgba(0,0,0,0);
-        border-bottom: none;
-        border-left: 0px;
-        border-top: 0px;
-        border-right: 0px;
-        box-shadow: none;
-        border-radius: 0px;
-        color: #fff;
-        padding-left: 4px;
-        padding-bottom: 2px;
 
-        hr.mui-text-field-focus-underline {
-          border-color: white;
-        }
-        hr.mui-text-field-underline {
-          border-top: 1px solid rgba(255,255,255,.2);
-        }
-        .mui-text-field-input, .mui-text-field-textarea {
-          box-shadow: none !important;
-          color: white;
-        }
-      }
-
-      .mui-icon-button {
-        width: 20%;
-        padding: 5px;
-        text-shadow: 0 0 5px rgba(0,0,0,.5);
-        .glyphicon-search {
-          color: white;
-          font-size: 1em;
-        }
-      }
       .profile-buttons {
         display: flex;
         flex-direction: row;
         align-items: center;
         width: 50%;
         justify-content: flex-end;
+        span.username {
+          color: #FFF;
+          //text-shadow: none;
+        }
+
         .notification-dropdown-btn {
           text-shadow: none;
           padding: 10px;
@@ -215,48 +149,22 @@
             box-shadow: none;
           }
         }
-        .notification-counter {
-          float: left;
-          margin-left: -20px;
-          margin-top: 15px;
-          background-color: #FF0000;
-          z-index: 7;
-        }
-        .chat-dropdown-btn {
-          text-shadow: none;
-          padding: 10px;
-          &:hover, &:active, &:focus {
-            background-color: rgba(0,0,0,0);
-            box-shadow: none;
-          }
-          .chat-img {
-            background-image: url(/img/chat-icon.png);
-            background-repeat: no-repeat;
-            background-position: center;
-            background-size: 25px 25px;
-            width: 25px;
-            height: 25px;
-            border-radius: 10px;
-            transition: all 0.4s ease;
-            box-shadow: @shadow1;
-            &:active {
-              box-shadow: @shadow3;
-            }
-          }
-        }
+
         .profile-btn {
           text-shadow: none;
           margin-top: 14px;
           margin-bottom: 14px;
-          margin-left: 10px;
+          margin-left: 0px;
           margin-right: 10px;
-          border-radius: 50px;
           width: 40px;
           height: 40px;
-          background-size: auto 100%;
-          background-position: center;
+          min-width: 40px;
+          min-height: 40px;
+          border-radius: 20px;
+          #image-icon();
           transition: all 0.4s ease;
           box-shadow: @shadow1;
+          border: none;
           &:active {
             box-shadow: @shadow3;
           }

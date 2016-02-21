@@ -25,17 +25,15 @@ var {
   TextField,
   Styles
 } = require('material-ui');
-var UserDropdown = require('./../../user/components/UserDropdown.jsx');
 var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
 
 var _ = require('underscore');
 var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
-var user = window.bootstrap.user;
-var BevyStore = require('./../../bevy/BevyStore');
 var constants = require('./../../constants');
-var BEVY = constants.BEVY;
+
+var AppActions = require('./../../app/AppActions');
 
 var Navbar = React.createClass({
   propTypes: {
@@ -53,6 +51,11 @@ var Navbar = React.createClass({
                    // this is the opacity for the image over that layer
                    // so higher opacity means a brighter image, and lower means darker
     };
+  },
+
+  toggleLeftNav() {
+    //this.props.leftNavActions.toggle();
+    AppActions.openSidebar('home');
   },
 
   _renderBevyInfoBar() {
@@ -83,23 +86,19 @@ var Navbar = React.createClass({
     var unread = _.reject(this.props.allNotifications, function(notification){
       return notification.read
     });
-    var counter = (unread.length + userInvites.length <= 0)
+    var counter = (unread.length <= 0)
       ? ''
       : (
         <Badge className='notification-counter'>
-          { unread.length + userInvites.length }
+          { unread.length }
         </Badge>
       );
 
-    /*var chatSidebar = <ChatSidebar />;
-    var chatDock = <ChatDock />;
-    if(_.isEmpty(window.bootstrap.user)) {
-      chatSidebar = '';
-      chatDock = '';
-    }*/
-
     return (
       <div className='profile-buttons'>
+        <span className='username'>
+          { window.bootstrap.user.username }
+        </span>
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
           userInvites={ this.props.userInvites }
@@ -113,16 +112,16 @@ var Navbar = React.createClass({
           }}
         />
         { counter }
-        <UserDropdown
-          show={ this.state.activeTab == 'profile' }
-          onToggle={() => {
-            this.setState({
-              activeTab: (this.state.activeTab == 'profile')
-                ? null
-                : 'profile'
-            });
+        <Button
+          className='profile-btn'
+          onClick={ this.toggleLeftNav }
+          style={{
+            backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')',
+            marginRight: 0
           }}
-        />
+          title='Account'
+        >
+        </Button>
       </div>
     );
   },

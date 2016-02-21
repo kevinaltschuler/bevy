@@ -1,6 +1,5 @@
 /**
- * ProfileView.less
- *
+ * DirectoryView.less
  * @author albert
  */
 
@@ -9,150 +8,103 @@
 .profile-view {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  padding-top: 115px;
-  .loading-container {
+  background-color: #FFF;
+  height: 100%;
+  .top-bar {
+    background-color: @bevy-green;
+    width: 300px;
+    height: 48px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
-    h1.loading-title {
-
-    }
-  }
-  .edit-header {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    h1 {
-      margin-top: 0px;
-      margin-bottom: 0px;
-    }
-    h4 {
-      font-weight: normal;
-    }
-  }
-  .edit-panel, .view-panel {
-    width: 500px;
-    .panel-body {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-  .edit-panel {
-    .panel-body {
+    justify-content: space-between;
+    padding-left: 10px;
+    padding-right: 5px;
+    a.back-button {
       display: flex;
       flex-direction: row;
-      align-items: flex-start;
-      padding-right: 0px;
-    }
-    .left {
-      width: 65%;
-      display: flex;
-      flex-direction: column;
-
-      span.input-title {
-        margin-bottom: 4px;
-      }
-      .form-group {
-        margin-bottom: 10px;
-        input.form-control {
-          &:focus {
-            border-color: @bevy-green;
-            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px @bevy-green-trans;
-          }
-        }
-      }
-      span.hint {
-        color: #888;
-        font-size: 0.85em;
-        margin-bottom: 10px;
-      }
-      .edit-buttons {
-        display: flex;
-        flex-direction: row;
-        align-self: flex-end;
-        margin-top: 10px;
-        & > div {
-          margin-left: 10px;
-          margin-right: 10px;
-        }
-      }
-
-    }
-    .right {
-      display: flex;
-      flex-direction: column;
       align-items: center;
-      width: 35%;
-      span.prompt {
-        color: #888;
-        margin-bottom: 10px;
+      transition: 0.25s all ease-in-out;
+      i.material-icons {
+        font-size: 2em;
+        color: #FFF;
       }
-      .profile-picture {
-        width: 100px;
-        height: 100px;
-        form.profile-image-dropzone {
-          width: 100px;
-          height: 100px;
-          border-radius: 0px;
-          margin: 0px;
-          span.glyphicon {
-            width: 100px;
-            height: 100px;
-            border-radius: 0px;
-            left: -35px;
-            padding-top: 35px;
-          }
+      span.title {
+        color: #FFF;
+        font-size: 1.25em;
+      }
+      &:active, &:hover, &:focus {
+        text-decoration: none;
+        i.material-icons {
+          color: rgba(255,255,255,0.8);
+          text-decoration: none;
         }
+        span.title {
+          color: rgba(255,255,255,0.8);
+          text-decoration: none;
+        }
+      }
+    }
+    button.close-button {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      box-shadow: none;
+      position: relative;
+      background-color: transparent;
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      i.material-icons {
+        color: #FFF;
+        font-size: 1.5em;
       }
     }
   }
-  .view-panel {
-    .panel-body {
-
-    }
-    .profile-picture {
-      #image-icon();
-      width: 80%;
-      height: 160px;
-      margin: 0 auto;
-    }
-    span.name {
-      font-size: 1.5em;
-      font-weight: bold;
-      margin-top: 15px;
-    }
-    .actions {
+  .profile-picture {
+    width: 270px;
+    height: 270px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    #image-icon();
+  }
+  span.name {
+    font-size: 1.5em;
+  }
+  span.title {
+    color: #666;
+  }
+  .details {
+    background-color: #FFF;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-top: 1px solid #EEE;
+    padding-top: 10px;
+    margin-top: 10px;
+    padding-bottom: 10px;
+    .detail-item {
+      width: 100%;
+      height: 30px;
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
-      margin-top: 10px;
-      & > div {
-        margin-left: 10px;
-        margin-right: 10px;
+      align-items: center;
+      padding-left: 10px;
+      padding-right: 10px;
+      //border-bottom: 1px solid #EEE;
+      &:last-child {
+        border-bottom: 0px;
       }
-    }
-    .details {
-      width: 80%;
-      border-top: 1px solid #EEE;
-      margin-top: 20px;
-      padding-top: 10px;
-      .detail-item {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        span.detail-key {
-          width: 40%;
-          color: #888;
-        }
-        span.detail-value {
-          width: 60%;
-        }
-        a.email-link {
-          width: 60%;
-        }
+      span.detail-key {
+        width: 40%;
+        color: #888;
+      }
+      span.detail-value {
+        width: 60%;
+        color: #444;
       }
     }
   }

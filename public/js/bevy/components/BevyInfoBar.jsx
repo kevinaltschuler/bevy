@@ -18,15 +18,15 @@ var {
   IconButton,
   FlatButton
 } = require('material-ui');
-var Uploader = require('./../../shared/components/Uploader.jsx');
 var InviteUsersModal = require('./InviteUsersModal.jsx');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
-var AdminModal = require('./AdminModal.jsx');
-var SubscriberModal = require('./SubscriberModal.jsx');
 
 var _ = require('underscore');
+var constants = require('./../../constants');
+
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
+var AppActions = require('./../../app/AppActions');
 
 var BevyInfoBar = React.createClass({
   propTypes: {
@@ -37,9 +37,7 @@ var BevyInfoBar = React.createClass({
     return {
       isAdmin: (_.contains(this.props.activeBevy.admins, window.bootstrap.user._id)),
       showSettingsModal: false,
-      showInviteModal: false,
-      showAdminModal: false,
-      showSubModal: false
+      showInviteModal: false
     }
   },
 
@@ -49,16 +47,22 @@ var BevyInfoBar = React.createClass({
     });
   },
 
-  onUploadComplete(file) {
-    var bevy_id = this.props.activeBevy.id;
-    var name = this.props.activeBevy.name;
-    BevyActions.update(bevy_id, name, file);
-  },
-
   leaveBevy() {
     if(window.confirm('Are you sure?')) {
       BevyActions.leave(this.props.activeBevy);
     }
+  },
+
+  openMemberDirectory() {
+    AppActions.openSidebar('directory', {
+      initialDirectoryTab: 'member'
+    });
+  },
+
+  openAdminDirectory() {
+    AppActions.openSidebar('directory', {
+      initialDirectoryTab: 'admin'
+    });
   },
 
   _renderPublicPrivate() {
@@ -75,7 +79,7 @@ var BevyInfoBar = React.createClass({
         </div>
       );
     } else {
-      return ( 
+      return (
       <div className='info-item'>
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='privatetooltip'>Private</Tooltip>
@@ -105,7 +109,7 @@ var BevyInfoBar = React.createClass({
             label={ this.props.activeBevy.subCount }
             labelPosition='before'
             title='View Bevy Subscribers'
-            onClick={() => this.setState({ showSubModal: true })}
+            onClick={ this.openMemberDirectory }
             style={{
               minWidth: 0,
               display: 'flex',
@@ -146,7 +150,7 @@ var BevyInfoBar = React.createClass({
             label={ this.props.activeBevy.admins.length }
             labelPosition='before'
             title='View Bevy Admins'
-            onClick={() => this.setState({ showAdminModal: true })}
+            onClick={ this.openAdminDirectory }
             style={{
               minWidth: 0,
               display: 'flex',
@@ -200,55 +204,6 @@ var BevyInfoBar = React.createClass({
     );
   },
 
-  _renderImageButton() {
-    if(!this.state.isAdmin) return <div />;
-    return (
-      <div className='info-item'>
-        <Uploader
-          onUploadComplete={ this.onUploadComplete }
-          className="bevy-image-dropzone"
-          dropzoneOptions={{
-            maxFiles: 1,
-            acceptedFiles: 'image/*',
-            clickable: '.change-image-button',
-            dictDefaultMessage: ' ',
-            init: function() {
-              this.on("addedfile", function() {
-                if(this.files[1]!=null) {
-                  this.removeFile(this.files[0]);
-                }
-              });
-            }
-          }}
-          tooltip='Change Bevy Picture'
-          style={{ display: 'none' }}
-        />
-        <OverlayTrigger placement='bottom' overlay={
-          <Tooltip id='imagetooltip'>Change Bevy Image</Tooltip>
-        }>
-          <IconButton
-            className='change-image-button'
-            title='Change Bevy Image'
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              height: 24,
-              width: 24,
-              padding: 0,
-              marginTop: 0,
-              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'
-            }}
-          >
-            <span className='info-item-body'>
-              <i className="material-icons">camera_alt</i>
-            </span>
-          </IconButton>
-        </OverlayTrigger>
-      </div>
-    );
-  },
-
   _renderInviteCounter() {
     var invites = BevyStore.getInvites();
     if(invites.length <= 0) return <div />;
@@ -290,43 +245,6 @@ var BevyInfoBar = React.createClass({
     );
   },
 
-  _renderLeaveButton() {
-    if(this.state.isAdmin) return <div />;
-
-    if(this.props.activeBevy)
-      if(this.props.activeBevy.settings.privacy == 'Private')
-        return <div/>;
-
-    return (
-      <div className='info-item'>
-        <OverlayTrigger placement='bottom' overlay={
-          <Tooltip id='invitetooltip'>Leave Bevy</Tooltip>
-        }>
-          <IconButton
-            onClick={ this.leaveBevy }
-            title='Leave Bevy'
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              height: 24,
-              width: 24,
-              padding: 0,
-              marginTop: 0,
-              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'
-            }}
-          >
-            <span className='info-item-body'>
-              <i className="material-icons">exit_to_app</i>
-            </span>
-          </IconButton>
-        </OverlayTrigger>
-      </div>
-    );
-  },
-
-
-
   render() {
     if(_.isEmpty(this.props.activeBevy)) return <div/>;
 
@@ -335,10 +253,8 @@ var BevyInfoBar = React.createClass({
         { this._renderPublicPrivate() }
         { this._renderSubs() }
         { this._renderAdmins() }
-        {/* this._renderImageButton() */}
         { this._renderInviteButton() }
         { this._renderSettingsButton() }
-        { this._renderLeaveButton() }
         <BevySettingsModal
           show={ this.state.showSettingsModal }
           onHide={() => this.setState({ showSettingsModal: false })}
@@ -347,16 +263,6 @@ var BevyInfoBar = React.createClass({
         <InviteUsersModal
           show={ this.state.showInviteModal }
           onHide={() => this.setState({ showInviteModal: false })}
-          activeBevy={ this.props.activeBevy }
-        />
-        <AdminModal
-          show={ this.state.showAdminModal }
-          onHide={() => this.setState({ showAdminModal: false })}
-          activeBevy={ this.props.activeBevy }
-        />
-        <SubscriberModal
-          show={ this.state.showSubModal }
-          onHide={() => this.setState({ showSubModal: false })}
           activeBevy={ this.props.activeBevy }
         />
       </div>

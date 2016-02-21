@@ -1,8 +1,7 @@
 /**
  * ProfileView.jsx
  *
- * page to view and edit a user's profile
- * within a bevy
+ * sidebar view for viewing someone's profile
  *
  * @author albert
  * @flow
@@ -11,17 +10,7 @@
 'use strict';
 
 var React = require('react');
-var ReactDOM = require('react-dom');
-var {
-  Panel,
-  Input
-} = require('react-bootstrap');
-var {
-  TextField,
-  CircularProgress,
-  RaisedButton
-} = require('material-ui');
-var Uploader = require('./../../shared/components/Uploader.jsx');
+var Ink = require('react-ink')
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -29,331 +18,101 @@ var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
 var timeAgo = require('./../../shared/helpers/timeAgo');
 
-var UserActions = require('./../../user/UserActions');
-
 var ProfileView = React.createClass({
   propTypes: {
-    activeBevy: React.PropTypes.object,
-    editing: React.PropTypes.bool
+    leftNavActions: React.PropTypes.object,
+    sidebarActions: React.PropTypes.object,
+    profileUser: React.PropTypes.object
   },
 
   getInitialState() {
-    let user = {};
-    let loading = true;
-    // get the username that we're viewing from the router
-    let username = router.profile_username;
-    // if we're viewing ourselves, no need to fetch
-    if(username == window.bootstrap.user.username) {
-      user = window.bootstrap.user;
-      loading = false;
-    } else {
-      // if the bevy is loaded, then fetch the user immediately.
-      // otherwise we need to wait until it has
-      if(this.props.activeBevy._id != undefined) this.loadUser(this.props.activeBevy._id);
-    }
-    // spoof a name object if it's empty to avoid a reference error
-    if(user.name == undefined || _.isEmpty(user.name))
-      user.name = { firstName: '', lastName: '' };
-
     return {
-      editing: this.props.editing,
-      user: user,
-      loading: loading,
-      firstName: user.name.firstName,
-      lastName: user.name.lastName,
-      title: user.title || '',
-      phoneNumber: user.phoneNumber || '',
-      image: user.image
+
     };
   },
 
-  componentWillReceiveProps(nextProps) {
-    // once the bevy is loaded from the bevy store, then we can fetch the user
-    if(this.state.loading && nextProps.activeBevy._id != undefined) {
-      this.loadUser(nextProps.activeBevy._id);
-    }
-    // update the editing flag if the url changed
-    this.setState({ editing: nextProps.editing });
+  goBack(ev) {
+    ev.preventDefault();
+    this.props.sidebarActions.switchPage('directory');
   },
 
-  onUploadComplete(image) {
-    this.setState({ image: image });
+  close() {
+    this.props.leftNavActions.close();
   },
 
-  loadUser(bevy_id) {
-    let username = router.profile_username;
-    // else, fetch the user we're viewing from the server
-    fetch(constants.apiurl + '/users/' + username + '?bevy_id=' + bevy_id, {
-      method: 'GET'
-    })
-    .then(res => res.json())
-    .then(res => {
-      if(!_.isObject(res)) {
-        console.error(res.toString());
-        return;
-      }
-      this.setState({
-        user: res,
-        loading: false
-      });
-    });
-  },
+  renderDetails() {
+    let detailItems = [];
+    let details = {};
+    details['Username'] = this.props.profileUser.username;
+    details['Email'] = this.props.profileUser.email;
+    if(!_.isEmpty(this.props.profileUser.phoneNumber))
+      details['Phone Number'] = this.props.profileUser.phoneNumber;
+    details['Points'] = this.props.profileUser.points;
+    details['Posts'] = this.props.profileUser.postCount;
+    details['Comments'] = this.props.profileUser.commentCount;
+    details['Joined'] = timeAgo(Date.parse(this.props.profileUser.created));
 
-  startEditing() {
-    router.navigate('/profile/' + this.state.user.username + '/edit');
-    this.setState({ editing: true });
-  },
+    let detailKeys = Object.keys(details);
+    for(var i = 0; i < detailKeys.length; i++) {
+      let key = detailKeys[i];
+      let value = details[key];
 
-  stopEditing() {
-    router.navigate('/profile/' + this.state.user.username);
-
-    // make a spoof copy if name doesn't exist
-    // to avoid a reference error
-    let name = (_.isEmpty(this.state.user.name))
-      ? { firstName: '', lastName: '' }
-      : this.state.user.name;
-
-    this.setState({
-      editing: false,
-      // erase all changes
-      firstName: name.firstName,
-      lastName: name.lastName,
-      image: this.state.user.image,
-      title: this.state.user.title,
-      phoneNumber: this.state.user.phoneNumber
-    });
-  },
-  saveEditing() {
-    // collect all changes from the state
-    let firstName = this.state.firstName;
-    let lastName = this.state.lastName;
-    let title = this.state.title;
-    let phoneNumber = this.state.phoneNumber;
-    let image = this.state.image;
-    // load the user so we can modify it
-    let user = this.state.user;
-
-    // perform optimistic update
-    user.firstName = firstName;
-    user.lastName = lastName;
-    user.fullName = firstName + ' ' + lastName;
-    user.title = title;
-    user.phoneNumber = phoneNumber;
-    user.image = image;
-
-    // send this to the store so it can
-    // sync with the server
-    UserActions.update(firstName, lastName, title, phoneNumber, image);
-    // apply optimistic update
-    this.setState({ user: user });
-    window.bootstrap.user = user;
-
-    // stop editing
-    this.stopEditing();
-  },
-
-  renderLoading() {
-    if(!this.state.loading) return <div />;
-    return (
-      <div className='loading-container'>
-        <h1 className='loading-title'>Loading User</h1>
-        <CircularProgress
-          mode='indeterminate'
-          size={ 1.5 }
-          color='#2CB673'
-        />
-      </div>
-    );
-  },
-
-  renderHeader() {
-    if(this.state.loading) return <div />;
-    if(this.state.editing) {
-      return (
-        <div className='edit-header'>
-          <h1>Edit Your Profile</h1>
-          <h4>Profile information is visible to all group members</h4>
+      detailItems.push(
+        <div
+          key={ 'detail-item:' + i }
+          className='detail-item'
+        >
+          <span className='detail-key'>{ key }</span>
+          <span className='detail-value'>{ value }</span>
         </div>
       );
-    } else return <div />;
-  },
-
-  renderActions() {
-    let editButton = (window.bootstrap.user._id == this.state.user._id)
-      ? (
-        <RaisedButton
-          label='Edit Profile'
-          onClick={ this.startEditing }
-          title='Edit your profile'
-        />
-      ) : <div />;
-    return (
-      <div className='actions'>
-        { editButton }
-        <RaisedButton
-          label='View Posts'
-          title='View posts from this user'
-        />
-      </div>
-    );
-  },
-
-  renderPanel() {
-    if(this.state.loading) return <div />
-    if(this.state.editing) {
-      return this.renderEditPanel();
-    } else {
-      return this.renderViewPanel();
     }
-  },
-
-  renderEditPanel() {
-    var dropzoneOptions = {
-      maxFiles: 1,
-      acceptedFiles: 'image/*',
-      clickable: '.dropzone-panel-button',
-      dictDefaultMessage: ' ',
-    };
-
-    var profileImage = (_.isEmpty(this.state.image))
-      ? constants.defaultProfileImage
-      : resizeImage(this.state.image, 256, 256).url;
-    var profileImageStyle = {
-      backgroundImage: 'url(' + profileImage + ')'
-    };
-
     return (
-      <Panel className='edit-panel'>
-        <div className='left'>
-          <span className='input-title'>First Name</span>
-          <Input
-            ref='firstname'
-            type='text'
-            value={ this.state.firstName }
-            onChange={() => this.setState({ firstName: this.refs.firstname.getValue() })}
-          />
-          <span className='input-title'>Last Name</span>
-          <Input
-            ref='lastname'
-            type='text'
-            value={ this.state.lastName }
-            onChange={() => this.setState({ lastName: this.refs.lastname.getValue() })}
-          />
-          <span className='input-title'>Title</span>
-          <Input
-            ref='title'
-            type='text'
-            value={ this.state.title }
-            onChange={() => this.setState({ title: this.refs.title.getValue() })}
-          />
-          <span className='hint'>
-            Who are you in { this.props.activeBevy.name }?
-            <br />
-            e.g., "President and Event Coordinator"
-          </span>
-          <span className='input-title'>Phone Number</span>
-          <Input
-            ref='phonenumber'
-            type='text'
-            value={ this.state.phoneNumber }
-            onChange={() => this.setState({ phoneNumber: this.refs.phonenumber.getValue() })}
-          />
-          <div className='edit-buttons'>
-            <RaisedButton
-              label='Cancel'
-              onClick={ this.stopEditing }
-              title='Cancel'
-            />
-            <RaisedButton
-              label='Save Changes'
-              labelColor='#FFF'
-              backgroundColor='#2CB673'
-              onClick={ this.saveEditing }
-              title='Save Changes'
-            />
-          </div>
-        </div>
-        <div className='right'>
-          <span className='prompt'>Profile Photo</span>
-          <div className="profile-picture overlay">
-            <Uploader
-              onUploadComplete={ this.onUploadComplete }
-              className="profile-image-dropzone"
-              style={ profileImageStyle }
-              dropzoneOptions={ dropzoneOptions }
-              tooltip=''
-            />
-          </div>
-        </div>
-      </Panel>
-    );
-  },
-
-  renderViewPanel() {
-    return (
-      <Panel className='view-panel'>
-        <div
-          className='profile-picture'
-          style={{
-            backgroundImage: 'url(' + resizeImage(this.state.user.image, 1000, 600).url + ')'
-          }}
-        />
-        <span className='name'>
-          { (_.isEmpty(this.state.user.name))
-              ? this.state.user.username
-              : this.state.user.fullName }
-        </span>
-        <span className='description'>
-          { this.state.user.title }
-        </span>
-        { this.renderActions() }
-        <div className='details'>
-          <div className='detail-item'>
-            <span className='detail-key'>
-              Username
-            </span>
-            <span className='detail-value'>
-              { this.state.user.username }
-            </span>
-          </div>
-          <div className='detail-item'>
-            <span className='detail-key'>
-              Email
-            </span>
-            <a
-              className='email-link'
-              href={ 'mailto:' + this.state.user.email }
-              title={ 'Email ' + this.state.user.username }
-            >
-              { this.state.user.email }
-            </a>
-          </div>
-          <div className='detail-item'>
-            <span className='detail-key'>
-              Joined
-            </span>
-            <span className='detail-value'>
-              { timeAgo(Date.parse(this.state.user.created)) }
-            </span>
-          </div>
-        </div>
-      </Panel>
-    );
+      <div className='details'>
+        { detailItems }
+      </div>
+    )
   },
 
   render() {
     return (
       <div className='profile-view'>
-        { this.renderLoading() }
-        { this.renderHeader() }
-        { this.renderPanel() }
-        <a
-          className='back-link'
-          title={ 'Go back to ' + this.props.activeBevy.name }
-          href={ 'http://' + this.props.activeBevy.slug + '.' + constants.domain }
-        >
-          Back to { this.props.activeBevy.name }
-        </a>
+        <div className='top-bar'>
+          <a
+            className='back-button'
+            href='#'
+            onClick={ this.goBack }
+            title='Back to Group Directory'
+          >
+            <i className='material-icons'>chevron_left</i>
+            <span className='title'>Group Directory</span>
+          </a>
+          <button
+            className='close-button'
+            title='Close Profile'
+            onClick={ this.close }
+          >
+            <Ink />
+            <i className='material-icons'>close</i>
+          </button>
+        </div>
+        <div
+          className='profile-picture'
+          style={{
+            backgroundImage: 'url(' + resizeImage(this.props.profileUser.image, 800, 800).url + ')'
+          }}
+        />
+        <span className='name'>
+          { (_.isEmpty(this.props.profileUser.fullName))
+              ? this.props.profileUser.username
+              : this.props.profileUser.fullName }
+        </span>
+        <span className='title'>
+          { this.props.profileUser.title }
+        </span>
+        <div className='action-buttons'>
+        </div>
+        { this.renderDetails() }
       </div>
     );
   }

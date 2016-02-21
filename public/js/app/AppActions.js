@@ -2,26 +2,35 @@
  * AppActions.js
  *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
-// imports
-var dispatch = require('./../shared/helpers/dispatch');
+var Dispatcher = require('./../shared/dispatcher');
 
 var APP = require('./../constants').APP;
 
 var AppActions = {
-
   load() {
-    dispatch(APP.LOAD, {
+    Dispatcher.dispatch({
+      actionType: APP.LOAD,
     });
   },
 
   loadUser() {
-    dispatch(APP.LOAD_USER, {
+    Dispatcher.dispatch({
+      actionType: APP.LOAD_USER,
+    });
+  },
+
+  openSidebar(page, opts) {
+    Dispatcher.dispatch({
+      actionType: APP.OPEN_SIDEBAR,
+      page: page,
+      opts: (opts == undefined) ? {} : opts
     });
   }
-
 };
+
 module.exports = AppActions;

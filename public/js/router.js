@@ -21,6 +21,7 @@ var BevyStore = require('./bevy/BevyStore');
 var NotificationStore = require('./notification/NotificationStore');
 var UserStore = require('./user/UserStore');
 var BoardStore = require('./board/BoardStore');
+var AppStore = require('./app/AppStore');
 
 var Router = Backbone.Router.extend({
   routes: {
@@ -54,15 +55,8 @@ var Router = Backbone.Router.extend({
     // ==================
 
     // profile routes
-    'profile' : 'redirectToProfile',
-    'profile/' : 'redirectToProfile',
-    'profile/:username/edit' : 'editProfile',
-    'profile/:username/edit/' : 'editProfile',
-    'profile/:username' : 'viewProfile',
-    'profile/:username/' : 'viewProfile',
-
-    'directory' : 'directory',
-    'directory/' : 'directory',
+    'profile/edit' : 'editProfile',
+    'profile/edit/' : 'editProfile',
 
     // catch everything else and 404
     '*nuts' : 'notFound'

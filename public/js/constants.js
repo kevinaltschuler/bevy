@@ -64,7 +64,8 @@ exports.fakeUsers = [
 
 exports.APP = {
   LOAD: 'app_load',
-  LOAD_USER: 'app_load_user'
+  LOAD_USER: 'app_load_user',
+  OPEN_SIDEBAR: 'user_open_sidebar',
 };
 
 exports.POST = {

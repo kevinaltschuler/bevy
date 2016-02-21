@@ -9,32 +9,185 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding-top: 115px;
-  h1.title {
-
-  }
-  .directory-panel {
-    width: 600px;
-    .panel-body {
-
+  background-color: #FFF;
+  height: 100%;
+  .top-bar {
+    background-color: @bevy-green;
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding-left: 20px;
+    padding-right: 5px;
+    span.title {
+      color: #FFF;
+      font-size: 1.25em;
     }
-    .user-items {
+    button.close-button {
       display: flex;
       flex-direction: row;
-      flex-wrap: wrap;
-      .directory-item {
-        width: 50%;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        height: 100px;
-        cursor: pointer;
-        .image {
-          #image-icon();
-          width: 60px;
-          height: 60px;
-          border-radius: 30px;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      box-shadow: none;
+      position: relative;
+      background-color: transparent;
+      width: 40px;
+      height: 40px;
+      border-radius: 20px;
+      i.material-icons {
+        color: #FFF;
+        font-size: 1.5em;
+      }
+    }
+  }
+  .search-container {
+    width: 100%;
+    height: 40px;
+    min-height: 40px;
+    background-color: #FFF;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: 1px solid #DDD;
+    border-bottom: 1px solid #DDD;
+    padding-left: 10px;
+    .form-group {
+      margin: 0px;
+      padding: 0px;
+      background-color: transparent;
+      .input-group {
+        background-color: transparent;
+        padding-left: 10px;
+        padding-right: 10px;
+        span.input-group-addon {
+          padding: 0px;
+          background-color: transparent;
+          border: none;
+          i.material-icons {
+            color: #888;
+          }
         }
+        input.form-control {
+          border: none;
+          box-shadow: none;
+          padding: 0px;
+          padding-left: 10px;
+          background-color: transparent;
+          &:active {
+
+          }
+        }
+      }
+    }
+    .loading-container {
+
+    }
+  }
+  .search-tabs {
+    width: 100%;
+    height: 40px;
+    min-height: 40px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    border-top: 1px solid #DDD;
+    border-bottom: 3px solid #DDD;
+    margin-top: 1px;
+    button.tab {
+      display: flex;
+      flex-grow: 1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      box-shadow: none;
+      background-color: #FFF;
+      height: 40px;
+      padding: 0px;
+      position: relative;
+      .bottom-bar {
+        width: 100%;
+        height: 3px;
+        background-color: @bevy-green;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        z-index: 2;
+      }
+      &:last-child {
+        //border-left: 1px solid #DDD;
+      }
+    }
+  }
+  .user-items {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    overflow-y: auto;
+    .directory-item {
+      width: 100%;
+      height: 100px;
+      min-height: 100px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding-left: 10px;
+      background-color: #FFF;
+      border-bottom: 1px solid #DDD;
+      border: none;
+      box-shadow: none;
+      position: relative;
+      .image {
+        #image-icon();
+        width: 70px;
+        height: 70px;
+        border-radius: 35px;
+        margin-right: 10px;
+      }
+      .details {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        span.big-name {
+          font-size: 1.4em;
+          color: #444;
+          margin-bottom: -2px;
+        }
+        span.small-name {
+          font-size: 1em;
+          color: #666;
+        }
+        span.title {
+          color: #666;
+        }
+      }
+    }
+    .not-found-container {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 15px;
+      padding-bottom: 15px;
+      span.not-found-text {
+        font-size: 1.1em;
+        color: #888;
+        text-align: center;
+        margin-bottom: 10px;
+      }
+      button.clear-query-button {
+        position: relative;
+        background-color: transparent;
+        border: none;
+        box-shadow: none;
+        background-color: #EEE;
+        border-radius: 3px;
+        padding: 5px 10px;
       }
     }
   }
