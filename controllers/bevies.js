@@ -27,7 +27,7 @@ var InviteToken = require('./../models/InviteToken');
 
 var emailController = require('./email');
 
-var userPopFields = '_id displayName email image username created';
+var userPopFields = '_id displayName email image username created name title';
 var boardPopFields = '_id name description parent image subCount type admins settings created';
 
 //GET /bevies

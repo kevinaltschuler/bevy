@@ -24,8 +24,8 @@ var Bevy = require('./../models/Bevy');
 var Comment = require('./../models/Comment');
 var Board = require('./../models/Board');
 
-var authorPopFields = '_id displayName email image username '
- + 'google facebook created';
+var authorPopFields = '_id displayName email image username \
+  google facebook created name title';
 var boardPopFields = '_id name image settings parent created';
 
 // GET /users/:userid/posts

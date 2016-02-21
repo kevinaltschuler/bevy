@@ -16,8 +16,8 @@ var Bevy = require('./../models/Bevy');
 var User = require('./../models/User');
 var Post = require('./../models/Post');
 
-var userPopFields = '_id displayName email image username '
- + 'google facebook created';
+var userPopFields = '_id displayName email image username \
+  google facebook created name title';
 var bevyPopFields = '_id name slug image settings admins created';
 
 // GET /users/:userid/boards
