@@ -29,11 +29,4 @@ module.exports = function(router) {
 	router.post('/verify/username', userController.verifyUsername);
 	// VERIFY EMAIL
 	router.post('/verify/email', userController.verifyEmail);
-
-	// DEVICES
-	router.get('/users/:id/devices', userController.getDevices);
-	router.post('/users/:id/devices', userController.addDevice);
-	router.put('/users/:id/devices/:deviceid', userController.updateDevice);
-	router.patch('/users/:id/devices/:deviceid', userController.updateDevice);
-	router.delete('/users/:id/device/:deviceid', userController.removeDevice);
 };
