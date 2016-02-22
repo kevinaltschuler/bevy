@@ -23,6 +23,48 @@ var notifications = require('./notifications');
 var userPopFields = '_id displayName email image username \
   google facebook created name title';
 
+
+var searchComments = function(req, res, next) {
+  var query = req.params.query;
+  if(query == undefined)
+    query = req.query['q'];
+  var post_id = req.query['post_id'];
+  var author_id = req.query['author_id'];
+  var start_date = req.query['start_date'];
+  var end_date = req.query['end_date'];
+
+  var promise = Comment.find();
+  if(query != undefined) {
+    promise.where({ body: { $regex: query, $options: 'i' }});
+  }
+  if(post_id != undefined) {
+    promise.where({ postId: post_id });
+  }
+  if(author_id != undefined) {
+    promise.where({ author: author_id });
+  }
+  // date matching
+  if(start_date != undefined && end_date != undefined) {
+    promise.where({
+      created: {
+        $and: [
+          { $gte: new Date(start_date)},
+          { $lte: new Date(end_date)}
+        ]
+      }
+    });
+  } else if (start_date != undefined) {
+    promise.where({ created: { $gte: new Date(start_date)}});
+  } else if (end_date != undefined) {
+    promise.where({ created: { $lte: new Date(end_date)}});
+  }
+
+  promise.then(function(comments) {
+    return res.json(comments);
+  }, function(err) { return next(err); });
+};
+exports.searchComments = searchComments;
+
 // GET /posts/:postid/comments
 exports.getComments = function(req, res, next) {
 	var post_id = req.params.postid;

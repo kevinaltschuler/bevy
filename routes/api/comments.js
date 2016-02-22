@@ -11,6 +11,16 @@ var oauth2Controller = require('./../../controllers/oauth2');
 var permissionsController = require('./../../controllers/permissions');
 
 module.exports = function(router) {
+	// comment search
+	router.get('/comments/search/', [
+		],
+		commentController.searchComments
+	);
+	router.get('/comments/search/:query', [
+		],
+		commentController.searchComments
+	);
+
 	router.get('/posts/:postid/comments', [
 			//oauth2Controller.bearer,
 			//permissionsController.canViewPost,

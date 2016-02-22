@@ -41,6 +41,10 @@ var CommentSchema = new Schema({
   }
 });
 
+CommentSchema.index({
+  body: 'text'
+});
+
 CommentSchema.set('toObject', {
   getters: true,
   virtuals: true
@@ -50,5 +54,5 @@ CommentSchema.set('toJSON', {
   virtuals: true
 });
 
-
 module.exports = mongoose.model('Comment', CommentSchema);
+exports.Schema = CommentSchema;
