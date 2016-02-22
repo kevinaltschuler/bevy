@@ -260,11 +260,15 @@ exports.destroyPost = function(req, res, next) {
 // GET /posts/search/:query
 exports.searchPosts = function(req, res, next) {
   var query = req.params.query;
+  if(query == undefined)
+    query = req.query['q'];
   // if logged in search through all of the users's bevy's posts
   //if(req.user) return searchUserPosts(req, res, next);
 
-  var board_id = (req.query['board_id'] == undefined) ? null : req.query['board_id'];
-  var bevy_id = (req.query['bevy_id'] == undefined) ? null : req.query['bevy_id'];
+  var board_id = req.query['board_id'];
+  var bevy_id = req.query['bevy_id'];
+  var start_date = req.query['start_date'];
+  var end_date = req.query['end_date'];
 
   var promise;
   promise = Post.find()
@@ -284,12 +288,27 @@ exports.searchPosts = function(req, res, next) {
       { 'event.description': { $regex: query, $options: 'i' }}
     ]});
   }
+  // date matching
+  if(start_date != undefined && end_date != undefined) {
+    promise.where({
+      created: {
+        $and: [
+          { $gte: new Date(start_date)},
+          { $lte: new Date(end_date)}
+        ]
+      }
+    });
+  } else if (start_date != undefined) {
+    promise.where({ created: { $gte: new Date(start_date)}});
+  } else if (end_date != undefined) {
+    promise.where({ created: { $lte: new Date(end_date)}});
+  }
 
-  if(bevy_id) {
+  if(bevy_id != undefined) {
     Bevy.findOne({ _id: bevy_id }, function(err, bevy) {
       if(err) return next(err);
       if(!bevy) return next('Bevy not found');
-      if(board_id) {
+      if(board_id != undefined) {
         promise.where({ board: board_id });
       } else {
         promise.where({ board: { $in: bevy.boards }});
@@ -302,7 +321,7 @@ exports.searchPosts = function(req, res, next) {
       });
     }).select('_id boards').lean();
   } else {
-    if(board_id) {
+    if(board_id != undefined) {
       promise.where({ board: board_id });
     }
     promise.exec();
