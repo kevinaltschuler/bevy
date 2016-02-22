@@ -111,6 +111,7 @@ var ResetPage = React.createClass({
             name='pass'
             ref='pass'
             placeholder='New Password'
+            underlineFocusStyle={{borderColor: '#666'}}
             style={{ width: '100%', margin: '0px 0px' }}
             onChange={ this.onChange }
           />
@@ -118,6 +119,7 @@ var ResetPage = React.createClass({
             type='password'
             name='confirmPass'
             ref='confirmPass'
+            underlineFocusStyle={{borderColor: '#666'}}
             placeholder='Confirm Password'
             style={{ width: '100%', marginBottom: 10 }}
             onChange={ this.onChange }

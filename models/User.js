@@ -84,7 +84,7 @@ var UserSchema = new Schema({
 });
 
 UserSchema.virtual('displayName').get(function() {
-  if(!_.isEmpty(this.name)) {
+  if(!_.isEmpty(this.name.firstName) || !_.isEmpty(this.name.lastName)) {
     return this.name.firstName + ' ' + this.name.lastName;
   } else if(!_.isEmpty(this.username)) {
     return this.username;
