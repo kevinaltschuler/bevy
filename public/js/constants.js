@@ -79,6 +79,9 @@ exports.POST = {
   FETCH: 'post_fetch',
   FETCH_SINGLE: 'post_fetch_single',
   LOAD: 'post_load',
+  SEARCHING: 'post_searching',
+  SEARCH_COMPLETE: 'post_search_complete',
+  SEARCH_ERROR: 'post_search_error',
 
   CHANGE_ALL: 'post_change_all',
   CHANGE_ONE: 'post_change_one:',

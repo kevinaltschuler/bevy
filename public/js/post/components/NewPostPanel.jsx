@@ -24,7 +24,8 @@ var {
   TextField,
   DropDownMenu,
   FloatingActionButton,
-  RaisedButton
+  RaisedButton,
+  CircularProgress
 } = require('material-ui');
 var Ink = require('react-ink');
 var Uploader = require('./../../shared/components/Uploader.jsx');
@@ -32,6 +33,8 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var PostActions = require('./../PostActions');
+var PostStore = require('./../PostStore');
+var POST = constants.POST;
 
 var hintTexts = [
   "What's on your mind?",
@@ -80,11 +83,23 @@ var NewPostPanel = React.createClass({
       images: [],
       showEventModal: false,
       hintText: hintText,
-      disabled: disabled
+      disabled: disabled,
+      loading: false
     };
   },
 
+  componentDidMount() {
+    PostStore.on(POST.POSTED_POST, this.onPostSuccess);
+  },
+
+  onPostSuccess() {
+    this.setState({
+      loading: false
+    });
+  },
+
   componentWillReceiveProps(nextProps) {
+
   },
 
   onUploadComplete(file) {
@@ -127,7 +142,8 @@ var NewPostPanel = React.createClass({
     this.setState({
       title: '',
       images: [],
-      showEventModal: false
+      showEventModal: false,
+      loading: true
     });
   },
 
@@ -159,6 +175,14 @@ var NewPostPanel = React.createClass({
       mediaTip = <div/>;
       //eventTip = <div/>;
     }
+
+    var buttonOrLoading = (this.state.loading)
+    ?  <CircularProgress mode="indeterminate" color='#666' size={.6} style={{marginRight: 20}}/>
+    : <RaisedButton
+            label="post"
+            onClick={ this.submit }
+            disabled={ this.state.disabled || this.state.loading}
+          />;
 
     return (
       <Panel className="panel new-post-panel" postId={ this.state.id }>
@@ -201,11 +225,7 @@ var NewPostPanel = React.createClass({
               />
             </OverlayTrigger>
           </div>
-          <RaisedButton
-            label="post"
-            onClick={ this.submit }
-            disabled={ this.state.disabled }
-          />
+          {buttonOrLoading}
         </div>
       </Panel>
     );

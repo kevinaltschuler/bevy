@@ -12,7 +12,8 @@ var Ink = require('react-ink');
 var {
   RaisedButton,
   Snackbar,
-  FontIcon
+  FontIcon,
+  TextField
 } = require('material-ui');
 var PostSort = require('./../../post/components/PostSort.jsx');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
@@ -22,11 +23,14 @@ var Footer = require('./../../app/components/Footer.jsx');
 var NewBoardModal = require('./../../board/components/NewBoardModal.jsx');
 var BevyInfoBar = require('./BevyInfoBar.jsx');
 
+var Ink = require('react-ink');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
 var UserStore = require('./../../user/UserStore');
 var BevyActions = require('./../../bevy/BevyActions');
+var PostStore = require('./../../post/PostStore');
+var PostActions = require('./../../post/PostActions');
 var USER = constants.USER;
 
 var BevyView = React.createClass({
@@ -34,12 +38,14 @@ var BevyView = React.createClass({
     myBevies: React.PropTypes.array,
     activeBevy: React.PropTypes.object,
     allThreads: React.PropTypes.array,
-    allBevies: React.PropTypes.array
+    allBevies: React.PropTypes.array,
   },
 
   getInitialState() {
     return {
-      showNewBoardModal: false
+      showNewBoardModal: false,
+      searchOpen: false,
+
     }
   },
 
@@ -52,6 +58,40 @@ var BevyView = React.createClass({
     ev.preventDefault();
     BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
     this.refs.snackbar.show();
+  },
+
+  search(queryArg) {
+    var bevy_id = this.props.activeBevy._id;
+    var query = this.state.query;
+
+    if(!_.isEmpty(queryArg)) {
+      query = queryArg;
+    }
+
+    PostActions.search(query, bevy_id);
+  },
+
+  onSearchChange(ev) {
+    var query = this.SearchInput.getValue();
+    // reset the timeout if it already exists
+    clearTimeout(this.searchTimeout);
+    // make searching smoother with a bit of lag
+    this.searchTimeout = setTimeout(() => { this.search(query) }, 300);
+  },
+
+  _openSearch() {
+    // check first if any posts exist
+    // dont allow searching if no posts exist
+    if(PostStore.getAll().length <= 0) {
+      return;
+    }
+    // send out the initial search call to get a generic list of posts
+    this.search();
+    // once the animation finishes, focus the search textinput
+    setTimeout(() => { this.SearchInput.focus() }, 500);
+    this.setState({
+      searchOpen: !this.state.searchOpen
+    });
   },
 
   _renderBoards() {
@@ -113,10 +153,44 @@ var BevyView = React.createClass({
           <Footer />
         </div>
         <div className='bevy-view-body'>
-          <div className='bevy-view-title'>Feed</div>
+          <div style={{
+            display: 'flex', 
+            flexDirection: 'row', 
+            alignItems: 'center', 
+            justifyContent: 'space-between', 
+            width: '100%',
+          }}>
+            <div className='bevy-view-title'>{(this.state.searchOpen) ? 'Search': 'Feed'}</div>
+            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
+              <TextField 
+                style={{display: (this.state.searchOpen) ? 'initial': 'none'}} 
+                underlineFocusStyle={{borderColor: '#666'}}
+                ref={(ref) => this.SearchInput = ref}
+                onChange={this.onSearchChange}
+              />
+              <div 
+                style={{
+                  cursor: 'pointer', 
+                  position: 'relative', 
+                  width: 30, 
+                  height: 30, 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  justifyContent: 'center',
+                  marginLeft: 10,
+                  marginBottom: 5
+                }}
+                onClick={this._openSearch}
+              >
+                <Ink/>
+                <i style={{color: '#888'}} className="material-icons">{(!this.state.searchOpen) ? 'search' : 'clear'}</i>
+              </div>
+            </div>
+          </div>
           <div>
             <PostContainer
               activeBevy={ this.props.activeBevy }
+              searchOpen={this.state.searchOpen}
             />
           </div>
         </div>
