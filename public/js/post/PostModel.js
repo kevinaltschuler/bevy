@@ -26,84 +26,127 @@ var POST = constants.POST;
 var Post = Backbone.Model.extend({
   idAttribute: '_id',
 
+  /**
+   * initialize some key variables for the post object
+   * do things here so that our UI doesn't have to
+   */
   initialize() {
-    this.on('sync', function() {
-      this.nestComments();
-    });
-  },
+    // init comment count field
+    this.commentCount = 0;
 
-  sync(method, model, options) {
-    if(method != 'read' && router.current == 'search') {
-      var bevy_id = model.get('bevy')._id;
-      model.url = constants.apiurl + '/bevies/' + bevy_id + '/posts/' + model.id;
+    // determine whether the current user has voted on this or not
+    var vote = _.findWhere(this.get('votes'), { voter: window.bootstrap.user._id });
+    if(vote == undefined) this.set('voted', false);
+    else {
+      if(vote.score <= 0) this.set('voted', false);
+      else this.set('voted', true);
     }
-    Backbone.Model.prototype.sync.apply(this, arguments);
+
+    // set the vote count for this post
+    this.updateVotes();
+
+    // update the comments under this post
+    this.updateComments();
+
+    // update comments every time this post is synced with the server
+    this.on('sync', this.onSync);
   },
 
+  /**
+   * called every time the post syncs with the server
+   * (aka after a fetch or a save)
+   */
+  onSync() {
+    this.updateComments();
+    this.updateVotes();
+  },
+
+  /**
+   * update the vote data for this post
+   */
+  updateVotes() {
+    // set the vote count
+    this.set('voteCount', this.countVotes());
+  },
+
+  /**
+   * Count the total score that this post has
+   */
   countVotes() {
     var sum = 0;
-    this.get('votes').forEach(function(vote) {
-      sum += vote.score;
-    });
+    var votes = this.get('votes');
+    if(!_.isEmpty(votes)) {
+      votes.forEach(function(vote) {
+        sum += vote.score;
+      });
+    }
     return sum;
   },
 
-  nestComments() {
+  /**
+   * update the nested structure of comments for this post
+   * also update the comment count for this post
+   * the comment count only counts visible comments so comments under a
+   * previously deleted one won't count towards the score
+   *
+   * this is also triggered every time this post object syncs with the server
+   */
+  updateComments() {
+    // reset comment counter var
+    this.commentCount = 0;
+
     var comments = this.get('comments');
-    // create deep clone to avoid reference hell
-    comments = _.map(comments, function(comment) {
-      return comment;
+    var nestedComments;
+    // if no comments, then dont try to recurse
+    if(comments == undefined || comments.length <= 0) {
+      nestedComments = [];
+    } else {
+      nestedComments = this.nestComments(comments, null);
+    }
+    // set new comment fields
+    this.set({
+      nestedComments: nestedComments,
+      commentCount: this.commentCount
     });
-
-    this.set('allComments', comments);
-    this.set('commentCount', comments.length);
-
-    // recurse through comments
-    this.set('comments', this.recursiveNestComments(comments));
   },
 
-  recursiveNestComments(comments, parentId, depth) {
+  /**
+   * recursive function that takes the list of all comments
+   * and nests them in a structure that is easy to parse for
+   * our UI (CommentView and CommentList)
+   */
+  nestComments(comments, parentId, depth) {
     // increment depth (used for indenting later)
+    // if the depth is specified, then bump it
     if(typeof depth === 'number') depth++;
-    else depth = 1;
-
-    // return if it's the end of the line
+    // if its not defined, then its probably the first call of this function
+    // set it as 0
+    else depth = 0;
+    // if theres no comments to process, break out
+    if(_.isEmpty(comments)) return;
+    // also break out if its the end of the recursion line
     if(comments.length < 0) return [];
 
+    // init array of comments to pass back
     var $comments = [];
-    comments.forEach(function(comment, index) {
+    // iterate through all comments
+    // TODO: splice the matched comment out of the list so we can go faster
+    for(var key in comments) {
+      var comment = comments[key];
       // look for comments under this one
       if(comment.parentId == parentId) {
+        // set the comment depth (to be used by UI)
         comment.depth = depth;
         // and keep going
-        comment.comments = this.recursiveNestComments(comments, comment._id, depth);
+        comment.comments = this.nestComments(comments, comment._id, depth);
+        // iterate comment count (for UI)
+        this.commentCount = this.commentCount + 1;
+        // push into array to be returned
         $comments.push(comment);
-        // TODO: splice the matched comment out of the list so we can go faster
       }
-    }.bind(this));
-
+    };
+    // return nested comments
     return $comments;
-  },
-
-  removeComment(comment_id) {
-    var comments = this.get('allComments');
-    var comments_to_remove = this._removeComment(comment_id, comments);
-    comments_to_remove.push(comment_id);
-
-    comments = _.reject(comments, $comment => {
-      return _.contains(comments_to_remove, $comment._id);
-    });
-    this.set('comments', comments);
-    this.nestComments();
-  },
-
-  _removeComment(comment_id, list) {
-    var to_remove = _.where(list, { parentId: comment_id });
-    for(var key in to_remove) {
-      var $comment = to_remove[key];
-      _.union(to_remove, this._removeComment($comment._id, list));
-    }
-    return to_remove;
   }
 });
 

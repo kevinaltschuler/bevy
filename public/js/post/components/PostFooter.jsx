@@ -67,7 +67,7 @@ var PostFooter = React.createClass({
           <div className='left'>
             <FlatButton className='upvote' onClick={ this.vote } disabled={ _.isEmpty(window.bootstrap.user) } style={ voteButtonStyle }>
               <span className="glyphicon glyphicon-thumbs-up" ></span>
-              &nbsp;{ this.countVotes() } upvotes
+              &nbsp;{ this.countVotes() + ' ' + ((this.countVotes() == 1) ? 'like' : 'likes') }
             </FlatButton>
             <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments } style={{ marginRight: '10px', padding: '0px 10px' }}>
               <span className="glyphicon glyphicon-comment"></span>
