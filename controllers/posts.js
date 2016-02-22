@@ -269,6 +269,7 @@ exports.searchPosts = function(req, res, next) {
   var bevy_id = req.query['bevy_id'];
   var start_date = req.query['start_date'];
   var end_date = req.query['end_date'];
+  var author_id = req.query['author_id'];
 
   var promise;
   promise = Post.find()
@@ -302,6 +303,9 @@ exports.searchPosts = function(req, res, next) {
     promise.where({ created: { $gte: new Date(start_date)}});
   } else if (end_date != undefined) {
     promise.where({ created: { $lte: new Date(end_date)}});
+  }
+  if(author_id != undefined) {
+    promise.where({ author: author_id });
   }
 
   if(bevy_id != undefined) {
