@@ -68,6 +68,23 @@ var PostActions = {
     });
   },
 
+  /**
+   * search for posts
+   * @param {string} query - search query to match on the server. if empty will just
+   * fetch some random posts based on the bevy/board restrictions
+   * @param {string} bevy_id - restrict post search to a certain bevy's boards
+   * @param {string} board_id - restrict post search to a certain board. if this is not null,
+   * then the bevy_id parameter is ignored
+   */
+  search(query, bevy_id, board_id) {
+    Dispatcher.dispatch({
+      actionType: POST.SEARCH,
+      query: (query == undefined) ? null : query,
+      bevy_id: (bevy_id == undefined) ? null : bevy_id,
+      board_id: (board_id == undefined) ? null : board_id
+    });
+  },
+
   pin(post_id) {
     Dispatcher.dispatch({
       actionType: POST.PIN,
