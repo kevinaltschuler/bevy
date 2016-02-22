@@ -31,13 +31,13 @@ module.exports = {
 		modulesDirectories: ['node_modules']
 	},
 	plugins: [
-		/*new webpack.optimize.UglifyJsPlugin({
+		new webpack.optimize.UglifyJsPlugin({
 			compress: {
 				warnings: false
 			},
 			mangle: {
 				except: ['require', 'exports', '$', '_']
 			}
-		})*/
+		})
 	]
 };
