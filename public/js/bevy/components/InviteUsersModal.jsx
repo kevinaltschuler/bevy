@@ -63,6 +63,12 @@ var InviteUsersModal = React.createClass({
 
   componentDidMount() {
     // once the component is mounted, fetch the invites for this bevy
+    this.fetchInvites();
+  },
+  componentWillUnmount() {
+  },
+
+  fetchInvites() {
     // TODO: if there's more than five, only show five and have a collapsed button
     // "show more" here
     fetch(constants.apiurl + '/bevies/' + this.props.activeBevy._id + '/invites', {
@@ -77,12 +83,10 @@ var InviteUsersModal = React.createClass({
     .catch(err => {
     });
   },
-  componentWillUnmount() {
-  },
 
   onHide() {
     // reset the state and clear any inputs the user might've made
-    this.setState(this.getInitialState());
+    //this.setState(this.getInitialState());
     // then hide the modal
     this.props.onHide();
   },

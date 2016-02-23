@@ -156,7 +156,7 @@ var createBevy = function(req, res, next) {
       var discussion_board = {
         _id: shortid.generate(),
         name: 'Discussion',
-        description: 'An discussion board. Notifications are sent less often and everyone \
+        description: 'A discussion board. Notifications are sent less often and everyone \
                       can post and comment here',
         image: {
           filename: config.app.server.hostname + '/img/default_board_img.png',
