@@ -195,10 +195,8 @@ var MainSection = React.createClass({
 });
 
 var HomeView = require('./../../homepage/components/HomeView.jsx');
-var BoardView = require('./BoardView.jsx');
 var BevyView = require('./../../bevy/components/BevyView.jsx');
 var FourOhFour = require('./FourOhFour.jsx');
-var SearchView = require('./SearchView.jsx');
 var PostView = require('./PostView.jsx');
 var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
 var EditProfileView = require('./../../user/components/EditProfileView.jsx');
@@ -219,14 +217,11 @@ var InterfaceComponent = React.createClass({
       case 'home':
         return <HomeView {...this.props}  />;
         break;
-      case 'search':
-        return <SearchView {...this.props} />;
-        break;
       case 'bevy':
         return <BevyView {...this.props} />;
         break;
       case 'board':
-        return <BoardView {...this.props} />;
+        return <BevyView {...this.props} />;
         break;
       case 'post':
         return <PostView { ...this.props } />;

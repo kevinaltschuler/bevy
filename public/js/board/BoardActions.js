@@ -87,11 +87,9 @@ var BoardActions = {
   },
 
   switchBoard(board_id) {
-    if(_.isEmpty(board_id)) return;
-
     Dispatcher.dispatch({
       actionType: BOARD.SWITCH,
-      board_id: board_id
+      board_id: (board_id == undefined) ? null : board_id
     });
   },
 

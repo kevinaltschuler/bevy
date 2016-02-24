@@ -4,105 +4,121 @@
  * Sort posts with this handy neat little bar
  *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
-// imports
 var React = require('react');
+var {
+  Input
+} = require('react-bootstrap');
 
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 
-var rbs = require('react-bootstrap');
-var Well = rbs.Well;
-var Button = rbs.Button;
-var ButtonGroup = rbs.ButtonGroup;
+let sortTypes = [
+  'new', 'top'
+];
+let sortTypeLabels = [
+  'Most Recent', 'Top Rated'
+];
+let dateRanges = [
+  'day', 'week', 'month', 'all'
+];
+let dateRangeLabels = [
+  'Last 24 hours', 'Last week', 'Last month', 'All time'
+];
 
-// React class
 var PostSort = React.createClass({
-
   propTypes: {
     activeBevy: React.PropTypes.object,
-    sortType: React.PropTypes.string
+    activeBoard: React.PropTypes.object
   },
 
   // grab initial sorting mechanism
   // should default to 'top' and 'asc'
   getInitialState() {
     return {
-      sortType: this.props.sortType
+      sortType: sortTypes[0],
+      dateRange: dateRanges[0]
     }
   },
 
-  /**
-   * send the sort action
-   * and update the state for immediate
-   * visual feedback
-   * @param  {ev} browser (synthetic) event
-   */
-  sort(ev) {
-    // get the sort type that was triggered
-    var by = ev.target.textContent;
-
-    // update the state immediately
-    // should trigger a rerender
-    this.setState({
-      sortType: by
-    });
-
-    // now call action
-    PostActions.sort(by);
+  onChange(ev) {
+    ev.preventDefault();
+    let type = this.refs.type.getValue();
+    this.setState({ sortType: type });
+    this.sort(type, this.state.dateRange)
   },
 
-  render() {
+  onDateChange(ev) {
+    ev.preventDefault();
+    let date = this.refs.date.getValue();
+    this.setState({ dateRange: date });
+    this.sort(this.state.sortType, date);
+  },
 
-    // add to this string to add more types to the top
-    // split function turns this string into an array
-    var sort_types = 'new top'.split(' ');
-    // array of react components to inject
-    var sorts = [];
+  sort(type, date) {
+    PostActions.sort(type, date);
+  },
 
-    // for each sort type
-    for(var key in sort_types) {
-      var type = sort_types[key];
-
-      // generate html attributes
-      var id = type + '-btn';
-      var className = 'sort-btn btn';
-      // if this type matches the current sorting mechanism (stored in the state)
-      // make it active
-      var activeStyle = {};
-      if(type == this.state.sortType) {
-       var activeStyle = {color: '#222', textDecoration: 'underline'};
-       className += ' active';
-      }
-      // the dot that separates types
-      // don't generate for the last one
-      var dot = (key == (sort_types.length-1)) ? '' : '•';
-
-      sorts.push(
-        <Button
-          type='button'
-          title={ 'Sort By ' + type }
-          className={ className }
-          key={ id }
-          id={ id }
-          style={activeStyle}
-          onClick={ this.sort }
+  renderTypePicker() {
+    let optionItems = [];
+    for(var key in sortTypes) {
+      optionItems.push(
+        <option
+          key={ 'sort-type:' + key }
+          value={ sortTypes[key] }
         >
-          { type }
-        </Button>
+          { sortTypeLabels[key] }
+        </option>
       );
-      sorts.push(dot);
     }
 
     return (
-      <Well className="sort-well">
-        <ButtonGroup className='sort-btn-group' role="group">
-          { sorts }
-        </ButtonGroup>
-      </Well>
+      <Input
+        ref='type'
+        type='select'
+        value={ this.state.sortType }
+        onChange={ this.onChange }
+      >
+        { optionItems }
+      </Input>
+    );
+  },
+
+  renderDatePicker() {
+    if(this.state.sortType != 'top') return <div />;
+    let optionItems = [];
+    for(var key in dateRanges) {
+      optionItems.push(
+        <option
+          key={ 'date-range:' + key }
+          value={ dateRanges[key] }
+        >
+          { dateRangeLabels[key] }
+        </option>
+      );
+    }
+    return (
+      <Input
+        ref='date'
+        type='select'
+        value={ this.state.dateRange }
+        onChange={ this.onDateChange }
+      >
+        { optionItems }
+      </Input>
+    );
+  },
+
+  render() {
+    return (
+      <div className='sort-container'>
+        { this.renderTypePicker() }
+        { this.renderDatePicker() }
+      </div>
     );
   }
 });

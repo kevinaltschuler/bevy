@@ -33,7 +33,8 @@ var user = window.bootstrap.user;
 var NewBoardModal = React.createClass({
   propTypes: {
     show: React.PropTypes.bool,
-    onHide: React.PropTypes.func
+    onHide: React.PropTypes.func,
+    activeBevy: React.PropTypes.object
   },
 
   getInitialState() {
@@ -81,6 +82,7 @@ var NewBoardModal = React.createClass({
   },
 
   render() {
+    if(this.props.activeBevy._id == undefined) return;
 
     var dropzoneOptions = {
       maxFiles: 1,
@@ -104,9 +106,13 @@ var NewBoardModal = React.createClass({
     };
 
     return (
-      <Modal show={ this.props.show } onHide={ this.hide } className="create-board">
+      <Modal
+        show={ this.props.show }
+        onHide={ this.hide }
+        className="create-board"
+      >
         <Modal.Header closeButton>
-          <Modal.Title>New Board For "{this.props.activeBevy.name}"</Modal.Title>
+          <Modal.Title>Create New Board For { this.props.activeBevy.name }</Modal.Title>
         </Modal.Header>
         <Modal.Body className="board-info">
           <div className="new-board-picture">

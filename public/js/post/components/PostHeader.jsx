@@ -21,12 +21,13 @@ var constants = require('./../../constants');
 var resizeImage = require('./../../shared/helpers/resizeImage');
 var timeAgo = require('./../../shared/helpers/timeAgo');
 var timeLeft = require('./../../shared/helpers/timeLeft');
+
 var PostActions = require('./../PostActions');
+var AppActions = require('./../../app/AppActions');
 
 var PostHeader = React.createClass({
   propTypes: {
-    post: React.PropTypes.object,
-    startEdit: React.PropTypes.func
+    post: React.PropTypes.object
   },
 
   getInitialState() {
@@ -44,10 +45,6 @@ var PostHeader = React.createClass({
       isAdmin: _.contains(nextProps.post.board.admins, window.bootstrap.user._id),
       isAuthor: nextProps.post.author._id == window.bootstrap.user._id
     });
-  },
-
-  startPM(ev) {
-    ev.preventDefault();
   },
 
   pin(ev) {
@@ -72,26 +69,28 @@ var PostHeader = React.createClass({
     var url = constants.siteurl + '/boards/' + this.props.post.board._id
       + '/posts/' + this.props.post._id;
     window.prompt('Copy: Ctrl-C + Enter', url);
+  },
 
+  goToBoard(ev) {
+    ev.preventDefault();
+    router.navigate(this.props.post.board.url, { trigger: true });
+  },
+
+  openAuthorProfile(ev) {
+    AppActions.openSidebar('profile', {
+      profileUser: this.props.post.author
+    });
   },
 
   _renderAuthorName() {
-    if(this.state.isAuthor) {
-      return (
-        <span>
-          { this.props.post.author.displayName }
-        </span>
-      );
-    } else {
-      return (
-        <Button
-          title={ 'Message ' + this.props.post.author.displayName }
-          onClick={ this.startPM }
-        >
-          { this.props.post.author.displayName }
-        </Button>
-      );
-    }
+    return (
+      <Button
+        title={ 'Message ' + this.props.post.author.displayName }
+        onClick={ this.openAuthorProfile }
+      >
+        { this.props.post.author.displayName }
+      </Button>
+    );
   },
 
   _renderPinnedBadge() {
@@ -158,6 +157,7 @@ var PostHeader = React.createClass({
                 className='bevy-link'
                 title={ this.props.post.board.name }
                 href={ this.props.post.board.url }
+                onClick={ this.goToBoard }
               >
                 { this.props.post.board.name }
               </a>

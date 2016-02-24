@@ -53,13 +53,21 @@ var Navbar = React.createClass({
     };
   },
 
+  onParentClick(ev) {
+    ev.preventDefault();
+    router.navigate('/', { trigger: true });
+  },
+  onBoardClick(ev) {
+    ev.preventDefault();
+  },
+
   toggleLeftNav() {
     //this.props.leftNavActions.toggle();
     AppActions.openSidebar('home');
   },
 
   _renderBevyInfoBar() {
-    if(router.current == 'bevy') {
+    if(router.current == 'bevy' || router.current == 'board') {
       return (
         <BevyInfoBar
           activeBevy={ this.props.activeBevy }
@@ -127,9 +135,7 @@ var Navbar = React.createClass({
   },
 
   render() {
-    var navbarHeight = (router.current == 'bevy')
-      ? '98px'
-      : '68px';
+    var navbarHeight = '68px';
 
     var navbarStyle = { backgroundColor: 'rgba(0,0,0,0)', height: navbarHeight};
     if(router.current == 'home')
@@ -142,10 +148,8 @@ var Navbar = React.createClass({
       case 'home':
         navbarTitle = '';
         break;
-      case 'myBevies':
-        navbarTitle = 'My Bevies';
-        break;
       case 'bevy':
+        navbarHeight = '98px';
         navbarTitle = this.props.activeBevy.name;
         backgroundStyle = (_.isEmpty(this.props.activeBevy))
           ? { filter: 'unset' }
@@ -166,7 +170,7 @@ var Navbar = React.createClass({
         if(_.isEmpty(this.props.activeBoard.parent)) {
           return <div/>;
         }
-
+        navbarHeight = '98px';
         var parent = this.props.activeBoard.parent;
         if(parent.name == undefined || this.props.activeBoard.name == undefined)
           navbarTitle = '';
@@ -177,11 +181,13 @@ var Navbar = React.createClass({
               textOverflow: 'ellipsis'
             }}>
               <a
-                href={ 'http://' + parent.slug + '.' + constants.domain }
+                href='/'
                 title={ parent.name }
                 style={{
                   color: '#fff'
-              }}>
+                }}
+                onClick={ this.onParentClick }
+              >
                 { parent.name }
               </a>
               &nbsp;
@@ -195,7 +201,9 @@ var Navbar = React.createClass({
                 title={ this.props.activeBoard.name }
                 style={{
                   color: '#fff'
-                }}>
+                }}
+                onClick={ this.onBoardClick }
+              >
                 { this.props.activeBoard.name }
               </a>
             </div>
@@ -212,7 +220,7 @@ var Navbar = React.createClass({
         if(!_.isEmpty(parent)) {
           if(!_.isEmpty(parent.image))
             if(parent.image.path == "http://bevy.dev/img/default_group_img.png")
-              backgroundStyle = {backgroundColor: 'rgba(129,129,129,1)'}
+              backgroundStyle = {backgroundColor: '#2CB673'}
         }
         break;
 

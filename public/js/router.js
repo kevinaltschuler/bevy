@@ -42,13 +42,13 @@ var Router = Backbone.Router.extend({
 
     'boards/:boardid' : 'board',
     'boards/:boardid/' : 'board',
-    'boards/:boardid/posts/:postid': 'post',
-    'boards/:boardid/posts/:postid/': 'post',
-    'boards/:boardid/posts/:postid/comment/:commentid': 'post',
-    'boards/:boardid/posts/:postid/comment/:commentid/': 'post',
-    's/' : 'search',
-    's' : 'search',
-    's/:query' : 'search',
+    //'boards/:boardid/posts/:postid': 'post',
+    //'boards/:boardid/posts/:postid/': 'post',
+    //'boards/:boardid/posts/:postid/comment/:commentid': 'post',
+    //'boards/:boardid/posts/:postid/comment/:commentid/': 'post',
+    //'s/' : 'search',
+    //'s' : 'search',
+    //'s/:query' : 'search',
 
     // ==================
     // routes that are only available when inside a bevy subdomain
@@ -86,7 +86,10 @@ var Router = Backbone.Router.extend({
         this.current = 'login';
         return;
       }
+
+      BoardActions.switchBoard(null);
       this.current = 'bevy';
+
       return;
     } else if (hostname_chunks.length > 3) {
       // invalid subdomain structure
@@ -101,7 +104,6 @@ var Router = Backbone.Router.extend({
 
   invite(token) {
     this.inviteToken = token;
-
     this.current = 'invite';
   },
 
@@ -127,13 +129,13 @@ var Router = Backbone.Router.extend({
   },
 
   board(board_id) {
-    if(!this.checkUser()) {
+    if(!this.checkUser() || !this.checkSubdomain()) {
       this.current = 'home';
       return;
     }
     this.current = 'board';
     this.board_id = board_id;
-    //BoardActions.switchBoard(this.board_id);
+    BoardActions.switchBoard(this.board_id);
   },
 
   post(board_id, post_id, comment_id) {
@@ -145,15 +147,6 @@ var Router = Backbone.Router.extend({
     this.board_id = board_id;
     this.post_id = post_id;
     this.comment_id = (comment_id == undefined) ? null : comment_id;
-  },
-
-  bevies() {
-    if(!this.checkUser()) {
-      this.current = 'home';
-      return;
-    }
-    //this.navigate('s/?collection=bevies', { trigger: true });
-    this.navigate('/s/', { trigger: true });
   },
 
   search(query) {
@@ -168,26 +161,11 @@ var Router = Backbone.Router.extend({
     }
   },
 
-  redirectToProfile() {
-    if(!this.checkUser()) return this.home();
-    if(!this.checkSubdomain()) return this.notFound();
-    this.navigate('/profile/' + window.bootstrap.user.username, { trigger: true });
-  },
-  viewProfile(username) {
-    if(!this.checkUser()) return this.home();
-    if(!this.checkSubdomain()) return this.notFound();
-    this.profile_username = username;
-    this.current = 'view-profile';
-  },
   editProfile(username) {
     if(!this.checkUser()) return this.home();
     if(!this.checkSubdomain()) return this.notFound();
     this.profile_username = username;
     this.current = 'edit-profile';
-  },
-
-  directory() {
-    this.current = 'directory';
   },
 
   notFound(nuts) {

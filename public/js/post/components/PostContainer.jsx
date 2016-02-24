@@ -34,7 +34,9 @@ var BOARD = constants.BOARD;
 var PostContainer = React.createClass({
   propTypes: {
     activeBevy: React.PropTypes.object,
-    activeBoard: React.PropTypes.object
+    activeBoard: React.PropTypes.object,
+    searchOpen: React.PropTypes.bool,
+    searchQuery: React.PropTypes.string
   },
 
   getInitialState() {
@@ -53,11 +55,11 @@ var PostContainer = React.createClass({
     PostStore.on(POST.SEARCH_ERROR, this.onPostSearchError);
     PostStore.on(POST.SEARCH_COMPLETE, this.onPostSearchComplete);
     // sometimes the bevy switch event completes before this is mounted
-    if(router.current == 'board')
-      BoardActions.switchBoard(this.props.activeBoard._id);
-    if(router.current == 'bevy') {
-      BevyActions.switchBevy(this.props.activeBevy._id);
-    }
+    //if(router.current == 'board')
+    //  BoardActions.switchBoard(this.props.activeBoard._id);
+    //if(router.current == 'bevy') {
+    //  BevyActions.switchBevy(this.props.activeBevy._id);
+    //}
   },
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
@@ -136,8 +138,10 @@ var PostContainer = React.createClass({
           posts.push(
             <Post
               id={ post._id }
-              key={ 'postcontainer:post:' + post._id }
+              key={ 'post:' + post._id }
               post={ post }
+              searchOpen={ this.props.searchOpen }
+              searchQuery={ this.props.searchQuery }
             />
           );
           break;
@@ -151,8 +155,6 @@ var PostContainer = React.createClass({
         </div>
       );
     }
-
-    posts.push(<div key='postcontainer:spacer' style={{height: '100px'}}/>);
 
     return (
       <div className='post-container' onScroll={ this.onScroll }>

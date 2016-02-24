@@ -82,6 +82,13 @@ _.extend(BoardStore, {
 
       case BOARD.SWITCH:
         var board_id = payload.board_id;
+
+        if(!board_id) {
+          this.active = new Board;
+          this.trigger(BOARD.CHANGE_ALL);
+          break;
+        }
+
         this.active.url = constants.apiurl + '/boards/' + board_id;
         this.active.fetch({
           success: function(model, response, options) {
@@ -92,14 +99,13 @@ _.extend(BoardStore, {
         break;
 
       case BOARD.UPDATE:
-        var board_id = payload.board_id;
+        let board_id = payload.board_id;
+        let board = this.active;
 
-        var board = this.active;
-
-        var name = payload.name || board.get('name');
-        var description = payload.description || board.get('description');
-        var image = payload.image || board.get('image');
-        var settings = payload.settings || board.get('settings');
+        let name = payload.name || board.get('name');
+        let description = payload.description || board.get('description');
+        let image = payload.image || board.get('image');
+        let settings = payload.settings || board.get('settings');
 
         board.set({
           name: name,
@@ -107,6 +113,9 @@ _.extend(BoardStore, {
           image: image,
           settings: settings,
         });
+
+        let parent = board.get('parent');
+        let admins = board.get('admins');
 
         board.save({
           name: name,
@@ -116,7 +125,8 @@ _.extend(BoardStore, {
         }, {
           patch: true,
           success: function(model, response, options) {
-            this.active.parent = parent;
+            this.active.set('parent', parent);
+            this.active.set('admins', admins);
             this.trigger(BOARD.CHANGE_ALL);
           }.bind(this)
         });

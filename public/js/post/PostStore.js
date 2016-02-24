@@ -84,16 +84,25 @@ _.extend(PostStore, {
         break;
 
       case BOARD.SWITCH:
-        var board_id = payload.board_id;
+        let board_id = payload.board_id;
+        let router = require('./../router');
+        let url;
+        if(board_id) {
+          url = constants.apiurl + '/boards/' + board_id + '/posts';
+        } else {
+          url = constants.apiurl + '/bevies/' + router.bevy_slug + '/posts';
+        }
         this.posts.comparator = this.sortByNew;
-        this.posts.url = constants.apiurl + '/boards/' + board_id + '/posts';
+        this.posts.url = url;
         this.posts.fetch({
           success: function(collection, response, options) {
             this.posts.forEach(function(post) {
               post.nestComments();
             }.bind(this));
 
-            this.activeBoard = board_id;
+            if(board_id)
+              this.activeBoard = board_id;
+
             this.posts.sort();
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
@@ -282,10 +291,10 @@ _.extend(PostStore, {
         break;
 
       case POST.SORT:
-        var by = payload.by;
-        var direction = payload.direction;
+        let type = payload.type;
+        let date = payload.date;
 
-        switch(by) {
+        /*switch(by) {
           case 'new':
             default:
             this.sortType = 'new';
@@ -295,13 +304,9 @@ _.extend(PostStore, {
             this.sortType = 'top';
             this.posts.comparator = this.sortByTop;
             break;
-          /*case 'events':
-            this.sortType = 'events';
-            this.posts.comparator = this.sortByEvents;
-            break;*/
         }
         this.posts.sort();
-        this.trigger(POST.CHANGE_ALL);
+        this.trigger(POST.CHANGE_ALL);*/
         break;
 
       case POST.PIN:

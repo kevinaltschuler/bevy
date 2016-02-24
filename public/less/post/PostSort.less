@@ -1,43 +1,21 @@
+/**
+ * PostSort.less
+ * @author albert
+ */
+
 @import '../variables.less';
 
-.sort-well {
-	height: 36px;
-	padding: 0px;
-	margin-bottom: 0px;
-	background-color: rgba(0,0,0,0);
-	border-radius: 0px;
-	box-shadow: inset 0 0px 0px rgba(0, 0, 0, 0);
-	border: 0px;
-	float:none;
-	text-align: center;
-	margin-top: -20px;
+.sort-container {
 	display: flex;
-	justify-content: center;
+	flex-direction: row;
 	align-items: center;
-	.sort-btn-group {
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		.sort-btn {
-			background-color: rgba(0,0,0,0);
-			color: @light-font;
-			font-size: inherit;
-			transition: all 0.15s linear;
-			border: none;
-			float: initial;
-			font-weight: 700;
-			&:active, &.active, .btn.active, .btn:active, &:focus, &.focus{
-				outline: none;
-				text-decoration: underline;
-				color: black;
-				box-shadow: none;
-				z-index: 0;
-				background-color: rgba(0,0,0,0);
-			}
-			&:hover {
-				background-color: rgba(0,0,0,0);
-			}
+	justify-content: flex-end;
+	padding-left: 15px;
+	& > .form-group {
+		margin-bottom: 0px;
+		min-width: 120px;
+		&:last-child {
+			margin-left: 10px;
 		}
 	}
 }
-

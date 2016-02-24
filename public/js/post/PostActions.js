@@ -60,11 +60,11 @@ var PostActions = {
     });
   },
 
-  sort(by, direction) {
+  sort(type, date) {
     Dispatcher.dispatch({
       actionType: POST.SORT,
-      by: (by == undefined) ? 'new' : by,
-      direction: (direction == undefined) ? 'asc' : direction
+      type: type,
+      date: date
     });
   },
 
