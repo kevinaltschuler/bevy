@@ -198,6 +198,7 @@ var HomeView = React.createClass({
                   }
                 }
               />
+              
             </img>
           </div>
         </div>
