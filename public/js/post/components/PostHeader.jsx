@@ -194,10 +194,10 @@ var PostHeader = React.createClass({
             { this._renderDeleteButton() }
             { this._renderEditButton() }
             { this._renderPinButton() }
-            <MenuItem
+            {/*<MenuItem
               onClick={ this.copyPostURL }>
               Copy Post URL
-            </MenuItem>
+            </MenuItem>*/}
           </DropdownButton>
         </div>
       </div>

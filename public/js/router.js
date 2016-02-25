@@ -25,6 +25,7 @@ var AppStore = require('./app/AppStore');
 
 var Router = Backbone.Router.extend({
   routes: {
+    // home page/catch unauthorized stuff
     '' : 'home',
 
     // auth routes
@@ -40,19 +41,18 @@ var Router = Backbone.Router.extend({
     'create' : 'newBevy',
     'create/' : 'newBevy',
 
-    'boards/:boardid' : 'board',
-    'boards/:boardid/' : 'board',
-    //'boards/:boardid/posts/:postid': 'post',
-    //'boards/:boardid/posts/:postid/': 'post',
-    //'boards/:boardid/posts/:postid/comment/:commentid': 'post',
-    //'boards/:boardid/posts/:postid/comment/:commentid/': 'post',
-    //'s/' : 'search',
-    //'s' : 'search',
-    //'s/:query' : 'search',
 
     // ==================
     // routes that are only available when inside a bevy subdomain
     // ==================
+
+    // board routes
+    'boards/:boardid' : 'board',
+    'boards/:boardid/' : 'board',
+    'boards/:boardid/posts/:postid': 'post',
+    'boards/:boardid/posts/:postid/': 'post',
+    'boards/:boardid/posts/:postid/comment/:commentid': 'post',
+    'boards/:boardid/posts/:postid/comment/:commentid/': 'post',
 
     // profile routes
     'profile/edit' : 'editProfile',
@@ -139,14 +139,13 @@ var Router = Backbone.Router.extend({
   },
 
   post(board_id, post_id, comment_id) {
-    if(!this.checkUser()) {
+    if(!this.checkUser() || !this.checkSubdomain()) {
       this.current = 'home';
       return;
     }
-    this.current = 'post';
-    this.board_id = board_id;
     this.post_id = post_id;
     this.comment_id = (comment_id == undefined) ? null : comment_id;
+    this.board(board_id);
   },
 
   search(query) {
