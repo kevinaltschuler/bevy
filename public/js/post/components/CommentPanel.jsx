@@ -2,21 +2,24 @@
  * CommentPanel.jsx
  *
  * @author kev diggity dog
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
-var CommentList = require('./CommentList.jsx');
-
 var {
   Panel
 } = require('react-bootstrap');
+var CommentList = require('./CommentList.jsx');
+
+var _ = require('underscore');
+
+
+
+
 
 var CommentPanel = React.createClass({
-
   propTypes: {
     post: React.PropTypes.object,
     expanded: React.PropTypes.bool
@@ -44,7 +47,7 @@ var CommentPanel = React.createClass({
     var commentList = (post.comments)
     ? (
       <CommentList
-        comments={ post.comments }
+        comments={ post.nestedComments }
         post={ post }
       />
     ) : '';

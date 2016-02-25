@@ -258,7 +258,7 @@ var Post = React.createClass({
           addImage={this.addImage}
         />
         <PostFooter
-          post={ post }
+          post={ this.state.post }
           showComments={ this.props.showComments }
         />
       </div>

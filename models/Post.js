@@ -48,6 +48,10 @@ var PostSchema = new Schema({
 	}, {
 		_id: false
 	})],
+	score: {
+		type: Number,
+		default: 0
+	},
 	pinned: {
 		type: Boolean,
 		default: false

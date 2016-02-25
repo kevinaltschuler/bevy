@@ -52,7 +52,7 @@ var BevyView = React.createClass({
 
   componentDidMount() {
     console.log('LOADING DATA');
-    BevyActions.loadBevyView(router.bevy_slug);
+    //BevyActions.loadBevyView(router.bevy_slug);
   },
 
   onRequestJoin(ev) {
@@ -65,11 +65,13 @@ var BevyView = React.createClass({
     var bevy_id = this.props.activeBevy._id;
     var query = this.state.query;
 
-    if(!_.isEmpty(queryArg)) {
-      query = queryArg;
-    }
+    if(!_.isEmpty(queryArg)) query = queryArg;
 
     PostActions.search(query, bevy_id);
+  },
+
+  clearSearch() {
+    this.setState({ query: '' });
   },
 
   onQueryChange(ev) {
@@ -89,6 +91,20 @@ var BevyView = React.createClass({
         activeBevy={ this.props.activeBevy }
         boards={ this.props.boards }
       />
+    );
+  },
+
+  renderClearSearchButton() {
+    if(this.state.query.length <= 0) return <div />;
+    return (
+      <button
+        className='clear-search'
+        title='Clear Search'
+        onClick={ this.clearSearch }
+      >
+        <Ink />
+        <i className='material-icons'>close</i>
+      </button>
     );
   },
 
@@ -125,6 +141,7 @@ var BevyView = React.createClass({
               addonBefore={
                 <i className='material-icons'>search</i>
               }
+              addonAfter={ this.renderClearSearchButton() }
             />
             <PostSort
               activeBevy={ this.props.activeBevy }

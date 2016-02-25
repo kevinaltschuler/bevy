@@ -91,7 +91,7 @@ var BoardSidebar = React.createClass({
         </button>
         <div className='board-title-container'>
           <span className='board-title'>
-            Boards ({ this.props.boards.length })
+            Boards ({ (this.props.boards.length == 0) ? '...' : this.props.boards.length })
           </span>
           <button
             className='add-button'

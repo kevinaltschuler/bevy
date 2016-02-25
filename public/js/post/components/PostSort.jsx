@@ -41,7 +41,7 @@ var PostSort = React.createClass({
   getInitialState() {
     return {
       sortType: sortTypes[0],
-      dateRange: dateRanges[0]
+      dateRange: dateRanges[3]
     }
   },
 

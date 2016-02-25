@@ -7,9 +7,7 @@
 
 'use strict';
 
-// imports
 var Backbone = require('backbone');
-var $ = require('jquery');
 var _ = require('underscore');
 
 var router = require('./../router');
@@ -37,6 +35,7 @@ _.extend(PostStore, {
 
   posts: new PostCollection,
   sortType: 'new',
+  dateRange: 'all',
   activeBevy: router.bevy_id,
   activeBoard: router.board_id,
   searchPosts: new PostCollection,
@@ -57,53 +56,32 @@ _.extend(PostStore, {
         .then(res => res.json())
         .then(res => {
           this.posts.reset([res]);
-          this.posts.forEach(function(post) {
-            post.nestComments();
-          }.bind(this));
+          this.posts.nestComments();
           this.trigger(POST.CHANGE_ALL);
         })
         .catch(err => {
         });
         break;
 
-      case BEVY.SWITCH:
-        var bevy_id = payload.bevy_id;
-        this.posts.comparator = this.sortByNew;
-        this.posts.url = constants.apiurl + '/bevies/' + bevy_id + '/posts';
-        this.posts.fetch({
-          success: function(collection, response, options) {
-            this.posts.forEach(function(post) {
-              post.nestComments();
-            }.bind(this));
-
-            this.activeBevy = bevy_id;
-            this.posts.sort();
-            this.trigger(POST.CHANGE_ALL);
-          }.bind(this)
-        });
-        break;
-
       case BOARD.SWITCH:
-        let board_id = payload.board_id;
-        let router = require('./../router');
-        let url;
+        var board_id = payload.board_id;
+        var router = require('./../router');
+        var url;
         if(board_id) {
           url = constants.apiurl + '/boards/' + board_id + '/posts';
         } else {
           url = constants.apiurl + '/bevies/' + router.bevy_slug + '/posts';
         }
-        this.posts.comparator = this.sortByNew;
+        url = this.addSortType(url);
+        url = this.addDateRange(url);
         this.posts.url = url;
         this.posts.fetch({
           success: function(collection, response, options) {
-            this.posts.forEach(function(post) {
-              post.nestComments();
-            }.bind(this));
+            this.posts.nestComments();
 
             if(board_id)
               this.activeBoard = board_id;
 
-            this.posts.sort();
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
@@ -111,15 +89,14 @@ _.extend(PostStore, {
 
       case POST.FETCH:
         var board_id = payload.board_id;
-        this.posts.url = constants.apiurl + '/boards/' + board_id + '/posts';
-        this.posts.url += ('?skip=' + this.posts.length);
+        var url = constants.apiurl + '/boards/' + board_id + '/posts';
+        url = this.addSortType(url);
+        url = this.addDateRange(url);
+        this.posts.url = url;
         this.posts.fetch({
           success: function(collection, response, options) {
-            this.posts.forEach(function(post) {
-              post.nestComments();
-            }.bind(this));
+            this.posts.nestComments();
 
-            this.posts.sort();
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
@@ -141,17 +118,23 @@ _.extend(PostStore, {
         this.trigger(POST.SEARCHING);
 
         // construct the search query
-        this.searchPosts.url = constants.apiurl + '/posts/search/' + query;
+        var url = constants.apiurl + '/posts/search/' + query;
         if(bevy_id)
-          this.searchPosts.url += '?bevy_id=' + bevy_id;
+          url += '?bevy_id=' + bevy_id;
         else if(board_id)
-          this.searchPosts.url += '?board_id=' + board_id;
+          url += '?board_id=' + board_id;
+
+        url = this.addSortType(url);
+        url = this.addDateRange(url);
+
+        this.searchPosts.url = url;
 
         // send the request to the server
         this.searchPosts.fetch({
           reset: true,
           success: function(collection, response, options) {
             // got the posts successfully
+            this.posts.nestComments();
             this.trigger(POST.SEARCH_COMPLETE);
           }.bind(this),
           error: function(error) {
@@ -162,10 +145,12 @@ _.extend(PostStore, {
         break;
 
       case POST.CREATE:
+        var $BevyStore = require('./../bevy/BevyStore');
         var title = payload.title;
         var images = payload.images;
         var author = window.bootstrap.user;
         var board = payload.board;
+        var bevy = $BevyStore.getActive();
         var event = payload.event;
         var type = payload.type;
 
@@ -179,11 +164,12 @@ _.extend(PostStore, {
           posts_expire_in = new Date('2035', '1', '1');
         }
 
-        var newPost = this.posts.add({
+        var newPost = this.posts.unshift({
           title: title,
           comments: [],
           images: images,
           author: author._id,
+          bevy: bevy._id,
           board: board._id,
           event: event,
           type: type,
@@ -202,12 +188,10 @@ _.extend(PostStore, {
             newPost.set('links', post.get('links'));
             newPost.set('author', author);
             newPost.set('board', board);
+            newPost.set('bevy', bevy);
             newPost.set('type', type);
             newPost.set('event', event);
             newPost.set('commentCount', 0);
-
-            this.posts.comparator = this.sortByNew;
-            this.posts.sort();
 
             setTimeout(() => {
               this.trigger(POST.POSTED_POST);
@@ -286,27 +270,48 @@ _.extend(PostStore, {
         // instant update
         post.set('votes', votes);
         // sort posts
-        //this.posts.sort();
         this.trigger(POST.CHANGE_ONE + post.id);
         break;
 
       case POST.SORT:
         let type = payload.type;
         let date = payload.date;
+        // see if we need to modify the posts or search posts collection
+        let searching = this.searchQuery.length >= 1;
 
-        /*switch(by) {
-          case 'new':
-            default:
-            this.sortType = 'new';
-            this.posts.comparator = this.sortByNew;
-            break;
-          case 'top':
-            this.sortType = 'top';
-            this.posts.comparator = this.sortByTop;
-            break;
+        if(this.sortType == type && this.dateRange == date) {
+          // we just sorted for this. dont send a redundant request
+          break;
         }
-        this.posts.sort();
-        this.trigger(POST.CHANGE_ALL);*/
+
+        // set the sort type and date range flags of the store
+        this.sortType = type;
+        this.dateRange = date;
+
+        // determine which post collection to sort
+        var collection = (searching)
+          ? this.searchPosts : this.posts;
+
+        // get the original url before the old query string
+        var url = collection.url.split('?')[0];
+        // and append the sort query params
+        url = this.addSortType(url);
+        url = this.addDateRange(url);
+
+        // reset the backbone collection url
+        collection.url = url;
+        // and then fetch from the server
+        collection.fetch({
+          reset: true,
+          success: function(collection, response, options) {
+            // nest comments for all posts
+            collection.nestComments();
+            // see what we need to trigger for the front-end to update
+            if(searching) this.trigger(POST.SEARCH_COMPLETE);
+            else this.trigger(POST.CHANGE_ALL);
+          }.bind(this)
+        });
+
         break;
 
       case POST.PIN:
@@ -331,7 +336,6 @@ _.extend(PostStore, {
           patch: true
         });
 
-        this.posts.sort();
         this.trigger(POST.CHANGE_ALL);
         this.trigger(POST.CHANGE_ONE + post_id);
         break;
@@ -339,7 +343,6 @@ _.extend(PostStore, {
       case POST.CANCEL:
         // TODO: remove uploaded files from the server
         this.trigger(POST.CANCELED_POST);
-
         break;
 
       case COMMENT.CREATE:
@@ -361,7 +364,7 @@ _.extend(PostStore, {
 
         newComment.save(null, {
           success: function(model, response, options) {
-            var comments = post.get('allComments') || [];
+            var comments = post.get('comments') || [];
             var comment = (comment_id)
               ? _.findWhere(comments, { _id: comment_id })
               : {};
@@ -376,7 +379,7 @@ _.extend(PostStore, {
             };
             comments.push(new_comment);
             post.set('comments', comments);
-            post.nestComments();
+            post.updateComments();
 
             this.trigger(POST.CHANGE_ONE + post_id);
           }.bind(this)
@@ -395,7 +398,12 @@ _.extend(PostStore, {
         var post = this.posts.get(post_id);
         if(post == undefined) return;
 
-        post.removeComment(comment_id);
+        var comments = post.get('comments');
+        comments = _.reject(comments, function(comment) {
+          return comment._id == comment_id;
+        });
+        post.set('comments', comments);
+        post.updateComments();
 
         // trigger changes
         this.trigger(POST.CHANGE_ONE + post_id);
@@ -448,6 +456,50 @@ _.extend(PostStore, {
     this.trigger(POST.CHANGE_ONE + post_id);
   },
 
+  addDateRange(url) {
+    let startDate, endDate;
+    switch(this.dateRange) {
+      case 'day':
+        // from 1 day ago
+        startDate = (new Date(Date.now() - (1000 * 60 * 60 * 24))).toString();
+        // until now
+        endDate = (new Date).toString();
+        break;
+      case 'week':
+        // from 1 week ago
+        startDate = (new Date(Date.now() - (1000 * 60 * 60 * 24 * 7))).toString();
+        // until now
+        endDate = (new Date).toString();
+        break;
+      case 'month':
+        // from 1 month ago
+        // assume a month is 30 days
+        startDate = (new Date(Date.now() - (1000 * 60 * 60 * 24 * 30))).toString();
+        // until now
+        endDate = (new Date).toString();
+        break;
+      case 'all':
+        // only specify an end date
+        endDate = (new Date).toString();
+        break;
+      default:
+        break;
+    }
+    if(startDate) {
+      var separator = (url.split('?').length >= 2) ? '&' : '?';
+      url += separator + 'start_date=' + encodeURIComponent(startDate);
+    }
+    if(endDate) {
+      var separator = (url.split('?').length >= 2) ? '&' : '?';
+      url += separator + 'end_date=' + encodeURIComponent(endDate);
+    }
+    return url;
+  },
+  addSortType(url) {
+    var separator = (url.split('?').length >= 2) ? '&' : '?';
+    return url + separator + 'sort=' + this.sortType;
+  },
+
   // send all posts to the App.jsx in JSON form
   getAll() {
     return this.posts.toJSON();
@@ -466,26 +518,6 @@ _.extend(PostStore, {
 
   getSearchPosts() {
     return this.searchPosts.toJSON();
-  },
-
-  sortByTop(post) {
-    var score = post.countVotes();
-    if(post.get('pinned')) score = 9000;
-    return -score;
-  },
-
-  sortByNew(post) {
-    var date = Date.parse(post.get('created'));
-    if(post.get('pinned')) date = new Date('2035', '1', '1');
-    return -date;
-  },
-
-  sortByEvents(post) {
-    var date = new Date('2035', '1', '1');
-    if(post.get('type') == 'event') {
-      date = Date.parse(post.get('date'));
-    }
-    return -date;
   }
 });
 

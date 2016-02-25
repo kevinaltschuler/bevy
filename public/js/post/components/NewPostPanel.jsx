@@ -14,7 +14,8 @@ var React = require('react');
 var {
   Button,
   Tooltip,
-  OverlayTrigger
+  OverlayTrigger,
+  Input
 } = require('react-bootstrap');
 var {
   TextField,
@@ -27,6 +28,7 @@ var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
 var POST = constants.POST;
@@ -64,7 +66,10 @@ var NewPostPanel = React.createClass({
   },
 
   onPostSuccess() {
-    this.setState({ loading: false });
+    this.setState({
+      loading: false,
+      disabled: false
+    });
   },
 
   componentWillReceiveProps(nextProps) {
@@ -74,9 +79,7 @@ var NewPostPanel = React.createClass({
   onUploadComplete(file) {
     var images = this.state.images;
     images.push(file);
-    this.setState({
-      images: images
-    });
+    this.setState({ images: images });
   },
 
   onRemovedFile(file) {
@@ -85,9 +88,7 @@ var NewPostPanel = React.createClass({
     images = _.reject(images, function($image) {
       return $image.filename == filename;
     });
-    this.setState({
-      images: images
-    });
+    this.setState({ images: images });
   },
 
   // trigger the create action
@@ -114,8 +115,10 @@ var NewPostPanel = React.createClass({
       title: '',
       images: [],
       showEventModal: false,
-      loading: true
+      loading: true,
+      disabled: true
     });
+    this.refs.title.innerHTML = '';
   },
 
   onTitleChange() {
@@ -137,34 +140,24 @@ var NewPostPanel = React.createClass({
     );
   },
 
-  renderPostButton() {
+  renderArrowOrLoading() {
     if(this.state.loading) {
       return (
-        <CircularProgress
-          mode="indeterminate"
-          color='#666'
-          size={ 0.6 }
-          style={{ marginRight: 20 }}
-        />
+        <div className='loading-container'>
+          <CircularProgress
+            mode="indeterminate"
+            color='#666'
+            size={ 0.2 }
+            style={{
+              width: 20,
+              height: 20
+            }}
+          />
+        </div>
       );
     } else {
       return (
-        <button
-          className='post-button'
-          title='Post'
-          onClick={ this.submit }
-          style={{
-            backgroundColor: (this.state.disabled) ? '#EEE' : 'transparent',
-            cursor: (this.state.disabled) ? 'default' : 'pointer'
-          }}
-        >
-          <Ink
-            style={{ visibility: (this.state.disabled) ? 'hidden' : 'visible' }}
-          />
-          <span className='post-button-text'>
-            Post
-          </span>
-        </button>
+        <i className='material-icons'>send</i>
       );
     }
   },
@@ -190,7 +183,7 @@ var NewPostPanel = React.createClass({
         postId={ this.state.id }
       >
         <div className="new-post-title">
-          <TextField
+          {/*<TextField
             className="title-field"
             hintText={ this.state.hintText }
             disabled={ this.state.disabled }
@@ -200,7 +193,33 @@ var NewPostPanel = React.createClass({
             onChange={ this.onTitleChange }
             style={{ width: '100%' }}
             underlineFocusStyle={{ borderColor: '#666' }}
+          />*/}
+          <div
+            className='profile-picture'
+            title={ 'Posting as ' + window.bootstrap.user.displayName }
+            style={{
+              backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
+            }}
           />
+          <div
+            ref='title'
+            className='input'
+            contentEditable={ true }
+            onInput={() => {
+              //console.log(this.refs.title.innerHTML);
+              var title = this.refs.title.innerHTML;
+              this.setState({ title: title });
+            }}
+          >
+          </div>
+          <span
+            className='hint-text'
+            style={{
+              visibility: (this.state.title.length > 0) ? 'hidden' : 'visible'
+            }}
+          >
+            { this.state.hintText }
+          </span>
         </div>
 
         <Uploader
@@ -214,7 +233,7 @@ var NewPostPanel = React.createClass({
         <div className='panel-bottom'>
           <OverlayTrigger
             overlay={ mediaTip }
-            placement='bottom'
+            placement='right'
           >
             <button
               className='attach-picture'
@@ -232,7 +251,23 @@ var NewPostPanel = React.createClass({
               <i className='material-icons'>insert_photo</i>
             </button>
           </OverlayTrigger>
-          { this.renderPostButton() }
+          <button
+            className='post-button'
+            title='Post'
+            onClick={ this.submit }
+            style={{
+              backgroundColor: (this.state.disabled) ? '#EEE' : 'transparent',
+              cursor: (this.state.disabled) ? 'default' : 'pointer'
+            }}
+          >
+            <Ink
+              style={{ visibility: (this.state.disabled) ? 'hidden' : 'visible' }}
+            />
+            <span className='post-button-text'>
+              Post
+            </span>
+            { this.renderArrowOrLoading() }
+          </button>
         </div>
       </div>
     );

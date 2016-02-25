@@ -31,6 +31,7 @@ var Post = Backbone.Model.extend({
    * do things here so that our UI doesn't have to
    */
   initialize() {
+    var $BevyStore = require('./../bevy/BevyStore');
     // init comment count field
     this.commentCount = 0;
 
@@ -47,6 +48,9 @@ var Post = Backbone.Model.extend({
 
     // update the comments under this post
     this.updateComments();
+
+    // set the bevy for this post
+    this.set('bevy', $BevyStore.getActive());
 
     // update comments every time this post is synced with the server
     this.on('sync', this.onSync);

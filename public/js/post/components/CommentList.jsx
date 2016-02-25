@@ -2,23 +2,21 @@
  * CommentList.jsx
  *
  * @author albert
+ * @flow
  */
 
 'use strict';
 
 var React = require('react');
-
 var CommentItem = require('./CommentItem.jsx');
 
 var CommentList = React.createClass({
-
   propTypes: {
     comments: React.PropTypes.array,
     post: React.PropTypes.object,
   },
 
   render() {
-
     var allComments = this.props.comments;
     var comments = [];
     allComments.forEach(function(comment, index) {

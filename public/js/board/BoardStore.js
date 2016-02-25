@@ -68,18 +68,6 @@ _.extend(BoardStore, {
         });
         break;
 
-      case BOARD.LOADBOARDVIEW:
-        var board_id = payload.board_id;
-        this.active.url = constants.apiurl + '/boards/' + board_id;
-        this.active.fetch({
-          success: function(model, response, options) {
-            this.active = model;
-            this.trigger(BOARD.CHANGE_ALL);
-          }.bind(this)
-        });
-
-        break;
-
       case BOARD.SWITCH:
         var board_id = payload.board_id;
 

@@ -119,37 +119,25 @@ exports.COMMENT = {
 }
 
 exports.BEVY = {
-  LOADBEVYVIEW: 'bevy_load_bevy_view',
   CREATE: 'bevy_create',
   CREATE_SUCCESS: 'bevy_create_success',
   CREATE_ERR: 'bevy_create_err',
   DESTROY: 'bevy_destroy',
   UPDATE: 'bevy_update',
   JOIN: 'bevy_join',
-  REQUEST_JOIN: 'bevy_request_join',
   LEAVE: 'bevy_leave',
-  SWITCH: 'bevy_switch',
-  SORT: 'bevy_sort',
-  SEARCH: 'bevy_search',
-  LOADED: 'bevy_loaded',
 
-  SEARCHING: 'bevy_searching',
-  SEARCH_COMPLETE: 'bevy_search_complete',
   CHANGE_ALL: 'bevy_change_all',
-  CHANGE_ONE: 'bevy_change_one',
-  UPDATED_IMAGE: 'bevy_updated_image'
+  CHANGE_ONE: 'bevy_change_one'
 };
 
 exports.BOARD = {
-  LOADBOARDVIEW: 'board_load_board_view',
   CREATE: 'board_create',
   DESTROY: 'board_destroy',
   UPDATE: 'board_update',
   SWITCH: 'board_switch',
-  LOADED: 'board_loaded',
   JOIN: 'board_join',
   LEAVE: 'board_leave',
-  GET: 'board_get',
 
   CHANGE_ALL: 'board_change_all'
 };
@@ -185,8 +173,4 @@ exports.NOTIFICATION = {
 };
 
 exports.INVITE = {
-  INVITE_USER: 'invite_invite_user',
-  DESTROY: 'invite_destroy',
-  ACCEPT_REQUEST: 'invite_accept_request',
-  REJECT_INVITE: 'invite_reject_invite'
 };

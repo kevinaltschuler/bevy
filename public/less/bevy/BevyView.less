@@ -57,6 +57,34 @@
 						i.material-icons {
 							color: #AAA;
 						}
+
+						button.clear-search {
+							border: 1px solid #AAA;
+							box-shadow: none;
+							background-color: transparent;
+							padding: 0px;
+							display: flex;
+							flex-direction: row;
+							align-items: center;
+							justify-content: center;
+							width: 20px;
+							height: 20px;
+							border-radius: 10px;
+							position: relative;
+							margin-right: 6px;
+							transition: 0.25s all ease-in-out;
+							&:hover {
+								border-color: @bevy-danger;
+								i.material-icons {
+									color: @bevy-danger;
+								}
+							}
+							i.material-icons {
+								font-size: 1em;
+								color: #AAA;
+								transition: 0.25s all ease-in-out;
+							}
+						}
 					}
 					input.form-control {
 						margin: 0px;

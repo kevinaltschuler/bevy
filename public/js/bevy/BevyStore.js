@@ -44,10 +44,6 @@ _.extend(BevyStore, {
 
       case APP.LOAD:
         this.active = new Bevy(window.bootstrap.user.bevy);
-        this.trigger(BEVY.CHANGE_ALL);
-        break;
-
-      case BEVY.LOADBEVYVIEW:
         var router = require('./../router');
         var bevy_slug = router.bevy_slug;
 
@@ -57,11 +53,7 @@ _.extend(BevyStore, {
             this.trigger(BEVY.CHANGE_ALL);
           }.bind(this)
         });
-
-        break;
-
-      case BOARD.LOADBOARDVIEW:
-
+        this.trigger(BEVY.CHANGE_ALL);
         break;
 
       case BEVY.CREATE:
@@ -163,109 +155,6 @@ _.extend(BevyStore, {
         this.myBevies.add(bevy);
         // trigger UI changes
         this.trigger(BEVY.CHANGE_ALL);
-        break;
-
-      case BEVY.REQUEST_JOIN:
-        var bevy_id = payload.bevy_id;
-        // if already joined, break
-        if(this.myBevies.get(bevy_id) != undefined) break;
-
-        var invite = new Invite();
-        invite.url = constants.apiurl + '/invites';
-        invite.save({
-          user: window.bootstrap.user._id,
-          type: 'bevy',
-          requestType: 'request_join',
-          bevy: bevy_id
-        });
-        break;
-
-      case BEVY.SORT:
-        var filter = payload.filter;
-        var collection = this.searchList;
-        collection.filter = filter;
-        switch(filter) {
-          case 'Most Subscribers':
-            collection.comparator = collection.sortByTop;
-            break;
-          case 'Least Subscribers':
-            collection.comparator = collection.sortByBottom;
-            break;
-          case 'Newest':
-            collection.comparator = collection.sortByNew;
-            break;
-          case 'Oldest':
-            collection.comparator = collection.sortByOld;
-            break;
-          case 'ABC':
-            collection.comparator = collection.sortByAbc;
-            break;
-          case 'ZYX':
-            collection.comparator = collection.sortByZyx;
-            break;
-        }
-        collection.sort();
-        this.trigger(BEVY.CHANGE_ALL);
-        this.trigger(BEVY.SEARCH_COMPLETE);
-        break;
-
-      case BEVY.SEARCH:
-        var query = payload.query;
-        this.searchQuery = query;
-        this.searchList.reset();
-        this.trigger(BEVY.SEARCHING);
-
-        if(_.isEmpty(query))
-          this.searchList.url = constants.apiurl + '/bevies';
-        else
-          this.searchList.url = constants.apiurl + '/bevies/search/' + query;
-
-        this.searchList.fetch({
-          reset: true,
-          success: function(collection, response, options) {
-            this.trigger(BEVY.SEARCH_COMPLETE);
-            this.searchList.comparator = this.searchList.sortByTop;
-          }.bind(this)
-        });
-        break;
-
-      case INVITE.INVITE_USER:
-        var user = payload.user;
-        var user_id = user._id;
-
-        var invite = this.bevyInvites.add({
-          user: user_id,
-          type: 'bevy',
-          requestType: 'invite',
-          bevy: this.active.get('_id')
-        });
-        invite.url = constants.apiurl + '/invites';
-        invite.save(null, {
-          success: function(model, response, options) {
-            invite.set('user', user);
-            invite.set('_id', model.get('_id'));
-            this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
-        });
-        break;
-
-      case INVITE.DESTROY:
-        var invite_id = payload.invite_id;
-        var invite = this.bevyInvites.remove(invite_id);
-        this.trigger(BEVY.CHANGE_ALL);
-        if(invite == undefined)
-          break;
-        invite.url = constants.apiurl + '/invites/' + invite_id;
-        invite.destroy();
-
-        break;
-
-      case INVITE.ACCEPT_REQUEST:
-        var invite_id = payload.invite_id;
-        fetch(constants.apiurl + '/invites/' + invite_id + '/accept')
-        .then(res => {
-          window.location.reload();
-        })
         break;
     }
   },

@@ -14,14 +14,6 @@ var constants = require('./../constants');
 var BOARD = require('./../constants').BOARD;
 
 var BoardActions = {
-  loadBoardView(board_id) {
-    if(_.isEmpty(board_id)) return;
-
-    Dispatcher.dispatch({
-      actionType: BOARD.LOADBOARDVIEW,
-      board_id: board_id
-    });
-  },
 
   create(name, description, image, parent_id, type) {
     if(_.isEmpty(name)) return;
@@ -90,13 +82,6 @@ var BoardActions = {
     Dispatcher.dispatch({
       actionType: BOARD.SWITCH,
       board_id: (board_id == undefined) ? null : board_id
-    });
-  },
-
-  getBoard(board_id) {
-    Dispatcher.dispatch({
-      actionType: BOARD.GET,
-      board_id: (board_id == undefined) ? '' : board_id
     });
   }
 };

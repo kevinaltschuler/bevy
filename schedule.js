@@ -96,6 +96,59 @@ var boardSubCountJob = schedule.scheduleJob('* * * * *', function() {
   });
 });
 
+var postPointCountJob = schedule.scheduleJob('* * * * *', function() {
+  var limit = 20;
+  var i = 0;
+  async.waterfall([
+    function(done) {
+      Post.count(function(err, numPosts) {
+        if(err) return done(err);
+        //console.log('counted', numPosts, 'posts');
+        return done(null, numPosts);
+      })
+    },
+    function(numPosts, done) {
+      async.whilst(
+        function() { return i < numPosts },
+        function(callback) {
+          Post.find(function(err, posts) {
+            async.each(posts, function(post, $callback) {
+              //console.log('counting votes of', post._id);
+              var score = 0;
+              for(var j = 0; j < post.votes.length; j++) {
+                var vote = post.votes[j];
+                score += vote.score;
+              }
+              //console.log('post', post._id, 'has', score, 'votes');
+              /*post.voteCount = voteCount;
+              post.save(function(err) {
+                if(err) return $callback(err);
+                return $callback(null);
+              });*/
+              Post.findOneAndUpdate({ _id: post._id }, { score: score }, function(err, post) {
+                if(err) return $callback(err);
+                //console.log('post', post._id, 'updated');
+                return $callback(null);
+              });
+            }, function(err) {
+              i += limit;
+              callback(null);
+            })
+          })
+        },
+        function(err) {
+          if(err) return done(err);
+          return done(null);
+        }
+      );
+    }
+  ], function(err, results) {
+    if(err) console.error(err);
+    //console.log('done counting post votes');
+  });
+
+});
+
 var userPointCountJob = schedule.scheduleJob('* * * * *', function() {
   var limit = 20; // do 20 users at once
   var i = 0;

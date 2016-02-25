@@ -16,14 +16,6 @@ var INVITE = require('./../constants').INVITE;
 var constants = require('./../constants');
 
 var BevyActions = {
-  loadBevyView(bevy_id) {
-    if(_.isEmpty(bevy_id)) return;
-
-    Dispatcher.dispatch({
-      actionType: BEVY.LOADBEVYVIEW,
-      bevy_id: bevy_id
-    });
-  },
 
   create(bevyName, bevyImage, bevySlug, adminEmail, adminName, inviteEmails) {
     if(_.isEmpty(bevyName)) return;
@@ -36,7 +28,7 @@ var BevyActions = {
     if(_.isEmpty(bevySlug)) return;
     if(_.isEmpty(adminEmail)) return;
     if(_.isEmpty(adminName)) return;
-    if(_.isEmpty(inviteEmails)) 
+    if(_.isEmpty(inviteEmails))
       inviteEmails = [''];
 
     Dispatcher.dispatch({
@@ -84,58 +76,6 @@ var BevyActions = {
     Dispatcher.dispatch({
       actionType: BEVY.JOIN,
       bevy: bevy
-    });
-  },
-
-  requestJoin(bevy_id, user) {
-    if(_.isEmpty(bevy_id)) return;
-    if(_.isEmpty(user)) return;
-    Dispatcher.dispatch({
-      actionType: BEVY.REQUEST_JOIN,
-      bevy_id: bevy_id,
-      user: user
-    });
-  },
-
-  switchBevy(bevy_id) {
-    Dispatcher.dispatch({
-      actionType: BEVY.SWITCH,
-      bevy_id: bevy_id || -1
-    });
-  },
-
-  filterBevies(filter) {
-    Dispatcher.dispatch({
-      actionType: BEVY.SORT,
-      filter: (filter == undefined) ? null : filter
-    });
-  },
-
-  search(query) {
-    Dispatcher.dispatch({
-      actionType: BEVY.SEARCH,
-      query: (query == undefined) ? null : query
-    });
-  },
-
-  inviteUser(user) {
-    Dispatcher.dispatch({
-      actionType: INVITE.INVITE_USER,
-      user: (user == undefined) ? null : user
-    });
-  },
-
-  destroyInvite(invite_id) {
-    Dispatcher.dispatch({
-      actionType: INVITE.DESTROY,
-      invite_id: (invite_id == undefined) ? null : invite_id
-    });
-  },
-
-  acceptRequest(invite_id) {
-    Dispatcher.dispatch({
-      actionType: INVITE.ACCEPT_REQUEST,
-      invite_id: (invite_id == undefined) ? null : invite_id
     });
   },
 };
