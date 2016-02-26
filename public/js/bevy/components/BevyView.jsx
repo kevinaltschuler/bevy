@@ -26,6 +26,8 @@ var PostSort = require('./../../post/components/PostSort.jsx');
 var BoardSidebar = require('./../../board/components/BoardSidebar.jsx');
 // right sidebar
 var BoardInfoSidebar = require('./../../board/components/BoardInfoSidebar.jsx');
+// board navbar
+var BoardNavbar = require('./../../board/components/BoardNavbar.jsx');
 
 var Ink = require('react-ink');
 var _ = require('underscore');
@@ -46,7 +48,8 @@ var BevyView = React.createClass({
 
   getInitialState() {
     return {
-      query: ''
+      query: '',
+      sidebarOpen: false
     }
   },
 
@@ -108,6 +111,12 @@ var BevyView = React.createClass({
     );
   },
 
+  toggleSidebar() {
+    this.setState({
+      sidebarOpen: !this.state.sidebarOpen
+    })
+  },
+
   render() {
     var joined = false;
     var activeBevy = this.props.activeBevy;
@@ -120,7 +129,7 @@ var BevyView = React.createClass({
       <div
         className='main-section bevy-view'
         style={{
-          paddingRight: (this.props.activeBoard._id == undefined) ? 15 : 235
+          paddingRight: (this.props.activeBoard._id == undefined) ? 0 : 235
         }}
       >
         <BoardSidebar
@@ -128,38 +137,44 @@ var BevyView = React.createClass({
           boards={ this.props.boards }
           activeBoard={ this.props.activeBoard }
         />
-        <div
-          className='bevy-view-body'
-        >
-          <div className='header'>
-            <Input
-              ref='search'
-              type='text'
-              placeholder='Search'
-              value={ this.state.query }
-              onChange={ this.onQueryChange }
-              addonBefore={
-                <i className='material-icons'>search</i>
-              }
-              addonAfter={ this.renderClearSearchButton() }
-            />
-            <PostSort
+        <div className='bevy-view-body'>
+          <BoardNavbar 
+            activeBoard={this.props.activeBoard}
+            toggleSidebar={this.toggleSidebar}
+          />
+          <div className='bevy-view-content'>
+            <div className='header'>
+              <Input
+                ref='search'
+                type='text'
+                placeholder='Search'
+                value={ this.state.query }
+                onChange={ this.onQueryChange }
+                addonBefore={
+                  <i className='material-icons'>search</i>
+                }
+                addonAfter={ this.renderClearSearchButton() }
+              />
+              <PostSort
+                activeBevy={ this.props.activeBevy }
+                activeBoard={ this.props.activeBoard }
+              />
+            </div>
+            { this.renderNewPostPanel() }
+            <PostContainer
               activeBevy={ this.props.activeBevy }
               activeBoard={ this.props.activeBoard }
+              searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
+              searchQuery={ this.state.query }
             />
+            <Footer />
           </div>
-          { this.renderNewPostPanel() }
-          <PostContainer
-            activeBevy={ this.props.activeBevy }
-            activeBoard={ this.props.activeBoard }
-            searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
-            searchQuery={ this.state.query }
-          />
-          <Footer />
         </div>
         <BoardInfoSidebar
           activeBevy={ this.props.activeBevy }
           activeBoard={ this.props.activeBoard }
+          open={this.state.sidebarOpen}
+          toggleSidebar={this.toggleSidebar}
         />
       </div>
     );
