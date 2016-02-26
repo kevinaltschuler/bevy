@@ -10,7 +10,7 @@
 'use strict';
 
 var React = require('react');
-
+var Ink = require('react-ink');
 
 var BoardNavbar = React.createClass({
   propTypes: {
@@ -18,6 +18,12 @@ var BoardNavbar = React.createClass({
   },
 
   render() {
+    var infoIcon = (this.props.sidebarOpen) 
+      ? <i style={{color: '#2cb673'}} className="material-icons">info_outline</i> 
+      : <i className="material-icons">info_outline</i>;
+    var buttonStyle = (this.props.sidebarOpen)
+    ?  {boxShadow: 'inset 0 1px 2px 0 rgba(0,0,0,.075)'}
+    :  {};
     var board = this.props.activeBoard;
     return (
         <div className='board-navbar'>
@@ -27,8 +33,9 @@ var BoardNavbar = React.createClass({
             </div>  
           </div>
           <div className='right'>
-            <button onClick={this.props.toggleSidebar}>
-              open sidemenu
+            <button style={buttonStyle} className='info-button' onClick={this.props.toggleSidebar}>
+              <Ink/>
+              {infoIcon}
             </button>
           </div>
         </div>

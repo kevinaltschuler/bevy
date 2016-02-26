@@ -145,15 +145,22 @@ let BoardInfoSidebar = React.createClass({
   },
 
   render() {
-    if(this.props.activeBoard._id == undefined) return <div />;
+    if(this.props.activeBoard._id == undefined || !this.props.open) return <div />;
     return (
       <div className='board-info-sidebar'>
         <div
           className='header-image'
           style={{
-            backgroundImage: 'url(' + resizeImage(this.props.activeBoard.image, 640, 300).url + ')'
+            backgroundImage: 'url(' + resizeImage(this.props.activeBoard.image, 640, 300).url + ')',
+            display: 'flex',
+            alignItems: 'flex-start',
+            justifyContent: 'flex-end'
           }}
-        />
+        >
+          <button className='close-button' onClick={this.props.toggleSidebar}>
+            <i className="material-icons">close</i>
+          </button>
+        </div>
         <span className='name'>
           { this.props.activeBoard.name }
         </span>

@@ -81,6 +81,7 @@ _.extend(BoardStore, {
         this.active.fetch({
           success: function(model, response, options) {
             this.active = model;
+            this.trigger(BOARD.SWITCHED);
             this.trigger(BOARD.CHANGE_ALL);
           }.bind(this)
         })

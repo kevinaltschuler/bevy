@@ -36,8 +36,10 @@ var router = require('./../../router');
 var UserStore = require('./../../user/UserStore');
 var BevyActions = require('./../../bevy/BevyActions');
 var PostStore = require('./../../post/PostStore');
+var BoardStore = require('./../../board/BoardStore');
 var PostActions = require('./../../post/PostActions');
 var USER = constants.USER;
+var BOARD = constants.BOARD;
 
 var BevyView = React.createClass({
   propTypes: {
@@ -49,19 +51,33 @@ var BevyView = React.createClass({
   getInitialState() {
     return {
       query: '',
-      sidebarOpen: false
+      sidebarOpen: false,
+      bodyStyle: {}
     }
   },
 
   componentDidMount() {
     console.log('LOADING DATA');
     //BevyActions.loadBevyView(router.bevy_slug);
+    BoardStore.on(BOARD.SWITCHED, this.onBoardSwitch);
   },
 
   onRequestJoin(ev) {
     ev.preventDefault();
     BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
     this.refs.snackbar.show();
+  },
+
+  onBoardSwitch() {
+    this.setState({
+      bodyStyle: {opacity: .05}
+    });
+    setTimeout(
+      () => this.setState({
+        bodyStyle: {opacity: 1}
+      }),
+      10
+    )
   },
 
   search(queryArg) {
@@ -129,7 +145,7 @@ var BevyView = React.createClass({
       <div
         className='main-section bevy-view'
         style={{
-          paddingRight: (this.props.activeBoard._id == undefined) ? 0 : 235
+          paddingRight: (this.props.activeBoard._id == undefined || !this.state.sidebarOpen) ? 0 : 235
         }}
       >
         <BoardSidebar
@@ -137,10 +153,11 @@ var BevyView = React.createClass({
           boards={ this.props.boards }
           activeBoard={ this.props.activeBoard }
         />
-        <div className='bevy-view-body'>
+        <div style={this.state.bodyStyle} className='bevy-view-body'>
           <BoardNavbar 
             activeBoard={this.props.activeBoard}
             toggleSidebar={this.toggleSidebar}
+            sidebarOpen={this.state.sidebarOpen}
           />
           <div className='bevy-view-content'>
             <div className='header'>
