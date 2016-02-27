@@ -28,11 +28,13 @@
     padding-right: 5px;
     .profile-img {
       display: inline-block;
-      width: 25px;
-      height: 25px;
-      border-radius: 100px;
+      width: 30px;
+      height: 30px;
+      min-width: 30px;
+      min-height: 30px;
+      border-radius: 15px;
       margin-right: 10px;
-      margin-top: 6px;
+      margin-top: 3px;
       #image-icon;
     }
     .post-details {
@@ -340,9 +342,8 @@
     }
   }
   .panel-comments {
-    width: 95%;
-    margin-left: auto;
-    margin-right: auto;
+    width: 100%;
+    border-top: 1px solid #DDD;
     .panel.panel-default {
       border: none;
       border-radius: 0px;
@@ -538,50 +539,6 @@
             border-color: #4c4c4c;
             border-bottom-width: 1px;
           }
-        }
-      }
-    }
-  }
-  .panel-comment-submit {
-    padding-left: 10px;
-    .panel-comment-input {
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-      width: 97%;
-      .mui-flat-button {
-        height: 38px;
-      }
-      .mui-text-field .mui-text-field-textarea {
-        box-shadow: none;
-      }
-      .profile-img {
-        margin-left: 13px;
-        margin-right: 5px;
-        display: inline-block;
-        height: 25px;
-        width: 25px;
-        border-radius: 40px;
-        margin-bottom: -10px;
-        #image-icon;
-      }
-      .panel-comment-textfield {
-        background-color: rgba(0,0,0,0);
-        border-bottom: none;
-        border-left: 0px;
-        border-top: 0px;
-        border-right: 0px;
-        box-shadow: none;
-        width: 70%;
-        border-radius: 0px;
-        color: #fff;
-        padding-left: 4px;
-        padding-bottom: 2px;
-        font-size: 1em;
-        display: inline-block;
-        .mui-text-field-focus-underline {
-          border-color: #4c4c4c;
-          border-bottom-width: 1px;
         }
       }
     }

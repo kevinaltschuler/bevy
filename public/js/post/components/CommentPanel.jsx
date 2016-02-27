@@ -14,10 +14,7 @@ var {
 var CommentList = require('./CommentList.jsx');
 
 var _ = require('underscore');
-
-
-
-
+var constants = require('./../../constants');
 
 var CommentPanel = React.createClass({
   propTypes: {
@@ -53,7 +50,13 @@ var CommentPanel = React.createClass({
     ) : '';
 
     return (
-      <div className='panel-comments'>
+      <div
+        className='panel-comments'
+        style={{
+          borderBottom: (this.state.expanded) ? '1px solid #DDD' : 'none',
+          paddingBottom: (this.state.expanded) ? 10 : 0
+        }}
+      >
         <Panel collapsible expanded={ this.state.expanded }>
           { commentList }
         </Panel>

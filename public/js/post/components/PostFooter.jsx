@@ -76,15 +76,12 @@ var PostFooter = React.createClass({
           </div>
         </div>
         <CommentPanel expanded={ this.state.showComments } post={ post } />
-        <div className='panel-comment-submit'>
-          <CommentSubmit
-            postId={ post.id }
-            author={ post.author }
-            bevy={ post.bevy }
-            expandComments={ this.expandComments }
-            showComments={ this.state.showComments }
-          />
-        </div>
+        <CommentSubmit
+          postId={ post.id }
+          author={ post.author }
+          expandComments={ this.expandComments }
+          showComments={ this.state.showComments }
+        />
       </div>
     );
   }

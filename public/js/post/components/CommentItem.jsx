@@ -10,7 +10,6 @@
 var React = require('react');
 var CommentSubmit = require('./CommentSubmit.jsx');
 
-
 var _ = require('underscore');
 var constants = require('./../../constants');
 var timeAgo = require('./../../shared/helpers/timeAgo');
@@ -24,7 +23,6 @@ var CommentList = React.createClass({
   },
 
   render() {
-
     var allComments = this.props.comments;
     var comments = [];
     allComments.forEach(function(comment, index) {
@@ -87,7 +85,6 @@ var CommentItem = React.createClass({
   render() {
     var comment = this.props.comment;
     var author = comment.author;
-    var bevy = this.props.post.bevy;
     var post = this.props.post;
 
     var authorName = author.displayName || 'placeholder author';
@@ -105,7 +102,6 @@ var CommentItem = React.createClass({
         postId={ post._id }
         commentId={ comment._id }
         author={ post.author }
-        bevy={ bevy }
         onReply={ this.onReply }
       />)
     : <div />;
@@ -192,9 +188,7 @@ var CommentItem = React.createClass({
             </div>
           </div>
         </div>
-        <div className='comment-submit'>
-          { submit }
-        </div>
+        { submit }
         <div>
           { commentList }
         </div>

@@ -1,0 +1,35 @@
+/**
+ * CommentSubmit.less
+ * @author albert
+ * @author kevin
+ */
+
+@import './../variables.less';
+
+.comment-submit {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  .profile-picture {
+    #image-icon();
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 15px;
+    margin-right: 10px;
+  }
+  .form-group {
+    flex-grow: 1;
+    margin-bottom: 0px;
+    input.form-control {
+      padding: 4px 6px;
+      height: 30px;
+    }
+  }
+}
