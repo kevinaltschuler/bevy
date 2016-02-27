@@ -10,11 +10,13 @@
 var React = require('react');
 var Ink = require('react-ink');
 var BoardSettingsModal = require('./BoardSettingsModal.jsx');
+var AddAdminModal = require('./../../user/components/AddAdminModal.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
+var timeAgo = require('./../../shared/helpers/timeAgo');
 
 var AppActions = require('./../../app/AppActions');
 
@@ -104,6 +106,12 @@ let BoardInfoSidebar = React.createClass({
     }
     return (
       <div className='admins'>
+        <AddAdminModal
+          show={ this.state.showAdminModal }
+          onHide={ this.hideAdminModal }
+          activeBoard={ this.props.activeBoard }
+          activeBevy={ this.props.activeBevy }
+        />
         <div className='admins-header'>
           <span className='admins-title'>
             Admins ({ this.props.activeBoard.admins.length })
@@ -160,6 +168,9 @@ let BoardInfoSidebar = React.createClass({
         { this.renderType() }
         <span className='description'>
           { this.props.activeBoard.description }
+        </span>
+        <span className='created'>
+          Created { timeAgo(Date.parse(this.props.activeBoard.created)) }
         </span>
         { this.renderAdmins() }
         { this.renderSettingsButton() }

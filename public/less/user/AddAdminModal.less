@@ -1,0 +1,173 @@
+/**
+ * AddAdminModal.less
+ * @author albert
+ */
+
+@import './../variables.less';
+
+.add-admin-modal {
+  .modal-dialog {
+    max-width: 500px;
+    max-height: 600px;
+    .modal-content {
+      .modal-header {
+        button.close {
+
+        }
+        h4.modal-title {
+
+        }
+      }
+      .add-admin-body.modal-body {
+        display: flex;
+        flex-direction: row;
+        .left {
+          width: 50%;
+          padding-right: 10px;
+          border-right: 1px solid #DDD;
+          .header {
+            .form-group {
+              .input-group {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                width: 100%;
+                height: 36px;
+                padding-left: 6px;
+                border-radius: 3px;
+                border: 1px solid #DDD;
+                span.input-group-addon {
+                  background-color: transparent;
+                  padding: 0px;
+                  width: 36px;
+                  height: 36px;
+                  border: none;
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  justify-content: center;
+                  i.material-icons {
+                    color: #888;
+                  }
+                }
+                input.form-control {
+                  border: none;
+                  box-shadow: none;
+                  padding: 0px;
+                  height: 34px;
+                  padding-left: 6px;
+                  padding-right: 6px;
+                }
+              }
+            }
+          }
+          .search-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            button.user-search-item {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              padding-right: 10px;
+              overflow-x: hidden;
+              overflow-y: hidden;
+              flex-wrap: nowrap;
+              width: 100%;
+              max-width: 100%;
+              height: 40px;
+              border: none;
+              box-shadow: none;
+              position: relative;
+              background-color: transparent;
+              .picture {
+                #image-icon();
+                width: 30px;
+                height: 30px;
+                min-width: 30px;
+                height: 30px;
+                border-radius: 15px;
+                margin-left: 6px;
+                margin-right: 6px;
+              }
+              .details {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                span.name {
+                  color: #444;
+                }
+                span.email {
+                  font-size: 0.9em;
+                  color: #888;
+                  text-overflow: ellipsis;
+                  overflow-x: hidden;
+                  white-space: nowrap;
+                }
+              }
+              i.material-icons {
+                color: @bevy-green;
+              }
+            }
+          }
+        }
+        .right {
+          width: 50%;
+          padding-left: 10px;
+          span.title {
+            margin-left: 6px;
+            color: #666;
+            font-size: 1.1em;
+            margin-bottom: 6px;
+          }
+          .admin-list {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            padding-top: 6px;
+            .admin-item {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              padding-left: 10px;
+              padding-right: 10px;
+              width: 100%;
+              height: 40px;
+              border: none;
+              box-shadow: none;
+              position: relative;
+              background-color: transparent;
+              .picture {
+                #image-icon();
+                width: 30px;
+                height: 30px;
+                min-width: 30px;
+                height: 30px;
+                border-radius: 15px;
+              }
+              .details {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: center;
+                flex-grow: 1;
+                margin-left: 10px;
+                span.name {
+                  color: #444;
+                }
+                span.email {
+                  font-size: 0.9em;
+                  color: #888;
+                  text-overflow: ellipsis;
+                  overflow-x: hidden;
+                  white-space: nowrap;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
