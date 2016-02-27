@@ -6,15 +6,17 @@
 'use strict';
 
 var React = require('react');
-var _ = require('underscore');
-
 var {
   FlatButton
 } = require('material-ui');
+var Ink = require('react-ink');
 
 var CommentList = require('./CommentList.jsx');
 var CommentSubmit = require('./CommentSubmit.jsx');
 var CommentPanel = require('./CommentPanel.jsx');
+
+var _ = require('underscore');
+var constants = require('./../../constants');
 
 var PostActions = require('./../PostActions');
 
@@ -25,9 +27,7 @@ var PostFooter = React.createClass({
   },
 
   getInitialState() {
-    return {
-      showComments: this.props.showComments
-    };
+    return { showComments: this.props.showComments };
   },
 
   vote(ev) {
@@ -43,42 +43,53 @@ var PostFooter = React.createClass({
     return sum;
   },
 
-  expandComments() {
-    this.setState({
-      showComments: !this.state.showComments
-    });
+  expandComments(ev) {
+    this.setState({ showComments: !this.state.showComments });
   },
 
 
   render() {
-    var post = this.props.post;
-
-    var voteButtonStyle = { marginRight: '10px', padding: '0px 10px', color: '#999' };
-    var upvoted = _.find(post.votes, function(vote) {
+    var voteButtonStyle = {};
+    var upvoted = _.find(this.props.post.votes, vote => {
       return (vote.voter == window.bootstrap.user._id && vote.score > 0);
     });
     if(upvoted) {
-      voteButtonStyle.color = '#000'
+      voteButtonStyle.color = '#2CB673';
+      voteButtonStyle.borderColor = '#2CB673';
     }
 
     return (
-      <div>
+      <div className='post-footer'>
         <div className="panel-bottom">
-          <div className='left'>
-            <FlatButton className='upvote' onClick={ this.vote } disabled={ _.isEmpty(window.bootstrap.user) } style={ voteButtonStyle }>
-              <span className="glyphicon glyphicon-thumbs-up" ></span>
-              &nbsp;{ this.countVotes() + ' ' + ((this.countVotes() == 1) ? 'like' : 'likes') }
-            </FlatButton>
-            <FlatButton className='comment' disabled={ _.isEmpty(post.comments) } onClick={ this.expandComments } style={{ marginRight: '10px', padding: '0px 10px' }}>
-              <span className="glyphicon glyphicon-comment"></span>
-              &nbsp;{ post.commentCount }&nbsp;comments
-            </FlatButton>
-          </div>
+          <button
+            className='vote-button'
+            title={ (upvoted) ? 'Unlike this post' : 'Like this post' }
+            onClick={ this.vote }
+            style={ voteButtonStyle }
+          >
+            <i className='material-icons'>thumb_up</i>
+            <span className='text'>
+              { this.countVotes() + ' ' + ((this.countVotes() == 1) ? 'like' : 'likes') }
+            </span>
+          </button>
+          <button
+            className='comment-button'
+            title={ (this.state.showComments) ? 'Hide Comments' : 'View comments' }
+            onClick={ this.expandComments }
+          >
+            <i className='material-icons'>comment</i>
+            <span className='text'>
+              { this.props.post.commentCount + ' comments' }
+            </span>
+          </button>
         </div>
-        <CommentPanel expanded={ this.state.showComments } post={ post } />
+        <CommentPanel
+          expanded={ this.state.showComments }
+          post={ this.props.post }
+        />
         <CommentSubmit
-          postId={ post.id }
-          author={ post.author }
+          postId={ this.props.post.id }
+          author={ this.props.post.author }
           expandComments={ this.expandComments }
           showComments={ this.state.showComments }
         />
