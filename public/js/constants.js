@@ -138,6 +138,7 @@ exports.BOARD = {
   SWITCH: 'board_switch',
   JOIN: 'board_join',
   LEAVE: 'board_leave',
+  SWITCHED: 'board_switched',
 
   CHANGE_ALL: 'board_change_all'
 };

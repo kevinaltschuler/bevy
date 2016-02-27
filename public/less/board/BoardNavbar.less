@@ -1,0 +1,53 @@
+.bevy-view {
+	.bevy-view-body {
+		.board-navbar {
+			width: calc(~'100% - 250px');
+			height: 53px;
+			display: flex;
+			flex-direction: row;
+			position: fixed;
+			z-index: 3;
+			align-items: center;
+			padding-left: 15px;
+			padding-right: 15px;
+			background-color: #eee;
+			justify-content: space-between;
+			.left {
+				.title {
+					font-weight: 900;
+					font-size: 1.6em;
+    				line-height: 53px;
+    				color: #555;
+				}
+			}
+			.right {
+				.info-button {
+					background-color: rgba(0,0,0,0);
+					border: none;
+					border: 1px solid #AAA;
+					box-shadow: none;
+				    position: relative;
+				    display: flex;
+				    flex-direction: row;
+				    align-items: center;
+				    justify-content: center;
+				    width: 30px;
+				    height: 30px;
+				    transition: 0.25s all ease-in-out;
+				    border-radius: 18px;
+				    i {
+				    	color: #666;
+				    	font-size: 20px;
+				    	transition: 0.1s all ease-in-out;
+				    	&:hover {
+				    		color: #aaa;
+				    	}
+				    	&:active {
+							color: #666;
+				    	}
+				    }
+				}
+			}
+		}
+	}
+}
