@@ -18,6 +18,7 @@ var {
   IconButton,
   FlatButton
 } = require('material-ui');
+var Ink = require('react-ink');
 var InviteUsersModal = require('./InviteUsersModal.jsx');
 var BevySettingsModal = require('./BevySettingsModal.jsx');
 
@@ -94,81 +95,55 @@ var BevyInfoBar = React.createClass({
   },
 
   _renderSubs() {
+    let subCount = this.props.activeBevy.subCount;
+    //let subCountUnit = (subCount == 1) ? 'member' : 'members';
+
     return (
       <div className='info-item'>
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='subtooltip'>
-            { this.props.activeBevy.subCount + ' ' + (
-              (this.props.activeBevy.subCount == 1)
-                ? 'member'
-                : 'members'
-            ) }
+            { subCount + ' ' + ((subCount == 1) ? 'member' : 'members') }
           </Tooltip>
         }>
-          <FlatButton
-            label={ this.props.activeBevy.subCount }
-            labelPosition='before'
-            title='View Bevy Subscribers'
+          <button
+            className='bevy-info-button'
+            title='View Group Directory'
             onClick={ this.openMemberDirectory }
-            style={{
-              minWidth: 0,
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0,0,0,0)',
-              color: '#FFF',
-              fontSize: '1em',
-              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)',
-              paddingLeft: 4,
-              paddingRight: 4
-            }}
-            labelStyle={{
-              padding: 0,
-              marginRight: 4
-            }}
           >
+            <Ink
+              opacity={ 0.25 }
+              style={{ color: '#FFF' }}
+            />
+            <span className='number'>{ subCount }</span>
             <i className="material-icons">people</i>
-          </FlatButton>
+          </button>
         </OverlayTrigger>
       </div>
     );
   },
 
   _renderAdmins() {
+    let adminCount = this.props.activeBevy.admins.length;
+
     return (
       <div className='info-item'>
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='adminstooltip'>
-            { this.props.activeBevy.admins.length }
-            &nbsp;
-            { (this.props.activeBevy.admins.length == 1)
-              ? 'admin'
-              : 'admins' }
+            { adminCount + ' ' + ((adminCount == 1) ? 'admin' : 'admins') }
           </Tooltip>
         }>
-          <FlatButton
-            label={ this.props.activeBevy.admins.length }
-            labelPosition='before'
+          <button
+            className='bevy-info-button'
             title='View Bevy Admins'
             onClick={ this.openAdminDirectory }
-            style={{
-              minWidth: 0,
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              backgroundColor: 'rgba(0,0,0,0)',
-              color: '#FFF',
-              fontSize: '1em',
-              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)',
-              paddingLeft: 4,
-              paddingRight: 4
-            }}
-            labelStyle={{
-              padding: 0
-            }}
           >
+            <Ink
+              opacity={ 0.25 }
+              style={{ color: '#FFF' }}
+            />
+            <span className='number'>{ adminCount }</span>
             <i className="material-icons">person</i>
-          </FlatButton>
+          </button>
         </OverlayTrigger>
       </div>
     );
@@ -181,36 +156,19 @@ var BevyInfoBar = React.createClass({
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='settingstooltip'>Bevy Settings</Tooltip>
         }>
-          <IconButton
+          <button
+            className='bevy-info-button'
+            title='Open Bevy Settings'
             onClick={() => this.setState({ showSettingsModal: true })}
-            title='Change Bevy Settings'
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              height: 24,
-              width: 24,
-              padding: 0,
-              marginTop: 0,
-              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'
-            }}
           >
-            <span className='info-item-body'>
-              <i className="material-icons">settings</i>
-            </span>
-          </IconButton>
+            <Ink
+              opacity={ 0.25 }
+              style={{ color: '#FFF' }}
+            />
+            <i className="material-icons">settings</i>
+          </button>
         </OverlayTrigger>
       </div>
-    );
-  },
-
-  _renderInviteCounter() {
-    var invites = BevyStore.getInvites();
-    if(invites.length <= 0) return <div />;
-    return (
-      <Badge className='invite-counter'>
-        { invites.length }
-      </Badge>
     );
   },
 
@@ -218,28 +176,20 @@ var BevyInfoBar = React.createClass({
     if(!this.state.isAdmin) return <div />;
     return (
       <div className='info-item'>
-        { this._renderInviteCounter() }
         <OverlayTrigger placement='bottom' overlay={
           <Tooltip id='invitetooltip'>Invite Users</Tooltip>
         }>
-          <IconButton
+          <button
+            className='bevy-info-button'
             onClick={() => this.setState({ showInviteModal: true })}
             title='Invite Users'
-            style={{
-              display: 'flex',
-              flexDirection: 'row',
-              alignItems: 'center',
-              height: 24,
-              width: 24,
-              padding: 0,
-              marginTop: 0,
-              textShadow: '0px 0px 5px rgba(0, 0, 0, 0.5)'
-            }}
           >
-            <span className='info-item-body'>
-              <i className="material-icons">person_add</i>
-            </span>
-          </IconButton>
+            <Ink
+              opacity={ 0.25 }
+              style={{ color: '#FFF' }}
+            />
+            <i className="material-icons">person_add</i>
+          </button>
         </OverlayTrigger>
       </div>
     );
