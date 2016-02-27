@@ -11,6 +11,7 @@ var React = require('react');
 var Ink = require('react-ink');
 var BoardItem = require('./BoardItem.jsx');
 var NewBoardModal = require('./NewBoardModal.jsx');
+var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -65,30 +66,43 @@ var BoardSidebar = React.createClass({
   render() {
     return (
       <div className='board-sidebar'>
-        <button
-          className='home-button'
-          title={ 'View ' + this.props.activeBevy.name + ' post feed' }
-          onClick={ this.onHomeClick }
-          style={{
-            backgroundColor: (this.props.activeBoard._id == undefined)
-              ? '#2CB673' : 'transparent'
-          }}
-        >
-          <Ink
-            opacity={ 0.25 }
-            background={ true }
-            style={{ color: '#FFF' }}
-          />
+        <div className='header'>
           <div
             className='bevy-image'
             style={{
               backgroundImage: 'url(' + resizeImage(this.props.activeBevy.image, 128, 128).url + ')'
             }}
-          />
-          <span className='bevy-name'>
-            { this.props.activeBevy.name }
-          </span>
-        </button>
+          >
+            <div className='darkener' />
+            <span className='bevy-name'>
+              { this.props.activeBevy.name }
+            </span>
+            <BevyInfoBar
+              activeBevy={ this.props.activeBevy }
+            />
+          </div>
+          <button
+            className='home-button'
+            title={ 'View ' + this.props.activeBevy.name + ' post feed' }
+            onClick={ this.onHomeClick }
+          >
+            <Ink
+              opacity={ 0.25 }
+              background={ true }
+              style={{ color: '#FFF' }}
+            />
+            <div
+              className='color-monkey'
+              style={{
+                width: (this.props.activeBoard._id == undefined) ? '100%' : 0
+              }}
+            />
+            <i className='material-icons'>home</i>
+            <span className='home-button-text'>
+              Home Feed
+            </span>
+          </button>
+        </div>
         <div className='board-title-container'>
           <span className='board-title'>
             Boards ({ (this.props.boards.length == 0) ? '...' : this.props.boards.length })

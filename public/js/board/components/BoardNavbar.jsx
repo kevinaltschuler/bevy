@@ -81,7 +81,8 @@ var BoardNavbar = React.createClass({
       <div className='board-navbar'>
         <div className='left'>
           <div className='title'>
-            { this.props.activeBoard.name }
+            { (this.props.activeBoard._id == undefined)
+                ? 'Home Feed' : this.props.activeBoard.name }
           </div>
           <Input
             ref='search'
