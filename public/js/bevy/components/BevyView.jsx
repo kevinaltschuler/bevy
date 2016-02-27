@@ -187,12 +187,14 @@ var BevyView = React.createClass({
             <Footer />
           </div>
         </div>
+        <div style={this.state.bodyStyle}>
         <BoardInfoSidebar
           activeBevy={ this.props.activeBevy }
           activeBoard={ this.props.activeBoard }
           open={this.state.sidebarOpen}
           toggleSidebar={this.toggleSidebar}
         />
+        </div>
       </div>
     );
   }

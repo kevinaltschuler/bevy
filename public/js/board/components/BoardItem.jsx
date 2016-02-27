@@ -183,7 +183,7 @@ var BoardItem = React.createClass({
             style={{ color: '#FFF' }}
           />
           { this.renderAvatar(boardImageURL) }
-          <span className='name'>
+          <span style={{fontWeight:(this.state.selected)?600:300}} className='name'>
             { this.props.board.name }
           </span>
           { this.renderBoardType() }

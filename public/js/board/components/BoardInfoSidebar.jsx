@@ -157,7 +157,7 @@ let BoardInfoSidebar = React.createClass({
             justifyContent: 'flex-end'
           }}
         >
-          <button className='close-button' onClick={this.props.toggleSidebar}>
+          <button className='close-button' style={{marginTop: 5}} onClick={this.props.toggleSidebar}>
             <i className="material-icons">close</i>
           </button>
         </div>
