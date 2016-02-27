@@ -1,0 +1,88 @@
+/**
+ * PostImages.less
+ * @author kevin
+ * @author albert
+ */
+
+@import './../variables.less';
+
+.post-images {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  padding: 0px 10px;
+  margin-bottom: 5px;
+  .panel-body-image {
+    position: relative;
+    overflow: hidden;
+    width: 25%;
+    height: 100px;
+    display: flex;
+    padding: 3px;
+    span.more {
+      position: absolute;
+      color: #fff;
+      top: 4px;
+      right: 8px;
+      font-weight: bold;
+      font-size: 1.2em;
+      z-index: 1;
+    }
+    .image-thumbnail {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      border: none;
+      padding: 0px;
+      #image-icon;
+      box-shadow: @shadow1;
+      border-radius: 0px;
+      position: relative;
+      cursor: pointer;
+      .dark-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+      }
+      .remove-btn {
+        color: white;
+        width: 24px;
+        height: 24px;
+        font-size: 15px;
+        border-radius: 30px;
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        &:hover {
+          color: #ddd;
+        }
+        &:active {
+          color: #aaa;
+        }
+      }
+    }
+  }
+  .add-image-post {
+    width: 134px;
+    height: 94px;
+    background-color: #eee;
+    margin-left: 5px;
+    position: relative;
+    margin-top: 5px;
+    cursor: pointer;
+    .add-btn {
+      display: flex;
+      width: 134px;
+      height: 94px;
+      justify-content: center;
+      align-items: center;
+      i {
+        color: #aaa;
+        font-size: 48px;
+      }
+    }
+  }
+}

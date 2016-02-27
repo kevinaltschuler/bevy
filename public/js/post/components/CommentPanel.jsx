@@ -51,7 +51,7 @@ var CommentPanel = React.createClass({
 
     return (
       <div
-        className='panel-comments'
+        className='post-comments'
         style={{
           borderBottom: (this.state.expanded) ? '1px solid #DDD' : 'none',
           paddingBottom: (this.state.expanded) ? 10 : 0

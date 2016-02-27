@@ -82,17 +82,6 @@ var PostHeader = React.createClass({
     });
   },
 
-  _renderAuthorName() {
-    return (
-      <Button
-        title={ 'Message ' + this.props.post.author.displayName }
-        onClick={ this.openAuthorProfile }
-      >
-        { this.props.post.author.displayName }
-      </Button>
-    );
-  },
-
   _renderPinnedBadge() {
     if(this.props.post.pinned) {
       return <span className='badge pinned'>PINNED</span>;
@@ -140,7 +129,7 @@ var PostHeader = React.createClass({
       : resizeImage(this.props.post.author.image, 64, 64).url;
 
     return (
-      <div className='panel-header'>
+      <div className='post-header'>
         <div
           className='profile-img'
           title={ this.props.post.author.displayName }
@@ -148,26 +137,27 @@ var PostHeader = React.createClass({
         />
         <div className='post-details'>
           <div className='top'>
-            <span className="details">
-              { this._renderAuthorName() }
-            </span>
-            <span className="glyphicon glyphicon-triangle-right"/>
-            <span className="details">
-              <a
-                className='bevy-link'
-                title={ this.props.post.board.name }
-                href={ this.props.post.board.url }
-                onClick={ this.goToBoard }
-              >
-                { this.props.post.board.name }
-              </a>
-            </span>
+            <Button
+              title={ 'View ' + this.props.post.author.displayName + '\'s Profile' }
+              className='author-button'
+              onClick={ this.openAuthorProfile }
+            >
+              { this.props.post.author.displayName }
+            </Button>
+            <i className='material-icons'>chevron_right</i>
+            <Button
+              className='board-button'
+              title={ 'Go to board \"' + this.props.post.board.name + '\"'}
+              onClick={ this.goToBoard }
+            >
+              { this.props.post.board.name }
+            </Button>
           </div>
-          <div className="bottom">
-            <span className="detail-time">
+          <div className='bottom'>
+            <span className='time-ago'>
               { timeAgo(Date.parse(this.props.post.created)) }
             </span>
-            <span className='detail-time'>
+            <span className='expires'>
               { (Date.parse(this.props.post.expires) == new Date('2035', '1', '1'))
                 ? (
                   <span>
