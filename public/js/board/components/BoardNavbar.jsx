@@ -16,15 +16,21 @@ var {
 } = require('react-bootstrap');
 var Ink = require('react-ink');
 var PostSort = require('./../../post/components/PostSort.jsx');
+var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
+var resizeImage = require('./../../shared/helpers/resizeImage');
+
+var AppActions = require('./../../app/AppActions');
 
 var BoardNavbar = React.createClass({
   propTypes: {
     activeBoard: React.PropTypes.object,
     sidebarOpen: React.PropTypes.bool,
+    toggleSidebar: React.PropTypes.func,
+    allNotifications: React.PropTypes.array,
 
     // search stuff that needs to be bubbled up
     searchQuery: React.PropTypes.string,
@@ -43,6 +49,11 @@ var BoardNavbar = React.createClass({
   },
   componentWillUnmount() {
 
+  },
+
+  toggleLeftNav() {
+    //this.props.leftNavActions.toggle();
+    AppActions.openSidebar('home');
   },
 
   clearSearch() {
@@ -113,6 +124,17 @@ var BoardNavbar = React.createClass({
             <Ink/>
             { this.renderInfoIcon() }
           </button>
+          <NotificationDropdown
+            allNotifications={ this.props.allNotifications }
+          />
+          <button
+            className='profile-btn'
+            title='Account'
+            onClick={ this.toggleLeftNav }
+            style={{
+              backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
+            }}
+          />
         </div>
       </div>
     );

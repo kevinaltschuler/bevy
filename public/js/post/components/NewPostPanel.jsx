@@ -183,17 +183,6 @@ var NewPostPanel = React.createClass({
         postId={ this.state.id }
       >
         <div className="new-post-title">
-          {/*<TextField
-            className="title-field"
-            hintText={ this.state.hintText }
-            disabled={ this.state.disabled }
-            ref='title'
-            multiLine={ true }
-            value={ this.state.title }
-            onChange={ this.onTitleChange }
-            style={{ width: '100%' }}
-            underlineFocusStyle={{ borderColor: '#666' }}
-          />*/}
           <div
             className='profile-picture'
             title={ 'Posting as ' + window.bootstrap.user.displayName }
@@ -201,6 +190,14 @@ var NewPostPanel = React.createClass({
               backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
             }}
           />
+          <span
+            className='hint-text'
+            style={{
+              visibility: (this.state.title.length > 0) ? 'hidden' : 'visible'
+            }}
+          >
+            { this.state.hintText }
+          </span>
           <div
             ref='title'
             className='input'
@@ -212,14 +209,6 @@ var NewPostPanel = React.createClass({
             }}
           >
           </div>
-          <span
-            className='hint-text'
-            style={{
-              visibility: (this.state.title.length > 0) ? 'hidden' : 'visible'
-            }}
-          >
-            { this.state.hintText }
-          </span>
         </div>
 
         <Uploader

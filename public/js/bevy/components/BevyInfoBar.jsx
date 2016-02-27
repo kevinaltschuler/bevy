@@ -14,10 +14,6 @@ var {
   Tooltip,
   Badge
 } = require('react-bootstrap');
-var {
-  IconButton,
-  FlatButton
-} = require('material-ui');
 var Ink = require('react-ink');
 var InviteUsersModal = require('./InviteUsersModal.jsx');
 var BevySettingsModal = require('./BevySettingsModal.jsx');

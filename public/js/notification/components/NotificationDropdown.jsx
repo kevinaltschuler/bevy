@@ -14,6 +14,7 @@ var {
   Popover,
   Overlay
 } = require('react-bootstrap');
+var Ink = require('react-ink');
 var NotificationList = require('./NotificationList.jsx');
 var InviteList = require('./InviteList.jsx');
 
@@ -24,14 +25,12 @@ var email = user.email;
 
 var NotificationDropdown = React.createClass({
   propTypes: {
-    allNotifications: React.PropTypes.array,
-    userInvites: React.PropTypes.array,
-    show: React.PropTypes.bool,
-    onToggle: React.PropTypes.func
+    allNotifications: React.PropTypes.array
   },
 
   getInitialState() {
     return {
+      show: false
     };
   },
 
@@ -50,7 +49,8 @@ var NotificationDropdown = React.createClass({
 
   toggle(ev) {
     ev.preventDefault();
-    this.props.onToggle();
+    //this.props.onToggle();
+    this.setState({ show: !this.state.show });
     for(var key in this.props.allNotifications) {
       var notification = this.props.allNotifications[key];
       console.log(notification.read);
@@ -72,10 +72,11 @@ var NotificationDropdown = React.createClass({
           onClick={ this.toggle }
           title='Notifications'
         >
-          <div className='notification-img'/>
+          <Ink />
+          <i className='material-icons'>notifications</i>
         </Button>
         <Overlay
-          show={ this.props.show }
+          show={ this.state.show }
           target={ (props) => ReactDOM.findDOMNode(this.refs.NotificationButton) }
           placement='bottom'
           container={ this.container }
@@ -90,9 +91,6 @@ var NotificationDropdown = React.createClass({
               <NotificationList
                 allNotifications={ this.props.allNotifications }
               />
-              {/*<InviteList
-                userInvites={ this.props.userInvites }
-              />*/}
             </div>
           </div>
         </Overlay>

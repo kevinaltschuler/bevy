@@ -45,7 +45,8 @@ var BevyView = React.createClass({
   propTypes: {
     activeBevy: React.PropTypes.object,
     activeBoard: React.PropTypes.object,
-    boards: React.PropTypes.array
+    boards: React.PropTypes.array,
+    allNotifications: React.PropTypes.array
   },
 
   getInitialState() {
@@ -134,7 +135,7 @@ var BevyView = React.createClass({
       <div
         className='main-section bevy-view'
         style={{
-          paddingRight: (this.props.activeBoard._id == undefined || !this.state.sidebarOpen) ? 0 : 235
+          paddingRight: (this.props.activeBoard._id == undefined || !this.state.sidebarOpen) ? 0 : 220
         }}
       >
         <BoardSidebar
@@ -147,6 +148,7 @@ var BevyView = React.createClass({
             activeBoard={ this.props.activeBoard }
             toggleSidebar={ this.toggleSidebar }
             sidebarOpen={ this.state.sidebarOpen }
+            allNotifications={ this.props.allNotifications }
 
             searchQuery={ this.state.query }
             searching={ this.state.searching }
@@ -168,7 +170,7 @@ var BevyView = React.createClass({
         <BoardInfoSidebar
           activeBevy={ this.props.activeBevy }
           activeBoard={ this.props.activeBoard }
-          open={this.state.sidebarOpen}
+          open={ this.state.sidebarOpen }
           toggleSidebar={this.toggleSidebar}
         />
         </div>
