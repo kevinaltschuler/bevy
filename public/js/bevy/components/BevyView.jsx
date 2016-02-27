@@ -153,11 +153,11 @@ var BevyView = React.createClass({
           boards={ this.props.boards }
           activeBoard={ this.props.activeBoard }
         />
-        <div style={this.state.bodyStyle} className='bevy-view-body'>
+        <div className='bevy-view-body'>
           <BoardNavbar
-            activeBoard={this.props.activeBoard}
-            toggleSidebar={this.toggleSidebar}
-            sidebarOpen={this.state.sidebarOpen}
+            activeBoard={ this.props.activeBoard }
+            toggleSidebar={ this.toggleSidebar }
+            sidebarOpen={ this.state.sidebarOpen }
           />
           <div className='bevy-view-content'>
             <div className='header'>
@@ -178,12 +178,12 @@ var BevyView = React.createClass({
               />
             </div>
             { this.renderNewPostPanel() }
-            <PostContainer
+            {/*<PostContainer
               activeBevy={ this.props.activeBevy }
               activeBoard={ this.props.activeBoard }
               searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
               searchQuery={ this.state.query }
-            />
+            />*/}
             <Footer />
           </div>
         </div>

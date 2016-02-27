@@ -54,7 +54,6 @@ var BoardNavbar = React.createClass({
       </div>
     );
   }
-
 });
 
 module.exports = BoardNavbar;

@@ -146,7 +146,7 @@ let BoardInfoSidebar = React.createClass({
           onClick={ this.showSettingsModal }
         >
           <Ink />
-          <span className='settings-button-text'>Settings</span>
+          <span className='settings-button-text'>Board Settings</span>
         </button>
       </div>
     );

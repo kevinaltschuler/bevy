@@ -2,6 +2,7 @@
  * BoardItem.jsx
  * formerly BevyPanel.jsx
  * formerly BoardPanel.jsx
+ * item in the board sidebar (BoardSidebar.jsx)
  *
  * @author albert
  * @author kevin
@@ -18,10 +19,6 @@ var {
 var {
   RaisedButton,
   FlatButton,
-  Snackbar,
-  Avatar,
-  Card,
-  CardHeader
 } = require('material-ui');
 var Ink = require('react-ink');
 
@@ -84,37 +81,6 @@ var BoardItem = React.createClass({
     }
   },
 
-  _renderBoardSubs() {
-    return (
-      <div className='info-item'>
-        <OverlayTrigger placement='bottom' overlay={
-          <Tooltip id='substooltip'>
-            { this.props.board.subCount + ' ' +
-              ((this.props.board.subCount == 1)
-                ? 'subscriber'
-                : 'subscribers')}
-          </Tooltip>
-        }>
-          <FlatButton
-            onClick={ this.openDirectory }
-            style={{
-              minWidth: 0,
-              lineHeight: 1.42,
-              height: 'auto',
-              padding: '4px 6px',
-              backgroundColor: 'transparent'
-            }}
-          >
-            <span className='sub-count'>
-              { this.props.board.subCount }
-            </span>
-            <i className="material-icons">people</i>
-          </FlatButton>
-        </OverlayTrigger>
-      </div>
-    );
-  },
-
   renderBoardType() {
     var type;
     switch(this.props.board.type) {
@@ -174,13 +140,19 @@ var BoardItem = React.createClass({
           title={ 'View posts in ' + this.props.board.name }
           onClick={ this.onClick }
           style={{
-            backgroundColor: (this.state.selected) ? '#2CB673' : 'transparent'
+            //backgroundColor: (this.state.selected) ? '#2CB673' : 'transparent'
           }}
         >
           <Ink
             opacity={ 0.25 }
             background={ true }
             style={{ color: '#FFF' }}
+          />
+          <div
+            className='color-monkey'
+            style={{
+              width: (this.state.selected) ? '100%' : '0px'
+            }}
           />
           { this.renderAvatar(boardImageURL) }
           <span style={{fontWeight:(this.state.selected)?600:300}} className='name'>
