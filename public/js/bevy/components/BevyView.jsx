@@ -51,7 +51,7 @@ var BevyView = React.createClass({
   getInitialState() {
     return {
       query: '',
-      sidebarOpen: false,
+      sidebarOpen: true,
       bodyStyle: {}
     }
   },
@@ -154,7 +154,7 @@ var BevyView = React.createClass({
           activeBoard={ this.props.activeBoard }
         />
         <div style={this.state.bodyStyle} className='bevy-view-body'>
-          <BoardNavbar 
+          <BoardNavbar
             activeBoard={this.props.activeBoard}
             toggleSidebar={this.toggleSidebar}
             sidebarOpen={this.state.sidebarOpen}
