@@ -159,13 +159,15 @@ let BoardInfoSidebar = React.createClass({
         <div
           className='header-image'
           style={{
-            backgroundImage: 'url(' + resizeImage(this.props.activeBoard.image, 640, 300).url + ')',
-            display: 'flex',
-            alignItems: 'flex-start',
-            justifyContent: 'flex-end'
+            backgroundImage: 'url(' + resizeImage(this.props.activeBoard.image, 640, 300).url + ')'
           }}
         >
-          <button className='close-button' style={{marginTop: 5}} onClick={this.props.toggleSidebar}>
+          <button
+            className='close-button'
+            onClick={ this.props.toggleSidebar }
+            title='Close Board Info'
+          >
+            <Ink />
             <i className="material-icons">close</i>
           </button>
         </div>

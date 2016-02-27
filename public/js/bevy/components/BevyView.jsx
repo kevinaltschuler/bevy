@@ -57,15 +57,7 @@ var BevyView = React.createClass({
   },
 
   componentDidMount() {
-    console.log('LOADING DATA');
-    //BevyActions.loadBevyView(router.bevy_slug);
     BoardStore.on(BOARD.SWITCHED, this.onBoardSwitch);
-  },
-
-  onRequestJoin(ev) {
-    ev.preventDefault();
-    BevyActions.requestJoin(this.props.activeBevy, window.bootstrap.user);
-    this.refs.snackbar.show();
   },
 
   onBoardSwitch() {
@@ -93,8 +85,7 @@ var BevyView = React.createClass({
     this.setState({ query: '' });
   },
 
-  onQueryChange(ev) {
-    var query = this.refs.search.getValue();
+  onQueryChange(query) {
     this.setState({ query: query });
     // reset the timeout if it already exists
     clearTimeout(this.searchTimeout);
@@ -128,9 +119,7 @@ var BevyView = React.createClass({
   },
 
   toggleSidebar() {
-    this.setState({
-      sidebarOpen: !this.state.sidebarOpen
-    })
+    this.setState({ sidebarOpen: !this.state.sidebarOpen });
   },
 
   render() {
@@ -158,32 +147,20 @@ var BevyView = React.createClass({
             activeBoard={ this.props.activeBoard }
             toggleSidebar={ this.toggleSidebar }
             sidebarOpen={ this.state.sidebarOpen }
+
+            searchQuery={ this.state.query }
+            searching={ this.state.searching }
+            onQueryChange={ this.onQueryChange }
+            clearSearch={ this.clearSearch }
           />
           <div className='bevy-view-content'>
-            <div className='header'>
-              <Input
-                ref='search'
-                type='text'
-                placeholder='Search'
-                value={ this.state.query }
-                onChange={ this.onQueryChange }
-                addonBefore={
-                  <i className='material-icons'>search</i>
-                }
-                addonAfter={ this.renderClearSearchButton() }
-              />
-              <PostSort
-                activeBevy={ this.props.activeBevy }
-                activeBoard={ this.props.activeBoard }
-              />
-            </div>
             { this.renderNewPostPanel() }
-            {/*<PostContainer
+            <PostContainer
               activeBevy={ this.props.activeBevy }
               activeBoard={ this.props.activeBoard }
               searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
               searchQuery={ this.state.query }
-            />*/}
+            />
             <Footer />
           </div>
         </div>

@@ -20,16 +20,92 @@
 			background-color: #eee;
 			justify-content: space-between;
 			.left {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: flex-start;
+				flex-grow: 1;
+				padding-right: 10px;
 				.title {
 					font-weight: 900;
 					font-size: 1.6em;
-    				line-height: 53px;
-    				color: #555;
+  				line-height: 53px;
+  				color: #555;
+					white-space: nowrap;
+					margin-right: 12px;
+				}
+				& > .form-group {
+					margin-bottom: 0px;
+					width: 100%;
+					max-width: 250px;
+					height: 36px;
+					.input-group {
+						display: flex;
+						flex-direction: row;
+						align-items: center;
+						background-color: #FFF;
+						height: 100%;
+						border-radius: 8px;
+						border: 1px solid #DDD;
+						span.input-group-addon {
+							display: flex;
+					    width: 36px;
+					    height: 36px;
+					    flex-direction: row;
+					    align-items: center;
+					    justify-content: center;
+							margin: 0px;
+							padding: 0px;
+							background-color: transparent;
+							border: none;
+							z-index: 1;
+							i.material-icons {
+								color: #AAA;
+							}
+
+							button.clear-search {
+								border: 1px solid #AAA;
+								box-shadow: none;
+								background-color: transparent;
+								padding: 0px;
+								display: flex;
+								flex-direction: row;
+								align-items: center;
+								justify-content: center;
+								width: 20px;
+								height: 20px;
+								border-radius: 10px;
+								position: relative;
+								margin-right: 6px;
+								transition: 0.25s all ease-in-out;
+								&:hover {
+									border-color: @bevy-danger;
+									i.material-icons {
+										color: @bevy-danger;
+									}
+								}
+								i.material-icons {
+									font-size: 1em;
+									color: #AAA;
+									transition: 0.25s all ease-in-out;
+								}
+							}
+						}
+						input.form-control {
+							margin: 0px;
+							padding: 0px;
+							border: none;
+							background-color: transparent;
+							box-shadow: none;
+							z-index: 1;
+							height: 100%;
+						}
+					}
 				}
 			}
 			.right {
 				.info-button {
-					background-color: rgba(0,0,0,0);
+					background-color: #FFF;
 					border: none;
 					border: 1px solid #AAA;
 					box-shadow: none;
@@ -43,7 +119,7 @@
 			    transition: 0.25s all ease-in-out;
 			    border-radius: 18px;
 					padding: 0px;
-			    i {
+			    i.material-icons {
 			    	color: #666;
 			    	font-size: 20px;
 			    	transition: 0.1s all ease-in-out;
