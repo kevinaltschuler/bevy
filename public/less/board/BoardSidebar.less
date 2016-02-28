@@ -16,7 +16,7 @@
   margin-top: 0px;
   flex-direction: column;
   align-items: flex-start;
-  z-index: 1;
+  z-index: 2;
   .header {
     display: flex;
     flex-direction: column;
@@ -31,6 +31,7 @@
       flex-direction: column;
       justify-content: flex-end;
       padding-bottom: 8px;
+      justify-content: space-between;
       .darkener {
         position: absolute;
         top: 0px;
@@ -45,6 +46,41 @@
         font-size: 1.4em;
         margin-left: 15px;
         margin-bottom: 6px;
+      }
+      .notification-dropdown-btn {
+        margin-left: 8px;
+        position: relative;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: 0px;
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background-color: #FFF;
+        box-shadow: @shadow1;
+        border: none;
+        transition: 0.15s all ease-in-out;
+        i.material-icons {
+          color: #AAA;
+          font-size: 1.5em;
+        }
+      }
+      .profile-btn {
+        #image-icon();
+        width: 36px;
+        height: 36px;
+        border-radius: 18px;
+        margin-left: 8px;
+        box-shadow: @shadow1;
+        background-color: #FFF;
+        border: none;
+      }
+      .user-name {
+        color: #fff;
+        margin-left: 10px;
+        text-shadow: @shadow1;
       }
     }
     button.home-button {

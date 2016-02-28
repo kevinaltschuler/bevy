@@ -143,6 +143,7 @@ var BevyView = React.createClass({
           activeBevy={ this.props.activeBevy }
           boards={ this.props.boards }
           activeBoard={ this.props.activeBoard }
+          allNotifications={ this.props.allNotifications }
         />
         <div className='bevy-view-body'>
           <BoardNavbar

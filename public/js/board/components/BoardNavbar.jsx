@@ -124,17 +124,6 @@ var BoardNavbar = React.createClass({
             <Ink/>
             { this.renderInfoIcon() }
           </button>
-          <NotificationDropdown
-            allNotifications={ this.props.allNotifications }
-          />
-          <button
-            className='profile-btn'
-            title='Account'
-            onClick={ this.toggleLeftNav }
-            style={{
-              backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
-            }}
-          />
         </div>
       </div>
     );
