@@ -12,11 +12,14 @@ var Ink = require('react-ink');
 var BoardItem = require('./BoardItem.jsx');
 var NewBoardModal = require('./NewBoardModal.jsx');
 var BevyInfoBar = require('./../../bevy/components/BevyInfoBar.jsx');
+var NotificationDropdown = require('./../../notification/components/NotificationDropdown.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
+
+var AppActions = require('./../../app/AppActions');
 
 var BoardActions = require('./../../board/BoardActions');
 
@@ -63,6 +66,11 @@ var BoardSidebar = React.createClass({
     );
   },
 
+  toggleLeftNav() {
+    //this.props.leftNavActions.toggle();
+    AppActions.openSidebar('home');
+  },
+
   render() {
     return (
       <div className='board-sidebar'>
@@ -74,12 +82,30 @@ var BoardSidebar = React.createClass({
             }}
           >
             <div className='darkener' />
-            <span className='bevy-name'>
-              { this.props.activeBevy.name }
-            </span>
-            <BevyInfoBar
-              activeBevy={ this.props.activeBevy }
-            />
+            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+              <button
+                className='profile-btn'
+                title='Account'
+                onClick={ this.toggleLeftNav }
+                style={{
+                  backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
+                }}
+              />
+              <NotificationDropdown
+                allNotifications={ this.props.allNotifications }
+              />
+              <div className='user-name'>
+                {window.bootstrap.user.displayName}
+              </div>
+            </div>
+            <div>
+              <span className='bevy-name'>
+                { this.props.activeBevy.name }
+              </span>
+              <BevyInfoBar
+                activeBevy={ this.props.activeBevy }
+              />
+            </div>
           </div>
           <button
             className='home-button'

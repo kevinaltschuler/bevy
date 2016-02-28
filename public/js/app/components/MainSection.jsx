@@ -159,7 +159,7 @@ var MainSection = React.createClass({
         />
         <LeftNav
           width={ 300 }
-          openRight={ true }
+          openRight={ false }
           open={ this.state.leftNavOpen }
           docked={ false }
           onRequestChange={open => this.setState({ leftNavOpen: open })}
