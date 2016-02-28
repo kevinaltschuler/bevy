@@ -75,11 +75,12 @@ var BevyView = React.createClass({
 
   search(queryArg) {
     var bevy_id = this.props.activeBevy._id;
+    var board_id = this.props.activeBoard._id;
     var query = this.state.query;
 
     if(!_.isEmpty(queryArg)) query = queryArg;
 
-    PostActions.search(query, bevy_id);
+    PostActions.search(query, bevy_id, board_id);
   },
 
   clearSearch() {

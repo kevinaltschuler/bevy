@@ -119,10 +119,14 @@ _.extend(PostStore, {
 
         // construct the search query
         var url = constants.apiurl + '/posts/search/' + query;
-        if(bevy_id)
-          url += '?bevy_id=' + bevy_id;
-        else if(board_id)
-          url += '?board_id=' + board_id;
+        if(bevy_id) {
+          var separator = (url.split('?').length >= 2) ? '&' : '?';
+          url += separator + 'bevy_id=' + bevy_id;
+        }
+        if(board_id) {
+          var separator = (url.split('?').length >= 2) ? '&' : '?';
+          url += separator + 'board_id=' + board_id;
+        }
 
         url = this.addSortType(url);
         url = this.addDateRange(url);
