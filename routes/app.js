@@ -68,11 +68,14 @@ module.exports = function(app) {
     var user = req.user;
     var subdomains = req.subdomains;
     if(subdomains.length == 1) {
-      Bevy.findOne({ slug: subdomains[0] }, function(err, bevy) {
+      /*Bevy.findOne({ slug: subdomains[0] }, function(err, bevy) {
         if(err) return next(err);
         if(_.isEmpty(bevy)) return res.redirect(config.app.server.hostname + '/404');
         else return next();
-      });
+      });*/
+      if(_.isEmpty(user)) return res.redirect(config.app.server.hostname);
+      if(user.bevy.slug != subdomains[0]) return res.redirect(config.app.server.hostname);
+      else return next();
     } else if (subdomains.length > 1) {
       return res.redirect(config.app.server.hostname);
     } else {

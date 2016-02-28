@@ -109,15 +109,6 @@ var Navbar = React.createClass({
         </span>
         <NotificationDropdown
           allNotifications={ this.props.allNotifications }
-          userInvites={ this.props.userInvites }
-          show={ this.state.activeTab == 'notifications' }
-          onToggle={() => {
-            this.setState({
-              activeTab: (this.state.activeTab == 'notifications')
-                ? null
-                : 'notifications'
-            });
-          }}
         />
         { counter }
         <Button
@@ -149,85 +140,9 @@ var Navbar = React.createClass({
         navbarTitle = '';
         break;
       case 'bevy':
-        navbarHeight = '98px';
-        navbarTitle = this.props.activeBevy.name;
-        backgroundStyle = (_.isEmpty(this.props.activeBevy))
-          ? { filter: 'unset' }
-          : {
-            opacity: this.state.opacity,
-            backgroundImage: (_.isEmpty(this.props.activeBevy.image))
-              ? ''
-              : 'url(' + resizeImage(this.props.activeBevy.image, window.innerWidth, 100).url + ')',
-          };
-        if(!_.isEmpty(this.props.activeBevy)) {
-          if(!_.isEmpty(this.props.activeBevy.image))
-            if(this.props.activeBevy.image.path == constants.siteurl + "/img/default_group_img.png")
-              backgroundStyle = {backgroundColor: '#2CB673'}
-        }
-        break;
       case 'board':
       case 'post':
-        if(_.isEmpty(this.props.activeBoard.parent)) {
-          return <div/>;
-        }
-        navbarHeight = '98px';
-        var parent = this.props.activeBoard.parent;
-        if(parent.name == undefined || this.props.activeBoard.name == undefined)
-          navbarTitle = '';
-        else
-          navbarTitle = (
-            <div style={{
-              overflow: 'hidden',
-              textOverflow: 'ellipsis'
-            }}>
-              <a
-                href='/'
-                title={ parent.name }
-                style={{
-                  color: '#fff'
-                }}
-                onClick={ this.onParentClick }
-              >
-                { parent.name }
-              </a>
-              &nbsp;
-              <span
-                style={{fontSize: '.7em'}}
-                className="glyphicon glyphicon-triangle-right"
-              />
-              &nbsp;
-              <a
-                href={ 'http://' + parent.slug + '.' + constants.domain + '/boards/' + router.board_id }
-                title={ this.props.activeBoard.name }
-                style={{
-                  color: '#fff'
-                }}
-                onClick={ this.onBoardClick }
-              >
-                { this.props.activeBoard.name }
-              </a>
-            </div>
-          );
-
-        backgroundStyle = (_.isEmpty(parent))
-          ? { filter: 'unset' }
-          : {
-            opacity: this.state.opacity,
-            backgroundImage: (_.isEmpty(parent.image))
-              ? ''
-              : 'url(' + resizeImage(parent.image, window.innerWidth, 100).url  + ')'
-          };
-        if(!_.isEmpty(parent)) {
-          if(!_.isEmpty(parent.image))
-            if(parent.image.path == "http://bevy.dev/img/default_group_img.png")
-              backgroundStyle = {backgroundColor: '#2CB673'}
-        }
-        break;
-
-      case 'search':
-        navbarTitle = ((_.isEmpty(router.search_query))
-          ? 'Public Bevies'
-          : 'Search for "' + router.search_query + '"');
+        return <div />;
         break;
 
       default:

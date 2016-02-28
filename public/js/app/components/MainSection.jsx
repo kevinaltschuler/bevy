@@ -150,6 +150,13 @@ var MainSection = React.createClass({
 
     return (
       <div className='main-section-wrapper'>
+        <Navbar
+          activeBevy={ this.state.activeBevy }
+          allNotifications={ this.state.allNotifications }
+          userInvites={ this.state.userInvites }
+          activeBoard={ this.state.activeBoard }
+          leftNavActions={ leftNavActions }
+        />
         <LeftNav
           width={ 300 }
           openRight={ true }
