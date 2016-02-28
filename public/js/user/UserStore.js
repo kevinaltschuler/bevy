@@ -106,63 +106,6 @@ _.extend(UserStore, {
 
         break;
 
-      case BEVY.JOIN:
-        var bevy = payload.bevy;
-        var bevies = this.user.get('bevies');
-        // if already joined, then get outta here
-        if(_.contains(bevies, bevy._id)) break;
-
-        // add bevy
-        bevies.push(bevy._id);
-        _.uniq(bevies);
-
-        // add all of the bevy's boards
-        var boards = this.user.get('boards');
-        for(var key in bevy.boards) {
-          var board = bevy.boards[key];
-          // dont automatically join private boards
-          if(board.settings.privacy == 'Private') continue;
-          boards.push(board._id);
-        }
-        _.uniq(boards);
-
-        this.user.save({
-          bevies: bevies,
-          boards: boards
-        }, {
-          patch: true
-        });
-        this.trigger(USER.CHANGE_ALL);
-        this.trigger(BEVY.CHANGE_ALL);
-        break;
-      case BEVY.DESTROY:
-      case BEVY.LEAVE:
-        var bevy = payload.bevy;
-
-        // remove from user's bevy array
-        var bevies = this.user.get('bevies');
-        bevies = _.reject(bevies, function($bevy_id) {
-          return $bevy_id == bevy._id;
-        });
-        _.uniq(bevies);
-
-        // remove all boards from that bevy from the user
-        var boards = this.user.get('boards');
-        boards = _.reject(boards, function($board_id) {
-          return _.contains(_.pluck(bevy.boards, '_id'), $board_id);
-        });
-        _.uniq(boards);
-
-        this.user.save({
-          bevies: bevies,
-          boards: boards
-        }, {
-          patch: true
-        });
-        this.trigger(USER.CHANGE_ALL);
-        this.trigger(BEVY.CHANGE_ALL);
-        break;
-
       case BOARD.JOIN:
         var board = payload.board;
 

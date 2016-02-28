@@ -62,6 +62,7 @@ var BevyView = React.createClass({
   },
 
   onBoardSwitch() {
+    this.clearSearch();
     this.setState({
       bodyStyle: {opacity: .05}
     });
