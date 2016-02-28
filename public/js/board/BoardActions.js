@@ -38,12 +38,12 @@ var BoardActions = {
     });
   },
 
-  destroy(board) {
-    if(_.isEmpty(board)) return;
+  destroy(board_id) {
+    if(_.isEmpty(board_id)) return;
 
     Dispatcher.dispatch({
       actionType: BOARD.DESTROY,
-      board: board
+      board_id: board_id
     });
   },
 

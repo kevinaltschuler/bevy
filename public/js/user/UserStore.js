@@ -183,7 +183,6 @@ _.extend(UserStore, {
         });
         break;
 
-      case BOARD.DESTROY:
       case BOARD.LEAVE:
         var board = payload.board;
 

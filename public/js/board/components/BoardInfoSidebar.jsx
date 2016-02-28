@@ -176,7 +176,8 @@ let BoardInfoSidebar = React.createClass({
         </span>
         { this.renderType() }
         <span className='description'>
-          { this.props.activeBoard.description }
+          { (this.props.activeBoard.description.length <= 0)
+              ? 'No description' : this.props.activeBoard.description }
         </span>
         <span className='created'>
           Created { timeAgo(Date.parse(this.props.activeBoard.created)) }

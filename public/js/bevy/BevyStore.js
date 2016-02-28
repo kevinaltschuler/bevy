@@ -16,6 +16,7 @@ var Dispatcher = require('./../shared/dispatcher');
 
 var Bevy = require('./BevyModel');
 var Bevies = require('./BevyCollection');
+var Board = require('./../board/BoardModel');
 var Boards = require('./../board/BoardCollection');
 
 var constants = require('./../constants');
@@ -133,6 +134,8 @@ _.extend(BevyStore, {
         break;
 
       case BOARD.CREATE:
+        var router = require('./../router');
+
         var name = payload.name;
         var description = payload.description;
         var image = payload.image;
@@ -151,9 +154,11 @@ _.extend(BevyStore, {
         board.url = constants.apiurl + '/boards';
         board.save(null, {
           success: function(model, response, options) {
+            board.set('admins', [window.bootstrap.user]);
             // add to the collection of boards
             this.boards.add(board);
-            // switch to it
+            // switch to it and change the url
+            router.navigate('/boards/' + board.get('_id'));
             this.activeBoard = board.get('_id');
             // trigger UI changes
             this.trigger(BEVY.CHANGE_ALL);
@@ -208,12 +213,21 @@ _.extend(BevyStore, {
         break;
 
       case BOARD.DESTROY:
+        var router = require('./../router');
         var board_id = payload.board_id;
         var board = this.boards.remove(board_id);
+
         if(board == undefined) break;
 
+        // send the destroy request
         board.url = constants.apiurl + '/boards/' + board.get('_id');
         board.destroy();
+
+        // switch back to the home feed
+        this.activeBoard = -1;
+        setTimeout(() => {
+          router.navigate('/', { trigger: true })
+        }, 250);
 
         this.trigger(BOARD.CHANGE_ALL);
         break;

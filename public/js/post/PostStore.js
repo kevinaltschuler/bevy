@@ -64,6 +64,11 @@ _.extend(PostStore, {
         });
         break;
 
+      case BOARD.CREATE:
+        this.posts.reset([]);
+        this.trigger(POST.CHANGE_ALL);
+        break;
+
       case BOARD.SWITCH:
         var board_id = payload.board_id;
         var router = require('./../router');

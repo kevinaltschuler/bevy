@@ -76,6 +76,7 @@ module.exports = function(app) {
       if(_.isEmpty(user)) return res.redirect(config.app.server.hostname);
       if(user.bevy.slug != subdomains[0]) return res.redirect(config.app.server.hostname);
       else return next();
+
     } else if (subdomains.length > 1) {
       return res.redirect(config.app.server.hostname);
     } else {
