@@ -32,7 +32,7 @@ var BevyInfoBar = React.createClass({
 
   getInitialState() {
     return {
-      isAdmin: (_.contains(this.props.activeBevy.admins, window.bootstrap.user._id)),
+      isAdmin: _.findWhere(this.props.activeBevy.admins, { _id: window.bootstrap.user._id }) != undefined,
       showSettingsModal: false,
       showInviteModal: false
     }
@@ -40,7 +40,7 @@ var BevyInfoBar = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      isAdmin: (_.contains(nextProps.activeBevy.admins, window.bootstrap.user._id)),
+      isAdmin: _.findWhere(nextProps.activeBevy.admins, { _id: window.bootstrap.user._id }) != undefined,
     });
   },
 
