@@ -166,7 +166,7 @@ var BevyView = React.createClass({
             <Footer />
           </div>
         </div>
-        <div style={this.state.bodyStyle}>
+        <div >
         <BoardInfoSidebar
           activeBevy={ this.props.activeBevy }
           activeBoard={ this.props.activeBoard }
