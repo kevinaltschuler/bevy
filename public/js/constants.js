@@ -124,8 +124,6 @@ exports.BEVY = {
   CREATE_ERR: 'bevy_create_err',
   DESTROY: 'bevy_destroy',
   UPDATE: 'bevy_update',
-  JOIN: 'bevy_join',
-  LEAVE: 'bevy_leave',
 
   CHANGE_ALL: 'bevy_change_all',
   CHANGE_ONE: 'bevy_change_one'

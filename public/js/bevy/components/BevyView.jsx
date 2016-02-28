@@ -36,7 +36,7 @@ var router = require('./../../router');
 var UserStore = require('./../../user/UserStore');
 var BevyActions = require('./../../bevy/BevyActions');
 var PostStore = require('./../../post/PostStore');
-var BoardStore = require('./../../board/BoardStore');
+var BevyStore = require('./../../bevy/BevyStore');
 var PostActions = require('./../../post/PostActions');
 var USER = constants.USER;
 var BOARD = constants.BOARD;
@@ -58,7 +58,7 @@ var BevyView = React.createClass({
   },
 
   componentDidMount() {
-    BoardStore.on(BOARD.SWITCHED, this.onBoardSwitch);
+    BevyStore.on(BOARD.SWITCHED, this.onBoardSwitch);
   },
 
   onBoardSwitch() {
@@ -75,11 +75,12 @@ var BevyView = React.createClass({
 
   search(queryArg) {
     var bevy_id = this.props.activeBevy._id;
+    var board_id = this.props.activeBoard._id;
     var query = this.state.query;
 
     if(!_.isEmpty(queryArg)) query = queryArg;
 
-    PostActions.search(query, bevy_id);
+    PostActions.search(query, bevy_id, board_id);
   },
 
   clearSearch() {

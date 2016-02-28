@@ -176,9 +176,7 @@ var Post = React.createClass({
 
   hideExtraText() {
     var title = ReactDOM.findDOMNode(this.refs.Title);
-    this.setState({
-      height: title.offsetHeight
-    });
+    this.setState({ height: title.offsetHeight });
   },
 
   render() {
@@ -244,7 +242,7 @@ var Post = React.createClass({
     if(this.state.height <= maxTextHeight) expandButton = '';
 
     return  (
-      <div className='post panel' postId={ post._id } id={ 'post:' + post._id }>
+      <div className='post' postId={ post._id } id={ 'post:' + post._id }>
         <PostHeader post={ post } startEdit={this.startEdit} />
         <div className='panel-body'>
           { panelBodyText }

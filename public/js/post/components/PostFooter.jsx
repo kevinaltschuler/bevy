@@ -44,6 +44,7 @@ var PostFooter = React.createClass({
   },
 
   expandComments(ev) {
+    if(this.props.post.comments.length <= 0) return;
     this.setState({ showComments: !this.state.showComments });
   },
 

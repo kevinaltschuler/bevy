@@ -176,7 +176,7 @@ var NewPostPanel = React.createClass({
     if(_.isEmpty(window.bootstrap.user) || this.state.disabled) {
       mediaTip = <div/>;
     }
-
+    
     return (
       <div
         className='new-post-panel'

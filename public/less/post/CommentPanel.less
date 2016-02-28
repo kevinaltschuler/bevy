@@ -1,0 +1,45 @@
+/**
+ * CommentPanel.less
+ * @author kevin
+ * @author albert
+ */
+
+@import './../variables.less';
+
+.post-comments {
+  width: 100%;
+  border-top: 1px solid #DDD;
+  .panel.panel-default {
+    border: none;
+    border-radius: 0px;
+    box-shadow: none;
+    margin-bottom: 0px;
+    .panel-body {
+      padding: 0px;
+    }
+  }
+  .comment-list {
+    display: flex;
+      flex-direction: column;
+      .panel-comment-input {
+        margin-left: 25px;
+      }
+      .comment {
+        display: flex;
+        flex-direction: column;
+      }
+  }
+  .comment-count {
+    font-size: .85em;
+    color: #1A1A1A;
+  }
+  .comment-list .comment-list {
+    margin-left: 1.35em;
+    border-left: 1px solid #d2d3d3;
+  }
+  .comment-list .comment-list::before {
+    content: '';
+    border-bottom: 1px solid #edeeee;
+    position: absolute;
+  }
+}

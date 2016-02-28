@@ -129,7 +129,7 @@ var CommentItem = React.createClass({
 
     var collapseBody = (this.state.collapsed)
     ? (
-      <div className="comment">
+      <div className='comment-item'>
         <div className='comment-col collapsed' >
           <div className="comment-title" onClick={this.onCollapse}>
             <a className="comment-name">
@@ -145,7 +145,7 @@ var CommentItem = React.createClass({
         </div>
       </div>
     ) : (
-      <div className="comment">
+      <div className='comment-item'>
         <div className='comment-col' >
           <div className="comment-text">
             <div className="comment-title">

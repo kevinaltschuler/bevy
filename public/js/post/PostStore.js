@@ -46,6 +46,7 @@ _.extend(PostStore, {
   handleDispatch(payload) {
     switch(payload.actionType) {
       case APP.LOAD:
+
         break;
 
       case POST.FETCH_SINGLE:
@@ -78,10 +79,7 @@ _.extend(PostStore, {
         this.posts.fetch({
           success: function(collection, response, options) {
             this.posts.nestComments();
-
-            if(board_id)
-              this.activeBoard = board_id;
-
+            if(board_id) this.activeBoard = board_id;
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
@@ -96,7 +94,6 @@ _.extend(PostStore, {
         this.posts.fetch({
           success: function(collection, response, options) {
             this.posts.nestComments();
-
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });
@@ -119,10 +116,14 @@ _.extend(PostStore, {
 
         // construct the search query
         var url = constants.apiurl + '/posts/search/' + query;
-        if(bevy_id)
-          url += '?bevy_id=' + bevy_id;
-        else if(board_id)
-          url += '?board_id=' + board_id;
+        if(bevy_id) {
+          var separator = (url.split('?').length >= 2) ? '&' : '?';
+          url += separator + 'bevy_id=' + bevy_id;
+        }
+        if(board_id) {
+          var separator = (url.split('?').length >= 2) ? '&' : '?';
+          url += separator + 'board_id=' + board_id;
+        }
 
         url = this.addSortType(url);
         url = this.addDateRange(url);

@@ -1,0 +1,124 @@
+/**
+ * PostHeader.less
+ * @author albert
+ * @author kevin
+ */
+
+@import './../variables.less';
+
+.post-header {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1.6em;
+  padding-top: 8px;
+  padding-bottom: 10px;
+  padding-left: 12px;
+  padding-right: 5px;
+  .profile-img {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+    border-radius: 15px;
+    margin-right: 10px;
+    margin-top: 3px;
+    #image-icon;
+  }
+  .post-details {
+    display: flex;
+    flex-direction: column;
+    .top {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: .8em;
+      .author-button, .board-button {
+        border: none;
+        padding: 0px;
+        border-radius: 0px;
+        &:active, &:hover, &:focus {
+          background-color: white;
+          border: none;
+          outline: none;
+          box-shadow: none;
+          text-decoration: underline;
+        }
+      }
+      i.material-icons {
+        font-size: 1em;
+        color: #4a4a4a;
+      }
+    }
+    .bottom {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      font-size: .6em;
+      .middot {
+        padding: 0px 5px;
+      }
+      span.time-ago, span.expires {
+        font-size: .8em;
+        color: #4a4a4a;
+        line-height: initial;
+        max-width: 220px;
+        overflow-x: hidden;
+      }
+    }
+  }
+  .badges {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    float: right;
+    margin-top: -6px;
+    text-align: -webkit-right;
+    font-size: .8em;
+    .points, .comment-count {
+      display: inline-block;
+      font-size: .6em;
+    }
+    .badge {
+      float: right;
+      display: block;
+      font-size: .6em;
+      margin-right: 5px;
+      font-weight: normal;
+    }
+    .post-settings {
+      padding: 0px;
+      background-color: rgba(0,0,0,0);
+      color: rgba(0,0,0,.3);
+      box-shadow: none !important;
+      border: none !important;
+      &.open {
+        .btn {
+          color: @light-font;
+        }
+      }
+      .btn {
+        color: rgba(0,0,0,.3);
+        box-shadow: none;
+        padding: 1px 5px;
+        border: none;
+        background-color: rgba(0,0,0,0);
+        &:active, &.active, .btn.active, .btn:active, &:focus, &.focus, &.open, &:hover {
+          outline: none;
+          box-shadow: none;
+          background-color: rgba(0,0,0,0);
+          color: @light-font;
+        }
+        &:focus {
+          color: @light-font;
+        }
+      }
+    }
+    .dropdown-menu {
+      border-radius: 2px;
+      border-color: white;
+      box-shadow: @shadow1;
+    }
+  }
+}

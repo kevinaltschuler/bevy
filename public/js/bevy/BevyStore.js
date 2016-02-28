@@ -6,7 +6,6 @@
 'use strict';
 
 var Backbone = require('backbone');
-var $ = require('jquery');
 var _ = require('underscore');
 var async = require('async');
 var getSlug = require('speakingurl');
@@ -18,8 +17,6 @@ var Dispatcher = require('./../shared/dispatcher');
 var Bevy = require('./BevyModel');
 var Bevies = require('./BevyCollection');
 var Boards = require('./../board/BoardCollection');
-var Invites = require('./InviteCollection');
-var Invite = require('./InviteModel');
 
 var constants = require('./../constants');
 var BEVY = constants.BEVY;
@@ -37,22 +34,26 @@ _.extend(BevyStore, {
 
   active: new Bevy,
   boards: new Boards,
-  bevyInvites: new Invites,
+  activeBoard: -1,
 
   handleDispatch(payload) {
     switch(payload.actionType) {
 
       case APP.LOAD:
+        console.log(window.bootstrap.user);
+        // load the bevy thats packaged with the user into the active bevy object
         this.active = new Bevy(window.bootstrap.user.bevy);
+        this.boards = new Boards(window.bootstrap.user.boards);
+        // collect some vars from the router
         var router = require('./../router');
         var bevy_slug = router.bevy_slug;
+        var board_id = router.board_id;
 
-        this.boards.url = constants.apiurl + '/bevies/' + bevy_slug + '/boards';
-        this.boards.fetch({
-          success: function(collection, response, options) {
-            this.trigger(BEVY.CHANGE_ALL);
-          }.bind(this)
-        });
+        // if there's a board id specified in the url, then set it to the active board
+        if(board_id != undefined) {
+          this.activeBoard = board_id;
+        }
+
         this.trigger(BEVY.CHANGE_ALL);
         break;
 
@@ -131,30 +132,90 @@ _.extend(BevyStore, {
         this.trigger(BOARD.CHANGE_ALL);
         break;
 
-      case BEVY.LEAVE:
-        var bevy = payload.bevy;
-        // if we haven't joined yet, break
-        if(this.myBevies.get(bevy._id) == undefined) break;
-        // remove from my bevies collection
-        this.myBevies.remove(bevy._id);
-        // trigger UI changes
-        this.trigger(BEVY.CHANGE_ALL);
-        var router = require('./../router');
-        // if we're viewing that bevy right now, then go back to my bevies
-        if(router.current == 'bevy') {
-          window.location.href = constants.siteurl;
+      case BOARD.CREATE:
+        var name = payload.name;
+        var description = payload.description;
+        var image = payload.image;
+        var user = window.bootstrap.user;
+        var type = payload.type;
+        var parent_id = payload.parent_id;
+
+        var board = new Board({
+          name: name,
+          description: description,
+          image: image,
+          admins: [user._id],
+          type: type,
+          parent: parent_id
+        });
+        board.url = constants.apiurl + '/boards';
+        board.save(null, {
+          success: function(model, response, options) {
+            // add to the collection of boards
+            this.boards.add(board);
+            // switch to it
+            this.activeBoard = board.get('_id');
+            // trigger UI changes
+            this.trigger(BEVY.CHANGE_ALL);
+            this.trigger(BOARD.CHANGE_ALL);
+          }.bind(this)
+        });
+        break;
+
+      case BOARD.SWITCH:
+        var board_id = payload.board_id;
+
+        // if no board is passed in, clear the active board field
+        // and break out
+        if(!board_id) {
+          this.activeBoard = -1;
+          this.trigger(BOARD.CHANGE_ALL);
+          break;
+        }
+
+        var board = this.boards.get(board_id);
+        if(board == undefined) {
+          // if the board id to switch to is invalid,
+          // clear the active board
+          this.activeBoard = -1;
+          this.trigger(BOARD.CHANGE_ALL);
+        } else {
+          this.activeBoard = board_id;
+          this.trigger(BOARD.SWITCHED);
+          this.trigger(BOARD.CHANGE_ALL);
         }
         break;
 
-      case BEVY.JOIN:
-        // add bevy to mybevies collection
-        var bevy = payload.bevy;
-        // if its already in our collection, then break
-        if(this.myBevies.get(bevy._id) != undefined) break;
-        // add to collection
-        this.myBevies.add(bevy);
-        // trigger UI changes
-        this.trigger(BEVY.CHANGE_ALL);
+      case BOARD.UPDATE:
+        var board_id = payload.board_id;
+        var board = this.boards.get(board_id);
+        if(board == undefined) break;
+
+        var name = payload.name || board.get('name');
+        var description = payload.description || board.get('description');
+        var image = payload.image || board.get('image');
+        var settings = payload.settings || board.get('settings');
+
+        board.url = constants.apiurl + '/boards/' + board.get('_id');
+        board.save({
+          name: name,
+          description: description,
+          image: image,
+          settings: settings
+        }, { patch: true });
+
+        this.trigger(BOARD.CHANGE_ALL);
+        break;
+
+      case BOARD.DESTROY:
+        var board_id = payload.board_id;
+        var board = this.boards.remove(board_id);
+        if(board == undefined) break;
+
+        board.url = constants.apiurl + '/boards/' + board.get('_id');
+        board.destroy();
+
+        this.trigger(BOARD.CHANGE_ALL);
         break;
     }
   },
@@ -175,25 +236,16 @@ _.extend(BevyStore, {
   },
 
   getBevy(bevy_id) {
-    var bevy =
-      this.myBevies.get(bevy_id) ||
-      this.publicBevies.get(bevy_id) ||
-      this.searchList.get(bevy_id);
-    return (bevy)
-    ? bevy.toJSON()
-    : {};
+    return this.active.toJSON();
   },
 
   getBevyBoards() {
     return this.boards.toJSON() || [];
   },
 
-  getSearchList() {
-    return this.searchList.toJSON();
-  },
-
-  getSearchQuery() {
-    return this.searchQuery;
+  getActiveBoard() {
+    var board = this.boards.get(this.activeBoard);
+    return (board == undefined) ? {} : board.toJSON();
   },
 
   getBoard(board_id) {
@@ -209,10 +261,6 @@ _.extend(BevyStore, {
         ? board.toJSON()
         : {};
     }
-  },
-
-  getInvites() {
-    return this.bevyInvites.toJSON();
   }
 });
 
