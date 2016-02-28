@@ -61,23 +61,7 @@ var BevyActions = {
       image: (image == undefined) ? null : image,
       settings: (settings == undefined) ? null : settings
     });
-  },
-
-  leave(bevy) {
-    if(_.isEmpty(bevy)) return;
-    Dispatcher.dispatch({
-      actionType: BEVY.LEAVE,
-      bevy: bevy
-    });
-  },
-
-  join(bevy) {
-    if(_.isEmpty(bevy)) return;
-    Dispatcher.dispatch({
-      actionType: BEVY.JOIN,
-      bevy: bevy
-    });
-  },
+  }
 };
 
 module.exports = BevyActions;

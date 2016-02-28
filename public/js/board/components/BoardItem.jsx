@@ -16,19 +16,12 @@ var {
   OverlayTrigger,
   Tooltip
 } = require('react-bootstrap');
-var {
-  RaisedButton,
-  FlatButton,
-} = require('material-ui');
 var Ink = require('react-ink');
 
 var _ = require('underscore');
 var router = require('./../../router');
 var constants = require('./../../constants');
 var resizeImage = require('./../../shared/helpers/resizeImage');
-var BoardActions = require('./../BoardActions');
-var BoardStore = require('./../BoardStore');
-var user = window.bootstrap.user;
 
 var AppActions = require('./../../app/AppActions');
 

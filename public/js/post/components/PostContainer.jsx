@@ -17,15 +17,14 @@ var Post = require('./Post.jsx');
 var Event = require('./Event.jsx');
 
 var _ = require('underscore');
+var constants = require('./../../constants');
 var router = require('./../../router');
+
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
-var BoardActions = require('./../../board/BoardActions');
-var BoardStore = require('./../../board/BoardStore');
 var PostStore = require('./../PostStore');
 var NotificationStore = require('./../../notification/NotificationStore');
 var PostActions = require('./../PostActions');
-var constants = require('./../../constants');
 
 var POST = constants.POST;
 var BEVY = constants.BEVY;
@@ -54,16 +53,9 @@ var PostContainer = React.createClass({
     PostStore.on(POST.SEARCHING, this.onPostSearching);
     PostStore.on(POST.SEARCH_ERROR, this.onPostSearchError);
     PostStore.on(POST.SEARCH_COMPLETE, this.onPostSearchComplete);
-    // sometimes the bevy switch event completes before this is mounted
-    //if(router.current == 'board')
-    //  BoardActions.switchBoard(this.props.activeBoard._id);
-    //if(router.current == 'bevy') {
-    //  BevyActions.switchBevy(this.props.activeBevy._id);
-    //}
   },
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
-
     PostStore.off(POST.SEARCHING, this.onPostSearching);
     PostStore.off(POST.SEARCH_ERROR, this.onPostSearchError);
     PostStore.off(POST.SEARCH_COMPLETE, this.onPostSearchComplete);

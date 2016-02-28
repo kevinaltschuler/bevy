@@ -15,6 +15,7 @@ var _ = require('underscore');
 
 var passport = require('passport');
 var shortid = require('shortid');
+var async = require('async');
 //var LocalStrategy = require('passport-local').Strategy;
 var BasicStrategy = require('passport-http').BasicStrategy;
 var ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy;
@@ -24,6 +25,8 @@ var mongoose = require('mongoose');
 var bcrypt = require('bcryptjs');
 
 var User = require('./../models/User');
+var Bevy = require('./../models/Bevy');
+var Board = require('./../models/Board');
 var Client = require('./../models/Client');
 var AccessToken = require('./../models/AccessToken');
 var RefreshToken = require('./../models/RefreshToken');
@@ -85,12 +88,35 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(user_id, done) {
-  User.findOne({ _id: user_id }, function(err, user) {
-    if(err) done(err, null);
-    else done(null, user);
-  })
-  .populate({
-    path: 'bevy',
-    select: '_id name slug image boards admins subCount created settings'
+  async.waterfall([
+    function($done) {
+      User.findOne({ _id: user_id }, function(err, user) {
+        if(err) return $done(err);
+        if(!user) return $done('No user found');
+        user = JSON.parse(JSON.stringify(user));
+        return $done(null, user);
+      });
+    },
+    function(user, $done) {
+      Bevy.findOne({ _id: user.bevy }, function(err, bevy) {
+        if(err) return $done(err);
+        if(!bevy) return $done('User\'s bevy not found');
+        user.bevy = bevy;
+        return $done(null, user);
+      })
+      .populate('admins');
+    },
+    function(user, $done) {
+      Board.find({ parent: user.bevy._id }, function(err, boards) {
+        if(err) return $done(err);
+        user.boards = boards;
+        user.bevy.boards = boards;
+        return $done(null, user);
+      })
+      .populate('admins');
+    }
+  ], function(err, user) {
+    if(err) return done(err, null);
+    else return done(null, user);
   });
 });

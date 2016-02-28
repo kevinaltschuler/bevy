@@ -19,7 +19,6 @@ var {
 
 var _ = require('underscore');
 var router = require('./../../router');
-var BoardStore = require('./../../board/BoardStore');
 var PostStore = require('./../../post/PostStore');
 var BevyStore = require('./../../bevy/BevyStore');
 var NotificationStore = require('./../../notification/NotificationStore');
@@ -53,7 +52,6 @@ var MainSection = React.createClass({
     BevyStore.on(change_all_events, this._onBevyChange);
     NotificationStore.on(change_all_events, this._onNotificationChange);
     UserStore.on(change_all_events, this._onUserChange);
-    BoardStore.on(change_all_events, this._onBoardChange);
 
     UserStore.on(USER.LOADED, AppActions.load());
   },
@@ -62,7 +60,6 @@ var MainSection = React.createClass({
     BevyStore.off(change_all_events, this._onBevyChange);
     NotificationStore.off(change_all_events, this._onNotificationChange);
     UserStore.off(change_all_events, this._onUserChange);
-    BoardStore.off(change_all_events, this._onBoardChange);
   },
 
   getPostState() {
@@ -74,10 +71,12 @@ var MainSection = React.createClass({
   getBevyState() {
     var active = BevyStore.getActive();
     var bevyBoards = BevyStore.getBevyBoards();
+    var activeBoard = BevyStore.getActiveBoard();
 
     return {
       activeBevy: active,
       boards: bevyBoards,
+      activeBoard: activeBoard
     };
   },
 
@@ -95,13 +94,6 @@ var MainSection = React.createClass({
     };
   },
 
-  getBoardState() {
-    return {
-      //boards: BoardStore.getBoards(),
-      activeBoard: BoardStore.getActive()
-    };
-  },
-
   collectState() {
     var state = {
       leftNavOpen: false
@@ -110,8 +102,7 @@ var MainSection = React.createClass({
       this.getPostState(),
       this.getBevyState(),
       this.getNotificationState(),
-      this.getUserState(),
-      this.getBoardState()
+      this.getUserState()
     );
     return state;
   },
@@ -128,9 +119,6 @@ var MainSection = React.createClass({
   },
   _onUserChange() {
     this.setState(_.extend(this.state, this.getUserState()));
-  },
-  _onBoardChange() {
-    this.setState(_.extend(this.state, this.getBoardState()));
   },
 
   componentWillReceiveProps(nextProps) {
@@ -162,13 +150,6 @@ var MainSection = React.createClass({
 
     return (
       <div className='main-section-wrapper'>
-        {/*<Navbar
-          activeBevy={ this.state.activeBevy }
-          allNotifications={ this.state.allNotifications }
-          userInvites={ this.state.userInvites }
-          activeBoard={ this.state.activeBoard }
-          leftNavActions={ leftNavActions }
-        />*/}
         <LeftNav
           width={ 300 }
           openRight={ true }
@@ -224,7 +205,7 @@ var InterfaceComponent = React.createClass({
         return <BevyView {...this.props} />;
         break;
       case 'post':
-        return <PostView { ...this.props } />;
+        return <BevyView { ...this.props } />;
         break;
       case 'edit-profile':
         return <EditProfileView { ...this.props } />;
