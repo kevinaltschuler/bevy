@@ -41,8 +41,8 @@ var NewPostPanel = React.createClass({
   },
 
   getInitialState() {
-    let disabled = false;
-    let hintText = constants.hintTexts[Math.floor(Math.random() * constants.hintTexts.length)];
+    var disabled = false;
+    var hintText = constants.hintTexts[Math.floor(Math.random() * constants.hintTexts.length)];
     // if this is an announcement board and the user is not an admin
     if(this.props.activeBoard.type == 'announcement'
       && _.findWhere(this.props.activeBoard.admins,
@@ -61,6 +61,24 @@ var NewPostPanel = React.createClass({
     };
   },
 
+  componentWillReceiveProps(nextProps) {
+    var disabled = false;
+    var hintText = this.state.hintText;
+    if(nextProps.activeBoard.type == 'announcement'
+      && _.findWhere(nextProps.activeBoard.admins,
+        { _id: window.bootstrap.user._id }) == undefined) {
+      disabled = true;
+      hintText = 'Only admins can post in an announcement board';
+    } else {
+      hintText = constants.hintTexts[Math.floor(Math.random() * constants.hintTexts.length)];
+    }
+    this.setState({
+      disabled: disabled,
+      hintText: hintText
+    });
+  },
+
+
   componentDidMount() {
     PostStore.on(POST.POSTED_POST, this.onPostSuccess);
   },
@@ -70,10 +88,6 @@ var NewPostPanel = React.createClass({
       loading: false,
       disabled: false
     });
-  },
-
-  componentWillReceiveProps(nextProps) {
-
   },
 
   onUploadComplete(file) {
@@ -176,7 +190,7 @@ var NewPostPanel = React.createClass({
     if(_.isEmpty(window.bootstrap.user) || this.state.disabled) {
       mediaTip = <div/>;
     }
-    
+
     return (
       <div
         className='new-post-panel'
