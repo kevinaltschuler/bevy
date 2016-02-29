@@ -81,7 +81,7 @@ var BoardNavbar = React.createClass({
 
   renderInfoIcon() {
     if(this.props.sidebarOpen) {
-      return <i style={{color: '#2cb673'}} className="material-icons">info_outline</i>;
+      return <i className="material-icons">info</i>;
     } else {
       return <i className="material-icons">info_outline</i>;
     }
@@ -91,10 +91,17 @@ var BoardNavbar = React.createClass({
     return (
       <div className='board-navbar'>
         <div className='left'>
+          {/*<div className='prefix'>
+            {this.props.activeBevy.name}
+            &nbsp;
+            <i className="material-icons" >chevron_right</i>
+          </div>*/}
           <div className='title'>
             { (this.props.activeBoard._id == undefined)
                 ? 'Home Feed' : this.props.activeBoard.name }
           </div>
+        </div>
+        <div className='right'>
           <Input
             ref='search'
             type='text'
@@ -111,9 +118,6 @@ var BoardNavbar = React.createClass({
             activeBoard={ this.props.activeBoard }
           />
           <button
-            style={(this.props.sidebarOpen)
-              ? { boxShadow: 'inset 0 1px 2px 0 rgba(0,0,0,.075)' }
-              : {}}
             className='info-button'
             title={ (this.props.sidebarOpen)
               ? 'Close Board Info' : 'Open Board Info' }
@@ -122,9 +126,6 @@ var BoardNavbar = React.createClass({
             <Ink/>
             { this.renderInfoIcon() }
           </button>
-        </div>
-        <div className='right'>
-
         </div>
       </div>
     );

@@ -53,7 +53,7 @@ var CommentPanel = React.createClass({
       <div
         className='post-comments'
         style={{
-          borderBottom: (this.state.expanded) ? '1px solid #DDD' : 'none',
+          borderBottom: (this.state.expanded) ? '2px solid #eee' : 'none',
           paddingBottom: (this.state.expanded) ? 10 : 0
         }}
       >

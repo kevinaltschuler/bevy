@@ -152,7 +152,7 @@ var BevyView = React.createClass({
             toggleSidebar={ this.toggleSidebar }
             sidebarOpen={ this.state.sidebarOpen }
             allNotifications={ this.props.allNotifications }
-
+            activeBevy={ this.props.activeBevy}
             searchQuery={ this.state.query }
             searching={ this.state.searching }
             onQueryChange={ this.onQueryChange }

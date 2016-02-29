@@ -11,8 +11,9 @@
   margin-right: auto;
   background-color: #FFF;
   margin-bottom: 15px;
-  border: 1px solid #DDD;
   max-width: 600px;
+  border-radius: 5px;
+  margin-top: 10px;
   .new-post-title {
     //padding: 0px 15px;
     min-height: 68px;
@@ -24,7 +25,7 @@
     padding-left: 10px;
     padding-right: 10px;
     padding-bottom: 10px;
-    border-bottom: 1px solid #DDD;
+    border-bottom: 2px solid #eee;
     position: relative;
     max-width: 100%;
     .profile-picture {
@@ -64,7 +65,7 @@
     padding: 0 15px;
     padding-bottom: 10px;
     button.attach-picture {
-      border: 1px solid #AAA;
+      border: 2px solid #AAA;
       box-shadow: none;
       position: relative;
       display: flex;
@@ -74,6 +75,7 @@
       width: 36px;
       height: 36px;
       border-radius: 18px;
+      font-weight: 500;
       i.material-icons {
         color: #AAA;
       }
@@ -85,7 +87,7 @@
       }
     }
     button.post-button {
-      border: 1px solid #AAA;
+      border: 2px solid #AAA;
       box-shadow: none;
       position: relative;
       display: flex;
@@ -94,16 +96,18 @@
       justify-content: center;
       width: 25%;
       height: 36px;
-      border-radius: 3px;
+      border-radius: 20px;
       margin-left: auto;
+      font-weight: 600;
       span.post-button-text {
         color: #AAA;
         font-size: 1.1em;
+        font-weight: 500;
       }
       i.material-icons {
         font-size: 1.3em;
         margin-left: 6px;
-        color: #CCC;
+        color: #AAA;
       }
       .loading-container {
         display: flex;

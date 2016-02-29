@@ -72,7 +72,6 @@ var NotificationDropdown = React.createClass({
           onClick={ this.toggle }
           title='Notifications'
         >
-          <Ink />
           <i className='material-icons'>notifications</i>
         </Button>
         <Overlay

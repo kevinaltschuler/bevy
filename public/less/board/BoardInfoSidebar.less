@@ -15,8 +15,6 @@
   background-color: #FFF;
   display: flex;
   flex-direction: column;
-  border-left: 1px solid #DDD;
-  border-top: 1px solid #DDD;
   .header-image {
     #image-icon();
     width: 100%;
@@ -88,7 +86,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 6px;
-    border-top: 1px solid #DDD;
+    border-top: 2px solid #eee;
     padding-top: 6px;
     .admins-header {
       width: 100%;
@@ -112,7 +110,7 @@
         position: relative;
         box-shadow: none;
         border: none;
-        transition: 0.25s all ease-in-out;
+        transition: 0.1s all ease-in-out;
         &:hover, &:focus, &:active {
           span.text {
             color: #000;
@@ -120,7 +118,7 @@
           }
         }
         span.text {
-          transition: 0.25s all ease-in-out;
+          transition: 0.1s all ease-in-out;
           color: rgba(0,0,0,0.4);
         }
       }
@@ -134,7 +132,6 @@
       border: none;
       box-shadow: none;
       background-color: transparent;
-      transition: 0.25s all ease-in-out;
       padding-left: 15px;
       padding-right: 15px;
       position: relative;
@@ -174,21 +171,20 @@
       justify-content: center;
       height: 36px;
       width: 100%;
-      border: 1px solid #AAA;
-      border-radius: 3px;
+      border: 2px solid #AAA;
+      border-radius: 25px;
       box-shadow: none;
       background-color: transparent;
       position: relative;
-      transition: 0.25s all ease-in-out;
+      font-weight: 500;
       &:hover {
         //background-color: rgba(0,0,0,0.15);
-        border: 1px solid #666;
+        border: 2px solid #666;
         span.settings-button-text {
           color: #666;
         }
       }
       span.settings-button-text {
-        transition: 0.25s all ease-in-out;
         color: #AAA;
       }
     }

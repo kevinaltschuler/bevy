@@ -17,7 +17,7 @@
 			align-items: center;
 			padding-left: 15px;
 			padding-right: 15px;
-			background-color: #eee;
+			background-color: #fff;
 			justify-content: space-between;
 			.left {
 				display: flex;
@@ -26,10 +26,55 @@
 				justify-content: flex-start;
 				flex-grow: 1;
 				padding-right: 10px;
-				.info-button {
+				.title {
+					font-weight: 900;
+					font-size: 1.6em;
+	  				line-height: 53px;
+	  				color: #555;
+					white-space: nowrap;
+					margin-right: 12px;
+				}
+				
+			}
+			.right {
+				display: flex;
+				flex-direction: row;
+				align-items: center;
+				justify-content: flex-end;
+				flex-grow: 1;
+				.notification-dropdown-btn {
+					margin-left: 8px;
+					position: relative;
+					display: flex;
+					flex-direction: row;
+					align-items: center;
+					justify-content: center;
+					padding: 0px;
+					width: 30px;
+					height: 30px;
+					border-radius: 15px;
 					background-color: #FFF;
-					border: none;
 					border: 1px solid #AAA;
+					box-shadow: none;
+					transition: 0.15s all ease-in-out;
+					i.material-icons {
+						color: #AAA;
+						font-size: 1.5em;
+					}
+				}
+				.profile-btn {
+					#image-icon();
+					width: 36px;
+					height: 36px;
+					border-radius: 18px;
+					margin-left: 8px;
+					border: 1px solid #AAA;
+					box-shadow: none;
+					background-color: #FFF;
+				}
+				.info-button {
+					background-color: rgba(0,0,0,0);
+					border: none;
 					box-shadow: none;
 				    position: relative;
 				    display: flex;
@@ -43,7 +88,7 @@
 					padding: 0px;
 				    i.material-icons {
 				    	color: #666;
-				    	font-size: 1.5em;
+				    	font-size: 2em;
 				    	transition: 0.1s all ease-in-out;
 				    	&:hover {
 				    		color: #aaa;
@@ -52,14 +97,6 @@
 							color: #666;
 				    	}
 					}
-				}
-				.title {
-					font-weight: 900;
-					font-size: 1.6em;
-  				line-height: 53px;
-  				color: #555;
-					white-space: nowrap;
-					margin-right: 12px;
 				}
 				& > .form-group {
 					margin-bottom: 0px;
@@ -70,10 +107,9 @@
 						display: flex;
 						flex-direction: row;
 						align-items: center;
-						background-color: #FFF;
+						background-color: #eee;
 						height: 100%;
-						border-radius: 8px;
-						border: 1px solid #DDD;
+						border-radius: 25px;
 						padding-left: 4px;
 						span.input-group-addon {
 							display: flex;
@@ -129,42 +165,6 @@
 							height: 100%;
 						}
 					}
-				}
-			}
-			.right {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: flex-end;
-				.notification-dropdown-btn {
-					margin-left: 8px;
-					position: relative;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					justify-content: center;
-					padding: 0px;
-					width: 30px;
-					height: 30px;
-					border-radius: 15px;
-					background-color: #FFF;
-					border: 1px solid #AAA;
-					box-shadow: none;
-					transition: 0.15s all ease-in-out;
-					i.material-icons {
-						color: #AAA;
-						font-size: 1.5em;
-					}
-				}
-				.profile-btn {
-					#image-icon();
-					width: 36px;
-					height: 36px;
-					border-radius: 18px;
-					margin-left: 8px;
-					border: 1px solid #AAA;
-					box-shadow: none;
-					background-color: #FFF;
 				}
 			}
 		}
