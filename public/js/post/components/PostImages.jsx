@@ -30,7 +30,8 @@ var PostImages = React.createClass({
   getInitialState() {
     return {
       showImageModal: false,
-      imageKey: 0
+      imageKey: 0,
+      snackbarOpen: false
     };
   },
 
@@ -38,9 +39,13 @@ var PostImages = React.createClass({
     ev.preventDefault();
     this.setState({
       imageKey: ev.target.id,
-      showImageModal: true
+      showImageModal: true,
+      snackbarOpen: true
     });
-    this.refs.Snackbar.show();
+  },
+
+  closeSnackbar() {
+    this.setState({ snackbarOpen: false });
   },
 
   render() {
@@ -136,7 +141,9 @@ var PostImages = React.createClass({
         <Snackbar
           ref='Snackbar'
           message='Press Esc to Close'
+          open={ this.state.snackbarOpen }
           autoHideDuration={ 1500 }
+          onRequestClose={ this.closeSnackbar }
         />
       </div>
     );
