@@ -135,6 +135,7 @@ var InvitePage = require('./invite/components/InvitePage.jsx');
 var SlugPage = require('./auth/components/SlugPage.jsx');
 var FourOhFour = require('./app/components/FourOhFour.jsx');
 var ForgotGroupPage = require('./auth/components/ForgotGroupPage.jsx');
+var UnauthView = require('./auth/components/UnauthView.jsx');
 
 var InterfaceComponent = React.createClass({
   componentWillMount() {
@@ -172,6 +173,9 @@ var InterfaceComponent = React.createClass({
         break;
       case 'loginSlug':
         return <SlugPage />;
+        break;
+      case 'unauth':
+        return <UnauthView />;
         break;
       case '404':
         return <FourOhFour />;

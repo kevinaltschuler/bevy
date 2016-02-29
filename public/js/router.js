@@ -36,6 +36,8 @@ var Router = Backbone.Router.extend({
     'forgot' : 'forgot',
     'reset/:token' : 'reset',
     'invite/:token' : 'invite',
+    'unauthorized' : 'unauth',
+    'unauthorized/' : 'unauth',
 
     'create' : 'newBevy',
     'create/' : 'newBevy',
@@ -127,6 +129,11 @@ var Router = Backbone.Router.extend({
     this.reset_token = token;
   },
 
+  unauth() {
+    this.checkSubdomain();
+    this.current = 'unauth';
+  },
+
   board(board_id) {
     if(!this.checkUser() || !this.checkSubdomain()) {
       this.current = 'home';
@@ -145,18 +152,6 @@ var Router = Backbone.Router.extend({
     this.post_id = post_id;
     this.comment_id = (comment_id == undefined) ? null : comment_id;
     this.board(board_id);
-  },
-
-  search(query) {
-    if(!this.checkUser()) {
-      this.current = 'home';
-      return;
-    }
-    this.current = 'search';
-    this.search_query = query;
-    if(query == undefined) {
-      this.search_query = '';
-    }
   },
 
   editProfile(username) {
