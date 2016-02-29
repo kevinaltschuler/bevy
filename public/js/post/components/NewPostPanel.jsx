@@ -218,6 +218,11 @@ var NewPostPanel = React.createClass({
             contentEditable={ true }
             onInput={() => {
               //console.log(this.refs.title.innerHTML);
+              if(this.state.disabled) {
+                // dont let the user type if this is disabled
+                this.refs.title.innerHTML = '';
+                return;
+              }
               var title = this.refs.title.innerHTML;
               this.setState({ title: title });
             }}
