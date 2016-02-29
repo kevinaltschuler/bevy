@@ -14,7 +14,7 @@ var version = constants.version;
 var Footer = React.createClass({
   render() {
     return (
-      <span className="footer">
+      <span className="footer" style={{alignSelf: 'flex-start', marginBottom: 20}}>
         English (US) · Bevy © { (new Date).getFullYear() }
         <br />
         Version { version } <b>BETA</b>

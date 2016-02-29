@@ -166,7 +166,6 @@ var BevyView = React.createClass({
               searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
               searchQuery={ this.state.query }
             />
-            <Footer />
           </div>
         </div>
         <div >
