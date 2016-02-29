@@ -93,10 +93,8 @@ exports.searchUsers = function(req, res, next) {
   var promise;
   if(_.isEmpty(query)) {
     promise = User.find()
-      .limit(10);
   } else {
     promise = User.find()
-      .limit(10)
       .or([
         { email: { $regex: query, $options: 'i' } },
         { username: { $regex: query, $options: 'i' } }

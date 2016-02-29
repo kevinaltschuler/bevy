@@ -217,13 +217,20 @@ var NewPostPanel = React.createClass({
             className='input'
             contentEditable={ true }
             onInput={() => {
-              //console.log(this.refs.title.innerHTML);
+              // dont let the user type if this is disabled
               if(this.state.disabled) {
-                // dont let the user type if this is disabled
                 this.refs.title.innerHTML = '';
                 return;
               }
+              // collect the inner html of the editable div
               var title = this.refs.title.innerHTML;
+
+              // jenk way of stripping html elements
+              var tmp = document.createElement("DIV");
+              tmp.innerHTML = title;
+              title = tmp.textContent || tmp.innerText || '';
+
+              this.refs.title.innerHTML = title;
               this.setState({ title: title });
             }}
           >
