@@ -95,7 +95,7 @@ var BoardSidebar = React.createClass({
                 allNotifications={ this.props.allNotifications }
               />
               <div className='user-name'>
-                {window.bootstrap.user.displayName}
+                { window.bootstrap.user.displayName }
               </div>
             </div>
             <div>

@@ -24,7 +24,7 @@
     .bevy-image {
       #image-icon();
       width: 100%;
-      height: 150px;
+      height: 200px;
       position: relative;
       z-index: 1;
       display: flex;
@@ -58,13 +58,14 @@
         width: 30px;
         height: 30px;
         border-radius: 15px;
-        background-color: #FFF;
+        border: 1px solid #FFF;
+        border-color: #FFF;
+        background-color: transparent;
         box-shadow: @shadow1;
-        border: none;
         transition: 0.15s all ease-in-out;
         i.material-icons {
-          color: #AAA;
-          font-size: 1.5em;
+          color: #FFF;
+          font-size: 1.3em;
         }
       }
       .profile-btn {
