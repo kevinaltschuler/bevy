@@ -130,10 +130,11 @@ var PostHeader = React.createClass({
 
     return (
       <div className='post-header'>
-        <div
+        <button
           className='profile-img'
-          title={ this.props.post.author.displayName }
+          title={ 'View ' + this.props.post.author.displayName + '\'s Profile' }
           style={{ backgroundImage: 'url(' + profileImageURL + ')' }}
+          onClick={ this.openAuthorProfile }
         />
         <div className='post-details'>
           <div className='top'>
