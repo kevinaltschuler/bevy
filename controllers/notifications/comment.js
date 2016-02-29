@@ -69,10 +69,10 @@ var createNewCommentNotifications = function(comment) {
             comment_created: comment.created,
             comment_body: comment.body
           }
-        })
-        .lean();
+        });
         done(null, notifications, board);
-      });
+      })
+      .lean();
     },
     function(notifications, board, done) {
       Comment.findOne({ _id: comment.parentId }, function(err, $comment) {

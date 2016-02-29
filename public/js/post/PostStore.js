@@ -447,7 +447,7 @@ _.extend(PostStore, {
     var post = this.posts.get(post_id);
     if(post == undefined) return;
 
-    var comments = post.get('allComments');
+    var comments = post.get('comments');
 
     // check to see if comment already exists
     if(_.findWhere(comments, { _id: comment._id }) != undefined) {
@@ -457,7 +457,7 @@ _.extend(PostStore, {
 
     comments.push(comment);
     post.set('comments', comments);
-    post.nestComments();
+    post.updateComments();
 
     this.trigger(POST.CHANGE_ONE + post_id);
   },
