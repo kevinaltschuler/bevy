@@ -73,9 +73,12 @@ module.exports = function(app) {
         if(_.isEmpty(bevy)) return res.redirect(config.app.server.hostname + '/404');
         else return next();
       });*/
-      if(_.isEmpty(user)) return res.redirect(config.app.server.hostname);
-      if(user.bevy.slug != subdomains[0]) return res.redirect(config.app.server.hostname);
-      else return next();
+      if(!_.isEmpty(user)) {
+        if(user.bevy.slug != subdomains[0]) {
+          return res.redirect(config.app.server.hostname);
+        }
+      }
+      return next();
 
     } else if (subdomains.length > 1) {
       return res.redirect(config.app.server.hostname);
