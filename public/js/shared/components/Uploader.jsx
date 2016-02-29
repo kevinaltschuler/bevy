@@ -22,8 +22,10 @@ var {
 
 var _ = require('underscore');
 var constants = require('./../../constants');
-var POST = constants.POST;
+
 var PostStore = require('./../../post/PostStore');
+
+var POST = constants.POST;
 
 var Uploader = React.createClass({
   propTypes: {
@@ -108,6 +110,7 @@ var Uploader = React.createClass({
           <span className='glyphicon glyphicon-pencil'/>
         </button>
       );
+      
       if(_.isEmpty(this.props.tooltip)) {
         actionButtonContainer = (
           <div className='dropzone-button-container'>

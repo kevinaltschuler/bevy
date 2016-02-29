@@ -46,7 +46,7 @@ var createNewPostNotifications = function(post) {
 
   var notifications = [];
   // get all users of the board
-  User.find({ boards: board._id }, function(err, users) {
+  User.find({ bevy: board.parent }, function(err, users) {
     if(err) {
       console.error(err);
       return;

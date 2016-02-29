@@ -123,7 +123,7 @@ if(!_.isEmpty(window.bootstrap.user)) {
       notification = JSON.parse(notification);
     }
     console.log('got notification', notification);
-    NotificationStore.notifications.add(notification);
+    NotificationStore.notifications.unshift(notification);
     NotificationStore.notifications.sort();
     NotificationStore.trigger(NOTIFICATION.CHANGE_ALL);
   });
