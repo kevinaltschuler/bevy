@@ -67,10 +67,10 @@ var BoardSettingsModal = React.createClass({
 
   save(ev) {
     BoardActions.update(
-      this.props.board._id, 
-      this.state.name, 
-      this.state.description, 
-      this.state.image, 
+      this.props.board._id,
+      this.state.name,
+      this.state.description,
+      this.state.image,
       {
       }
     );
@@ -104,7 +104,7 @@ var BoardSettingsModal = React.createClass({
       dictDefaultMessage: ' ',
       init: function() {
         this.on("addedfile", function() {
-          if (this.files[1]!=null){
+          if(this.files[1]!=null) {
             this.removeFile(this.files[0]);
           }
         });

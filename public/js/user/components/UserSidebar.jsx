@@ -19,17 +19,31 @@ var {
   Button
 } = require('react-bootstrap');
 var Ink = require('react-ink');
+var Uploader = require('./../../shared/components/Uploader.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
 
+var UserActions = require('./../../user/UserActions');
+
 var UserSidebar = React.createClass({
   propTypes: {
     activeBevy: React.PropTypes.object,
     leftNavActions: React.PropTypes.object,
     sidebarActions: React.PropTypes.object
+  },
+
+  getInitialState() {
+    return {
+      image: window.bootstrap.user.image
+    };
+  },
+
+  onUploadComplete(image) {
+    this.setState({ image: image });
+    UserActions.update(null, null, null, null, image);
   },
 
   closeSidebar() {
@@ -55,6 +69,13 @@ var UserSidebar = React.createClass({
   },
 
   render() {
+    var dropzoneOptions = {
+      maxFiles: 1,
+      acceptedFiles: 'image/*',
+      clickable: '.dropzone-panel-button',
+      dictDefaultMessage: ' '
+    };
+
     return (
       <div className='user-sidebar'>
         <div className='profile'>
@@ -70,11 +91,14 @@ var UserSidebar = React.createClass({
             </div>
           </button>
           <div className='picture-container'>
-            <div
-              className='picture'
+            <Uploader
+              onUploadComplete={ this.onUploadComplete }
+              className="profile-image-dropzone"
               style={{
-                backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 256, 256).url + ')'
+                backgroundImage: 'url(' + resizeImage(this.state.image, 256, 256).url + ')'
               }}
+              dropzoneOptions={ dropzoneOptions }
+              tooltip='Change Profile Picture'
             />
           </div>
           <div className='details'>
