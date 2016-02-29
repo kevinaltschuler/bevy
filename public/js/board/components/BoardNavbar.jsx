@@ -110,8 +110,6 @@ var BoardNavbar = React.createClass({
             activeBevy={ this.props.activeBevy }
             activeBoard={ this.props.activeBoard }
           />
-        </div>
-        <div className='right'>
           <button
             style={(this.props.sidebarOpen)
               ? { boxShadow: 'inset 0 1px 2px 0 rgba(0,0,0,.075)' }
@@ -124,6 +122,9 @@ var BoardNavbar = React.createClass({
             <Ink/>
             { this.renderInfoIcon() }
           </button>
+        </div>
+        <div className='right'>
+
         </div>
       </div>
     );

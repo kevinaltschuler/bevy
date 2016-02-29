@@ -26,6 +26,33 @@
 				justify-content: flex-start;
 				flex-grow: 1;
 				padding-right: 10px;
+				.info-button {
+					background-color: #FFF;
+					border: none;
+					border: 1px solid #AAA;
+					box-shadow: none;
+				    position: relative;
+				    display: flex;
+				    flex-direction: row;
+				    align-items: center;
+				    justify-content: center;
+				    width: 30px;
+				    height: 30px;
+				    transition: 0.25s all ease-in-out;
+				    border-radius: 18px;
+					padding: 0px;
+				    i.material-icons {
+				    	color: #666;
+				    	font-size: 1.5em;
+				    	transition: 0.1s all ease-in-out;
+				    	&:hover {
+				    		color: #aaa;
+				    	}
+				    	&:active {
+							color: #666;
+				    	}
+					}
+				}
 				.title {
 					font-weight: 900;
 					font-size: 1.6em;
@@ -109,33 +136,6 @@
 				flex-direction: row;
 				align-items: center;
 				justify-content: flex-end;
-				.info-button {
-					background-color: #FFF;
-					border: none;
-					border: 1px solid #AAA;
-					box-shadow: none;
-			    position: relative;
-			    display: flex;
-			    flex-direction: row;
-			    align-items: center;
-			    justify-content: center;
-			    width: 30px;
-			    height: 30px;
-			    transition: 0.25s all ease-in-out;
-			    border-radius: 18px;
-					padding: 0px;
-			    i.material-icons {
-			    	color: #666;
-			    	font-size: 1.5em;
-			    	transition: 0.1s all ease-in-out;
-			    	&:hover {
-			    		color: #aaa;
-			    	}
-			    	&:active {
-						color: #666;
-			    	}
-			    }
-				}
 				.notification-dropdown-btn {
 					margin-left: 8px;
 					position: relative;

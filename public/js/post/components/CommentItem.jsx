@@ -146,45 +146,48 @@ var CommentItem = React.createClass({
       </div>
     ) : (
       <div className='comment-item'>
-        <div className='comment-col' >
-          <div className="comment-text">
-            <div className="comment-title">
-              <div className="comment-name">
-                <a
-                  className="comment-name"
-                  href="#"
-                  title='Message Author'
-                  onClick={ this.startPM }
-                >
-                  { authorName }
-                </a>
-                &nbsp;
-                <div className="detail-time">
-                  { timeAgo(Date.parse(comment.created)) }
+        <div className='comment-row'>
+          <img className='comment-img' src={profileImage}/>
+          <div className='comment-col' >
+            <div className="comment-text">
+              <div className="comment-title">
+                <div className="comment-name">
+                  <a
+                    className="comment-name"
+                    href="#"
+                    title='Message Author'
+                    onClick={ this.startPM }
+                  >
+                    { authorName }
+                  </a>
+                  &nbsp;
+                  <div className="detail-time">
+                    { timeAgo(Date.parse(comment.created)) }
+                    &nbsp;&nbsp;
+                  </div>
+                  <a
+                    title='Reply To Comment'
+                    className="reply-link"
+                    href="#"
+                    onClick={ this.onReply }
+                  >
+                    { replyText }
+                  </a>
                   &nbsp;&nbsp;
+                  { deleteButton }
                 </div>
-                <a
-                  title='Reply To Comment'
-                  className="reply-link"
-                  href="#"
-                  onClick={ this.onReply }
-                >
-                  { replyText }
-                </a>
-                &nbsp;&nbsp;
-                { deleteButton }
+                <div className="comment-collapse">
+                  <span
+                    className="glyphicon glyphicon-minus btn collapse-btn"
+                    onClick={this.onCollapse}>
+                  </span>
+                </div>
               </div>
-              <div className="comment-collapse">
-                <span
-                  className="glyphicon glyphicon-minus btn collapse-btn"
-                  onClick={this.onCollapse}>
-                </span>
+              <div className="comment-body">
+                { comment.body }
               </div>
-            </div>
-            <div className="comment-body">
-              { comment.body }
-            </div>
-            <div className='comment-actions'>
+              <div className='comment-actions'>
+              </div>
             </div>
           </div>
         </div>
