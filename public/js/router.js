@@ -146,8 +146,11 @@ var Router = Backbone.Router.extend({
       this.current = 'home';
       return;
     }
+
     this.current = 'board';
     this.board_id = board_id;
+
+    if(!this.checkBoard(board_id)) return this.notFound();
 
     if(this.post_id != undefined) delete this.post_id;
     if(this.comment_id != undefined) delete this.comment_id;
@@ -165,6 +168,9 @@ var Router = Backbone.Router.extend({
     this.post_id = post_id;
     this.comment_id = (comment_id == undefined) ? null : comment_id;
     this.current = 'post';
+
+    if(!this.checkBoard(board_id)) return this.notFound();
+
     //this.board(board_id);
     BoardActions.switchBoard(board_id);
     PostActions.fetchSingle(post_id);
@@ -181,6 +187,17 @@ var Router = Backbone.Router.extend({
     console.log('page not found :(', nuts);
     this.notFoundURL = nuts || '';
     this.current = '404';
+  },
+
+  checkBoard(board_id) {
+    // grab all bevy boards from the populated collection
+    var boards = window.bootstrap.user.bevy.boards;
+    // try to find the one in the url in the collection
+    var board = _.findWhere(boards, { _id: board_id });
+    // return false if it was not found,
+    // and true if it was
+    if(board == undefined) return false;
+    else return true;
   },
 
   checkUser() {
