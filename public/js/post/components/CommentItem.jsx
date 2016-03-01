@@ -136,10 +136,9 @@ var CommentItem = React.createClass({
               { authorName }
             </a>
             <div className="comment-collapse">
-              <span
-                className="glyphicon glyphicon-plus btn collapse-btn"
-                onClick={this.onCollapse}>
-              </span>
+              <i className="material-icons collapse-btn" onClick={this.onCollapse}>
+                add
+              </i>
             </div>
           </div>
         </div>
@@ -177,10 +176,9 @@ var CommentItem = React.createClass({
                   { deleteButton }
                 </div>
                 <div className="comment-collapse">
-                  <span
-                    className="glyphicon glyphicon-minus btn collapse-btn"
-                    onClick={this.onCollapse}>
-                  </span>
+                  <i className="material-icons collapse-btn" onClick={this.onCollapse}>
+                    remove
+                  </i>
                 </div>
               </div>
               <div className="comment-body">
