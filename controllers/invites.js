@@ -14,6 +14,8 @@ var async = require('async');
 var bcrypt = require('bcryptjs');
 var shortid = require('shortid');
 
+var mq = require('./../mq');
+
 var User = require('./../models/User');
 var Bevy = require('./../models/Bevy');
 var InviteToken = require('./../models/InviteToken');
@@ -41,6 +43,31 @@ var createInvite = function(req, res, next) {
         return done(null, bevy);
       })
       .lean();
+    },
+    // check for already invited users
+    // and remove emails from the emails array if they are
+    function(bevy, done) {
+      InviteToken.find({ $and: [{ email: { $in: emails } }, { bevy: bevy_id }]}, function(err, invites) {
+        if(err) return done(err);
+        // if no duplicate invites are found, return
+        if(invites.length <= 0) return done(null, bevy);
+        // remove all duplicate emails from the emails array
+        emails = _.difference(emails, _.pluck(invites, 'email'));
+        // and then return
+        return done(null, bevy);
+      }).lean();
+    },
+    // check to see if we're inviting a user that's already in this bevy
+    function(bevy, done) {
+      User.find({ $and: [{ email: { $in: emails } }, { bevy: bevy_id }]}, function(err, users) {
+        if(err) return done(err);
+        // if no duplicate users are found, return
+        if(users.length <= 0) return done(null, bevy);
+        // remove all duplicate users from the emails array
+        emails = _.difference(emails, _.pluck(users, 'email'));
+        // and then return
+        return done(null, bevy);
+      }).lean();
     },
     // create invite tokens
     function(bevy, done) {
@@ -141,13 +168,19 @@ var acceptInvite = function(req, res, next) {
         return done(null, user, inviteToken);
       });
     },
-    // finally delete the invite token
+    // delete the invite token
     function(user, inviteToken, done) {
       InviteToken.findOneAndRemove({ _id: inviteToken._id }, function(err, $inviteToken) {
         // dont crash if it failed this isn't that important
         if(err) console.log(err);
         return done(null, user);
       });
+    },
+    // and then send a message via zeromq to create a new user notification
+    // that lets all bevy members know that someone joined
+    function(user, done) {
+      mq.pubSock.send([config.mq.events.NEW_USER, JSON.stringify(user)]);
+      return done(null, user);
     }
   ], function(err, user) {
     if(err) return next(err);
