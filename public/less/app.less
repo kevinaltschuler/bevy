@@ -81,11 +81,15 @@ body {
   background-color: @background-grey;
   min-height: 100%;
   height: auto;
-  overflow-y: hidden;
+  overflow-y: auto;
   min-width: 800px;
   overflow-x: auto;
   .app-wrapper {
     .main-section-wrapper {
     }
   }
+}
+
+.noscroll {
+  overflow-y: hidden !important;
 }
