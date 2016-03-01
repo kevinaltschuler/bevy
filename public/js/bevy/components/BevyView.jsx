@@ -20,8 +20,7 @@ var {
 } = require('react-bootstrap');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
-var Footer = require('./../../app/components/Footer.jsx');
-var PostSort = require('./../../post/components/PostSort.jsx');
+var PostView = require('./../../app/components/PostView.jsx');
 // left sidebar
 var BoardSidebar = require('./../../board/components/BoardSidebar.jsx');
 // right sidebar
@@ -74,6 +73,11 @@ var BevyView = React.createClass({
     )
   },
 
+  goBackFromPostView(ev) {
+    if(ev != undefined) ev.preventDefault();
+    router.navigate('/boards/' + this.props.activeBoard._id, { trigger: true });
+  },
+
   search(queryArg) {
     var bevy_id = this.props.activeBevy._id;
     var board_id = this.props.activeBoard._id;
@@ -97,7 +101,13 @@ var BevyView = React.createClass({
   },
 
   renderNewPostPanel() {
+    // dont show the panel if we're not viewing a board.
+    // (because you can only post to a board)
     if(this.props.activeBoard._id == undefined) return <div />;
+    // dont show the panel if we're in the post view
+    // (viewing only a single post)
+    if(router.post_id != undefined) return <div />;
+
     return (
       <NewPostPanel
         activeBoard={ this.props.activeBoard }
@@ -125,27 +135,10 @@ var BevyView = React.createClass({
     this.setState({ sidebarOpen: !this.state.sidebarOpen });
   },
 
-  render() {
-    var joined = false;
-    var activeBevy = this.props.activeBevy;
-
-    if(_.isEmpty(window.bootstrap.user) || this.props.activeBevy.name == null) {
-      return <div/>;
-    }
-
-    return (
-      <div
-        className='main-section bevy-view'
-        style={{
-          paddingRight: (this.props.activeBoard._id == undefined || !this.state.sidebarOpen) ? 0 : 220
-        }}
-      >
-        <BoardSidebar
-          activeBevy={ this.props.activeBevy }
-          boards={ this.props.boards }
-          activeBoard={ this.props.activeBoard }
-          allNotifications={ this.props.allNotifications }
-        />
+  renderBody() {
+    var router = require('./../../router');
+    if(router.current == 'bevy' || router.current == 'board') {
+      return (
         <div className='bevy-view-body'>
           <BoardNavbar
             activeBoard={ this.props.activeBoard }
@@ -166,17 +159,60 @@ var BevyView = React.createClass({
               searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
               searchQuery={ this.state.query }
             />
-            <Footer />
           </div>
         </div>
-        <div >
+      );
+    } else if(router.current == 'post') {
+      return (
+        <PostView
+          { ...this.props }
+        />
+      );
+    } else {
+      return <div>SOMETHING WENT TOTALLY WRONG</div>
+    }
+  },
+
+  renderInfoBar() {
+    var router = require('./../../router');
+    if(router.current == 'bevy' || router.current == 'board') {
+      return (
         <BoardInfoSidebar
           activeBevy={ this.props.activeBevy }
           activeBoard={ this.props.activeBoard }
           open={ this.state.sidebarOpen }
-          toggleSidebar={this.toggleSidebar}
+          toggleSidebar={ this.toggleSidebar }
         />
-        </div>
+      );
+    } else if (router.current == 'post') {
+      return <div />;
+    } else {
+      return <div />;
+    }
+  },
+
+  render() {
+    var router = require('./../../router');
+    if(_.isEmpty(window.bootstrap.user) || this.props.activeBevy.name == null) {
+      return <div/>;
+    }
+
+    return (
+      <div
+        className='main-section bevy-view'
+        style={{
+          paddingRight: (this.props.activeBoard._id == undefined
+            || !this.state.sidebarOpen || router.current == 'post') ? 0 : 220
+        }}
+      >
+        <BoardSidebar
+          activeBevy={ this.props.activeBevy }
+          boards={ this.props.boards }
+          activeBoard={ this.props.activeBoard }
+          allNotifications={ this.props.allNotifications }
+        />
+        { this.renderBody() }
+        { this.renderInfoBar() }
       </div>
     );
   }

@@ -14,6 +14,7 @@ var constants = require('./constants');
 
 var BevyActions = require('./bevy/BevyActions');
 var BoardActions = require('./board/BoardActions');
+var PostActions = require('./post/PostActions');
 
 // include these just to register the dispatchers immediately
 var PostStore = require('./post/PostStore');
@@ -88,7 +89,13 @@ var Router = Backbone.Router.extend({
         return;
       }
 
+      if(this.post_id != undefined) delete this.post_id;
+      if(this.comment_id != undefined) delete this.comment_id;
+      if(this.board_id != undefined) delete this.board_id;
+
       BoardActions.switchBoard(null);
+      PostActions.fetch(null);
+
       this.current = 'bevy';
 
       return;
@@ -141,7 +148,12 @@ var Router = Backbone.Router.extend({
     }
     this.current = 'board';
     this.board_id = board_id;
-    BoardActions.switchBoard(this.board_id);
+
+    if(this.post_id != undefined) delete this.post_id;
+    if(this.comment_id != undefined) delete this.comment_id;
+
+    BoardActions.switchBoard(board_id);
+    PostActions.fetch(board_id);
   },
 
   post(board_id, post_id, comment_id) {
@@ -149,9 +161,13 @@ var Router = Backbone.Router.extend({
       this.current = 'home';
       return;
     }
+    this.board_id = board_id;
     this.post_id = post_id;
     this.comment_id = (comment_id == undefined) ? null : comment_id;
-    this.board(board_id);
+    this.current = 'post';
+    //this.board(board_id);
+    BoardActions.switchBoard(board_id);
+    PostActions.fetchSingle(post_id);
   },
 
   editProfile(username) {

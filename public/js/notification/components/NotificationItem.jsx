@@ -31,7 +31,8 @@ var NotificationItem = React.createClass({
     id: React.PropTypes.string,
     event: React.PropTypes.string,
     data: React.PropTypes.object,
-    read: React.PropTypes.bool
+    read: React.PropTypes.bool,
+    hideDropdown: React.PropTypes.func
   },
 
   dismiss(ev) {
@@ -43,8 +44,10 @@ var NotificationItem = React.createClass({
     ev.preventDefault();
     var board_id = this.props.data.board_id;
     var post_id = this.props.data.post_id;
-
-    window.location.href = '/boards/' + board_id + '/posts/' + post_id;
+    var router = require('./../../router');
+    //window.location.href = '/boards/' + board_id + '/posts/' + post_id;
+    router.navigate('/boards/' + board_id + '/posts/' + post_id, { trigger: true });
+    this.props.hideDropdown();
   },
 
   render() {

@@ -19,6 +19,7 @@ var Event = require('./Event.jsx');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var router = require('./../../router');
+var Footer = require('./../../app/components/Footer.jsx');
 
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -151,6 +152,7 @@ var PostContainer = React.createClass({
     return (
       <div className='post-container' onScroll={ this.onScroll }>
         { posts }
+        <Footer />
       </div>
     );
   }

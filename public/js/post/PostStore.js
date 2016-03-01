@@ -69,7 +69,7 @@ _.extend(PostStore, {
         this.trigger(POST.CHANGE_ALL);
         break;
 
-      case BOARD.SWITCH:
+      case POST.FETCH:
         var board_id = payload.board_id;
         var router = require('./../router');
         var url;
@@ -85,20 +85,6 @@ _.extend(PostStore, {
           success: function(collection, response, options) {
             this.posts.nestComments();
             if(board_id) this.activeBoard = board_id;
-            this.trigger(POST.CHANGE_ALL);
-          }.bind(this)
-        });
-        break;
-
-      case POST.FETCH:
-        var board_id = payload.board_id;
-        var url = constants.apiurl + '/boards/' + board_id + '/posts';
-        url = this.addSortType(url);
-        url = this.addDateRange(url);
-        this.posts.url = url;
-        this.posts.fetch({
-          success: function(collection, response, options) {
-            this.posts.nestComments();
             this.trigger(POST.CHANGE_ALL);
           }.bind(this)
         });

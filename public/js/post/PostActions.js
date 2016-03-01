@@ -13,7 +13,7 @@ var PostActions = {
   fetch(board_id) {
     Dispatcher.dispatch({
       actionType: POST.FETCH,
-      board_id: board_id
+      board_id: (board_id == undefined) ? null : board_id
     });
   },
 

@@ -7,12 +7,10 @@
 'use strict';
 
 var React = require('react');
-var ReactDOM = require('react-dom');
 var {
   CircularProgress
 } = require('material-ui');
-var Post = require('./../../post/components/Post.jsx');
-var Footer = require('./../../app/components/Footer.jsx');
+var PostContainer = require('./../../post/components/PostContainer.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -28,69 +26,37 @@ var PostView = React.createClass({
 
   getInitialState() {
     return {
-      allPosts: PostStore.getAll(),
-      postsLoaded: false
+
     };
   },
 
-  componentDidMount() {
-    PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
-    PostActions.fetchSingle(router.post_id);
-  },
-  componentWillUnmount() {
-    PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
-  },
-  handleChangeAll() {
-    this.setState({
-      postsLoaded: true,
-      allPosts: PostStore.getAll()
-    });
+  goBack(ev) {
+    if(ev) ev.preventDefault();
+    router.navigate('/boards/' + this.props.activeBoard._id, { trigger: true });
   },
 
   render() {
-    if(!this.state.postsLoaded) {
-      return (
-        <div className='post-view'>
-          <div className='loading-indeterminate'>
-            <CircularProgress mode="indeterminate" />
-          </div>
-        </div>
-      );
-    }
-
-    if(_.isEmpty(this.state.allPosts)) {
-      return (
-        <div className='post-view'>
+    return (
+      <div className='post-view'>
+        <div className='top-bar'>
           <a
             className='back-link'
             title={ 'Back to ' + this.props.activeBoard.name }
             href={ '/boards/' + this.props.activeBoard._id }
+            onClick={ this.goBack }
           >
-            <span className='glyphicon glyphicon-triangle-left' />
-            Back to&nbsp;
-            <i>{ this.props.activeBoard.name }</i>
+            <i className='material-icons'>arrow_back</i>
+            <span className='back-link-text'>
+              Back to { this.props.activeBoard.name }
+            </span>
           </a>
-          <span className='no-posts-text'>Post not found</span>
         </div>
-      );
-    }
-
-    return (
-      <div className='post-view'>
-        <a
-          className='back-link'
-          title={ 'Back to ' + this.props.activeBoard.name }
-          href={ '/boards/' + this.props.activeBoard._id }
-        >
-          <span className='glyphicon glyphicon-triangle-left' />
-          Back to&nbsp;
-          <i>{ this.props.activeBoard.name }</i>
-        </a>
-        <Post
-          post={ this.state.allPosts[0] }
-          showComments={ true }
+        <PostContainer
+          activeBevy={ this.props.activeBevy }
+          activeBoard={ this.props.activeBoard }
+          searchOpen={ false }
+          searchQuery={ '' }
         />
-        <Footer />
       </div>
     );
   }

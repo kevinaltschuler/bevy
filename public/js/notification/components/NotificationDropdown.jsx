@@ -15,8 +15,7 @@ var {
   Overlay
 } = require('react-bootstrap');
 var Ink = require('react-ink');
-var NotificationList = require('./NotificationList.jsx');
-var InviteList = require('./InviteList.jsx');
+var NotificationItem = require('./NotificationItem.jsx');
 
 var _ = require('underscore');
 var NotificationActions = require('./../NotificationActions');
@@ -60,7 +59,43 @@ var NotificationDropdown = React.createClass({
     }
   },
 
-  renderOverlay() {
+  hide() {
+    this.setState({ show: false });
+  },
+
+  renderNotificationList() {
+
+    if(this.props.allNotifications.length < 1) {
+      return (
+        <span className='no-notifications'>All Caught Up!</span>
+      );
+    }
+
+    var notifications = [];
+    for(var key in this.props.allNotifications) {
+      var notification = this.props.allNotifications[key];
+      var id = notification._id || Date.now();
+      var event = notification.event;
+      var data = notification.data;
+      var read = notification.read;
+
+      notifications.push(
+        <NotificationItem
+          key={ id }
+          id={ id }
+          event={ event }
+          data={ data }
+          read= { read }
+          hideDropdown={ this.hide }
+        />
+      );
+    }
+
+    return (
+      <div className='notification-list'>
+        { notifications }
+      </div>
+    );
   },
 
   render() {
@@ -76,7 +111,7 @@ var NotificationDropdown = React.createClass({
         </Button>
         <Overlay
           show={ this.state.show }
-          target={ (props) => ReactDOM.findDOMNode(this.refs.NotificationButton) }
+          target={ props => ReactDOM.findDOMNode(this.refs.NotificationButton) }
           placement='bottom'
           container={ this.container }
         >
@@ -87,9 +122,7 @@ var NotificationDropdown = React.createClass({
               <div className="title">
                 <span className='title-text'>Notifications</span>
               </div>
-              <NotificationList
-                allNotifications={ this.props.allNotifications }
-              />
+              { this.renderNotificationList() }
             </div>
           </div>
         </Overlay>

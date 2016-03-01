@@ -51,6 +51,11 @@ var BoardNavbar = React.createClass({
 
   },
 
+  toggleSidebar(ev) {
+    ev.preventDefault();
+    this.props.toggleSidebar();
+  },
+
   toggleLeftNav() {
     //this.props.leftNavActions.toggle();
     AppActions.openSidebar('home');
@@ -121,7 +126,7 @@ var BoardNavbar = React.createClass({
             className='info-button'
             title={ (this.props.sidebarOpen)
               ? 'Close Board Info' : 'Open Board Info' }
-            onClick={ this.props.toggleSidebar }
+            onClick={ this.toggleSidebar }
           >
             <Ink/>
             { this.renderInfoIcon() }
