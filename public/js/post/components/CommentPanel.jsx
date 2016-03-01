@@ -53,8 +53,9 @@ var CommentPanel = React.createClass({
       <div
         className='post-comments'
         style={{
-          borderBottom: (this.state.expanded) ? '2px solid #eee' : 'none',
-          paddingBottom: (this.state.expanded) ? 10 : 0
+          borderBottom: (this.state.expanded && this.props.post.comments.length > 0) ? '2px solid #eee' : 'none',
+          paddingBottom: (this.state.expanded && this.props.post.comments.length > 0) ? 10 : 0,
+          visibility: (this.props.post.comments.length <= 0) ? 'hidden' : 'visible'
         }}
       >
         <Panel collapsible expanded={ this.state.expanded }>
