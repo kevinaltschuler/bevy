@@ -107,65 +107,67 @@
       flex-direction: row;
       align-items: center;
       justify-content: flex-end;
-      .login-btn {
-        color: #fff;
-        font-size: 1.2em;
-        margin-left: 15px;
-        text-shadow: none;
-        box-shadow: none;
+
+    }
+
+    .login-btn {
+      color: #fff;
+      font-size: 1.2em;
+      margin-left: 15px;
+      text-shadow: none;
+      box-shadow: none;
+    }
+
+    .profile-buttons {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      width: 100%;
+      justify-content: flex-end;
+      span.username {
+        color: #FFF;
+        //text-shadow: none;
       }
 
-      .profile-buttons {
+      .notification-dropdown-btn {
+        margin-left: 8px;
+        position: relative;
         display: flex;
         flex-direction: row;
         align-items: center;
-        width: 100%;
-        justify-content: flex-end;
-        span.username {
+        justify-content: center;
+        padding: 0px;
+        width: 30px;
+        height: 30px;
+        border-radius: 15px;
+        background-color: transparent;
+        border: 1px solid #FFF;
+        box-shadow: none;
+        transition: 0.15s all ease-in-out;
+        margin-right: 10px;
+        i.material-icons {
           color: #FFF;
-          //text-shadow: none;
+          font-size: 1.5em;
         }
+      }
 
-        .notification-dropdown-btn {
-					margin-left: 8px;
-					position: relative;
-					display: flex;
-					flex-direction: row;
-					align-items: center;
-					justify-content: center;
-					padding: 0px;
-					width: 30px;
-					height: 30px;
-					border-radius: 15px;
-					background-color: transparent;
-					border: 1px solid #FFF;
-					box-shadow: none;
-					transition: 0.15s all ease-in-out;
-          margin-right: 10px;
-					i.material-icons {
-						color: #FFF;
-						font-size: 1.5em;
-					}
-				}
-
-        .profile-btn {
-          text-shadow: none;
-          margin-top: 14px;
-          margin-bottom: 14px;
-          margin-left: 0px;
-          margin-right: 10px;
-          width: 40px;
-          height: 40px;
-          min-width: 40px;
-          min-height: 40px;
-          border-radius: 20px;
-          #image-icon();
-          transition: all 0.4s ease;
-          box-shadow: @shadow1;
-          border: none;
-          &:active {
-            box-shadow: @shadow3;
-          }
+      .profile-btn {
+        text-shadow: none;
+        margin-top: 14px;
+        margin-bottom: 14px;
+        margin-left: 0px;
+        margin-right: 10px;
+        width: 40px;
+        height: 40px;
+        min-width: 40px;
+        min-height: 40px;
+        border-radius: 20px;
+        #image-icon();
+        transition: all 0.4s ease;
+        box-shadow: @shadow1;
+        border: none;
+        &:active {
+          box-shadow: @shadow3;
         }
       }
     }

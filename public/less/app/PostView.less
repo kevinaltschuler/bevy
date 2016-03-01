@@ -8,11 +8,13 @@
 .post-view {
   margin-top: 53px;
   padding-top: 15px;
-  display: flex;
-  flex-direction: column;
   margin-left: auto;
   margin-right: auto;
   width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  flex-grow: 1;
+  height: calc(~'100vh - 53px');
   .top-bar {
     display: fixed;
     width: calc(~'100% - 250px');
@@ -27,6 +29,7 @@
     background-color: #fff;
     justify-content: space-between;
     top: 0;
+    border-bottom: 1px solid #DDD;
     a.back-link {
       color: #555;
       display: flex;

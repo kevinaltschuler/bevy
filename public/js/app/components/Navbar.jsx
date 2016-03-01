@@ -89,38 +89,20 @@ var Navbar = React.createClass({
       );
     }
 
-    var userInvites = this.props.userInvites || [];
-
-    var unread = _.reject(this.props.allNotifications, function(notification){
-      return notification.read
-    });
-    var counter = (unread.length <= 0)
-      ? ''
-      : (
-        <Badge className='notification-counter'>
-          { unread.length }
-        </Badge>
-      );
-
     return (
       <div className='profile-buttons'>
         <span className='username'>
           { window.bootstrap.user.displayName }
         </span>
-        <NotificationDropdown
-          allNotifications={ this.props.allNotifications }
-        />
-        { counter }
         <Button
           className='profile-btn'
           onClick={ this.toggleLeftNav }
           style={{
             backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')',
-            marginRight: 0
+            marginLeft: 10
           }}
           title='Account'
-        >
-        </Button>
+        />
       </div>
     );
   },

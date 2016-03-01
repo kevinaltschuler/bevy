@@ -48,7 +48,6 @@ var PostFooter = React.createClass({
     this.setState({ showComments: !this.state.showComments });
   },
 
-
   render() {
     var voteButtonStyle = {};
     var upvoted = _.find(this.props.post.votes, vote => {

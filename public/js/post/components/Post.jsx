@@ -22,6 +22,7 @@ var {
 var PostHeader = require('./PostHeader.jsx');
 var PostImages = require('./PostImages.jsx');
 var PostFooter = require('./PostFooter.jsx');
+var PostBody = require('./PostBody.jsx');
 
 var _ = require('underscore');
 var router = require('./../../router');
@@ -38,12 +39,14 @@ var maxTextHeight = 100;
 var Post = React.createClass({
   propTypes: {
     post: React.PropTypes.object.isRequired,
-    showComments: React.PropTypes.bool
+    showComments: React.PropTypes.bool,
+    searchOpen: React.PropTypes.bool,
+    searchQuery: React.PropTypes.string
   },
 
   getDefaultProps() {
     return {
-      showComments: false
+      showComments: (router.current == 'post')
     };
   },
 
@@ -70,38 +73,30 @@ var Post = React.createClass({
   componentDidMount() {
     PostStore.on(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
 
-    this.findVideos();
-    this.highlightLinks();
-    this.hideExtraText();
+    //this.findVideos();
+    //this.highlightLinks();
+    //this.hideExtraText();
   },
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ONE + this.props.post._id, this._onPostChange);
   },
 
   _onPostChange() {
-    this.setState({
-      post: PostStore.getPost(this.props.post._id)
-    });
+    this.setState({ post: PostStore.getPost(this.props.post._id) });
   },
 
   onHandleToggle(ev) {
     ev.preventDefault();
-    this.setState({
-      expanded: !this.state.expanded
-    });
+    this.setState({ expanded: !this.state.expanded });
   },
 
   onChange(ev) {
-    this.setState({
-      title: this.refs.title.getValue()
-    });
+    this.setState({ title: this.refs.title.getValue() });
   },
 
   startEdit(ev) {
     ev.preventDefault();
-    this.setState({
-      isEditing: true
-    });
+    this.setState({ isEditing: true });
   },
 
   stopEdit(ev) {
@@ -109,16 +104,12 @@ var Post = React.createClass({
     var title = this.state.title;
     var images = this.state.post.images;
     PostActions.update(this.props.post._id, title, images);
-    this.setState({
-      isEditing: false
-    });
+    this.setState({ isEditing: false });
   },
 
   toggleExpanded(ev) {
     ev.preventDefault();
-    this.setState({
-      expanded: !this.state.expanded
-    });
+    this.setState({ expanded: !this.state.expanded });
   },
 
   removeImage(image) {
@@ -128,17 +119,13 @@ var Post = React.createClass({
     });
     var post = this.state.post;
     post.images = images;
-    this.setState({
-      post: post
-    });
+    this.setState({ post: post });
   },
 
   addImage(file) {
     var post = this.state.post;
     post.images.push(file);
-    this.setState({
-      post: post
-    });
+    this.setState({ post: post });
   },
 
   highlightLinks() {
@@ -169,9 +156,7 @@ var Post = React.createClass({
         />
       );
     }
-    this.setState({
-      videos: videos
-    });
+    this.setState({ videos: videos });
   },
 
   hideExtraText() {
@@ -183,41 +168,6 @@ var Post = React.createClass({
     var post = this.state.post;
     var bevy = post.bevy;
     var author = post.author;
-
-    var panelBodyText;
-    if(this.state.isEditing) {
-      panelBodyText = (
-        <div className='panel-body-text editing'>
-          <TextField
-            className='edit-field'
-            type='text'
-            ref='title'
-            multiLine={true}
-            defaultValue={ this.state.title  }
-            value={ this.state.title  }
-            style={{ width: '75%' }}
-            placeholder=' '
-            onChange={ this.onChange }
-          />
-          <RaisedButton
-            label='save'
-            onClick={ this.stopEdit }
-            style={{marginBottom: '8px'}}
-          />
-        </div>
-      );
-    } else {
-      var style = {};
-      if(this.state.height > maxTextHeight && !this.state.expanded) {
-        style.height = maxTextHeight;
-      }
-
-      panelBodyText = (
-        <div ref='Title' className='panel-body-text' style={ style }>
-          { this.state.title }
-        </div>
-      );
-    }
 
     var expandButton = (this.state.expanded)
       ? (
@@ -242,13 +192,20 @@ var Post = React.createClass({
     if(this.state.height <= maxTextHeight) expandButton = '';
 
     return  (
-      <div className='post' postId={ post._id } id={ 'post:' + post._id }>
-        <PostHeader post={ post } startEdit={this.startEdit} />
-        <div className='panel-body'>
-          { panelBodyText }
-          { expandButton }
-          { this.state.videos }
-        </div>
+      <div
+        className='post'
+        postId={ post._id }
+        id={ 'post:' + post._id }
+      >
+        <PostHeader
+          post={ post }
+          startEdit={ this.startEdit }
+        />
+        <PostBody
+          post={ post }
+          editing={ this.state.isEditing }
+          stopEditing={ this.stopEditing }
+        />
         <PostImages
           post={ post }
           isEditing={this.state.isEditing}
