@@ -197,13 +197,22 @@ var NewPostPanel = React.createClass({
         postId={ this.state.id }
       >
         <div className="new-post-title">
-          <div
-            className='profile-picture'
-            title={ 'Posting as ' + window.bootstrap.user.displayName }
-            style={{
-              backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
-            }}
-          />
+          <OverlayTrigger
+            placement='top'
+            overlay={
+              <Tooltip id='post-profile-picture'>
+                Posting as { window.bootstrap.user.displayName }
+              </Tooltip>
+            }
+          >
+            <div
+              className='profile-picture'
+              title={ 'Posting as ' + window.bootstrap.user.displayName }
+              style={{
+                backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
+              }}
+            />
+          </OverlayTrigger>
           <span
             className='hint-text'
             style={{
