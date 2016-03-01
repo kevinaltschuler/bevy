@@ -19,6 +19,7 @@ var constants = require('./../../constants');
 var router = require('./../../router');
 
 var maxTextHeight = 100;
+var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 
 var PostBody = React.createClass({
   propTypes: {
@@ -49,6 +50,16 @@ var PostBody = React.createClass({
 
   componentDidMount() {
     this.measureHeight();
+    this.highlightLinks();
+  },
+
+  highlightLinks() {
+    var title = ReactDOM.findDOMNode(this.refs.Title);
+    var titleHTML = title.innerHTML;
+    titleHTML = titleHTML.replace(urlRegex, function(url) {
+      return `<a href="${url}" title="${url}" target="_blank">${url}</a>`;
+    });
+    title.innerHTML = titleHTML;
   },
 
   toggleExpanded(ev) {
