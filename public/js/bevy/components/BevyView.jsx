@@ -58,6 +58,11 @@ var BevyView = React.createClass({
 
   componentDidMount() {
     BevyStore.on(BOARD.SWITCHED, this.onBoardSwitch);
+    document.body.className = 'noscroll';
+  },
+
+  componentWillUnmount() {
+    document.body.className = '';
   },
 
   onBoardSwitch() {
