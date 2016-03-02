@@ -42,8 +42,9 @@ var BoardSidebar = React.createClass({
   },
 
   onHomeClick() {
+    // dont do anything if we're already at the home feed
+    if(this.props.activeBoard._id == undefined) return;
     router.navigate('/', { trigger: true });
-    BoardActions.switchBoard(null);
   },
 
   renderBoards() {

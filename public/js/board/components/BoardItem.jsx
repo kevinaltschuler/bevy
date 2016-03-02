@@ -53,6 +53,9 @@ var BoardItem = React.createClass({
   },
 
   onClick() {
+    // if we're already in this board, then return and dont navigate
+    if(this.props.activeBoard._id == this.props.board._id) return;
+    
     router.navigate('/boards/' + this.props.board._id, { trigger: true });
   },
 
