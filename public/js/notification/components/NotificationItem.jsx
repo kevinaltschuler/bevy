@@ -24,6 +24,7 @@ var router = require('./../../router');
 var NotificationActions = require('./../NotificationActions');
 var BevyActions = require('./../../bevy/BevyActions');
 var timeAgo = require('./../../shared/helpers/timeAgo');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var user = window.bootstrap.user;
 
 var NotificationItem = React.createClass({
@@ -169,9 +170,37 @@ var NotificationItem = React.createClass({
         );
         break;
 
+      case 'user:new':
+        var user = data;
+        body = (
+          <Button
+            className='notification-body'
+            title='View '
+            onClick={ this.viewNewUserProfile }
+          >
+            <Ink />
+            <div
+              className='sidebar-picture'
+              style={{
+                backgroundImage: `url(${resizeImage(user.image, 128, 128).url})`
+              }}
+            />
+            <div className='notification-text-col'>
+              <b>{ user.displayName }</b>
+              <span>&nbsp;joined this bevy!</span>
+              <br />
+              <span>
+                &nbsp;-&nbsp;
+                { timeAgo(Date.parse(user.created)) }
+              </span>
+            </div>
+          </Button>
+        );
+        break;
+
       default:
         body = (
-          <span>{ data }</span>
+          <span>{ data.toString() }</span>
         );
         break;
     }

@@ -22,7 +22,7 @@ var Notification = require('./../../models/Notification');
 // configure subscriber socket
 var subSock = zmq.socket('sub');
 subSock.connect('tcp://127.0.0.1:4000');
-subSock.subscribe(config.mq.events.NEW_POST);
+subSock.subscribe(config.mq.events.NEW_USER);
 
 // link pubsocket
 var pubSock = mq.pubSock;
@@ -62,7 +62,7 @@ var createNewUserNotifications = function(user) {
       notifications.push(notification);
 
       // send out to websockets for active users to receive immediately
-      mq.pubSock.send('notification.' + $user._id, JSON.stringify(notification));
+      pubSock.send(['notification.' + $user._id, JSON.stringify(notification)]);
     });
 
     // flush to db

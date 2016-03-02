@@ -206,7 +206,7 @@ function checkInvite(req, res, next) {
     if(err) return next(err);
     if(!inviteToken) {
       console.log('token not found');
-      return res.redirect('/');
+      return res.redirect('/404');
     }
     req.inviteTokenUser = inviteToken.user;
     return next();
