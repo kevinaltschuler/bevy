@@ -41,7 +41,6 @@ _.extend(BevyStore, {
     switch(payload.actionType) {
 
       case APP.LOAD:
-        console.log(window.bootstrap.user);
         // load the bevy thats packaged with the user into the active bevy object
         this.active = new Bevy(window.bootstrap.user.bevy);
         this.boards = new Boards(window.bootstrap.user.boards);

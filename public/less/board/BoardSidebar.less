@@ -66,9 +66,11 @@
         i.material-icons {
           font-size: 1.3em;
         }
-        &:hover {
+        &:hover, &:active, &:focus {
           background-color: #fff;
-          color: #aaa;
+          i.material-icons {
+            color: #2CB673;
+          }
         }
       }
       .profile-btn {
@@ -268,7 +270,7 @@
           align-items: center;
           width: 20px;
           height: 20px;
-          z-index: 3;
+          //z-index: 1;
           i.material-icons {
             color: #EEE;
             font-size: 1.4em;

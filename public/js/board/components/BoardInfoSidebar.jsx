@@ -196,7 +196,7 @@ let AdminItem = React.createClass({
     return (
       <button
         className='admin-item'
-        title={ this.props.admin.displayName }
+        title={ `View ${this.props.admin.displayName}'s Profile` }
         onClick={ this.onClick }
       >
         <Ink />

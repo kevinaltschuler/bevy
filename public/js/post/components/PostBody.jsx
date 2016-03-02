@@ -13,6 +13,11 @@
 
 var React = require('react');
 var ReactDOM = require('react-dom');
+var {
+  Input,
+  Button
+} = require('react-bootstrap');
+var Ink = require('react-ink');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
@@ -24,7 +29,7 @@ var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
 var PostBody = React.createClass({
   propTypes: {
     post: React.PropTypes.object,
-    editing: React.PropTypes.bool,
+    isEditing: React.PropTypes.bool,
     stopEditing: React.PropTypes.func,
   },
 
@@ -53,6 +58,10 @@ var PostBody = React.createClass({
     this.highlightLinks();
   },
 
+  onTitleChange() {
+    this.setState({ title: this.refs.EditTitle.getValue() });
+  },
+
   highlightLinks() {
     var title = ReactDOM.findDOMNode(this.refs.Title);
     var titleHTML = title.innerHTML;
@@ -70,6 +79,17 @@ var PostBody = React.createClass({
   measureHeight() {
     var title = ReactDOM.findDOMNode(this.refs.Title);
     this.setState({ height: title.offsetHeight });
+  },
+
+  cancelEditing() {
+    this.props.stopEditing();
+  },
+  saveEditing() {
+    this.props.stopEditing(this.state.title);
+    setTimeout(() => {
+      this.measureHeight();
+      this.highlightLinks();
+    }, 500)
   },
 
   renderExpandButton() {
@@ -102,14 +122,49 @@ var PostBody = React.createClass({
     }
   },
 
+  renderEditing() {
+    return (
+      <div className='post-body editing'>
+        <Input
+          ref='EditTitle'
+          type='textarea'
+          value={ this.state.title }
+          onChange={ this.onTitleChange }
+          placeholder='Edit this post'
+        />
+        <div className='edit-buttons'>
+          <Button
+            className='cancel-button'
+            title='Cancel editing'
+            onClick={ this.cancelEditing }
+          >
+            <Ink />
+            <span>Cancel</span>
+          </Button>
+          <Button
+            className='save-button'
+            title='Save changes'
+            onClick={ this.saveEditing }
+          >
+            <Ink />
+            <span>Save Changes</span>
+          </Button>
+        </div>
+      </div>
+    );
+  },
+
   render() {
+    // if we're editing the post, delegate rendering to the renderediting function
+    if(this.props.isEditing) return this.renderEditing();
+
     var style = {};
     if(this.state.height > maxTextHeight && !this.state.expanded) {
       style.height = maxTextHeight;
     }
 
     return (
-      <div className='panel-body'>
+      <div className='post-body'>
         <div ref='Title' className='panel-body-text' style={ style }>
           { this.state.title }
         </div>

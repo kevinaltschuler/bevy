@@ -52,7 +52,6 @@ var NotificationDropdown = React.createClass({
     this.setState({ show: !this.state.show });
     for(var key in this.props.allNotifications) {
       var notification = this.props.allNotifications[key];
-      console.log(notification.read);
       if(!notification.read) {
         NotificationActions.read(notification._id);
       }
@@ -64,7 +63,6 @@ var NotificationDropdown = React.createClass({
   },
 
   renderNotificationList() {
-
     if(this.props.allNotifications.length < 1) {
       return (
         <span className='no-notifications'>All Caught Up!</span>

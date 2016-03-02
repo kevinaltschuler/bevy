@@ -88,9 +88,12 @@ var Post = React.createClass({
     this.setState({ isEditing: true });
   },
 
-  stopEdit(ev) {
-    ev.preventDefault();
-    var title = this.state.title;
+  stopEditing(title) {
+    if(title == undefined) {
+      this.setState({ isEditing: false });
+      return;
+    }
+
     var images = this.state.post.images;
     PostActions.update(this.props.post._id, title, images);
     this.setState({ isEditing: false });
@@ -134,7 +137,7 @@ var Post = React.createClass({
         />
         <PostBody
           post={ this.state.post }
-          editing={ this.state.isEditing }
+          isEditing={ this.state.isEditing }
           stopEditing={ this.stopEditing }
         />
         <PostImages
