@@ -14,8 +14,11 @@
     .comment-img {
       width: 30px;
       height: 30px;
+      min-width: 30px;
+      min-height: 30px;
       border-radius: 15px;
       margin-left: 10px;
+      #image-icon();
     }
     .collapse-btn {
       color: @light-font;
@@ -60,8 +63,8 @@
       .comment-title {
         display: flex;
         flex-direction: row;
-          justify-content: space-between;
-          width: 100%;
+        justify-content: space-between;
+        width: 100%;
         .btn {
           color: @light-font;
           background: none;

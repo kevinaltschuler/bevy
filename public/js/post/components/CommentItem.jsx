@@ -153,9 +153,11 @@ var CommentItem = React.createClass({
     return (
       <div className='comment-item'>
         <div className='comment-row'>
-          <img
+          <div
             className='comment-img'
-            src={ resizeImage(this.props.comment.author.image, 128, 128).url }
+            style={{
+              backgroundImage: `url(${resizeImage(this.props.comment.author.image, 128, 128).url })`
+            }}
           />
           <div className='comment-col' >
             <div className='comment-text'>
