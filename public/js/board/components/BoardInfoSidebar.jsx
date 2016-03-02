@@ -116,19 +116,26 @@ let BoardInfoSidebar = React.createClass({
           <span className='admins-title'>
             Admins ({ this.props.activeBoard.admins.length })
           </span>
-          <button
-            className='add-button'
-            title='Add an admin to this board'
-            onClick={ this.showAdminModal }
-          >
-            <span className='text'>
-              Add Board Admin
-            </span>
-          </button>
+          { this.renderAddAdminButton() }
         </div>
         { adminItems }
       </div>
     )
+  },
+
+  renderAddAdminButton() {
+    if(!this.state.isAdmin) return <div />;
+    return (
+      <button
+        className='add-button'
+        title='Add an admin to this board'
+        onClick={ this.showAdminModal }
+      >
+        <span className='text'>
+          Add Board Admin
+        </span>
+      </button>
+    );
   },
 
   renderSettingsButton() {
