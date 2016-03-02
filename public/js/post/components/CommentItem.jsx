@@ -13,8 +13,10 @@ var CommentSubmit = require('./CommentSubmit.jsx');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var timeAgo = require('./../../shared/helpers/timeAgo');
-var CommentActions = require('./../CommentActions');
-var user = window.bootstrap.user;
+var resizeImage = require('./../../shared/helpers/resizeImage');
+
+var CommentActions = require('./../../post/CommentActions');
+var AppActions = require('./../../app/AppActions');
 
 var CommentList = React.createClass({
   propTypes: {
@@ -59,16 +61,15 @@ var CommentItem = React.createClass({
   },
 
   onReply(ev) {
-    if(ev)
-      ev.preventDefault();
-
-    this.setState({
-      isReplying: !this.state.isReplying
-    });
+    if(ev) ev.preventDefault();
+    this.setState({ isReplying: !this.state.isReplying });
   },
 
-  startPM(ev) {
-    ev.preventDefault();
+  goToAuthorProfile(ev) {
+    if(ev) ev.preventDefault();
+    AppActions.openSidebar('profile', {
+      profileUser: this.props.comment.author
+    });
   },
 
   destroy(ev) {
@@ -77,45 +78,37 @@ var CommentItem = React.createClass({
   },
 
   onCollapse(ev) {
-    this.setState({
-      collapsed: !this.state.collapsed
-    });
+    this.setState({ collapsed: !this.state.collapsed });
   },
 
-  render() {
-    var comment = this.props.comment;
-    var author = comment.author;
-    var post = this.props.post;
+  renderCollapsed() {
+    return (
+      <div className='comment-item'>
+        <div className='comment-col collapsed' >
+          <div
+            className='comment-title'
+            onClick={ this.onCollapse }
+          >
+            <a className='comment-name'>
+              { this.props.comment.author.displayName }
+            </a>
+            <div className='comment-collapse'>
+              <i
+                className='material-icons collapse-btn'
+                onClick={ this.onCollapse }
+              >
+                add
+              </i>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  },
 
-    var authorName = author.displayName || 'placeholder author';
-
-    var profileImage = (_.isEmpty(author.image))
-      ? constants.defaultProfileImage
-      : author.image.path;
-
-    var replyText = (this.state.isReplying)
-    ? 'close'
-    : 'reply';
-
-    var submit = (this.state.isReplying)
-    ? (<CommentSubmit
-        postId={ post._id }
-        commentId={ comment._id }
-        author={ post.author }
-        onReply={ this.onReply }
-      />)
-    : <div />;
-
-    var commentList = (!_.isEmpty(comment.comments))
-    ? (<CommentList
-        comments={ comment.comments }
-        post={ post }
-      />)
-    : '';
-
-    var deleteButton = '';
-    if(window.bootstrap.user && author._id == window.bootstrap.user._id) {
-      deleteButton = (
+  renderDeleteButton() {
+    if(this.props.comment.author._id == window.bootstrap.user._id) {
+      return (
         <a
           className='reply-link'
           title='Delete Comment'
@@ -125,80 +118,90 @@ var CommentItem = React.createClass({
           delete
         </a>
       );
-    }
+    } else return <div />;
+  },
 
-    var collapseBody = (this.state.collapsed)
-    ? (
-      <div className='comment-item'>
-        <div className='comment-col collapsed' >
-          <div className="comment-title" onClick={this.onCollapse}>
-            <a className="comment-name">
-              { authorName }
-            </a>
-            <div className="comment-collapse">
-              <i className="material-icons collapse-btn" onClick={this.onCollapse}>
-                add
-              </i>
-            </div>
-          </div>
-        </div>
-      </div>
-    ) : (
+  renderCommentSubmit() {
+    if(this.state.isReplying) {
+      return (
+        <CommentSubmit
+          postId={ this.props.post._id }
+          commentId={ this.props.comment._id }
+          author={ this.props.post.author }
+          onReply={ this.onReply }
+        />
+      );
+    } else return <div />;
+  },
+
+  renderCommentList() {
+    if(!_.isEmpty(this.props.comment.comments)) {
+      return (
+        <CommentList
+          comments={ this.props.comment.comments }
+          post={ this.props.post }
+        />
+      );
+    } else {
+      return <div />;
+    }
+  },
+
+  render() {
+    if(this.state.collapsed) return this.renderCollapsed();
+
+    return (
       <div className='comment-item'>
         <div className='comment-row'>
-          <img className='comment-img' src={profileImage}/>
+          <img
+            className='comment-img'
+            src={ resizeImage(this.props.comment.author.image, 128, 128).url }
+          />
           <div className='comment-col' >
-            <div className="comment-text">
-              <div className="comment-title">
+            <div className='comment-text'>
+              <div className='comment-title'>
                 <div className="comment-name">
                   <a
-                    className="comment-name"
-                    href="#"
-                    title='Message Author'
-                    onClick={ this.startPM }
+                    className='comment-name'
+                    href='#'
+                    title={`View ${this.props.comment.author.displayName}'s Profile`}
+                    onClick={ this.goToAuthorProfile }
                   >
-                    { authorName }
+                    { this.props.comment.author.displayName }
                   </a>
                   &nbsp;
-                  <div className="detail-time">
-                    { timeAgo(Date.parse(comment.created)) }
+                  <div className='detail-time'>
+                    { timeAgo(Date.parse(this.props.comment.created)) }
                     &nbsp;&nbsp;
                   </div>
                   <a
                     title='Reply To Comment'
-                    className="reply-link"
-                    href="#"
+                    className='reply-link'
+                    href='#'
                     onClick={ this.onReply }
                   >
-                    { replyText }
+                    { (this.state.isReplying) ? 'close' : 'reply' }
                   </a>
                   &nbsp;&nbsp;
-                  { deleteButton }
+                  { this.renderDeleteButton() }
                 </div>
-                <div className="comment-collapse">
-                  <i className="material-icons collapse-btn" onClick={this.onCollapse}>
+                <div className='comment-collapse'>
+                  <i
+                    className='material-icons collapse-btn'
+                    onClick={ this.onCollapse }
+                  >
                     remove
                   </i>
                 </div>
               </div>
-              <div className="comment-body">
-                { comment.body }
-              </div>
-              <div className='comment-actions'>
+              <div className='comment-body'>
+                { this.props.comment.body }
               </div>
             </div>
           </div>
         </div>
-        { submit }
-        <div>
-          { commentList }
-        </div>
-      </div>
-    );
-
-    return (
-      <div>
-        { collapseBody }
+        { this.renderCommentSubmit() }
+        { this.renderCommentList() }
       </div>
     );
   }
