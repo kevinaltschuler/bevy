@@ -181,7 +181,7 @@ _.extend(UserStore, {
         // if we're searching through admins, go through a totally different route
         if(role == 'admin') {
           let activeBevy = BevyStore.getActive();
-          let admin_ids = activeBevy.admins;
+          let admin_ids = _.pluck(activeBevy.admins, '_id');
           for(var key in admin_ids) {
             url += '&admin_ids[' + key + ']=' + admin_ids[key];
           }
