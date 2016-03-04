@@ -103,8 +103,26 @@ module.exports = function(app) {
           if(err) return next(err);
           // if the bevy doesn't exist, redirect to the bevy not found page
           if(_.isEmpty(bevy)) return viewController.renderNotFound(req, res, next);
-          // otherwise, let them log into this bevy
-          else return next();
+
+          // we'll only allow a few routes to be available to users who
+          // haven't joined the bevy yet.
+
+          // collect the route path into an array for easy checking
+          var path_chunks = req.path.toString().split('/');
+          var allowed_paths = ['invite'];
+          if(path_chunks.length <= 1 || path_chunks[1].length <= 0) {
+            // they're in the root of the subdomain, which is the login page
+            // let the user continue
+            return next();
+          } else if(_.contains(allowed_paths, path_chunks[1])) {
+            // they're in an allowed path of the bevy subdomain.
+            // let the user continue
+            return next();
+          } else {
+            // if they're trying to access a board or something else,
+            // then redirect the user to the bevy subdomain's sign in page
+            return res.redirect('/');
+          }
         });
       }
     } else if (subdomains.length > 1) {

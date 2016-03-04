@@ -63,6 +63,12 @@ var InvitePage = React.createClass({
     });
   },
 
+  onUsernameKeyUp(ev) {
+    if(ev.which == 13) {
+      this.refs.username.blur();
+      this.refs.password.focus();
+    }
+  },
   onUsernameChange() {
     // update the username state value
     var username = this.refs.username.getValue();
@@ -70,6 +76,12 @@ var InvitePage = React.createClass({
     // clear the username error if they erased the username
     if(_.isEmpty(username)) {
       this.setState({ usernameError: '' });
+    }
+  },
+  onPasswordKeyUp(ev) {
+    if(ev.which == 13) {
+      this.refs.password.blur();
+      this.submit();
     }
   },
   onPasswordChange() {
@@ -98,6 +110,7 @@ var InvitePage = React.createClass({
     // break out if username is empty
     if(_.isEmpty(username)) {
       this.setState({ usernameError: 'Please enter a username' });
+      this.refs.username.focus();
       return;
     }
     // loop thru username characters and break out if a character isn't in the allowed chars map
@@ -106,6 +119,7 @@ var InvitePage = React.createClass({
     while(i < username.length) {
       if(!_.contains(allowed_chars, username.charAt(i))) {
         this.setState({ usernameError: 'Only lowercase letters, numbers, and hyphens are allowed' });
+        this.refs.username.focus();
         return;
       }
       i++;
@@ -113,9 +127,11 @@ var InvitePage = React.createClass({
     // check username length
     if(username.length > 16) {
       this.setState({ usernameError: 'Username must be less than 16 characters' });
+      this.refs.username.focus();
       return;
     } else if (username.length < 3) {
       this.setState({ usernameError: 'Username must be more than 3 characters' });
+      this.refs.username.focus();
       return;
     }
     // if everything's ok, then clear the error
@@ -124,6 +140,7 @@ var InvitePage = React.createClass({
     // break out if password is empty
     if(_.isEmpty(password)) {
       this.setState({ passwordError: 'Please enter a password' });
+      this.refs.password.focus();
       return;
     }
     // and clear the error if everythings ok
@@ -222,6 +239,7 @@ var InvitePage = React.createClass({
             errorText={ this.state.usernameError }
             value={ this.state.username }
             onChange={ this.onUsernameChange }
+            onKeyUp={ this.onUsernameKeyUp }
             underlineFocusStyle={{
               borderColor: '#666'
             }}
@@ -239,6 +257,7 @@ var InvitePage = React.createClass({
             errorText={ this.state.passwordError }
             value={ this.state.password }
             onChange={ this.onPasswordChange }
+            onKeyUp={ this.onPasswordKeyUp }
             underlineFocusStyle={{
               borderColor: '#666'
             }}
