@@ -147,20 +147,7 @@ module.exports = function(app) {
   });
 
   app.get('/reset/:token', checkToken, viewController.renderApp);
-  app.get('/invite/:token',
-    checkInvite,
-    function(req, res, next) {
-      // if the user is logged in,
-      // then don't show this page. redirect to the homepage
-      if(req.user != undefined) {
-        return res.redirect(config.app.server.hostname);
-      } else {
-        // if they aren't, then let them proceed
-        return next();
-      }
-    },
-    viewController.renderApp
-  );
+  app.get('/invite/:token', checkInvite, viewController.renderApp);
 
   app.post('/forgot/group', function(req, res, next) {
     var email = req.body['email'];
@@ -191,9 +178,7 @@ function checkToken(req, res, next) {
   ResetToken.findOne({ token: token }, function(err, resetToken) {
     if(err) return next(err);
     if(!resetToken) {
-      // token not found
-      console.log('token not found');
-      return res.redirect('/signin');
+      return viewController.renderNotFound(req, res, next);
     }
     req.resetTokenUser = resetToken.user;
     return next();
@@ -205,10 +190,23 @@ function checkInvite(req, res, next) {
   InviteToken.findOne({ token: token }, function(err, inviteToken) {
     if(err) return next(err);
     if(!inviteToken) {
-      console.log('token not found');
-      return res.redirect('/404');
+      return viewController.renderNotFound(req, res, next);
     }
-    req.inviteTokenUser = inviteToken.user;
+
+    // load the invite token into the request object so it
+    // can be passed down to the jade view
+    req.inviteToken = inviteToken;
+
+    // see if we're in the right subdomain
+    if(req.subdomains.length <= 0 || req.subdomains[0] != inviteToken.bevy.slug) {
+      // if we're not in any subdomain, or if we're at
+      // the wrong subdomain,
+      // redirect so we're at the right one
+      var $path = req.path;
+      return res.redirect('http://' + inviteToken.bevy.slug + '.' + config.app.server.domain + $path);
+    }
+    // everything's ok, continue
     return next();
-  });
+  })
+  .populate('bevy');
 };

@@ -31,14 +31,14 @@ var UnauthView = React.createClass({
             Bevy
           </span>
         </div>
-        <h1 className='title'>😥Unauthorized😥</h1>
+        <h1 className='title'>😥 Unauthorized 😥</h1>
         <h4>You ({ window.bootstrap.user.email }) are not a part of this bevy. Did you mean to go to</h4>
         <a
           className='link'
           href={ 'http://' + window.bootstrap.user.bevy.slug + '.' + constants.domain }
           title={ window.bootstrap.user.bevy.name }
         >
-          { window.bootstrap.user.bevy.slug + '.' + constants.domain }
+          { window.bootstrap.user.bevy.slug + '.' + constants.domain }?
         </a>
       </div>
     );

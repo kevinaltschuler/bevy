@@ -33,9 +33,7 @@ var USER = constants.USER;
 var InvitePage = React.createClass({
   getInitialState() {
     return {
-      loadingInitial: true,
-      bevy: {},
-      invite: {},
+      invite: window.bootstrap.inviteToken,
       username: '',
       usernameError: '',
       password: '',
@@ -45,27 +43,6 @@ var InvitePage = React.createClass({
   },
 
   componentDidMount() {
-    var router = require('./../../router');
-    var inviteToken = router.inviteToken;
-    // load the invite from the server
-    fetch(constants.apiurl + '/invites/' + inviteToken, {
-      method: 'GET'
-    })
-    .then(res => res.json())
-    .then(res => {
-      // lag it a little bit to be smooth
-      setTimeout(() => {
-        this.setState({
-          loadingInitial: false,
-          bevy: res.bevy,
-          invite: res
-        });
-      }, 750);
-    })
-    .catch(err => {
-      console.error(err.toString());
-    });
-
     UserStore.on(USER.LOGIN_SUCCESS, this.onLoginSuccess);
     UserStore.on(USER.LOGIN_ERROR, this.onLoginError);
   },
@@ -77,7 +54,7 @@ var InvitePage = React.createClass({
 
   onLoginSuccess() {
     // redirect to the bevy they just joined
-    window.location.href = 'http://' + this.state.bevy.slug + '.' + constants.domain;
+    window.location.href = `http://${this.state.invite.bevy.slug}.${constants.domain}`;
   },
   onLoginError(error) {
     this.setState({
@@ -178,7 +155,7 @@ var InvitePage = React.createClass({
       },
       // accept the invite
       function(done) {
-        fetch(constants.apiurl + '/invites/' + invite.token + '/accept', {
+        fetch(`${constants.apiurl}/invites/${invite.token}/accept`, {
           method: 'POST',
           body: JSON.stringify({
             username: username,
@@ -227,75 +204,66 @@ var InvitePage = React.createClass({
   },
 
   renderBody() {
-    if(this.state.loadingInitial) {
-      return (
-        <div className='loading-container'>
-          <h1 className='loading-title'>
-            Loading invite...
-          </h1>
-          <CircularProgress
-            mode='indeterminate'
-            color='#2CB673'
-            size={ 1.5 }
-          />
-        </div>
-      );
-    }
-
     return (
       <div className='invite-body'>
-          <h1 className='title'>
-            Join <span className='bold'>{ this.state.bevy.name }</span>
-          </h1>
-          <span className='email'>
-            Joining as <span className='bold'>{ this.state.invite.email }</span>
+        <h1 className='title'>
+          Join <span className='bold'>{ this.state.invite.bevy.name }</span>
+        </h1>
+        <span className='email'>
+          Joining as <span className='bold'>{ this.state.invite.email }</span>
+        </span>
+        <div className='inputs'>
+          <span className='input-label'>Username</span>
+          <TextField
+            ref='username'
+            type='text'
+            name='username'
+            placeholder={ 'e.g., ' + this.state.invite.email.split('@')[0]}
+            errorText={ this.state.usernameError }
+            value={ this.state.username }
+            onChange={ this.onUsernameChange }
+            underlineFocusStyle={{
+              borderColor: '#666'
+            }}
+          />
+          <span className='input-hint'>
+            Usernames can only contain lowercase letters, numbers, and hyphens.
+            They must be between 3 and 16 characters.
           </span>
-          <div className='inputs'>
-            <span className='input-label'>Username</span>
-            <TextField
-              ref='username'
-              type='text'
-              name='username'
-              placeholder={ 'e.g., ' + this.state.invite.email.split('@')[0]}
-              errorText={ this.state.usernameError }
-              value={ this.state.username }
-              onChange={ this.onUsernameChange }
-            />
-            <span className='input-hint'>
-              Usernames can only contain lowercase letters, numbers, and hyphens.
-              They must be between 3 and 16 characters.
+          <span className='input-label'>Password</span>
+          <TextField
+            ref='password'
+            type='password'
+            name='password'
+            placeholder='•••••••••'
+            errorText={ this.state.passwordError }
+            value={ this.state.password }
+            onChange={ this.onPasswordChange }
+            underlineFocusStyle={{
+              borderColor: '#666'
+            }}
+          />
+          {/*<span className='input-hint'>
+          </span>*/}
+          <button
+            className='submit-btn'
+            onClick={ this.submit }
+            style={{
+              cursor: (this.state.loading)
+                ? 'default'
+                : 'pointer',
+              backgroundColor: (this.state.loading)
+                ? '#888'
+                : '#2CB673'
+            }}
+          >
+            <Ink />
+            <span className='submit-button-text'>
+              Continue
             </span>
-            <span className='input-label'>Password</span>
-            <TextField
-              ref='password'
-              type='password'
-              name='password'
-              placeholder='•••••••••'
-              errorText={ this.state.passwordError }
-              value={ this.state.password }
-              onChange={ this.onPasswordChange }
-            />
-            {/*<span className='input-hint'>
-            </span>*/}
-            <button
-              className='submit-btn'
-              onClick={ this.submit }
-              style={{
-                cursor: (this.state.loading)
-                  ? 'default'
-                  : 'pointer',
-                backgroundColor: (this.state.loading)
-                  ? '#888'
-                  : '#2CB673'
-              }}
-            >
-              <Ink />
-              <span className='submit-button-text'>
-                Continue
-              </span>
-              { this.renderLoadingOrArrow() }
-            </button>
-          </div>
+            { this.renderLoadingOrArrow() }
+          </button>
+        </div>
       </div>
     );
   },

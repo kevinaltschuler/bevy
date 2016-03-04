@@ -111,6 +111,8 @@
           font-size: 1.15em;
           font-weight: bold;
           color: #FFF;
+          position: relative;
+          top: -2px;
         }
         i.material-icons {
           color: #FFF;
@@ -118,7 +120,10 @@
         }
         .progress-container {
           height: 48px;
-          margin-top: -10px;
+          //margin-top: -5px;
+          & > div {
+            top: -3px;
+          }
         }
       }
     }

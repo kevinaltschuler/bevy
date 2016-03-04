@@ -80,11 +80,19 @@ module.exports = function(app) {
           // if not, direct them to the unauthorized page
           // which provides a link to their actual bevy
 
-          // if we're already viewing the unauthorized page, then return to
-          // prevent a redirect loop
-          if(req.path == '/unauthorized') return next();
-          // otherwise send the redirect
-          return res.redirect('/unauthorized');
+          // first check if the bevy exists
+          Bevy.findOne({ slug: subdomains[0] }, function(err, bevy) {
+            if(err) return next(err);
+            // if the bevy doesn't exist, redirect to the bevy not found page
+            if(_.isEmpty(bevy)) return viewController.renderNotFound(req, res, next);
+
+            // if we're already viewing the unauthorized page, then return to
+            // prevent a redirect loop
+            if(req.path == '/unauthorized') return next();
+            // otherwise send the redirect
+            return res.redirect('/unauthorized');
+
+          });
         } else {
           // else, they're in the right bevy. continue like normal
           return next();
@@ -94,7 +102,7 @@ module.exports = function(app) {
         Bevy.findOne({ slug: subdomains[0] }, function(err, bevy) {
           if(err) return next(err);
           // if the bevy doesn't exist, redirect to the bevy not found page
-          if(_.isEmpty(bevy)) return res.redirect(config.app.server.hostname + '/404');
+          if(_.isEmpty(bevy)) return viewController.renderNotFound(req, res, next);
           // otherwise, let them log into this bevy
           else return next();
         });
