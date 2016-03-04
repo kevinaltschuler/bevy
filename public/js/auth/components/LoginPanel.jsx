@@ -81,12 +81,14 @@ var LoginPanel = React.createClass({
     // break out if the username is empty
     if(_.isEmpty(email)) {
       this.setState({ emailError: 'Please enter your email address' });
+      this.refs.email.focus();
       return;
     }
     // check the validity of the email by just checking if there are characters
     // before and after an @ symbol. super simple no regex
     if(email.split('@').length != 2) {
       this.setState({ emailError: 'Please enter a valid email address' });
+      this.refs.email.focus();
       return;
     }
     // clear the username error if we got here
@@ -94,6 +96,7 @@ var LoginPanel = React.createClass({
     // break out if password is empty
     if(_.isEmpty(password)) {
       this.setState({ passwordError: 'Please enter your password' });
+      this.refs.password.focus();
       return;
     }
     // clear the password error if we got here
@@ -102,6 +105,12 @@ var LoginPanel = React.createClass({
     UserActions.login(email, password);
   },
 
+  onEmailKeyUp(ev) {
+    if(ev.which == 13) {
+      this.refs.email.blur();
+      this.refs.password.focus();
+    }
+  },
   onPasswordKeyUp(ev) {
     ev.preventDefault();
     // if the user presses enter, while editing the password TextField,
@@ -146,6 +155,7 @@ var LoginPanel = React.createClass({
             type='text'
             hintText={ 'e.g., ' + fakeEmails[Math.floor(Math.random() * fakeEmails.length)] }
             errorText={ this.state.emailError }
+            onKeyUp={ this.onEmailKeyUp }
             underlineFocusStyle={{borderColor: '#666'}}
             style={{ width: '100%', marginBotton: '10px' }}
           />
