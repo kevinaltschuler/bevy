@@ -78,29 +78,41 @@ var CommentItem = React.createClass({
   },
 
   onCollapse(ev) {
+    if(ev) ev.preventDefault();
     this.setState({ collapsed: !this.state.collapsed });
   },
 
   renderCollapsed() {
     return (
-      <div className='comment-item'>
-        <div className='comment-col collapsed' >
-          <div
-            className='comment-title'
-            onClick={ this.onCollapse }
-          >
-            <a className='comment-name'>
-              { this.props.comment.author.displayName }
-            </a>
-            <div className='comment-collapse'>
-              <i
-                className='material-icons collapse-btn'
+      <div className='comment-item collapsed'>
+        <div className='comment-row collapsed'>
+          <div className='comment-col collapsed' >
+            <div className='comment-title'>
+              <button
+                className='comment-name'
+                title='Expand comment'
+                href='#'
                 onClick={ this.onCollapse }
               >
-                add
-              </i>
+                { this.props.comment.author.displayName }
+              </button>
+              <span className='time-ago'>
+                { timeAgo(Date.parse(this.props.comment.created)) }
+              </span>
+              <span className='reply-count'>
+                { this.props.comment.comments.length } replies
+              </span>
             </div>
           </div>
+          <button
+            className='comment-collapse'
+            onClick={ this.onCollapse }
+            title='Expand comment'
+          >
+            <span className='brackets'>[</span>
+            <i className='material-icons'>add</i>
+            <span className='brackets'>]</span>
+          </button>
         </div>
       </div>
     );
@@ -111,7 +123,7 @@ var CommentItem = React.createClass({
       return (
         <a
           className='reply-link'
-          title='Delete Comment'
+          title='Delete comment'
           href='#'
           onClick={ this.destroy }
         >
@@ -159,10 +171,10 @@ var CommentItem = React.createClass({
               backgroundImage: `url(${resizeImage(this.props.comment.author.image, 128, 128).url })`
             }}
           />
-          <div className='comment-col' >
+          <div className='comment-col'>
             <div className='comment-text'>
               <div className='comment-title'>
-                <div className="comment-name">
+                <div className='comment-name'>
                   <a
                     className='comment-name'
                     href='#'
@@ -177,7 +189,7 @@ var CommentItem = React.createClass({
                     &nbsp;&nbsp;
                   </div>
                   <a
-                    title='Reply To Comment'
+                    title='Reply to comment'
                     className='reply-link'
                     href='#'
                     onClick={ this.onReply }
@@ -187,20 +199,21 @@ var CommentItem = React.createClass({
                   &nbsp;&nbsp;
                   { this.renderDeleteButton() }
                 </div>
-                <div className='comment-collapse'>
-                  <i
-                    className='material-icons collapse-btn'
-                    onClick={ this.onCollapse }
-                  >
-                    remove
-                  </i>
-                </div>
               </div>
               <div className='comment-body'>
                 { this.props.comment.body }
               </div>
             </div>
           </div>
+          <button
+            className='comment-collapse'
+            onClick={ this.onCollapse }
+            title='Hide comment and replies'
+          >
+            <span className='brackets'>[</span>
+            <i className='material-icons'>remove</i>
+            <span className='brackets'>]</span>
+          </button>
         </div>
         { this.renderCommentSubmit() }
         { this.renderCommentList() }
