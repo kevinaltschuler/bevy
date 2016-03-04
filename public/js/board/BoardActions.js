@@ -83,6 +83,14 @@ var BoardActions = {
       actionType: BOARD.SWITCH,
       board_id: (board_id == undefined) ? null : board_id
     });
+  },
+
+  addAdmin(board_id, admin) {
+    Dispatcher.dispatch({
+      actionType: BOARD.ADD_ADMIN,
+      board_id: board_id,
+      admin: admin
+    });
   }
 };
 

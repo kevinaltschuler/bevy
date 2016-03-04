@@ -17,6 +17,8 @@ var Ink = require('react-ink');
 var _ = require('underscore');
 var constants = require('./../../constants');
 var resizeImage = require('./../../shared/helpers/resizeImage');
+
+var BoardActions = require('./../../board/BoardActions');
 var UserActions = require('./../../user/UserActions');
 var UserStore = require('./../../user/UserStore');
 
@@ -34,7 +36,8 @@ var AddAdminModal = React.createClass({
     return {
       query: '',
       searchUsers: [],
-      searching: false
+      searching: false,
+      admins: this.props.activeBoard.admins
     };
   },
 
@@ -76,7 +79,10 @@ var AddAdminModal = React.createClass({
   },
 
   onSearchItemClick(user) {
-
+    var admins = this.state.admins;
+    admins.push(user);
+    BoardActions.addAdmin(this.props.activeBoard._id, user);
+    this.setState({ admins: admins });
   },
 
   clearQuery() {
@@ -85,10 +91,19 @@ var AddAdminModal = React.createClass({
   },
 
   search() {
+    var exclude_users = [];
+    // exclude self from search results
+    exclude_users.push(window.bootstrap.user._id);
+    for(var key in this.props.activeBoard.admins) {
+      // exclude all other board admins from search results
+      exclude_users.push(this.props.activeBoard.admins[key]._id);
+    }
+
     UserActions.search(
       this.state.query, // search query
       this.props.activeBevy._id, // bevy _id
-      this.state.activeTab // user role
+      this.state.activeTab, // user role
+      exclude_users // exclude users
     );
   },
 
@@ -120,8 +135,8 @@ var AddAdminModal = React.createClass({
 
   renderAdmins() {
     let adminItems = [];
-    for(var key in this.props.activeBoard.admins) {
-      let admin = this.props.activeBoard.admins[key];
+    for(var key in this.state.admins) {
+      let admin = this.state.admins[key];
       adminItems.push(
         <AdminItem
           key={ 'admin-item:' + key }

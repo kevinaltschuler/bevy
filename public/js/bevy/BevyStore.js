@@ -211,6 +211,24 @@ _.extend(BevyStore, {
         this.trigger(BOARD.CHANGE_ALL);
         break;
 
+      case BOARD.ADD_ADMIN:
+        var board_id = payload.board_id;
+        var board = this.boards.get(board_id);
+        if(board == undefined) break;
+
+        var admin = payload.admin;
+        var board_admins = board.get('admins');
+
+        board.url = `${constants.apiurl}/boards/${board.get('_id')}`;
+        board.save({
+          admins: _.pluck(board_admins, '_id')
+        }, { patch: true });
+
+        board.set('admins', board_admins);
+
+        this.trigger(BOARD.CHANGE_ALL);
+        break;
+
       case BOARD.DESTROY:
         var router = require('./../router');
         var board_id = payload.board_id;
