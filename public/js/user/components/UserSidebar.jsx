@@ -86,7 +86,6 @@ var UserSidebar = React.createClass({
             onClick={ this.closeSidebar }
           >
             <div className='close-button'>
-              <Ink />
               <i className='material-icons'>close</i>
             </div>
           </button>
@@ -125,7 +124,6 @@ var UserSidebar = React.createClass({
           title={'View the members of ' + this.props.activeBevy.name }
           onClick={ this.viewDirectory }
         >
-          <Ink />
           <i className='material-icons'>perm_contact_calendar</i>
           <span className='action-button-text'>
             Group Directory
@@ -139,7 +137,6 @@ var UserSidebar = React.createClass({
           title='View your profile'
           onClick={ this.viewProfile }
         >
-          <Ink />
           <i className='material-icons'>person</i>
           <span className='action-button-text'>
             View Profile
@@ -151,7 +148,6 @@ var UserSidebar = React.createClass({
           title='Edit your profile'
           onClick={ this.editProfile }
         >
-          <Ink />
           <i className='material-icons'>edit</i>
           <span className='action-button-text'>
             Edit Profile
@@ -163,7 +159,6 @@ var UserSidebar = React.createClass({
           onClick={ this.signOut }
           title='Sign out of Bevy'
         >
-          <Ink />
           <i className='material-icons'>exit_to_app</i>
           <span className='action-button-text'>
             Sign out

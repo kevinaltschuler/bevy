@@ -57,6 +57,11 @@
       box-shadow: none;
       background-color: transparent;
       z-index: 2;
+      &:hover {
+        .close-button > i.material-icons {
+          color: rgba(255,255,255,0.7);
+        }
+      }
       .close-button {
         position: relative;
         display: flex;
@@ -117,7 +122,7 @@
     padding-left: 15px;
     padding-right: 15px;
     &:hover {
-      background-color: #F8F8F8;
+      background-color: rgba(255,255,255,0.4);
     }
     i.material-icons {
       color: #888;

@@ -132,18 +132,10 @@ var BoardItem = React.createClass({
     return (
       <div className='board-item-container'>
         <button
-          className='board-item'
+          className={ 'board-item' + ((this.state.selected) ? ' active' : '') }
           title={ 'View posts in ' + this.props.board.name }
           onClick={ this.onClick }
-          style={{
-            backgroundColor: (this.state.selected) ? '#2CB673' : 'transparent'
-          }}
         >
-          <Ink
-            opacity={ 0.25 }
-            background={ true }
-            style={{ color: '#FFF' }}
-          />
           { this.renderAvatar(boardImageURL) }
           <span
             className='name'

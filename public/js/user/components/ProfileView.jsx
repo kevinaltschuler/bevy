@@ -92,7 +92,6 @@ var ProfileView = React.createClass({
             title='Close Profile'
             onClick={ this.close }
           >
-            <Ink />
             <i className='material-icons'>close</i>
           </button>
         </div>

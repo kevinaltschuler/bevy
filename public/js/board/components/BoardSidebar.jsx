@@ -116,18 +116,10 @@ var BoardSidebar = React.createClass({
             </div>
           </div>
           <button
-            className='home-button'
+            className={ 'home-button' + ((this.props.activeBoard._id == undefined) ? ' active' : '')}
             title={ 'View ' + this.props.activeBevy.name + ' post feed' }
             onClick={ this.onHomeClick }
-            style={{
-              backgroundColor: (this.props.activeBoard._id == undefined) ? '#2CB673' : 'transparent'
-            }}
           >
-            <Ink
-              opacity={ 0.25 }
-              background={ true }
-              style={{ color: '#FFF' }}
-            />
             <i className='material-icons'>home</i>
             <span className='home-button-text'>
               Home Feed

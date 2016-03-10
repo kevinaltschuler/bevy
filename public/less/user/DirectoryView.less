@@ -38,6 +38,11 @@
       width: 40px;
       height: 40px;
       border-radius: 20px;
+      &:hover {
+        i.material-icons {
+          color: rgba(255,255,255,0.7);
+        }
+      }
       i.material-icons {
         color: #FFF;
         font-size: 1.5em;
@@ -109,6 +114,9 @@
       height: 40px;
       padding: 0px;
       position: relative;
+      &:hover {
+        background-color: #EEE;
+      }
       .bottom-bar {
         width: 100%;
         height: 3px;
@@ -129,7 +137,7 @@
     align-items: flex-start;
     width: 100%;
     overflow-y: auto;
-    .directory-item {
+    button.directory-item {
       width: 100%;
       height: 100px;
       min-height: 100px;
@@ -142,6 +150,9 @@
       border: none;
       box-shadow: none;
       position: relative;
+      &:hover {
+        background-color: #EEE;
+      }
       .image {
         #image-icon();
         width: 70px;
@@ -188,6 +199,9 @@
         background-color: #EEE;
         border-radius: 3px;
         padding: 5px 10px;
+        &:hover {
+          background-color: #DDD;
+        }
       }
     }
   }

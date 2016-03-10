@@ -163,7 +163,6 @@ let DirectoryView = React.createClass({
             title='Clear search query'
             onClick={ this.clearQuery }
           >
-            <Ink />
             <span>Clear Search</span>
           </button>
         </div>
@@ -187,7 +186,6 @@ let DirectoryView = React.createClass({
             title='Close Group Directory'
             onClick={ this.close }
           >
-            <Ink />
             <i className='material-icons'>close</i>
           </button>
         </div>
@@ -210,7 +208,6 @@ let DirectoryView = React.createClass({
             title='Search group members'
             onClick={() => { this.switchTab('member') }}
           >
-            <Ink />
             <span className='text'>
               Members ({ this.props.activeBevy.subCount })
             </span>
@@ -227,7 +224,6 @@ let DirectoryView = React.createClass({
             title='Search group admins'
             onClick={() => { this.switchTab('admin') }}
           >
-            <Ink />
             <span className='text'>
               Admins ({ this.props.activeBevy.admins.length })
             </span>
@@ -289,7 +285,6 @@ let DirectoryItem = React.createClass({
         title={ 'View ' + this.props.user.username + "'s Profile" }
         onClick={ this.onClick }
       >
-        <Ink />
         <div
           className='image'
           style={{ backgroundImage: 'url(' + profileImageURL + ')' }}

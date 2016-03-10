@@ -109,10 +109,6 @@ var BevyInfoBar = React.createClass({
             title='View Group Directory'
             onClick={ this.openMemberDirectory }
           >
-            <Ink
-              opacity={ 0.25 }
-              style={{ color: '#FFF' }}
-            />
             <span className='number'>{ subCount }</span>
             <i className="material-icons">people</i>
           </button>
@@ -136,10 +132,6 @@ var BevyInfoBar = React.createClass({
             title='View Bevy Admins'
             onClick={ this.openAdminDirectory }
           >
-            <Ink
-              opacity={ 0.25 }
-              style={{ color: '#FFF' }}
-            />
             <span className='number'>{ adminCount }</span>
             <i className="material-icons">person</i>
           </button>
@@ -160,10 +152,6 @@ var BevyInfoBar = React.createClass({
             title='Open Bevy Settings'
             onClick={ this.goToBevySettings }
           >
-            <Ink
-              opacity={ 0.25 }
-              style={{ color: '#FFF' }}
-            />
             <i className="material-icons">settings</i>
           </button>
         </OverlayTrigger>
@@ -183,10 +171,6 @@ var BevyInfoBar = React.createClass({
             onClick={() => this.setState({ showInviteModal: true })}
             title='Invite Users'
           >
-            <Ink
-              opacity={ 0.25 }
-              style={{ color: '#FFF' }}
-            />
             <i className="material-icons">person_add</i>
           </button>
         </OverlayTrigger>
