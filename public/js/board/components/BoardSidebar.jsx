@@ -83,7 +83,14 @@ var BoardSidebar = React.createClass({
             }}
           >
             <div className='darkener' />
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10
+              }}
+            >
               <button
                 className='profile-btn'
                 title='Account'
@@ -112,17 +119,14 @@ var BoardSidebar = React.createClass({
             className='home-button'
             title={ 'View ' + this.props.activeBevy.name + ' post feed' }
             onClick={ this.onHomeClick }
+            style={{
+              backgroundColor: (this.props.activeBoard._id == undefined) ? '#2CB673' : 'transparent'
+            }}
           >
             <Ink
               opacity={ 0.25 }
               background={ true }
               style={{ color: '#FFF' }}
-            />
-            <div
-              className='color-monkey'
-              style={{
-                width: (this.props.activeBoard._id == undefined) ? '100%' : 0
-              }}
             />
             <i className='material-icons'>home</i>
             <span className='home-button-text'>

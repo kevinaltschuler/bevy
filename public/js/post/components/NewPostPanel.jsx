@@ -213,15 +213,23 @@ var NewPostPanel = React.createClass({
               }}
             />
           </OverlayTrigger>
-          <span
+          {/*}<span
             className='hint-text'
             style={{
               visibility: (this.state.title.length > 0) ? 'hidden' : 'visible'
             }}
           >
             { this.state.hintText }
-          </span>
-          <div
+          </span>*/}
+          <Input
+            ref='title'
+            type='textarea'
+            placeholder={ this.state.hintText }
+            className='input'
+            onChange={ this.onTitleChange }
+            value={ this.state.title }
+          />
+          {/*}<div
             ref='title'
             className='input'
             contentEditable={ true }
@@ -234,16 +242,20 @@ var NewPostPanel = React.createClass({
               // collect the inner html of the editable div
               var title = this.refs.title.innerHTML;
 
+              console.log(title);
+
               // jenk way of stripping html elements
               var tmp = document.createElement("DIV");
               tmp.innerHTML = title;
               title = tmp.textContent || tmp.innerText || '';
 
+              console.log('sanitized:', title);
+
               this.refs.title.innerHTML = title;
               this.setState({ title: title });
             }}
           >
-          </div>
+          </div>*/}
         </div>
 
         <Uploader
@@ -269,9 +281,6 @@ var NewPostPanel = React.createClass({
                 cursor: (this.state.disabled) ? 'default' : 'pointer'
               }}
             >
-              <Ink
-                style={{ visibility: (this.state.disabled) ? 'hidden' : 'visible' }}
-              />
               <i className='material-icons'>insert_photo</i>
             </button>
           </OverlayTrigger>
