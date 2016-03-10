@@ -30,10 +30,13 @@ var BevyActions = require('./BevyActions');
 var UserStore = require('./../user/UserStore');
 var user = window.bootstrap.user;
 
+var initial_bevy = (_.isEmpty(window.bootstrap.user || window.bootstrap.user.bevy))
+  ? {} : window.bootstrap.user.bevy;
+
 var BevyStore = _.extend({}, Backbone.Events);
 _.extend(BevyStore, {
 
-  active: new Bevy,
+  active: new Bevy(initial_bevy),
   boards: new Boards,
   activeBoard: -1,
 
@@ -112,12 +115,14 @@ _.extend(BevyStore, {
         }
 
         var name = payload.name || bevy.get('name');
+        var slug = payload.slug || bevy.get('slug');
         var image = payload.image || bevy.get('image');
         var settings = payload.settings || bevy.get('settings');
 
         bevy.url = constants.apiurl + '/bevies/' + bevy_id;
         bevy.save({
           name: name,
+          slug: slug,
           image: image,
           settings: settings
         }, {
@@ -125,6 +130,7 @@ _.extend(BevyStore, {
         });
         bevy.set({
           name: name,
+          slug: slug,
           image: image,
           settings: settings
         });
@@ -260,7 +266,9 @@ _.extend(BevyStore, {
   getActive() {
     return (!_.isEmpty(this.active))
       ? this.active.toJSON()
-      : {};
+      : (_.isEmpty(window.bootstrap.user.bevy))
+        ? {}
+        : window.bootstrap.user.bevy;
   },
   getActiveBevy() {
     return this.getActive();

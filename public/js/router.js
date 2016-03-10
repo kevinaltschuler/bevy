@@ -60,7 +60,15 @@ var Router = Backbone.Router.extend({
     'profile/edit' : 'editProfile',
     'profile/edit/' : 'editProfile',
 
+    // settings routes
+    'settings' : 'bevySettings',
+    'settings/' : 'bevySettings',
+    'boards/:boardid/settings' : 'boardSettings',
+    'boards/:boardid/settings/' : 'boardSettings',
+
+    // =================
     // catch everything else and 404
+    // =================
     '*nuts' : 'notFound'
   },
 
@@ -181,6 +189,32 @@ var Router = Backbone.Router.extend({
     if(!this.checkSubdomain()) return this.notFound();
     this.profile_username = username;
     this.current = 'edit-profile';
+  },
+
+  bevySettings() {
+    if(!this.checkUser() || !this.checkSubdomain()) {
+      this.current = 'home';
+      return;
+    }
+
+    this.current = 'bevy-settings';
+  },
+
+  boardSettings(board_id) {
+    if(!this.checkUser() || !this.checkSubdomain()) {
+      this.current = 'home';
+      return;
+    }
+
+    this.board_id = board_id;
+    if(!this.checkBoard(board_id)) return this.notFound();
+
+    if(this.post_id != undefined) delete this.post_id;
+    if(this.comment_id != undefined) delete this.comment_id;
+
+    BoardActions.switchBoard(board_id);
+    
+    this.current = 'board-settings';
   },
 
   notFound(nuts) {

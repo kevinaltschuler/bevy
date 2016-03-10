@@ -68,7 +68,8 @@ var BevyView = React.createClass({
   onBoardSwitch() {
     this.clearSearch();
     // scroll to the top of the bevy view body once a board is changed
-    this.refs.body.scrollTop = 0;
+    if(this.refs.body != undefined)
+      this.refs.body.scrollTop = 0;
   },
 
   goBackFromPostView(ev) {

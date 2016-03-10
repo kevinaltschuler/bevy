@@ -216,6 +216,12 @@ var InterfaceComponent = React.createClass({
       case 'edit-profile':
         return <EditProfileView { ...this.props } />;
         break;
+      case 'bevy-settings':
+        let BevySettingsView = require('./../../bevy/components/BevySettingsView.jsx');
+        return <BevySettingsView { ...this.props } />;
+        break;
+      case 'board-settings':
+        break;
       default:
         return <div>SOMETHING WENT REALLY REALLY WRONG</div>
         break;

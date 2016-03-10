@@ -16,10 +16,10 @@ var {
 } = require('react-bootstrap');
 var Ink = require('react-ink');
 var InviteUsersModal = require('./InviteUsersModal.jsx');
-var BevySettingsModal = require('./BevySettingsModal.jsx');
 
 var _ = require('underscore');
 var constants = require('./../../constants');
+var router = require('./../../router');
 
 var BevyActions = require('./../../bevy/BevyActions');
 var BevyStore = require('./../../bevy/BevyStore');
@@ -33,7 +33,6 @@ var BevyInfoBar = React.createClass({
   getInitialState() {
     return {
       isAdmin: _.findWhere(this.props.activeBevy.admins, { _id: window.bootstrap.user._id }) != undefined,
-      showSettingsModal: false,
       showInviteModal: false
     }
   },
@@ -60,6 +59,10 @@ var BevyInfoBar = React.createClass({
     AppActions.openSidebar('directory', {
       initialDirectoryTab: 'admin'
     });
+  },
+
+  goToBevySettings() {
+    router.navigate('/settings', { trigger: true });
   },
 
   _renderPublicPrivate() {
@@ -155,7 +158,7 @@ var BevyInfoBar = React.createClass({
           <button
             className='bevy-info-button'
             title='Open Bevy Settings'
-            onClick={() => this.setState({ showSettingsModal: true })}
+            onClick={ this.goToBevySettings }
           >
             <Ink
               opacity={ 0.25 }
@@ -201,11 +204,6 @@ var BevyInfoBar = React.createClass({
         { this._renderAdmins() }
         { this._renderInviteButton() }
         { this._renderSettingsButton() }
-        <BevySettingsModal
-          show={ this.state.showSettingsModal }
-          onHide={() => this.setState({ showSettingsModal: false })}
-          activeBevy={ this.props.activeBevy }
-        />
         <InviteUsersModal
           show={ this.state.showInviteModal }
           onHide={() => this.setState({ showInviteModal: false })}
