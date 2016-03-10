@@ -31,10 +31,6 @@ var constants = require('./../../constants');
 var POST = constants.POST;
 var PostActions = require('./../PostActions');
 var PostStore = require('./../PostStore');
-var user = window.bootstrap.user;
-var email = user.email;
-var urlRegex = /((?:https?|ftp):\/\/[^\s/$.?#].[^\s]*)/g;
-var youtubeRegex = /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/ ]{11})/i;
 var maxTextHeight = 100;
 
 var Post = React.createClass({
@@ -115,15 +111,6 @@ var Post = React.createClass({
     this.setState({ post: post });
   },
 
-  highlightLinks() {
-    var title = ReactDOM.findDOMNode(this.refs.Title);
-    var titleHTML = title.innerHTML;
-    titleHTML = titleHTML.replace(urlRegex, function(url) {
-      return '<a href="' + url + '" title="' + url + '">' + url + '</a>';
-    });
-    title.innerHTML = titleHTML;
-  },
-
   render() {
     return  (
       <div
@@ -139,6 +126,8 @@ var Post = React.createClass({
           post={ this.state.post }
           isEditing={ this.state.isEditing }
           stopEditing={ this.stopEditing }
+          searchOpen={ this.props.searchOpen }
+          searchQuery={ this.props.searchQuery }
         />
         <PostImages
           post={ this.state.post }

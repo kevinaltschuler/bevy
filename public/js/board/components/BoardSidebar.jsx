@@ -139,11 +139,6 @@ var BoardSidebar = React.createClass({
             title='Create a new board'
             onClick={ this.showNewBoardModal }
           >
-            <Ink
-              opacity={ 0.25 }
-              background={ true }
-              style={{ color: '#FFF' }}
-            />
             <i className='material-icons'>add</i>
             <NewBoardModal
               show={ this.state.showNewBoardModal }

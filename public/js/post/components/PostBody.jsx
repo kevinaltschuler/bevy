@@ -31,6 +31,8 @@ var PostBody = React.createClass({
     post: React.PropTypes.object,
     isEditing: React.PropTypes.bool,
     stopEditing: React.PropTypes.func,
+    searchOpen: React.PropTypes.bool,
+    searchQuery: React.PropTypes.string
   },
 
   getDefaultProps() {
@@ -48,6 +50,14 @@ var PostBody = React.createClass({
   },
 
   componentWillReceiveProps(nextProps) {
+    // the user just opened search and searched for something
+    // highlight relevant text in the post body that matches the new search query
+    if(nextProps.searchOpen) {
+      this.highlightSearchTerms();
+    } else {
+      //setTimeout(this.forceUpdate.bind(this), 250);
+      this.unHighlightSearchTerms();
+    }
     this.setState({
       title: nextProps.post.title
     });
@@ -56,6 +66,7 @@ var PostBody = React.createClass({
   componentDidMount() {
     this.measureHeight();
     this.highlightLinks();
+    this.highlightSearchTerms();
   },
 
   onTitleChange() {
@@ -69,6 +80,30 @@ var PostBody = React.createClass({
       return `<a href="${url}" title="${url}" target="_blank">${url}</a>`;
     });
     title.innerHTML = titleHTML;
+  },
+
+  highlightSearchTerms() {
+    // dont do this if there's an empty query
+    // or if the search isn't open anyways
+    /*if(!this.props.searchOpen || this.props.searchQuery.length <= 0) return;
+
+    var title = ReactDOM.findDOMNode(this.refs.Title);
+    var titleHTML = title.innerHTML;
+    var queryRegex = new RegExp('' + this.props.searchQuery + '', 'gi');
+    titleHTML = titleHTML.replace(queryRegex, function(query) {
+      return `<span class='highlight'>${query}</span>`;
+    });
+    title.innerHTML = titleHTML;*/
+  },
+
+  unHighlightSearchTerms() {
+    /*console.log('unhighlighting...');
+    var title = ReactDOM.findDOMNode(this.refs.Title);
+    var titleHTML = title.innerHTML;
+    title.innerHTML = this.state.title;
+    setTimeout(() => {
+      this.highlightLinks();
+    }, 250);*/
   },
 
   toggleExpanded(ev) {

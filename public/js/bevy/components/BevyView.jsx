@@ -67,15 +67,8 @@ var BevyView = React.createClass({
 
   onBoardSwitch() {
     this.clearSearch();
-    this.setState({
-      bodyStyle: {opacity: .05}
-    });
-    setTimeout(
-      () => this.setState({
-        bodyStyle: {opacity: 1}
-      }),
-      10
-    )
+    // scroll to the top of the bevy view body once a board is changed
+    this.refs.body.scrollTop = 0;
   },
 
   goBackFromPostView(ev) {
@@ -99,10 +92,6 @@ var BevyView = React.createClass({
 
   onQueryChange(query) {
     this.setState({ query: query });
-    // reset the timeout if it already exists
-    clearTimeout(this.searchTimeout);
-    // make searching smoother with a bit of lag
-    this.searchTimeout = setTimeout(() => { this.search(query) }, 300);
   },
 
   renderNewPostPanel() {
@@ -140,29 +129,35 @@ var BevyView = React.createClass({
     this.setState({ sidebarOpen: !this.state.sidebarOpen });
   },
 
+  renderBoardNavbar() {
+    if(router.current == 'post') return <div />;
+    return (
+      <BoardNavbar
+        activeBoard={ this.props.activeBoard }
+        toggleSidebar={ this.toggleSidebar }
+        sidebarOpen={ this.state.sidebarOpen }
+        allNotifications={ this.props.allNotifications }
+        activeBevy={ this.props.activeBevy }
+        onQueryChange={ this.onQueryChange }
+        clearSearch={ this.clearSearch }
+      />
+    );
+  },
+
   renderBody() {
-    var router = require('./../../router');
+    //var router = require('./../../router');
     if(router.current == 'bevy' || router.current == 'board') {
       return (
-        <div className='bevy-view-body'>
-          <BoardNavbar
-            activeBoard={ this.props.activeBoard }
-            toggleSidebar={ this.toggleSidebar }
-            sidebarOpen={ this.state.sidebarOpen }
-            allNotifications={ this.props.allNotifications }
-            activeBevy={ this.props.activeBevy}
-            searchQuery={ this.state.query }
-            searching={ this.state.searching }
-            onQueryChange={ this.onQueryChange }
-            clearSearch={ this.clearSearch }
-          />
+        <div
+          ref='body'
+          className='bevy-view-body'
+        >
           <div className='bevy-view-content'>
             { this.renderNewPostPanel() }
             <PostContainer
               activeBevy={ this.props.activeBevy }
               activeBoard={ this.props.activeBoard }
               searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
-              searchQuery={ this.state.query }
             />
           </div>
         </div>
@@ -216,6 +211,7 @@ var BevyView = React.createClass({
           activeBoard={ this.props.activeBoard }
           allNotifications={ this.props.allNotifications }
         />
+        { this.renderBoardNavbar() }
         { this.renderBody() }
         { this.renderInfoBar() }
       </div>

@@ -39,6 +39,13 @@ var PostContainer = React.createClass({
     searchQuery: React.PropTypes.string
   },
 
+  getDefaultProps() {
+    return {
+      searchOpen: false,
+      searchQuery: ''
+    };
+  },
+
   getInitialState() {
     return {
       allPosts: PostStore.getAll(),
@@ -46,18 +53,19 @@ var PostContainer = React.createClass({
       postsLoaded: false,
       searching: false,
       searchPosts: [],
+      searchQuery: ''
     };
   },
 
   componentDidMount() {
     PostStore.on(POST.CHANGE_ALL, this.handleChangeAll);
-    PostStore.on(POST.SEARCHING, this.onPostSearching);
+    //PostStore.on(POST.SEARCHING, this.onPostSearching);
     PostStore.on(POST.SEARCH_ERROR, this.onPostSearchError);
     PostStore.on(POST.SEARCH_COMPLETE, this.onPostSearchComplete);
   },
   componentWillUnmount() {
     PostStore.off(POST.CHANGE_ALL, this.handleChangeAll);
-    PostStore.off(POST.SEARCHING, this.onPostSearching);
+    //PostStore.off(POST.SEARCHING, this.onPostSearching);
     PostStore.off(POST.SEARCH_ERROR, this.onPostSearchError);
     PostStore.off(POST.SEARCH_COMPLETE, this.onPostSearchComplete);
   },
@@ -71,7 +79,6 @@ var PostContainer = React.createClass({
       allPosts: PostStore.getAll()
     });
   },
-
 
   onPostSearching() {
     this.setState({

@@ -510,6 +510,9 @@ _.extend(PostStore, {
 
   getSearchPosts() {
     return this.searchPosts.toJSON();
+  },
+  getSearchQuery() {
+    return this.searchQuery;
   }
 });
 
