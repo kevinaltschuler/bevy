@@ -53,10 +53,7 @@ var ImageModal = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     this.index = nextProps.index;
-    this.setState({
-      index: nextProps.index
-    });
-    this.resizeImage();
+    this.setState({ index: nextProps.index });
   },
 
   handleWindowResize() {
@@ -109,6 +106,10 @@ var ImageModal = React.createClass({
     });
   },
 
+  onImageLoad() {
+    this.resizeImage();
+  },
+
   onLeft(ev) {
     var index = this.state.index;
     if(index == 0) {
@@ -117,10 +118,7 @@ var ImageModal = React.createClass({
       index--;
     }
     this.index = index;
-    this.setState({
-      index: index
-    });
-    this.resizeImage();
+    this.setState({index: index });
   },
 
   onRight(ev) {
@@ -131,10 +129,7 @@ var ImageModal = React.createClass({
       index++;
     }
     this.index = index;
-    this.setState({
-      index: index
-    });
-    this.resizeImage();
+    this.setState({ index: index });
   },
 
   onKeyDown(ev) {
@@ -191,6 +186,7 @@ var ImageModal = React.createClass({
           <img
             id='image'
             src={ url }
+            onLoad={ this.onImageLoad }
             style={{
               width: this.state.width,
               height: this.state.height
