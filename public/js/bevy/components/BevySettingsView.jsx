@@ -17,11 +17,7 @@ var {
 } = require('react-bootstrap');
 var {
   FlatButton,
-  RaisedButton,
-  Toggle,
-  DropDownMenu,
-  TextField,
-  MenuItem
+  RaisedButton
 } = require('material-ui');
 var Uploader = require('./../../shared/components/Uploader.jsx');
 var Ink = require('react-ink');

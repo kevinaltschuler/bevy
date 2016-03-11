@@ -9,7 +9,6 @@
 
 var React = require('react');
 var Ink = require('react-ink');
-var BoardSettingsModal = require('./BoardSettingsModal.jsx');
 var AddAdminModal = require('./../../user/components/AddAdminModal.jsx');
 
 var _ = require('underscore');
@@ -57,13 +56,10 @@ let BoardInfoSidebar = React.createClass({
     this.setState({ showAdminModal: false });
   },
 
-  showSettingsModal(ev) {
+  goToBoardSettings(ev) {
     ev.preventDefault();
-    this.setState({ showSettingsModal: true });
-  },
-  hideSettingsModal(ev) {
-    //ev.preventDefault();
-    this.setState({ showSettingsModal: false });
+    //this.setState({ showSettingsModal: true });
+    router.navigate(`/boards/${this.props.activeBoard._id}/settings`, { trigger: true });
   },
 
   renderType() {
@@ -142,17 +138,11 @@ let BoardInfoSidebar = React.createClass({
     if(!this.state.isAdmin) return <div />;
     return (
       <div className='settings-container'>
-        <BoardSettingsModal
-          board={ this.props.activeBoard }
-          show={ this.state.showSettingsModal }
-          onHide={ this.hideSettingsModal }
-        />
         <button
           className='settings-button'
           title='Board Settings'
-          onClick={ this.showSettingsModal }
+          onClick={ this.goToBoardSettings }
         >
-          <Ink />
           <span className='settings-button-text'>Board Settings</span>
         </button>
       </div>
@@ -206,7 +196,6 @@ let AdminItem = React.createClass({
         title={ `View ${this.props.admin.displayName}'s Profile` }
         onClick={ this.onClick }
       >
-        <Ink />
         <div
           className='image'
           style={{

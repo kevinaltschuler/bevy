@@ -221,6 +221,8 @@ var InterfaceComponent = React.createClass({
         return <BevySettingsView { ...this.props } />;
         break;
       case 'board-settings':
+        let BoardSettingsView = require('./../../board/components/BoardSettingsView.jsx');
+        return <BoardSettingsView { ...this.props } />;
         break;
       default:
         return <div>SOMETHING WENT REALLY REALLY WRONG</div>

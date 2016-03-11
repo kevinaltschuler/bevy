@@ -206,15 +206,23 @@ _.extend(BevyStore, {
         var image = payload.image || board.get('image');
         var settings = payload.settings || board.get('settings');
 
+        var tempAdmins = board.get('admins');
+
         board.url = constants.apiurl + '/boards/' + board.get('_id');
         board.save({
           name: name,
           description: description,
           image: image,
           settings: settings
-        }, { patch: true });
+        }, {
+          patch: true,
+          success: function(model, response, options) {
+            board.set('admins', tempAdmins);
+            this.trigger(BOARD.CHANGE_ALL);
+          }.bind(this)
+        });
 
-        this.trigger(BOARD.CHANGE_ALL);
+
         break;
 
       case BOARD.ADD_ADMIN:
