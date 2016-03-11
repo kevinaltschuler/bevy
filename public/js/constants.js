@@ -10,7 +10,7 @@
 
 'use strict';
 
-exports.version = '2.0.1';
+exports.version = '2.0.2';
 
 exports.env = window.bootstrap.env;
 
