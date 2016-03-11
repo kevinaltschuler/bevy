@@ -292,26 +292,18 @@ var InviteUsersModal = React.createClass({
             <button
               className='invite-more-button'
               onClick={ this.addInviteField }
+              title='Invite more users'
             >
-              <Ink />
               <i className='material-icons'>add</i>
               <span className='invite-more-button-text'>
                 Add more users
               </span>
             </button>
             <button
-              className='submit-button'
+              className={ 'submit-button' + ((this.state.loading) ? ' loading' : '')}
               onClick={ this.submit }
-              style={{
-                cursor: (this.state.loading)
-                  ? 'default'
-                  : 'pointer',
-                backgroundColor: (this.state.loading)
-                  ? '#DDD'
-                  : '#FFF'
-              }}
+              title='Finish inviting users'
             >
-              <Ink />
               <span className='invite-more-button-text'>
                 Invite users
               </span>

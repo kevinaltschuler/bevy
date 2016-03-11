@@ -293,9 +293,6 @@ var NewPostPanel = React.createClass({
               cursor: (this.state.disabled) ? 'default' : 'pointer'
             }}
           >
-            <Ink
-              style={{ visibility: (this.state.disabled) ? 'hidden' : 'visible' }}
-            />
             <span className='post-button-text'>
               Post
             </span>
