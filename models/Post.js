@@ -10,9 +10,8 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 var shortid = require('shortid');
 var ImageSchema = require('./ImageSchema');
-var EventSchema = require('./EventSchema');
 
-var post_types = 'default event'.split(' ');
+var post_types = ['default'];
 
 var PostSchema = new Schema({
 	_id: {
@@ -70,7 +69,6 @@ var PostSchema = new Schema({
 		default: 'default',
 		required: true
 	},
-	event: EventSchema,
 	edited: {
 		type: Boolean,
 		default: false
