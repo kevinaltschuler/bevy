@@ -6,6 +6,8 @@
 
 'use strict';
 
+var fs = require('fs');
+var path = require('path');
 var passport = require('passport');
 var config = require('./../config');
 var mailgun = config.mailgun();
@@ -18,7 +20,18 @@ var Bevy = require('./../models/Bevy');
 var viewController = require('./../controllers/views');
 var emailController = require('./../controllers/email');
 
+
+
 module.exports = function(app) {
+
+  app.get('/privacy', function(req, res, next) {
+    var privacyPolicy = fs.readFileSync(
+      path.resolve(__dirname, '..', 'public', 'html', 'privacypolicy.html'), 'utf-8'
+    );
+    res.set('Content-Type', 'text/html');
+    res.send(privacyPolicy);
+  });
+
   app.get('/usertest', function(req, res, next) {
     res.json(req.user);
   });
