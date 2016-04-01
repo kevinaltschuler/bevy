@@ -32,6 +32,14 @@ module.exports = function(app) {
     res.send(privacyPolicy);
   });
 
+  app.get('/tos', function(req, res, next) {
+    var TOS = fs.readFileSync(
+      path.resolve(__dirname, '..', 'public', 'html', 'TOS.html'), 'utf-8'
+    );
+    res.set('Content-Type', 'text/html');
+    res.send(TOS);
+  });
+
   app.get('/usertest', function(req, res, next) {
     res.json(req.user);
   });
