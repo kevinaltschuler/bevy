@@ -14,6 +14,7 @@ var constants = require('./constants');
 
 var BevyActions = require('./bevy/BevyActions');
 var BoardActions = require('./board/BoardActions');
+var PostActions = require('./post/PostActions');
 
 // include these just to register the dispatchers immediately
 var PostStore = require('./post/PostStore');
@@ -59,7 +60,15 @@ var Router = Backbone.Router.extend({
     'profile/edit' : 'editProfile',
     'profile/edit/' : 'editProfile',
 
+    // settings routes
+    'settings' : 'bevySettings',
+    'settings/' : 'bevySettings',
+    'boards/:boardid/settings' : 'boardSettings',
+    'boards/:boardid/settings/' : 'boardSettings',
+
+    // =================
     // catch everything else and 404
+    // =================
     '*nuts' : 'notFound'
   },
 
@@ -88,7 +97,13 @@ var Router = Backbone.Router.extend({
         return;
       }
 
+      if(this.post_id != undefined) delete this.post_id;
+      if(this.comment_id != undefined) delete this.comment_id;
+      if(this.board_id != undefined) delete this.board_id;
+
       BoardActions.switchBoard(null);
+      PostActions.fetch(null);
+
       this.current = 'bevy';
 
       return;
@@ -139,9 +154,17 @@ var Router = Backbone.Router.extend({
       this.current = 'home';
       return;
     }
+
     this.current = 'board';
     this.board_id = board_id;
-    BoardActions.switchBoard(this.board_id);
+
+    if(!this.checkBoard(board_id)) return this.notFound();
+
+    if(this.post_id != undefined) delete this.post_id;
+    if(this.comment_id != undefined) delete this.comment_id;
+
+    BoardActions.switchBoard(board_id);
+    PostActions.fetch(board_id);
   },
 
   post(board_id, post_id, comment_id) {
@@ -149,9 +172,16 @@ var Router = Backbone.Router.extend({
       this.current = 'home';
       return;
     }
+    this.board_id = board_id;
     this.post_id = post_id;
     this.comment_id = (comment_id == undefined) ? null : comment_id;
-    this.board(board_id);
+    this.current = 'post';
+
+    if(!this.checkBoard(board_id)) return this.notFound();
+
+    //this.board(board_id);
+    BoardActions.switchBoard(board_id);
+    PostActions.fetchSingle(post_id);
   },
 
   editProfile(username) {
@@ -161,10 +191,47 @@ var Router = Backbone.Router.extend({
     this.current = 'edit-profile';
   },
 
+  bevySettings() {
+    if(!this.checkUser() || !this.checkSubdomain()) {
+      this.current = 'home';
+      return;
+    }
+
+    this.current = 'bevy-settings';
+  },
+
+  boardSettings(board_id) {
+    if(!this.checkUser() || !this.checkSubdomain()) {
+      this.current = 'home';
+      return;
+    }
+
+    this.board_id = board_id;
+    if(!this.checkBoard(board_id)) return this.notFound();
+
+    if(this.post_id != undefined) delete this.post_id;
+    if(this.comment_id != undefined) delete this.comment_id;
+
+    BoardActions.switchBoard(board_id);
+    
+    this.current = 'board-settings';
+  },
+
   notFound(nuts) {
     console.log('page not found :(', nuts);
     this.notFoundURL = nuts || '';
     this.current = '404';
+  },
+
+  checkBoard(board_id) {
+    // grab all bevy boards from the populated collection
+    var boards = window.bootstrap.user.bevy.boards;
+    // try to find the one in the url in the collection
+    var board = _.findWhere(boards, { _id: board_id });
+    // return false if it was not found,
+    // and true if it was
+    if(board == undefined) return false;
+    else return true;
   },
 
   checkUser() {

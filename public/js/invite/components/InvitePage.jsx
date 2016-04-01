@@ -33,9 +33,7 @@ var USER = constants.USER;
 var InvitePage = React.createClass({
   getInitialState() {
     return {
-      loadingInitial: true,
-      bevy: {},
-      invite: {},
+      invite: window.bootstrap.inviteToken,
       username: '',
       usernameError: '',
       password: '',
@@ -45,27 +43,6 @@ var InvitePage = React.createClass({
   },
 
   componentDidMount() {
-    var router = require('./../../router');
-    var inviteToken = router.inviteToken;
-    // load the invite from the server
-    fetch(constants.apiurl + '/invites/' + inviteToken, {
-      method: 'GET'
-    })
-    .then(res => res.json())
-    .then(res => {
-      // lag it a little bit to be smooth
-      setTimeout(() => {
-        this.setState({
-          loadingInitial: false,
-          bevy: res.bevy,
-          invite: res
-        });
-      }, 750);
-    })
-    .catch(err => {
-      console.error(err.toString());
-    });
-
     UserStore.on(USER.LOGIN_SUCCESS, this.onLoginSuccess);
     UserStore.on(USER.LOGIN_ERROR, this.onLoginError);
   },
@@ -77,7 +54,7 @@ var InvitePage = React.createClass({
 
   onLoginSuccess() {
     // redirect to the bevy they just joined
-    window.location.href = 'http://' + this.state.bevy.slug + '.' + constants.domain;
+    window.location.href = `http://${this.state.invite.bevy.slug}.${constants.domain}`;
   },
   onLoginError(error) {
     this.setState({
@@ -86,6 +63,12 @@ var InvitePage = React.createClass({
     });
   },
 
+  onUsernameKeyUp(ev) {
+    if(ev.which == 13) {
+      this.refs.username.blur();
+      this.refs.password.focus();
+    }
+  },
   onUsernameChange() {
     // update the username state value
     var username = this.refs.username.getValue();
@@ -93,6 +76,12 @@ var InvitePage = React.createClass({
     // clear the username error if they erased the username
     if(_.isEmpty(username)) {
       this.setState({ usernameError: '' });
+    }
+  },
+  onPasswordKeyUp(ev) {
+    if(ev.which == 13) {
+      this.refs.password.blur();
+      this.submit();
     }
   },
   onPasswordChange() {
@@ -121,6 +110,7 @@ var InvitePage = React.createClass({
     // break out if username is empty
     if(_.isEmpty(username)) {
       this.setState({ usernameError: 'Please enter a username' });
+      this.refs.username.focus();
       return;
     }
     // loop thru username characters and break out if a character isn't in the allowed chars map
@@ -129,6 +119,7 @@ var InvitePage = React.createClass({
     while(i < username.length) {
       if(!_.contains(allowed_chars, username.charAt(i))) {
         this.setState({ usernameError: 'Only lowercase letters, numbers, and hyphens are allowed' });
+        this.refs.username.focus();
         return;
       }
       i++;
@@ -136,9 +127,11 @@ var InvitePage = React.createClass({
     // check username length
     if(username.length > 16) {
       this.setState({ usernameError: 'Username must be less than 16 characters' });
+      this.refs.username.focus();
       return;
     } else if (username.length < 3) {
       this.setState({ usernameError: 'Username must be more than 3 characters' });
+      this.refs.username.focus();
       return;
     }
     // if everything's ok, then clear the error
@@ -147,6 +140,7 @@ var InvitePage = React.createClass({
     // break out if password is empty
     if(_.isEmpty(password)) {
       this.setState({ passwordError: 'Please enter a password' });
+      this.refs.password.focus();
       return;
     }
     // and clear the error if everythings ok
@@ -178,7 +172,7 @@ var InvitePage = React.createClass({
       },
       // accept the invite
       function(done) {
-        fetch(constants.apiurl + '/invites/' + invite.token + '/accept', {
+        fetch(`${constants.apiurl}/invites/${invite.token}/accept`, {
           method: 'POST',
           body: JSON.stringify({
             username: username,
@@ -227,75 +221,68 @@ var InvitePage = React.createClass({
   },
 
   renderBody() {
-    if(this.state.loadingInitial) {
-      return (
-        <div className='loading-container'>
-          <h1 className='loading-title'>
-            Loading invite...
-          </h1>
-          <CircularProgress
-            mode='indeterminate'
-            color='#2CB673'
-            size={ 1.5 }
-          />
-        </div>
-      );
-    }
-
     return (
       <div className='invite-body'>
-          <h1 className='title'>
-            Join <span className='bold'>{ this.state.bevy.name }</span>
-          </h1>
-          <span className='email'>
-            Joining as <span className='bold'>{ this.state.invite.email }</span>
+        <h1 className='title'>
+          Join <span className='bold'>{ this.state.invite.bevy.name }</span>
+        </h1>
+        <span className='email'>
+          Joining as <span className='bold'>{ this.state.invite.email }</span>
+        </span>
+        <div className='inputs'>
+          <span className='input-label'>Username</span>
+          <TextField
+            ref='username'
+            type='text'
+            name='username'
+            placeholder={ 'e.g., ' + this.state.invite.email.split('@')[0]}
+            errorText={ this.state.usernameError }
+            value={ this.state.username }
+            onChange={ this.onUsernameChange }
+            onKeyUp={ this.onUsernameKeyUp }
+            underlineFocusStyle={{
+              borderColor: '#666'
+            }}
+          />
+          <span className='input-hint'>
+            Usernames can only contain lowercase letters, numbers, and hyphens.
+            They must be between 3 and 16 characters.
           </span>
-          <div className='inputs'>
-            <span className='input-label'>Username</span>
-            <TextField
-              ref='username'
-              type='text'
-              name='username'
-              placeholder={ 'e.g., ' + this.state.invite.email.split('@')[0]}
-              errorText={ this.state.usernameError }
-              value={ this.state.username }
-              onChange={ this.onUsernameChange }
-            />
-            <span className='input-hint'>
-              Usernames can only contain lowercase letters, numbers, and hyphens.
-              They must be between 3 and 16 characters.
+          <span className='input-label'>Password</span>
+          <TextField
+            ref='password'
+            type='password'
+            name='password'
+            placeholder='•••••••••'
+            errorText={ this.state.passwordError }
+            value={ this.state.password }
+            onChange={ this.onPasswordChange }
+            onKeyUp={ this.onPasswordKeyUp }
+            underlineFocusStyle={{
+              borderColor: '#666'
+            }}
+          />
+          {/*<span className='input-hint'>
+          </span>*/}
+          <button
+            className='submit-btn'
+            onClick={ this.submit }
+            style={{
+              cursor: (this.state.loading)
+                ? 'default'
+                : 'pointer',
+              backgroundColor: (this.state.loading)
+                ? '#888'
+                : '#2CB673'
+            }}
+          >
+            <Ink />
+            <span className='submit-button-text'>
+              Continue
             </span>
-            <span className='input-label'>Password</span>
-            <TextField
-              ref='password'
-              type='password'
-              name='password'
-              placeholder='•••••••••'
-              errorText={ this.state.passwordError }
-              value={ this.state.password }
-              onChange={ this.onPasswordChange }
-            />
-            {/*<span className='input-hint'>
-            </span>*/}
-            <button
-              className='submit-btn'
-              onClick={ this.submit }
-              style={{
-                cursor: (this.state.loading)
-                  ? 'default'
-                  : 'pointer',
-                backgroundColor: (this.state.loading)
-                  ? '#888'
-                  : '#2CB673'
-              }}
-            >
-              <Ink />
-              <span className='submit-button-text'>
-                Continue
-              </span>
-              { this.renderLoadingOrArrow() }
-            </button>
-          </div>
+            { this.renderLoadingOrArrow() }
+          </button>
+        </div>
       </div>
     );
   },

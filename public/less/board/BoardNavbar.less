@@ -5,172 +5,139 @@
 
 @import './../variables.less';
 
-.bevy-view {
-	.bevy-view-body {
-		.board-navbar {
-			width: calc(~'100% - 250px');
-			height: 53px;
-			display: flex;
-			flex-direction: row;
-			position: fixed;
-			z-index: 3;
-			align-items: center;
-			padding-left: 15px;
-			padding-right: 15px;
-			background-color: #fff;
-			justify-content: space-between;
-			top: 0;
-			.left {
-				display: flex;
-				flex-direction: row;
-				align-items: center;
-				justify-content: flex-start;
-				flex-grow: 1;
-				padding-right: 10px;
-				.title {
-					font-weight: 900;
-					font-size: 1.6em;
-	  				line-height: 53px;
-	  				color: #555;
-					white-space: nowrap;
-					margin-right: 12px;
-				}
-				
+.board-navbar {
+	width: calc(~'100% - 250px');
+	height: 53px;
+	display: flex;
+	flex-direction: row;
+	position: fixed;
+	z-index: 2 !important;
+	align-items: center;
+	padding-left: 15px;
+	padding-right: 15px;
+	background-color: #fff;
+	justify-content: space-between;
+	top: 0;
+	border-bottom: 1px solid #DDD;
+	.left {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+		flex-grow: 1;
+		padding-right: 10px;
+		.title {
+			font-weight: 900;
+			font-size: 1.6em;
+			line-height: 53px;
+			color: #555;
+			white-space: nowrap;
+			margin-right: 12px;
+		}
+
+	}
+	.right {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+		flex-grow: 1;
+		.info-button {
+			background-color: rgba(0,0,0,0);
+			border: none;
+			box-shadow: none;
+	    position: relative;
+	    display: flex;
+	    flex-direction: row;
+	    align-items: center;
+	    justify-content: center;
+	    width: 30px;
+	    height: 30px;
+	    transition: 0.25s all ease-in-out;
+	    border-radius: 18px;
+			padding: 0px;
+	    i.material-icons {
+	    	color: #666;
+	    	font-size: 2em;
+	    	transition: 0.1s all ease-in-out;
+	    	&:hover {
+	    		color: #aaa;
+	    	}
+	    	&:active {
+					color: #666;
+	    	}
 			}
-			.right {
+		}
+		& > .form-group {
+			margin-bottom: 0px;
+			width: 100%;
+			max-width: 250px;
+			height: 36px;
+			.input-group {
 				display: flex;
 				flex-direction: row;
 				align-items: center;
-				justify-content: flex-end;
-				flex-grow: 1;
-				.notification-dropdown-btn {
-					margin-left: 8px;
-					position: relative;
+				background-color: #eee;
+				height: 100%;
+				border-radius: 25px;
+				padding-left: 4px;
+				span.input-group-addon {
 					display: flex;
-					flex-direction: row;
-					align-items: center;
-					justify-content: center;
-					padding: 0px;
-					width: 30px;
-					height: 30px;
-					border-radius: 15px;
-					background-color: #FFF;
-					border: 1px solid #AAA;
-					box-shadow: none;
-					transition: 0.15s all ease-in-out;
+			    width: 36px;
+			    height: 36px;
+			    flex-direction: row;
+			    align-items: center;
+			    justify-content: center;
+					margin: 0px;
+					padding: 0px 4px;
+					background-color: transparent;
+					border: none;
+					z-index: 1;
 					i.material-icons {
 						color: #AAA;
-						font-size: 1.5em;
 					}
-				}
-				.profile-btn {
-					#image-icon();
-					width: 36px;
-					height: 36px;
-					border-radius: 18px;
-					margin-left: 8px;
-					border: 1px solid #AAA;
-					box-shadow: none;
-					background-color: #FFF;
-				}
-				.info-button {
-					background-color: rgba(0,0,0,0);
-					border: none;
-					box-shadow: none;
-				    position: relative;
-				    display: flex;
-				    flex-direction: row;
-				    align-items: center;
-				    justify-content: center;
-				    width: 30px;
-				    height: 30px;
-				    transition: 0.25s all ease-in-out;
-				    border-radius: 18px;
-					padding: 0px;
-				    i.material-icons {
-				    	color: #666;
-				    	font-size: 2em;
-				    	transition: 0.1s all ease-in-out;
-				    	&:hover {
-				    		color: #aaa;
-				    	}
-				    	&:active {
-							color: #666;
-				    	}
-					}
-				}
-				& > .form-group {
-					margin-bottom: 0px;
-					width: 100%;
-					max-width: 250px;
-					height: 36px;
-					.input-group {
+
+					button.clear-search {
+						border: 1px solid #AAA;
+						box-shadow: none;
+						background-color: transparent;
+						padding: 0px;
 						display: flex;
 						flex-direction: row;
 						align-items: center;
-						background-color: #eee;
-						height: 100%;
-						border-radius: 25px;
-						padding-left: 4px;
-						span.input-group-addon {
-							display: flex;
-					    width: 36px;
-					    height: 36px;
-					    flex-direction: row;
-					    align-items: center;
-					    justify-content: center;
-							margin: 0px;
-							padding: 0px 4px;
-							background-color: transparent;
-							border: none;
-							z-index: 1;
+						justify-content: center;
+						width: 20px;
+						height: 20px;
+						border-radius: 10px;
+						position: relative;
+						margin-right: 6px;
+						transition: 0.25s all ease-in-out;
+						&:hover {
+							border-color: @bevy-danger;
 							i.material-icons {
-								color: #AAA;
-							}
-
-							button.clear-search {
-								border: 1px solid #AAA;
-								box-shadow: none;
-								background-color: transparent;
-								padding: 0px;
-								display: flex;
-								flex-direction: row;
-								align-items: center;
-								justify-content: center;
-								width: 20px;
-								height: 20px;
-								border-radius: 10px;
-								position: relative;
-								margin-right: 6px;
-								transition: 0.25s all ease-in-out;
-								&:hover {
-									border-color: @bevy-danger;
-									i.material-icons {
-										color: @bevy-danger;
-									}
-								}
-								i.material-icons {
-									font-size: 1em;
-									color: #AAA;
-									transition: 0.25s all ease-in-out;
-								}
+								color: @bevy-danger;
 							}
 						}
-						input.form-control {
-							margin: 0px;
-							padding: 0px;
-							border: none;
-							background-color: transparent;
-							box-shadow: none;
-							z-index: 1;
-							height: 100%;
+						i.material-icons {
+							font-size: 1em;
+							color: #AAA;
+							transition: 0.25s all ease-in-out;
 						}
 					}
 				}
-				.sort-container {
-					margin-right: 10px;
+				input.form-control {
+					margin: 0px;
+					padding: 0px;
+					border: none;
+					background-color: transparent;
+					box-shadow: none;
+					z-index: 1;
+					height: 100%;
 				}
 			}
+		}
+		.sort-container {
+			margin-right: 10px;
 		}
 	}
 }

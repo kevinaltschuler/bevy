@@ -24,6 +24,7 @@ var router = require('./../../router');
 var NotificationActions = require('./../NotificationActions');
 var BevyActions = require('./../../bevy/BevyActions');
 var timeAgo = require('./../../shared/helpers/timeAgo');
+var resizeImage = require('./../../shared/helpers/resizeImage');
 var user = window.bootstrap.user;
 
 var NotificationItem = React.createClass({
@@ -31,7 +32,8 @@ var NotificationItem = React.createClass({
     id: React.PropTypes.string,
     event: React.PropTypes.string,
     data: React.PropTypes.object,
-    read: React.PropTypes.bool
+    read: React.PropTypes.bool,
+    hideDropdown: React.PropTypes.func
   },
 
   dismiss(ev) {
@@ -43,8 +45,10 @@ var NotificationItem = React.createClass({
     ev.preventDefault();
     var board_id = this.props.data.board_id;
     var post_id = this.props.data.post_id;
-
-    window.location.href = '/boards/' + board_id + '/posts/' + post_id;
+    var router = require('./../../router');
+    //window.location.href = '/boards/' + board_id + '/posts/' + post_id;
+    router.navigate('/boards/' + board_id + '/posts/' + post_id, { trigger: true });
+    this.props.hideDropdown();
   },
 
   render() {
@@ -166,9 +170,37 @@ var NotificationItem = React.createClass({
         );
         break;
 
+      case 'user:new':
+        var user = data;
+        body = (
+          <Button
+            className='notification-body'
+            title='View '
+            onClick={ this.viewNewUserProfile }
+          >
+            <Ink />
+            <div
+              className='sidebar-picture'
+              style={{
+                backgroundImage: `url(${resizeImage(user.image, 128, 128).url})`
+              }}
+            />
+            <div className='notification-text-col'>
+              <b>{ user.displayName }</b>
+              <span>&nbsp;joined this bevy!</span>
+              <br />
+              <span>
+                &nbsp;-&nbsp;
+                { timeAgo(Date.parse(user.created)) }
+              </span>
+            </div>
+          </Button>
+        );
+        break;
+
       default:
         body = (
-          <span>{ data }</span>
+          <span>{ data.toString() }</span>
         );
         break;
     }

@@ -119,7 +119,10 @@ var PostImages = React.createClass({
             className="dropzone"
             style={{display: 'none'}}
           />
-          <div className='add-image-post'>
+          <div
+            className='add-image-post'
+            title='Add image to post'
+          >
             <Ink style={{position: 'absolute', width: '134px', height: '94px', top: '0', left: '0'}}/>
             <div className='add-btn'>
               <i className="material-icons md-48">add</i>

@@ -197,22 +197,39 @@ var NewPostPanel = React.createClass({
         postId={ this.state.id }
       >
         <div className="new-post-title">
-          <div
-            className='profile-picture'
-            title={ 'Posting as ' + window.bootstrap.user.displayName }
-            style={{
-              backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
-            }}
-          />
-          <span
+          <OverlayTrigger
+            placement='top'
+            overlay={
+              <Tooltip id='post-profile-picture'>
+                Posting as { window.bootstrap.user.displayName }
+              </Tooltip>
+            }
+          >
+            <div
+              className='profile-picture'
+              title={ 'Posting as ' + window.bootstrap.user.displayName }
+              style={{
+                backgroundImage: 'url(' + resizeImage(window.bootstrap.user.image, 128, 128).url + ')'
+              }}
+            />
+          </OverlayTrigger>
+          {/*}<span
             className='hint-text'
             style={{
               visibility: (this.state.title.length > 0) ? 'hidden' : 'visible'
             }}
           >
             { this.state.hintText }
-          </span>
-          <div
+          </span>*/}
+          <Input
+            ref='title'
+            type='textarea'
+            placeholder={ this.state.hintText }
+            className='input'
+            onChange={ this.onTitleChange }
+            value={ this.state.title }
+          />
+          {/*}<div
             ref='title'
             className='input'
             contentEditable={ true }
@@ -225,16 +242,20 @@ var NewPostPanel = React.createClass({
               // collect the inner html of the editable div
               var title = this.refs.title.innerHTML;
 
+              console.log(title);
+
               // jenk way of stripping html elements
               var tmp = document.createElement("DIV");
               tmp.innerHTML = title;
               title = tmp.textContent || tmp.innerText || '';
 
+              console.log('sanitized:', title);
+
               this.refs.title.innerHTML = title;
               this.setState({ title: title });
             }}
           >
-          </div>
+          </div>*/}
         </div>
 
         <Uploader
@@ -260,9 +281,6 @@ var NewPostPanel = React.createClass({
                 cursor: (this.state.disabled) ? 'default' : 'pointer'
               }}
             >
-              <Ink
-                style={{ visibility: (this.state.disabled) ? 'hidden' : 'visible' }}
-              />
               <i className='material-icons'>insert_photo</i>
             </button>
           </OverlayTrigger>
@@ -275,9 +293,6 @@ var NewPostPanel = React.createClass({
               cursor: (this.state.disabled) ? 'default' : 'pointer'
             }}
           >
-            <Ink
-              style={{ visibility: (this.state.disabled) ? 'hidden' : 'visible' }}
-            />
             <span className='post-button-text'>
               Post
             </span>

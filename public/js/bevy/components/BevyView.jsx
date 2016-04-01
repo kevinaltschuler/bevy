@@ -20,8 +20,7 @@ var {
 } = require('react-bootstrap');
 var PostContainer = require('./../../post/components/PostContainer.jsx');
 var NewPostPanel = require('./../../post/components/NewPostPanel.jsx');
-var Footer = require('./../../app/components/Footer.jsx');
-var PostSort = require('./../../post/components/PostSort.jsx');
+var PostView = require('./../../app/components/PostView.jsx');
 // left sidebar
 var BoardSidebar = require('./../../board/components/BoardSidebar.jsx');
 // right sidebar
@@ -68,15 +67,14 @@ var BevyView = React.createClass({
 
   onBoardSwitch() {
     this.clearSearch();
-    this.setState({
-      bodyStyle: {opacity: .05}
-    });
-    setTimeout(
-      () => this.setState({
-        bodyStyle: {opacity: 1}
-      }),
-      10
-    )
+    // scroll to the top of the bevy view body once a board is changed
+    if(this.refs.body != undefined)
+      this.refs.body.scrollTop = 0;
+  },
+
+  goBackFromPostView(ev) {
+    if(ev != undefined) ev.preventDefault();
+    router.navigate('/boards/' + this.props.activeBoard._id, { trigger: true });
   },
 
   search(queryArg) {
@@ -95,14 +93,16 @@ var BevyView = React.createClass({
 
   onQueryChange(query) {
     this.setState({ query: query });
-    // reset the timeout if it already exists
-    clearTimeout(this.searchTimeout);
-    // make searching smoother with a bit of lag
-    this.searchTimeout = setTimeout(() => { this.search(query) }, 300);
   },
 
   renderNewPostPanel() {
+    // dont show the panel if we're not viewing a board.
+    // (because you can only post to a board)
     if(this.props.activeBoard._id == undefined) return <div />;
+    // dont show the panel if we're in the post view
+    // (viewing only a single post)
+    if(router.post_id != undefined) return <div />;
+
     return (
       <NewPostPanel
         activeBoard={ this.props.activeBoard }
@@ -130,10 +130,70 @@ var BevyView = React.createClass({
     this.setState({ sidebarOpen: !this.state.sidebarOpen });
   },
 
-  render() {
-    var joined = false;
-    var activeBevy = this.props.activeBevy;
+  renderBoardNavbar() {
+    if(router.current == 'post') return <div />;
+    return (
+      <BoardNavbar
+        activeBoard={ this.props.activeBoard }
+        toggleSidebar={ this.toggleSidebar }
+        sidebarOpen={ this.state.sidebarOpen }
+        allNotifications={ this.props.allNotifications }
+        activeBevy={ this.props.activeBevy }
+        onQueryChange={ this.onQueryChange }
+        clearSearch={ this.clearSearch }
+      />
+    );
+  },
 
+  renderBody() {
+    //var router = require('./../../router');
+    if(router.current == 'bevy' || router.current == 'board') {
+      return (
+        <div
+          ref='body'
+          className='bevy-view-body'
+        >
+          <div className='bevy-view-content'>
+            { this.renderNewPostPanel() }
+            <PostContainer
+              activeBevy={ this.props.activeBevy }
+              activeBoard={ this.props.activeBoard }
+              searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
+            />
+          </div>
+        </div>
+      );
+    } else if(router.current == 'post') {
+      return (
+        <PostView
+          { ...this.props }
+        />
+      );
+    } else {
+      return <div>SOMETHING WENT TOTALLY WRONG</div>
+    }
+  },
+
+  renderInfoBar() {
+    var router = require('./../../router');
+    if(router.current == 'bevy' || router.current == 'board') {
+      return (
+        <BoardInfoSidebar
+          activeBevy={ this.props.activeBevy }
+          activeBoard={ this.props.activeBoard }
+          open={ this.state.sidebarOpen }
+          toggleSidebar={ this.toggleSidebar }
+        />
+      );
+    } else if (router.current == 'post') {
+      return <div />;
+    } else {
+      return <div />;
+    }
+  },
+
+  render() {
+    var router = require('./../../router');
     if(_.isEmpty(window.bootstrap.user) || this.props.activeBevy.name == null) {
       return <div/>;
     }
@@ -142,7 +202,8 @@ var BevyView = React.createClass({
       <div
         className='main-section bevy-view'
         style={{
-          paddingRight: (this.props.activeBoard._id == undefined || !this.state.sidebarOpen) ? 0 : 220
+          paddingRight: (this.props.activeBoard._id == undefined
+            || !this.state.sidebarOpen || router.current == 'post') ? 0 : 220
         }}
       >
         <BoardSidebar
@@ -151,36 +212,9 @@ var BevyView = React.createClass({
           activeBoard={ this.props.activeBoard }
           allNotifications={ this.props.allNotifications }
         />
-        <div className='bevy-view-body'>
-          <BoardNavbar
-            activeBoard={ this.props.activeBoard }
-            toggleSidebar={ this.toggleSidebar }
-            sidebarOpen={ this.state.sidebarOpen }
-            allNotifications={ this.props.allNotifications }
-            activeBevy={ this.props.activeBevy}
-            searchQuery={ this.state.query }
-            searching={ this.state.searching }
-            onQueryChange={ this.onQueryChange }
-            clearSearch={ this.clearSearch }
-          />
-          <div className='bevy-view-content'>
-            { this.renderNewPostPanel() }
-            <PostContainer
-              activeBevy={ this.props.activeBevy }
-              activeBoard={ this.props.activeBoard }
-              searchOpen={ (!_.isEmpty(this.state.query) && !this.state.searching) }
-              searchQuery={ this.state.query }
-            />
-          </div>
-        </div>
-        <div >
-        <BoardInfoSidebar
-          activeBevy={ this.props.activeBevy }
-          activeBoard={ this.props.activeBoard }
-          open={ this.state.sidebarOpen }
-          toggleSidebar={this.toggleSidebar}
-        />
-        </div>
+        { this.renderBoardNavbar() }
+        { this.renderBody() }
+        { this.renderInfoBar() }
       </div>
     );
   }

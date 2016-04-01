@@ -188,7 +188,6 @@ var FourOhFour = require('./FourOhFour.jsx');
 var PostView = require('./PostView.jsx');
 var CreateBevyPage = require('./../../bevy/components/CreateBevyPage.jsx');
 var EditProfileView = require('./../../user/components/EditProfileView.jsx');
-var DirectoryView = require('./../../user/components/DirectoryView.jsx');
 
 var InterfaceComponent = React.createClass({
   callback() {
@@ -217,8 +216,13 @@ var InterfaceComponent = React.createClass({
       case 'edit-profile':
         return <EditProfileView { ...this.props } />;
         break;
-      case 'directory':
-        return <DirectoryView { ...this.props } />;
+      case 'bevy-settings':
+        let BevySettingsView = require('./../../bevy/components/BevySettingsView.jsx');
+        return <BevySettingsView { ...this.props } />;
+        break;
+      case 'board-settings':
+        let BoardSettingsView = require('./../../board/components/BoardSettingsView.jsx');
+        return <BoardSettingsView { ...this.props } />;
         break;
       default:
         return <div>SOMETHING WENT REALLY REALLY WRONG</div>

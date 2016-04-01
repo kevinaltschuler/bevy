@@ -1,0 +1,89 @@
+/**
+ * BoardSettingsView.less
+ * @author albert
+ */
+
+@import './../variables.less';
+
+.board-settings-view {
+  margin-top: 68px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+  .header {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    h1.title {
+      font-weight: normal;
+    }
+  }
+  .body {
+    background-color: #FFF;
+    padding: 15px;
+    box-shadow: @shadow1;
+    border-radius: 3px;
+    width: 100%;
+    max-width: 500px;
+    display: flex;
+    flex-direction: column;
+    span.input-title {
+      margin-bottom: 4px;
+    }
+    .form-group {
+      input[type='text'] {
+        width: auto;
+      }
+    }
+
+    form.bevy-image-dropzone {
+      width: 100px;
+      height: 100px;
+      border-radius: 0px;
+      margin-top: 0px;
+      margin-bottom: 10px;
+      border: 1px solid #AAA;
+      .dropzone-button-container {
+        width: 100px;
+        height: 100px;
+        button.dropzone-panel-button {
+          margin-left: 0px;
+          width: 100px;
+          height: 100px;
+          span.glyphicon {
+            padding-top: 40px;
+            width: 100px;
+            height: 100px;
+            border-radius: 0px;
+          }
+        }
+      }
+    }
+
+    button.delete-button {
+      position: relative;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      padding: 5px 10px;
+      background-color: @bevy-danger;
+      border: none;
+      box-shadow: none;
+      color: #FFF;
+      width: auto;
+      max-width: 200px;
+      justify-content: center;
+      border-radius: 3px;
+      &:hover {
+        background-color: lighten(@bevy-danger, 15%);
+      }
+    }
+
+    .footer {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-end;
+    }
+  }
+}

@@ -11,11 +11,29 @@ var Schema = mongoose.Schema;
 var shortid = require('shortid');
 
 var EventSchema = new Schema({
-  date: {
-    type: Date
+  _id: {
+    type: String,
+    required: true,
+    unique: true,
+    default: shortid.generate
+  },
+  bevy: {
+    type: String,
+    required: true,
+    ref: 'Bevy'
+  },
+  author: {
+    type: String,
+    required: true,
+    ref: 'User'
+  },
+  title: {
+    type: String,
+    required: true
   },
   start: {
-    type: Date
+    type: Date,
+    required: true
   },
   end: {
     type: Date
@@ -31,7 +49,8 @@ var EventSchema = new Schema({
     ref: 'User'
   }],
   cap: {
-    type: Number
+    type: Number,
+    default: -1
   },
   waitlist: [{
     type: String,
@@ -48,4 +67,10 @@ EventSchema.set('toJSON', {
   virtuals: true
 });
 
-module.exports = EventSchema;
+EventSchema.index({
+  title: 'text',
+  description: 'text'
+});
+
+module.exports = mongoose.model('Event', EventSchema);
+exports.Schema = EventSchema;

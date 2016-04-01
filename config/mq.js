@@ -12,5 +12,6 @@ exports.events = {
   NEW_COMMENT: 'NEW_COMMENT',
   POST_TO_BOARD: 'POST_TO_BOARD',
   REPLY_TO_POST: 'comment:post_reply',
-  REPLY_TO_COMMENT: 'comment:comment_reply'
+  REPLY_TO_COMMENT: 'comment:comment_reply',
+  NEW_USER: 'NEW_USER'
 };

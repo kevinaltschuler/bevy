@@ -17,7 +17,7 @@ var FourOhFour = React.createClass({
     return (
       <div className='fourohfour'>
         <div className='jenk-navbar'>
-          <a href='/' title='Home' className='home-button'>
+          <a href={ 'http://' + constants.domain } title='Home' className='home-button'>
             <img src='/img/logo_300_white.png' className='home-button-img' />
           </a>
           {/*<span className='title'>
@@ -26,7 +26,7 @@ var FourOhFour = React.createClass({
         </div>
         <h1>😔😔😔 404: Not Found 😔😔😔</h1>
         {/*<h2>{ window.location.href }</h2>*/}
-        <a href={ constants.siteurl } title='Home' className='home-link'>
+        <a href={ 'http://' + constants.domain } title='Home' className='home-link'>
           Go Back Home
         </a>
       </div>

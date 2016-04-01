@@ -53,6 +53,9 @@ var BoardItem = React.createClass({
   },
 
   onClick() {
+    // if we're already in this board, then return and dont navigate
+    if(this.props.activeBoard._id == this.props.board._id) return;
+
     router.navigate('/boards/' + this.props.board._id, { trigger: true });
   },
 
@@ -129,26 +132,17 @@ var BoardItem = React.createClass({
     return (
       <div className='board-item-container'>
         <button
-          className='board-item'
+          className={ 'board-item' + ((this.state.selected) ? ' active' : '') }
           title={ 'View posts in ' + this.props.board.name }
           onClick={ this.onClick }
-          style={{
-            //backgroundColor: (this.state.selected) ? '#2CB673' : 'transparent'
-          }}
         >
-          <Ink
-            opacity={ 0.25 }
-            background={ true }
-            style={{ color: '#FFF' }}
-          />
-          <div
-            className='color-monkey'
-            style={{
-              width: (this.state.selected) ? '100%' : '0px'
-            }}
-          />
           { this.renderAvatar(boardImageURL) }
-          <span style={{fontWeight:(this.state.selected)?600:300}} className='name'>
+          <span
+            className='name'
+            style={{
+              fontWeight: (this.state.selected) ? 600 : 300
+            }}
+          >
             { this.props.board.name }
           </span>
           { this.renderBoardType() }

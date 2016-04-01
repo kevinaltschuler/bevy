@@ -171,20 +171,25 @@ _.extend(UserStore, {
         let query = payload.query;
         let bevy_id = payload.bevy_id;
         let role = payload.role;
+        let exclude_users = payload.exclude_users;
 
         query = encodeURIComponent(query);
 
         let url = (_.isEmpty(query))
-          ? constants.apiurl + '/users/search' + '?bevy_id=' + bevy_id + '&role=' + role
-          : constants.apiurl + '/users/search/' + query + '?bevy_id=' + bevy_id + '&role=' + role;
+          ? `${constants.apiurl}/users/search?bevy_id=${bevy_id}&role=${role}`
+          : `${constants.apiurl}/users/search/${query}?bevy_id=${bevy_id}&role=${role}`;
 
         // if we're searching through admins, go through a totally different route
         if(role == 'admin') {
           let activeBevy = BevyStore.getActive();
-          let admin_ids = activeBevy.admins;
+          let admin_ids = _.pluck(activeBevy.admins, '_id');
           for(var key in admin_ids) {
-            url += '&admin_ids[' + key + ']=' + admin_ids[key];
+            url += `&admin_ids[${key}]=${admin_ids[key]}`;
           }
+        }
+
+        for(var key in exclude_users) {
+          url += `&exclude_users[${key}]=${exclude_users[key]}`;
         }
 
         fetch(url, {

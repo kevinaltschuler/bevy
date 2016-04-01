@@ -39,6 +39,11 @@ var SlugPage = React.createClass({
     };
   },
 
+  onSlugKeyUp(ev) {
+    if(ev.which == 13) {
+      this.submit();
+    }
+  },
   onSlugChange() {
     var slug = this.refs.slug.getValue();
     this.setState({ slug: slug });
@@ -136,6 +141,7 @@ var SlugPage = React.createClass({
               hintText='Group Domain'
               fullWidth={ true }
               onChange={ this.onSlugChange }
+              onKeyUp={ this.onSlugKeyUp }
               value={ this.state.slug }
               underlineFocusStyle={{borderColor: '#666'}}
               errorText={ this.state.error }

@@ -32,7 +32,7 @@ var PostHeader = React.createClass({
 
   getInitialState() {
     return {
-      isAdmin: _.contains(this.props.post.board.admins, window.bootstrap.user._id),
+      isAdmin: _.findWhere(this.props.post.board.admins, { _id: window.bootstrap.user._id}) != undefined,
       isAuthor: this.props.post.author._id == window.bootstrap.user._id
     };
   },
@@ -42,7 +42,7 @@ var PostHeader = React.createClass({
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      isAdmin: _.contains(nextProps.post.board.admins, window.bootstrap.user._id),
+      isAdmin: _.findWhere(nextProps.post.board.admins, { _id: window.bootstrap.user._id}) != undefined,
       isAuthor: nextProps.post.author._id == window.bootstrap.user._id
     });
   },

@@ -27,7 +27,9 @@ var PostFooter = React.createClass({
   },
 
   getInitialState() {
-    return { showComments: this.props.showComments };
+    return {
+      showComments: this.props.showComments
+    };
   },
 
   vote(ev) {
@@ -44,10 +46,9 @@ var PostFooter = React.createClass({
   },
 
   expandComments(ev) {
-    if(this.props.post.comments.length <= 0) return;
+    //if(this.props.post.comments.length <= 0) return;
     this.setState({ showComments: !this.state.showComments });
   },
-
 
   render() {
     var voteButtonStyle = {};

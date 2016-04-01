@@ -10,9 +10,9 @@
   margin-left: auto;
   margin-right: auto;
   background-color: #FFF;
-  margin-bottom: 15px;
   max-width: 600px;
   border-radius: 5px;
+  margin-bottom: 15px;
   .new-post-title {
     //padding: 0px 15px;
     min-height: 68px;
@@ -33,7 +33,25 @@
       border-radius: 24px;
       #image-icon();
     }
-    .input {
+    .form-group {
+      display: inline-block;
+      flex-grow: 1;
+      margin-bottom: 0px;
+      margin-left: 15px;
+      textarea.input {
+        resize: vertical;
+        min-height: 50px;
+        box-shadow: none;
+        border: none;
+        outline: none;
+        word-wrap: break-word;
+        white-space: pre-wrap;
+        cursor: text;
+        //max-height: 400px;
+        padding: 0px;
+      }
+    }
+    /*.input {
       display: inline-block;
       flex-grow: 1;
       min-height: 40px;
@@ -47,6 +65,7 @@
       zoom: 1;
       text-align: initial;
       cursor: text;
+      white-space: pre-wrap;
     }
     span.hint-text {
       position: absolute;
@@ -54,7 +73,7 @@
       left: 68px;
       color: #AAA;
       z-index: 0;
-    }
+    }*/
   }
   .panel-bottom {
     display: flex;

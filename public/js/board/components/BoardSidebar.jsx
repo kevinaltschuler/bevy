@@ -42,8 +42,9 @@ var BoardSidebar = React.createClass({
   },
 
   onHomeClick() {
+    // dont do anything if we're already at the home feed
+    if(this.props.activeBoard._id == undefined) return;
     router.navigate('/', { trigger: true });
-    BoardActions.switchBoard(null);
   },
 
   renderBoards() {
@@ -82,7 +83,14 @@ var BoardSidebar = React.createClass({
             }}
           >
             <div className='darkener' />
-            <div style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginTop: 10}}>
+            <div
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginTop: 10
+              }}
+            >
               <button
                 className='profile-btn'
                 title='Account'
@@ -108,21 +116,10 @@ var BoardSidebar = React.createClass({
             </div>
           </div>
           <button
-            className='home-button'
+            className={ 'home-button' + ((this.props.activeBoard._id == undefined) ? ' active' : '')}
             title={ 'View ' + this.props.activeBevy.name + ' post feed' }
             onClick={ this.onHomeClick }
           >
-            <Ink
-              opacity={ 0.25 }
-              background={ true }
-              style={{ color: '#FFF' }}
-            />
-            <div
-              className='color-monkey'
-              style={{
-                width: (this.props.activeBoard._id == undefined) ? '100%' : 0
-              }}
-            />
             <i className='material-icons'>home</i>
             <span className='home-button-text'>
               Home Feed
@@ -138,11 +135,6 @@ var BoardSidebar = React.createClass({
             title='Create a new board'
             onClick={ this.showNewBoardModal }
           >
-            <Ink
-              opacity={ 0.25 }
-              background={ true }
-              style={{ color: '#FFF' }}
-            />
             <i className='material-icons'>add</i>
             <NewBoardModal
               show={ this.state.showNewBoardModal }

@@ -38,13 +38,15 @@ var UserActions = {
    * @param bevy_id {string} - the id of the bevy to search within
    * @param role {string} - role of the users to search for.
    * e.g., restrict search to admins only
+   * @param exclude_users {array} - array of user ids to exclude from the search
    */
-  search(query, bevy_id, role) {
+  search(query, bevy_id, role, exclude_users) {
     Dispatcher.dispatch({
       actionType: USER.SEARCH,
       query: query,
       bevy_id: bevy_id,
-      role: (role == undefined) ? 'members' : role
+      role: (role == undefined) ? 'members' : role,
+      exclude_users: (exclude_users == undefined) ? [] : exclude_users
     });
   },
 

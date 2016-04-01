@@ -78,6 +78,21 @@ var HomeView = React.createClass({
     );
   },
 
+  renderLoginButton() {
+    if(!_.isEmpty(window.bootstrap.user)) return <div />;
+    return (
+      <RaisedButton
+        label='Sign In'
+        linkButton={ true }
+        title='Sign in to Bevy'
+        href='/signin'
+        style={{
+          marginLeft: 10
+        }}
+      />
+    );
+  },
+
   render() {
     return (
       <div className='landing-page'>
@@ -98,6 +113,7 @@ var HomeView = React.createClass({
               title='Start a Community'
               href='/create'
             />
+            { this.renderLoginButton() }
           </div>
         </div>
         {/*<div className='landing-div div2'>
@@ -198,7 +214,7 @@ var HomeView = React.createClass({
                   }
                 }
               />
-              
+
             </img>
           </div>
         </div>

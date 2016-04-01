@@ -24,24 +24,30 @@ var router = require('./../../router');
 var resizeImage = require('./../../shared/helpers/resizeImage');
 
 var AppActions = require('./../../app/AppActions');
+var PostActions = require('./../../post/PostActions');
 
 var BoardNavbar = React.createClass({
   propTypes: {
+    activeBevy: React.PropTypes.object,
     activeBoard: React.PropTypes.object,
     sidebarOpen: React.PropTypes.bool,
     toggleSidebar: React.PropTypes.func,
     allNotifications: React.PropTypes.array,
 
     // search stuff that needs to be bubbled up
-    searchQuery: React.PropTypes.string,
-    searching: React.PropTypes.bool,
+    //searchQuery: React.PropTypes.string,
+    //searching: React.PropTypes.bool,
     onQueryChange: React.PropTypes.func,
-    clearSearch: React.PropTypes.func
+    //clearSearch: React.PropTypes.func
   },
 
   getInitialState() {
     return {
+      query: ''
     };
+  },
+
+  componentWillReceiveProps(nextProps) {
   },
 
   componentDidMount() {
@@ -51,29 +57,54 @@ var BoardNavbar = React.createClass({
 
   },
 
+  toggleSidebar(ev) {
+    ev.preventDefault();
+    this.props.toggleSidebar();
+  },
+
   toggleLeftNav() {
     //this.props.leftNavActions.toggle();
     AppActions.openSidebar('home');
   },
 
   clearSearch() {
+    this.setState({ query: '' });
     this.props.clearSearch();
   },
 
   onQueryChange(ev) {
     ev.preventDefault();
-    this.props.onQueryChange(this.refs.search.getValue());
+    var query = this.refs.search.getValue();
+    this.setState({ query: query })
+    //this.props.onQueryChange(query);
+    // reset the timeout if it already exists
+    if(this.searchTimeout != undefined) {
+      clearTimeout(this.searchTimeout);
+      delete this.searchTimeout;
+    }
+    // make searching smoother with a bit of lag
+    this.searchTimeout = setTimeout(() => { this.search(query) }, 300);
+  },
+
+  search(queryArg) {
+    var bevy_id = this.props.activeBevy._id;
+    var board_id = this.props.activeBoard._id;
+    var query = this.state.query;
+
+    if(!_.isEmpty(queryArg)) query = queryArg;
+
+    PostActions.search(query, bevy_id, board_id);
+    this.props.onQueryChange(query);
   },
 
   renderClearSearchButton() {
-    if(this.props.searchQuery.length <= 0) return <div />;
+    if(this.state.query.length <= 0) return <div />;
     return (
       <button
         className='clear-search'
         title='Clear Search'
         onClick={ this.clearSearch }
       >
-        <Ink />
         <i className='material-icons'>close</i>
       </button>
     );
@@ -91,11 +122,6 @@ var BoardNavbar = React.createClass({
     return (
       <div className='board-navbar'>
         <div className='left'>
-          {/*<div className='prefix'>
-            {this.props.activeBevy.name}
-            &nbsp;
-            <i className="material-icons" >chevron_right</i>
-          </div>*/}
           <div className='title'>
             { (this.props.activeBoard._id == undefined)
                 ? 'Home Feed' : this.props.activeBoard.name }
@@ -106,7 +132,7 @@ var BoardNavbar = React.createClass({
             ref='search'
             type='text'
             placeholder='Search'
-            value={ this.props.searchQuery }
+            value={ this.state.query }
             onChange={ this.onQueryChange }
             addonBefore={
               <i className='material-icons'>search</i>
@@ -121,9 +147,8 @@ var BoardNavbar = React.createClass({
             className='info-button'
             title={ (this.props.sidebarOpen)
               ? 'Close Board Info' : 'Open Board Info' }
-            onClick={ this.props.toggleSidebar }
+            onClick={ this.toggleSidebar }
           >
-            <Ink/>
             { this.renderInfoIcon() }
           </button>
         </div>

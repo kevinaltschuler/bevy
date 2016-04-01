@@ -10,7 +10,7 @@
 
 'use strict';
 
-exports.version = '2.0.0';
+exports.version = '2.0.2';
 
 exports.env = window.bootstrap.env;
 
@@ -137,6 +137,7 @@ exports.BOARD = {
   JOIN: 'board_join',
   LEAVE: 'board_leave',
   SWITCHED: 'board_switched',
+  ADD_ADMIN: 'board_add_admin',
 
   CHANGE_ALL: 'board_change_all'
 };

@@ -30,10 +30,13 @@ var BevyActions = require('./BevyActions');
 var UserStore = require('./../user/UserStore');
 var user = window.bootstrap.user;
 
+var initial_bevy = (_.isEmpty(window.bootstrap.user || window.bootstrap.user.bevy))
+  ? {} : window.bootstrap.user.bevy;
+
 var BevyStore = _.extend({}, Backbone.Events);
 _.extend(BevyStore, {
 
-  active: new Bevy,
+  active: new Bevy(initial_bevy),
   boards: new Boards,
   activeBoard: -1,
 
@@ -41,7 +44,6 @@ _.extend(BevyStore, {
     switch(payload.actionType) {
 
       case APP.LOAD:
-        console.log(window.bootstrap.user);
         // load the bevy thats packaged with the user into the active bevy object
         this.active = new Bevy(window.bootstrap.user.bevy);
         this.boards = new Boards(window.bootstrap.user.boards);
@@ -113,12 +115,14 @@ _.extend(BevyStore, {
         }
 
         var name = payload.name || bevy.get('name');
+        var slug = payload.slug || bevy.get('slug');
         var image = payload.image || bevy.get('image');
         var settings = payload.settings || bevy.get('settings');
 
         bevy.url = constants.apiurl + '/bevies/' + bevy_id;
         bevy.save({
           name: name,
+          slug: slug,
           image: image,
           settings: settings
         }, {
@@ -126,6 +130,7 @@ _.extend(BevyStore, {
         });
         bevy.set({
           name: name,
+          slug: slug,
           image: image,
           settings: settings
         });
@@ -201,13 +206,39 @@ _.extend(BevyStore, {
         var image = payload.image || board.get('image');
         var settings = payload.settings || board.get('settings');
 
+        var tempAdmins = board.get('admins');
+
         board.url = constants.apiurl + '/boards/' + board.get('_id');
         board.save({
           name: name,
           description: description,
           image: image,
           settings: settings
+        }, {
+          patch: true,
+          success: function(model, response, options) {
+            board.set('admins', tempAdmins);
+            this.trigger(BOARD.CHANGE_ALL);
+          }.bind(this)
+        });
+
+
+        break;
+
+      case BOARD.ADD_ADMIN:
+        var board_id = payload.board_id;
+        var board = this.boards.get(board_id);
+        if(board == undefined) break;
+
+        var admin = payload.admin;
+        var board_admins = board.get('admins');
+
+        board.url = `${constants.apiurl}/boards/${board.get('_id')}`;
+        board.save({
+          admins: _.pluck(board_admins, '_id')
         }, { patch: true });
+
+        board.set('admins', board_admins);
 
         this.trigger(BOARD.CHANGE_ALL);
         break;
@@ -243,7 +274,9 @@ _.extend(BevyStore, {
   getActive() {
     return (!_.isEmpty(this.active))
       ? this.active.toJSON()
-      : {};
+      : (_.isEmpty(window.bootstrap.user.bevy))
+        ? {}
+        : window.bootstrap.user.bevy;
   },
   getActiveBevy() {
     return this.getActive();

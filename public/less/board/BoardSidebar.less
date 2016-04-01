@@ -66,9 +66,11 @@
         i.material-icons {
           font-size: 1.3em;
         }
-        &:hover {
+        &:hover, &:active, &:focus {
           background-color: #fff;
-          color: #aaa;
+          i.material-icons {
+            color: #2CB673;
+          }
         }
       }
       .profile-btn {
@@ -102,15 +104,8 @@
       &:hover, &:active, &:focus {
         background-color: rgba(255,255,255,0.15);
       }
-      .color-monkey {
-        position: absolute;
-        top: 0px;
-        left: 0px;
-        background-color: #2cb673;
-        border-radius: 0px 5px 5px 0px;
-        height: 100%;
-        transition: 0.3s all ease-in-out;
-        z-index: -1;
+      &.active {
+        background-color: @bevy-green !important;
       }
       i.material-icons {
         color: #FFF;
@@ -222,15 +217,8 @@
         &:hover, &:active, &:focus {
           background-color: rgba(255,255,255,0.15);
         }
-        .color-monkey {
-          position: absolute;
-          top: 0px;
-          left: 0px;
-          background-color: #2cb673;
-          border-radius: 0px 5px 5px 0px;
-          height: 100%;
-          transition: 0.3s all ease-in-out;
-          z-index: -1;
+        &.active {
+          background-color: @bevy-green !important;
         }
         .board-image {
           width: 36px;
@@ -268,7 +256,7 @@
           align-items: center;
           width: 20px;
           height: 20px;
-          z-index: 3;
+          //z-index: 1;
           i.material-icons {
             color: #EEE;
             font-size: 1.4em;

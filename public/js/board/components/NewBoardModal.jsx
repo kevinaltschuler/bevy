@@ -47,16 +47,24 @@ var NewBoardModal = React.createClass({
   },
 
   onUploadComplete(file) {
-    this.setState({
-      image: file,
-    });
+    this.setState({ image: file });
+  },
+
+  onNameChange() {
+    var name = this.refs.Name.getValue();
+    this.setState({ name: name });
+  },
+
+  onDescChange() {
+    var desc = this.refs.Desc.getValue();
+    this.setState({ description: desc });
   },
 
   create(ev) {
     ev.preventDefault();
 
     var name = this.refs.Name.getValue();
-    var description = this.refs.Description.getValue();
+    var description = this.refs.Desc.getValue();
     var image = this.state.image;
     var parent = this.props.activeBevy._id;
     var type = this.state.type;
@@ -124,26 +132,26 @@ var NewBoardModal = React.createClass({
               tooltip='Upload Board Picture'
             />
           </div>
-          <div className='text-fields'>
-            <TextField
-              type='text'
-              ref='Name'
-              placeholder='Board Name'
-              onChange={() => {
-                this.setState({
-                  name: this.refs.Name.getValue()
-                });
-              }}
-              underlineFocusStyle={{borderColor: '#666'}}
-            />
-            <TextField
-              type='text'
-              ref='Description'
-              placeholder='Board Description'
-              multiLine={true}
-              underlineFocusStyle={{borderColor: '#666'}}
-            />
-          </div>
+          <span className='input-title'>
+            Board Name
+          </span>
+          <Input
+            type='text'
+            ref='Name'
+            placeholder='e.g., Lost and Found'
+            value={ this.state.name }
+            onChange={ this.onNameChange }
+          />
+          <span className='input-title'>
+            Board Description (optional)
+          </span>
+          <Input
+            type='text'
+            ref='Desc'
+            placeholder='e.g., Post your lost or found items here'
+            value={ this.state.description }
+            onChange={ this.onDescChange }
+          />
           <div className='type-buttons'>
             <div className='section-title'>
               Board Type

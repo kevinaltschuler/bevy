@@ -1,0 +1,92 @@
+/**
+ * PostBody.less
+ * @author albert
+ * @author kevin
+ */
+
+@import './../variables.less';
+
+.post-body {
+  padding: 0px !important;
+  .panel-body-text {
+    box-shadow: none;
+    padding-bottom: 0px;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #4C4C4C;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+    overflow-y: hidden;
+    text-overflow: ellipsis;
+    transition: 0.2s all ease-in-out;
+    span.highlight {
+      color: #FFF;
+      background-color: @bevy-green;
+      padding: 0px 1px;
+    }
+    &.editing {
+      display: flex;
+      align-items: flex-end;
+    }
+    p {
+      margin-bottom: 0px;
+      padding-top: 0px;
+    }
+    iframe {
+      margin-left: auto;
+      margin-right: auto;
+      display: block;
+      margin-top: 5px;
+    }
+    .edit-field {
+      width: 70%;
+      margin-right: 10px;
+    }
+  }
+  a.expand-btn {
+    padding: 0px 20px;
+  }
+  &.editing {
+    display: flex;
+    flex-direction: column;
+    .form-group {
+      padding-left: 15px;
+      padding-right: 15px;
+      margin-bottom: 8px;
+      textarea.form-control {
+        resize: vertical;
+        box-shadow: none;
+        outline: none;
+        border-radius: 0px;
+        border: 1px solid #DDD;
+        &:active, &:focus {
+          border: 1px solid #AAA;
+        }
+      }
+    }
+    .edit-buttons {
+      padding-left: 15px;
+      padding-right: 15px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin-bottom: 8px;
+      width: 100%;
+      justify-content: flex-end;
+      button.cancel-button {
+        margin-right: 10px;
+      }
+      button.save-button, button.cancel-button {
+        position: relative;
+        box-shadow: none;
+        border: 2px solid #CCC;
+        background-color: transparent;
+        color: #999;
+        &:hover {
+          border-color: #999;
+          color: #666;
+        }
+      }
+    }
+  }
+}

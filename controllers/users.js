@@ -10,9 +10,11 @@ var _ = require('underscore');
 var error = require('./../error');
 var bcrypt = require('bcryptjs');
 var async = require('async');
+var shortid = require('shortid');
 
-var shortid = require('shortid')
-var mailgun = require('./../config').mailgun();
+var config = require('./../config');
+var mailgun = config.mailgun();
+var mq = require('./../mq');
 
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
