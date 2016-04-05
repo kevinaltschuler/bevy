@@ -84,7 +84,7 @@ module.exports = function(app) {
 
   app.post('/report', function(req, res, next) {
     var comment = req.body['comment_id'] || 'none';
-    var post = req.body['post_id'] || '';
+    var post = req.body['post_id'] || 'none';
 
     mailgun.messages().send({
       from: 'contact@joinbevy.com',
