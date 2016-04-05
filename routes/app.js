@@ -82,6 +82,20 @@ module.exports = function(app) {
     });
   });
 
+  app.post('/report', function(req, res, next) {
+    var comment = req.body['comment_id'] || 'none';
+    var post = req.body['post_id'] || '';
+
+    mailgun.messages().send({
+      from: 'contact@joinbevy.com',
+      to: 'contact@joinbevy.com',
+      subject: 'Reported Content',
+      text: 'post: ' + post + ', comment: ' + comment 
+    }, function(error, body) {
+      res.json(body);
+    });
+  });
+
   // for everything else - pass it off to the react router
   // on the front end
   // this should be the last route ever checked
