@@ -191,6 +191,7 @@
     			box-shadow: @shadow4;
 			}
 			.screenshot1 {
+				pointer-events: none;
       			position: absolute;
     			right: 340px;
       			background-size: auto 100%;
@@ -201,11 +202,13 @@
 				background-position: 100% 50%;
 				position: absolute;
     			right: -80px;
+    			pointer-events: none;
 			}
 			.screenshot3 {
 				background-size: auto 100%;
 				position: absolute;
     			right: 150px;
+    			pointer-events: none;
 			}
 		}
 	}
@@ -264,17 +267,16 @@
 				}
 			}
 			.screenshot1 {
-				position: relative !important;
     			right: 60px !important;
+    			margin-top: 300px !important;
 			}
 			.screenshot2 {
-				position: relative !important;
 			    right: 0px !important;
-			    top: 0px !important;
+			    margin-top: 300px !important;
 			}
 			.screenshot3 {
-				position: relative !important;
     			right: 150px !important;
+    			margin-top: 300px !important;
 			}
 		}
 	}
