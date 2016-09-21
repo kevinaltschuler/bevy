@@ -307,7 +307,7 @@ var InvitePage = React.createClass({
         </a>
         <br/>
         <span>
-          by creating an account or a bevy you agree to our
+          by creating an account or a bevy you agree to our &nbsp;
           <a className='back-link' href={ constants.siteurl + '/privacy' }>
             Privacy Policy 
           </a>
@@ -317,7 +317,7 @@ var InvitePage = React.createClass({
           </a>
         </span>
         <br/>
-        
+
       </div>
     );
   }
