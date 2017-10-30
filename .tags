@@ -1,0 +1,1014 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+$	public/js/notification/NotificationStore.js	/^var $ = require('jquery');$/;"	v
+$.fn.typed	public/js/homepage/components/typed.js	/^    };$/;"	f
+$.fn.typed	public/js/shared/helpers/typedjs/js/typed.js	/^    };$/;"	f
+$.fn.typed.defaults.strings	public/js/homepage/components/typed.js	/^    $.fn.typed.defaults = {$/;"	p
+$.fn.typed.defaults.strings	public/js/shared/helpers/typedjs/js/typed.js	/^    $.fn.typed.defaults = {$/;"	p
+$fetch	public/js/index.js	/^var $fetch = window.fetch;$/;"	v
+APP	public/js/app/AppActions.js	/^var APP = require('.\/..\/constants').APP;$/;"	v
+APP	public/js/app/AppStore.js	/^var APP = constants.APP;$/;"	v
+APP	public/js/bevy/BevyStore.js	/^var APP = constants.APP;$/;"	v
+APP	public/js/notification/NotificationStore.js	/^var APP = require('.\/..\/constants').APP;$/;"	v
+APP	public/js/post/PostStore.js	/^var APP = constants.APP;$/;"	v
+APP	public/js/user/UserStore.js	/^var APP = constants.APP;$/;"	v
+AccessToken	config/passport.js	/^var AccessToken = require('.\/..\/models\/AccessToken');$/;"	v
+AccessToken	controllers/oauth2.js	/^var AccessToken = require('.\/..\/models\/AccessToken');$/;"	v
+App	public/js/index.js	/^var App = React.createClass({$/;"	v
+AppStore	public/js/app/AppStore.js	/^var AppStore = _.extend({}, Backbone.Events);$/;"	v
+AppStore	public/js/router.js	/^var AppStore = require('.\/app\/AppStore');$/;"	v
+BEVY	public/js/bevy/BevyActions.js	/^var BEVY = require('.\/..\/constants').BEVY;$/;"	v
+BEVY	public/js/bevy/BevyStore.js	/^var BEVY = constants.BEVY;$/;"	v
+BEVY	public/js/post/PostStore.js	/^var BEVY = constants.BEVY;$/;"	v
+BEVY	public/js/user/UserStore.js	/^var BEVY = constants.BEVY;$/;"	v
+BOARD	public/js/bevy/BevyStore.js	/^var BOARD = constants.BOARD;$/;"	v
+BOARD	public/js/board/BoardActions.js	/^var BOARD = require('.\/..\/constants').BOARD;$/;"	v
+BOARD	public/js/post/PostStore.js	/^var BOARD = constants.BOARD;$/;"	v
+BOARD	public/js/user/UserStore.js	/^var BOARD = constants.BOARD;$/;"	v
+Backbone	public/js/app/AppStore.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/bevy/BevyCollection.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/bevy/BevyModel.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/bevy/BevyStore.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/bevy/InviteCollection.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/bevy/InviteModel.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/board/BoardCollection.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/board/BoardModel.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/index.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/notification/InviteCollection.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/notification/InviteModel.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/notification/NotificationCollection.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/notification/NotificationModel.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/notification/NotificationStore.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/post/CommentModel.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/post/PostCollection.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/post/PostModel.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/post/PostStore.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/router.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/user/UserCollection.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/user/UserModel.js	/^var Backbone = require('backbone');$/;"	v
+Backbone	public/js/user/UserStore.js	/^var Backbone = require('backbone');$/;"	v
+Backbone.sync	public/js/index.js	/^var Backbone = require('backbone');$/;"	f
+Backbone.sync.headers.Accept	public/js/index.js	/^  var headers = {$/;"	p
+Backbone.sync.methodMap.create	public/js/index.js	/^  var methodMap = {$/;"	p
+Backbone.sync.methodMap.delete	public/js/index.js	/^    'patch':  'PATCH',$/;"	p
+Backbone.sync.methodMap.patch	public/js/index.js	/^    'update': 'PUT',$/;"	p
+Backbone.sync.methodMap.read	public/js/index.js	/^    'delete': 'DELETE',$/;"	p
+Backbone.sync.methodMap.update	public/js/index.js	/^    'create': 'POST',$/;"	p
+Backbone.sync.opts.body	public/js/index.js	/^    headers: headers,$/;"	p
+Backbone.sync.opts.headers	public/js/index.js	/^    method: method,$/;"	p
+Backbone.sync.opts.method	public/js/index.js	/^  var opts = {$/;"	p
+BasicStrategy	config/passport.js	/^var BasicStrategy = require('passport-http').BasicStrategy;$/;"	v
+BearerStrategy	config/passport.js	/^var BearerStrategy = require('passport-http-bearer').Strategy;$/;"	v
+Bevies	public/js/bevy/BevyStore.js	/^var Bevies = require('.\/BevyCollection');$/;"	v
+Bevy	config/passport.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/bevies.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/boards.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/events.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/invites.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/notifications.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/notifications/comment.js	/^var Bevy = require('.\/..\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/notifications/post.js	/^var Bevy = require('.\/..\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/notifications/user.js	/^var Bevy = require('.\/..\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/oauth2.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/permissions/bevy.js	/^var Bevy = require('.\/..\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/posts.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	controllers/users.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	public/js/bevy/BevyCollection.js	/^var Bevy = require('.\/BevyModel');$/;"	v
+Bevy	public/js/bevy/BevyStore.js	/^var Bevy = require('.\/BevyModel');$/;"	v
+Bevy	routes/app.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	routes/auth.js	/^var Bevy = require('.\/..\/models\/Bevy');$/;"	v
+Bevy	schedule.js	/^var Bevy = require('.\/models\/Bevy');$/;"	v
+BevyActions	public/js/bevy/BevyStore.js	/^var BevyActions = require('.\/BevyActions');$/;"	v
+BevyActions	public/js/router.js	/^var BevyActions = require('.\/bevy\/BevyActions');$/;"	v
+BevyCollection	public/js/bevy/BevyCollection.js	/^var BevyCollection = Backbone.Collection.extend({$/;"	v
+BevyModel	public/js/bevy/BevyModel.js	/^var BevyModel = Backbone.Model.extend({$/;"	v
+BevyStore	public/js/bevy/BevyStore.js	/^var BevyStore = _.extend({}, Backbone.Events);$/;"	v
+BevyStore	public/js/board/BoardCollection.js	/^var BevyStore = require('.\/..\/bevy\/BevyStore');$/;"	v
+BevyStore	public/js/post/PostModel.js	/^var BevyStore = require('.\/..\/bevy\/BevyStore');$/;"	v
+BevyStore	public/js/post/PostStore.js	/^var BevyStore = require('.\/..\/bevy\/BevyStore');$/;"	v
+BevyStore	public/js/router.js	/^var BevyStore = require('.\/bevy\/BevyStore');$/;"	v
+BevyStore	public/js/user/UserStore.js	/^var BevyStore = require('.\/..\/bevy\/BevyStore');$/;"	v
+Board	config/passport.js	/^var Board = require('.\/..\/models\/Board');$/;"	v
+Board	controllers/bevies.js	/^var Board = require('.\/..\/models\/Board');$/;"	v
+Board	controllers/boards.js	/^var Board = require('.\/..\/models\/Board');$/;"	v
+Board	controllers/comments.js	/^var Board = require('.\/..\/models\/Board');$/;"	v
+Board	controllers/notifications.js	/^var Board = require('.\/..\/models\/Board');$/;"	v
+Board	controllers/notifications/comment.js	/^var Board = require('.\/..\/..\/models\/Board');$/;"	v
+Board	controllers/notifications/post.js	/^var Board = require('.\/..\/..\/models\/Board');$/;"	v
+Board	controllers/notifications/user.js	/^var Board = require('.\/..\/..\/models\/Board');$/;"	v
+Board	controllers/permissions/board.js	/^var Board = require('.\/..\/..\/models\/Board');$/;"	v
+Board	controllers/permissions/comment.js	/^var Board = require('.\/..\/..\/models\/Board');$/;"	v
+Board	controllers/posts.js	/^var Board = require('.\/..\/models\/Board');$/;"	v
+Board	public/js/bevy/BevyStore.js	/^var Board = require('.\/..\/board\/BoardModel');$/;"	v
+Board	public/js/board/BoardCollection.js	/^var Board = require('.\/BoardModel');$/;"	v
+Board	schedule.js	/^var Board = require('.\/models\/Board');$/;"	v
+BoardActions	public/js/router.js	/^var BoardActions = require('.\/board\/BoardActions');$/;"	v
+BoardCollection	public/js/board/BoardCollection.js	/^var BoardCollection = Backbone.Collection.extend({$/;"	v
+BoardModel	public/js/board/BoardModel.js	/^var BoardModel = Backbone.Model.extend({$/;"	v
+Boards	public/js/bevy/BevyStore.js	/^var Boards = require('.\/..\/board\/BoardCollection');$/;"	v
+COMMENT	public/js/post/CommentActions.js	/^var COMMENT = require('.\/..\/constants').COMMENT;$/;"	v
+COMMENT	public/js/post/PostStore.js	/^var COMMENT = constants.COMMENT;$/;"	v
+Client	config/passport.js	/^var Client = require('.\/..\/models\/Client');$/;"	v
+Client	db.js	/^var Client = require('.\/models\/Client');$/;"	v
+ClientPasswordStrategy	config/passport.js	/^var ClientPasswordStrategy = require('passport-oauth2-client-password').Strategy;$/;"	v
+Comment	controllers/bevies.js	/^var Comment = require('.\/..\/models\/Comment');$/;"	v
+Comment	controllers/comments.js	/^var Comment = require('.\/..\/models\/Comment');$/;"	v
+Comment	controllers/notifications.js	/^var Comment = require('.\/..\/models\/Comment');$/;"	v
+Comment	controllers/notifications/comment.js	/^var Comment = require('.\/..\/..\/models\/Comment');$/;"	v
+Comment	controllers/permissions/comment.js	/^var Comment = require('.\/..\/..\/models\/Comment');$/;"	v
+Comment	controllers/posts.js	/^var Comment = require('.\/..\/models\/Comment');$/;"	v
+Comment	public/js/post/CommentModel.js	/^var Comment = Backbone.Model.extend({$/;"	v
+Comment	public/js/post/PostStore.js	/^var Comment = require('.\/CommentModel');$/;"	v
+Comment	schedule.js	/^var Comment = require('.\/models\/Comment');$/;"	v
+CreateBevyPage	public/js/index.js	/^var CreateBevyPage = require('.\/bevy\/components\/CreateBevyPage.jsx');$/;"	v
+DeviceSchema	models/User.js	/^var DeviceSchema = require('.\/DeviceSchema');$/;"	v
+Dispatcher	public/js/app/AppActions.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/app/AppStore.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/bevy/BevyActions.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/bevy/BevyStore.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/board/BoardActions.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/notification/NotificationStore.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/post/PostActions.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/post/PostStore.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/shared/dispatcher.js	/^var Dispatcher = require('flux').Dispatcher;$/;"	v
+Dispatcher	public/js/shared/helpers/dispatch.js	/^var Dispatcher = require('.\/..\/dispatcher');$/;"	v
+Dispatcher	public/js/user/UserActions.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+Dispatcher	public/js/user/UserStore.js	/^var Dispatcher = require('.\/..\/shared\/dispatcher');$/;"	v
+EmailTemplate	controllers/email.js	/^var EmailTemplate = require('email-templates').EmailTemplate;$/;"	v
+Event	controllers/events.js	/^var Event = require('.\/..\/models\/Event');$/;"	v
+EventEmitter	controllers/notifications.js	/^var EventEmitter = require('events').EventEmitter;$/;"	v
+FROM_EMAIL	controllers/email.js	/^var FROM_EMAIL = 'Bevy Team <contact@joinbevy.com>';$/;"	v
+ForgotGroupPage	public/js/index.js	/^var ForgotGroupPage = require('.\/auth\/components\/ForgotGroupPage.jsx');$/;"	v
+ForgotPage	public/js/index.js	/^var ForgotPage = require('.\/auth\/components\/ForgotPage.jsx');$/;"	v
+FourOhFour	public/js/index.js	/^var FourOhFour = require('.\/app\/components\/FourOhFour.jsx');$/;"	v
+Grid	controllers/files.js	/^var Grid = require('gridfs-stream');$/;"	v
+Grid	gridfs.js	/^var Grid = require('gridfs-stream');$/;"	v
+IMAGE_TYPES	controllers/files.js	/^var IMAGE_TYPES = 'jpg jpeg gif png jpe bmp';$/;"	v
+INVITE	public/js/bevy/BevyActions.js	/^var INVITE = require('.\/..\/constants').INVITE;$/;"	v
+INVITE	public/js/bevy/BevyStore.js	/^var INVITE = constants.INVITE;$/;"	v
+ImageSchema	models/Bevy.js	/^var ImageSchema = require('.\/ImageSchema');$/;"	v
+ImageSchema	models/Board.js	/^var ImageSchema = require('.\/ImageSchema');$/;"	v
+ImageSchema	models/Post.js	/^var ImageSchema = require('.\/ImageSchema');$/;"	v
+ImageSchema	models/User.js	/^var ImageSchema = require('.\/ImageSchema');$/;"	v
+InterfaceComponent	public/js/index.js	/^var InterfaceComponent = React.createClass({$/;"	v
+Invite	public/js/bevy/InviteCollection.js	/^var Invite = require('.\/InviteModel');$/;"	v
+InviteCollection	public/js/bevy/InviteCollection.js	/^var InviteCollection = Backbone.Collection.extend({$/;"	v
+InviteCollection	public/js/notification/InviteCollection.js	/^var InviteCollection = Backbone.Collection.extend({$/;"	v
+InviteModel	public/js/bevy/InviteModel.js	/^var InviteModel = Backbone.Model.extend({$/;"	v
+InviteModel	public/js/notification/InviteCollection.js	/^var InviteModel = require('.\/InviteModel');$/;"	v
+InviteModel	public/js/notification/InviteModel.js	/^var InviteModel = Backbone.Model.extend({$/;"	v
+InvitePage	public/js/index.js	/^var InvitePage = require('.\/invite\/components\/InvitePage.jsx');$/;"	v
+InviteToken	controllers/bevies.js	/^var InviteToken = require('.\/..\/models\/InviteToken');$/;"	v
+InviteToken	controllers/invites.js	/^var InviteToken = require('.\/..\/models\/InviteToken');$/;"	v
+InviteToken	models/InviteToken.js	/^var InviteToken = mongoose.model('InviteToken', InviteTokenSchema);$/;"	v
+InviteToken	routes/auth.js	/^var InviteToken = require('.\/..\/models\/InviteToken');$/;"	v
+Invites	public/js/notification/NotificationStore.js	/^var Invites = require('.\/InviteCollection');$/;"	v
+LessGlobPlugin	webpack.config.js	/^var LessGlobPlugin = require('less-plugin-glob');$/;"	v
+LoginPage	public/js/index.js	/^var LoginPage = require('.\/auth\/components\/LoginPage.jsx');$/;"	v
+MainSection	public/js/index.js	/^var MainSection = require('.\/app\/components\/MainSection.jsx');$/;"	v
+MongoStore	app.js	/^var MongoStore = require('connect-mongo')(session);$/;"	v
+NOTIFICATION	public/js/bevy/BevyStore.js	/^var NOTIFICATION = constants.NOTIFICATION;$/;"	v
+NOTIFICATION	public/js/notification/NotificationActions.js	/^var NOTIFICATION = require('.\/..\/constants').NOTIFICATION;$/;"	v
+NOTIFICATION	public/js/notification/NotificationStore.js	/^var NOTIFICATION = require('.\/..\/constants').NOTIFICATION;$/;"	v
+Notification	controllers/notifications.js	/^var Notification = require('.\/..\/models\/Notification');$/;"	v
+Notification	controllers/notifications/comment.js	/^var Notification = require('.\/..\/..\/models\/Notification');$/;"	v
+Notification	controllers/notifications/post.js	/^var Notification = require('.\/..\/..\/models\/Notification');$/;"	v
+Notification	controllers/notifications/user.js	/^var Notification = require('.\/..\/..\/models\/Notification');$/;"	v
+Notification	controllers/permissions/notification.js	/^var Notification = require('.\/..\/..\/models\/Notification');$/;"	v
+Notification	controllers/users.js	/^var Notification = require('.\/..\/models\/Notification');$/;"	v
+NotificationCollection	public/js/notification/NotificationCollection.js	/^var NotificationCollection = Backbone.Collection.extend({$/;"	v
+NotificationModel	public/js/notification/NotificationCollection.js	/^var NotificationModel = require('.\/NotificationModel');$/;"	v
+NotificationModel	public/js/notification/NotificationModel.js	/^var NotificationModel = Backbone.Model.extend({$/;"	v
+NotificationStore	public/js/notification/NotificationStore.js	/^var NotificationStore = _.extend({}, Backbone.Events);$/;"	v
+NotificationStore	public/js/router.js	/^var NotificationStore = require('.\/notification\/NotificationStore');$/;"	v
+Notifications	public/js/notification/NotificationStore.js	/^var Notifications = require('.\/NotificationCollection');$/;"	v
+POST	public/js/bevy/BevyStore.js	/^var POST = constants.POST;$/;"	v
+POST	public/js/post/PostActions.js	/^var POST = require('.\/..\/constants').POST;$/;"	v
+POST	public/js/post/PostModel.js	/^var POST = constants.POST;$/;"	v
+POST	public/js/post/PostStore.js	/^var POST = constants.POST;$/;"	v
+Post	controllers/bevies.js	/^var Post = require('.\/..\/models\/Post');$/;"	v
+Post	controllers/boards.js	/^var Post = require('.\/..\/models\/Post');$/;"	v
+Post	controllers/comments.js	/^var Post = require('.\/..\/models\/Post');$/;"	v
+Post	controllers/notifications.js	/^var Post = require('.\/..\/models\/Post');$/;"	v
+Post	controllers/notifications/comment.js	/^var Post = require('.\/..\/..\/models\/Post');$/;"	v
+Post	controllers/notifications/post.js	/^var Post = require('.\/..\/..\/models\/Post');$/;"	v
+Post	controllers/notifications/user.js	/^var Post = require('.\/..\/..\/models\/Post');$/;"	v
+Post	controllers/permissions/comment.js	/^var Post = require('.\/..\/..\/models\/Post');$/;"	v
+Post	controllers/permissions/post.js	/^var Post = require('.\/..\/..\/models\/Post');$/;"	v
+Post	controllers/posts.js	/^var Post = require('.\/..\/models\/Post');$/;"	v
+Post	controllers/users.js	/^var Post = require('.\/..\/models\/User');$/;"	v
+Post	public/js/post/PostCollection.js	/^var Post = require('.\/PostModel');$/;"	v
+Post	public/js/post/PostModel.js	/^var Post = Backbone.Model.extend({$/;"	v
+Post	schedule.js	/^var Post = require('.\/models\/Post');$/;"	v
+PostActions	public/js/notification/NotificationStore.js	/^var PostActions = require('.\/..\/post\/PostActions');$/;"	v
+PostActions	public/js/router.js	/^var PostActions = require('.\/post\/PostActions');$/;"	v
+PostCollection	public/js/post/PostCollection.js	/^var PostCollection = Backbone.Collection.extend({$/;"	v
+PostCollection	public/js/post/PostStore.js	/^var PostCollection = require('.\/PostCollection');$/;"	v
+PostStore	public/js/notification/NotificationStore.js	/^var PostStore = require('.\/..\/post\/PostStore');$/;"	v
+PostStore	public/js/post/PostStore.js	/^var PostStore = _.extend({}, Backbone.Events);$/;"	v
+PostStore	public/js/router.js	/^var PostStore = require('.\/post\/PostStore');$/;"	v
+React	public/js/index.js	/^var React = require('react');$/;"	v
+ReactDOM	public/js/index.js	/^var ReactDOM = require('react-dom');$/;"	v
+RefreshToken	config/passport.js	/^var RefreshToken = require('.\/..\/models\/RefreshToken');$/;"	v
+RefreshToken	controllers/oauth2.js	/^var RefreshToken = require('.\/..\/models\/RefreshToken');$/;"	v
+ResetPage	public/js/index.js	/^var ResetPage = require('.\/auth\/components\/ResetPage.jsx');$/;"	v
+ResetToken	controllers/bevies.js	/^var ResetToken = require('.\/..\/models\/ResetToken');$/;"	v
+ResetToken	routes/auth.js	/^var ResetToken = require('.\/..\/models\/ResetToken');$/;"	v
+Router	public/js/router.js	/^var Router = Backbone.Router.extend({$/;"	v
+Schema	controllers/users.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/AccessToken.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Bevy.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Board.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Client.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Code.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Comment.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/DeviceSchema.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Event.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/ImageSchema.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/InviteToken.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Notification.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Post.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/RefreshToken.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/ResetToken.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/User.js	/^var Schema = mongoose.Schema;$/;"	v
+Schema	models/Vote.js	/^var Schema = mongoose.Schema;$/;"	v
+SlugPage	public/js/index.js	/^var SlugPage = require('.\/auth\/components\/SlugPage.jsx');$/;"	v
+Typed	public/js/homepage/components/typed.js	/^    };$/;"	c
+Typed	public/js/shared/helpers/typedjs/js/typed.js	/^    };$/;"	c
+Typed.backspace	public/js/homepage/components/typed.js	/^        ,$/;"	m
+Typed.backspace	public/js/shared/helpers/typedjs/js/typed.js	/^        ,$/;"	m
+Typed.build	public/js/homepage/components/typed.js	/^        ,$/;"	m
+Typed.build	public/js/shared/helpers/typedjs/js/typed.js	/^        ,$/;"	m
+Typed.constructor	public/js/homepage/components/typed.js	/^    Typed.prototype = {$/;"	p
+Typed.constructor	public/js/shared/helpers/typedjs/js/typed.js	/^    Typed.prototype = {$/;"	p
+Typed.init	public/js/homepage/components/typed.js	/^        ,$/;"	m
+Typed.init	public/js/shared/helpers/typedjs/js/typed.js	/^        ,$/;"	m
+Typed.shuffleArray	public/js/homepage/components/typed.js	/^        ,shuffleArray: function(array) {$/;"	m
+Typed.shuffleArray	public/js/shared/helpers/typedjs/js/typed.js	/^        ,shuffleArray: function(array) {$/;"	m
+Typed.typewrite	public/js/homepage/components/typed.js	/^        ,$/;"	m
+Typed.typewrite	public/js/shared/helpers/typedjs/js/typed.js	/^        ,$/;"	m
+USER	public/js/user/UserActions.js	/^var USER = constants.USER;$/;"	v
+USER	public/js/user/UserStore.js	/^var USER = constants.USER;$/;"	v
+UnauthView	public/js/index.js	/^var UnauthView = require('.\/auth\/components\/UnauthView.jsx');$/;"	v
+User	apn.js	/^var User = require('.\/models\/User');$/;"	v
+User	config/passport.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	controllers/bevies.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	controllers/boards.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	controllers/devices.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	controllers/invites.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	controllers/notifications.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	controllers/notifications/comment.js	/^var User = require('.\/..\/..\/models\/User');$/;"	v
+User	controllers/notifications/post.js	/^var User = require('.\/..\/..\/models\/User');$/;"	v
+User	controllers/notifications/user.js	/^var User = require('.\/..\/..\/models\/User');$/;"	v
+User	controllers/oauth2.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	controllers/permissions/user.js	/^var User = require('.\/..\/..\/models\/User');$/;"	v
+User	controllers/posts.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	controllers/users.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	public/js/user/UserStore.js	/^var User = require('.\/UserModel');$/;"	v
+User	routes/auth.js	/^var User = require('.\/..\/models\/User');$/;"	v
+User	schedule.js	/^var User = require('.\/models\/User');$/;"	v
+UserCollection	public/js/user/UserCollection.js	/^var UserCollection = Backbone.Collection.extend({$/;"	v
+UserModel	public/js/user/UserCollection.js	/^var UserModel = require('.\/UserModel');$/;"	v
+UserModel	public/js/user/UserModel.js	/^var UserModel = Backbone.Model.extend({$/;"	v
+UserSchema.methods.verifyPassword	models/User.js	/^});$/;"	f
+UserStore	public/js/bevy/BevyStore.js	/^var UserStore = require('.\/..\/user\/UserStore');$/;"	v
+UserStore	public/js/index.js	/^var UserStore = require('.\/user\/UserStore');$/;"	v
+UserStore	public/js/router.js	/^var UserStore = require('.\/user\/UserStore');$/;"	v
+UserStore	public/js/user/UserStore.js	/^var UserStore = _.extend({}, Backbone.Events);$/;"	v
+Users	public/js/user/UserStore.js	/^var Users = require('.\/UserCollection');$/;"	v
+WebpackDevServer	gulpfile.js	/^var WebpackDevServer = require('webpack-dev-server');$/;"	v
+_	apn.js	/^var _ = require('underscore');$/;"	v
+_	app.js	/^var _ = require('underscore');$/;"	v
+_	config/passport.js	/^var _ = require('underscore');$/;"	v
+_	controllers/bevies.js	/^var _ = require('underscore');$/;"	v
+_	controllers/boards.js	/^var _ = require('underscore');$/;"	v
+_	controllers/comments.js	/^var _ = require('underscore');$/;"	v
+_	controllers/devices.js	/^var _ = require('underscore');$/;"	v
+_	controllers/email.js	/^var _ = require('underscore');$/;"	v
+_	controllers/events.js	/^var _ = require('underscore');$/;"	v
+_	controllers/invites.js	/^var _ = require('underscore');$/;"	v
+_	controllers/notifications.js	/^var _ = require('underscore');$/;"	v
+_	controllers/notifications/comment.js	/^var _ = require('underscore');$/;"	v
+_	controllers/notifications/post.js	/^var _ = require('underscore');$/;"	v
+_	controllers/notifications/user.js	/^var _ = require('underscore');$/;"	v
+_	controllers/oauth2.js	/^var _ = require('underscore');$/;"	v
+_	controllers/permissions/bevy.js	/^var _ = require('underscore');$/;"	v
+_	controllers/permissions/board.js	/^var _ = require('underscore');$/;"	v
+_	controllers/permissions/comment.js	/^var _ = require('underscore');$/;"	v
+_	controllers/permissions/index.js	/^var _ = require('underscore');$/;"	v
+_	controllers/permissions/notification.js	/^var _ = require('underscore');$/;"	v
+_	controllers/permissions/post.js	/^var _ = require('underscore');$/;"	v
+_	controllers/posts.js	/^var _ = require('underscore');$/;"	v
+_	controllers/users.js	/^var _ = require('underscore');$/;"	v
+_	controllers/views.js	/^var _ = require('underscore');$/;"	v
+_	error.js	/^var _ = require('underscore');$/;"	v
+_	models/Bevy.js	/^var _ = require('underscore');$/;"	v
+_	models/Board.js	/^var _ = require('underscore');$/;"	v
+_	models/ImageSchema.js	/^var _ = require('underscore');$/;"	v
+_	models/InviteToken.js	/^var _ = require('underscore');$/;"	v
+_	models/User.js	/^var _ = require('underscore');$/;"	v
+_	public/js/app/AppStore.js	/^var _ = require('underscore');$/;"	v
+_	public/js/bevy/BevyActions.js	/^var _ = require('underscore');$/;"	v
+_	public/js/bevy/BevyStore.js	/^var _ = require('underscore');$/;"	v
+_	public/js/board/BoardActions.js	/^var _ = require('underscore');$/;"	v
+_	public/js/index.js	/^var _ = require('underscore');$/;"	v
+_	public/js/notification/InviteCollection.js	/^var _ = require('underscore');$/;"	v
+_	public/js/notification/NotificationCollection.js	/^var _ = require('underscore');$/;"	v
+_	public/js/notification/NotificationStore.js	/^var _ = require('underscore');$/;"	v
+_	public/js/post/PostCollection.js	/^var _ = require('underscore');$/;"	v
+_	public/js/post/PostModel.js	/^var _ = require('underscore');$/;"	v
+_	public/js/post/PostStore.js	/^var _ = require('underscore');$/;"	v
+_	public/js/router.js	/^var _ = require('underscore');$/;"	v
+_	public/js/shared/helpers/resizeImage.js	/^var _ = require('underscore');$/;"	v
+_	public/js/user/UserStore.js	/^var _ = require('underscore');$/;"	v
+_	routes/app.js	/^var _ = require('underscore');$/;"	v
+_	routes/auth.js	/^var _ = require('underscore');$/;"	v
+_direct	public/js/shared/helpers/typedjs/.bower.json	/^  "_direct": true$/;"	f
+_originalSource	public/js/shared/helpers/typedjs/.bower.json	/^  "_originalSource": "typed.js",$/;"	f
+_release	public/js/shared/helpers/typedjs/.bower.json	/^  "_release": "1.1.1",$/;"	f
+_removeComment	controllers/comments.js	/^var _removeComment = function(comment) {$/;"	f
+_resolution	public/js/shared/helpers/typedjs/.bower.json	/^  "_resolution": {$/;"	f
+_source	public/js/shared/helpers/typedjs/.bower.json	/^  "_source": "git:\/\/github.com\/mattboldt\/typed.js.git",$/;"	f
+_target	public/js/shared/helpers/typedjs/.bower.json	/^  "_target": "~1.1.1",$/;"	f
+acceptInvite	controllers/invites.js	/^var acceptInvite = function(req, res, next) {$/;"	f
+access_log_stream	app.js	/^var access_log_stream = fs.createWriteStream(__dirname + '\/log\/access.log', {flags: 'a'});$/;"	v
+api_key	config/mailgun.js	/^var api_key = 'key-1abe5c471492adc2e07014a1ea3add45';$/;"	v
+api_router	app.js	/^var api_router = express.Router();$/;"	v
+api_subdomain	public/js/constants.js	/^var api_subdomain = 'api';$/;"	v
+api_version	public/js/constants.js	/^var api_version = '';$/;"	v
+apn	apn.js	/^var apn = require('apn');$/;"	v
+apn	package.json	/^    "apn": "^1.7.5",$/;"	f
+app	app.js	/^var app = express();$/;"	v
+applyDateRange	controllers/posts.js	/^var applyDateRange = function(req, promise) {$/;"	f
+applyPopulation	controllers/posts.js	/^var applyPopulation = function(req, promise) {$/;"	f
+applySort	controllers/posts.js	/^var applySort = function(req, promise) {$/;"	f
+async	config/passport.js	/^var async = require('async');$/;"	v
+async	controllers/bevies.js	/^var async = require('async');$/;"	v
+async	controllers/boards.js	/^var async = require('async');$/;"	v
+async	controllers/comments.js	/^var async = require('async');$/;"	v
+async	controllers/files.js	/^var async = require('async');$/;"	v
+async	controllers/invites.js	/^var async = require('async');$/;"	v
+async	controllers/notifications.js	/^var async = require('async');$/;"	v
+async	controllers/notifications/comment.js	/^var async = require('async');$/;"	v
+async	controllers/oauth2.js	/^var async = require('async');$/;"	v
+async	controllers/posts.js	/^var async = require('async');$/;"	v
+async	controllers/users.js	/^var async = require('async');$/;"	v
+async	package.json	/^    "async": "^1.5.0",$/;"	f
+async	public/js/bevy/BevyStore.js	/^var async = require('async');$/;"	v
+async	routes/app.js	/^var async = require('async');$/;"	v
+async	routes/auth.js	/^var async = require('async');$/;"	v
+async	schedule.js	/^var async = require('async');$/;"	v
+authController	routes/api/invites.js	/^var authController = require('.\/..\/..\/controllers\/permissions');$/;"	v
+authorPopFields	controllers/events.js	/^var authorPopFields = '_id displayName email image username \\$/;"	v
+authorPopFields	controllers/posts.js	/^var authorPopFields = '_id displayName email image username \\$/;"	v
+authors	public/js/shared/helpers/typedjs/.bower.json	/^  "authors": [$/;"	f
+authors	public/js/shared/helpers/typedjs/bower.json	/^  "authors": [$/;"	f
+authors	public/js/shared/helpers/typedjs/package.json	/^  "authors": [$/;"	f
+autoprefixer	gulpfile.js	/^var autoprefixer = require('gulp-autoprefixer');$/;"	v
+babel-core	package.json	/^    "babel-core": "^6.3.26",$/;"	f
+babel-loader	package.json	/^    "babel-loader": "^6.2.0",$/;"	f
+babel-preset-es2015	package.json	/^    "babel-preset-es2015": "^6.3.13",$/;"	f
+babel-preset-react	package.json	/^    "babel-preset-react": "^6.3.13",$/;"	f
+backbone	package.json	/^    "backbone": "^1.2.3",$/;"	f
+bcrypt	config/passport.js	/^var bcrypt = require('bcryptjs');$/;"	v
+bcrypt	controllers/bevies.js	/^var bcrypt = require('bcryptjs');$/;"	v
+bcrypt	controllers/invites.js	/^var bcrypt = require('bcryptjs');$/;"	v
+bcrypt	controllers/users.js	/^var bcrypt = require('bcryptjs');$/;"	v
+bcrypt	db.js	/^var bcrypt = require('bcryptjs');$/;"	v
+bcrypt	models/User.js	/^var bcrypt = require('bcryptjs');$/;"	v
+bcrypt	routes/auth.js	/^var bcrypt = require('bcryptjs');$/;"	v
+bcryptjs	package.json	/^    "bcryptjs": "^2.3.0",$/;"	f
+bevyController	routes/api/bevies.js	/^var bevyController = require('.\/..\/..\/controllers\/bevies');$/;"	v
+bevyPermissions	controllers/permissions/index.js	/^var bevyPermissions = require('.\/bevy');$/;"	v
+bevyPopFields	controllers/boards.js	/^var bevyPopFields = '_id name slug image settings admins created';$/;"	v
+bevy_image.filename	controllers/bevies.js	/^    bevy_image = {$/;"	p
+boardController	routes/api/boards.js	/^var boardController = require('.\/..\/..\/controllers\/boards');$/;"	v
+boardPermissions	controllers/permissions/comment.js	/^var boardPermissions = require('.\/board');$/;"	v
+boardPermissions	controllers/permissions/index.js	/^var boardPermissions = require('.\/board');$/;"	v
+boardPermissions	controllers/permissions/post.js	/^var boardPermissions = require('.\/board');$/;"	v
+boardPopFields	controllers/bevies.js	/^var boardPopFields = '_id name description parent image subCount type admins settings created';$/;"	v
+boardPopFields	controllers/posts.js	/^var boardPopFields = '_id name image settings parent created';$/;"	v
+boardSubCountJob	schedule.js	/^var boardSubCountJob = schedule.scheduleJob('* * * * *', function() {$/;"	v
+board_types	models/Board.js	/^var board_types = 'discussion event announcement'.split(' ');$/;"	v
+body-parser	package.json	/^    "body-parser": "^1.14.2",$/;"	f
+bodyParser	app.js	/^var bodyParser = require('body-parser');$/;"	v
+buildLess	gulpfile.js	/^function buildLess() {$/;"	f
+checkBackdoor	controllers/permissions/backdoor.js	/^var checkBackdoor = function(req) {$/;"	f
+checkBackdoor	controllers/permissions/bevy.js	/^var checkBackdoor = require('.\/backdoor');$/;"	v
+checkBackdoor	controllers/permissions/board.js	/^var checkBackdoor = require('.\/backdoor');$/;"	v
+checkBackdoor	controllers/permissions/comment.js	/^var checkBackdoor = require('.\/backdoor');$/;"	v
+checkBackdoor	controllers/permissions/index.js	/^var checkBackdoor = require('.\/backdoor');$/;"	v
+checkBackdoor	controllers/permissions/notification.js	/^var checkBackdoor = require('.\/backdoor');$/;"	v
+checkBackdoor	controllers/permissions/post.js	/^var checkBackdoor = require('.\/backdoor');$/;"	v
+checkBackdoor	controllers/permissions/user.js	/^var checkBackdoor = require('.\/backdoor');$/;"	v
+checkIfSlugAvailable	controllers/bevies.js	/^var checkIfSlugAvailable = function(req, res, next) {$/;"	f
+checkInvite	routes/auth.js	/^function checkInvite(req, res, next) {$/;"	f
+checkPrivateBoardAccess	controllers/permissions/board.js	/^var checkPrivateBoardAccess = function(user, board, next) {$/;"	f
+checkToken	routes/auth.js	/^function checkToken(req, res, next) {$/;"	f
+commander	package.json	/^    "commander": "^2.9.0",$/;"	f
+commentController	routes/api/comments.js	/^var commentController = require('.\/..\/..\/controllers\/comments');$/;"	v
+commentPermissions	controllers/permissions/index.js	/^var commentPermissions = require('.\/comment');$/;"	v
+commit	public/js/shared/helpers/typedjs/.bower.json	/^    "commit": "c386c0b7954e211eed14579f2ed17f7eb475cabd"$/;"	f
+config	apn.js	/^var config = require('.\/config');$/;"	v
+config	app.js	/^var config = require('.\/config');$/;"	v
+config	controllers/bevies.js	/^var config = require('.\/..\/config');$/;"	v
+config	controllers/comments.js	/^var config = require('.\/..\/config');$/;"	v
+config	controllers/files.js	/^var config = require('.\/..\/config');$/;"	v
+config	controllers/invites.js	/^var config = require('.\/..\/config');$/;"	v
+config	controllers/notifications/comment.js	/^var config = require('.\/..\/..\/config');$/;"	v
+config	controllers/notifications/post.js	/^var config = require('.\/..\/..\/config');$/;"	v
+config	controllers/notifications/user.js	/^var config = require('.\/..\/..\/config');$/;"	v
+config	controllers/oauth2.js	/^var config = require('.\/..\/config');$/;"	v
+config	controllers/permissions/backdoor.js	/^var config = require('.\/..\/..\/config');$/;"	v
+config	controllers/permissions/index.js	/^var config = require('.\/..\/..\/config');$/;"	v
+config	controllers/posts.js	/^var config = require('.\/..\/config');$/;"	v
+config	controllers/users.js	/^var config = require('.\/..\/config');$/;"	v
+config	controllers/views.js	/^var config = require('.\/..\/config');$/;"	v
+config	db.js	/^var config = require('.\/config');$/;"	v
+config	routes/app.js	/^var config = require('.\/..\/config');$/;"	v
+config	routes/auth.js	/^var config = require('.\/..\/config');$/;"	v
+config.app	config/passport.js	/^var config = {$/;"	p
+connect-mongo	package.json	/^    "connect-mongo": "^1.1.0",$/;"	f
+connected	gridfs.js	/^var connected = false;$/;"	v
+connection	db.js	/^var connection = mongoose.connection;$/;"	v
+constants	public/js/app/AppStore.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/bevy/BevyActions.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/bevy/BevyCollection.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/bevy/BevyModel.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/bevy/BevyStore.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/bevy/InviteCollection.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/bevy/InviteModel.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/board/BoardActions.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/board/BoardCollection.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/board/BoardModel.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/index.js	/^var constants = require('.\/constants');$/;"	v
+constants	public/js/notification/InviteCollection.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/notification/NotificationCollection.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/notification/NotificationStore.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/post/PostCollection.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/post/PostModel.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/post/PostStore.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/router.js	/^var constants = require('.\/constants');$/;"	v
+constants	public/js/shared/helpers/resizeImage.js	/^var constants = require('.\/..\/..\/constants');$/;"	v
+constants	public/js/user/UserActions.js	/^var constants = require('.\/..\/constants');$/;"	v
+constants	public/js/user/UserStore.js	/^var constants = require('.\/..\/constants');$/;"	v
+cookie-parser	package.json	/^    "cookie-parser": "^1.4.0",$/;"	f
+cookieParser	app.js	/^var cookieParser = require('cookie-parser');$/;"	v
+createBevy	controllers/bevies.js	/^var createBevy = function(req, res, next) {$/;"	f
+createEvent	controllers/events.js	/^var createEvent = function(req, res, next) {$/;"	f
+createEvent.new_event._id	controllers/events.js	/^  var new_event = {$/;"	p
+createInvite	controllers/invites.js	/^var createInvite = function(req, res, next) {$/;"	f
+createNewCommentNotifications	controllers/notifications/comment.js	/^var createNewCommentNotifications = function(comment) {$/;"	f
+createNewPostNotifications	controllers/notifications/post.js	/^var createNewPostNotifications = function(post) {$/;"	f
+createNewUserNotifications	controllers/notifications/user.js	/^var createNewUserNotifications = function(user) {$/;"	f
+crypto	controllers/oauth2.js	/^var crypto = require('crypto');$/;"	v
+crypto	routes/auth.js	/^var crypto = require('crypto');$/;"	v
+csrf	app.js	/^var csrf = require('csurf');$/;"	v
+css-loader	package.json	/^    "css-loader": "^0.23.1",$/;"	f
+csurf	package.json	/^    "csurf": "^1.8.3",$/;"	f
+current_env	config/app.js	/^var current_env = process.env.NODE_ENV || 'development';$/;"	v
+default_path	models/ImageSchema.js	/^var default_path = 'http:\/\/joinbevy.com\/img\/user-profile-icon.png';$/;"	v
+dependencies	package.json	/^  "dependencies": {$/;"	f
+description	package.json	/^  "description": "bevy for web",$/;"	f
+description	public/js/shared/helpers/typedjs/.bower.json	/^  "description": "A jQuery typing animation script",$/;"	f
+description	public/js/shared/helpers/typedjs/bower.json	/^  "description": "A jQuery typing animation script",$/;"	f
+description	public/js/shared/helpers/typedjs/package.json	/^  "description": "A jQuery typing animation script",$/;"	f
+destroyEvent	controllers/events.js	/^var destroyEvent = function(req, res, next) {$/;"	f
+devCert	config/apn.js	/^var devCert = fs.readFileSync($/;"	v
+devCompiler	gulpfile.js	/^var devCompiler = webpack(webpackConfig);$/;"	v
+devDependencies	package.json	/^  "devDependencies": {$/;"	f
+devDependencies	public/js/shared/helpers/typedjs/package.json	/^  "devDependencies": {$/;"	f
+devKey	config/apn.js	/^var devKey = fs.readFileSync($/;"	v
+deviceController	routes/api/devices.js	/^var deviceController = require('.\/..\/..\/controllers\/devices');$/;"	v
+dispatch	public/js/notification/NotificationActions.js	/^var dispatch = require('.\/..\/shared\/helpers\/dispatch');$/;"	v
+dispatch	public/js/post/CommentActions.js	/^var dispatch = require('.\/..\/shared\/helpers\/dispatch');$/;"	v
+dispatchToken	public/js/app/AppStore.js	/^var dispatchToken = Dispatcher.register(AppStore.handleDispatch.bind(AppStore));$/;"	v
+dispatchToken	public/js/bevy/BevyStore.js	/^var dispatchToken = Dispatcher.register(BevyStore.handleDispatch.bind(BevyStore));$/;"	v
+dispatchToken	public/js/post/PostStore.js	/^var dispatchToken = Dispatcher.register(PostStore.handleDispatch.bind(PostStore));$/;"	v
+dispatchToken	public/js/user/UserStore.js	/^var dispatchToken = Dispatcher.register(UserStore.handleDispatch.bind(UserStore));$/;"	v
+domain	config/mailgun.js	/^var domain = 'mg.joinbevy.com';$/;"	v
+dropzone	package.json	/^    "dropzone": "^4.2.0",$/;"	f
+ejs	package.json	/^    "ejs": "^2.4.1",$/;"	f
+email-templates	package.json	/^    "email-templates": "^2.1.0",$/;"	f
+emailController	controllers/bevies.js	/^var emailController = require('.\/email');$/;"	v
+emailController	controllers/invites.js	/^var emailController = require('.\/..\/controllers\/email');$/;"	v
+emailController	routes/app.js	/^var emailController = require('.\/..\/controllers\/email');$/;"	v
+emailController	routes/auth.js	/^var emailController = require('.\/..\/controllers\/email');$/;"	v
+engines	package.json	/^  "engines": {$/;"	f
+errFn	controllers/oauth2.js	/^var errFn = function(cb, err) {$/;"	f
+error	app.js	/^var error = require('.\/error');$/;"	v
+error	config/passport.js	/^var error = require('.\/..\/error');$/;"	v
+error	controllers/bevies.js	/^var error = require('.\/..\/error');$/;"	v
+error	controllers/comments.js	/^var error = require('.\/..\/error');$/;"	v
+error	controllers/notifications.js	/^var error = require('.\/..\/error');$/;"	v
+error	controllers/oauth2.js	/^var error = require('.\/..\/error');$/;"	v
+error	controllers/posts.js	/^var error = require('.\/..\/error');$/;"	v
+error	controllers/users.js	/^var error = require('.\/..\/error');$/;"	v
+error	routes/auth.js	/^var error = require('.\/..\/error');$/;"	v
+eventsController	routes/api/events.js	/^var eventsController = require('.\/..\/..\/controllers\/events');$/;"	v
+exports.APP.LOAD	public/js/constants.js	/^exports.APP = {$/;"	p
+exports.APP.LOAD_USER	public/js/constants.js	/^  LOAD: 'app_load',$/;"	p
+exports.APP.OPEN_SIDEBAR	public/js/constants.js	/^  LOAD_USER: 'app_load_user',$/;"	p
+exports.BEVY.CHANGE_ALL	public/js/constants.js	/^  UPDATE: 'bevy_update',$/;"	p
+exports.BEVY.CHANGE_ONE	public/js/constants.js	/^  CHANGE_ALL: 'bevy_change_all',$/;"	p
+exports.BEVY.CREATE	public/js/constants.js	/^exports.BEVY = {$/;"	p
+exports.BEVY.CREATE_ERR	public/js/constants.js	/^  CREATE_SUCCESS: 'bevy_create_success',$/;"	p
+exports.BEVY.CREATE_SUCCESS	public/js/constants.js	/^  CREATE: 'bevy_create',$/;"	p
+exports.BEVY.DESTROY	public/js/constants.js	/^  CREATE_ERR: 'bevy_create_err',$/;"	p
+exports.BEVY.UPDATE	public/js/constants.js	/^  DESTROY: 'bevy_destroy',$/;"	p
+exports.BOARD.CREATE	public/js/constants.js	/^exports.BOARD = {$/;"	p
+exports.BOARD.DESTROY	public/js/constants.js	/^  CREATE: 'board_create',$/;"	p
+exports.BOARD.UPDATE	public/js/constants.js	/^  DESTROY: 'board_destroy',$/;"	p
+exports.COMMENT.CREATE	public/js/constants.js	/^exports.COMMENT = {$/;"	p
+exports.COMMENT.DESTROY	public/js/constants.js	/^  CREATE: 'comment_create',$/;"	p
+exports.COMMENT.VOTE	public/js/constants.js	/^  DESTROY: 'comment_destroy',$/;"	p
+exports.NOTIFICATION.CHANGE_ALL	public/js/constants.js	/^  READ: 'notification_read',$/;"	p
+exports.NOTIFICATION.DISMISS	public/js/constants.js	/^exports.NOTIFICATION = {$/;"	p
+exports.NOTIFICATION.READ	public/js/constants.js	/^  DISMISS: 'notification_dismiss',$/;"	p
+exports.POST.CANCEL	public/js/constants.js	/^  SORT: 'post_sort',$/;"	p
+exports.POST.CANCELED_POST	public/js/constants.js	/^  POSTED_POST: 'post_posted_post',$/;"	p
+exports.POST.CHANGE_ALL	public/js/constants.js	/^  SEARCH_ERROR: 'post_search_error',$/;"	p
+exports.POST.CHANGE_ONE	public/js/constants.js	/^  CHANGE_ALL: 'post_change_all',$/;"	p
+exports.POST.CREATE	public/js/constants.js	/^exports.POST = {$/;"	p
+exports.POST.DESTROY	public/js/constants.js	/^  CREATE: 'post_create',$/;"	p
+exports.POST.FETCH	public/js/constants.js	/^  PIN: 'post_pin',$/;"	p
+exports.POST.FETCH_SINGLE	public/js/constants.js	/^  FETCH: 'post_fetch',$/;"	p
+exports.POST.LOAD	public/js/constants.js	/^  FETCH_SINGLE: 'post_fetch_single',$/;"	p
+exports.POST.PIN	public/js/constants.js	/^  UPDATE: 'post_update',$/;"	p
+exports.POST.POSTED_POST	public/js/constants.js	/^  CHANGE_ONE: 'post_change_one:',$/;"	p
+exports.POST.SEARCHING	public/js/constants.js	/^  LOAD: 'post_load',$/;"	p
+exports.POST.SEARCH_COMPLETE	public/js/constants.js	/^  SEARCHING: 'post_searching',$/;"	p
+exports.POST.SEARCH_ERROR	public/js/constants.js	/^  SEARCH_COMPLETE: 'post_search_complete',$/;"	p
+exports.POST.SORT	public/js/constants.js	/^  VOTE: 'post_vote',$/;"	p
+exports.POST.UPDATE	public/js/constants.js	/^  CANCEL: 'post_cancel',$/;"	p
+exports.POST.VOTE	public/js/constants.js	/^  DESTROY: 'post_destroy',$/;"	p
+exports.TYPED	public/js/homepage/components/typed.js	/^"use strict";$/;"	f
+exports.TYPED.Typed	public/js/homepage/components/typed.js	/^    var Typed = function(el, options) {$/;"	c
+exports.USER.LOADED	public/js/constants.js	/^  REFRESH_TOKEN: 'user_refresh_token',$/;"	p
+exports.USER.LOGGING_IN	public/js/constants.js	/^  LOADED: 'user_loaded',$/;"	p
+exports.USER.LOGIN	public/js/constants.js	/^  SEARCH: 'user_search',$/;"	p
+exports.USER.LOGIN_ERROR	public/js/constants.js	/^  LOGIN_SUCCESS: 'user_login_success',$/;"	p
+exports.USER.LOGIN_SUCCESS	public/js/constants.js	/^  LOGGING_IN: 'user_logging_in',$/;"	p
+exports.USER.REFRESHING_TOKEN	public/js/constants.js	/^  REGISTER_ERROR: 'user_register_error',$/;"	p
+exports.USER.REFRESH_TOKEN	public/js/constants.js	/^  REGISTER: 'user_register',$/;"	p
+exports.USER.REFRESH_TOKEN_ERROR	public/js/constants.js	/^  REFRESH_TOKEN_SUCCESS: 'user_refresh_token_success',$/;"	p
+exports.USER.REFRESH_TOKEN_SUCCESS	public/js/constants.js	/^  REFRESHING_TOKEN: 'user_refreshing_token',$/;"	p
+exports.USER.REGISTER	public/js/constants.js	/^  LOGIN: 'user_login',$/;"	p
+exports.USER.REGISTERING	public/js/constants.js	/^  LOGIN_ERROR: 'user_login_error',$/;"	p
+exports.USER.REGISTER_ERROR	public/js/constants.js	/^  REGISTER_SUCCESS: 'user_register_success',$/;"	p
+exports.USER.REGISTER_SUCCESS	public/js/constants.js	/^  REGISTERING: 'user_registering',$/;"	p
+exports.USER.SEARCH	public/js/constants.js	/^  UPDATE: 'user_update',$/;"	p
+exports.USER.SEARCHING	public/js/constants.js	/^  REFRESH_TOKEN_ERROR: 'user_refresh_token_error',$/;"	p
+exports.USER.SEARCH_COMPLETE	public/js/constants.js	/^  SEARCHING: 'user_searching',$/;"	p
+exports.USER.UPDATE	public/js/constants.js	/^exports.USER = {$/;"	p
+exports.addBoard	controllers/bevies.js	/^}$/;"	f
+exports.addBoard	controllers/users.js	/^}$/;"	f
+exports.addDevice	controllers/devices.js	/^};$/;"	f
+exports.canCreateComment	controllers/permissions/comment.js	/^var Board = require('.\/..\/..\/models\/Board');$/;"	f
+exports.canModifyComment	controllers/permissions/comment.js	/^};$/;"	f
+exports.canModifyPost	controllers/permissions/post.js	/^};$/;"	f
+exports.canViewComment	controllers/permissions/comment.js	/^};$/;"	f
+exports.canViewPost	controllers/permissions/post.js	/^var boardPermissions = require('.\/board');$/;"	f
+exports.createBoard	controllers/boards.js	/^};$/;"	f
+exports.createComment	controllers/comments.js	/^};$/;"	f
+exports.createFile	controllers/files.js	/^var IMAGE_TYPES = 'jpg jpeg gif png jpe bmp';$/;"	f
+exports.createNotification	controllers/notifications.js	/^exports.emitter = emitter;$/;"	f
+exports.createPost	controllers/posts.js	/^exports.searchPosts = searchPosts;$/;"	f
+exports.createUser	controllers/users.js	/^};$/;"	f
+exports.destroyBevy	controllers/bevies.js	/^}$/;"	f
+exports.destroyBoard	controllers/boards.js	/^};$/;"	f
+exports.destroyComment	controllers/comments.js	/^};$/;"	f
+exports.destroyNotification	controllers/notifications.js	/^}$/;"	f
+exports.destroyPost	controllers/posts.js	/^}$/;"	f
+exports.destroyUser	controllers/users.js	/^}$/;"	f
+exports.destroyUser.query._id	controllers/users.js	/^  var query = { _id: id };$/;"	p
+exports.env.development	config/app.js	/^	test: false,$/;"	p
+exports.env.production	config/app.js	/^exports.env = {$/;"	p
+exports.env.staging	config/app.js	/^	production: false,$/;"	p
+exports.env.test	config/app.js	/^	staging: false,$/;"	p
+exports.errorHandler	controllers/permissions/index.js	/^var notificationPermissions = require('.\/notification');$/;"	f
+exports.error_handler	error.js	/^}$/;"	f
+exports.events.NEW_BEVY	config/mq.js	/^exports.events = {$/;"	p
+exports.events.NEW_COMMENT	config/mq.js	/^  NEW_POST: 'NEW_POST',$/;"	p
+exports.events.NEW_POST	config/mq.js	/^  NEW_BEVY: 'NEW_BEVY',$/;"	p
+exports.events.NEW_USER	config/mq.js	/^  REPLY_TO_COMMENT: 'comment:comment_reply',$/;"	p
+exports.events.POST_TO_BOARD	config/mq.js	/^  NEW_COMMENT: 'NEW_COMMENT',$/;"	p
+exports.events.REPLY_TO_COMMENT	config/mq.js	/^  REPLY_TO_POST: 'comment:post_reply',$/;"	p
+exports.events.REPLY_TO_POST	config/mq.js	/^  POST_TO_BOARD: 'POST_TO_BOARD',$/;"	p
+exports.gen	error.js	/^}$/;"	f
+exports.getBevy	controllers/bevies.js	/^exports.createBevy = createBevy;$/;"	f
+exports.getBevyBoards	controllers/boards.js	/^};$/;"	f
+exports.getBoard	controllers/boards.js	/^};$/;"	f
+exports.getComment	controllers/comments.js	/^};$/;"	f
+exports.getComments	controllers/comments.js	/^exports.searchComments = searchComments;$/;"	f
+exports.getDevices	controllers/devices.js	/^var User = require('.\/..\/models\/User');$/;"	f
+exports.getFile	controllers/files.js	/^}$/;"	f
+exports.getNotification	controllers/notifications.js	/^}$/;"	f
+exports.getPost	controllers/posts.js	/^}$/;"	f
+exports.getPublicBevies	controllers/bevies.js	/^var boardPopFields = '_id name description parent image subCount type admins settings created';$/;"	f
+exports.getSubscribers	controllers/bevies.js	/^exports.checkIfSlugAvailable = checkIfSlugAvailable;$/;"	f
+exports.getSubscribers	controllers/boards.js	/^};$/;"	f
+exports.getUser	controllers/users.js	/^}$/;"	f
+exports.getUserBoards	controllers/boards.js	/^var bevyPopFields = '_id name slug image settings admins created';$/;"	f
+exports.getUserNotifications	controllers/notifications.js	/^}$/;"	f
+exports.getUserNotifications.query.user	controllers/notifications.js	/^  var query = { user: userid };$/;"	p
+exports.getUsers	controllers/users.js	/^var Notification = require('.\/..\/models\/Notification');$/;"	f
+exports.hasPrivateBevyAccess	controllers/permissions/bevy.js	/^var Bevy = require('.\/..\/..\/models\/Bevy');$/;"	f
+exports.hasPrivateBoardAccess	controllers/permissions/board.js	/^var Board = require('.\/..\/..\/models\/Board');$/;"	f
+exports.isBevyAdmin	controllers/permissions/bevy.js	/^};$/;"	f
+exports.isBevyMember	controllers/permissions/bevy.js	/^};$/;"	f
+exports.isBoardAdmin	controllers/permissions/board.js	/^};$/;"	f
+exports.isBoardMember	controllers/permissions/board.js	/^exports.checkPrivateBoardAccess = checkPrivateBoardAccess;$/;"	f
+exports.isSameUser	controllers/permissions/user.js	/^var checkBackdoor = require('.\/backdoor');$/;"	f
+exports.isUserNotification	controllers/permissions/notification.js	/^var Notification = require('.\/..\/..\/models\/Notification');$/;"	f
+exports.log.path	config/app.js	/^exports.log = {$/;"	p
+exports.log_errors	error.js	/^var _ = require('underscore');$/;"	f
+exports.removeDevice	controllers/devices.js	/^};$/;"	f
+exports.removeFile	controllers/files.js	/^}$/;"	f
+exports.removeFile.options.filename	controllers/files.js	/^  var options = { filename: filename };$/;"	p
+exports.renderApp	controllers/views.js	/^var config = require('.\/..\/config');$/;"	f
+exports.renderNotFound	controllers/views.js	/^};$/;"	f
+exports.searchBevies	controllers/bevies.js	/^}$/;"	f
+exports.searchUsers.verifyEmail	controllers/users.js	/^var verifyEmail = function(req, res, next) {$/;"	f
+exports.searchUsers.verifyUsername	controllers/users.js	/^var verifyUsername = function(req, res, next) {$/;"	f
+exports.server.apiHostname	config/app.js	/^		hostname: 'http:\/\/bevy.dev',$/;"	p
+exports.server.apiHostname	config/app.js	/^		hostname: 'http:\/\/joinbevy.com',$/;"	p
+exports.server.domain	config/app.js	/^		apiHostname: 'http:\/\/api.bevy.dev',$/;"	p
+exports.server.domain	config/app.js	/^		apiHostname: 'http:\/\/api.joinbevy.com',$/;"	p
+exports.server.hostname	config/app.js	/^		ip: '127.0.0.1',$/;"	p
+exports.server.ip	config/app.js	/^		port: 80,$/;"	p
+exports.server.port	config/app.js	/^	exports.server = {$/;"	p
+exports.updateBevy	controllers/bevies.js	/^}$/;"	f
+exports.updateBoard	controllers/boards.js	/^};$/;"	f
+exports.updateComment	controllers/comments.js	/^};$/;"	f
+exports.updateDevice	controllers/devices.js	/^};$/;"	f
+exports.updateNotification	controllers/notifications.js	/^}$/;"	f
+exports.updatePost	controllers/posts.js	/^};$/;"	f
+exports.updateUser	controllers/users.js	/^}$/;"	f
+express	app.js	/^var express = require('express');$/;"	v
+express	package.json	/^    "express": "^4.13.3",$/;"	f
+express-session	package.json	/^    "express-session": "^1.12.1",$/;"	f
+express-subdomain	package.json	/^    "express-subdomain": "^1.0.4",$/;"	f
+favicon	app.js	/^var favicon = require('serve-favicon');$/;"	v
+fbjs	package.json	/^    "fbjs": "^0.6.0",$/;"	f
+file-loader	package.json	/^    "file-loader": "^0.8.5",$/;"	f
+fileController	routes/api/files.js	/^var fileController = require('.\/..\/..\/controllers\/files');$/;"	v
+flux	package.json	/^    "flux": "^2.1.1",$/;"	f
+foo	public/js/shared/helpers/typedjs/index.htm	/^    function foo(){ console.log("Callback"); }$/;"	f
+fs	app.js	/^var fs = require('fs');$/;"	v
+fs	config/apn.js	/^var fs = require('fs');$/;"	v
+fs	config/app.js	/^var fs = require('fs');$/;"	v
+fs	controllers/files.js	/^var fs = require('fs');$/;"	v
+fs	controllers/notifications/index.js	/^var fs = require('fs');$/;"	v
+fs	error.js	/^var fs = require('fs');$/;"	v
+fs	gulpfile.js	/^var fs = require('fs');$/;"	v
+fs	models/index.js	/^var fs = require('fs');$/;"	v
+fs	routes/api/index.js	/^var fs = require('fs');$/;"	v
+fs	routes/app.js	/^var fs = require('fs');$/;"	v
+gcm	apn.js	/^var gcm = require('node-gcm');$/;"	v
+generateTokens	controllers/oauth2.js	/^var generateTokens = function(user, client, done) {$/;"	f
+getBevyEvents	controllers/events.js	/^var getBevyEvents = function(req, res, next) {$/;"	f
+getBevyInvites	controllers/invites.js	/^var getBevyInvites = function(req, res, next) {$/;"	f
+getBevyPosts	controllers/posts.js	/^var getBevyPosts = function(req, res, next) {$/;"	f
+getBoardPosts	controllers/posts.js	/^var getBoardPosts = function(req, res, next) {$/;"	f
+getEvent	controllers/events.js	/^var getEvent = function(req, res, next) {$/;"	f
+getInvite	controllers/invites.js	/^var getInvite = function(req, res, next) {$/;"	f
+getSlug	controllers/bevies.js	/^var getSlug = require('speakingurl');$/;"	v
+getSlug	public/js/bevy/BevyStore.js	/^var getSlug = require('speakingurl');$/;"	v
+getUserPosts	controllers/posts.js	/^var getUserPosts = function(req, res, next) {$/;"	f
+gfs	controllers/files.js	/^var gfs = Grid(mongoose.connection.db);$/;"	v
+gfs	gridfs.js	/^var gfs;$/;"	v
+gm	controllers/files.js	/^var gm = require('gm');$/;"	v
+gm	package.json	/^    "gm": "^1.21.1",$/;"	f
+gridfs-stream	package.json	/^    "gridfs-stream": "^1.1.1",$/;"	f
+gulp	gulpfile.js	/^var gulp = require('gulp');$/;"	v
+gulp	package.json	/^    "gulp": "^3.9.0",$/;"	f
+gulp	public/js/shared/helpers/typedjs/gulpfile.js	/^var gulp = require('gulp'),$/;"	v
+gulp	public/js/shared/helpers/typedjs/package.json	/^    "gulp": "^3.8.10",$/;"	f
+gulp-autoprefixer	package.json	/^    "gulp-autoprefixer": "^3.1.0",$/;"	f
+gulp-less	package.json	/^    "gulp-less": "^3.0.5",$/;"	f
+gulp-nodemon	package.json	/^    "gulp-nodemon": "^2.0.6",$/;"	f
+gulp-rename	public/js/shared/helpers/typedjs/package.json	/^    "gulp-rename": "^1.2.0",$/;"	f
+gulp-sourcemaps	package.json	/^    "gulp-sourcemaps": "^1.3.0",$/;"	f
+gulp-uglify	public/js/shared/helpers/typedjs/package.json	/^    "gulp-uglify": "^1.1.0"$/;"	f
+gulp-util	package.json	/^    "gulp-util": "^3.0.7",$/;"	f
+gutil	gulpfile.js	/^var gutil = require('gulp-util');$/;"	v
+homepage	public/js/shared/helpers/typedjs/.bower.json	/^  "homepage": "https:\/\/github.com\/mattboldt\/typed.js",$/;"	f
+homepage	public/js/shared/helpers/typedjs/bower.json	/^  "homepage": "https:\/\/github.com\/mattboldt\/typed.js",$/;"	f
+homepage	public/js/shared/helpers/typedjs/package.json	/^  "homepage": "https:\/\/github.com\/mattboldt\/typed.js",$/;"	f
+hostname	public/js/constants.js	/^var hostname = window.location.hostname;$/;"	v
+http	app.js	/^var http = require('http');$/;"	v
+http	controllers/posts.js	/^var http = require('http');$/;"	v
+https	app.js	/^var https = require('https');$/;"	v
+i_height	public/js/shared/helpers/resizeImage.js	/^  var i_height = image.geometry.height;$/;"	v
+i_width	public/js/shared/helpers/resizeImage.js	/^  var i_width = image.geometry.width;$/;"	v
+ignore	public/js/shared/helpers/typedjs/.bower.json	/^  "ignore": [],$/;"	f
+ignore	public/js/shared/helpers/typedjs/bower.json	/^  "ignore": [],$/;"	f
+image.filename	public/js/board/BoardActions.js	/^      image = {$/;"	p
+injectTapEventPlugin	public/js/index.js	/^var injectTapEventPlugin = require("react-tap-event-plugin");$/;"	v
+inviteController	routes/api/invites.js	/^var inviteController = require('.\/..\/..\/controllers\/invites');$/;"	v
+isEmpty.filename	public/js/bevy/BevyActions.js	/^      bevyImage = {$/;"	p
+isEmpty.request.baseUrl	error.js	/^		obj.request = {$/;"	p
+jade	package.json	/^    "jade": "^1.11.0",$/;"	f
+jquery	package.json	/^    "jquery": "^2.1.4",$/;"	f
+juice	package.json	/^    "juice": "^1.8.1",$/;"	f
+keys.oauth_clients	config/auth.js	/^var keys = {$/;"	p
+keys_dir	config/app.js	/^var keys_dir = '.\/';$/;"	v
+keywords	public/js/shared/helpers/typedjs/.bower.json	/^  "keywords": [$/;"	f
+keywords	public/js/shared/helpers/typedjs/bower.json	/^  "keywords": [$/;"	f
+keywords	public/js/shared/helpers/typedjs/package.json	/^  "keywords": [$/;"	f
+less	gulpfile.js	/^var less = require('gulp-less');$/;"	v
+less	package.json	/^    "less": "^2.5.3",$/;"	f
+less-loader	package.json	/^    "less-loader": "^2.2.2",$/;"	f
+less-plugin-glob	package.json	/^    "less-plugin-glob": "^1.1.1",$/;"	f
+license	package.json	/^  "license": "MIT",$/;"	f
+license	public/js/shared/helpers/typedjs/.bower.json	/^  "license": "MIT",$/;"	f
+license	public/js/shared/helpers/typedjs/bower.json	/^  "license": "MIT"$/;"	f
+logger	app.js	/^var logger = require('morgan');$/;"	v
+loginUsername	controllers/oauth2.js	/^var loginUsername = function(req, res, next) {$/;"	f
+mailgun	controllers/email.js	/^var mailgun = require('.\/..\/config').mailgun();$/;"	v
+mailgun	controllers/notifications.js	/^var mailgun = require('.\/..\/config\/mailgun')();$/;"	v
+mailgun	controllers/users.js	/^var mailgun = config.mailgun();$/;"	v
+mailgun	routes/app.js	/^var mailgun = config.mailgun();$/;"	v
+mailgun	routes/auth.js	/^var mailgun = require('.\/..\/config').mailgun();$/;"	v
+mailgun-js	package.json	/^    "mailgun-js": "^0.7.7",$/;"	f
+main	public/js/shared/helpers/typedjs/.bower.json	/^  "main": "dist\/typed.min.js",$/;"	f
+main	public/js/shared/helpers/typedjs/bower.json	/^  "main": "dist\/typed.min.js",$/;"	f
+main	public/js/shared/helpers/typedjs/package.json	/^  "main": "dist\/typed.min.js",$/;"	f
+material-ui	package.json	/^    "material-ui": "^0.14.4",$/;"	f
+method-override	package.json	/^    "method-override": "^2.3.1",$/;"	f
+methodOverride	app.js	/^var methodOverride = require('method-override');$/;"	v
+middleware	app.js	/^var middleware = require('.\/middleware');$/;"	v
+models	db.js	/^var models = require('.\/models');$/;"	v
+module.exports	config/mailgun.js	/^var domain = 'mg.joinbevy.com';$/;"	f
+module.exports	controllers/notifications/index.js	/^var path = require('path');$/;"	f
+module.exports	gridfs.js	/^});$/;"	f
+module.exports	middleware/cors.js	/^'use strict';$/;"	f
+module.exports	public/js/shared/helpers/dispatch.js	/^var Dispatcher = require('.\/..\/dispatcher');$/;"	f
+module.exports	public/js/shared/helpers/resizeImage.js	/^var constants = require('.\/..\/..\/constants');$/;"	f
+module.exports	public/js/shared/helpers/timeAgo.js	/^'use strict';$/;"	f
+module.exports	public/js/shared/helpers/timeLeft.js	/^'use strict';$/;"	f
+module.exports	public/js/shared/helpers/typedjs/js/typed.js	/^\/\/ The MIT License (MIT)$/;"	f
+module.exports	routes/api/bevies.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	f
+module.exports	routes/api/boards.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	f
+module.exports	routes/api/comments.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	f
+module.exports	routes/api/devices.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	f
+module.exports	routes/api/events.js	/^var eventsController = require('.\/..\/..\/controllers\/events');$/;"	f
+module.exports	routes/api/files.js	/^var fileController = require('.\/..\/..\/controllers\/files');$/;"	f
+module.exports	routes/api/index.js	/^var path = require('path');$/;"	f
+module.exports	routes/api/invites.js	/^var inviteController = require('.\/..\/..\/controllers\/invites');$/;"	f
+module.exports	routes/api/notifications.js	/^var noteController = require('.\/..\/..\/controllers\/notifications');$/;"	f
+module.exports	routes/api/posts.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	f
+module.exports	routes/api/users.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	f
+module.exports	routes/app.js	/^var emailController = require('.\/..\/controllers\/email');$/;"	f
+module.exports	routes/auth.js	/^var viewController = require('.\/..\/controllers\/views');$/;"	f
+module.exports	routes/index.js	/^'use strict';$/;"	f
+module.exports	socket.js	/^var zmq = require('zmq');$/;"	f
+module.exports.Typed	public/js/shared/helpers/typedjs/js/typed.js	/^    var Typed = function(el, options) {$/;"	c
+module.exports.clients	config/auth.js	/^module.exports = {$/;"	p
+module.exports.entry	webpack.config.js	/^module.exports = {$/;"	p
+module.exports.entry	webpack.production.config.js	/^module.exports = {$/;"	p
+module.exports.ios	config/apn.js	/^module.exports = {$/;"	p
+mongoose	app.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	config/passport.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/bevies.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/boards.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/comments.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/devices.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/events.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/files.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/invites.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/notifications.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/posts.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	controllers/users.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	db.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	gridfs.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/AccessToken.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Bevy.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Board.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Client.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Code.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Comment.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/DeviceSchema.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Event.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/ImageSchema.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/InviteToken.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Notification.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Post.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/RefreshToken.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/ResetToken.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/User.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/Vote.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	models/index.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	package.json	/^    "mongoose": "^4.4.5",$/;"	f
+mongoose	routes/app.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	routes/auth.js	/^var mongoose = require('mongoose');$/;"	v
+mongoose	schedule.js	/^var mongoose = require('mongoose');$/;"	v
+morgan	package.json	/^    "morgan": "^1.6.1",$/;"	f
+mq	controllers/comments.js	/^var mq = require('.\/..\/mq');$/;"	v
+mq	controllers/invites.js	/^var mq = require('.\/..\/mq');$/;"	v
+mq	controllers/notifications/comment.js	/^var mq = require('.\/..\/..\/mq');$/;"	v
+mq	controllers/notifications/post.js	/^var mq = require('.\/..\/..\/mq');$/;"	v
+mq	controllers/notifications/user.js	/^var mq = require('.\/..\/..\/mq');$/;"	v
+mq	controllers/posts.js	/^var mq = require('.\/..\/mq');$/;"	v
+mq	controllers/users.js	/^var mq = require('.\/..\/mq');$/;"	v
+multer	app.js	/^var multer = require('multer');$/;"	v
+multer	package.json	/^    "multer": "^0.1.7",$/;"	f
+name	package.json	/^  "name": "bevyweb",$/;"	f
+name	public/js/shared/helpers/typedjs/.bower.json	/^  "name": "typed.js",$/;"	f
+name	public/js/shared/helpers/typedjs/bower.json	/^  "name": "typed.js",$/;"	f
+name	public/js/shared/helpers/typedjs/package.json	/^  "name": "typed.js",$/;"	f
+newTyped	public/js/shared/helpers/typedjs/index.htm	/^    function newTyped(){ \/* A new typed object *\/ }$/;"	f
+node	package.json	/^    "node": "0.12.x"$/;"	f
+node-gcm	package.json	/^    "node-gcm": "^0.13.0",$/;"	f
+node-schedule	package.json	/^    "node-schedule": "^1.0.0",$/;"	f
+nodemon	gulpfile.js	/^var nodemon = require('gulp-nodemon');$/;"	v
+noteController	routes/api/notifications.js	/^var noteController = require('.\/..\/..\/controllers\/notifications');$/;"	v
+notificationPermissions	controllers/permissions/index.js	/^var notificationPermissions = require('.\/notification');$/;"	v
+notifications	controllers/comments.js	/^var notifications = require('.\/notifications');$/;"	v
+notifications	controllers/posts.js	/^var notifications = require('.\/notifications');$/;"	v
+oauth2Controller	routes/api/bevies.js	/^var oauth2Controller = require('.\/..\/..\/controllers\/oauth2');$/;"	v
+oauth2Controller	routes/api/boards.js	/^var oauth2Controller = require('.\/..\/..\/controllers\/oauth2');$/;"	v
+oauth2Controller	routes/api/comments.js	/^var oauth2Controller = require('.\/..\/..\/controllers\/oauth2');$/;"	v
+oauth2Controller	routes/api/devices.js	/^var oauth2Controller = require('.\/..\/..\/controllers\/oauth2');$/;"	v
+oauth2Controller	routes/api/notifications.js	/^var oauth2Controller = require('.\/..\/..\/controllers\/oauth2');$/;"	v
+oauth2Controller	routes/api/posts.js	/^var oauth2Controller = require('.\/..\/..\/controllers\/oauth2');$/;"	v
+oauth2Controller	routes/api/users.js	/^var oauth2Controller = require('.\/..\/..\/controllers\/oauth2');$/;"	v
+oauth2Controller	routes/auth.js	/^var oauth2Controller = require('.\/..\/controllers\/oauth2');$/;"	v
+oauth2orize	controllers/oauth2.js	/^var oauth2orize = require('oauth2orize');$/;"	v
+oauth2orize	package.json	/^    "oauth2orize": "^1.2.0",$/;"	f
+og	controllers/posts.js	/^var og = require('open-graph');$/;"	v
+open-graph	package.json	/^    "open-graph": "^0.1.5",$/;"	f
+options.headers.Accept	public/js/index.js	/^    options.headers = {$/;"	p
+paramNames	controllers/notifications.js	/^var paramNames = 'event message email board user members';$/;"	v
+passport	app.js	/^var passport = require('passport');$/;"	v
+passport	config/passport.js	/^var passport = require('passport');$/;"	v
+passport	controllers/oauth2.js	/^var passport = require('passport');$/;"	v
+passport	package.json	/^    "passport": "^0.3.2",$/;"	f
+passport	routes/app.js	/^var passport = require('passport');$/;"	v
+passport	routes/auth.js	/^var passport = require('passport');$/;"	v
+passport-http	package.json	/^    "passport-http": "^0.3.0",$/;"	f
+passport-http-bearer	package.json	/^    "passport-http-bearer": "^1.0.1",$/;"	f
+passport-local	package.json	/^    "passport-local": "^1.0.0",$/;"	f
+passport-oauth2-client-password	package.json	/^    "passport-oauth2-client-password": "^0.1.2",$/;"	f
+path	app.js	/^var path = require('path');$/;"	v
+path	config/apn.js	/^var path = require('path');$/;"	v
+path	controllers/email.js	/^var path = require('path');$/;"	v
+path	controllers/notifications/index.js	/^var path = require('path');$/;"	v
+path	models/index.js	/^var path = require('path');$/;"	v
+path	routes/api/index.js	/^var path = require('path');$/;"	v
+path	routes/app.js	/^var path = require('path');$/;"	v
+path	webpack.config.js	/^var path = require('path');$/;"	v
+path	webpack.production.config.js	/^var path = require('path');$/;"	v
+permissionsController	controllers/oauth2.js	/^var permissionsController = require('.\/permissions');$/;"	v
+permissionsController	routes/api/bevies.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	v
+permissionsController	routes/api/boards.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	v
+permissionsController	routes/api/comments.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	v
+permissionsController	routes/api/devices.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	v
+permissionsController	routes/api/notifications.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	v
+permissionsController	routes/api/posts.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	v
+permissionsController	routes/api/users.js	/^var permissionsController = require('.\/..\/..\/controllers\/permissions');$/;"	v
+postController	routes/api/posts.js	/^var postController = require('.\/..\/..\/controllers\/posts');$/;"	v
+postPermissions	controllers/permissions/index.js	/^var postPermissions = require('.\/post');$/;"	v
+postPointCountJob	schedule.js	/^var postPointCountJob = schedule.scheduleJob('* * * * *', function() {$/;"	v
+post_types	models/Post.js	/^var post_types = ['default'];$/;"	v
+prodCert	config/apn.js	/^var prodCert = fs.readFileSync($/;"	v
+prodKey	config/apn.js	/^var prodKey = fs.readFileSync($/;"	v
+promise	controllers/bevies.js	/^  var promise = Bevy.findOneAndUpdate(query, update, { new: true })$/;"	v
+promise	controllers/boards.js	/^  var promise = Board.findOneAndUpdate({ _id: board_id }, update, { new: true })$/;"	v
+protocol	public/js/constants.js	/^var protocol = location.protocol;$/;"	v
+pubSock	controllers/notifications/comment.js	/^var pubSock = mq.pubSock;$/;"	v
+pubSock	controllers/notifications/post.js	/^var pubSock = mq.pubSock;$/;"	v
+pubSock	controllers/notifications/user.js	/^var pubSock = mq.pubSock;$/;"	v
+pubSock	mq.js	/^var pubSock = zmq.socket('pub');$/;"	v
+pushNotifications	controllers/notifications.js	/^function pushNotifications(notifications) {$/;"	f
+pushNotifications.APNRegisterDevice	controllers/notifications.js	/^  function APNRegisterDevice(data) {$/;"	f
+query.$or	controllers/bevies.js	/^  var query = { $or: [{ _id: bevy_id_or_slug }, { slug: bevy_id_or_slug }]};$/;"	p
+query._id	controllers/notifications.js	/^  var query = { _id: notification_id };$/;"	p
+react	package.json	/^    "react": "^0.14",$/;"	f
+react-bootstrap	package.json	/^    "react-bootstrap": "^0.28.1",$/;"	f
+react-bootstrap-datetimepicker	package.json	/^    "react-bootstrap-datetimepicker": "0.0.22",$/;"	f
+react-dom	package.json	/^    "react-dom": "^0.14.5",$/;"	f
+react-hot-loader	package.json	/^    "react-hot-loader": "^1.3.0",$/;"	f
+react-ink	package.json	/^    "react-ink": "^5.0.2",$/;"	f
+react-tap-event-plugin	package.json	/^    "react-tap-event-plugin": "^0.2.1",$/;"	f
+renderFindGroupEmail	controllers/email.js	/^var renderFindGroupEmail = function(locals, done) {$/;"	f
+renderInviteEmail	controllers/email.js	/^var renderInviteEmail = function(locals, done) {$/;"	f
+renderResetConfirmationEmail	controllers/email.js	/^var renderResetConfirmationEmail = function(locals, done) {$/;"	f
+renderResetPasswordEmail	controllers/email.js	/^var renderResetPasswordEmail = function(locals, done) {$/;"	f
+renderWelcomeEmail	controllers/email.js	/^var renderWelcomeEmail = function(locals, done) {$/;"	f
+repository	package.json	/^  "repository": "https:\/\/github.com\/blahoink\/bevy",$/;"	f
+returnPostsWithComments	controllers/posts.js	/^var returnPostsWithComments = function(req, res, next, posts) {$/;"	f
+router	public/js/bevy/BevyStore.js	/^var router = require('.\/..\/router');$/;"	v
+router	public/js/bevy/InviteCollection.js	/^var router = require('.\/..\/router');$/;"	v
+router	public/js/board/BoardCollection.js	/^var router = require('.\/..\/router');$/;"	v
+router	public/js/index.js	/^var router = require('.\/router');$/;"	v
+router	public/js/post/PostCollection.js	/^var router = require('.\/..\/router');$/;"	v
+router	public/js/post/PostModel.js	/^var router = require('.\/..\/router');$/;"	v
+router	public/js/post/PostStore.js	/^var router = require('.\/..\/router');$/;"	v
+routes	app.js	/^var routes = require('.\/routes')(app);$/;"	v
+s	public/js/shared/helpers/typedjs/dist/typed.min.js	/^!function(t){"use strict";var s=function(s,e){this.el=t(s),this.options=t.extend({},t.fn.typed.defaults,e),this.isInput=this.el.is("input"),this.attr=this.options.attr,this.showCursor=this.isInput?!1:this.options.showCursor,this.elContent=this.attr?this.el.attr(this.attr):this.el.text(),this.contentType=this.options.contentType,this.typeSpeed=this.options.typeSpeed,this.startDelay=this.options.startDelay,this.backSpeed=this.options.backSpeed,this.backDelay=this.options.backDelay,this.strings=this.options.strings,this.strPos=0,this.arrayPos=0,this.stopNum=0,this.loop=this.options.loop,this.loopCount=this.options.loopCount,this.curLoop=0,this.stop=!1,this.cursorChar=this.options.cursorChar,this.shuffle=this.options.shuffle,this.sequence=[],this.build()};s.prototype={constructor:s,init:function(){var t=this;t.timeout=setTimeout(function(){for(var s=0;s<t.strings.length;++s)t.sequence[s]=s;t.shuffle&&(t.sequence=t.shuffleArray(t.sequence)),t.typewrite(t.strings[t.sequence[t.arrayPos]],t.strPos)},t.startDelay)},build:function(){this.showCursor===!0&&(this.cursor=t('<span class="typed-cursor">'+this.cursorChar+"<\/span>"),this.el.after(this.cursor)),this.init()},typewrite:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.typeSpeed,o=this;o.timeout=setTimeout(function(){var e=0,r=t.substr(s);if("^"===r.charAt(0)){var i=1;\/^\\^\\d+\/.test(r)&&(r=\/\\d+\/.exec(r)[0],i+=r.length,e=parseInt(r)),t=t.substring(0,s)+t.substring(s+i)}if("html"===o.contentType){var n=t.substr(s).charAt(0);if("<"===n||"&"===n){var a="",h="";for(h="<"===n?">":";";t.substr(s).charAt(0)!==h;)a+=t.substr(s).charAt(0),s++;s++,a+=h}}o.timeout=setTimeout(function(){if(s===t.length){if(o.options.onStringTyped(o.arrayPos),o.arrayPos===o.strings.length-1&&(o.options.callback(),o.curLoop++,o.loop===!1||o.curLoop===o.loopCount))return;o.timeout=setTimeout(function(){o.backspace(t,s)},o.backDelay)}else{0===s&&o.options.preStringTyped(o.arrayPos);var e=t.substr(0,s+1);o.attr?o.el.attr(o.attr,e):o.isInput?o.el.val(e):"html"===o.contentType?o.el.html(e):o.el.text(e),s++,o.typewrite(t,s)}},e)},e)}},backspace:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.backSpeed,o=this;o.timeout=setTimeout(function(){if("html"===o.contentType&&">"===t.substr(s).charAt(0)){for(var e="";"<"!==t.substr(s).charAt(0);)e-=t.substr(s).charAt(0),s--;s--,e+="<"}var r=t.substr(0,s);o.attr?o.el.attr(o.attr,r):o.isInput?o.el.val(r):"html"===o.contentType?o.el.html(r):o.el.text(r),s>o.stopNum?(s--,o.backspace(t,s)):s<=o.stopNum&&(o.arrayPos++,o.arrayPos===o.strings.length?(o.arrayPos=0,o.shuffle&&(o.sequence=o.shuffleArray(o.sequence)),o.init()):o.typewrite(o.strings[o.sequence[o.arrayPos]],s))},e)}},shuffleArray:function(t){var s,e,o=t.length;if(o)for(;--o;)e=Math.floor(Math.random()*(o+1)),s=t[e],t[e]=t[o],t[o]=s;return t},reset:function(){var t=this;clearInterval(t.timeout);var s=this.el.attr("id");this.el.after('<span id="'+s+'"\/>'),this.el.remove(),"undefined"!=typeof this.cursor&&this.cursor.remove(),t.options.resetCallback()}},t.fn.typed=function(e){return this.each(function(){var o=t(this),r=o.data("typed"),i="object"==typeof e&&e;r||o.data("typed",r=new s(this,i)),"string"==typeof e&&r[e]()})},t.fn.typed.defaults={strings:["These are the default values...","You know what you should do?","Use your own!","Have a great day!"],typeSpeed:0,startDelay:0,backSpeed:0,shuffle:!1,backDelay:500,loop:!1,loopCount:!1,showCursor:!0,cursorChar:"|",attr:null,contentType:"html",callback:function(){},preStringTyped:function(){},onStringTyped:function(){},resetCallback:function(){}}}(window.jQuery);/;"	c
+s.backspace	public/js/shared/helpers/typedjs/dist/typed.min.js	/^!function(t){"use strict";var s=function(s,e){this.el=t(s),this.options=t.extend({},t.fn.typed.defaults,e),this.isInput=this.el.is("input"),this.attr=this.options.attr,this.showCursor=this.isInput?!1:this.options.showCursor,this.elContent=this.attr?this.el.attr(this.attr):this.el.text(),this.contentType=this.options.contentType,this.typeSpeed=this.options.typeSpeed,this.startDelay=this.options.startDelay,this.backSpeed=this.options.backSpeed,this.backDelay=this.options.backDelay,this.strings=this.options.strings,this.strPos=0,this.arrayPos=0,this.stopNum=0,this.loop=this.options.loop,this.loopCount=this.options.loopCount,this.curLoop=0,this.stop=!1,this.cursorChar=this.options.cursorChar,this.shuffle=this.options.shuffle,this.sequence=[],this.build()};s.prototype={constructor:s,init:function(){var t=this;t.timeout=setTimeout(function(){for(var s=0;s<t.strings.length;++s)t.sequence[s]=s;t.shuffle&&(t.sequence=t.shuffleArray(t.sequence)),t.typewrite(t.strings[t.sequence[t.arrayPos]],t.strPos)},t.startDelay)},build:function(){this.showCursor===!0&&(this.cursor=t('<span class="typed-cursor">'+this.cursorChar+"<\/span>"),this.el.after(this.cursor)),this.init()},typewrite:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.typeSpeed,o=this;o.timeout=setTimeout(function(){var e=0,r=t.substr(s);if("^"===r.charAt(0)){var i=1;\/^\\^\\d+\/.test(r)&&(r=\/\\d+\/.exec(r)[0],i+=r.length,e=parseInt(r)),t=t.substring(0,s)+t.substring(s+i)}if("html"===o.contentType){var n=t.substr(s).charAt(0);if("<"===n||"&"===n){var a="",h="";for(h="<"===n?">":";";t.substr(s).charAt(0)!==h;)a+=t.substr(s).charAt(0),s++;s++,a+=h}}o.timeout=setTimeout(function(){if(s===t.length){if(o.options.onStringTyped(o.arrayPos),o.arrayPos===o.strings.length-1&&(o.options.callback(),o.curLoop++,o.loop===!1||o.curLoop===o.loopCount))return;o.timeout=setTimeout(function(){o.backspace(t,s)},o.backDelay)}else{0===s&&o.options.preStringTyped(o.arrayPos);var e=t.substr(0,s+1);o.attr?o.el.attr(o.attr,e):o.isInput?o.el.val(e):"html"===o.contentType?o.el.html(e):o.el.text(e),s++,o.typewrite(t,s)}},e)},e)}},backspace:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.backSpeed,o=this;o.timeout=setTimeout(function(){if("html"===o.contentType&&">"===t.substr(s).charAt(0)){for(var e="";"<"!==t.substr(s).charAt(0);)e-=t.substr(s).charAt(0),s--;s--,e+="<"}var r=t.substr(0,s);o.attr?o.el.attr(o.attr,r):o.isInput?o.el.val(r):"html"===o.contentType?o.el.html(r):o.el.text(r),s>o.stopNum?(s--,o.backspace(t,s)):s<=o.stopNum&&(o.arrayPos++,o.arrayPos===o.strings.length?(o.arrayPos=0,o.shuffle&&(o.sequence=o.shuffleArray(o.sequence)),o.init()):o.typewrite(o.strings[o.sequence[o.arrayPos]],s))},e)}},shuffleArray:function(t){var s,e,o=t.length;if(o)for(;--o;)e=Math.floor(Math.random()*(o+1)),s=t[e],t[e]=t[o],t[o]=s;return t},reset:function(){var t=this;clearInterval(t.timeout);var s=this.el.attr("id");this.el.after('<span id="'+s+'"\/>'),this.el.remove(),"undefined"!=typeof this.cursor&&this.cursor.remove(),t.options.resetCallback()}},t.fn.typed=function(e){return this.each(function(){var o=t(this),r=o.data("typed"),i="object"==typeof e&&e;r||o.data("typed",r=new s(this,i)),"string"==typeof e&&r[e]()})},t.fn.typed.defaults={strings:["These are the default values...","You know what you should do?","Use your own!","Have a great day!"],typeSpeed:0,startDelay:0,backSpeed:0,shuffle:!1,backDelay:500,loop:!1,loopCount:!1,showCursor:!0,cursorChar:"|",attr:null,contentType:"html",callback:function(){},preStringTyped:function(){},onStringTyped:function(){},resetCallback:function(){}}}(window.jQuery);/;"	m
+s.constructor	public/js/shared/helpers/typedjs/dist/typed.min.js	/^!function(t){"use strict";var s=function(s,e){this.el=t(s),this.options=t.extend({},t.fn.typed.defaults,e),this.isInput=this.el.is("input"),this.attr=this.options.attr,this.showCursor=this.isInput?!1:this.options.showCursor,this.elContent=this.attr?this.el.attr(this.attr):this.el.text(),this.contentType=this.options.contentType,this.typeSpeed=this.options.typeSpeed,this.startDelay=this.options.startDelay,this.backSpeed=this.options.backSpeed,this.backDelay=this.options.backDelay,this.strings=this.options.strings,this.strPos=0,this.arrayPos=0,this.stopNum=0,this.loop=this.options.loop,this.loopCount=this.options.loopCount,this.curLoop=0,this.stop=!1,this.cursorChar=this.options.cursorChar,this.shuffle=this.options.shuffle,this.sequence=[],this.build()};s.prototype={constructor:s,init:function(){var t=this;t.timeout=setTimeout(function(){for(var s=0;s<t.strings.length;++s)t.sequence[s]=s;t.shuffle&&(t.sequence=t.shuffleArray(t.sequence)),t.typewrite(t.strings[t.sequence[t.arrayPos]],t.strPos)},t.startDelay)},build:function(){this.showCursor===!0&&(this.cursor=t('<span class="typed-cursor">'+this.cursorChar+"<\/span>"),this.el.after(this.cursor)),this.init()},typewrite:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.typeSpeed,o=this;o.timeout=setTimeout(function(){var e=0,r=t.substr(s);if("^"===r.charAt(0)){var i=1;\/^\\^\\d+\/.test(r)&&(r=\/\\d+\/.exec(r)[0],i+=r.length,e=parseInt(r)),t=t.substring(0,s)+t.substring(s+i)}if("html"===o.contentType){var n=t.substr(s).charAt(0);if("<"===n||"&"===n){var a="",h="";for(h="<"===n?">":";";t.substr(s).charAt(0)!==h;)a+=t.substr(s).charAt(0),s++;s++,a+=h}}o.timeout=setTimeout(function(){if(s===t.length){if(o.options.onStringTyped(o.arrayPos),o.arrayPos===o.strings.length-1&&(o.options.callback(),o.curLoop++,o.loop===!1||o.curLoop===o.loopCount))return;o.timeout=setTimeout(function(){o.backspace(t,s)},o.backDelay)}else{0===s&&o.options.preStringTyped(o.arrayPos);var e=t.substr(0,s+1);o.attr?o.el.attr(o.attr,e):o.isInput?o.el.val(e):"html"===o.contentType?o.el.html(e):o.el.text(e),s++,o.typewrite(t,s)}},e)},e)}},backspace:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.backSpeed,o=this;o.timeout=setTimeout(function(){if("html"===o.contentType&&">"===t.substr(s).charAt(0)){for(var e="";"<"!==t.substr(s).charAt(0);)e-=t.substr(s).charAt(0),s--;s--,e+="<"}var r=t.substr(0,s);o.attr?o.el.attr(o.attr,r):o.isInput?o.el.val(r):"html"===o.contentType?o.el.html(r):o.el.text(r),s>o.stopNum?(s--,o.backspace(t,s)):s<=o.stopNum&&(o.arrayPos++,o.arrayPos===o.strings.length?(o.arrayPos=0,o.shuffle&&(o.sequence=o.shuffleArray(o.sequence)),o.init()):o.typewrite(o.strings[o.sequence[o.arrayPos]],s))},e)}},shuffleArray:function(t){var s,e,o=t.length;if(o)for(;--o;)e=Math.floor(Math.random()*(o+1)),s=t[e],t[e]=t[o],t[o]=s;return t},reset:function(){var t=this;clearInterval(t.timeout);var s=this.el.attr("id");this.el.after('<span id="'+s+'"\/>'),this.el.remove(),"undefined"!=typeof this.cursor&&this.cursor.remove(),t.options.resetCallback()}},t.fn.typed=function(e){return this.each(function(){var o=t(this),r=o.data("typed"),i="object"==typeof e&&e;r||o.data("typed",r=new s(this,i)),"string"==typeof e&&r[e]()})},t.fn.typed.defaults={strings:["These are the default values...","You know what you should do?","Use your own!","Have a great day!"],typeSpeed:0,startDelay:0,backSpeed:0,shuffle:!1,backDelay:500,loop:!1,loopCount:!1,showCursor:!0,cursorChar:"|",attr:null,contentType:"html",callback:function(){},preStringTyped:function(){},onStringTyped:function(){},resetCallback:function(){}}}(window.jQuery);/;"	p
+s.init	public/js/shared/helpers/typedjs/dist/typed.min.js	/^!function(t){"use strict";var s=function(s,e){this.el=t(s),this.options=t.extend({},t.fn.typed.defaults,e),this.isInput=this.el.is("input"),this.attr=this.options.attr,this.showCursor=this.isInput?!1:this.options.showCursor,this.elContent=this.attr?this.el.attr(this.attr):this.el.text(),this.contentType=this.options.contentType,this.typeSpeed=this.options.typeSpeed,this.startDelay=this.options.startDelay,this.backSpeed=this.options.backSpeed,this.backDelay=this.options.backDelay,this.strings=this.options.strings,this.strPos=0,this.arrayPos=0,this.stopNum=0,this.loop=this.options.loop,this.loopCount=this.options.loopCount,this.curLoop=0,this.stop=!1,this.cursorChar=this.options.cursorChar,this.shuffle=this.options.shuffle,this.sequence=[],this.build()};s.prototype={constructor:s,init:function(){var t=this;t.timeout=setTimeout(function(){for(var s=0;s<t.strings.length;++s)t.sequence[s]=s;t.shuffle&&(t.sequence=t.shuffleArray(t.sequence)),t.typewrite(t.strings[t.sequence[t.arrayPos]],t.strPos)},t.startDelay)},build:function(){this.showCursor===!0&&(this.cursor=t('<span class="typed-cursor">'+this.cursorChar+"<\/span>"),this.el.after(this.cursor)),this.init()},typewrite:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.typeSpeed,o=this;o.timeout=setTimeout(function(){var e=0,r=t.substr(s);if("^"===r.charAt(0)){var i=1;\/^\\^\\d+\/.test(r)&&(r=\/\\d+\/.exec(r)[0],i+=r.length,e=parseInt(r)),t=t.substring(0,s)+t.substring(s+i)}if("html"===o.contentType){var n=t.substr(s).charAt(0);if("<"===n||"&"===n){var a="",h="";for(h="<"===n?">":";";t.substr(s).charAt(0)!==h;)a+=t.substr(s).charAt(0),s++;s++,a+=h}}o.timeout=setTimeout(function(){if(s===t.length){if(o.options.onStringTyped(o.arrayPos),o.arrayPos===o.strings.length-1&&(o.options.callback(),o.curLoop++,o.loop===!1||o.curLoop===o.loopCount))return;o.timeout=setTimeout(function(){o.backspace(t,s)},o.backDelay)}else{0===s&&o.options.preStringTyped(o.arrayPos);var e=t.substr(0,s+1);o.attr?o.el.attr(o.attr,e):o.isInput?o.el.val(e):"html"===o.contentType?o.el.html(e):o.el.text(e),s++,o.typewrite(t,s)}},e)},e)}},backspace:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.backSpeed,o=this;o.timeout=setTimeout(function(){if("html"===o.contentType&&">"===t.substr(s).charAt(0)){for(var e="";"<"!==t.substr(s).charAt(0);)e-=t.substr(s).charAt(0),s--;s--,e+="<"}var r=t.substr(0,s);o.attr?o.el.attr(o.attr,r):o.isInput?o.el.val(r):"html"===o.contentType?o.el.html(r):o.el.text(r),s>o.stopNum?(s--,o.backspace(t,s)):s<=o.stopNum&&(o.arrayPos++,o.arrayPos===o.strings.length?(o.arrayPos=0,o.shuffle&&(o.sequence=o.shuffleArray(o.sequence)),o.init()):o.typewrite(o.strings[o.sequence[o.arrayPos]],s))},e)}},shuffleArray:function(t){var s,e,o=t.length;if(o)for(;--o;)e=Math.floor(Math.random()*(o+1)),s=t[e],t[e]=t[o],t[o]=s;return t},reset:function(){var t=this;clearInterval(t.timeout);var s=this.el.attr("id");this.el.after('<span id="'+s+'"\/>'),this.el.remove(),"undefined"!=typeof this.cursor&&this.cursor.remove(),t.options.resetCallback()}},t.fn.typed=function(e){return this.each(function(){var o=t(this),r=o.data("typed"),i="object"==typeof e&&e;r||o.data("typed",r=new s(this,i)),"string"==typeof e&&r[e]()})},t.fn.typed.defaults={strings:["These are the default values...","You know what you should do?","Use your own!","Have a great day!"],typeSpeed:0,startDelay:0,backSpeed:0,shuffle:!1,backDelay:500,loop:!1,loopCount:!1,showCursor:!0,cursorChar:"|",attr:null,contentType:"html",callback:function(){},preStringTyped:function(){},onStringTyped:function(){},resetCallback:function(){}}}(window.jQuery);/;"	m
+s.reset	public/js/shared/helpers/typedjs/dist/typed.min.js	/^!function(t){"use strict";var s=function(s,e){this.el=t(s),this.options=t.extend({},t.fn.typed.defaults,e),this.isInput=this.el.is("input"),this.attr=this.options.attr,this.showCursor=this.isInput?!1:this.options.showCursor,this.elContent=this.attr?this.el.attr(this.attr):this.el.text(),this.contentType=this.options.contentType,this.typeSpeed=this.options.typeSpeed,this.startDelay=this.options.startDelay,this.backSpeed=this.options.backSpeed,this.backDelay=this.options.backDelay,this.strings=this.options.strings,this.strPos=0,this.arrayPos=0,this.stopNum=0,this.loop=this.options.loop,this.loopCount=this.options.loopCount,this.curLoop=0,this.stop=!1,this.cursorChar=this.options.cursorChar,this.shuffle=this.options.shuffle,this.sequence=[],this.build()};s.prototype={constructor:s,init:function(){var t=this;t.timeout=setTimeout(function(){for(var s=0;s<t.strings.length;++s)t.sequence[s]=s;t.shuffle&&(t.sequence=t.shuffleArray(t.sequence)),t.typewrite(t.strings[t.sequence[t.arrayPos]],t.strPos)},t.startDelay)},build:function(){this.showCursor===!0&&(this.cursor=t('<span class="typed-cursor">'+this.cursorChar+"<\/span>"),this.el.after(this.cursor)),this.init()},typewrite:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.typeSpeed,o=this;o.timeout=setTimeout(function(){var e=0,r=t.substr(s);if("^"===r.charAt(0)){var i=1;\/^\\^\\d+\/.test(r)&&(r=\/\\d+\/.exec(r)[0],i+=r.length,e=parseInt(r)),t=t.substring(0,s)+t.substring(s+i)}if("html"===o.contentType){var n=t.substr(s).charAt(0);if("<"===n||"&"===n){var a="",h="";for(h="<"===n?">":";";t.substr(s).charAt(0)!==h;)a+=t.substr(s).charAt(0),s++;s++,a+=h}}o.timeout=setTimeout(function(){if(s===t.length){if(o.options.onStringTyped(o.arrayPos),o.arrayPos===o.strings.length-1&&(o.options.callback(),o.curLoop++,o.loop===!1||o.curLoop===o.loopCount))return;o.timeout=setTimeout(function(){o.backspace(t,s)},o.backDelay)}else{0===s&&o.options.preStringTyped(o.arrayPos);var e=t.substr(0,s+1);o.attr?o.el.attr(o.attr,e):o.isInput?o.el.val(e):"html"===o.contentType?o.el.html(e):o.el.text(e),s++,o.typewrite(t,s)}},e)},e)}},backspace:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.backSpeed,o=this;o.timeout=setTimeout(function(){if("html"===o.contentType&&">"===t.substr(s).charAt(0)){for(var e="";"<"!==t.substr(s).charAt(0);)e-=t.substr(s).charAt(0),s--;s--,e+="<"}var r=t.substr(0,s);o.attr?o.el.attr(o.attr,r):o.isInput?o.el.val(r):"html"===o.contentType?o.el.html(r):o.el.text(r),s>o.stopNum?(s--,o.backspace(t,s)):s<=o.stopNum&&(o.arrayPos++,o.arrayPos===o.strings.length?(o.arrayPos=0,o.shuffle&&(o.sequence=o.shuffleArray(o.sequence)),o.init()):o.typewrite(o.strings[o.sequence[o.arrayPos]],s))},e)}},shuffleArray:function(t){var s,e,o=t.length;if(o)for(;--o;)e=Math.floor(Math.random()*(o+1)),s=t[e],t[e]=t[o],t[o]=s;return t},reset:function(){var t=this;clearInterval(t.timeout);var s=this.el.attr("id");this.el.after('<span id="'+s+'"\/>'),this.el.remove(),"undefined"!=typeof this.cursor&&this.cursor.remove(),t.options.resetCallback()}},t.fn.typed=function(e){return this.each(function(){var o=t(this),r=o.data("typed"),i="object"==typeof e&&e;r||o.data("typed",r=new s(this,i)),"string"==typeof e&&r[e]()})},t.fn.typed.defaults={strings:["These are the default values...","You know what you should do?","Use your own!","Have a great day!"],typeSpeed:0,startDelay:0,backSpeed:0,shuffle:!1,backDelay:500,loop:!1,loopCount:!1,showCursor:!0,cursorChar:"|",attr:null,contentType:"html",callback:function(){},preStringTyped:function(){},onStringTyped:function(){},resetCallback:function(){}}}(window.jQuery);/;"	m
+schedule	schedule.js	/^var schedule = require('node-schedule');$/;"	v
+searchComments	controllers/comments.js	/^var searchComments = function(req, res, next) {$/;"	f
+searchPosts	controllers/posts.js	/^var searchPosts = function(req, res, next) {$/;"	f
+sendCommentNotifications	apn.js	/^var sendCommentNotifications = function(data) {$/;"	f
+sendEmail	controllers/email.js	/^var sendEmail = function(recipient, type, locals, done) {$/;"	f
+sendNewPostNotifications	apn.js	/^var sendNewPostNotifications = function(data) {$/;"	f
+serve-favicon	package.json	/^    "serve-favicon": "^2.3.0",$/;"	f
+serve-static	package.json	/^    "serve-static": "^1.10.0",$/;"	f
+serveStatic	app.js	/^var serveStatic = require('serve-static');$/;"	v
+server	app.js	/^var server = http.createServer(app);$/;"	v
+server	controllers/oauth2.js	/^var server = oauth2orize.createServer();$/;"	v
+session	app.js	/^var session = require('express-session');$/;"	v
+shortid	config/passport.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/bevies.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/boards.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/comments.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/files.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/invites.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/notifications.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/notifications/comment.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/notifications/post.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/notifications/user.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/oauth2.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/posts.js	/^var shortid = require('shortid');$/;"	v
+shortid	controllers/users.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/Bevy.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/Board.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/Comment.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/DeviceSchema.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/Event.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/ImageSchema.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/InviteToken.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/Notification.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/Post.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/ResetToken.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/User.js	/^var shortid = require('shortid');$/;"	v
+shortid	models/Vote.js	/^var shortid = require('shortid');$/;"	v
+shortid	package.json	/^    "shortid": "^2.2.4",$/;"	f
+slashes	public/js/constants.js	/^var slashes = '\/\/';$/;"	v
+socket.io	package.json	/^    "socket.io": "^1.3.7",$/;"	f
+socket.io-client	package.json	/^    "socket.io-client": "^1.3.7",$/;"	f
+sourcemaps	gulpfile.js	/^var sourcemaps = require('gulp-sourcemaps');$/;"	v
+speakingurl	package.json	/^    "speakingurl": "^8.0.0",$/;"	f
+strings	public/js/shared/helpers/typedjs/dist/typed.min.js	/^!function(t){"use strict";var s=function(s,e){this.el=t(s),this.options=t.extend({},t.fn.typed.defaults,e),this.isInput=this.el.is("input"),this.attr=this.options.attr,this.showCursor=this.isInput?!1:this.options.showCursor,this.elContent=this.attr?this.el.attr(this.attr):this.el.text(),this.contentType=this.options.contentType,this.typeSpeed=this.options.typeSpeed,this.startDelay=this.options.startDelay,this.backSpeed=this.options.backSpeed,this.backDelay=this.options.backDelay,this.strings=this.options.strings,this.strPos=0,this.arrayPos=0,this.stopNum=0,this.loop=this.options.loop,this.loopCount=this.options.loopCount,this.curLoop=0,this.stop=!1,this.cursorChar=this.options.cursorChar,this.shuffle=this.options.shuffle,this.sequence=[],this.build()};s.prototype={constructor:s,init:function(){var t=this;t.timeout=setTimeout(function(){for(var s=0;s<t.strings.length;++s)t.sequence[s]=s;t.shuffle&&(t.sequence=t.shuffleArray(t.sequence)),t.typewrite(t.strings[t.sequence[t.arrayPos]],t.strPos)},t.startDelay)},build:function(){this.showCursor===!0&&(this.cursor=t('<span class="typed-cursor">'+this.cursorChar+"<\/span>"),this.el.after(this.cursor)),this.init()},typewrite:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.typeSpeed,o=this;o.timeout=setTimeout(function(){var e=0,r=t.substr(s);if("^"===r.charAt(0)){var i=1;\/^\\^\\d+\/.test(r)&&(r=\/\\d+\/.exec(r)[0],i+=r.length,e=parseInt(r)),t=t.substring(0,s)+t.substring(s+i)}if("html"===o.contentType){var n=t.substr(s).charAt(0);if("<"===n||"&"===n){var a="",h="";for(h="<"===n?">":";";t.substr(s).charAt(0)!==h;)a+=t.substr(s).charAt(0),s++;s++,a+=h}}o.timeout=setTimeout(function(){if(s===t.length){if(o.options.onStringTyped(o.arrayPos),o.arrayPos===o.strings.length-1&&(o.options.callback(),o.curLoop++,o.loop===!1||o.curLoop===o.loopCount))return;o.timeout=setTimeout(function(){o.backspace(t,s)},o.backDelay)}else{0===s&&o.options.preStringTyped(o.arrayPos);var e=t.substr(0,s+1);o.attr?o.el.attr(o.attr,e):o.isInput?o.el.val(e):"html"===o.contentType?o.el.html(e):o.el.text(e),s++,o.typewrite(t,s)}},e)},e)}},backspace:function(t,s){if(this.stop!==!0){var e=Math.round(70*Math.random())+this.backSpeed,o=this;o.timeout=setTimeout(function(){if("html"===o.contentType&&">"===t.substr(s).charAt(0)){for(var e="";"<"!==t.substr(s).charAt(0);)e-=t.substr(s).charAt(0),s--;s--,e+="<"}var r=t.substr(0,s);o.attr?o.el.attr(o.attr,r):o.isInput?o.el.val(r):"html"===o.contentType?o.el.html(r):o.el.text(r),s>o.stopNum?(s--,o.backspace(t,s)):s<=o.stopNum&&(o.arrayPos++,o.arrayPos===o.strings.length?(o.arrayPos=0,o.shuffle&&(o.sequence=o.shuffleArray(o.sequence)),o.init()):o.typewrite(o.strings[o.sequence[o.arrayPos]],s))},e)}},shuffleArray:function(t){var s,e,o=t.length;if(o)for(;--o;)e=Math.floor(Math.random()*(o+1)),s=t[e],t[e]=t[o],t[o]=s;return t},reset:function(){var t=this;clearInterval(t.timeout);var s=this.el.attr("id");this.el.after('<span id="'+s+'"\/>'),this.el.remove(),"undefined"!=typeof this.cursor&&this.cursor.remove(),t.options.resetCallback()}},t.fn.typed=function(e){return this.each(function(){var o=t(this),r=o.data("typed"),i="object"==typeof e&&e;r||o.data("typed",r=new s(this,i)),"string"==typeof e&&r[e]()})},t.fn.typed.defaults={strings:["These are the default values...","You know what you should do?","Use your own!","Have a great day!"],typeSpeed:0,startDelay:0,backSpeed:0,shuffle:!1,backDelay:500,loop:!1,loopCount:!1,showCursor:!0,cursorChar:"|",attr:null,contentType:"html",callback:function(){},preStringTyped:function(){},onStringTyped:function(){},resetCallback:function(){}}}(window.jQuery);/;"	p
+style-loader	package.json	/^    "style-loader": "^0.13.0",$/;"	f
+subSock	apn.js	/^var subSock = zmq.socket('sub');$/;"	v
+subSock	controllers/notifications/comment.js	/^var subSock = zmq.socket('sub');$/;"	v
+subSock	controllers/notifications/post.js	/^var subSock = zmq.socket('sub');$/;"	v
+subSock	controllers/notifications/user.js	/^var subSock = zmq.socket('sub');$/;"	v
+subdomain	app.js	/^var subdomain = require('express-subdomain');$/;"	v
+tag	public/js/shared/helpers/typedjs/.bower.json	/^    "tag": "v1.1.1",$/;"	f
+type	public/js/shared/helpers/typedjs/.bower.json	/^    "type": "version",$/;"	f
+uglify-loader	package.json	/^    "uglify-loader": "^1.3.0",$/;"	f
+underscore	package.json	/^    "underscore": "^1.8.3",$/;"	f
+update._id	controllers/users.js	/^  var update = {$/;"	p
+updateEvent	controllers/events.js	/^var updateEvent = function(req, res, next) {$/;"	f
+url-loader	package.json	/^    "url-loader": "^0.5.7",$/;"	f
+user	public/js/bevy/BevyCollection.js	/^var user = window.bootstrap.user;$/;"	v
+user	public/js/bevy/BevyStore.js	/^var user = window.bootstrap.user;$/;"	v
+user	public/js/bevy/InviteCollection.js	/^var user = window.bootstrap.user;$/;"	v
+user	public/js/board/BoardCollection.js	/^var user = window.bootstrap.user;$/;"	v
+user	public/js/notification/InviteCollection.js	/^var user = window.bootstrap.user;$/;"	v
+user	public/js/notification/NotificationCollection.js	/^var user = window.bootstrap.user;$/;"	v
+user	public/js/notification/NotificationStore.js	/^var user = window.bootstrap.user;$/;"	v
+user	public/js/post/PostCollection.js	/^var user = window.bootstrap.user;$/;"	v
+user	public/js/user/UserStore.js	/^var user = window.bootstrap.user;$/;"	v
+userController	routes/api/users.js	/^var userController = require('.\/..\/..\/controllers\/users');$/;"	v
+userPermissions	controllers/permissions/index.js	/^var userPermissions = require('.\/user');$/;"	v
+userPointCountJob	schedule.js	/^var userPointCountJob = schedule.scheduleJob('* * * * *', function() {$/;"	v
+userPopFields	controllers/bevies.js	/^var userPopFields = '_id displayName email image username created name \\$/;"	v
+userPopFields	controllers/boards.js	/^var userPopFields = '_id displayName email image username \\$/;"	v
+userPopFields	controllers/comments.js	/^var userPopFields = '_id displayName email image username \\$/;"	v
+verifySlug	controllers/bevies.js	/^var verifySlug = function(slug) {$/;"	f
+version	package.json	/^  "version": "0.0.0",$/;"	f
+version	public/js/shared/helpers/typedjs/.bower.json	/^  "version": "1.1.1",$/;"	f
+version	public/js/shared/helpers/typedjs/bower.json	/^  "version": "1.1.1",$/;"	f
+version	public/js/shared/helpers/typedjs/package.json	/^  "version": "1.1.1",$/;"	f
+viewController	routes/app.js	/^var viewController = require('.\/..\/controllers\/views');$/;"	v
+viewController	routes/auth.js	/^var viewController = require('.\/..\/controllers\/views');$/;"	v
+vote_types	models/Vote.js	/^var vote_types = 'post comment'.split(' ');$/;"	v
+webpack	gulpfile.js	/^var webpack = require('webpack');$/;"	v
+webpack	package.json	/^    "webpack": "^1.12.9",$/;"	f
+webpack	webpack.config.js	/^var webpack = require('webpack');$/;"	v
+webpack	webpack.production.config.js	/^var webpack = require('webpack');$/;"	v
+webpack-dev-server	package.json	/^    "webpack-dev-server": "^1.14.0"$/;"	f
+webpackConfig	gulpfile.js	/^var webpackConfig = require('.\/webpack.config.js');$/;"	v
+webpackProductionConfig	gulpfile.js	/^var webpackProductionConfig = require('.\/webpack.production.config.js');$/;"	v
+width	public/js/shared/helpers/resizeImage.js	/^  var width, height, ratio;$/;"	v
+window.fetch	public/js/index.js	/^}$/;"	f
+zmq	apn.js	/^var zmq = require('zmq');$/;"	v
+zmq	controllers/notifications/comment.js	/^var zmq = require('zmq');$/;"	v
+zmq	controllers/notifications/post.js	/^var zmq = require('zmq');$/;"	v
+zmq	controllers/notifications/user.js	/^var zmq = require('zmq');$/;"	v
+zmq	mq.js	/^var zmq = require('zmq');$/;"	v
+zmq	package.json	/^    "zmq": "^2.14.0"$/;"	f
+zmq	socket.js	/^var zmq = require('zmq');$/;"	v
