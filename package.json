@@ -27,7 +27,7 @@
     "gm": "^1.21.1",
     "gridfs-stream": "^1.1.1",
     "jade": "^1.11.0",
-    "jquery": "^2.1.4",
+    "jquery": "^3.5.1",
     "juice": "^1.8.1",
     "mailgun-js": "^0.7.7",
     "material-ui": "^0.14.4",
