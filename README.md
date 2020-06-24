@@ -18,8 +18,6 @@ gulp serve
 ```
 go to http://localhost:80
 
-it's that easy
-
 recommendations:
 ----------------
 
